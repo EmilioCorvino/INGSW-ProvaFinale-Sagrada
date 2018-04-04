@@ -6,6 +6,6 @@ as a final project for the Software Engineering course at Politecnico di Milano.
 ![Sagrada Logo](https://github.com/Cr0w19/INGSW-ProvaFinale-Sagrada/blob/master/src/assets/Logo.jpg)
 
 *Group members:*
-+ 10482725 ADESSO RITA
-+ 10504531 CORVINO EMILIO
-+ 10481786 DRAPPO GIANLUCA 
++ 10482725 ADESSO Rita
++ 10504531 CORVINO Emilio
++ 10481786 DRAPPO Gianluca
