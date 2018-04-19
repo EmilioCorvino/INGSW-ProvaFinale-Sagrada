@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="INGSW-ProvaFinale-Sagrada" target="1.5" />
+      <module name="INGSW-ProvaFinale-Sagrada" target="10" />
     </bytecodeTargetLevel>
   </component>
 </project>
