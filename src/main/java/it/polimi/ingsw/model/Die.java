@@ -16,7 +16,7 @@ public class Die {
     //private Color dieColor;
 
     public Die(int dieValue) {
-        setDieValue(dieValue);
+        this.dieValue = dieValue;
     }
 
     public int getDieValue() {
@@ -26,7 +26,4 @@ public class Die {
     public void setDieValue(int dieValue) {
         this.dieValue = dieValue;
     }
-
-
-
 }
