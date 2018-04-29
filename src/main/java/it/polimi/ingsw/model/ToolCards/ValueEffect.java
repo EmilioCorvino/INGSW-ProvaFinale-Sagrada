@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.ToolCards;
 
+import it.polimi.ingsw.model.Die;
+
 /**
  * This class manages the effects of the tool cards related to a change of the value of one or more dice.
  */
@@ -22,6 +24,14 @@ public class ValueEffect extends AToolCardEffect {
      * @param offset: the specific value for the offset to set.
      */
     public ValueEffect(int offset) {
+        this.offset = offset;
+    }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
         this.offset = offset;
     }
 
