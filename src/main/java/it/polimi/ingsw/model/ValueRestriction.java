@@ -20,7 +20,7 @@ public class ValueRestriction extends ARestriction {
      * @return true if the value of the die is equal to the value restriction of the cell.
      */
     public boolean isRespected(Die die) {
-        return die.getDieValue() == this.getValue();
+        return die.getActualDieValue() == this.getValue();
     }
 
     public int getValue() {

@@ -5,6 +5,8 @@ package it.polimi.ingsw.model;
  */
 public class ColorRestriction extends ARestriction {
 
+    //color attribute
+
     /**
      * This method manages the color restriction of a cell.
      * @param die: the selected die.

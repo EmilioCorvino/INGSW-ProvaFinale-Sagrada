@@ -44,7 +44,18 @@ public class WindowPatternCard extends ADieContainer {
      * @param selectedCell: the cell where the player wants to put the die.
      * @return true if the selected cell is adjacent to other non empty cells.
      */
-    public boolean checkAdjiacentCells(Cell selectedCell) {
+    public boolean checkAdjacentCells(Cell selectedCell) {
+        //to complete
+        return true;
+    }
+
+    /**
+     * Checks if the selected die can be placed in a selected cell of the window glass.
+     * @param die: the die the player wants to place.
+     * @param selectedCell: the cell where the player wants to put the die.
+     * @return true if the die can be placed.
+     */
+    public boolean canBePlaced(Die die, Cell selectedCell) {
         //to complete
         return true;
     }
