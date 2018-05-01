@@ -1,6 +1,4 @@
-package it.polimi.ingsw.model.ToolCards;
-
-import it.polimi.ingsw.model.Die;
+package it.polimi.ingsw.model.cards.tool;
 
 /**
  * This class manages the effects of the tool cards related to a change of the value of one or more dice.
