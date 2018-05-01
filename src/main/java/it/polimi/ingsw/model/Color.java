@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 /**
- * This enum lists the possible color that can be used in the game.
+ * This enum lists all the possible color that can be used in the game.
  */
 public enum Color {
 
