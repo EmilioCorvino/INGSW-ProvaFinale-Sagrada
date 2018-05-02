@@ -10,6 +10,8 @@ public class Cell {
     private int row;
     private int col;
 
+    private Die containedDie;
+
     /**
      * The set of rules associated to a cell.
      */
@@ -33,6 +35,14 @@ public class Cell {
 
     public void setCol(int col) {
         this.col = col;
+    }
+
+    public Die getContainedDie() {
+        return containedDie;
+    }
+
+    public boolean isEmpty() {
+        return (this.getContainedDie() == null);
     }
 
     public Set<ARestriction> getRuleSetCell() {

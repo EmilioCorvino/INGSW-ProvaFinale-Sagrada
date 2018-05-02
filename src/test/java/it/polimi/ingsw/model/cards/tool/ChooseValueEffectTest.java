@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.ToolCards;
+package it.polimi.ingsw.model.cards.tool;
 
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Die;
