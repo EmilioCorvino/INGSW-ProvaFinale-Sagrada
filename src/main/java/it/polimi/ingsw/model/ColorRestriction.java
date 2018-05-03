@@ -5,7 +5,14 @@ package it.polimi.ingsw.model;
  */
 public class ColorRestriction extends ARestriction {
 
-    //color attribute
+    /**
+     * The color restriction associated to a cell.
+     */
+    private Color color;
+
+    public ColorRestriction (Color color){
+        this.color = color;
+    }
 
     /**
      * This method manages the color restriction of a cell.
@@ -13,6 +20,14 @@ public class ColorRestriction extends ARestriction {
      * @return true if the color of the die equals the color restriction of the cell.
      */
     public boolean isRespected(Die die) {
-        return true;
+        return die.getDieColor() == this.getColor();
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }
