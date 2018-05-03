@@ -1,8 +1,4 @@
-<<<<<<< HEAD:src/main/java/it/polimi/ingsw/model/ToolCards/ValueEffect.java
-package it.polimi.ingsw.model.ToolCards;
-=======
 package it.polimi.ingsw.model.cards.tool;
->>>>>>> c3f03a48caa3afa0c1add4981a28231653f1430b:src/main/java/it/polimi/ingsw/model/cards/tool/ValueEffect.java
 
 /**
  * This class manages the effects of the tool cards related to a change of the value of one or more dice.
