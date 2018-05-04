@@ -1,13 +1,10 @@
-<<<<<<< HEAD:src/main/java/it/polimi/ingsw/model/ToolCards/ValueEffect.java
-package it.polimi.ingsw.model.ToolCards;
-=======
+
 package it.polimi.ingsw.model.cards.tool;
->>>>>>> c3f03a48caa3afa0c1add4981a28231653f1430b:src/main/java/it/polimi/ingsw/model/cards/tool/ValueEffect.java
 
 /**
  * This class manages the effects of the tool cards related to a change of the value of one or more dice.
  */
-public class ValueEffect extends AToolCardEffect {
+public abstract class AValueEffect extends AToolCardEffect {
 
     /**
      * The offset that determines the interval in which the value that will be chosen must respect.
@@ -15,9 +12,14 @@ public class ValueEffect extends AToolCardEffect {
     protected int offset;
 
     /**
+     * This attribute defines which method has to be called when the player wants to increase or decrease the value of a die.
+     */
+    protected String symbol;
+
+    /**
      * This constructor will set e default value for the offset in case it is not specified;
      */
-    public ValueEffect() {
+    public AValueEffect() {
         this.offset = 0;
     }
 
@@ -25,7 +27,7 @@ public class ValueEffect extends AToolCardEffect {
      * This constructor will set a specific value to use when the effect will be applied.
      * @param offset: the specific value for the offset to set.
      */
-    public ValueEffect(int offset) {
+    public AValueEffect(int offset) {
         this.offset = offset;
     }
 
@@ -37,6 +39,14 @@ public class ValueEffect extends AToolCardEffect {
         this.offset = offset;
     }
 
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
     /**
      * This method checks if the result of an operation on the value of die is a right value.
      * @param dieValue: the value of the die.
@@ -44,5 +54,17 @@ public class ValueEffect extends AToolCardEffect {
      */
     protected boolean checkValue(int dieValue) {
         return dieValue >=1 && dieValue <= 6;
+    }
+
+    /**
+     * This method checks if the value the user chooses is in the interval allowed by the effect of the tool card.
+     * @param newValue: the value chosen by the player.
+     * @param originalValue: the original value on which to execute the check.
+     * @return true if the value is in the interval allowed by the effect of the tool card.
+     */
+    protected boolean checkNewValue(int newValue, int originalValue) {
+        if(this.offset != 0)
+            return newValue >= originalValue - this.offset && newValue <= originalValue + this.offset;
+        return true;
     }
 }
