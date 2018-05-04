@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class IncreaseAValueEffectTest {
+public class ChooseValueEffectTest {
 
     @Test
     public void increaseDieValue() {
@@ -31,5 +31,39 @@ public class IncreaseAValueEffectTest {
         Die die3 = new Die(6, Color.GREEN);
         AValueEffect toolEffect3 = new ChooseValueEffect(1);
         assertEquals(6, ((ChooseValueEffect) toolEffect3).increaseDieValue(die3).getActualDieValue());
+    }
+
+    @Test
+    public void decreaseDieValueEffect() {
+
+        Die die = new Die(6, Color.PURPLE);
+        AValueEffect effect = new ChooseValueEffect();
+        assertEquals(5, ((ChooseValueEffect) effect).decreaseDieValue(die).getActualDieValue());
+
+        Die die1 = new Die(2, Color.GREEN);
+        AValueEffect effect1 = new ChooseValueEffect(1);
+
+        for(int i=0; i<3; i++)
+            ((ChooseValueEffect) effect1).decreaseDieValue(die1);
+
+        assertEquals(1, ((ChooseValueEffect) effect1).decreaseDieValue(die1).getActualDieValue());
+    }
+
+    @Test
+    public void applyToolCardEffect() {
+
+        Die die = new Die(5, Color.PURPLE);
+        AValueEffect effect = new ChooseValueEffect();
+        effect.setSymbol("+");
+        assertEquals(6, effect.applyToolCardEffect(die).getActualDieValue());
+
+        Die die1 = new Die(3, Color.BLUE);
+        AValueEffect effect1 = new ChooseValueEffect();
+        effect1.setSymbol("-");
+
+        for(int i=0; i<5; i++)
+            effect1.applyToolCardEffect(die1);
+
+        assertEquals(1, die1.getActualDieValue());
     }
 }
