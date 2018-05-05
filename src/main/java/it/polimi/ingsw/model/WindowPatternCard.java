@@ -1,10 +1,22 @@
 package it.polimi.ingsw.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class manages the window pattern card associated to each player.
  */
 public class WindowPatternCard extends ADieContainer {
 
+    /**
+     * Maximum values of row and column.
+     */
+    private static final int MAX_COL = 5;
+    private static final int MAX_ROW = 4;
+
+    /**
+     * The code that identify the map.
+     */
     private int idMap;
 
     /**
@@ -17,16 +29,50 @@ public class WindowPatternCard extends ADieContainer {
      */
     private Cell[][] glassWindow;
 
-    public WindowPatternCard() {
-        //to complete
+    /**
+     * The cell where the player wants to put the die.
+     */
+    private Cell desiredCell;
+
+    /**
+     *
+     * @param idMap: The code that identify a map.
+     * @param difficulty: Difficulty of the window pattern card. It is equal to the number of favor tokens to assign to each player.
+     * @param restrictedCells: List of Cells with color or value restriction.
+     */
+    public WindowPatternCard(int idMap, int difficulty, List<Cell> restrictedCells) {
+            this.idMap = idMap;
+            this.difficulty = difficulty;
+            this.desiredCell = null;
+            for (int i = 0; i < MAX_ROW; i++)
+                for(int j = 0; j < MAX_COL; j++)
+                    this.glassWindow[i][j] = new Cell (i,j,new ArrayList<ARestriction>());
+            for (Cell c : restrictedCells)
+                glassWindow [c.getRow()] [c.getCol()] = c;
     }
+
 
     /**
      * This method sets the window pattern card with the selected die.
      * @param die: the die with which the window pattern card has to be updated.
      */
     public void update(Die die) {
-        //to complete
+        glassWindow[desiredCell.getRow()][desiredCell.getCol()].setContainedDie(die);
+    }
+
+    /**
+     * This method check if all the cells of the matrix are empty.
+     * @return True if is all the cells are empty, otherwise false.
+     */
+    private boolean matrixIsEmpty() {
+        boolean matrixEmpty = true;
+
+        for (int i = 0; i < MAX_ROW; i++)
+            for (int j = 0; j < MAX_COL; j++)
+                if (!(glassWindow[i][j].isEmpty()))
+                    matrixEmpty = false;
+
+        return matrixEmpty;
     }
 
     /**
@@ -34,19 +80,61 @@ public class WindowPatternCard extends ADieContainer {
      * @param selectedCell: the cell where the player wants to put the die.
      * @return true if the selected cell is one of the cells of the border.
      */
-    public boolean checkBorderCells(Cell selectedCell) {
-        //to complete
-        return true;
+    private boolean checkBorderCells(Cell selectedCell) {
+        return ( selectedCell.getCol() == 0 || selectedCell.getCol() == MAX_COL ) && ( selectedCell.getRow() == 0 || selectedCell.getRow() == MAX_ROW );
     }
 
     /**
-     * Checks if the selected cell is adjiacent to other non empty cells.
+     * Checks if the selected cell is adjacent to other non empty cells.
      * @param selectedCell: the cell where the player wants to put the die.
      * @return true if the selected cell is adjacent to other non empty cells.
      */
-    public boolean checkAdjacentCells(Cell selectedCell) {
-        //to complete
-        return true;
+    private boolean checkAdjacentCells(Cell selectedCell) {
+        boolean check = false;
+
+        for (int i = 0; i < 2; i++)
+            for (int j = 0; j < 2; j++)
+                if (!(i == 1 && j == i) && !(glassWindow[selectedCell.getRow() + i][selectedCell.getCol() + j].isEmpty()))
+                    check = true;
+
+        return check;
+    }
+
+    /**
+     * This method check if the die respects the restriction of the cell where the player wants to place it.
+     * @param die: the die the player wants to place.
+     * @param selectedCell: the cell where the player wants to place the die.
+     * @return true if the die respects all the restrictions of the selected cell.
+     */
+    private boolean checkOwnRoleSet(Die die, Cell selectedCell){
+        boolean ok = true;
+
+        for (ARestriction restriction : glassWindow[selectedCell.getRow()][selectedCell.getCol()].getRuleSetCell())
+            if (!restriction.isRespected(die))
+                ok = false;
+        return ok;
+    }
+
+    /**
+     * This method check if the die respects the restrictions of the adjacent cells.
+     * @param die: Die that needs to be place.
+     * @param selectedCell: the cell where the player wants to place the die.
+     * @return true if the die respects all the restrictions of the adjacent cells.
+     */
+    private boolean checkAdjacentRoleSet(Die die, Cell selectedCell) {
+        boolean ok = true;
+
+        List<ARestriction> adjacentRules = new ArrayList<>();
+        adjacentRules.addAll( glassWindow[selectedCell.getRow()-1][selectedCell.getCol()].getRuleSetCell());
+        adjacentRules.addAll( glassWindow[selectedCell.getRow()+1][selectedCell.getCol()].getRuleSetCell());
+        adjacentRules.addAll( glassWindow[selectedCell.getRow()][selectedCell.getCol()-1].getRuleSetCell());
+        adjacentRules.addAll( glassWindow[selectedCell.getRow()][selectedCell.getCol()+1].getRuleSetCell());
+
+        for (ARestriction restriction : adjacentRules)
+            if(restriction.isRespected(die))
+                ok = false;
+
+        return ok;
     }
 
     /**
@@ -56,9 +144,20 @@ public class WindowPatternCard extends ADieContainer {
      * @return true if the die can be placed.
      */
     public boolean canBePlaced(Die die, Cell selectedCell) {
-        //to complete
-        return true;
+
+        if (!glassWindow[selectedCell.getRow()][selectedCell.getCol()].isEmpty())
+            return false;
+        if (matrixIsEmpty()) {
+            if (checkBorderCells(selectedCell) && checkOwnRoleSet(die, selectedCell))
+                setDesiredCell(selectedCell);
+            return checkBorderCells(selectedCell) && checkOwnRoleSet(die, selectedCell);
+        }else {
+            if (checkAdjacentCells(selectedCell) && checkOwnRoleSet(die, selectedCell) && checkAdjacentRoleSet(die, selectedCell))
+                setDesiredCell(selectedCell);
+            return checkAdjacentCells(selectedCell) && checkOwnRoleSet(die, selectedCell) && checkAdjacentRoleSet(die, selectedCell);
+        }
     }
+
 
     public int getIdMap() {
         return idMap;
@@ -82,5 +181,13 @@ public class WindowPatternCard extends ADieContainer {
 
     public void setGlassWindow(Cell[][] glassWindow) {
         this.glassWindow = glassWindow;
+    }
+
+    public Cell getDesiredCell() {
+        return desiredCell;
+    }
+
+    public void setDesiredCell(Cell desiredCell) {
+        this.desiredCell = desiredCell;
     }
 }
