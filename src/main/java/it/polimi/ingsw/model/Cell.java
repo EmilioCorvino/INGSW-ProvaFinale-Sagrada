@@ -18,7 +18,7 @@ public class Cell {
     /**
      * The set of rules associated to a cell.
      */
-    private List<ARestriction> ruleSetCell;
+    private List<ARestriction> ruleSetCell = new ArrayList<>();
 
     /**
      *
@@ -29,10 +29,8 @@ public class Cell {
     public Cell(int row, int col, ARestriction restriction) {
         this.row = row;
         this.col = col;
-        if(ruleSetCell == null)
-            this.ruleSetCell = new ArrayList<>();
-        else
-            this.ruleSetCell.add(restriction);
+        if(restriction != null)
+          this.ruleSetCell.add(restriction);
         this.containedDie = null;
     }
 
