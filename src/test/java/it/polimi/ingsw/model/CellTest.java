@@ -64,4 +64,25 @@ public class CellTest {
         assertFalse(cell.getRuleSetCell().size() == 0);
         assertEquals(cell.getRuleSetCell().get(0), c);
     }
+
+    /**
+     * This test verify if a role set is clear when a die is remove
+     */
+    @Test
+    public void checkRemove(){
+        Cell cell = new Cell(0,0, null);
+        Die die = new Die(1,Color.RED);
+        ColorRestriction c = new ColorRestriction(Color.RED);
+        Cell cellRestricted = new Cell (1,1, c);
+
+        cell.setContainedDie(die);
+        cell.setContainedDie(null);
+
+        assertTrue(cell.getRuleSetCell().isEmpty());
+
+        cellRestricted.setContainedDie(die);
+        cellRestricted.setContainedDie(null);
+
+        assertEquals(cellRestricted.getRuleSetCell().get(0),c);
+    }
 }
