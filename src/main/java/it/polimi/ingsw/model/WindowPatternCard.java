@@ -27,7 +27,7 @@ public class WindowPatternCard extends ADieContainer {
     /**
      * The matrix that will effectively contain the dice the player will choose.
      */
-    private Cell[][] glassWindow;
+    private Cell[][] glassWindow = new Cell[MAX_ROW][MAX_COL];
 
     /**
      * The cell where the player wants to put the die.
@@ -43,12 +43,12 @@ public class WindowPatternCard extends ADieContainer {
     public WindowPatternCard(int idMap, int difficulty, List<Cell> restrictedCells) {
             this.idMap = idMap;
             this.difficulty = difficulty;
-            this.desiredCell = null;
             for (int i = 0; i < MAX_ROW; i++)
                 for(int j = 0; j < MAX_COL; j++)
-                    this.glassWindow[i][j] = new Cell (i,j,new ArrayList<ARestriction>());
-            for (Cell c : restrictedCells)
-                glassWindow [c.getRow()] [c.getCol()] = c;
+                    glassWindow[i][j] = new Cell(i,j,null);
+            if(restrictedCells != null)
+                for (Cell c : restrictedCells)
+                    glassWindow [c.getRow()] [c.getCol()] = c;
     }
 
 
@@ -58,6 +58,7 @@ public class WindowPatternCard extends ADieContainer {
      */
     public void update(Die die) {
         glassWindow[desiredCell.getRow()][desiredCell.getCol()].setContainedDie(die);
+        setDesiredCell(null);
     }
 
     /**
@@ -81,7 +82,7 @@ public class WindowPatternCard extends ADieContainer {
      * @return true if the selected cell is one of the cells of the border.
      */
     private boolean checkBorderCells(Cell selectedCell) {
-        return ( selectedCell.getCol() == 0 || selectedCell.getCol() == MAX_COL ) && ( selectedCell.getRow() == 0 || selectedCell.getRow() == MAX_ROW );
+        return selectedCell.getCol() == 0 || selectedCell.getCol() == MAX_COL-1 || selectedCell.getRow() == 0 || selectedCell.getRow() == MAX_ROW-1;
     }
 
     /**
@@ -91,10 +92,23 @@ public class WindowPatternCard extends ADieContainer {
      */
     private boolean checkAdjacentCells(Cell selectedCell) {
         boolean check = false;
+        int minR = 0;
+        int maxR = 3;
+        int minC = 0;
+        int maxC = 3;
 
-        for (int i = 0; i < 2; i++)
-            for (int j = 0; j < 2; j++)
-                if (!(i == 1 && j == i) && !(glassWindow[selectedCell.getRow() + i][selectedCell.getCol() + j].isEmpty()))
+        if(selectedCell.getRow() == 0)
+            minR = 1;
+        if(selectedCell.getRow() == MAX_ROW-1)
+            maxR = 2;
+        if(selectedCell.getCol() == 0)
+            minC = 1;
+        if(selectedCell.getCol() == MAX_COL-1)
+            maxC = 2;
+
+        for (int i = minR; i < maxR; i++)
+            for (int j = minC; j < maxC; j++)
+                if (!(i == 1 && j == i) && (!(glassWindow[selectedCell.getRow()-1 + i][selectedCell.getCol()-1 + j].isEmpty())))
                     check = true;
 
         return check;
@@ -121,14 +135,18 @@ public class WindowPatternCard extends ADieContainer {
      * @param selectedCell: the cell where the player wants to place the die.
      * @return true if the die respects all the restrictions of the adjacent cells.
      */
-    private boolean checkAdjacentRoleSet(Die die, Cell selectedCell) {
+    public boolean checkAdjacentRoleSet(Die die, Cell selectedCell) {
         boolean ok = true;
 
         List<ARestriction> adjacentRules = new ArrayList<>();
-        adjacentRules.addAll( glassWindow[selectedCell.getRow()-1][selectedCell.getCol()].getRuleSetCell());
-        adjacentRules.addAll( glassWindow[selectedCell.getRow()+1][selectedCell.getCol()].getRuleSetCell());
-        adjacentRules.addAll( glassWindow[selectedCell.getRow()][selectedCell.getCol()-1].getRuleSetCell());
-        adjacentRules.addAll( glassWindow[selectedCell.getRow()][selectedCell.getCol()+1].getRuleSetCell());
+        if (selectedCell.getRow() != 0)
+            adjacentRules.addAll( glassWindow[selectedCell.getRow()-1][selectedCell.getCol()].getRuleSetCell());
+        if (selectedCell.getRow() != MAX_ROW-1)
+            adjacentRules.addAll( glassWindow[selectedCell.getRow()+1][selectedCell.getCol()].getRuleSetCell());
+        if(selectedCell.getCol() != 0)
+            adjacentRules.addAll( glassWindow[selectedCell.getRow()][selectedCell.getCol()-1].getRuleSetCell());
+        if(selectedCell.getCol() != MAX_COL-1)
+            adjacentRules.addAll( glassWindow[selectedCell.getRow()][selectedCell.getCol()+1].getRuleSetCell());
 
         for (ARestriction restriction : adjacentRules)
             if(restriction.isRespected(die))
@@ -145,6 +163,8 @@ public class WindowPatternCard extends ADieContainer {
      */
     public boolean canBePlaced(Die die, Cell selectedCell) {
 
+        if( !(-1 < selectedCell.getRow() && selectedCell.getRow() < MAX_ROW) && !(-1 < selectedCell.getCol() && selectedCell.getCol() < MAX_COL) )
+            return false;
         if (!glassWindow[selectedCell.getRow()][selectedCell.getCol()].isEmpty())
             return false;
         if (matrixIsEmpty()) {
