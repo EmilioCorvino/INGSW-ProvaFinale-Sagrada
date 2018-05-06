@@ -24,12 +24,15 @@ public class Cell {
      *
      * @param row The row of the cell
      * @param col The column of the cell
-     * @param ruleSetCell The set of restriction in this specific cell in the window pattern card
+     * @param restriction The default restriction of a cell.
      */
-    public Cell(int row, int col, List<ARestriction> ruleSetCell) {
+    public Cell(int row, int col, ARestriction restriction) {
         this.row = row;
         this.col = col;
-        this.ruleSetCell = ruleSetCell;
+        if(ruleSetCell == null)
+            this.ruleSetCell = new ArrayList<>();
+        else
+            this.ruleSetCell.add(restriction);
         this.containedDie = null;
     }
 
