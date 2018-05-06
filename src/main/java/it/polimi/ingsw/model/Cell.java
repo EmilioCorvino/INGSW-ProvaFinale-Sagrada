@@ -105,7 +105,7 @@ public class Cell {
 
     /**
      * This method update the cell's ruleSet.
-     * @param rulesToAdd rules that need to be add to the ruleSet.
+     * @param rulesToAdd rules that need to be add to the ruleSet, null when the player want to remove a die.
      */
     public void updateRuleSet(List<ARestriction> rulesToAdd) {
         this.ruleSetCell.clear();
