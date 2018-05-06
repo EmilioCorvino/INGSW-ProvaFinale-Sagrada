@@ -135,7 +135,7 @@ public class WindowPatternCard extends ADieContainer {
      * @param selectedCell: the cell where the player wants to place the die.
      * @return true if the die respects all the restrictions of the adjacent cells.
      */
-    public boolean checkAdjacentRoleSet(Die die, Cell selectedCell) {
+    private boolean checkAdjacentRoleSet(Die die, Cell selectedCell) {
         boolean ok = true;
 
         List<ARestriction> adjacentRules = new ArrayList<>();
