@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -13,8 +14,15 @@ import java.util.Vector;
  */
 public class PrivateObjectiveCardsDeck extends AObjectiveCardsDeck {
 
-    public PrivateObjectiveCardsDeck() {
+    /**
+     * Left empty because of gson parser.
+     */
+    PrivateObjectiveCardsDeck() {
         //Left empty because of gson parser.
+    }
+
+    public List<PrivateObjectiveCard> getDeck() {
+        return (List<PrivateObjectiveCard>) this.deck;
     }
 
     /**

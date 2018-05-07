@@ -20,7 +20,7 @@ public class PrivateObjectiveCardsDeckTest {
         originalDeck.parseDeck();
         Gson gson = new Gson();
         Type listCards = new TypeToken<Vector<PrivateObjectiveCard>>(){}.getType();
-        List<PrivateObjectiveCard> cards = gson.fromJson("[\n" +
+        List<PrivateObjectiveCard> testCards = gson.fromJson("[\n" +
                 "  {\n" +
                 "    \"id\": 100,\n" +
                 "    \"name\": \"Sfumature Rosse\",\n" +
@@ -52,7 +52,7 @@ public class PrivateObjectiveCardsDeckTest {
                 "    \"description\": \"Somma dei valori su tutti i dadi viola\"\n" +
                 "  }\n" +
                 "]", listCards);
-        assertEquals(cards, originalDeck.getDeck());
+        assertEquals(testCards, originalDeck.getDeck());
     }
 
     /**

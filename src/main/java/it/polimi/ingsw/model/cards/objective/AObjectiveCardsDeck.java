@@ -1,31 +1,26 @@
 package it.polimi.ingsw.model.cards.objective;
 
-import it.polimi.ingsw.model.cards.objective.AObjectiveCard;
-
 import java.util.List;
 import java.util.Random;
 
 /**
  * This class is the abstraction of a deck. It contains a collection of objective cards.
  * For the implementation of the parsing, see extending classes.
- * @see it.polimi.ingsw.model.cards.objective.PrivateObjectiveCardsDeck
- * @see it.polimi.ingsw.model.cards.objective.PublicObjectiveCardsDeck
+ * @see PrivateObjectiveCardsDeck
+ * @see PublicObjectiveCardsDeck
  */
 public abstract class AObjectiveCardsDeck {
 
     /**
      * Contains all the objective cards. The use of the wildcard is limited to the fact that there can be
-     * lists of {@code PrivateObjectiveCard} or {@code PublicObjectiveCard}. There can never be a List
-     * containing both, since the parsing methods only fill {@code PrivateObjectiveCardsDeck} and
-     * {@code PublicObjectiveCardsDeck} with {@code PrivateObjectiveCard} or {@code PublicObjectiveCard}, respectively.
+     * lists of {@link PrivateObjectiveCard} or {@link APublicObjectiveCard}. There can never be a List
+     * containing both, since the parsing methods only fill {@link PrivateObjectiveCardsDeck} and
+     * {@link PublicObjectiveCardsDeck} with {@link PrivateObjectiveCard} or {@link APublicObjectiveCard}, respectively.
      * There is never a case in which a deck contains both type of cards, therefore there shouldn't be any confusion
-     * even if the wildcard is used in return types {@see getDeck()}.
+     * even if the wildcard is used in return types {@link this.getDeck()}.
+     *
      */
-    protected List<? extends AObjectiveCard> deck;
-
-    public List<? extends AObjectiveCard> getDeck() {
-        return this.deck;
-    }
+    List<? extends AObjectiveCard> deck;
 
     /**
      * Parses cards from a file. See extending classes for implementation.
@@ -37,8 +32,8 @@ public abstract class AObjectiveCardsDeck {
      * @return a random card from the deck.
      */
     public AObjectiveCard drawCard() {
-        int index = new Random().nextInt(this.getDeck().size());
-        return this.getDeck().remove(index);
+        int index = new Random().nextInt(this.deck.size());
+        return this.deck.remove(index);
     }
 
     /**
@@ -48,7 +43,7 @@ public abstract class AObjectiveCardsDeck {
      * @return {@code true} if the card is in the deck, {@code false} otherwise.
      */
     public boolean contains(AObjectiveCard card) {
-        for(AObjectiveCard c: this.getDeck()) {
+        for(AObjectiveCard c: this.deck) {
             if(card.equals(c)) {
                 return true;
             }
@@ -71,8 +66,8 @@ public abstract class AObjectiveCardsDeck {
             return false;
         }
         AObjectiveCardsDeck deckToCheck = (AObjectiveCardsDeck) obj;
-        if(this.getDeck().size() == deckToCheck.getDeck().size()) {
-            for(AObjectiveCard card: this.getDeck()) {
+        if(this.deck.size() == deckToCheck.deck.size()) {
+            for(AObjectiveCard card: this.deck) {
                 if(!deckToCheck.contains(card)) {
                     return false; //The deck has a different card from the deck in input.
                 }

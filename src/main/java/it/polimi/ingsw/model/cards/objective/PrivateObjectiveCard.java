@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.cards.objective;
 
 import com.google.gson.annotations.SerializedName;
-import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.WindowPatternCard;
 
@@ -29,6 +28,23 @@ public class PrivateObjectiveCard extends AObjectiveCard {
      */
     private String description;
 
+    /**
+     * Constructor left empty for gson.
+     */
+    PrivateObjectiveCard() {
+        //Left empty because of gson parser.
+    }
+
+    /**
+     * This constructor is meant for testing purposes.
+     */
+    PrivateObjectiveCard(int id, String name, Color color, String description) {
+        this.id = id;
+        this.name = name;
+        this.cardColor = color;
+        this.description = description;
+    }
+
     public String getName() {
         return name;
     }
@@ -50,8 +66,25 @@ public class PrivateObjectiveCard extends AObjectiveCard {
     @Override
     public int analyzeWindowPatternCard(WindowPatternCard windowPatternCard) {
         int score = 0;
-
+        for(int i = 0; i < WindowPatternCard.getMaxRow(); i++) {
+            for(int j = 0; j < WindowPatternCard.getMaxCol(); j++) {
+                if(!(windowPatternCard.getGlassWindow()[i][j].isEmpty()) &&
+                        (windowPatternCard.getGlassWindow()[i][j].getContainedDie().getDieColor().equals(this.getCardColor()))) {
+                    score += windowPatternCard.getGlassWindow()[i][j].getContainedDie().getActualDieValue();
+                }
+            }
+        }
         return score;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
     @Override
