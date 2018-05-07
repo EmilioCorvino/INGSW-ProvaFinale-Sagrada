@@ -16,9 +16,7 @@ public abstract class AObjectiveCardsDeck {
      * lists of {@link PrivateObjectiveCard} or {@link APublicObjectiveCard}. There can never be a List
      * containing both, since the parsing methods only fill {@link PrivateObjectiveCardsDeck} and
      * {@link PublicObjectiveCardsDeck} with {@link PrivateObjectiveCard} or {@link APublicObjectiveCard}, respectively.
-     * There is never a case in which a deck contains both type of cards, therefore there shouldn't be any confusion
-     * even if the wildcard is used in return types {@link this.getDeck()}.
-     *
+     * There is never a case in which a deck contains both type of cards.
      */
     List<? extends AObjectiveCard> deck;
 
