@@ -11,7 +11,7 @@ public class ShadeTest {
      * values lower than 1.
      */
     @Test
-    public void lightShadeCheck() {
+    public void lightShadeTest() {
         for(int i = 0; i <= 2; i++) {
             Die die = new Die(i, Color.RED);
             try {
@@ -26,7 +26,7 @@ public class ShadeTest {
      * Checks if the MEDIUM shade gets correctly assigned.
      */
     @Test
-    public void mediumShadeCheck() {
+    public void mediumShadeTest() {
         for(int i = 3; i <= 4; i++) {
             Die die = new Die(i, Color.RED);
             try {
@@ -42,7 +42,7 @@ public class ShadeTest {
      * values higher than 6.
      */
     @Test
-    public void darkShadeCheck() {
+    public void darkShadeTest() {
         for(int i = 5; i <= 7; i++) {
             Die die = new Die(i, Color.RED);
             try {
