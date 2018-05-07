@@ -1,0 +1,32 @@
+[
+  {
+    "id": 100,
+    "name": "Sfumature Rosse",
+    "color":"RED",
+    "description": "Somma dei valori su tutti i dadi rossi"
+  },
+  {
+    "id": 101,
+    "name": "Sfumature Gialle",
+    "color": "YELLOW",
+    "description": "Somma dei valori su tutti i dadi gialli"
+  },
+  {
+    "id": 102,
+    "name": "Sfumature Verdi",
+    "color": "GREEN",
+    "description": "Somma dei valori su tutti i dadi verdi"
+  },
+  {
+    "id": 103,
+    "name": "Sfumature Blu",
+    "color": "BLUE",
+    "description": "Somma dei valori su tutti i dadi blu"
+  },
+  {
+    "id": 104,
+    "name": "Sfumature Viola",
+    "color": "PURPLE",
+    "description": "Somma dei valori su tutti i dadi viola"
+  }
+]
