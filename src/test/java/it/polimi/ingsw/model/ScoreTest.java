@@ -9,6 +9,6 @@ public class ScoreTest {
      */
     @Test
     public void lostPointsTest() {
-        WindowPatternCard wpc = new WindowPatternCard();
+        //todo WindowPatternCard wpc = new WindowPatternCard();
     }
 }

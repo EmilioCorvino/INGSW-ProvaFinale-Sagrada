@@ -12,5 +12,5 @@ public interface IScoreComputationStrategy {
      * Applies the strategy of the implementing classes to the window.
      * @param window to which the strategy applies.
      */
-    public void applyStrategy(WindowPatternCard window);
+    //todo public void applyStrategy(WindowPatternCard window);
 }
