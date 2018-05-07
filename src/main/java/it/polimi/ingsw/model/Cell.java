@@ -91,6 +91,17 @@ public class Cell {
 
     }
 
+    /**
+     * This class remove the die that is contained, can be use when a die is move to an other cell or an other die container.
+     * @return The die extracted.
+     */
+    public Die removeConteinedDie(){
+
+        Die die = getContainedDie();
+        setContainedDie(null);
+        return die;
+    }
+
     public List<ARestriction> getRuleSetCell() {
         return ruleSetCell;
     }

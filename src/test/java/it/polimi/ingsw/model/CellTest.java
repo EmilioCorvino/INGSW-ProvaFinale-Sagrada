@@ -76,13 +76,12 @@ public class CellTest {
         Cell cellRestricted = new Cell (1,1, c);
 
         cell.setContainedDie(die);
-        cell.setContainedDie(null);
 
-        assertTrue(cell.getRuleSetCell().isEmpty());
+        assertEquals(die, cell.removeConteinedDie());
 
         cellRestricted.setContainedDie(die);
-        cellRestricted.setContainedDie(null);
 
+        assertEquals(die, cellRestricted.removeConteinedDie());
         assertEquals(cellRestricted.getRuleSetCell().get(0),c);
     }
 }
