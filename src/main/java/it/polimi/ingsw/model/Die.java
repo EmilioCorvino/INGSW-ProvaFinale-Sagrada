@@ -45,4 +45,12 @@ public class Die {
     public int getOriginalDieValue() {
         return originalDieValue;
     }
+
+    @Override
+    public String toString() {
+        String toBeReturned;
+        toBeReturned = Integer.toString(getActualDieValue()) + " " + getDieColor().name();
+
+        return toBeReturned;
+    }
 }

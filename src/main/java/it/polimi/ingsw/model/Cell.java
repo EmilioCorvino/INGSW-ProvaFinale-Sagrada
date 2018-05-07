@@ -18,18 +18,26 @@ public class Cell {
     /**
      * The set of rules associated to a cell.
      */
-    private List<ARestriction> ruleSetCell;
+    private List<ARestriction> ruleSetCell = new ArrayList<>();
+
+    /**
+     * The restriction of the cell on the Window pattern card.
+     */
+    private ARestriction defaultRestriction;
 
     /**
      *
      * @param row The row of the cell
      * @param col The column of the cell
-     * @param ruleSetCell The set of restriction in this specific cell in the window pattern card
+     * @param restriction The restriction of a cell on the window pattern card.
      */
-    public Cell(int row, int col, List<ARestriction> ruleSetCell) {
+    public Cell(int row, int col, ARestriction restriction) {
         this.row = row;
         this.col = col;
-        this.ruleSetCell = ruleSetCell;
+        if(restriction != null){
+            this.ruleSetCell.add(restriction);
+            this.defaultRestriction = restriction;
+        }
         this.containedDie = null;
     }
 
@@ -53,20 +61,45 @@ public class Cell {
         return containedDie;
     }
 
+    public ARestriction getDefaultRestriction() {
+        return defaultRestriction;
+    }
+
+    public void setDefaultRestriction(ARestriction defaultRestriction) {
+        this.defaultRestriction = defaultRestriction;
+    }
+
     /**
      * This method places a die in the cell, and update the role set with the color and the value of the die.
      * @param die is the die which need to be place in the cell
      */
     public void setContainedDie(Die die) {
 
-        this.containedDie = die;
-        ColorRestriction color = new ColorRestriction(die.getDieColor());
-        ValueRestriction value = new ValueRestriction(die.getActualDieValue());
-        ArrayList<ARestriction> dieRules = new ArrayList<>();
-        dieRules.add(color);
-        dieRules.add(value);
+        if( die != null) {
+            this.containedDie = die;
+            ColorRestriction color = new ColorRestriction(die.getDieColor());
+            ValueRestriction value = new ValueRestriction(die.getActualDieValue());
+            ArrayList<ARestriction> dieRules = new ArrayList<>();
+            dieRules.add(color);
+            dieRules.add(value);
+            updateRuleSet(dieRules);
+        }
+        else{
+            this.containedDie = die;
+            updateRuleSet(null);
+        }
 
-        updateRuleSet(dieRules);
+    }
+
+    /**
+     * This class remove the die that is contained, can be use when a die is move to an other cell or an other die container.
+     * @return The die extracted.
+     */
+    public Die removeConteinedDie(){
+
+        Die die = getContainedDie();
+        setContainedDie(null);
+        return die;
     }
 
     public List<ARestriction> getRuleSetCell() {
@@ -83,11 +116,14 @@ public class Cell {
 
     /**
      * This method update the cell's ruleSet.
-     * @param rulesToAdd rules that need to be add to the ruleSet.
+     * @param rulesToAdd rules that need to be add to the ruleSet, null when the player want to remove a die.
      */
     public void updateRuleSet(List<ARestriction> rulesToAdd) {
         this.ruleSetCell.clear();
-        this.ruleSetCell.addAll(rulesToAdd);
+        if(rulesToAdd != null)
+            this.ruleSetCell.addAll(rulesToAdd);
+        else if (defaultRestriction != null)
+            this.ruleSetCell.add(defaultRestriction);
     }
 
 }

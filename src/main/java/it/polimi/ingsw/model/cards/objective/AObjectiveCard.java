@@ -8,10 +8,32 @@ import it.polimi.ingsw.model.WindowPatternCard;
  */
 public abstract class AObjectiveCard {
 
-    protected int id;
+    int id;
 
     public int getId() {
         return id;
+    }
+
+    /**
+     * Checks if the card in input is equal to {@code this}.
+     * @param obj card to check.
+     * @return {@code true} if the card in input is equal to {@code this}, {@code false} otherwise.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) {
+            return false;
+        }
+        if(this.getClass() != obj.getClass()) {
+            return false;
+        }
+        AObjectiveCard card = (AObjectiveCard) obj;
+        return this.getId() == card.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
     /**

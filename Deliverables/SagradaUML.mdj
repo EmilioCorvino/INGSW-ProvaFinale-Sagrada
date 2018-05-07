@@ -20035,7 +20035,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "ColumnStrsategy",
+											"text": "ColumnStrategy",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -30270,12 +30270,12 @@
 									"_parent": {
 										"$ref": "AAAAAAFiz5BGy6gNm3I="
 									},
-									"name": "score",
+									"name": "player",
 									"visibility": "public",
 									"isStatic": false,
 									"isLeaf": false,
 									"type": {
-										"$ref": "AAAAAAFiy0G1Qs8IviE="
+										"$ref": "AAAAAAFinIDjByqi+78="
 									},
 									"isReadOnly": false,
 									"isOrdered": false,
@@ -30383,12 +30383,12 @@
 									"_parent": {
 										"$ref": "AAAAAAFiz5NeA8LWanM="
 									},
-									"name": "score",
+									"name": "player",
 									"visibility": "public",
 									"isStatic": false,
 									"isLeaf": false,
 									"type": {
-										"$ref": "AAAAAAFiy0G1Qs8IviE="
+										"$ref": "AAAAAAFinIDjByqi+78="
 									},
 									"isReadOnly": false,
 									"isOrdered": false,
@@ -31399,7 +31399,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "ColumnStrsategy",
+					"name": "ColumnStrategy",
 					"ownedElements": [
 						{
 							"_type": "UMLInterfaceRealization",
@@ -53419,7 +53419,7 @@
 							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
-							"type": "List<Object>",
+							"type": "List<Serializable>",
 							"isReadOnly": false,
 							"isOrdered": false,
 							"isUnique": false,
@@ -53437,9 +53437,7 @@
 							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
-							"type": {
-								"$ref": "AAAAAAFi7OPy1LRKdzw="
-							},
+							"type": "NetworkMethod",
 							"isReadOnly": false,
 							"isOrdered": false,
 							"isUnique": false,
@@ -53709,7 +53707,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFi05HNtdFPt88="
 					},
-					"name": "IServerSideClient",
+					"name": "IFromServerToClient",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -53813,7 +53811,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFi05HNtdFPt88="
 					},
-					"name": "IClientSideServer",
+					"name": "IFromClientToServer",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -53917,7 +53915,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFi05HNtdFPt88="
 					},
-					"name": "SocketServerSideClient",
+					"name": "SocketFromServerToClient",
 					"ownedElements": [
 						{
 							"_type": "UMLDependency",
@@ -54134,7 +54132,7 @@
 							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
-							"type": "HashMap<ServerMethod, Runnable>",
+							"type": "HashMap<ServerMethod, Consumer<List<Serializable>>>",
 							"isReadOnly": false,
 							"isOrdered": false,
 							"isUnique": false,
@@ -54183,7 +54181,7 @@
 									"visibility": "public",
 									"isStatic": false,
 									"isLeaf": false,
-									"type": "List<Object>",
+									"type": "List<Serializable>",
 									"isReadOnly": false,
 									"isOrdered": false,
 									"isUnique": false,
@@ -54249,7 +54247,7 @@
 									"visibility": "public",
 									"isStatic": false,
 									"isLeaf": false,
-									"type": "Runnable",
+									"type": "Consumer<List<Serializable>>",
 									"isReadOnly": false,
 									"isOrdered": false,
 									"isUnique": false,
@@ -54584,7 +54582,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFi05HNtdFPt88="
 					},
-					"name": "NetworkMethods",
+					"name": "NetworkMethod",
 					"visibility": "public",
 					"isAbstract": false,
 					"isFinalSpecialization": false,
@@ -54624,7 +54622,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFi05HNtdFPt88="
 					},
-					"name": "SocketClientSideServer",
+					"name": "SocketFromClientToServer",
 					"ownedElements": [
 						{
 							"_type": "UMLInterfaceRealization",
@@ -54821,7 +54819,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFi05HNtdFPt88="
 					},
-					"name": "RmiServerSideClient",
+					"name": "RmiFromServerToClient",
 					"ownedElements": [
 						{
 							"_type": "UMLInterfaceRealization",
@@ -54896,7 +54894,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFi05HNtdFPt88="
 					},
-					"name": "RmiClientSideServer",
+					"name": "RmiFromClientToServer",
 					"ownedElements": [
 						{
 							"_type": "UMLInterfaceRealization",
@@ -57633,7 +57631,7 @@
 											"containerExtending": false,
 											"left": 0,
 											"top": 0,
-											"width": 138.70989990234375,
+											"width": 149.86390686035156,
 											"height": 22,
 											"autoResize": false,
 											"underline": false,
@@ -68389,7 +68387,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+computeFinalScore(score: IScore): int",
+											"text": "+computeFinalScore(player: Player): int",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -68738,7 +68736,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+computeFinalScore(score: IScore): int",
+											"text": "+computeFinalScore(player: Player): int",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -77734,7 +77732,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "ColumnStrsategy",
+											"text": "ColumnStrategy",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -91307,7 +91305,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "-parameters: List<Object>",
+											"text": "-parameters: List<Serializable>",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -91336,7 +91334,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "-method: ClientMethod",
+											"text": "-method: NetworkMethod",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -92401,7 +92399,7 @@
 											"containerExtending": false,
 											"left": 6449,
 											"top": 348,
-											"width": 111,
+											"width": 123.71429443359375,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
@@ -92427,11 +92425,11 @@
 											"containerExtending": false,
 											"left": 6449,
 											"top": 363,
-											"width": 111,
+											"width": 123.71429443359375,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "IServerSideClient",
+											"text": "IFromServerToClient",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -92499,7 +92497,7 @@
 									"containerExtending": false,
 									"left": 6444,
 									"top": 343,
-									"width": 121,
+									"width": 133.71429443359375,
 									"height": 38,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -92559,7 +92557,7 @@
 									"containerExtending": false,
 									"left": 6444,
 									"top": 381,
-									"width": 121,
+									"width": 133.71429443359375,
 									"height": 10,
 									"autoResize": false
 								},
@@ -92623,7 +92621,7 @@
 							"containerExtending": false,
 							"left": 6444,
 							"top": 343,
-							"width": 121,
+							"width": 133.71429443359375,
 							"height": 61,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -92690,7 +92688,7 @@
 											"containerExtending": false,
 											"left": 6521,
 											"top": 1620,
-											"width": 107.65625,
+											"width": 123.71429443359375,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
@@ -92716,11 +92714,11 @@
 											"containerExtending": false,
 											"left": 6521,
 											"top": 1635,
-											"width": 107.65625,
+											"width": 123.71429443359375,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "IClientSideServer",
+											"text": "IFromClientToServer",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -92788,7 +92786,7 @@
 									"containerExtending": false,
 									"left": 6516,
 									"top": 1615,
-									"width": 117.65625,
+									"width": 133.71429443359375,
 									"height": 38,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -92848,7 +92846,7 @@
 									"containerExtending": false,
 									"left": 6516,
 									"top": 1653,
-									"width": 117.65625,
+									"width": 133.71429443359375,
 									"height": 10,
 									"autoResize": false
 								},
@@ -92912,7 +92910,7 @@
 							"containerExtending": false,
 							"left": 6516,
 							"top": 1615,
-							"width": 117.65625,
+							"width": 133.71429443359375,
 							"height": 58,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -93711,11 +93709,11 @@
 											"containerExtending": false,
 											"left": 6441,
 											"top": 486,
-											"width": 146.67529296875,
+											"width": 159.3472442626953,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "SocketServerSideClient",
+											"text": "SocketFromServerToClient",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -93783,7 +93781,7 @@
 									"containerExtending": false,
 									"left": 6436,
 									"top": 479,
-									"width": 156.67529296875,
+									"width": 169.3472442626953,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -93819,7 +93817,7 @@
 									"containerExtending": false,
 									"left": 6436,
 									"top": 504,
-									"width": 156.67529296875,
+									"width": 169.3472442626953,
 									"height": 10,
 									"autoResize": false
 								},
@@ -93843,7 +93841,7 @@
 									"containerExtending": false,
 									"left": 6436,
 									"top": 514,
-									"width": 156.67529296875,
+									"width": 169.3472442626953,
 									"height": 10,
 									"autoResize": false
 								},
@@ -93907,7 +93905,7 @@
 							"containerExtending": false,
 							"left": 6436,
 							"top": 479,
-							"width": 156.67529296875,
+							"width": 169.3472442626953,
 							"height": 49,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -94285,7 +94283,7 @@
 											"containerExtending": false,
 											"left": 6345,
 											"top": 790,
-											"width": 477.26123046875,
+											"width": 497.171630859375,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
@@ -94357,7 +94355,7 @@
 									"containerExtending": false,
 									"left": 6340,
 									"top": 783,
-									"width": 487.26123046875,
+									"width": 507.171630859375,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -94403,11 +94401,11 @@
 											"containerExtending": false,
 											"left": 6345,
 											"top": 813,
-											"width": 477.26123046875,
+											"width": 497.171630859375,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "-serverMethods: HashMap<ServerMethod, Runnable>",
+											"text": "-serverMethods: HashMap<ServerMethod, Consumer<List<Serializable>>>",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -94424,7 +94422,7 @@
 									"containerExtending": false,
 									"left": 6340,
 									"top": 808,
-									"width": 487.26123046875,
+									"width": 507.171630859375,
 									"height": 23,
 									"autoResize": false
 								},
@@ -94458,11 +94456,11 @@
 											"containerExtending": false,
 											"left": 6345,
 											"top": 836,
-											"width": 477.26123046875,
+											"width": 497.171630859375,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+encodeMessage(method: ClientMethod, params: List<Object>): NetworkMessage",
+											"text": "+encodeMessage(method: ClientMethod, params: List<Serializable>): NetworkMessage",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -94487,11 +94485,11 @@
 											"containerExtending": false,
 											"left": 6345,
 											"top": 851,
-											"width": 477.26123046875,
+											"width": 497.171630859375,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+decodeMessage(message: NetworkMessage): Runnable",
+											"text": "+decodeMessage(message: NetworkMessage): Consumer<List<Serializable>>",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -94516,7 +94514,7 @@
 											"containerExtending": false,
 											"left": 6345,
 											"top": 866,
-											"width": 477.26123046875,
+											"width": 497.171630859375,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
@@ -94537,7 +94535,7 @@
 									"containerExtending": false,
 									"left": 6340,
 									"top": 831,
-									"width": 487.26123046875,
+									"width": 507.171630859375,
 									"height": 53,
 									"autoResize": false
 								},
@@ -94601,7 +94599,7 @@
 							"containerExtending": false,
 							"left": 6340,
 							"top": 783,
-							"width": 487.26123046875,
+							"width": 507.171630859375,
 							"height": 101,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -95131,7 +95129,7 @@
 								"$ref": "AAAAAAFi9ONr1MACGFs="
 							},
 							"lineStyle": 0,
-							"points": "6592:511;6652:511;6652:591"
+							"points": "6604:511;6652:511;6652:591"
 						},
 						{
 							"_type": "UMLDependencyView",
@@ -96336,7 +96334,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "NetworkMethods",
+											"text": "NetworkMethod",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -98308,11 +98306,11 @@
 											"containerExtending": false,
 											"left": 6417,
 											"top": 1382,
-											"width": 146.67529296875,
+											"width": 159.3472442626953,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "SocketClientSideServer",
+											"text": "SocketFromClientToServer",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -98380,7 +98378,7 @@
 									"containerExtending": false,
 									"left": 6412,
 									"top": 1375,
-									"width": 156.67529296875,
+									"width": 169.3472442626953,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -98416,7 +98414,7 @@
 									"containerExtending": false,
 									"left": 6412,
 									"top": 1400,
-									"width": 156.67529296875,
+									"width": 169.3472442626953,
 									"height": 10,
 									"autoResize": false
 								},
@@ -98440,7 +98438,7 @@
 									"containerExtending": false,
 									"left": 6412,
 									"top": 1410,
-									"width": 156.67529296875,
+									"width": 169.3472442626953,
 									"height": 10,
 									"autoResize": false
 								},
@@ -98504,7 +98502,7 @@
 							"containerExtending": false,
 							"left": 6412,
 							"top": 1375,
-							"width": 156.67529296875,
+							"width": 169.3472442626953,
 							"height": 45,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -99469,7 +99467,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 6851,
+									"left": 6871,
 									"top": 812,
 									"width": 0,
 									"height": 13,
@@ -99503,7 +99501,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 6854,
+									"left": 6874,
 									"top": 798,
 									"width": 0,
 									"height": 13,
@@ -99537,7 +99535,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 6843,
+									"left": 6863,
 									"top": 839,
 									"width": 8,
 									"height": 13,
@@ -99722,7 +99720,7 @@
 								"$ref": "AAAAAAFi9ONr1MAUOnU="
 							},
 							"lineStyle": 0,
-							"points": "6826:833;6945:833;6945:499",
+							"points": "6846:833;6945:833;6945:499",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -102718,11 +102716,11 @@
 											"containerExtending": false,
 											"left": 6705,
 											"top": 486,
-											"width": 128.603515625,
+											"width": 142.61630249023438,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "RmiServerSideClient",
+											"text": "RmiFromServerToClient",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -102790,7 +102788,7 @@
 									"containerExtending": false,
 									"left": 6700,
 									"top": 479,
-									"width": 138.603515625,
+									"width": 152.61630249023438,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -102826,7 +102824,7 @@
 									"containerExtending": false,
 									"left": 6700,
 									"top": 504,
-									"width": 138.603515625,
+									"width": 152.61630249023438,
 									"height": 10,
 									"autoResize": false
 								},
@@ -102850,7 +102848,7 @@
 									"containerExtending": false,
 									"left": 6700,
 									"top": 514,
-									"width": 138.603515625,
+									"width": 152.61630249023438,
 									"height": 10,
 									"autoResize": false
 								},
@@ -102914,7 +102912,7 @@
 							"containerExtending": false,
 							"left": 6700,
 							"top": 479,
-							"width": 138.603515625,
+							"width": 152.61630249023438,
 							"height": 45,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -103006,11 +103004,11 @@
 											"containerExtending": false,
 											"left": 6633,
 											"top": 1382,
-											"width": 128.603515625,
+											"width": 142.61630249023438,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "RmiClientSideServer",
+											"text": "RmiFromClientToServer",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -103078,7 +103076,7 @@
 									"containerExtending": false,
 									"left": 6628,
 									"top": 1375,
-									"width": 138.603515625,
+									"width": 152.61630249023438,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -103114,7 +103112,7 @@
 									"containerExtending": false,
 									"left": 6628,
 									"top": 1400,
-									"width": 138.603515625,
+									"width": 152.61630249023438,
 									"height": 10,
 									"autoResize": false
 								},
@@ -103138,7 +103136,7 @@
 									"containerExtending": false,
 									"left": 6628,
 									"top": 1410,
-									"width": 138.603515625,
+									"width": 152.61630249023438,
 									"height": 10,
 									"autoResize": false
 								},
@@ -103202,7 +103200,7 @@
 							"containerExtending": false,
 							"left": 6628,
 							"top": 1375,
-							"width": 138.603515625,
+							"width": 152.61630249023438,
 							"height": 45,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -103361,7 +103359,7 @@
 								"$ref": "AAAAAAFi9ONr18EU+rs="
 							},
 							"lineStyle": 0,
-							"points": "6740:479;6740:383;6564:383",
+							"points": "6740:479;6740:383;6577:383",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -103390,8 +103388,8 @@
 							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": false,
-							"left": 6748,
-							"top": 303,
+							"left": 7208,
+							"top": 296,
 							"width": 146.61990356445312,
 							"height": 50,
 							"autoResize": false,
@@ -103417,10 +103415,10 @@
 								"$ref": "AAAAAAFi9ONr18Es2d0="
 							},
 							"tail": {
-								"$ref": "AAAAAAFi9ONr18EU+rs="
+								"$ref": "AAAAAAFi9ONr0r95l1I="
 							},
 							"lineStyle": 0,
-							"points": "6812:479;6812:352"
+							"points": "7223:455;7223:345"
 						},
 						{
 							"_type": "UMLAssociationView",
@@ -103973,7 +103971,7 @@
 								"$ref": "AAAAAAFi9ONr18EeKHc="
 							},
 							"lineStyle": 0,
-							"points": "6685:1419;6685:1643;6633:1643",
+							"points": "6685:1419;6685:1643;6649:1643",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -104002,8 +104000,8 @@
 							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": false,
-							"left": 6628,
-							"top": 1287,
+							"left": 7008,
+							"top": 1448,
 							"width": 146.61990356445312,
 							"height": 50,
 							"autoResize": false,
@@ -104029,10 +104027,10 @@
 								"$ref": "AAAAAAFi9ONr18E+Tu0="
 							},
 							"tail": {
-								"$ref": "AAAAAAFi9ONr18EeKHc="
+								"$ref": "AAAAAAFi9ONr0r+NA/4="
 							},
 							"lineStyle": 0,
-							"points": "6699:1375;6699:1336"
+							"points": "7208:1459;7208:1472;7154:1472"
 						},
 						{
 							"_type": "UMLAssociationView",
@@ -104165,7 +104163,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 6791,
+									"left": 6805,
 									"top": 1362,
 									"width": 0,
 									"height": 13,
@@ -104199,7 +104197,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 6794,
+									"left": 6808,
 									"top": 1348,
 									"width": 0,
 									"height": 13,
@@ -104233,7 +104231,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 6787,
+									"left": 6801,
 									"top": 1389,
 									"width": 0,
 									"height": 13,
@@ -104416,7 +104414,7 @@
 								"$ref": "AAAAAAFi9ONr18EeKHc="
 							},
 							"lineStyle": 0,
-							"points": "6766:1383;7210:1383;7210:499",
+							"points": "6780:1383;7210:1383;7210:499",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,

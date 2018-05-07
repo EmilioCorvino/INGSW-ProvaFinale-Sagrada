@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model;
 
 import org.junit.Test;
-
-
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -16,7 +13,7 @@ public class CellTest {
     @Test
     public void emptyCheck() {
 
-        Cell cell = new Cell(1, 1 , new ArrayList<ARestriction>());
+        Cell cell = new Cell(1, 1 , null);
         assertTrue(cell.isEmpty());
 
         Die die = new Die(5, Color.RED);
@@ -30,7 +27,7 @@ public class CellTest {
     @Test
     public void placementDieCheck() {
 
-        Cell cell = new Cell(1,1, new ArrayList<ARestriction>());
+        Cell cell = new Cell(1,1, null);
 
         Die die = new Die(5, Color.RED);
         cell.setContainedDie(die);
@@ -44,7 +41,7 @@ public class CellTest {
     @Test
     public void updateSetRoleCheck (){
 
-        Cell cell = new Cell(1,1 , new ArrayList<ARestriction>());
+        Cell cell = new Cell(1,1 , null);
         Die die = new Die(2, Color.RED);
 
         cell.setContainedDie(die);
@@ -54,5 +51,37 @@ public class CellTest {
         for (int i = 0; i < rules.size(); i++)
             assertTrue(rules.get(i).isRespected(die));
 
+    }
+
+    /**
+     * This Test verify if the default restriction is added in the set of rules of the cell.
+     */
+    @Test
+    public void checkCellDefaultRestriction(){
+        ColorRestriction c = new ColorRestriction(Color.BLUE);
+        Cell cell = new Cell(0,0,c);
+
+        assertFalse(cell.getRuleSetCell().size() == 0);
+        assertEquals(cell.getRuleSetCell().get(0), c);
+    }
+
+    /**
+     * This test verify if a role set is clear when a die is remove
+     */
+    @Test
+    public void checkRemove(){
+        Cell cell = new Cell(0,0, null);
+        Die die = new Die(1,Color.RED);
+        ColorRestriction c = new ColorRestriction(Color.RED);
+        Cell cellRestricted = new Cell (1,1, c);
+
+        cell.setContainedDie(die);
+
+        assertEquals(die, cell.removeConteinedDie());
+
+        cellRestricted.setContainedDie(die);
+
+        assertEquals(die, cellRestricted.removeConteinedDie());
+        assertEquals(cellRestricted.getRuleSetCell().get(0),c);
     }
 }

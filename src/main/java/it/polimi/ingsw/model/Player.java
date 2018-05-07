@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * This class is the representation of the player: it does anything the real player can do and has everything
+ * the real player has. It can see the board through the CommonBoard, make moves using IMove interface and
+ * get his score computed by the Score class.
+ */
 public class Player implements IPlayer {
 
     /**
@@ -54,6 +59,7 @@ public class Player implements IPlayer {
         this.board = board;
         this.score = new Score(this);
         this.playerMoves = new ArrayList<IMove>();
+
     }
 
     /**
