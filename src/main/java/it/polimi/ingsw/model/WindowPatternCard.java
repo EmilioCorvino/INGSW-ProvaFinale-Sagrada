@@ -209,4 +209,12 @@ public class WindowPatternCard extends ADieContainer {
     public void setDesiredCell(Cell desiredCell) {
         this.desiredCell = desiredCell;
     }
+
+    public static int getMaxCol() {
+        return MAX_COL;
+    }
+
+    public static int getMaxRow() {
+        return MAX_ROW;
+    }
 }
