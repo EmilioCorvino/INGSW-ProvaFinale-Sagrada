@@ -136,7 +136,6 @@ public class WindowPatternCard extends ADieContainer {
      * @return true if the die respects all the restrictions of the adjacent cells.
      */
     private boolean checkAdjacentRoleSet(Die die, Cell selectedCell) {
-        boolean ok = true;
 
         List<ARestriction> adjacentRules = new ArrayList<>();
         if (selectedCell.getRow() != 0)
@@ -150,9 +149,9 @@ public class WindowPatternCard extends ADieContainer {
 
         for (ARestriction restriction : adjacentRules)
             if(restriction.isRespected(die))
-                ok = false;
+                return false;
 
-        return ok;
+        return true;
     }
 
     /**

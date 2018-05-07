@@ -13,14 +13,14 @@ public class WindowPatternTest {
      */
     @Test
     public void placement(){
-        WindowPatternCard WP = new WindowPatternCard(1,1,null);
+        WindowPatternCard wp = new WindowPatternCard(1,1,null);
         Die die = new Die(1, Color.RED);
         Cell selectedCell = new Cell(0,0,null);
 
-        if(WP.canBePlaced(die,selectedCell))
-            WP.update(die);
+        if(wp.canBePlaced(die,selectedCell))
+            wp.update(die);
 
-        assertEquals(WP.getGlassWindow()[selectedCell.getRow()][selectedCell.getCol()].getContainedDie(),die);
+        assertEquals(wp.getGlassWindow()[selectedCell.getRow()][selectedCell.getCol()].getContainedDie(),die);
     }
 
     /**
@@ -61,7 +61,7 @@ public class WindowPatternTest {
      */
     @Test
     public void AdjacentRole(){
-        WindowPatternCard WP = new WindowPatternCard(1,1,null);
+        WindowPatternCard wp = new WindowPatternCard(1,1,null);
         Cell selectedCell1 = new Cell (0,1,null);
         Cell selectedCell2 = new Cell (0,2,null); //Border cell adjacent
         Cell selectedCell3 = new Cell (1,2,null); //Cell diagonal adjacent
@@ -69,11 +69,11 @@ public class WindowPatternTest {
         Die die1 = new Die(2, Color.RED);
         Die die2 = new Die(3,Color.BLUE);
 
-        WP.canBePlaced(die1,selectedCell1);
-        WP.update(die1);
-        assertTrue(WP.canBePlaced(die2,selectedCell2));
-        assertTrue(WP.canBePlaced(die2,selectedCell3));
-        assertFalse(WP.canBePlaced(die2,selectedCell4));
+        wp.canBePlaced(die1,selectedCell1);
+        wp.update(die1);
+        assertTrue(wp.canBePlaced(die2,selectedCell2));
+        assertTrue(wp.canBePlaced(die2,selectedCell3));
+        assertFalse(wp.canBePlaced(die2,selectedCell4));
     }
 
     /**
@@ -88,16 +88,16 @@ public class WindowPatternTest {
         List<Cell> cells = new ArrayList<>();
         cells.add(cell1);
         cells.add(cell2);
-        WindowPatternCard WP = new WindowPatternCard(1,1,cells);
+        WindowPatternCard wp = new WindowPatternCard(1,1,cells);
 
         Die die1 = new Die(1,Color.BLUE);
         Die die2 = new Die(5, Color.RED);
 
-        assertTrue(WP.canBePlaced(die1,cell1));
-        assertFalse(WP.canBePlaced(die2,cell1));
+        assertTrue(wp.canBePlaced(die1,cell1));
+        assertFalse(wp.canBePlaced(die2,cell1));
 
-        assertTrue(WP.canBePlaced(die2,cell2));
-        assertFalse(WP.canBePlaced(die1,cell2));
+        assertTrue(wp.canBePlaced(die2,cell2));
+        assertFalse(wp.canBePlaced(die1,cell2));
 
     }
 
