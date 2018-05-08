@@ -9,5 +9,5 @@ public interface IMove {
      *
      * @return
      */
-    public boolean executeMove();
+    public void executeMove(Die chosenDie, ADieContainer destinationContainer);
 }
