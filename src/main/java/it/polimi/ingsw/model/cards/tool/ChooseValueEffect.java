@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.cards.tool;
 
+import it.polimi.ingsw.model.ADieContainer;
 import it.polimi.ingsw.model.Die;
 
 /**
@@ -64,5 +65,10 @@ public class ChooseValueEffect extends AValueEffect {
             return decreaseDieValue(chosenDie);
 
         return chosenDie;
+    }
+
+    @Override
+    public void executeMove(Die chosenDie, ADieContainer destinationContainer) {
+
     }
 }

@@ -1,6 +1,8 @@
 
 package it.polimi.ingsw.model.cards.tool;
 
+import it.polimi.ingsw.model.Die;
+
 /**
  * This class manages the effects of the tool cards related to a change of the value of one or more dice.
  */
@@ -15,6 +17,19 @@ public abstract class AValueEffect extends AToolCardEffect {
      * This attribute defines which method has to be called when the player wants to increase or decrease the value of a die.
      */
     protected String symbol;
+
+    /**
+     *
+     */
+    protected Die chosenDie;
+
+    public Die getChosenDie() {
+        return chosenDie;
+    }
+
+    public void setChosenDie(Die chosenDie) {
+        this.chosenDie = chosenDie;
+    }
 
     /**
      * This constructor will set e default value for the offset in case it is not specified;
