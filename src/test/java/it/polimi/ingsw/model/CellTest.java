@@ -77,11 +77,11 @@ public class CellTest {
 
         cell.setContainedDie(die);
 
-        assertEquals(die, cell.removeConteinedDie());
+        assertEquals(die, cell.removeContainedDie());
 
         cellRestricted.setContainedDie(die);
 
-        assertEquals(die, cellRestricted.removeConteinedDie());
+        assertEquals(die, cellRestricted.removeContainedDie());
         assertEquals(cellRestricted.getRuleSetCell().get(0),c);
     }
 }

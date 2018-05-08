@@ -95,7 +95,7 @@ public class Cell {
      * This class remove the die that is contained, can be use when a die is move to an other cell or an other die container.
      * @return The die extracted.
      */
-    public Die removeConteinedDie(){
+    public Die removeContainedDie(){
 
         Die die = getContainedDie();
         setContainedDie(null);
