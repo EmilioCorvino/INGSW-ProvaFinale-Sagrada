@@ -4,7 +4,7 @@ Development of a Java application based on the board game Sagrada, by FloodgateG
 as a final project for the Software Engineering course at Politecnico di Milano.
 
 <p align="center">
-  <img src="https://github.com/Cr0w19/INGSW-ProvaFinale-Sagrada/blob/master/src/assets/Logo.jpg" alt="Sagrada logo">
+  <img src="https://github.com/Cr0w19/INGSW-ProvaFinale-Sagrada/blob/master/src/main/resources/Logo.jpg" alt="Sagrada logo">
 </p>
 
 *Group members:*

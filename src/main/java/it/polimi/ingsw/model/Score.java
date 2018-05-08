@@ -55,9 +55,6 @@ public class Score implements IScore {
         return lostPoints;
     }
 
-    /*
-     * The following set methods will be used by computeFinalScore to fill this class.
-     */
 
     public void setPublicObjectivePoints(int publicObjectivePoints) {
         this.publicObjectivePoints = publicObjectivePoints;
@@ -67,20 +64,22 @@ public class Score implements IScore {
         this.privateObjectivePoints = privateObjectivePoints;
     }
 
-    public void setFavorTokensPoints(int favorTokensPoints) {
-        this.favorTokensPoints = favorTokensPoints;
+    /**
+     * This methods sets the points taken from favor tokens to the number of tokens still available to the player.
+     */
+    public void setFavorTokensPoints() {
+        this.favorTokensPoints = this.getPlayer().getFavorTokens();
     }
 
     /**
      * This method checks how many empty cells are present in the player's window pattern card and sets lostPoints
      * to the number of empty cells.
-     * @param player whose window pattern card is to be checked.
      */
-    public void setLostPoints(Player player) {
-        //todo I assume glass windows are always 4x5, should it be otherwise?
-        //todo methods to get rows or columns mught be useful.
+    public void setLostPoints() {
+        //I assume glass windows are always 4x5
+        //todo methods to get rows or columns might be useful.
         int lostPoints = 0;
-        Cell[][] glassWindow = player.getWindowPatternCard().getGlassWindow();
+        Cell[][] glassWindow = this.getPlayer().getWindowPatternCard().getGlassWindow();
         for(int i = 0; i < 4; i++) { //rows
             for(int j = 0; j < 5; j++) { //columns
                 if(glassWindow[i][j].isEmpty()) {
@@ -93,12 +92,12 @@ public class Score implements IScore {
 
     /**
      * Adds up the scores from the various sources and produces the final score.
-     * @param player whose score is to be computed.
      * @return the final player's score.
      */
     @Override
-    public int computeFinalScore(Player player) {
-        return player.getScore().getPublicObjectivePoints() + player.getScore().getPrivateObjectivePoints() +
-                player.getScore().getFavorTokensPoints() - player.getScore().getLostPoints();
+    public int computeFinalScore() {
+        return this.getPlayer().getScore().getPublicObjectivePoints() +
+                this.getPlayer().getScore().getPrivateObjectivePoints() +
+                this.getPlayer().getScore().getFavorTokensPoints() - this.getPlayer().getScore().getLostPoints();
     }
 }
