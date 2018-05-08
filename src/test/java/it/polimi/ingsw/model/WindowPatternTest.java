@@ -120,9 +120,9 @@ public class WindowPatternTest {
         assertTrue(WP.canBePlaced(correctDie, orizAdjacentCell));
         assertFalse(WP.canBePlaced(incorrectColorDie, orizAdjacentCell));
         assertFalse(WP.canBePlaced(incorrectValueDie,orizAdjacentCell));
-        /**
-         * This assertion verify that is possible to place a die with the same color or value, in a position diagonal adjacent.
-         */
+
+         //This assertion verify that is possible to place a die with the same color or value, in a position diagonal adjacent.
+
         assertTrue(WP.canBePlaced(incorrectColorDie,diagAdjacentCell));
     }
 }
