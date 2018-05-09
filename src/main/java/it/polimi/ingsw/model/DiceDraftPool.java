@@ -9,11 +9,6 @@ import java.util.List;
 public class DiceDraftPool extends ADieContainer{
 
     /**
-     * Number of player that are playing the match.
-     */
-    private int numberOfPlayers;
-
-    /**
      * List of Dice in the bag.
      */
     private List<Die> availableDice;
@@ -23,13 +18,10 @@ public class DiceDraftPool extends ADieContainer{
      */
     private DiceBag diceBag;
 
-
     /**
      * The constructor
      */
-    public DiceDraftPool(int numberOfPlayers){
-
-        this.numberOfPlayers = numberOfPlayers;
+    public DiceDraftPool(){
         this.availableDice = new ArrayList<>();
         this.diceBag = new DiceBag();
     }
@@ -41,21 +33,44 @@ public class DiceDraftPool extends ADieContainer{
     /**
      * This method call the update the DiceDraftPool in each round.
      */
-    public void pooulateDiceDraftPool(){
+    public void populateDiceDraftPool(int numberOfPlayers){
 
         int i = 0;
-        while( diceBag.extract() != null && i < 2*numberOfPlayers + 1){
-            update(diceBag.extract());
+        boolean empty = false;
+        Die dieExtracted;
+
+        while( !empty && i < 2*numberOfPlayers + 1){
+            dieExtracted = diceBag.extract();
+            if (dieExtracted == null)
+                empty = true;
+            else
+                this.getAvailableDice().add(dieExtracted);
             i++;
         }
     }
 
-    //public Die chooseDie(Die die){
+    /**
+     * This method returns the die's chosen.
+     * @param die: A copy of die chosen.
+     * @return The reference at the die chosen
+     */
+    public Die chooseDie(Die die){
+        for( Die d : this.getAvailableDice())
+            if(d.getDieColor() == die.getDieColor() && d.getActualDieValue() == die.getActualDieValue())
+                return d;
+        return null;
+    }
 
-    //}
-
+    /**
+     * This method update the DraftPool list's of dice, removing the die chosen.
+     * @param die: A copy of the die that has to be removed.
+     */
     @Override
     public void update(Die die) {
-        availableDice.add(die);
+        Die dieToBeDeleted = null;
+        for( Die d : this.getAvailableDice())
+            if(d.getDieColor() == die.getDieColor() && d.getActualDieValue() == die.getActualDieValue())
+                dieToBeDeleted = d;
+        this.getAvailableDice().remove(dieToBeDeleted);
     }
 }
