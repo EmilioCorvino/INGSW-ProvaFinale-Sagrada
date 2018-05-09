@@ -52,7 +52,7 @@ public class DiceBag extends ADieContainer{
      */
     public Die extract(){
         if(!availableDice.isEmpty()) {
-            Die dieToBeExtracted = availableDice.get((new Random()).nextInt(90));
+            Die dieToBeExtracted = availableDice.get((new Random()).nextInt(getAvailableDice().size()));
             update(dieToBeExtracted);
             return dieToBeExtracted;
         }else

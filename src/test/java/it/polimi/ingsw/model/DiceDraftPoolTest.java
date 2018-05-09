@@ -30,7 +30,7 @@ public class DiceDraftPoolTest {
         int numberOfPlayer = 4;
 
         diceDraftPool.populateDiceDraftPool(numberOfPlayer);
-        Die die = diceDraftPool.getAvailableDice().get(new Random().nextInt(diceDraftPool.getAvailableDice().size()));
+        Die die = diceDraftPool.getAvailableDice().get(new Random().nextInt(numberOfPlayer*2 + 1));
 
         diceDraftPool.update(die);
         assertEquals( numberOfPlayer*2 + 1 - 1 , diceDraftPool.getAvailableDice().size());
