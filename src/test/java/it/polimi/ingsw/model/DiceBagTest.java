@@ -61,4 +61,17 @@ public class DiceBagTest {
 
         assertEquals(diceBag.getDieNumberForEachColor() - 1, nDiceSameColor);
     }
+
+    /**
+     * This test verify if an update of all the dice, effective remove all the die from the bag.
+     */
+    @Test
+    public void emptyBag(){
+        DiceBag diceBag = new DiceBag();
+
+        for (int i = 0; i < diceBag.getNumberOfColors() * diceBag.getDieNumberForEachColor(); i++)
+            diceBag.extract();
+
+        assertTrue(diceBag.getAvailableDice().isEmpty());
+    }
 }
