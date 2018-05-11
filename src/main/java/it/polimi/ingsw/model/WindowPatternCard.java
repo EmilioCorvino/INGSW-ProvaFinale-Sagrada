@@ -171,12 +171,8 @@ public class WindowPatternCard extends ADieContainer {
         if (!glassWindow[selectedCell.getRow()][selectedCell.getCol()].isEmpty())
             return false;
         if (matrixIsEmpty()) {
-            if (checkBorderCells(selectedCell) && checkOwnRoleSet(die, selectedCell))
-                setDesiredCell(selectedCell);
             return checkBorderCells(selectedCell) && checkOwnRoleSet(die, selectedCell);
         }else {
-            if (checkAdjacentCells(selectedCell) && checkOwnRoleSet(die, selectedCell) && checkAdjacentRoleSet(die, selectedCell))
-                setDesiredCell(selectedCell);
             return checkAdjacentCells(selectedCell) && checkOwnRoleSet(die, selectedCell) && checkAdjacentRoleSet(die, selectedCell);
         }
     }

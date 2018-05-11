@@ -17,8 +17,10 @@ public class WindowPatternTest {
         Die die = new Die(1, Color.RED);
         Cell selectedCell = new Cell(0,0,null);
 
-        if(wp.canBePlaced(die,selectedCell))
+        if(wp.canBePlaced(die,selectedCell)) {
+            wp.setDesiredCell(selectedCell);
             wp.update(die);
+        }
 
         assertEquals(wp.getGlassWindow()[selectedCell.getRow()][selectedCell.getCol()].getContainedDie(),die);
     }
@@ -28,17 +30,17 @@ public class WindowPatternTest {
      */
     @Test
     public void firstPlacement () {
-        WindowPatternCard WP = new WindowPatternCard(1,1,null);
+        WindowPatternCard wp= new WindowPatternCard(1,1,null);
         Die die = new Die(1, Color.RED);
 
         Cell selectedCell1 = new Cell(0,0,null);
-        assertTrue(WP.canBePlaced(die,selectedCell1));
+        assertTrue(wp.canBePlaced(die,selectedCell1));
 
         Cell selectedCell2 = new Cell(3,4,null);
-        assertTrue(WP.canBePlaced(die,selectedCell2));
+        assertTrue(wp.canBePlaced(die,selectedCell2));
 
         Cell selectedCell3 = new Cell(1,1,null);
-        assertFalse(WP.canBePlaced(die,selectedCell3));
+        assertFalse(wp.canBePlaced(die,selectedCell3));
     }
 
     /**
@@ -46,14 +48,16 @@ public class WindowPatternTest {
      */
     @Test
     public void placementBusyCell(){
-        WindowPatternCard WP = new WindowPatternCard(1,1,null);
+        WindowPatternCard wp = new WindowPatternCard(1,1,null);
         Cell selectedCell = new Cell (0,1,null);
         Die die1 = new Die(2, Color.RED);
         Die die2 = new Die(3, Color.BLUE);
 
-        WP.canBePlaced(die1, selectedCell);
-        WP.update(die1);
-        assertFalse(WP.canBePlaced(die2,selectedCell));
+        if(wp.canBePlaced(die1, selectedCell)) {
+            wp.setDesiredCell(selectedCell);
+            wp.update(die1);
+        }
+        assertFalse(wp.canBePlaced(die2,selectedCell));
     }
 
     /**
@@ -69,8 +73,10 @@ public class WindowPatternTest {
         Die die1 = new Die(2, Color.RED);
         Die die2 = new Die(3,Color.BLUE);
 
-        wp.canBePlaced(die1,selectedCell1);
-        wp.update(die1);
+        if(wp.canBePlaced(die1,selectedCell1)) {
+            wp.setDesiredCell(selectedCell1);
+            wp.update(die1);
+        }
         assertTrue(wp.canBePlaced(die2,selectedCell2));
         assertTrue(wp.canBePlaced(die2,selectedCell3));
         assertFalse(wp.canBePlaced(die2,selectedCell4));
@@ -106,7 +112,7 @@ public class WindowPatternTest {
      */
     @Test
     public void placementRestriction(){
-        WindowPatternCard WP = new WindowPatternCard(1,1,null);
+        WindowPatternCard wp = new WindowPatternCard(1,1,null);
         Cell cell1 = new Cell(0,0,null);
         Cell orizAdjacentCell = new Cell(0, 1,null);
         Cell diagAdjacentCell = new Cell(1, 1, null);
@@ -115,14 +121,17 @@ public class WindowPatternTest {
         Die incorrectValueDie  = new Die(1,Color.BLUE);
         Die incorrectColorDie = new Die(3, Color.RED);
 
-        if(WP.canBePlaced(die,cell1))
-            WP.update(die);
-        assertTrue(WP.canBePlaced(correctDie, orizAdjacentCell));
-        assertFalse(WP.canBePlaced(incorrectColorDie, orizAdjacentCell));
-        assertFalse(WP.canBePlaced(incorrectValueDie,orizAdjacentCell));
+        if(wp.canBePlaced(die,cell1)){
+            wp.setDesiredCell(cell1);
+            wp.update(die);
+        }
+
+        assertTrue(wp.canBePlaced(correctDie, orizAdjacentCell));
+        assertFalse(wp.canBePlaced(incorrectColorDie, orizAdjacentCell));
+        assertFalse(wp.canBePlaced(incorrectValueDie,orizAdjacentCell));
 
          //This assertion verify that is possible to place a die with the same color or value, in a position diagonal adjacent.
 
-        assertTrue(WP.canBePlaced(incorrectColorDie,diagAdjacentCell));
+        assertTrue(wp.canBePlaced(incorrectColorDie,diagAdjacentCell));
     }
 }

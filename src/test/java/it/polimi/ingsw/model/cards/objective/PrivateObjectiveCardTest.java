@@ -101,24 +101,31 @@ public class PrivateObjectiveCardTest {
         Die blueDie = new Die(4, Color.BLUE);
 
         if(window.canBePlaced(purpleDie1, window.getGlassWindow()[0][0])) {
+            window.setDesiredCell(window.getGlassWindow()[0][0]);
             window.update(purpleDie1);
         }
         if(window.canBePlaced(purpleDie2, window.getGlassWindow()[1][1])) {
+            window.setDesiredCell(window.getGlassWindow()[1][1]);
             window.update(purpleDie2);
         }
         if(window.canBePlaced(redDie, window.getGlassWindow()[0][1])) {
+            window.setDesiredCell(window.getGlassWindow()[0][1]);
             window.update(redDie);
         }
         if(window.canBePlaced(yellowDie, window.getGlassWindow()[1][0])) {
+            window.setDesiredCell(window.getGlassWindow()[1][0]);
             window.update(yellowDie);
         }
         if(window.canBePlaced(greenDie, window.getGlassWindow()[2][1])) {
+            window.setDesiredCell(window.getGlassWindow()[2][1]);
             window.update(greenDie);
         }
         if(window.canBePlaced(blueDie, window.getGlassWindow()[3][2])) {
+            window.setDesiredCell(window.getGlassWindow()[3][2]);
             window.update(blueDie);
         }
         if(window.canBePlaced(purpleDie3, window.getGlassWindow()[2][3])) {
+            window.setDesiredCell(window.getGlassWindow()[2][3]);
             window.update(purpleDie3);
         }
 
