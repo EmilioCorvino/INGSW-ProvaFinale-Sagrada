@@ -154,6 +154,10 @@ public class WindowPatternCard extends ADieContainer {
         return true;
     }
 
+    private boolean isTheCellInTheMatrix(Cell cell){
+        return !(-1 < cell.getRow() && cell.getRow() < MAX_ROW) && !(-1 < cell.getCol() && cell.getCol() < MAX_COL);
+    }
+
     /**
      * Checks if the selected die can be placed in a selected cell of the window glass.
      * @param die: the die the player wants to place.
@@ -162,17 +166,13 @@ public class WindowPatternCard extends ADieContainer {
      */
     public boolean canBePlaced(Die die, Cell selectedCell) {
 
-        if( !(-1 < selectedCell.getRow() && selectedCell.getRow() < MAX_ROW) && !(-1 < selectedCell.getCol() && selectedCell.getCol() < MAX_COL) )
+        if( isTheCellInTheMatrix(selectedCell) )
             return false;
         if (!glassWindow[selectedCell.getRow()][selectedCell.getCol()].isEmpty())
             return false;
         if (matrixIsEmpty()) {
-            if (checkBorderCells(selectedCell) && checkOwnRoleSet(die, selectedCell))
-                setDesiredCell(selectedCell);
             return checkBorderCells(selectedCell) && checkOwnRoleSet(die, selectedCell);
         }else {
-            if (checkAdjacentCells(selectedCell) && checkOwnRoleSet(die, selectedCell) && checkAdjacentRoleSet(die, selectedCell))
-                setDesiredCell(selectedCell);
             return checkAdjacentCells(selectedCell) && checkOwnRoleSet(die, selectedCell) && checkAdjacentRoleSet(die, selectedCell);
         }
     }
