@@ -10,7 +10,7 @@ import it.polimi.ingsw.model.Die;
 public class SwapDieEffect extends AToolCardEffect {
 
     private void swapDie(Die sourceDie, Die destinationDie) {
-        
+
     }
 
 
