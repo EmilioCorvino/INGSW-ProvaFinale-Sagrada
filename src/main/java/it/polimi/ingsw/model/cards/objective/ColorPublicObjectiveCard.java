@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.cards.objective;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.model.WindowPatternCard;
 
 /**
@@ -40,16 +39,18 @@ public class ColorPublicObjectiveCard extends APublicObjectiveCard {
         return super.hashCode();
     }
 
-    public static void main(String args[]) {
+
+
+    /*public static void main(String args[]) {
         ColorPublicObjectiveCard card = new ColorPublicObjectiveCard();
         card.id = 200;
         card.name = "Colori diversi - Riga";
         card.description = "Righe senza colori ripetuti";
         card.pointsForIteration = 6;
-        card.strategy = new RowStrategy();
+        //card.strategy = new RowStrategy();
         ((RowStrategy) card.strategy).setStrategyName("row");
 
         Gson gson = new Gson();
         System.out.println(gson.toJson(card));
-    }
+    }*/
 }

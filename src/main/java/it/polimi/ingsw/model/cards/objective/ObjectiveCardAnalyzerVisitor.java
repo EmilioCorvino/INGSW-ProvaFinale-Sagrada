@@ -19,7 +19,7 @@ public class ObjectiveCardAnalyzerVisitor implements IObjectiveCardVisitor {
         return scoreFromCard;
     }
 
-    public void setScoreFromCard(int scoreFromCard) {
+    private void setScoreFromCard(int scoreFromCard) {
         this.scoreFromCard = scoreFromCard;
     }
 

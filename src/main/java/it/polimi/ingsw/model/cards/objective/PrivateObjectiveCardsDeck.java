@@ -14,7 +14,7 @@ import java.util.Vector;
  */
 public class PrivateObjectiveCardsDeck extends AObjectiveCardsDeck {
 
-    public List<PrivateObjectiveCard> getDeck() {
+    List<PrivateObjectiveCard> getDeck() {
         return (List<PrivateObjectiveCard>) this.deck;
     }
 

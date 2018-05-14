@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model.cards.objective;
 
+import com.google.gson.annotations.SerializedName;
 import it.polimi.ingsw.model.WindowPatternCard;
+
+import java.beans.Transient;
 
 /**
  * Generic public objective card.
@@ -24,15 +27,23 @@ public abstract class APublicObjectiveCard extends AObjectiveCard{
      */
     int pointsForIteration;
 
+
     /**
-     * Score computation strategy to apply.
+     * Name of the strategy
+     */
+    @SerializedName("strategy")
+    private String strategyName;
+
+    /**
+     * Score computation strategy to apply. It is transient so that {@link com.google.gson} deserializer
+     * doesn't try to instantiate it.
      * Implementing classes:
      * @see RowStrategy
      * @see ColumnStrategy
      * @see DiagonalStrategy
      * @see SetStrategy
      */
-    IScoreComputationStrategy strategy;
+    transient IScoreComputationStrategy strategy;
 
     public String getName() {
         return name;
@@ -46,8 +57,16 @@ public abstract class APublicObjectiveCard extends AObjectiveCard{
         return pointsForIteration;
     }
 
+    public String getStrategyName() {
+        return strategyName;
+    }
+
     public IScoreComputationStrategy getStrategy() {
         return strategy;
+    }
+
+    public void setStrategy(IScoreComputationStrategy strategy) {
+        this.strategy = strategy;
     }
 
     /**
@@ -66,5 +85,17 @@ public abstract class APublicObjectiveCard extends AObjectiveCard{
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        String s = "Public Objective Card: " + this.getName() + "--> " +
+                this.getDescription();
+        //If it's 0 it refers to the card "Diagonali Colorate", whose description is self-explanatory.
+        if(this.getPointsForIteration() != 0) {
+            s += ": guadagni " + this.getPointsForIteration() + " punti ogni volta che completi l'obiettivo" + "\n";
+            return s;
+        }
+        return s + "\n";
     }
 }

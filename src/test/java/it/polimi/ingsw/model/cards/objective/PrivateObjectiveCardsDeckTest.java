@@ -52,6 +52,7 @@ public class PrivateObjectiveCardsDeckTest {
                 "    \"description\": \"Somma dei valori su tutti i dadi viola\"\n" +
                 "  }\n" +
                 "]", listCards);
+
         assertEquals(testCards, originalDeck.getDeck());
     }
 
@@ -65,8 +66,8 @@ public class PrivateObjectiveCardsDeckTest {
         PrivateObjectiveCardsDeck testDeck = new PrivateObjectiveCardsDeck();
         testDeck.parseDeck();
         AObjectiveCard card = originalDeck.drawCard();
+
         assertTrue(testDeck.contains(card));
         assertFalse(originalDeck.contains(card));
-
     }
 }

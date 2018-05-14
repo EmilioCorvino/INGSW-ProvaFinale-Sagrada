@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.cards.objective;
 
+import com.google.gson.annotations.SerializedName;
 import it.polimi.ingsw.model.Shade;
 import it.polimi.ingsw.model.WindowPatternCard;
 
@@ -13,10 +14,11 @@ public class ValuePublicObjectiveCard extends APublicObjectiveCard {
     /**
      * {@link Shade} used by the card.
      */
-    private Shade shade;
+    @SerializedName("shade")
+    private Shade cardShade;
 
     public Shade getShade() {
-        return shade;
+        return cardShade;
     }
 
     /**
