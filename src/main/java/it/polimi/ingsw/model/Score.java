@@ -31,6 +31,11 @@ public class Score implements IScore {
      */
     private int lostPoints;
 
+    /**
+     * Final score of the player, calculated in the end game phase.
+     */
+    private int totalScore;
+
     public Score(Player player){
         this.player = player;
     }
@@ -55,49 +60,72 @@ public class Score implements IScore {
         return lostPoints;
     }
 
+    public int getTotalScore() {
+        return totalScore;
+    }
 
-    public void setPublicObjectivePoints(int publicObjectivePoints) {
+    private void setPublicObjectivePoints(int publicObjectivePoints) {
         this.publicObjectivePoints = publicObjectivePoints;
     }
 
-    public void setPrivateObjectivePoints(int privateObjectivePoints) {
+    private void setPrivateObjectivePoints(int privateObjectivePoints) {
         this.privateObjectivePoints = privateObjectivePoints;
+    }
+
+    private void setFavorTokensPoints(int favorTokensPoints) {
+        this.favorTokensPoints = favorTokensPoints;
+    }
+
+    private void setLostPoints(int lostPoints) {
+        this.lostPoints = lostPoints;
+    }
+
+    private void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
+    }
+
+    private void computePublicObjectivePoints() {
+
+    }
+
+    private void computePrivateObjectivePoints() {
+
     }
 
     /**
      * This methods sets the points taken from favor tokens to the number of tokens still available to the player.
      */
-    public void setFavorTokensPoints() {
-        this.favorTokensPoints = this.getPlayer().getFavorTokens();
+    private void computeFavorTokensPoints() {
+        this.setFavorTokensPoints(this.getPlayer().getFavorTokens());
     }
 
     /**
      * This method checks how many empty cells are present in the player's window pattern card and sets lostPoints
      * to the number of empty cells.
      */
-    public void setLostPoints() {
-        //I assume glass windows are always 4x5
-        //todo methods to get rows or columns might be useful.
-        int lostPoints = 0;
-        Cell[][] glassWindow = this.getPlayer().getWindowPatternCard().getGlassWindow();
-        for(int i = 0; i < 4; i++) { //rows
-            for(int j = 0; j < 5; j++) { //columns
-                if(glassWindow[i][j].isEmpty()) {
-                    lostPoints++;
+    private void computeLostPoints() {
+        int emptyCells = 0;
+        for(int i = 0; i < WindowPatternCard.getMaxRow(); i++) {
+            for(int j = 0; j < WindowPatternCard.getMaxCol(); j++) {
+                if(this.getPlayer().getWindowPatternCard().getGlassWindow()[i][j].isEmpty()) {
+                    emptyCells++;
                 }
             }
         }
-        this.lostPoints = lostPoints;
+        this.setLostPoints(emptyCells);
     }
 
     /**
-     * Adds up the scores from the various sources and produces the final score.
-     * @return the final player's score.
+     * Adds up the scores from the various sources, produces the final score and sets it.
      */
     @Override
-    public int computeFinalScore() {
-        return this.getPlayer().getScore().getPublicObjectivePoints() +
-                this.getPlayer().getScore().getPrivateObjectivePoints() +
-                this.getPlayer().getScore().getFavorTokensPoints() - this.getPlayer().getScore().getLostPoints();
+    public void computeTotalScore() {
+        this.computePublicObjectivePoints();
+        this.computePrivateObjectivePoints();
+        this.computeFavorTokensPoints();
+        this.computeLostPoints();
+
+        this.setTotalScore(this.getPrivateObjectivePoints() + this.getPublicObjectivePoints() +
+            this.getFavorTokensPoints() - this.getLostPoints());
     }
 }

@@ -7,6 +7,8 @@ as a final project for the Software Engineering course at Politecnico di Milano.
   <img src="https://github.com/Cr0w19/INGSW-ProvaFinale-Sagrada/blob/Model-Development/src/main/resources/Logo.jpg" alt="Sagrada logo">
 </p>
 
+*Group ID:* LM30
+
 *Group members:*
 + 10482725 ADESSO Rita
 + 10504531 CORVINO Emilio

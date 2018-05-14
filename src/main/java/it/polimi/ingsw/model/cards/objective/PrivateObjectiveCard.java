@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.WindowPatternCard;
 /**
  * This class represents the private objective card from the game. Each player has its one which is not displayed
  * to the others.
- * The class is filled by a JSON parser (GSON) in the PrivateObjectiveCardDeck class.
+ * The class is filled by a JSON parser {@link com.google.gson.Gson} in the {@link PrivateObjectiveCardsDeck} class.
  * @see PrivateObjectiveCardsDeck
  */
 public class PrivateObjectiveCard extends AObjectiveCard {
@@ -24,16 +24,9 @@ public class PrivateObjectiveCard extends AObjectiveCard {
     private Color cardColor;
 
     /**
-     * Description of the card, says what the effect does.
+     * Description of the card: says what the effect does.
      */
     private String description;
-
-    /**
-     * Constructor left empty for gson.
-     */
-    PrivateObjectiveCard() {
-        //Left empty because of gson parser.
-    }
 
     /**
      * This constructor is meant for testing purposes.
@@ -75,6 +68,16 @@ public class PrivateObjectiveCard extends AObjectiveCard {
             }
         }
         return score;
+    }
+
+    /**
+     * Allows the {@link IObjectiveCardVisitor} to visit this class and launch the window pattern card analysis.
+     * @param objectiveCardVisitor visitor to accept.
+     * @param windowPatternCard window pattern card to analyze.
+     */
+    @Override
+    public void accept(IObjectiveCardVisitor objectiveCardVisitor, WindowPatternCard windowPatternCard) {
+        objectiveCardVisitor.visit(this, windowPatternCard);
     }
 
     @Override

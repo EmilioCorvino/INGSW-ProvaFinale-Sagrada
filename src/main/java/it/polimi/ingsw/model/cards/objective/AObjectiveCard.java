@@ -42,4 +42,18 @@ public abstract class AObjectiveCard {
      * @return the score given by an objective card in relation to the window pattern card.
      */
     public abstract int analyzeWindowPatternCard(WindowPatternCard windowPatternCard);
+
+    /**
+     * This methods accepts a visitor and launches his method, which allows the right analysis of the window pattern
+     * card based on which type of objective card is computing the score.
+     * @param objectiveCardVisitor visitor to accept.
+     * @param windowPatternCard window pattern card to analyze.
+     * @see IObjectiveCardVisitor
+     * @see ObjectiveCardAnalyzerVisitor
+     * @see PrivateObjectiveCard
+     * @see APublicObjectiveCard
+     * @see ColorPublicObjectiveCard
+     * @see ValuePublicObjectiveCard
+     */
+    public abstract void accept(IObjectiveCardVisitor objectiveCardVisitor, WindowPatternCard windowPatternCard);
 }

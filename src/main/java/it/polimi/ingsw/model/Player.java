@@ -24,11 +24,6 @@ public class Player implements IPlayer {
     private String playerName;
 
     /**
-     * Final score of the player, calculated in the end game phase.
-     */
-    private int totalScore;
-
-    /**
      * Private objective card assigned to the player. It is used for score computation.
      */
     private PrivateObjectiveCard privateObjectiveCard;
@@ -58,7 +53,7 @@ public class Player implements IPlayer {
         this.playerName = playerName;
         this.board = board;
         this.score = new Score(this);
-        this.playerMoves = new ArrayList<IMove>();
+        this.playerMoves = new ArrayList<>();
 
     }
 
@@ -96,10 +91,6 @@ public class Player implements IPlayer {
         return favorTokens;
     }
 
-    public int getTotalScore() {
-        return totalScore;
-    }
-
     public List<IMove> getPlayerMoves() {
         return playerMoves;
     }
@@ -129,24 +120,12 @@ public class Player implements IPlayer {
         this.privateObjectiveCard = privateObjectiveCard;
     }
 
-    public void setScore(Score score) {
-        this.score = score;
-    }
-
-    /**
-     * This method is used by the Score class to set the final score of the player.
-     * @param totalScore final score of the player.
-     */
-    public void setTotalScore(int totalScore) {
-        this.totalScore = totalScore;
-    }
-
     /**
      * Useful to check if the performer of an action is a certain player. It just compares players' names.
      * @param player subject to check.
      * @return true if the player is the same.
      */
-    public boolean equals(Player player) {
+    public boolean isSamePlayerAs(Player player) {
         return this.getPlayerName().equals(player.getPlayerName());
     }
 

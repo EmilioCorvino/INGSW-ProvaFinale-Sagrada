@@ -10,23 +10,16 @@ import java.util.Vector;
 
 /**
  * This class contains a collection of private objective cards.
- * It initializes them parsing information from file..
+ * It initializes them parsing information from file.
  */
 public class PrivateObjectiveCardsDeck extends AObjectiveCardsDeck {
 
-    /**
-     * Left empty because of gson parser.
-     */
-    PrivateObjectiveCardsDeck() {
-        //Left empty because of gson parser.
-    }
-
-    public List<PrivateObjectiveCard> getDeck() {
+    List<PrivateObjectiveCard> getDeck() {
         return (List<PrivateObjectiveCard>) this.deck;
     }
 
     /**
-     * This method uses Gson to parse all private objective cards from a JSON file.
+     * This method uses {@link Gson} to parse all private objective cards from a JSON file.
      */
     public void parseDeck() {
         Gson gson = new Gson();

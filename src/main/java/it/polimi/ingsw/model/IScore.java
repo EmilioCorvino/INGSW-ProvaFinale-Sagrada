@@ -7,7 +7,6 @@ public interface IScore {
 
     /**
      * Computes a player's final score.
-     * @return the final score.
      */
-    public int computeFinalScore();
+    public void computeTotalScore();
 }

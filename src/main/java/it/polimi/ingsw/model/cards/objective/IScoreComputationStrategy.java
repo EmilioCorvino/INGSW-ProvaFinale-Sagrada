@@ -9,8 +9,16 @@ import it.polimi.ingsw.model.WindowPatternCard;
 public interface IScoreComputationStrategy {
 
     /**
-     * Applies the strategy of the implementing classes to the window.
+     * Applies the strategy relative to {@link it.polimi.ingsw.model.Color} of the implementing classes to the window.
+     * @param card from which taking the parameters.
      * @param window to which the strategy applies.
      */
-    //todo public void applyStrategy(WindowPatternCard window);
+    int applyColorStrategy(ColorPublicObjectiveCard card, WindowPatternCard window);
+
+    /**
+     * Applies the strategy relative to {@link it.polimi.ingsw.model.Shade} of the implementing classes to the window.
+     * @param card from which taking the parameters.
+     * @param window to which the strategy applies.
+     */
+    int applyValueStrategy(ValuePublicObjectiveCard card, WindowPatternCard window);
 }
