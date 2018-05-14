@@ -51,22 +51,6 @@ public class ChooseValueEffect extends AValueEffect {
         return chosenDie;
     }
 
-    /**
-     *
-     * @param chosenDie the die the player chooses.
-     * @return
-     */
-    @Override
-    public Die applyToolCardEffect(Die chosenDie) {
-        if(super.symbol.equals("+"))
-            return increaseDieValue(chosenDie);
-
-        if(super.symbol.equals("-"))
-            return decreaseDieValue(chosenDie);
-
-        return chosenDie;
-    }
-
     @Override
     public void executeMove(Die chosenDie, ADieContainer destinationContainer) {
 

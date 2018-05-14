@@ -49,16 +49,7 @@ public class DraftValueEffect extends AValueEffect {
         chosenDie.setActualDieValue(randomNumber.nextInt(6) + 1);
         return chosenDie;
     }
-
-    /**
-     * This method applies the effect to the chosen die.
-     * @param chosenDie the die the player chooses.
-     * @return the die with the new value.
-     */
-    @Override
-    public Die applyToolCardEffect(Die chosenDie) {
-        return computeRandomDieValue(chosenDie);
-    }
+    
 
     @Override
     public void executeMove(Die chosenDie, ADieContainer destinationContainer) {

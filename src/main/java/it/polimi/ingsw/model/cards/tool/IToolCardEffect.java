@@ -7,11 +7,6 @@ import it.polimi.ingsw.model.Die;
  */
 public interface IToolCardEffect {
 
-    /**
-     * This method will apply a specific effect to the die the player chooses.
-     * @param chosenDie the die the player chooses.
-     * @return the modified die.
-     */
-    public Die applyToolCardEffect(Die chosenDie);
+
 
 }
