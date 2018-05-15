@@ -23,16 +23,6 @@ public class OppositeValueEffect extends AValueEffect {
         return chosenDie;
     }
 
-    /**
-     *
-     * @param chosenDie the die the player chooses.
-     * @return
-     */
-    @Override
-    public Die applyToolCardEffect(Die chosenDie) {
-        return computeOppositeValue(chosenDie);
-    }
-
     @Override
     public void executeMove(Die chosenDie, ADieContainer destinationContainer) {
         
