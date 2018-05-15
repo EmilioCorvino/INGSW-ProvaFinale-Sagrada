@@ -138,13 +138,16 @@ public class WindowPatternCard extends ADieContainer {
     private boolean checkAdjacentRoleSet(Die die, Cell selectedCell) {
 
         List<ARestriction> adjacentRules = new ArrayList<>();
-        if (selectedCell.getRow() != 0)
+        if (selectedCell.getRow() != 0 && !glassWindow[selectedCell.getRow()-1][selectedCell.getCol()].isEmpty())
             adjacentRules.addAll( glassWindow[selectedCell.getRow()-1][selectedCell.getCol()].getRuleSetCell());
-        if (selectedCell.getRow() != MAX_ROW-1)
+
+        if (selectedCell.getRow() != MAX_ROW-1 && !glassWindow[selectedCell.getRow()+1][selectedCell.getCol()].isEmpty())
             adjacentRules.addAll( glassWindow[selectedCell.getRow()+1][selectedCell.getCol()].getRuleSetCell());
-        if(selectedCell.getCol() != 0)
+
+        if(selectedCell.getCol() != 0 && !glassWindow[selectedCell.getRow()][selectedCell.getCol()-1].isEmpty())
             adjacentRules.addAll( glassWindow[selectedCell.getRow()][selectedCell.getCol()-1].getRuleSetCell());
-        if(selectedCell.getCol() != MAX_COL-1)
+
+        if(selectedCell.getCol() != MAX_COL-1 && !glassWindow[selectedCell.getRow()][selectedCell.getCol()+1].isEmpty())
             adjacentRules.addAll( glassWindow[selectedCell.getRow()][selectedCell.getCol()+1].getRuleSetCell());
 
         for (ARestriction restriction : adjacentRules)
