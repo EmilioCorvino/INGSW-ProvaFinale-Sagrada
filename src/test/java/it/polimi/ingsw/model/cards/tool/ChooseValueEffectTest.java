@@ -48,22 +48,4 @@ public class ChooseValueEffectTest {
 
         assertEquals(1, ((ChooseValueEffect) effect1).decreaseDieValue(die1).getActualDieValue());
     }
-
-    @Test
-    public void applyToolCardEffect() {
-
-        Die die = new Die(5, Color.PURPLE);
-        AValueEffect effect = new ChooseValueEffect();
-        effect.setSymbol("+");
-        assertEquals(6, effect.applyToolCardEffect(die).getActualDieValue());
-
-        Die die1 = new Die(3, Color.BLUE);
-        AValueEffect effect1 = new ChooseValueEffect();
-        effect1.setSymbol("-");
-
-        for(int i=0; i<5; i++)
-            effect1.applyToolCardEffect(die1);
-
-        assertEquals(1, die1.getActualDieValue());
-    }
 }
