@@ -1,12 +1,17 @@
-package it.polimi.ingsw.model.cards.objective;
+package it.polimi.ingsw.model.cards.objective.publics.strategies;
 
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.WindowPatternCard;
+import it.polimi.ingsw.model.cards.objective.publics.ColorPublicObjectiveCard;
+import it.polimi.ingsw.model.cards.objective.publics.ValuePublicObjectiveCard;
 
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Strategy for row based score computation.
+ */
 public class RowStrategy implements IScoreComputationStrategy {
 
     /**

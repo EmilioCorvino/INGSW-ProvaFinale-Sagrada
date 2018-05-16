@@ -1,6 +1,10 @@
 package it.polimi.ingsw.model.cards.objective;
 
 import it.polimi.ingsw.model.WindowPatternCard;
+import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard;
+import it.polimi.ingsw.model.cards.objective.publics.APublicObjectiveCard;
+import it.polimi.ingsw.model.cards.objective.publics.ColorPublicObjectiveCard;
+import it.polimi.ingsw.model.cards.objective.publics.ValuePublicObjectiveCard;
 
 /**
  * This class abstracts the concept of objective cards, which are those cards that give points. These points
@@ -8,7 +12,7 @@ import it.polimi.ingsw.model.WindowPatternCard;
  */
 public abstract class AObjectiveCard {
 
-    int id;
+    protected int id;
 
     public int getId() {
         return id;

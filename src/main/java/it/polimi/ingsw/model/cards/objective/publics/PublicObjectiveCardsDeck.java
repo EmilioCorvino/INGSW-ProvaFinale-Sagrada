@@ -1,7 +1,13 @@
-package it.polimi.ingsw.model.cards.objective;
+package it.polimi.ingsw.model.cards.objective.publics;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.model.cards.objective.AObjectiveCard;
+import it.polimi.ingsw.model.cards.objective.AObjectiveCardsDeck;
+import it.polimi.ingsw.model.cards.objective.publics.strategies.ColumnStrategy;
+import it.polimi.ingsw.model.cards.objective.publics.strategies.DiagonalStrategy;
+import it.polimi.ingsw.model.cards.objective.publics.strategies.RowStrategy;
+import it.polimi.ingsw.model.cards.objective.publics.strategies.SetStrategy;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -10,9 +16,9 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Vector;
 
-public class PublicObjectiveCardsDeck extends AObjectiveCardsDeck{
+public class PublicObjectiveCardsDeck extends AObjectiveCardsDeck {
 
-    List<APublicObjectiveCard> getDeck() {
+    public List<APublicObjectiveCard> getDeck() {
         return (List<APublicObjectiveCard>) this.deck;
     }
 

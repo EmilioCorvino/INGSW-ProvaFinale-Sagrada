@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.cards.objective.PrivateObjectiveCard;
+import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard;
 
 import java.util.ArrayList;
 import java.util.List;

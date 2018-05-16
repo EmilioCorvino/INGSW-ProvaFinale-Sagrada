@@ -1,16 +1,16 @@
-package it.polimi.ingsw.model.cards.objective;
+package it.polimi.ingsw.model.cards.objective.publics;
 
 import com.google.gson.annotations.SerializedName;
 import it.polimi.ingsw.model.WindowPatternCard;
-
-import java.beans.Transient;
+import it.polimi.ingsw.model.cards.objective.AObjectiveCard;
+import it.polimi.ingsw.model.cards.objective.publics.strategies.*;
 
 /**
- * Generic public objective card.
+ * Generic publics objective card.
  * @see ColorPublicObjectiveCard
  * @see ValuePublicObjectiveCard
  */
-public abstract class APublicObjectiveCard extends AObjectiveCard{
+public abstract class APublicObjectiveCard extends AObjectiveCard {
 
     /**
      * Name of the card.
@@ -70,9 +70,9 @@ public abstract class APublicObjectiveCard extends AObjectiveCard{
     }
 
     /**
-     * This method analyzes a specific window pattern card with a policy related to the public objective card.
+     * This method analyzes a specific window pattern card with a policy related to the publics objective card.
      * @param windowPatternCard pattern card analyzed to get the score.
-     * @return the score given by a public objective card in relation to the window pattern card.
+     * @return the score given by a publics objective card in relation to the window pattern card.
      */
     @Override
     public abstract int analyzeWindowPatternCard(WindowPatternCard windowPatternCard);

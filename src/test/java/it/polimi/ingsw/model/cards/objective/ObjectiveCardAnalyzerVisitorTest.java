@@ -3,17 +3,24 @@ package it.polimi.ingsw.model.cards.objective;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.WindowPatternCard;
+import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCardsDeck;
+import it.polimi.ingsw.model.cards.objective.publics.PublicObjectiveCardsDeck;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import static org.junit.Assert.*;
 
+/**
+ * This class performs test using cards through the visitor. Only private objective cards are tested here (and in
+ * {@link it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCardTest}. The public objective cards will
+ * be tested through the visitor, but in their own test classes.
+ */
 public class ObjectiveCardAnalyzerVisitorTest {
     private AObjectiveCard card;
     private ObjectiveCardAnalyzerVisitor visitor;
     private WindowPatternCard window;
-    private PrivateObjectiveCardsDeck deck;
+    private PrivateObjectiveCardsDeck deckPrivates;
+    private PublicObjectiveCardsDeck deckPublics;
 
     /**
      * Initialization of local variables and window pattern card set up.
@@ -22,8 +29,9 @@ public class ObjectiveCardAnalyzerVisitorTest {
     public void setUp() {
         this.visitor = new ObjectiveCardAnalyzerVisitor();
         this.window = new WindowPatternCard(0, 3, null);
-        this.deck = new PrivateObjectiveCardsDeck();
-        this.deck.parseDeck();
+        this.deckPrivates = new PrivateObjectiveCardsDeck();
+        this.deckPrivates.parseDeck();
+
         Die greenDie1 = new Die(2, Color.GREEN);
         Die redDie1 = new Die(4, Color.RED);
         Die purpleDie = new Die(5, Color.PURPLE);
@@ -71,23 +79,21 @@ public class ObjectiveCardAnalyzerVisitorTest {
     public void tearDown() {
         this.visitor = null;
         this.window = null;
-        this.deck = null;
+        this.deckPrivates = null;
+        this.deckPublics = null;
     }
 
+    /**
+     * This test is similar to the one performed in
+     * {@link it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCardTest}, but it's done through the
+     * visitor. It analyzed a window pattern card, using the "Sfumature Rosse" card.
+     */
     @Test
     public void visitPrivateTest() {
-        this.card = deck.getDeck().get(0);  //The RED card.
+        this.card = deckPrivates.getDeck().get(0);  //The RED card.
         this.card.accept(visitor, window);
 
         assertEquals(12, this.visitor.getScoreFromCard());
 
-    }
-
-    @Test
-    public void visitColorPublicTest() {
-    }
-
-    @Test
-    public void visitValuePublicTest() {
     }
 }

@@ -1,8 +1,10 @@
-package it.polimi.ingsw.model.cards.objective;
+package it.polimi.ingsw.model.cards.objective.publics;
 
 import com.google.gson.annotations.SerializedName;
 import it.polimi.ingsw.model.Shade;
 import it.polimi.ingsw.model.WindowPatternCard;
+import it.polimi.ingsw.model.cards.objective.IObjectiveCardVisitor;
+import it.polimi.ingsw.model.cards.objective.publics.strategies.IScoreComputationStrategy;
 
 /**
  * This type of {@link APublicObjectiveCard} relies on Die {@link it.polimi.ingsw.model.Shade} to compute the score,

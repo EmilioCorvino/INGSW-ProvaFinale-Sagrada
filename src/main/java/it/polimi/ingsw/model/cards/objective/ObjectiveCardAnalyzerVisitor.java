@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model.cards.objective;
 
 import it.polimi.ingsw.model.WindowPatternCard;
+import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard;
+import it.polimi.ingsw.model.cards.objective.publics.ColorPublicObjectiveCard;
+import it.polimi.ingsw.model.cards.objective.publics.ValuePublicObjectiveCard;
 
 /**
  * This class is used to call the right analyzing method from the selected {@link AObjectiveCard} and stores

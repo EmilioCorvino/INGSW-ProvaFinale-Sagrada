@@ -1,8 +1,10 @@
-package it.polimi.ingsw.model.cards.objective;
+package it.polimi.ingsw.model.cards.objective.privates;
 
 import com.google.gson.annotations.SerializedName;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.WindowPatternCard;
+import it.polimi.ingsw.model.cards.objective.AObjectiveCard;
+import it.polimi.ingsw.model.cards.objective.IObjectiveCardVisitor;
 
 /**
  * This class represents the private objective card from the game. Each player has its one which is not displayed
@@ -31,7 +33,7 @@ public class PrivateObjectiveCard extends AObjectiveCard {
     /**
      * This constructor is meant for testing purposes.
      */
-    PrivateObjectiveCard(int id, String name, Color color, String description) {
+    public PrivateObjectiveCard(int id, String name, Color color, String description) {
         this.id = id;
         this.name = name;
         this.cardColor = color;

@@ -1,7 +1,11 @@
-package it.polimi.ingsw.model.cards.objective;
+package it.polimi.ingsw.model.cards.objective.privates;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.model.cards.objective.AObjectiveCard;
+import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard;
+import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCardsDeck;
+import it.polimi.ingsw.model.exceptions.EmptyException;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -65,9 +69,13 @@ public class PrivateObjectiveCardsDeckTest {
         originalDeck.parseDeck();
         PrivateObjectiveCardsDeck testDeck = new PrivateObjectiveCardsDeck();
         testDeck.parseDeck();
-        AObjectiveCard card = originalDeck.drawCard();
 
-        assertTrue(testDeck.contains(card));
-        assertFalse(originalDeck.contains(card));
+        try {
+            AObjectiveCard card = originalDeck.drawCard();
+            assertTrue(testDeck.contains(card));
+            assertFalse(originalDeck.contains(card));
+        } catch (EmptyException e) {
+            System.err.println(e.getMessage());
+        }
     }
 }

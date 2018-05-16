@@ -1,7 +1,9 @@
-package it.polimi.ingsw.model.cards.objective;
+package it.polimi.ingsw.model.cards.objective.privates;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.model.cards.objective.AObjectiveCard;
+import it.polimi.ingsw.model.cards.objective.AObjectiveCardsDeck;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -14,7 +16,7 @@ import java.util.Vector;
  */
 public class PrivateObjectiveCardsDeck extends AObjectiveCardsDeck {
 
-    List<PrivateObjectiveCard> getDeck() {
+    public List<PrivateObjectiveCard> getDeck() {
         return (List<PrivateObjectiveCard>) this.deck;
     }
 

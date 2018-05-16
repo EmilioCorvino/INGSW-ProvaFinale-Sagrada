@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 /**
- * An implementation of IScore, this class contains scores computed from private objective cards, public objective cards
+ * An implementation of IScore, this class contains scores computed from private objective cards, publics objective cards
  * and favor tokens. It also calculates the points lost for cells left empty in the window pattern card.
  */
 public class Score implements IScore {
@@ -12,7 +12,7 @@ public class Score implements IScore {
     private Player player;
 
     /**
-     * Points gained from public objective cards.
+     * Points gained from publics objective cards.
      */
     private int publicObjectivePoints;
 

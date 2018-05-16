@@ -1,5 +1,11 @@
 package it.polimi.ingsw.model.cards.objective;
 
+import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard;
+import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCardsDeck;
+import it.polimi.ingsw.model.cards.objective.publics.APublicObjectiveCard;
+import it.polimi.ingsw.model.cards.objective.publics.PublicObjectiveCardsDeck;
+import it.polimi.ingsw.model.exceptions.EmptyException;
+
 import java.util.List;
 import java.util.Random;
 
@@ -18,7 +24,7 @@ public abstract class AObjectiveCardsDeck {
      * {@link PublicObjectiveCardsDeck} with {@link PrivateObjectiveCard} or {@link APublicObjectiveCard}, respectively.
      * There is never a case in which a deck contains both type of cards.
      */
-    List<? extends AObjectiveCard> deck;
+    protected List<? extends AObjectiveCard> deck;
 
     /**
      * Parses cards from a file. See extending classes for implementation.
@@ -29,7 +35,10 @@ public abstract class AObjectiveCardsDeck {
      * Draws a random card and removes it from the deck.
      * @return a random card from the deck.
      */
-    public AObjectiveCard drawCard() {
+    public AObjectiveCard drawCard() throws EmptyException {
+        if(this.deck.isEmpty()) {
+            throw new EmptyException("The deck is empty");
+        }
         int index = new Random().nextInt(this.deck.size());
         return this.deck.remove(index);
     }

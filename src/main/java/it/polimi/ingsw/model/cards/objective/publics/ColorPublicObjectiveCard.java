@@ -1,6 +1,8 @@
-package it.polimi.ingsw.model.cards.objective;
+package it.polimi.ingsw.model.cards.objective.publics;
 
 import it.polimi.ingsw.model.WindowPatternCard;
+import it.polimi.ingsw.model.cards.objective.IObjectiveCardVisitor;
+import it.polimi.ingsw.model.cards.objective.publics.strategies.IScoreComputationStrategy;
 
 /**
  * This type of {@link APublicObjectiveCard} relies on Die {@link it.polimi.ingsw.model.Color} to compute the score,
@@ -38,19 +40,4 @@ public class ColorPublicObjectiveCard extends APublicObjectiveCard {
     public int hashCode() {
         return super.hashCode();
     }
-
-
-
-    /*public static void main(String args[]) {
-        ColorPublicObjectiveCard card = new ColorPublicObjectiveCard();
-        card.id = 200;
-        card.name = "Colori diversi - Riga";
-        card.description = "Righe senza colori ripetuti";
-        card.pointsForIteration = 6;
-        //card.strategy = new RowStrategy();
-        ((RowStrategy) card.strategy).setStrategyName("row");
-
-        Gson gson = new Gson();
-        System.out.println(gson.toJson(card));
-    }*/
 }

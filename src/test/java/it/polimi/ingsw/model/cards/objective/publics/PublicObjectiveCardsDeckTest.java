@@ -1,7 +1,9 @@
-package it.polimi.ingsw.model.cards.objective;
+package it.polimi.ingsw.model.cards.objective.publics;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.model.cards.objective.AObjectiveCard;
+import it.polimi.ingsw.model.exceptions.EmptyException;
 import org.junit.Test;
 
 import java.lang.reflect.Type;
@@ -11,7 +13,6 @@ import java.util.Vector;
 import static org.junit.Assert.*;
 
 public class PublicObjectiveCardsDeckTest {
-
     /**
      * Checks if the json loaded from file is the same as the one passed as a String.
      */
@@ -19,6 +20,7 @@ public class PublicObjectiveCardsDeckTest {
     public void parseTest() {
         PublicObjectiveCardsDeck originalDeck = new PublicObjectiveCardsDeck();
         originalDeck.parseDeck();
+
         Gson gson = new Gson();
         Type listColorCards = new TypeToken<Vector<ColorPublicObjectiveCard>>(){}.getType();
         List<APublicObjectiveCard> testCards = gson.fromJson("[\n" +
@@ -52,7 +54,7 @@ public class PublicObjectiveCardsDeckTest {
                 "  }\n" +
                 "]", listColorCards);
 
-        Type listValueCards = new TypeToken<Vector<ValuePublicObjectiveCard>>(){}.getType();
+        Type listValueCard = new TypeToken<Vector<ValuePublicObjectiveCard>>(){}.getType();
         testCards.addAll(gson.fromJson("[\n" +
                 "  {\n" +
                 "    \"id\": 204,\n" +
@@ -102,13 +104,14 @@ public class PublicObjectiveCardsDeckTest {
                 "    \"strategy\": \"set\",\n" +
                 "    \"shade\": \"ALL\"\n" +
                 "  }\n" +
-                "]", listValueCards));
+                "]", listValueCard));
 
-        assertEquals(testCards, originalDeck.getDeck());
+        assertEquals(originalDeck.getDeck(), testCards);
     }
 
     /**
-     * Checks if the drawn card gets effectively removed.
+     * Checks if the drawn card gets effectively removed and if the exception is correctly thrown when the deck is
+     * empty.
      */
     @Test
     public void drawTest() {
@@ -116,9 +119,32 @@ public class PublicObjectiveCardsDeckTest {
         originalDeck.parseDeck();
         PublicObjectiveCardsDeck testDeck = new PublicObjectiveCardsDeck();
         testDeck.parseDeck();
-        AObjectiveCard card = originalDeck.drawCard();
 
-        assertTrue(testDeck.contains(card));
-        assertFalse(originalDeck.contains(card));
+        //Let's see if the card gets removed
+        try {
+            AObjectiveCard card = originalDeck.drawCard();
+            assertTrue(testDeck.contains(card));
+            assertFalse(originalDeck.contains(card));
+        } catch (EmptyException e) {
+            System.err.println(e.getMessage());
+        }
+
+        //Let's empty the deck
+        while(!testDeck.getDeck().isEmpty()) {
+            try {
+                AObjectiveCard card = testDeck.drawCard();
+                System.out.println(card.toString());
+            } catch (EmptyException e) {
+                System.err.println(e.getMessage());
+            }
+        }
+
+        //Let's test the exception
+        try {
+            testDeck.drawCard();
+        } catch (EmptyException e) {
+            assertEquals("The deck is empty", e.getMessage());
+        }
+
     }
 }
