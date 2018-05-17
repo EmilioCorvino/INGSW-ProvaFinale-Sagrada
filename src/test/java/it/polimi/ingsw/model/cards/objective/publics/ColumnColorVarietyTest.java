@@ -4,9 +4,9 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Test of Row Color Variety card.
+ * Test of Column Color Variety card.
  */
-public class RowColorVarietyTest extends Card {
+public class ColumnColorVarietyTest extends Card {
 
     /**
      * Tests if the card gives the correct score.
@@ -14,10 +14,10 @@ public class RowColorVarietyTest extends Card {
     @Test
     public void cardTest() {
         setUp();
-        this.card = deck.getDeck().get(0); //Row Color Variety card.
+        this.card = deck.getDeck().get(1); //Column Color Variety card.
         this.card.accept(visitor, window);
 
-        assertEquals(12, this.visitor.getScoreFromCard());
+        assertEquals(5, this.visitor.getScoreFromCard());
         tearDown();
     }
 }
