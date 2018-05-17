@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.die;
 
 /**
  * This class manges the Die object.

@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.cards.objective.publics;
 
 import com.google.gson.annotations.SerializedName;
 import it.polimi.ingsw.model.Shade;
-import it.polimi.ingsw.model.WindowPatternCard;
+import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.cards.objective.IObjectiveCardVisitor;
 import it.polimi.ingsw.model.cards.objective.publics.strategies.IScoreComputationStrategy;
 

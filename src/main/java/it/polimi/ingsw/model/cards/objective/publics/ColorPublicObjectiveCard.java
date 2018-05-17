@@ -1,18 +1,19 @@
 package it.polimi.ingsw.model.cards.objective.publics;
 
-import it.polimi.ingsw.model.WindowPatternCard;
+import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.cards.objective.IObjectiveCardVisitor;
 import it.polimi.ingsw.model.cards.objective.publics.strategies.IScoreComputationStrategy;
+import it.polimi.ingsw.model.die.Color;
 
 /**
- * This type of {@link APublicObjectiveCard} relies on Die {@link it.polimi.ingsw.model.Color} to compute the score,
+ * This type of {@link APublicObjectiveCard} relies on Die {@link Color} to compute the score,
  * applying the selected positional {@link IScoreComputationStrategy}.
  * Each card is filled with {@link com.google.gson.Gson} parser.
  */
 public class ColorPublicObjectiveCard extends APublicObjectiveCard {
 
     /**
-     * Applies the card strategy (based on {@link it.polimi.ingsw.model.Color} to compute the score.
+     * Applies the card strategy (based on {@link Color} to compute the score.
      * @param windowPatternCard pattern card analyzed to get the score.
      * @return the score from the card.
      */

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.cards.tool;
 
-import it.polimi.ingsw.model.ColorRestriction;
-import it.polimi.ingsw.model.WindowPatternCard;
+import it.polimi.ingsw.model.restrictions.ColorRestriction;
+import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 
 /**
  *

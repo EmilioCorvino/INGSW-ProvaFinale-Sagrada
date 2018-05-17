@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
 import org.junit.Test;
 
 import java.util.Random;

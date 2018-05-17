@@ -1,4 +1,7 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.die.diecontainers;
+
+import it.polimi.ingsw.model.die.Color;
+import it.polimi.ingsw.model.die.Die;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +10,7 @@ import java.util.Random;
 /**
  * This class menage the bag with the dice.
  */
-public class DiceBag extends ADieContainer{
+public class DiceBag extends ADieContainer {
 
     /**
      * List of Dice in the bag.

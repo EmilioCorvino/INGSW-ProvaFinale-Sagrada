@@ -1,4 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.commonboard;
+
+import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 
 import java.util.List;
 

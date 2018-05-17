@@ -1,9 +1,8 @@
 package it.polimi.ingsw.model.cards.tool;
 
-import it.polimi.ingsw.model.ADieContainer;
-import it.polimi.ingsw.model.Die;
+import it.polimi.ingsw.model.die.diecontainers.ADieContainer;
+import it.polimi.ingsw.model.die.Die;
 
-import java.util.List;
 import java.util.Random;
 
 /**

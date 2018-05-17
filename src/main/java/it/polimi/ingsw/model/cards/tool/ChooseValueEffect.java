@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.cards.tool;
 
-import it.polimi.ingsw.model.ADieContainer;
-import it.polimi.ingsw.model.Die;
+import it.polimi.ingsw.model.die.diecontainers.ADieContainer;
+import it.polimi.ingsw.model.die.Die;
 
 /**
  * This class manages the effect of those tool cards that allow the player to increase the value of a chosen die.

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.cards.objective;
 
-import it.polimi.ingsw.model.WindowPatternCard;
+import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard;
 import it.polimi.ingsw.model.cards.objective.publics.ColorPublicObjectiveCard;
 import it.polimi.ingsw.model.cards.objective.publics.ValuePublicObjectiveCard;

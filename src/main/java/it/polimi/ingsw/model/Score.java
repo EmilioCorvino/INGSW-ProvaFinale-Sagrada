@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.commonboard.Player;
+import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
+
 /**
  * An implementation of IScore, this class contains scores computed from private objective cards, publics objective cards
  * and favor tokens. It also calculates the points lost for cells left empty in the window pattern card.

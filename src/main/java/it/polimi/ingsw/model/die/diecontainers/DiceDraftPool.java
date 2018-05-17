@@ -1,4 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.die.diecontainers;
+
+import it.polimi.ingsw.model.die.Die;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +8,7 @@ import java.util.List;
 /**
  * This class menage the DiceDraftPool
  */
-public class DiceDraftPool extends ADieContainer{
+public class DiceDraftPool extends ADieContainer {
 
     /**
      * List of Dice in the bag.

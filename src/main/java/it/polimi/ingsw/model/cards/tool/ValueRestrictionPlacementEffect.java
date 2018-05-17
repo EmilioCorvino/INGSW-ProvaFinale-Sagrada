@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.cards.tool;
 
-import it.polimi.ingsw.model.ValueRestriction;
+import it.polimi.ingsw.model.restrictions.ValueRestriction;
 
 /**
  *

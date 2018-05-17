@@ -1,4 +1,7 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.move;
+
+import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.model.die.diecontainers.ADieContainer;
 
 /**
  *

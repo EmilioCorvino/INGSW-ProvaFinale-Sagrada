@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.die.Color;
+import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.model.die.diecontainers.DiceBag;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

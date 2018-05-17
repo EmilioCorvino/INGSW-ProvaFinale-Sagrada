@@ -1,4 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.restrictions;
+
+import it.polimi.ingsw.model.die.Die;
 
 /**
  * This class manages the restrictions associated to each cell of the windowPatternCard matrix.

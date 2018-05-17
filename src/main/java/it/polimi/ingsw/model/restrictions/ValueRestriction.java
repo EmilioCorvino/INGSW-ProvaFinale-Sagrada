@@ -1,4 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.restrictions;
+
+import it.polimi.ingsw.model.die.Die;
 
 /**
  * This class manages the value restriction of a cell.

@@ -1,6 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.move;
 
-import it.polimi.ingsw.model.cards.tool.IToolCard;
+import it.polimi.ingsw.model.move.IMove;
 
 /**
  *

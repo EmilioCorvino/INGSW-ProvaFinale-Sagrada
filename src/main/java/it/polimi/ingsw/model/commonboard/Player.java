@@ -1,6 +1,9 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.commonboard;
 
+import it.polimi.ingsw.model.Score;
 import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard;
+import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
+import it.polimi.ingsw.model.move.IMove;
 
 import java.util.ArrayList;
 import java.util.List;

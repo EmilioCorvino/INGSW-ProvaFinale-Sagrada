@@ -1,11 +1,9 @@
 package it.polimi.ingsw.model.cards.objective.privates;
 
-import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.Die;
-import it.polimi.ingsw.model.WindowPatternCard;
+import it.polimi.ingsw.model.die.Color;
+import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.cards.objective.AObjectiveCardsDeck;
-import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard;
-import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCardsDeck;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
