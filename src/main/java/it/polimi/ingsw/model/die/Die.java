@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.die;
 
+import it.polimi.ingsw.model.Color;
+
 /**
  * This class manges the Die object.
  */

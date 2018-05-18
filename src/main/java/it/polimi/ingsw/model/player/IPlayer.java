@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.commonboard;
+package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 

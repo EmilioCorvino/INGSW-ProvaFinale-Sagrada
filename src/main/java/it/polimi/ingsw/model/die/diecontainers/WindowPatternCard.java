@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.die.diecontainers;
 
-import it.polimi.ingsw.model.Cell;
+import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.restrictions.ARestriction;
 

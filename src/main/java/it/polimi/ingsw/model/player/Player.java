@@ -1,5 +1,6 @@
-package it.polimi.ingsw.model.commonboard;
+package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.Score;
 import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;

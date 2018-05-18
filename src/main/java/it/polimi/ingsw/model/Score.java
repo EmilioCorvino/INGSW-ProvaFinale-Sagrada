@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.commonboard.Player;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 
 /**
