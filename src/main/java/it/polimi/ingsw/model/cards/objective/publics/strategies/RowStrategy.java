@@ -26,7 +26,7 @@ public class RowStrategy implements IScoreComputationStrategy {
         int cardPoints = 0;
         for(Cell[] row: window.getGlassWindow()) {
             if(hasDistinctColors(row)) {
-                cardPoints += card.getPointsForIteration();
+                cardPoints += card.getPointsForCompletion();
             }
         }
         return cardPoints;
@@ -44,7 +44,7 @@ public class RowStrategy implements IScoreComputationStrategy {
         int cardPoints = 0;
         for(Cell[] row: window.getGlassWindow()) {
             if(hasDistinctValues(row)) {
-                cardPoints += card.getPointsForIteration();
+                cardPoints += card.getPointsForCompletion();
             }
         }
         return cardPoints;

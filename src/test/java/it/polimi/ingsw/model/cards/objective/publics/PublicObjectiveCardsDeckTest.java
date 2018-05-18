@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.cards.objective.publics;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.cards.objective.AObjectiveCard;
-import it.polimi.ingsw.model.exceptions.EmptyException;
+import it.polimi.ingsw.exceptions.EmptyException;
 import org.junit.Test;
 
 import java.lang.reflect.Type;
@@ -28,28 +28,28 @@ public class PublicObjectiveCardsDeckTest {
                 "    \"id\": 200,\n" +
                 "    \"name\": \"Colori diversi - Riga\",\n" +
                 "    \"description\": \"Righe senza colori ripetuti\",\n" +
-                "    \"pointsForIteration\": 6,\n" +
+                "    \"pointsForCompletion\": 6,\n" +
                 "    \"strategy\": \"row\"\n" +
                 "  },\n" +
                 "  {\n" +
                 "    \"id\": 201,\n" +
                 "    \"name\":\"Colori diversi - Colonna\",\n" +
                 "    \"description\":\"Colonne senza colori ripetuti\",\n" +
-                "    \"pointsForIteration\": 5,\n" +
+                "    \"pointsForCompletion\": 5,\n" +
                 "    \"strategy\": \"column\"\n" +
                 "  },\n" +
                 "  {\n" +
                 "    \"id\": 202,\n" +
                 "    \"name\": \"Diagonali Colorate\",\n" +
                 "    \"description\": \"Numero di dadi dello stesso colore diagonalmente adiacenti\",\n" +
-                "    \"pointsForIteration\": 0,\n" +
+                "    \"pointsForCompletion\": 0,\n" +
                 "    \"strategy\": \"diagonal\"\n" +
                 "  },\n" +
                 "  {\n" +
                 "    \"id\": 203,\n" +
                 "    \"name\": \"Varietà di Colore\",\n" +
                 "    \"description\": \"Set di dadi di ogni colore ovunque\",\n" +
-                "    \"pointsForIteration\": 4,\n" +
+                "    \"pointsForCompletion\": 4,\n" +
                 "    \"strategy\": \"set\"\n" +
                 "  }\n" +
                 "]", listColorCards);
@@ -60,7 +60,7 @@ public class PublicObjectiveCardsDeckTest {
                 "    \"id\": 204,\n" +
                 "    \"name\": \"Sfumature diverse - Riga\",\n" +
                 "    \"description\": \"Righe senza sfumature ripetute\",\n" +
-                "    \"pointsForIteration\": 5,\n" +
+                "    \"pointsForCompletion\": 5,\n" +
                 "    \"strategy\": \"row\",\n" +
                 "    \"shade\": \"ALL\"\n" +
                 "  },\n" +
@@ -68,7 +68,7 @@ public class PublicObjectiveCardsDeckTest {
                 "    \"id\": 205,\n" +
                 "    \"name\": \"Sfumature diverse - Colonna\",\n" +
                 "    \"description\": \"Colonne senza sfumature ripetute\",\n" +
-                "    \"pointsForIteration\": 4,\n" +
+                "    \"pointsForCompletion\": 4,\n" +
                 "    \"strategy\": \"column\",\n" +
                 "    \"shade\": \"ALL\"\n" +
                 "  },\n" +
@@ -76,7 +76,7 @@ public class PublicObjectiveCardsDeckTest {
                 "    \"id\": 206,\n" +
                 "    \"name\": \"Sfumature Chiare\",\n" +
                 "    \"description\": \"Set di 1 & 2 ovunque\",\n" +
-                "    \"pointsForIteration\": 2,\n" +
+                "    \"pointsForCompletion\": 2,\n" +
                 "    \"strategy\": \"set\",\n" +
                 "    \"shade\": \"LIGHT\"\n" +
                 "  },\n" +
@@ -84,7 +84,7 @@ public class PublicObjectiveCardsDeckTest {
                 "    \"id\": 207,\n" +
                 "    \"name\": \"Sfumature Medie\",\n" +
                 "    \"description\": \"Set di 3 & 4 ovunque\",\n" +
-                "    \"pointsForIteration\": 2,\n" +
+                "    \"pointsForCompletion\": 2,\n" +
                 "    \"strategy\": \"set\",\n" +
                 "    \"shade\": \"MEDIUM\"\n" +
                 "  },\n" +
@@ -92,7 +92,7 @@ public class PublicObjectiveCardsDeckTest {
                 "    \"id\": 208,\n" +
                 "    \"name\": \"Sfumature Scure\",\n" +
                 "    \"description\": \"Set di 5 & 6 ovunque\",\n" +
-                "    \"pointsForIteration\": 2,\n" +
+                "    \"pointsForCompletion\": 2,\n" +
                 "    \"strategy\": \"set\",\n" +
                 "    \"shade\": \"DARK\"\n" +
                 "  },\n" +
@@ -100,7 +100,7 @@ public class PublicObjectiveCardsDeckTest {
                 "    \"id\": 209,\n" +
                 "    \"name\": \"Sfumature Diverse\",\n" +
                 "    \"description\": \"Set di dadi di ogni valore ovunque\",\n" +
-                "    \"pointsForIteration\": 5,\n" +
+                "    \"pointsForCompletion\": 5,\n" +
                 "    \"strategy\": \"set\",\n" +
                 "    \"shade\": \"ALL\"\n" +
                 "  }\n" +
@@ -132,8 +132,7 @@ public class PublicObjectiveCardsDeckTest {
         //Let's empty the deck
         while(!testDeck.getDeck().isEmpty()) {
             try {
-                AObjectiveCard card = testDeck.drawCard();
-                System.out.println(card.toString());
+                testDeck.drawCard();
             } catch (EmptyException e) {
                 System.err.println(e.getMessage());
             }

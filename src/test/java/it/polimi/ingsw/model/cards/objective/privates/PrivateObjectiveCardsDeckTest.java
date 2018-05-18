@@ -3,9 +3,7 @@ package it.polimi.ingsw.model.cards.objective.privates;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.cards.objective.AObjectiveCard;
-import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard;
-import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCardsDeck;
-import it.polimi.ingsw.model.exceptions.EmptyException;
+import it.polimi.ingsw.exceptions.EmptyException;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

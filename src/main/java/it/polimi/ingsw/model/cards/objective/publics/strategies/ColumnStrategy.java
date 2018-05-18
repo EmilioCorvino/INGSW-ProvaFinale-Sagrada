@@ -30,7 +30,7 @@ public class ColumnStrategy implements IScoreComputationStrategy {
                 column[i] = window.getGlassWindow()[i][j];
             }
             if(hasDistinctColors(column)) {
-                cardPoints += card.getPointsForIteration();
+                cardPoints += card.getPointsForCompletion();
             }
         }
         return cardPoints;
@@ -52,7 +52,7 @@ public class ColumnStrategy implements IScoreComputationStrategy {
                 column[i] = window.getGlassWindow()[i][j];
             }
             if(hasDistinctValues(column)) {
-                cardPoints += card.getPointsForIteration();
+                cardPoints += card.getPointsForCompletion();
             }
         }
         return cardPoints;

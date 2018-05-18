@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.exceptions;
+package it.polimi.ingsw.exceptions;
 
 /**
  * This exception is thrown when something is trying to get an object from an empty source.

@@ -15,17 +15,17 @@ public abstract class APublicObjectiveCard extends AObjectiveCard {
     /**
      * Name of the card.
      */
-    String name;
+    private String name;
 
     /**
      * Description of the card: says what the effect does.
      */
-    String description;
+    private String description;
 
     /**
      * Number of points given each time the conditions of the card are respected
      */
-    int pointsForIteration;
+    private int pointsForCompletion;
 
 
     /**
@@ -53,11 +53,11 @@ public abstract class APublicObjectiveCard extends AObjectiveCard {
         return description;
     }
 
-    public int getPointsForIteration() {
-        return pointsForIteration;
+    public int getPointsForCompletion() {
+        return pointsForCompletion;
     }
 
-    public String getStrategyName() {
+    String getStrategyName() {
         return strategyName;
     }
 
@@ -92,8 +92,8 @@ public abstract class APublicObjectiveCard extends AObjectiveCard {
         String s = "Public Objective Card: " + this.getName() + "--> " +
                 this.getDescription();
         //If it's 0 it refers to the card "Diagonali Colorate", whose description is self-explanatory.
-        if(this.getPointsForIteration() != 0) {
-            s += ": guadagni " + this.getPointsForIteration() + " punti ogni volta che completi l'obiettivo" + "\n";
+        if(this.getPointsForCompletion() != 0) {
+            s += ": guadagni " + this.getPointsForCompletion() + " punti ogni volta che completi l'obiettivo" + "\n";
             return s;
         }
         return s + "\n";
