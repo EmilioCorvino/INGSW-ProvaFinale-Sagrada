@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.die.diecontainers;
 
-import it.polimi.ingsw.model.die.Color;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.die.Die;
 
 import java.util.ArrayList;

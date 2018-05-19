@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.die;
 
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.restrictions.ARestriction;

@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.cards.objective.publics.strategies;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.cards.objective.publics.ColorPublicObjectiveCard;
 import it.polimi.ingsw.model.cards.objective.publics.ValuePublicObjectiveCard;
-import it.polimi.ingsw.model.die.Color;
+import it.polimi.ingsw.model.Color;
 
 /**
  * This interface is part of the strategy pattern used to decide in which way the window pattern card should be analyzed

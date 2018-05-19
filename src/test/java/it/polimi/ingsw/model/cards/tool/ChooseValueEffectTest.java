@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.cards.tool;
 
-import it.polimi.ingsw.model.die.Color;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.die.Die;
 import org.junit.Test;
 

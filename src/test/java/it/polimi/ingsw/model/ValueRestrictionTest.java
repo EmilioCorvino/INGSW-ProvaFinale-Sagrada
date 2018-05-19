@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.die.Color;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.restrictions.ARestriction;
 import it.polimi.ingsw.model.restrictions.ValueRestriction;

@@ -1,6 +1,6 @@
-package it.polimi.ingsw.model.commonboard;
+package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.commonboard.Player;
+import it.polimi.ingsw.model.player.Player;
 
 import java.util.List;
 
