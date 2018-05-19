@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.cards.objective.publics.strategies;
 
-import it.polimi.ingsw.model.Cell;
-import it.polimi.ingsw.model.die.Color;
+import it.polimi.ingsw.model.die.Cell;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.cards.objective.publics.ColorPublicObjectiveCard;
 import it.polimi.ingsw.model.cards.objective.publics.ValuePublicObjectiveCard;

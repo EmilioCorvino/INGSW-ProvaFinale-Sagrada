@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.cards.objective.publics.strategies;
 
-import it.polimi.ingsw.model.Cell;
+import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.cards.objective.publics.ColorPublicObjectiveCard;
 import it.polimi.ingsw.model.cards.objective.publics.ValuePublicObjectiveCard;
@@ -9,7 +9,7 @@ public class DiagonalStrategy implements IScoreComputationStrategy {
 
     /**
      * This method computes the score from the card by checking how many diagonally adjacent dice
-     * there are in the {@link WindowPatternCard}, for each {@link it.polimi.ingsw.model.die.Color}.
+     * there are in the {@link WindowPatternCard}, for each {@link it.polimi.ingsw.model.Color}.
      * @param card from which taking the parameters.
      * @param window to which the strategy is applied.
      * @return points given by the card.
@@ -48,7 +48,7 @@ public class DiagonalStrategy implements IScoreComputationStrategy {
 
     /**
      * This method contains a recursive algorithm that counts the diagonally adjacent cells containing dice with the
-     * same {@link it.polimi.ingsw.model.die.Color}. Each if stands for a direction:
+     * same {@link it.polimi.ingsw.model.Color}. Each if stands for a direction:
      * bottom-left, bottom-right, top-right, top-left.
      * @param window to be checked.
      * @param currentCell cell at which the iteration has arrived.
