@@ -17,7 +17,7 @@
     "id": 202,
     "name": "Diagonali Colorate",
     "description": "Numero di dadi dello stesso colore diagonalmente adiacenti",
-    "pointsForCompletion": 0,
+    "pointsForCompletion": 1,
     "strategy": "diagonal"
   },
   {

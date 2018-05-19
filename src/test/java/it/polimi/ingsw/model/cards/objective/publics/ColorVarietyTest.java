@@ -14,8 +14,9 @@ public class ColorVarietyTest extends Card {
      */
     @Test
     public void cardTest() {
+        //Test with the window inherited from Card.
         setUp();
-        this.card = deck.getDeck().get(3); //Column Color Variety card.
+        this.card = deck.getDeck().get(3); //Color Variety card.
         this.card.accept(visitor, window);
 
         assertEquals(8, this.visitor.getScoreFromCard());

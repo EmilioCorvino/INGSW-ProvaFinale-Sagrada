@@ -15,7 +15,7 @@ public class MediumShadesTest extends Card {
     @Test
     public void cardTest() {
         setUp();
-        this.card = deck.getDeck().get(7); //Column Color Variety card.
+        this.card = deck.getDeck().get(7); //Medium Shades card.
         this.card.accept(visitor, window);
 
         assertEquals(4, this.visitor.getScoreFromCard());

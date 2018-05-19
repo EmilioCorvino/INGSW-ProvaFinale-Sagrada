@@ -15,7 +15,7 @@ public class DarkShadesTest extends Card {
     @Test
     public void cardTest() {
         setUp();
-        this.card = deck.getDeck().get(8); //Column Color Variety card.
+        this.card = deck.getDeck().get(8); //Dark Shades card.
         this.card.accept(visitor, window);
 
         assertEquals(6, this.visitor.getScoreFromCard());

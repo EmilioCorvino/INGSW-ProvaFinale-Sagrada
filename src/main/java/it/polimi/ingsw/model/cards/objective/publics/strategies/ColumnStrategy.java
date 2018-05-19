@@ -18,7 +18,7 @@ public class ColumnStrategy implements IScoreComputationStrategy {
      * This method computes the score from the card by checking how many columns have dice with different colors
      * and giving a fixed amount of points for each of them.
      * @param card from which taking the parameters.
-     * @param window to which the strategy applies.
+     * @param window to which the strategy is applied.
      * @return points given by the card.
      */
     @Override
@@ -40,7 +40,7 @@ public class ColumnStrategy implements IScoreComputationStrategy {
      * This method computes the score from the card by checking how many columns have dice with different values
      * and giving a fixed amount of points for each of them.
      * @param card from which taking the parameters.
-     * @param window to which the strategy applies.
+     * @param window to which the strategy is applied.
      * @return points given by the card.
      */
     @Override

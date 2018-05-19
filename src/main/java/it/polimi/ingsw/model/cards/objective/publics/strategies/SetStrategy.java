@@ -18,7 +18,7 @@ public class SetStrategy implements IScoreComputationStrategy {
      * color.
      * For each completed set, this method gives a certain number of points, defined in the card.
      * @param card from which taking the parameters.
-     * @param window to which the strategy applies.
+     * @param window to which the strategy is applied.
      * @return points given by the card.
      */
     @Override
@@ -56,7 +56,7 @@ public class SetStrategy implements IScoreComputationStrategy {
      * There are different set based cards, so this methods returns the right value based on
      * {@link it.polimi.ingsw.model.Shade}
      * @param card from which taking the parameters.
-     * @param window to which the strategy applies.
+     * @param window to which the strategy is applied.
      * @return points given by the card.
      * @throws AbsentAttributeException if the {@link it.polimi.ingsw.model.Shade} is not set in the card.
      */
