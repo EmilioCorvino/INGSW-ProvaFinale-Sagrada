@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.cli;
 import it.polimi.ingsw.model.CommonBoard;
-import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.fromClientToServer.IFromClientToServer;
 import it.polimi.ingsw.network.fromClientToServer.RmiFromClientToServer;
 import it.polimi.ingsw.network.fromClientToServer.SocketFromClientToServer;
@@ -71,11 +70,11 @@ public class CliView extends AViewMaster {
      * @param players
      */
     @Override
-    public void showRoom(List<Player> players) {
+    public void showRoom(List<String> players) {
         System.out.println("In attesa di connessione di altri giocatori...");
         System.out.println("Giocatori momentaneamente connessi: ");
-        for (Player p : players)
-            System.out.println(p.getPlayerName());
+        for (String name : players)
+            System.out.println(name);
 
     }
 

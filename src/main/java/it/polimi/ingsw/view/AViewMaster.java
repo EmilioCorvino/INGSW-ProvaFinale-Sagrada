@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.CommonBoard;
-import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.fromClientToServer.IFromClientToServer;
 
 import java.util.List;
@@ -12,7 +11,7 @@ public abstract class AViewMaster {
 
     public abstract IFromClientToServer chooseNetworkInterface();
 
-    public abstract void showRoom(List<Player> players);
+    public abstract void showRoom(List<String> players);
 
     public abstract void showInitializedBoard(CommonBoard board);
 
