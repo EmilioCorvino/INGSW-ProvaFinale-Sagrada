@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.CommonBoard;
-import it.polimi.ingsw.network.fromClientToServer.IFromClientToServer;
+import it.polimi.ingsw.network.IFromClientToServer;
 
 import java.util.List;
 

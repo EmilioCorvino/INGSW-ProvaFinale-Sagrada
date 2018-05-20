@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.fromClientToServer;
+package it.polimi.ingsw.network;
 
 public interface IFromClientToServer {
 

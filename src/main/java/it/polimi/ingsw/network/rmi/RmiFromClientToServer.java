@@ -1,4 +1,6 @@
-package it.polimi.ingsw.network.fromClientToServer;
+package it.polimi.ingsw.network.rmi;
+
+import it.polimi.ingsw.network.IFromClientToServer;
 
 public class RmiFromClientToServer implements IFromClientToServer {
     @Override

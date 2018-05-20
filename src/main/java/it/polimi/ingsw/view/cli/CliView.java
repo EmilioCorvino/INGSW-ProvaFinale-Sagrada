@@ -1,8 +1,8 @@
 package it.polimi.ingsw.view.cli;
 import it.polimi.ingsw.model.CommonBoard;
-import it.polimi.ingsw.network.fromClientToServer.IFromClientToServer;
-import it.polimi.ingsw.network.fromClientToServer.RmiFromClientToServer;
-import it.polimi.ingsw.network.fromClientToServer.SocketFromClientToServer;
+import it.polimi.ingsw.network.IFromClientToServer;
+import it.polimi.ingsw.network.rmi.RmiFromClientToServer;
+import it.polimi.ingsw.network.socket.SocketFromClientToServer;
 import it.polimi.ingsw.view.AViewMaster;
 
 import java.util.List;

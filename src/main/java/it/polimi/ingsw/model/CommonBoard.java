@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.PublicObjectiveCardSlot;
 import it.polimi.ingsw.model.cards.ToolCardSlot;
+import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCardsDeck;
+import it.polimi.ingsw.model.cards.objective.publics.PublicObjectiveCardsDeck;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
 import it.polimi.ingsw.model.die.diecontainers.RoundTrack;
@@ -48,12 +50,31 @@ public class CommonBoard {
      */
     private final List<ToolCardSlot> toolCardSlots;
 
+    /**
+     * Deck composed by {@link it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard}.
+     * @see PrivateObjectiveCardsDeck
+     */
+    private final PrivateObjectiveCardsDeck privateObjectiveCardsDeck;
+
+    /**
+     * Deck composed by {@link it.polimi.ingsw.model.cards.objective.publics.APublicObjectiveCard}.
+     * @see PublicObjectiveCardsDeck
+     */
+    private final PublicObjectiveCardsDeck publicObjectiveCardsDeck;
+
+    /*todo private final ToolCardsDeck toolCardsDeck */
+
     public CommonBoard() {
         this.players = new ArrayList<>();
         this.draftPool = new DiceDraftPool();
         this.roundTrack = new RoundTrack(NUMBER_OF_ROUNDS);
         this.publicObjectiveCardSlots = new ArrayList<>();
         this.toolCardSlots = new ArrayList<>();
+        this.privateObjectiveCardsDeck = new PrivateObjectiveCardsDeck();
+        this.privateObjectiveCardsDeck.parseDeck();
+        this.publicObjectiveCardsDeck = new PublicObjectiveCardsDeck();
+        this.publicObjectiveCardsDeck.parseDeck();
+        //todo the same with tool cards deck.
     }
 
     /*todo This method will update the Window pattern of a specific player.

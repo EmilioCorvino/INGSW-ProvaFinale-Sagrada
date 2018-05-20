@@ -119,6 +119,7 @@ public class Player implements IPlayer {
      * @param ioController class containing the input inserted by the user.
      * @param move to be performed.
      */
+    @Override
     public void performMove(CommonBoard commonBoard, IOController ioController, IMove move) {
         move.executeMove(commonBoard, ioController);
         this.getPlayerMoves().add(move);
@@ -129,6 +130,7 @@ public class Player implements IPlayer {
      * @param player subject to check.
      * @return true if the player is the same.
      */
+    @Override
     public boolean isSamePlayerAs(Player player) {
         return this.getPlayerName().equals(player.getPlayerName());
     }
