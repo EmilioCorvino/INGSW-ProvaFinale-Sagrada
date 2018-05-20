@@ -63,6 +63,8 @@ public class Player implements IPlayer {
         this.playerMoves = new ArrayList<>();
     }
 
+
+
     public WindowPatternCard getWindowPatternCard() {
         return windowPatternCard;
     }
