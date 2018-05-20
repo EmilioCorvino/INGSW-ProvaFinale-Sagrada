@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Test of Column Color Variety card.
  */
-public class ColumnColorVarietyTest extends Card {
+public class ColumnColorVarietyTest extends CardTestField {
 
     /**
      * Tests if the card gives the correct score.

@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Test of Medium Shades card.
  */
-public class MediumShadesTest extends Card {
+public class MediumShadesTest extends CardTestField {
 
     /**
      * Tests if the card gives the correct score.

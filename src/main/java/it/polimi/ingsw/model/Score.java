@@ -1,10 +1,14 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.cards.PublicObjectiveCardSlot;
+import it.polimi.ingsw.model.cards.objective.ObjectiveCardAnalyzerVisitor;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 
 /**
- * An implementation of IScore, this class contains scores computed from private objective cards, publics objective cards
+ * An implementation of {@link IScore}, this class contains scores computed from
+ * {@link it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard},
+ * {@link it.polimi.ingsw.model.cards.objective.publics.APublicObjectiveCard}
  * and favor tokens. It also calculates the points lost for cells left empty in the window pattern card.
  */
 public class Score implements IScore {
@@ -15,12 +19,12 @@ public class Score implements IScore {
     private Player player;
 
     /**
-     * Points gained from publics objective cards.
+     * Points gained from {@link it.polimi.ingsw.model.cards.objective.publics.APublicObjectiveCard}.
      */
     private int publicObjectivePoints;
 
     /**
-     * Points gained from private objective cards.
+     * Points gained from {@link it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard}.
      */
     private int privateObjectivePoints;
 
@@ -87,12 +91,31 @@ public class Score implements IScore {
         this.totalScore = totalScore;
     }
 
+    /**
+     * This methods adds up the points earned from each
+     * {@link it.polimi.ingsw.model.cards.objective.publics.APublicObjectiveCard} in play and sets
+     * publicObjectivePoints to this value.
+     */
     private void computePublicObjectivePoints() {
+        int pointsFromPublicObjectiveCards = 0;
+        ObjectiveCardAnalyzerVisitor visitor = new ObjectiveCardAnalyzerVisitor();
+        for(PublicObjectiveCardSlot cardSlot: this.getPlayer().getBoard().getPublicObjectiveCardSlots()) {
+            cardSlot.getPublicObjectiveCard().accept(visitor, this.getPlayer().getWindowPatternCard());
+            pointsFromPublicObjectiveCards += visitor.getScoreFromCard();
+        }
+        this.setPublicObjectivePoints(pointsFromPublicObjectiveCards);
 
     }
 
+    /**
+     * This methods computes the points earned from the player's
+     * {@link it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard} and sets privateObjectivePoints
+     * to this value.
+     */
     private void computePrivateObjectivePoints() {
-
+        ObjectiveCardAnalyzerVisitor visitor = new ObjectiveCardAnalyzerVisitor();
+        this.getPlayer().getPrivateObjectiveCard().accept(visitor, this.getPlayer().getWindowPatternCard());
+        this.setPrivateObjectivePoints(visitor.getScoreFromCard());
     }
 
     /**
