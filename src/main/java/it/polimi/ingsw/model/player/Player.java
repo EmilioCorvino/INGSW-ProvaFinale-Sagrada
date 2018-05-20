@@ -1,8 +1,10 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.controller.IOController;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.Score;
 import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard;
+import it.polimi.ingsw.model.cards.tool.ChooseValueEffect;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.move.IMove;
 
@@ -12,8 +14,8 @@ import java.util.Random;
 
 /**
  * This class is the representation of the player: it does anything the real player can do and has everything
- * the real player has. It can see the board through the CommonBoard, make moves using IMove interface and
- * get his score computed by the Score class.
+ * the real player has. It can see the board through the {@link CommonBoard}, make moves using {@link IMove} interface
+ * and get his score computed by the {@link Score} class.
  */
 public class Player implements IPlayer {
 
@@ -25,7 +27,7 @@ public class Player implements IPlayer {
     /**
      * Name player has chosen.
      */
-    private String playerName;
+    private final String playerName;
 
     /**
      * Private objective card assigned to the player. It is used for score computation.
@@ -33,20 +35,20 @@ public class Player implements IPlayer {
     private PrivateObjectiveCard privateObjectiveCard;
 
     /**
-     * Window pattern cardWindowPatternCard chosen by the player. It is set by chooseWindowPatternCard.
+     * {@link WindowPatternCard} chosen by the player. It is set by chooseWindowPatternCard.
      */
     private WindowPatternCard windowPatternCard;
 
     /**
-     * Represents everything the player can see (other player's WindowPatternCards, RoundTrack,
+     * Represents everything the player can see (other players' WindowPatternCards, RoundTrack,
      * PublicObjectiveCards, DiceDraftPool).
      */
-    private CommonBoard board;
+    private final CommonBoard board;
 
     /**
      * By this attribute everything concerning player's score and its computation can be known.
      */
-    private Score score;
+    private final Score score;
 
     /**
      * This list contains all the moves made by the player.
@@ -56,23 +58,9 @@ public class Player implements IPlayer {
     public Player(String playerName, CommonBoard board) {
         this.playerName = playerName;
         this.board = board;
+        board.getPlayers().add(this);
         this.score = new Score(this);
         this.playerMoves = new ArrayList<>();
-
-    }
-
-    /**
-     * Lets the player choose the window pattern card. Moreover, sets the favor tokens at the same number of the
-     * window pattern card difficulty and links the window pattern card to the player throw the setWindowPatternCard method.
-     * @param availableWindows list of the possible window pattern cards among which the player can choose.
-     */
-    @Override
-    public void chooseWindowPatternCard(List<WindowPatternCard> availableWindows) {
-        //todo get choice from the view
-        Random r = new Random(4);
-        WindowPatternCard playerCard = availableWindows.get(r.nextInt());
-        setWindowPatternCard(playerCard);
-        setFavorTokens(playerCard.getDifficulty());
     }
 
     public WindowPatternCard getWindowPatternCard() {
@@ -80,11 +68,12 @@ public class Player implements IPlayer {
     }
 
     /**
-     * It's used by chooseWindowPatternCard to set the player's window pattern card.
+     * It's used to set both the player's window pattern card and the favor tokens available to him.
      * @param windowPatternCard card to link to the player.
      */
     public void setWindowPatternCard(WindowPatternCard windowPatternCard) {
         this.windowPatternCard = windowPatternCard;
+        this.setFavorTokens(windowPatternCard.getDifficulty());
     }
 
     public CommonBoard getBoard() {
@@ -112,16 +101,27 @@ public class Player implements IPlayer {
     }
 
     /**
-     * It is used by chooseWindowPatternCard to set the number of favor tokens available to the window pattern card
+     * It is used by setWindowPatternCard to set the number of favor tokens available to the window pattern card
      * difficulty.
      * @param favorTokens number of favor tokens available to the player. It's equal to the WindowPatternCard difficulty.
      */
-    public void setFavorTokens(int favorTokens) {
+    private void setFavorTokens(int favorTokens) {
         this.favorTokens = favorTokens;
     }
 
     public void setPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) {
         this.privateObjectiveCard = privateObjectiveCard;
+    }
+
+    /**
+     * Launches the execution of the move and adds it to the list of performed moves.
+     * @param commonBoard board the player is watching.
+     * @param ioController class containing the input inserted by the user.
+     * @param move to be performed.
+     */
+    public void performMove(CommonBoard commonBoard, IOController ioController, IMove move) {
+        move.executeMove(commonBoard, ioController);
+        this.getPlayerMoves().add(move);
     }
 
     /**

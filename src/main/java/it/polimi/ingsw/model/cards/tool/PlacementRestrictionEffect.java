@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.cards.tool;
 
-import it.polimi.ingsw.model.die.diecontainers.ADieContainer;
-import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.controller.IOController;
+import it.polimi.ingsw.model.CommonBoard;
 
 /**
  *
@@ -10,7 +10,7 @@ public class PlacementRestrictionEffect extends AToolCardEffect {
 
 
     @Override
-    public void executeMove(Die chosenDie, ADieContainer destinationContainer) {
+    public void executeMove(CommonBoard commonBoard, IOController ioController) {
 
     }
 
