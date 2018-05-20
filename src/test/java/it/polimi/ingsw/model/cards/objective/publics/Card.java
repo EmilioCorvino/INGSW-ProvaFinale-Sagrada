@@ -8,8 +8,8 @@ import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 
 /**
  * The tests on cards are made assuming the cards are in the deck always in the same order (which is always the case,
- * since the parsing of an array is executed in order) and that this order is known
- * {@link cards/colorPublicObjectiveCards.json} {@link cards/valuePublicObjectiveCards.json}.
+ * since the parsing of an array is executed in order) and that this order is known:
+ * {@link cards}.
  * It's the draw method from AObjectiveCardsDeck that provides the "shuffling" by retrieving a random card
  * each time.
  * @see AObjectiveCardsDeck
