@@ -14,20 +14,26 @@ import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
  * each time.
  * @see AObjectiveCardsDeck
  */
-public abstract class Card {
+public abstract class CardTestField {
     PublicObjectiveCardsDeck deck;
     APublicObjectiveCard card;
     WindowPatternCard window;
     ObjectiveCardAnalyzerVisitor visitor;
 
     /**
-     * Initializes the attributes, parses the Public Objective Cards and sets up the Window Pattern Card.
+     * Initializes the attributes, parses the Public Objective Cards and sets up the Window Pattern CardTestField.
      */
     public void setUp() {
         this.deck = new PublicObjectiveCardsDeck();
         this.deck.parseDeck();
-        this.window = new WindowPatternCard(0, 0, null);
+        this.window = precompileWindowPatternCard();
         this.visitor = new ObjectiveCardAnalyzerVisitor();
+
+
+    }
+
+    public static WindowPatternCard precompileWindowPatternCard() {
+        WindowPatternCard window = new WindowPatternCard(0, 3, null);
 
         Die greenDie1 = new Die(2, Color.GREEN);
         Die redDie1 = new Die(4, Color.RED);
@@ -119,6 +125,7 @@ public abstract class Card {
             window.setDesiredCell(window.getGlassWindow()[3][3]);
             window.update(greenDie4);
         }
+        return window;
     }
 
     public void tearDown() {

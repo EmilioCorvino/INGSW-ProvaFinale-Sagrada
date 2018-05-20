@@ -7,14 +7,14 @@ import static org.junit.Assert.assertEquals;
 /**
  * Test of Color Variety card.
  */
-public class ColorVarietyTest extends Card {
+public class ColorVarietyTest extends CardTestField {
 
     /**
      * Tests if the card gives the correct score.
      */
     @Test
     public void cardTest() {
-        //Test with the window inherited from Card.
+        //Test with the window inherited from CardTestField.
         setUp();
         this.card = deck.getDeck().get(3); //Color Variety card.
         this.card.accept(visitor, window);

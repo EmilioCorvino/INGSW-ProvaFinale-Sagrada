@@ -10,14 +10,14 @@ import static org.junit.Assert.assertEquals;
 /**
  * Test of Coloured Diagonals card.
  */
-public class ColouredDiagonalsTest extends Card {
+public class ColouredDiagonalsTest extends CardTestField {
 
     /**
      * Tests if the card gives the correct score.
      */
     @Test
     public void cardTest() {
-        //First test, done with the window pattern card inherited from Card.
+        //First test, done with the window pattern card inherited from CardTestField.
         setUp();
         this.card = deck.getDeck().get(2); //Coloured Diagonals card.
         this.card.accept(visitor, window);
