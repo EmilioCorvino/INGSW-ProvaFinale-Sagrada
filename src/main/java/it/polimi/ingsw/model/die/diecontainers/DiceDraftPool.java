@@ -36,7 +36,6 @@ public class DiceDraftPool extends ADieContainer {
      * This method call the update the DiceDraftPool in each round.
      */
     public void populateDiceDraftPool(int numberOfPlayers){
-
         int i = 0;
         boolean empty = false;
         Die dieExtracted;

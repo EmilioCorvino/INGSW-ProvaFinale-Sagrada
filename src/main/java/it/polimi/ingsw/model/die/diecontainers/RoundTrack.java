@@ -23,11 +23,20 @@ public class RoundTrack extends ADieContainer {
             this.getAvailableDice().add(new ArrayList<>());
     }
 
+    /**
+     * This method effective add a die in the round chosen.
+     * @param die: the die that has to be placed.
+     */
     @Override
     public void update(Die die) {
         this.getAvailableDice().get(roundToBeUpdate).add(die);
     }
 
+    /**
+     * This method remove a die from the round chosen and return the instance of the die removed.
+     * @param die: the die that has to be removed.
+     * @return: the die removed.
+     */
     public Die remove(Die die){
         Die dieToBeRemoved = null;
         for (Die d : this.getAvailableDice().get(roundToBeUpdate))
