@@ -7,4 +7,9 @@ public class SocketFromServerToClient implements IFromServerToClient {
     public void showRoom(String[] players) {
 
     }
+
+    @Override
+    public void showPlayerName(String playerName) {
+
+    }
 }
