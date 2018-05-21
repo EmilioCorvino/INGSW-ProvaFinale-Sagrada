@@ -30,7 +30,7 @@ public class ControllerMaster {
 
     public ControllerMaster() {
         commonBoard = new CommonBoard();
-        startGameState = new StartGameState();
+        startGameState = new StartGameState(this);
         currentGameState = startGameState;
     }
 

@@ -10,17 +10,17 @@ import java.rmi.server.UnicastRemoteObject;
 public class ServerMain {
 
     public static final int PORT = 54242;
-    private final ControllerMaster controllerMaster;
+    //private final ControllerMaster controllerMaster;
 
-    private ServerMain(ControllerMaster controllerMaster) {
+    /*private ServerMain(ControllerMaster controllerMaster) {
         this.controllerMaster = controllerMaster;
-    }
+    }*/
 
     public static void main(String[] args) {
-        ServerMain serverMain = new ServerMain(new ControllerMaster());
+        //ServerMain serverMain = new ServerMain(new ControllerMaster());
         //Sets up Rmi server and client remote interfaces.
         try {
-            RmiServer rmiServer = new RmiServer(serverMain.controllerMaster);
+            RmiServer rmiServer = new RmiServer(new ControllerMaster());
             IServer stub = (IServer) UnicastRemoteObject.exportObject(rmiServer, PORT);
             Registry registry = LocateRegistry.createRegistry(PORT);
             registry.bind("IServer", stub);
