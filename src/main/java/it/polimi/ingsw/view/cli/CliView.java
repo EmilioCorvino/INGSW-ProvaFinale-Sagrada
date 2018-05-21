@@ -8,7 +8,6 @@ import it.polimi.ingsw.view.cli.stateManagers.GamePlayCli;
 import it.polimi.ingsw.view.cli.stateManagers.LoginCli;
 import it.polimi.ingsw.view.cli.stateManagers.SetUpGameCli;
 
-import java.io.PrintWriter;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -45,14 +44,11 @@ public class CliView extends AViewMaster implements Serializable {
      */
     private EndGameCli endGameState;
 
-    PrintWriter cliOut;
-
     public CliView(){
         loginState = new LoginCli();
         initializzationState = new SetUpGameCli();
         gameplaySate = new GamePlayCli();
         endGameState = new EndGameCli();
-        cliOut = new PrintWriter(System.out);
     }
 
     /**
