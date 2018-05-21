@@ -18,6 +18,8 @@ public class StartGameState extends AGameState {
     private List<Player> playersRoom;
 
 
+
+
     public StartGameState() {
         playersRoom = new ArrayList<>();
     }
@@ -26,10 +28,17 @@ public class StartGameState extends AGameState {
      * This method manages the instantiation of the list of player for the game.
      * @param namePlayer the name of the player to add to the list.
      */
-    public void login(String namePlayer) {
+    public void login(String namePlayer, String gameMode) {
         Player player = new Player(namePlayer, super.getControllerMaster().getCommonBoard());
         playersRoom.add(player);
-        super.getControllerMaster().getFromServerToClient().showPlayerName(player.getPlayerName());
+
+         List<String> listName = new ArrayList<>();
+
+
+        for (Player p :  playersRoom) {
+            listName.add(p.getPlayerName());
+        }
+        super.getControllerMaster().getFromServerToClient().showRoom(listName);
     }
 
     public List<Player> getPlayersRoom() {
