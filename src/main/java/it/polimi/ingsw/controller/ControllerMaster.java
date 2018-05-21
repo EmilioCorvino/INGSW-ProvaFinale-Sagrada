@@ -23,9 +23,14 @@ public class ControllerMaster {
      */
     private IFromServerToClient fromServerToClient;
 
+    /**
+     *
+     */
+    private StartGameState startGameState;
+
     public ControllerMaster() {
         commonBoard = new CommonBoard();
-        currentGameState = new StartGameState();
+        startGameState = new StartGameState();
     }
 
     public IGameState getCurrentGameState() {
@@ -46,5 +51,13 @@ public class ControllerMaster {
 
     public void setFromServerToClient(IFromServerToClient fromServerToClient) {
         this.fromServerToClient = fromServerToClient;
+    }
+
+    public StartGameState getStartGameState() {
+        return startGameState;
+    }
+
+    public void setStartGameState(StartGameState startGameState) {
+        this.startGameState = startGameState;
     }
 }
