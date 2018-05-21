@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.socket;
 
-import it.polimi.ingsw.network.IServer;
+import it.polimi.ingsw.IServer;
 
 public class SocketServer implements IServer {
 

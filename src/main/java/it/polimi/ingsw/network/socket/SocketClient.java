@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.socket;
 
-import it.polimi.ingsw.network.IClient;
+import it.polimi.ingsw.IClient;
 
 public class SocketClient implements IClient {
 

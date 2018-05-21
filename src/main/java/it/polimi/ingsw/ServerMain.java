@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.network.IServer;
+import it.polimi.ingsw.controller.ControllerMaster;
 import it.polimi.ingsw.network.rmi.RmiServer;
 
 import java.rmi.registry.LocateRegistry;
@@ -10,11 +10,17 @@ import java.rmi.server.UnicastRemoteObject;
 public class ServerMain {
 
     public static final int PORT = 54242;
+    private final ControllerMaster controllerMaster;
+
+    private ServerMain(ControllerMaster controllerMaster) {
+        this.controllerMaster = controllerMaster;
+    }
 
     public static void main(String[] args) {
-        //Sets up Rmi server.
+        ServerMain serverMain = new ServerMain(new ControllerMaster());
+        //Sets up Rmi server and client remote interfaces.
         try {
-            RmiServer rmiServer = new RmiServer();
+            RmiServer rmiServer = new RmiServer(serverMain.controllerMaster);
             IServer stub = (IServer) UnicastRemoteObject.exportObject(rmiServer, PORT);
             Registry registry = LocateRegistry.createRegistry(PORT);
             registry.bind("IServer", stub);
