@@ -23,6 +23,7 @@ public class StartGameState extends AGameState {
     public StartGameState(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
         playersRoom = new ArrayList<>();
+        
     }
 
     /**
