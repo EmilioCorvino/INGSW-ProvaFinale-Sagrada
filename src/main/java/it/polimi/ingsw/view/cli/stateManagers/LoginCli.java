@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.cli.stateManagers;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.network.rmi.RmiFromClientToServer;
 import it.polimi.ingsw.network.socket.SocketFromClientToServer;
+import it.polimi.ingsw.view.AViewMaster;
 
 import java.rmi.RemoteException;
 import java.util.List;
@@ -44,21 +45,22 @@ public class LoginCli {
     /**
      * This method allow the user to choose the kind of network interface
      * @return An instance of the network interface chosen.
-     * @param ip: the ip address uses to create the connection.
+     * @param ip : the ip address uses to create the connection.
+     * @param viewMaster
      */
-    public IFromClientToServer chooseNetworkInterface(String ip) throws RemoteException{
+    public IFromClientToServer chooseNetworkInterface(String ip, AViewMaster viewMaster) throws RemoteException{
 
         Scanner scan = new Scanner(System.in);
         System.out.println("Scegliere l'interfaccia di rete desiderata, digitare Socket o RMI: ");
         String networkType = scan.next();
-        while (networkType.equals("Socket") || networkType.equals("RMI")) {
+        while (networkType.equals("Socket") || networkType.equals("rmi")) {
             System.out.println("ERRORE: Scelta errata, digitare Socket o RMI");
             networkType = scan.next();
         }
         if (networkType.equals("Socket"))
             return new SocketFromClientToServer();
         else if (networkType.equals("RMI"))
-            return new RmiFromClientToServer(ip);
+            return new RmiFromClientToServer(ip, viewMaster);
 
         return null;
     }

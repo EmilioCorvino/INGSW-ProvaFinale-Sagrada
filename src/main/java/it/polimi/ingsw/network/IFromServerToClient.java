@@ -15,5 +15,4 @@ public interface IFromServerToClient {
      */
     public void showRoom(List<String> players);
 
-    public void showPlayerName(String playerName);
 }

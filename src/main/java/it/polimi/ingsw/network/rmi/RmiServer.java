@@ -14,7 +14,7 @@ public class RmiServer implements IServer {
 
     @Override
     public void login(String playerName, String gameMode) {
-        controllerMaster.getStartGameState().login(playerName);
+        controllerMaster.getStartGameState().login(playerName, gameMode);
     }
 
     @Override

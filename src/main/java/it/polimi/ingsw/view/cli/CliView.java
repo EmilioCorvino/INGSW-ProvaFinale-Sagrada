@@ -52,16 +52,17 @@ public class CliView extends AViewMaster {
 
     /**
      * This method create the connection and logs the player
+     * @param viewMaster
      */
     @Override
-    public void createConnection() {
+    public void createConnection(AViewMaster viewMaster) {
         boolean userNameOk = false;
         boolean ipOk = false;
 
         while(!ipOk){
             try{
                 String ipAddress = loginState.getIp();
-                this.server = loginState.chooseNetworkInterface(ipAddress);
+                this.server = loginState.chooseNetworkInterface(ipAddress, viewMaster);
                 ipOk = true;
             }catch (RemoteException e){
                 System.out.println("Indirizzo IP non corretto.");

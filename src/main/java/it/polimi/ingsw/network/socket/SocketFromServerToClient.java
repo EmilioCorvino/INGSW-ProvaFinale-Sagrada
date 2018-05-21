@@ -10,8 +10,4 @@ public class SocketFromServerToClient implements IFromServerToClient {
 
     }
 
-    @Override
-    public void showPlayerName(String playerName) {
-
-    }
 }

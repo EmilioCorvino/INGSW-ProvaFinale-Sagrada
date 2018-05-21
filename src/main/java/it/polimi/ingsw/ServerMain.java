@@ -28,6 +28,7 @@ public class ServerMain {
             System.err.println("Rmi server exception: " + e.toString());
             e.printStackTrace();
         }
+        System.err.println("Rmi Server ready, waiting for connections...");
 
         //todo setup socket server
     }

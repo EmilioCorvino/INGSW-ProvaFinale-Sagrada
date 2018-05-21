@@ -1,23 +1,34 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.ClientMain;
+import it.polimi.ingsw.IClient;
+import it.polimi.ingsw.ServerMain;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.IServer;
+import it.polimi.ingsw.view.AViewMaster;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 
 public class RmiFromClientToServer implements IFromClientToServer {
 
-    IServer rmiServer;
+    private IServer rmiServer;
 
-    public RmiFromClientToServer(String ip) throws RemoteException {
+    public RmiFromClientToServer(String ip, AViewMaster viewMaster) throws RemoteException {
         try {
-            Registry registry = LocateRegistry.getRegistry(ip, ClientMain.PORT);
+            Registry registry = LocateRegistry.getRegistry(ip, ServerMain.PORT);
             rmiServer = (IServer) registry.lookup("IServer");
         } catch(NotBoundException e) {
+            System.err.println("Rmi client exception: " + e.toString());
+            e.printStackTrace();
+        }
+
+        RmiClient rmiClient = new RmiClient(viewMaster);
+        try {
+            RmiFromServerToClient fromServerToClient = new RmiFromServerToClient(rmiClient);
+        } catch (Exception e) {
             System.err.println("Rmi client exception: " + e.toString());
             e.printStackTrace();
         }
