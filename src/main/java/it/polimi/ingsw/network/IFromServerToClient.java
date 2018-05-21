@@ -12,4 +12,6 @@ public interface IFromServerToClient {
      * @param players names of the players already connected (including the player itself).
      */
     public void showRoom(String[] players);
+
+    public void showPlayerName(String playerName);
 }
