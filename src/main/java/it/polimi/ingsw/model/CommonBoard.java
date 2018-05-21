@@ -78,6 +78,17 @@ public class CommonBoard {
     }
 
     /*todo This method will update the Window pattern of a specific player.
+    public void triggerNormalPlacement(Player player, Die die){
+        draftPool.update(die);
+        for(Player p : players)
+            if (p.isSamePlayerAs(player)) {
+                p.getWindowPatternCard().update(die);
+                this.notifyController();
+            }
+    }
+    */
+
+    /*todo This method will update the Window pattern of a specific player.
     public void triggerWpPlacement(Die die, Player player){
         for( Player p : players)
             if (player.getPlayerName() == p.getPlayerName()){
