@@ -57,11 +57,10 @@ public class CliView extends AViewMaster {
     public void createConnection() {
         boolean userNameOk = false;
         boolean ipOk = false;
-        String ipAddress = null;
 
         while(!ipOk){
             try{
-                ipAddress = loginState.getIp();
+                String ipAddress = loginState.getIp();
                 this.server = loginState.chooseNetworkInterface(ipAddress);
                 ipOk = true;
             }catch (RemoteException e){
