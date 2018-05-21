@@ -3,6 +3,10 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.network.IFromServerToClient;
 
+import java.util.HashMap;
+import java.util.Map;
+
+
 /**
  * This class
  */
@@ -21,7 +25,7 @@ public class ControllerMaster {
     /**
      *
      */
-    private IFromServerToClient fromServerToClient;
+    private final Map<String, IFromServerToClient> connectedPlayers;
 
     /**
      *
@@ -31,6 +35,7 @@ public class ControllerMaster {
     public ControllerMaster() {
         commonBoard = new CommonBoard();
         startGameState = new StartGameState(this);
+        connectedPlayers = new HashMap<>();
         currentGameState = startGameState;
     }
 
@@ -46,12 +51,8 @@ public class ControllerMaster {
         return commonBoard;
     }
 
-    public IFromServerToClient getFromServerToClient() {
-        return fromServerToClient;
-    }
-
-    public void setFromServerToClient(IFromServerToClient fromServerToClient) {
-        this.fromServerToClient = fromServerToClient;
+    public Map<String, IFromServerToClient> getConnectedPlayers() {
+        return connectedPlayers;
     }
 
     public StartGameState getStartGameState() {
