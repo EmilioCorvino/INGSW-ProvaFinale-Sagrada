@@ -74,7 +74,7 @@ public class CliView extends AViewMaster {
 
         while(!userNameOk){
             try {
-                this.server.login(loginState.getUsername(), ipAddress, loginState.getGameMode());
+                this.server.login(loginState.getUsername(), loginState.getGameMode());
                 userNameOk = true;
             } catch (UserNameAlreadyTakenException e) {
                 userNameOk = false;

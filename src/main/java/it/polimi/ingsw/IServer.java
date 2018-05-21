@@ -13,10 +13,9 @@ public interface IServer extends Remote {
     /**
      * Lets the player log in the match.
      * @param playerName name the player chooses for himself in the application.
-     * @param ip address to which the server is located.
      * @param gameMode can be either single player or multi-player.
      */
-    public void login(String playerName, String ip, String gameMode) throws RemoteException;
+    public void login(String playerName, String gameMode) throws RemoteException;
 
     /**
      * Lets the player log out from the game.

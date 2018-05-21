@@ -24,9 +24,9 @@ public class RmiFromClientToServer implements IFromClientToServer {
     }
 
     @Override
-    public void login(String playerName, String ip, String gameMode) {
+    public void login(String playerName, String gameMode) {
         try {
-            rmiServer.login(playerName, ip, gameMode);
+            rmiServer.login(playerName, gameMode);
         } catch(RemoteException e) {
             e.printStackTrace();
         }

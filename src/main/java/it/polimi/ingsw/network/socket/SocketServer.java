@@ -5,7 +5,7 @@ import it.polimi.ingsw.IServer;
 public class SocketServer implements IServer {
 
     @Override
-    public void login(String playerName, String ip, String gameMode) {
+    public void login(String playerName, String gameMode) {
 
     }
 

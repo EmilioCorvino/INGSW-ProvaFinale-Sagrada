@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  * This remote interface lists all possible methods the client needs to launch upon a server request.
@@ -14,5 +15,5 @@ public interface IClient extends Remote {
      * Shows the waiting room to the player owning the client.
      * @param players names of the players already connected (including the player itself).
      */
-    public void showRoom(String[] players) throws RemoteException;
+    public void showRoom(List<String> players) throws RemoteException;
 }
