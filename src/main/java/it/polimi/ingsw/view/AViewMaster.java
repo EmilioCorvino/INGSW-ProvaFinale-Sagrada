@@ -9,7 +9,7 @@ public abstract class AViewMaster {
 
     public abstract void createConnection();
 
-    public abstract IFromClientToServer chooseNetworkInterface();
+    public abstract IFromClientToServer chooseNetworkInterface(String ip);
 
     public abstract void showRoom(List<String> players);
 
