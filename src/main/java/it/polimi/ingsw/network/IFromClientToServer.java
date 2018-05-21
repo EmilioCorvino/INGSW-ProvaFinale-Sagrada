@@ -2,6 +2,8 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.exceptions.UserNameAlreadyTakenException;
 
+import java.io.Serializable;
+
 /**
  * This interface lists all the methods the client can require from the server.
  * @see it.polimi.ingsw.network.rmi.RmiFromClientToServer

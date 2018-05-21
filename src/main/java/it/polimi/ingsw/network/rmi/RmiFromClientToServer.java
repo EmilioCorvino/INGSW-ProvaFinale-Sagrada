@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.IClient;
 import it.polimi.ingsw.ServerMain;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.IServer;
@@ -27,10 +26,12 @@ public class RmiFromClientToServer implements IFromClientToServer {
         RmiClient rmiClient = new RmiClient(viewMaster);
         try {
             RmiFromServerToClient fromServerToClient = new RmiFromServerToClient(rmiClient);
+            rmiServer.establishConnection(fromServerToClient);
         } catch (Exception e) {
             System.err.println("Rmi client exception: " + e.toString());
             e.printStackTrace();
         }
+
     }
 
     @Override

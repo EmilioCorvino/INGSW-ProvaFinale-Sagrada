@@ -3,9 +3,10 @@ package it.polimi.ingsw.network.rmi;
 import it.polimi.ingsw.IClient;
 import it.polimi.ingsw.view.AViewMaster;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class RmiClient implements IClient {
+public class RmiClient implements IClient, Serializable {
 
     private final AViewMaster viewMaster;
 
@@ -15,6 +16,6 @@ public class RmiClient implements IClient {
 
     @Override
     public void showRoom(List<String> players) {
-
+        viewMaster.showRoom(players);
     }
 }

@@ -1,11 +1,11 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.IFromServerToClient;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This is the class representing the first state of the game.
@@ -40,7 +40,10 @@ public class StartGameState extends AGameState {
         for (Player p :  playersRoom) {
             listName.add(p.getPlayerName());
         }
-        super.getControllerMaster().getFromServerToClient().showRoom(listName);
+
+        for(Map.Entry<String, IFromServerToClient> entry: getControllerMaster().getConnectedPlayers().entrySet()) {
+            entry.getValue().showRoom(listName);
+        }
     }
 
     public List<Player> getPlayersRoom() {

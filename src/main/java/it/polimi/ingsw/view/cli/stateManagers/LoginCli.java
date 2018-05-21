@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.rmi.RmiFromClientToServer;
 import it.polimi.ingsw.network.socket.SocketFromClientToServer;
 import it.polimi.ingsw.view.AViewMaster;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Scanner;
@@ -12,7 +13,7 @@ import java.util.Scanner;
 /**
  * This class is used to manage all the interaction during the connection and login state.
  */
-public class LoginCli {
+public class LoginCli implements Serializable {
 
     /**
      * This method ask the IP address of the server to the user.

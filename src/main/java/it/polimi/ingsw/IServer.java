@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.network.IFromServerToClient;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -9,6 +11,8 @@ import java.rmi.RemoteException;
  * @see it.polimi.ingsw.network.socket.SocketServer
  */
 public interface IServer extends Remote {
+
+    public void establishConnection(IFromServerToClient fromServerToClient) throws RemoteException;
 
     /**
      * Lets the player log in the match.
