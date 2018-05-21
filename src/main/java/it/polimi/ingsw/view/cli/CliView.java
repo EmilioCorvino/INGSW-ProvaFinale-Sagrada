@@ -16,11 +16,6 @@ public class CliView extends AViewMaster {
     IFromClientToServer server;
 
     /**
-     * The port number
-     */
-    int portNumber = 54242;
-
-    /**
      * This method create the connection and logs the player
      */
     @Override
@@ -35,32 +30,33 @@ public class CliView extends AViewMaster {
 
         System.out.println("Inserire la modalità di partita (GiocatoreSingolo/Multigiocatore): ");
         String gameMode = scan.next();
-        while (gameMode != "GiocatoreSignolo" || gameMode != "Multigiocatore"){
+        while (gameMode.equals("GiocatoreSignolo") || gameMode.equals("Multigiocatore")) {
             System.out.println("ERRORE: Scelta non supportata, inserire GiocatoreSingolo o Multigiocatore: ");
             gameMode = scan.next();
         }
 
-        this.server = chooseNetworkInterface();
-        this.server.login(userName, ip, portNumber, gameMode);
+        this.server = chooseNetworkInterface(ip);
+        this.server.login(userName, ip, gameMode);
     }
 
     /**
      * This method allow the user to choose the kind of network interface
      * @return An instance of the network interface chosen.
+     * @param ip
      */
     @Override
-    public IFromClientToServer chooseNetworkInterface() {
+    public IFromClientToServer chooseNetworkInterface(String ip) {
         Scanner scan = new Scanner(System.in);
         System.out.println("Scegliere l'interfaccia di rete desiderata, digitare Socket o RMI: ");
         String networkType = scan.next();
-        while (networkType != "Socket" || networkType != "RMI") {
+        while (networkType.equals("Socket") || networkType.equals("RMI")) {
             System.out.println("ERRORE: Scelta errata, digitare Socket o RMI");
             networkType = scan.next();
         }
-        if (networkType == "Socket")
+        if (networkType.equals("Socket"))
             return new SocketFromClientToServer();
-        else if (networkType == "RMI")
-            return new RmiFromClientToServer();
+        else if (networkType.equals("RMI"))
+            return new RmiFromClientToServer(ip);
 
         return null;
     }

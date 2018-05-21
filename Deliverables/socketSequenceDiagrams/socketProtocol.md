@@ -2,7 +2,7 @@
 
 ##Initialization
 ####Login:
-* Client: loginRequest(playerName: String, ip: String, port: int, gameMode: String) ---> Server
+* Client: loginRequest(playerName: String, ip: String, gameMode: String) ---> Server
 
   * Server: showRoom(showRoom(players: String[1..4]) ---> Client
   
@@ -52,7 +52,7 @@
 
   _Client can now exit the game..._
 
-  * Client: exitGameRequest() ---> Server
+  * Client: exitGameRequest(playerName: String) ---> Server
 
   _...or start a new game_
 
