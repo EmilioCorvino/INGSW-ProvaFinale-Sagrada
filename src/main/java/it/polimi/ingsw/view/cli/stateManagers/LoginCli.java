@@ -3,6 +3,8 @@ package it.polimi.ingsw.view.cli.stateManagers;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.network.rmi.RmiFromClientToServer;
 import it.polimi.ingsw.network.socket.SocketFromClientToServer;
+
+import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -44,7 +46,8 @@ public class LoginCli {
      * @return An instance of the network interface chosen.
      * @param ip: the ip address uses to create the connection.
      */
-    public IFromClientToServer chooseNetworkInterface(String ip) {
+    public IFromClientToServer chooseNetworkInterface(String ip) throws RemoteException{
+
         Scanner scan = new Scanner(System.in);
         System.out.println("Scegliere l'interfaccia di rete desiderata, digitare Socket o RMI: ");
         String networkType = scan.next();

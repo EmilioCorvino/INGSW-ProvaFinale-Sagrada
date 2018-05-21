@@ -1,5 +1,9 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.exceptions.UserNameAlreadyTakenException;
+
+import java.net.UnknownServiceException;
+
 /**
  * This interface lists all the methods the client can require from the server.
  * @see it.polimi.ingsw.network.rmi.RmiFromClientToServer
@@ -13,7 +17,7 @@ public interface IFromClientToServer {
      * @param ip address to which the server is located.
      * @param gameMode can be either single player or multi-player.
      */
-    public void login(String playerName, String ip, String gameMode);
+    public void login(String playerName, String ip, String gameMode) throws UserNameAlreadyTakenException;
 
     /**
      * Lets the player log out from the game.
