@@ -6,7 +6,7 @@ import it.polimi.ingsw.view.AViewMaster;
 import java.io.Serializable;
 import java.util.List;
 
-public class RmiClient implements IClient, Serializable {
+public class RmiClient implements IClient {
 
     private final AViewMaster viewMaster;
 
