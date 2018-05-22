@@ -76,8 +76,6 @@ public class CliView extends AViewMaster implements Serializable {
 
         while(!userNameOk){
             try {
-                System.out.println(server);
-                System.out.println(loginState);
                 this.server.login(loginState.getUsername(), loginState.getGameMode());
                 userNameOk = true;
             } catch (UserNameAlreadyTakenException e) {
