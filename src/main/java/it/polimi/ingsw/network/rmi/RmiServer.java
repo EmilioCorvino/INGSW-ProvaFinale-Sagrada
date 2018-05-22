@@ -21,8 +21,12 @@ public class RmiServer implements IServer {
 
     @Override
     public void login(String playerName, String gameMode) throws UserNameAlreadyTakenException {
-        controllerMaster.getConnectedPlayers().put(playerName, fromServerToClient);
-        controllerMaster.getStartGameState().checkLogin(gameMode);
+        if(controllerMaster.getStartGameState().checkLogin(playerName)) {
+            controllerMaster.getConnectedPlayers().put(playerName, fromServerToClient);
+        } else {
+            throw new UserNameAlreadyTakenException("Player is already logged in");
+        }
+        controllerMaster.getStartGameState().login(gameMode);
         System.err.println("Client " + playerName + " just connected!");
     }
 
