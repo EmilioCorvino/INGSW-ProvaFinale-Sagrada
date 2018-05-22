@@ -11,7 +11,7 @@ public class SocketServer implements IServer {
     }
 
     @Override
-    public void login(String playerName, String gameMode) {
+    public void login(String gameMode, String playerName) {
 
     }
 
