@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.rmi.RmiFromClientToServer;
 import it.polimi.ingsw.network.socket.SocketFromClientToServer;
 import it.polimi.ingsw.view.AViewMaster;
 
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -53,17 +54,15 @@ public class LoginCli implements Serializable {
 
         Scanner scan = new Scanner(System.in);
         System.out.println("Scegliere l'interfaccia di rete desiderata, digitare Socket o RMI: ");
-        String networkType = scan.next();
-        while (networkType.equals("Socket") || networkType.equals("rmi")) {
-            System.out.println("ERRORE: Scelta errata, digitare Socket o RMI");
-            networkType = scan.next();
-        }
+        String networkType;
+
+        do {
+            networkType = scan.next().trim();
+        } while (!(networkType.equals("Socket") || networkType.equals("rmi")));
         if (networkType.equals("Socket"))
             return new SocketFromClientToServer();
-        else if (networkType.equals("RMI"))
-            return new RmiFromClientToServer(ip, viewMaster);
 
-        return null;
+        return new RmiFromClientToServer(ip, viewMaster);
     }
 
     /**

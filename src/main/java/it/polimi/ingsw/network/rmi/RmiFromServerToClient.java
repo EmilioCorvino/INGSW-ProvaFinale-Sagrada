@@ -5,13 +5,14 @@ import it.polimi.ingsw.network.IFromServerToClient;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
-public class RmiFromServerToClient implements IFromServerToClient, Serializable {
+public class RmiFromServerToClient extends UnicastRemoteObject implements IFromServerToClient, Serializable {
 
     private IClient rmiClient;
 
-    public RmiFromServerToClient(RmiClient rmiClient) {
+    public RmiFromServerToClient(RmiClient rmiClient) throws RemoteException {
         this.rmiClient = rmiClient;
     }
 
