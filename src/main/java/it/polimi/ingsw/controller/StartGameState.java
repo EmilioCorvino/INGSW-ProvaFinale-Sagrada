@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.IFromServerToClient;
 
@@ -31,15 +32,26 @@ public class StartGameState extends AGameState {
      * This method manages the instantiation of the list of player for the game.
      * @param namePlayer the name of the player to add to the list.
      */
-    public void login(String namePlayer, String gameMode) {
-        Player player = new Player(namePlayer, super.getControllerMaster().getCommonBoard());
-        playersRoom.add(player);
+    public boolean checkLogin(String namePlayer) throws UserNameAlreadyTakenException {
+        //Player player = new Player(namePlayer, super.getControllerMaster().getCommonBoard());
 
-         List<String> listName = new ArrayList<>();
+        if (super.getControllerMaster().getConnectedPlayers().isEmpty()) {
+            return true;
+        } else {
 
+            for (Map.Entry<String, IFromServerToClient> entry : getControllerMaster().getConnectedPlayers().entrySet())
+                if (namePlayer.equals(entry.getKey()))
+                    throw new UserNameAlreadyTakenException("player already connected");
+        }
+        return true;
+    }
 
-        for (Player p :  playersRoom) {
-            listName.add(p.getPlayerName());
+    public void login(String gameMode) {
+
+        List<String> listName = new ArrayList<>();
+
+        for(Map.Entry<String, IFromServerToClient> entry: getControllerMaster().getConnectedPlayers().entrySet()) {
+            listName.add(entry.getKey());
         }
 
         for(Map.Entry<String, IFromServerToClient> entry: getControllerMaster().getConnectedPlayers().entrySet()) {
@@ -50,6 +62,18 @@ public class StartGameState extends AGameState {
             }
         }
     }
+
+    /*
+    public boolean isAlreadyConnected(String namePlayer, List<Player> playersRoom) {
+       boolean[] res = new boolean[1];
+        playersRoom.forEach(player -> {
+            if(namePlayer.equals(player.getPlayerName())) {
+                res[0] = false;
+            }
+        });
+        return res[0];
+    }
+    */
 
     public List<Player> getPlayersRoom() {
         return playersRoom;

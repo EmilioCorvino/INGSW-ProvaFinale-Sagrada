@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.controller.ControllerMaster;
 import it.polimi.ingsw.IServer;
+import it.polimi.ingsw.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.network.IFromServerToClient;
 
 public class RmiServer implements IServer {
@@ -19,9 +20,9 @@ public class RmiServer implements IServer {
     }
 
     @Override
-    public void login(String playerName, String gameMode) {
+    public void login(String playerName, String gameMode) throws UserNameAlreadyTakenException {
         controllerMaster.getConnectedPlayers().put(playerName, fromServerToClient);
-        controllerMaster.getStartGameState().login(playerName, gameMode);
+        controllerMaster.getStartGameState().checkLogin(gameMode);
         System.err.println("Client " + playerName + " just connected!");
     }
 

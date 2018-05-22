@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.network.IFromServerToClient;
 
 import java.rmi.Remote;
@@ -19,7 +20,7 @@ public interface IServer extends Remote {
      * @param playerName name the player chooses for himself in the application.
      * @param gameMode can be either single player or multi-player.
      */
-    public void login(String playerName, String gameMode) throws RemoteException;
+    public void login(String playerName, String gameMode) throws RemoteException, UserNameAlreadyTakenException;
 
     /**
      * Lets the player log out from the game.
