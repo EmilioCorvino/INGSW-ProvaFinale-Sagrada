@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
+import it.polimi.ingsw.exceptions.TooManyUsersException;
 import it.polimi.ingsw.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.view.AViewMaster;
@@ -8,8 +9,6 @@ import it.polimi.ingsw.view.cli.stateManagers.GamePlayCli;
 import it.polimi.ingsw.view.cli.stateManagers.LoginCli;
 import it.polimi.ingsw.view.cli.stateManagers.SetUpGameCli;
 
-import java.io.Serializable;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -82,7 +81,7 @@ public class CliView extends AViewMaster{
 
         while(!userNameOk){
             try {
-                this.server.login(loginState.getUsername(), loginState.getGameMode());
+                this.server.login(loginState.getGameMode(), loginState.getUsername());
                 userNameOk = true;
             } catch (UserNameAlreadyTakenException e) {
                 userNameOk = false;
@@ -90,6 +89,8 @@ public class CliView extends AViewMaster{
             } catch (RemoteException e) {
                 inputOutputManager.print("Error in creating connection");
                 e.printStackTrace();
+            } catch (TooManyUsersException e) {
+                inputOutputManager.print("Partita piena, numero massimo di giocatori raggiunto\nArrivederci.");
             }
         }
     }
