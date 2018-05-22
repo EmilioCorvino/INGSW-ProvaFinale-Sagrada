@@ -18,12 +18,12 @@ public class CliView extends AViewMaster{
     /**
      * Input Output Manager.
      */
-    InputOutputManager inputOutputManager;
+    private InputOutputManager inputOutputManager;
 
     /**
      * The network interface for the connection
      */
-    IFromClientToServer server;
+    private IFromClientToServer server;
 
     /**
      * The port number use to create the socket connection
@@ -51,6 +51,7 @@ public class CliView extends AViewMaster{
     private EndGameCli endGameState;
 
     public CliView(){
+        inputOutputManager = new InputOutputManager();
         loginState = new LoginCli();
         initializzationState = new SetUpGameCli();
         gameplaySate = new GamePlayCli();
