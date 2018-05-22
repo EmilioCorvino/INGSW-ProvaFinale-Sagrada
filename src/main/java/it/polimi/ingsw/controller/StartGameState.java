@@ -45,6 +45,18 @@ public class StartGameState extends AGameState {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
+    public boolean isFull() {
+        return super.getControllerMaster().getConnectedPlayers().size() == 4;
+    }
+
+    /**
+     *
+     * @param gameMode
+     */
     public void login(String gameMode) {
 
         List<String> listName = new ArrayList<>();
