@@ -51,12 +51,12 @@ public class LoginCli{
     public IFromClientToServer chooseNetworkInterface(String ip, AViewMaster viewMaster) throws RemoteException{
 
         Scanner scan = new Scanner(System.in);
-        inputOutputManager.print("Scegliere l'interfaccia di rete desiderata, digitare Socket o RMI: ");
+        inputOutputManager.print("Scegliere l'interfaccia di rete desiderata:\n1-Socket\n2-RMI");
         String networkType;
 
         do {
             networkType = scan.next().trim();
-        } while (!(networkType.equals("Socket") || networkType.equals("rmi")));
+        } while (!("1".equals(networkType) || "2".equals(networkType)));
         if (networkType.equals("Socket"))
             return new SocketFromClientToServer();
 
