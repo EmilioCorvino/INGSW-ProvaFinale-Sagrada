@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.IFromServerToClient;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +42,11 @@ public class StartGameState extends AGameState {
         }
 
         for(Map.Entry<String, IFromServerToClient> entry: getControllerMaster().getConnectedPlayers().entrySet()) {
-            entry.getValue().showRoom(listName);
+            try {
+                entry.getValue().showRoom(listName);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
     }
 

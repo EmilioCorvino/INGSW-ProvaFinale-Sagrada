@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network;
 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.List;
 
 /**
@@ -7,12 +9,12 @@ import java.util.List;
  * @see it.polimi.ingsw.network.rmi.RmiFromServerToClient
  * @see it.polimi.ingsw.network.socket.SocketFromServerToClient
  */
-public interface IFromServerToClient {
+public interface IFromServerToClient extends Remote {
 
     /**
      * Shows the waiting room to the player owning the client.
      * @param players names of the players already connected (including the player itself).
      */
-    public void showRoom(List<String> players);
+    public void showRoom(List<String> players) throws RemoteException;
 
 }
