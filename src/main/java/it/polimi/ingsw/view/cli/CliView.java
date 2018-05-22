@@ -9,6 +9,7 @@ import it.polimi.ingsw.view.cli.stateManagers.LoginCli;
 import it.polimi.ingsw.view.cli.stateManagers.SetUpGameCli;
 
 import java.io.Serializable;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -75,11 +76,16 @@ public class CliView extends AViewMaster implements Serializable {
 
         while(!userNameOk){
             try {
+                System.out.println(server);
+                System.out.println(loginState);
                 this.server.login(loginState.getUsername(), loginState.getGameMode());
                 userNameOk = true;
             } catch (UserNameAlreadyTakenException e) {
                 userNameOk = false;
                 System.out.println("Username già in uso!");
+            } catch (RemoteException e) {
+                System.err.println("Error in creating connection");
+                e.printStackTrace();
             }
         }
     }

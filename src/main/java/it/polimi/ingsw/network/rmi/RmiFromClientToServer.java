@@ -9,8 +9,9 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 
-public class RmiFromClientToServer implements IFromClientToServer {
+public class RmiFromClientToServer extends UnicastRemoteObject implements IFromClientToServer {
 
     private IServer rmiServer;
 
