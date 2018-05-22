@@ -13,24 +13,14 @@ import java.util.Map;
  * This is the class representing the first state of the game.
  */
 public class StartGameState extends AGameState {
-
-    /**
-     * This list represents the players that connect to the game at this first state.
-     */
-    private List<Player> playersRoom;
-
-
-
-
+    
     public StartGameState(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
-        playersRoom = new ArrayList<>();
-        
     }
 
     /**
-     * This method manages the instantiation of the list of player for the game.
-     * @param namePlayer the name of the player to add to the list.
+     * This method checks if the username of a player already exists in the current match.
+     * @param namePlayer the name of the player to check.
      */
     public boolean checkLogin(String namePlayer) throws UserNameAlreadyTakenException {
         //Player player = new Player(namePlayer, super.getControllerMaster().getCommonBoard());
@@ -46,16 +36,16 @@ public class StartGameState extends AGameState {
     }
 
     /**
-     *
-     * @return
+     * This method checks if the maximum number of player for a match is reached.
+     * @return true if the maximum number is reached.
      */
     public boolean isFull() {
         return super.getControllerMaster().getConnectedPlayers().size() == 4;
     }
 
     /**
-     *
-     * @param gameMode
+     * This method manages the login of a player and initializes the match according to his/her choice.
+     * @param gameMode the type of match to initialize.
      */
     public void login(String gameMode) {
 
@@ -85,14 +75,6 @@ public class StartGameState extends AGameState {
         return res[0];
     }
     */
-
-    public List<Player> getPlayersRoom() {
-        return playersRoom;
-    }
-
-    public void setPlayersRoom(List<Player> playersRoom) {
-        this.playersRoom = playersRoom;
-    }
 
     @Override
     public void changeGameState(ControllerMaster controllerMaster) {
