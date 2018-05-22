@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.ServerMain;
+import it.polimi.ingsw.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.IServer;
 import it.polimi.ingsw.view.AViewMaster;
@@ -36,7 +37,7 @@ public class RmiFromClientToServer extends UnicastRemoteObject implements IFromC
     }
 
     @Override
-    public void login(String playerName, String gameMode) {
+    public void login(String playerName, String gameMode) throws UserNameAlreadyTakenException {
         try {
             rmiServer.login(playerName, gameMode);
         } catch(RemoteException e) {

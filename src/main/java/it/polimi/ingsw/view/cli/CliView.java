@@ -13,7 +13,12 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-public class CliView extends AViewMaster implements Serializable {
+public class CliView extends AViewMaster{
+
+    /**
+     * Input Output Manager.
+     */
+    InputOutputManager inputOutputManager;
 
     /**
      * The network interface for the connection
@@ -67,24 +72,22 @@ public class CliView extends AViewMaster implements Serializable {
                 this.server = loginState.chooseNetworkInterface(ipAddress, viewMaster);
                 ipOk = true;
             }catch (RemoteException e){
-                System.out.println("Indirizzo IP non corretto.");
+                inputOutputManager.print("Indirizzo IP non corretto.");
                 ipOk = false;
             }
         }
 
-        System.out.println("Connessione stabilita.\n Procedere con il login.");
+        System.out.println("Connessione stabilita.\nProcedere con il login.");
 
         while(!userNameOk){
             try {
-                System.out.println(server);
-                System.out.println(loginState);
                 this.server.login(loginState.getUsername(), loginState.getGameMode());
                 userNameOk = true;
             } catch (UserNameAlreadyTakenException e) {
                 userNameOk = false;
-                System.out.println("Username già in uso!");
+                inputOutputManager.print("Username già in uso!");
             } catch (RemoteException e) {
-                System.err.println("Error in creating connection");
+                inputOutputManager.print("Error in creating connection");
                 e.printStackTrace();
             }
         }
