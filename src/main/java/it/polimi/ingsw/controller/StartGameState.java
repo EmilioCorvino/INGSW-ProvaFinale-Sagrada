@@ -38,10 +38,9 @@ public class StartGameState extends AGameState {
         if (super.getControllerMaster().getConnectedPlayers().isEmpty()) {
             return true;
         } else {
-
             for (Map.Entry<String, IFromServerToClient> entry : getControllerMaster().getConnectedPlayers().entrySet())
                 if (namePlayer.equals(entry.getKey()))
-                    throw new UserNameAlreadyTakenException("player already connected");
+                    return false;
         }
         return true;
     }
