@@ -4,8 +4,8 @@ import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.network.rmi.RmiFromClientToServer;
 import it.polimi.ingsw.network.socket.SocketFromClientToServer;
 import it.polimi.ingsw.view.AViewMaster;
+import it.polimi.ingsw.view.cli.InputOutputManager;
 
-import java.io.PrintWriter;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -14,33 +14,31 @@ import java.util.Scanner;
 /**
  * This class is used to manage all the interaction during the connection and login state.
  */
-public class LoginCli implements Serializable {
+public class LoginCli{
+
+    /**
+     * Input Output Manager
+     */
+    InputOutputManager inputOutputManager = new InputOutputManager();
 
     /**
      * This method ask the IP address of the server to the user.
      * @return The IP address chosen by the user.
      */
     public String getIp(){
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Inserire l'indirizzo IP del server: ");
-        return scan.next();
+        return inputOutputManager.askInformation("Inserire l'indirizzo IP del server: ");
     }
 
     public String getUsername(){
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Inserire l'username: ");
-        return scan.next();
+        return inputOutputManager.askInformation("Inserire l'username: ");
     }
 
     public String getGameMode(){
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Inserire la modalità di partita (GiocatoreSingolo/Multigiocatore): ");
-        String gameMode = scan.next();
-        while (gameMode.equals("GiocatoreSignolo") || gameMode.equals("Multigiocatore")) {
-            System.out.println("ERRORE: Scelta non supportata, inserire GiocatoreSingolo o Multigiocatore: ");
-            gameMode = scan.next();
+        String gameMode = inputOutputManager.askInformation("Inserire la modalità di partita:\n1-Multigiocatore\n2-Giocatore Singolo");
+        while (!("1".equals(gameMode) || "2".equals(gameMode))) {
+            inputOutputManager.print("ERRORE: Scelta non supportata, inserire GiocatoreSingolo o Multigiocatore: ");
+            gameMode = inputOutputManager.read();
         }
-
         return gameMode;
     }
 
@@ -48,17 +46,17 @@ public class LoginCli implements Serializable {
      * This method allow the user to choose the kind of network interface
      * @return An instance of the network interface chosen.
      * @param ip : the ip address uses to create the connection.
-     * @param viewMaster
+     * @param viewMaster:
      */
     public IFromClientToServer chooseNetworkInterface(String ip, AViewMaster viewMaster) throws RemoteException{
 
         Scanner scan = new Scanner(System.in);
-        System.out.println("Scegliere l'interfaccia di rete desiderata, digitare Socket o RMI: ");
+        inputOutputManager.print("Scegliere l'interfaccia di rete desiderata:\n1-Socket\n2-RMI");
         String networkType;
 
         do {
             networkType = scan.next().trim();
-        } while (!(networkType.equals("Socket") || networkType.equals("rmi")));
+        } while (!("1".equals(networkType) || "2".equals(networkType)));
         if (networkType.equals("Socket"))
             return new SocketFromClientToServer();
 
@@ -70,10 +68,10 @@ public class LoginCli implements Serializable {
      * @param players
      */
     public void showRoom(List<String> players) {
-        System.out.println("In attesa di connessione di altri giocatori...");
-        System.out.println("Giocatori momentaneamente connessi: ");
+        inputOutputManager.print("In attesa di connessione di altri giocatori...");
+        inputOutputManager.print("Giocatori momentaneamente connessi: ");
         for (String name : players)
-            System.out.println(name);
+            inputOutputManager.print(name);
 
     }
 }
