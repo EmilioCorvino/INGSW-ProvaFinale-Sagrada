@@ -77,7 +77,7 @@ public class CliView extends AViewMaster{
             }
         }
 
-        System.out.println("Connessione stabilita.\n Procedere con il login.");
+        System.out.println("Connessione stabilita.\nProcedere con il login.");
 
         while(!userNameOk){
             try {
