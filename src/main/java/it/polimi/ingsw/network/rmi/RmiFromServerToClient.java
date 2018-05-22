@@ -8,7 +8,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
-public class RmiFromServerToClient extends UnicastRemoteObject implements IFromServerToClient, Serializable {
+public class RmiFromServerToClient extends UnicastRemoteObject implements IFromServerToClient {
 
     private IClient rmiClient;
 

@@ -6,7 +6,9 @@ import it.polimi.ingsw.exceptions.TooManyUsersException;
 import it.polimi.ingsw.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.network.IFromServerToClient;
 
-public class RmiServer implements IServer {
+import java.rmi.server.Unreferenced;
+
+public class RmiServer implements IServer, Unreferenced {
 
     private final ControllerMaster controllerMaster;
     private IFromServerToClient fromServerToClient;
@@ -36,6 +38,11 @@ public class RmiServer implements IServer {
 
     @Override
     public void exitGame(String playerName) {
+
+    }
+
+    @Override
+    public void unreferenced() {
 
     }
 }

@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * This class manages all the interaction during the game's state of set up.
  */
-public class SetUpGameCli implements Serializable {
+public class SetUpGameCli {
 
     public void showInitializedBoard(CommonBoard board){};
 }
