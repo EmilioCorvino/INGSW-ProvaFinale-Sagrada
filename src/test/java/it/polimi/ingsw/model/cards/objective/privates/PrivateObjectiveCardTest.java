@@ -92,7 +92,7 @@ public class PrivateObjectiveCardTest {
      */
     @Test
     public void analyzeWindowPatternCardTest() {
-        WindowPatternCard window = new WindowPatternCard(0, 2, null);
+        WindowPatternCard window = new WindowPatternCard(0, 2);
         Die purpleDie1 = new Die(4, Color.PURPLE);
         Die purpleDie2 = new Die(3, Color.PURPLE);
         Die purpleDie3 = new Die(6, Color.PURPLE);

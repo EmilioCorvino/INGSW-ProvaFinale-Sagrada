@@ -23,7 +23,7 @@ public class Cell {
     /**
      * The set of rules associated to a cell.
      */
-    private List<ARestriction> ruleSetCell = new ArrayList<>();
+    private List<ARestriction> ruleSetCell;
 
     /**
      * The restriction of the cell on the Window pattern card.
@@ -39,10 +39,16 @@ public class Cell {
     public Cell(int row, int col, ARestriction restriction) {
         this.row = row;
         this.col = col;
-        if(restriction != null){
-            this.ruleSetCell.add(restriction);
-            this.defaultRestriction = restriction;
-        }
+        this.ruleSetCell = new ArrayList<>();
+        this.ruleSetCell.add(restriction);
+        this.defaultRestriction = restriction;
+        this.containedDie = null;
+    }
+
+    public Cell(int row, int col){
+        this.row = row;
+        this.col = col;
+        this.ruleSetCell = new ArrayList<>();
         this.containedDie = null;
     }
 
@@ -79,9 +85,8 @@ public class Cell {
      * @param die is the die which need to be place in the cell
      */
     public void setContainedDie(Die die) {
-
+        this.containedDie = die;
         if( die != null) {
-            this.containedDie = die;
             ColorRestriction color = new ColorRestriction(die.getDieColor());
             ValueRestriction value = new ValueRestriction(die.getActualDieValue());
             ArrayList<ARestriction> dieRules = new ArrayList<>();
@@ -90,7 +95,6 @@ public class Cell {
             updateRuleSet(dieRules);
         }
         else{
-            this.containedDie = die;
             updateRuleSet(null);
         }
 

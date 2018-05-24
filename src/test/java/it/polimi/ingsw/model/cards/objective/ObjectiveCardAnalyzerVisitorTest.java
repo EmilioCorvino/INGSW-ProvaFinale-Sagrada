@@ -28,7 +28,7 @@ public class ObjectiveCardAnalyzerVisitorTest {
     @Before
     public void setUp() {
         this.visitor = new ObjectiveCardAnalyzerVisitor();
-        this.window = new WindowPatternCard(0, 3, null);
+        this.window = new WindowPatternCard(0, 3);
         this.deckPrivates = new PrivateObjectiveCardsDeck();
         this.deckPrivates.parseDeck();
 
