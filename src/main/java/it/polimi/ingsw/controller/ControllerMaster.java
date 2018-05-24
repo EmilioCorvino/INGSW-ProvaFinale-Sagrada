@@ -62,4 +62,6 @@ public class ControllerMaster {
     public void setStartGameState(StartGameState startGameState) {
         this.startGameState = startGameState;
     }
+
+    //todo handle reconnection
 }

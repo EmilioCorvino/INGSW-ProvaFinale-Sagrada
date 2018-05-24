@@ -1,10 +1,9 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.exceptions.UserNameAlreadyTakenException;
-import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.network.IFromServerToClient;
+import it.polimi.ingsw.network.ServerImplementation;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +21,7 @@ public class StartGameState extends AGameState {
      * This method checks if the username of a player already exists in the current match.
      * @param namePlayer the name of the player to check.
      */
-    public boolean checkLogin(String namePlayer) throws UserNameAlreadyTakenException {
+    public boolean checkLogin(String namePlayer) {
         //Player player = new Player(namePlayer, super.getControllerMaster().getCommonBoard());
 
         if (super.getControllerMaster().getConnectedPlayers().isEmpty()) {
@@ -40,14 +39,15 @@ public class StartGameState extends AGameState {
      * @return true if the maximum number is reached.
      */
     public boolean isFull() {
-        return super.getControllerMaster().getConnectedPlayers().size() == 4;
+        return super.getControllerMaster().getConnectedPlayers().size() == ServerImplementation.MAX_PLAYERS;
     }
 
+    //todo handle gameMode
     /**
-     * This method manages the login of a player and initializes the match according to his/her choice.
+     * This method manages the notifyWaitingPlayers of a player and initializes the match according to his/her choice.
      * @param gameMode the type of match to initialize.
      */
-    public void login(String gameMode) {
+    public void notifyWaitingPlayers(String gameMode) {
 
         List<String> listName = new ArrayList<>();
 
@@ -58,7 +58,7 @@ public class StartGameState extends AGameState {
         for(Map.Entry<String, IFromServerToClient> entry: getControllerMaster().getConnectedPlayers().entrySet()) {
             try {
                 entry.getValue().showRoom(listName);
-            } catch (RemoteException e) {
+            } catch (BrokenConnectionException e) {
                 e.printStackTrace();
             }
         }

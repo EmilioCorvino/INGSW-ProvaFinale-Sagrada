@@ -1,57 +1,51 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.ServerMain;
+import it.polimi.ingsw.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.exceptions.TooManyUsersException;
 import it.polimi.ingsw.exceptions.UserNameAlreadyTakenException;
+import it.polimi.ingsw.network.ClientImplementation;
 import it.polimi.ingsw.network.IFromClientToServer;
-import it.polimi.ingsw.IServer;
 import it.polimi.ingsw.view.AViewMaster;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 
-public class RmiFromClientToServer extends UnicastRemoteObject implements IFromClientToServer {
+public class RmiFromClientToServer implements IFromClientToServer {
 
-    private IServer rmiServer;
+    private IRmiServer rmiServer;
 
-    public RmiFromClientToServer(String ip, AViewMaster viewMaster) throws RemoteException {
+    private IRmiClient callBack;
+
+    public RmiFromClientToServer(String ip, AViewMaster view) throws BrokenConnectionException {
         try {
             Registry registry = LocateRegistry.getRegistry(ip, ServerMain.PORT);
-            rmiServer = (IServer) registry.lookup("IServer");
-        } catch(NotBoundException e) {
-            System.err.println("Rmi client exception: " + e.toString());
-            e.printStackTrace();
-        }
-
-        RmiClient rmiClient = new RmiClient(viewMaster);
-        try {
-            RmiFromServerToClient fromServerToClient = new RmiFromServerToClient(rmiClient);
-            rmiServer.establishConnection(fromServerToClient);
-        } catch (Exception e) {
-            System.err.println("Rmi client exception: " + e.toString());
-            e.printStackTrace();
+            this.rmiServer = (IRmiServer) registry.lookup("RmiServer");
+            this.callBack = new RmiClient(new ClientImplementation(view));
+        } catch (RemoteException e) {
+            System.err.println("Cannot connect to server during connection assignment: " + e.toString());
+            throw new BrokenConnectionException();
+        } catch (NotBoundException e) {
+            System.err.println("There is no such interface in the registry: " + e.toString());
         }
 
     }
 
     @Override
-    public void login(String gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException {
+    public void login(String gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException,
+            BrokenConnectionException {
         try {
-            rmiServer.login(gameMode, playerName);
-        } catch(RemoteException e) {
-            e.printStackTrace();
+            rmiServer.login(gameMode, playerName, this.callBack);
+        } catch (RemoteException e) {
+            System.err.println("Connection to server has been lost: " + e.toString());
+            throw new BrokenConnectionException();
         }
     }
 
     @Override
-    public void exitGame(String playerName) {
-        try {
-            rmiServer.exitGame(playerName);
-        } catch(RemoteException e) {
-            e.printStackTrace();
-        }
+    public void exitGame(String playerName) throws BrokenConnectionException {
+
     }
 }

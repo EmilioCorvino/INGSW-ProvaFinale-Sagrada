@@ -3,7 +3,7 @@ package it.polimi.ingsw.controller;
 /**
  *
  */
-public class GamePlayState implements IGameState {
+public class GamePlayState extends AGameState {
 
     @Override
     public void changeGameState(ControllerMaster controllerMaster) {

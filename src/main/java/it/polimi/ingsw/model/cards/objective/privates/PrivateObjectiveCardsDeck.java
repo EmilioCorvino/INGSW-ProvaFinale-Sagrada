@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Vector;
 
 /**
- * This class contains a collection of private objective cards.
+ * This class contains a collection of {@link PrivateObjectiveCard}.
  * It initializes them parsing information from file.
  */
 public class PrivateObjectiveCardsDeck extends AObjectiveCardsDeck {

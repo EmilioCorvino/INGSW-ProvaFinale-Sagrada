@@ -15,7 +15,10 @@ import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Vector;
-
+/**
+ * This class contains a collection of {@link APublicObjectiveCard}.
+ * It initializes them parsing information from file.
+ */
 public class PublicObjectiveCardsDeck extends AObjectiveCardsDeck {
 
     public List<APublicObjectiveCard> getDeck() {
@@ -50,6 +53,10 @@ public class PublicObjectiveCardsDeck extends AObjectiveCardsDeck {
         }
     }
 
+    /**
+     * Assigns strategies to loaded cards.
+     * @throws IOException is thrown if there is no strategy corresponding to the strategy name found on file.
+     */
     private void assignStrategy() throws IOException {
         for(APublicObjectiveCard card: this.getDeck()) {
             switch (card.getStrategyName()) {

@@ -1,21 +1,22 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.IClient;
-import it.polimi.ingsw.view.AViewMaster;
+import it.polimi.ingsw.exceptions.BrokenConnectionException;
+import it.polimi.ingsw.network.ClientImplementation;
 
-import java.io.Serializable;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
-public class RmiClient implements IClient {
+public class RmiClient extends UnicastRemoteObject implements IRmiClient {
 
-    private final AViewMaster viewMaster;
+    private ClientImplementation client;
 
-    public RmiClient(AViewMaster viewMaster) {
-        this.viewMaster = viewMaster;
+    protected RmiClient(ClientImplementation client) throws RemoteException {
+        this.client = client;
     }
 
     @Override
-    public void showRoom(List<String> players) {
-        viewMaster.showRoom(players);
+    public void showRoom(List<String> players) throws RemoteException {
+        this.client.showRoom(players);
     }
 }
