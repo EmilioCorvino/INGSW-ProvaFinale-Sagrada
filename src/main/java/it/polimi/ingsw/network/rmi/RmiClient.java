@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.exceptions.BrokenConnectionException;
-import it.polimi.ingsw.network.ClientImplementation;
+import it.polimi.ingsw.view.ClientImplementation;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

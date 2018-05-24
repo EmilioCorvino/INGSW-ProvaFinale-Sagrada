@@ -1,11 +1,13 @@
-package it.polimi.ingsw.network;
+package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.ControllerMaster;
 import it.polimi.ingsw.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.exceptions.TooManyUsersException;
 import it.polimi.ingsw.exceptions.UserNameAlreadyTakenException;
+import it.polimi.ingsw.network.IFromClientToServer;
+import it.polimi.ingsw.network.IFromServerToClient;
 
-public class ServerImplementation implements IFromClientToServer{
+public class ServerImplementation implements IFromClientToServer {
 
     private ControllerMaster controller;
 

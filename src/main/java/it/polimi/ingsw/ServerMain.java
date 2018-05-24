@@ -1,7 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.controller.ControllerMaster;
-import it.polimi.ingsw.network.ServerImplementation;
+import it.polimi.ingsw.controller.ServerImplementation;
 import it.polimi.ingsw.network.rmi.RmiServer;
 
 import java.rmi.registry.LocateRegistry;

@@ -2,7 +2,6 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.network.IFromServerToClient;
-import it.polimi.ingsw.network.ServerImplementation;
 
 import java.util.ArrayList;
 import java.util.List;
