@@ -36,7 +36,7 @@ public class ColouredDiagonalsTest extends CardTestField {
      * @return a filled {@link WindowPatternCard}.
      */
     private WindowPatternCard anotherTry() {
-        WindowPatternCard anotherWindow = new WindowPatternCard(0, 0, null);
+        WindowPatternCard anotherWindow = new WindowPatternCard(0, 0);
 
         Die redDie1 = new Die(1, Color.RED);
         Die redDie2 = new Die(1, Color.RED);

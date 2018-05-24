@@ -33,7 +33,7 @@ public abstract class CardTestField {
     }
 
     public static WindowPatternCard precompileWindowPatternCard() {
-        WindowPatternCard window = new WindowPatternCard(0, 3, null);
+        WindowPatternCard window = new WindowPatternCard(0, 3);
 
         Die greenDie1 = new Die(2, Color.GREEN);
         Die redDie1 = new Die(4, Color.RED);

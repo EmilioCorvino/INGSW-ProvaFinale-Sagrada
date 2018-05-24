@@ -39,7 +39,7 @@ public class WindowPatternCard extends ADieContainer {
     private Cell desiredCell;
 
     /**
-     *
+     *This constructor is used for create window pattern card with restriction.
      * @param idMap: The code that identify a map.
      * @param difficulty: Difficulty of the window pattern card. It is equal to the number of favor tokens to assign to each player.
      * @param restrictedCells: List of Cells with color or value restriction.
@@ -49,10 +49,22 @@ public class WindowPatternCard extends ADieContainer {
             this.difficulty = difficulty;
             for (int i = 0; i < MAX_ROW; i++)
                 for(int j = 0; j < MAX_COL; j++)
-                    glassWindow[i][j] = new Cell(i,j,null);
-            if(restrictedCells != null)
-                for (Cell c : restrictedCells)
-                    glassWindow [c.getRow()] [c.getCol()] = c;
+                    glassWindow[i][j] = new Cell(i,j);
+            for (Cell c : restrictedCells)
+                glassWindow [c.getRow()] [c.getCol()] = c;
+    }
+
+    /**
+     * This constructor is used for create window Pattern Card without restriction.
+     * @param idMap: the code that identify a map.
+     * @param difficulty:  Difficulty of the window pattern card. It is equal to the number of favor tokens to assign to each player.
+     */
+    public WindowPatternCard(int idMap, int difficulty){
+        this.idMap = idMap;
+        this.difficulty = difficulty;
+        for (int i = 0; i < MAX_ROW; i++)
+            for(int j = 0; j < MAX_COL; j++)
+                glassWindow[i][j] = new Cell(i,j);
     }
 
 

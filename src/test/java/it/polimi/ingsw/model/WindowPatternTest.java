@@ -18,9 +18,9 @@ public class WindowPatternTest {
      */
     @Test
     public void placement(){
-        WindowPatternCard wp = new WindowPatternCard(1,1,null);
+        WindowPatternCard wp = new WindowPatternCard(1,1);
         Die die = new Die(1, Color.RED);
-        Cell selectedCell = new Cell(0,0,null);
+        Cell selectedCell = new Cell(0,0);
 
         if(wp.canBePlaced(die,selectedCell)) {
             wp.setDesiredCell(selectedCell);
@@ -35,16 +35,16 @@ public class WindowPatternTest {
      */
     @Test
     public void firstPlacement () {
-        WindowPatternCard wp= new WindowPatternCard(1,1,null);
+        WindowPatternCard wp= new WindowPatternCard(1,1);
         Die die = new Die(1, Color.RED);
 
-        Cell selectedCell1 = new Cell(0,0,null);
+        Cell selectedCell1 = new Cell(0,0);
         assertTrue(wp.canBePlaced(die,selectedCell1));
 
-        Cell selectedCell2 = new Cell(3,4,null);
+        Cell selectedCell2 = new Cell(3,4);
         assertTrue(wp.canBePlaced(die,selectedCell2));
 
-        Cell selectedCell3 = new Cell(1,1,null);
+        Cell selectedCell3 = new Cell(1,1);
         assertFalse(wp.canBePlaced(die,selectedCell3));
     }
 
@@ -53,8 +53,8 @@ public class WindowPatternTest {
      */
     @Test
     public void placementBusyCell(){
-        WindowPatternCard wp = new WindowPatternCard(1,1,null);
-        Cell selectedCell = new Cell (0,1,null);
+        WindowPatternCard wp = new WindowPatternCard(1,1);
+        Cell selectedCell = new Cell (0,1);
         Die die1 = new Die(2, Color.RED);
         Die die2 = new Die(3, Color.BLUE);
 
@@ -70,11 +70,11 @@ public class WindowPatternTest {
      */
     @Test
     public void AdjacentRole(){
-        WindowPatternCard wp = new WindowPatternCard(1,1,null);
-        Cell selectedCell1 = new Cell (0,1,null);
-        Cell selectedCell2 = new Cell (0,2,null); //Border cell adjacent
-        Cell selectedCell3 = new Cell (1,2,null); //Cell diagonal adjacent
-        Cell selectedCell4 = new Cell (2, 1, null); //Cell not adjacent
+        WindowPatternCard wp = new WindowPatternCard(1,1);
+        Cell selectedCell1 = new Cell (0,1);
+        Cell selectedCell2 = new Cell (0,2); //Border cell adjacent
+        Cell selectedCell3 = new Cell (1,2); //Cell diagonal adjacent
+        Cell selectedCell4 = new Cell (2, 1); //Cell not adjacent
         Die die1 = new Die(2, Color.RED);
         Die die2 = new Die(3,Color.BLUE);
 
@@ -117,10 +117,10 @@ public class WindowPatternTest {
      */
     @Test
     public void placementRestriction(){
-        WindowPatternCard wp = new WindowPatternCard(1,1,null);
-        Cell cell1 = new Cell(0,0,null);
-        Cell orizAdjacentCell = new Cell(0, 1,null);
-        Cell diagAdjacentCell = new Cell(1, 1, null);
+        WindowPatternCard wp = new WindowPatternCard(1,1);
+        Cell cell1 = new Cell(0,0);
+        Cell orizAdjacentCell = new Cell(0, 1);
+        Cell diagAdjacentCell = new Cell(1, 1);
         Die die = new Die(1,Color.RED);
         Die correctDie = new Die(2,Color.GREEN);
         Die incorrectValueDie  = new Die(1,Color.BLUE);
