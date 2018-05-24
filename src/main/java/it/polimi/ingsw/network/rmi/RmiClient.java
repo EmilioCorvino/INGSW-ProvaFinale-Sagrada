@@ -6,16 +6,26 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
+/**
+ * This class is the implementation of the remote interface {@link IRmiClient} and it's used for callback purposes.
+ */
 public class RmiClient extends UnicastRemoteObject implements IRmiClient {
 
+    /**
+     * Effective instance of the client. It can call methods from {@link it.polimi.ingsw.view.AViewMaster}.
+     */
     private ClientImplementation client;
 
     protected RmiClient(ClientImplementation client) throws RemoteException {
         this.client = client;
     }
 
+    /**
+     * Shows the waiting room to the player owning the client.
+     * @param players names of the players already connected (including the player itself).
+     */
     @Override
-    public void showRoom(List<String> players) throws RemoteException {
+    public void showRoom(List<String> players) {
         this.client.showRoom(players);
     }
 }

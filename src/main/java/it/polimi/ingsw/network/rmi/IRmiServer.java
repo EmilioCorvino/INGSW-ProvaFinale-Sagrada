@@ -7,6 +7,10 @@ import it.polimi.ingsw.view.AViewMaster;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+/**
+ * This interface presents the same methods as {@link it.polimi.ingsw.network.IFromClientToServer}, but suited for a RMI
+ * connection: in fact it extends remote and its methods throw {@link RemoteException}.
+ */
 public interface IRmiServer extends Remote {
 
     /**
