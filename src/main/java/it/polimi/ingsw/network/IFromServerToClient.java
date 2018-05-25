@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.exceptions.BrokenConnectionException;
+import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 
 import java.util.List;
 

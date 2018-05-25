@@ -1,8 +1,8 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.exceptions.BrokenConnectionException;
-import it.polimi.ingsw.exceptions.TooManyUsersException;
-import it.polimi.ingsw.exceptions.UserNameAlreadyTakenException;
+import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
+import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
+import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.network.IFromServerToClient;
 

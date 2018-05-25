@@ -1,4 +1,4 @@
-package it.polimi.ingsw.exceptions;
+package it.polimi.ingsw.utils.exceptions;
 
 /**
  * This exception is thrown if a method cannot fetch an attribute from an object, which should have been set.

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.cli.stateManagers;
 
-import it.polimi.ingsw.exceptions.BrokenConnectionException;
+import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.network.rmi.RmiFromClientToServer;
 import it.polimi.ingsw.network.socket.SocketFromClientToServer;
