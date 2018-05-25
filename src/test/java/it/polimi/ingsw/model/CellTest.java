@@ -17,7 +17,7 @@ public class CellTest {
     @Test
     public void emptyCheck() {
 
-        Cell cell = new Cell(1, 1 , null);
+        Cell cell = new Cell(1, 1);
         assertTrue(cell.isEmpty());
 
         Die die = new Die(5, Color.RED);
@@ -31,7 +31,7 @@ public class CellTest {
     @Test
     public void placementDieCheck() {
 
-        Cell cell = new Cell(1,1, null);
+        Cell cell = new Cell(1,1);
 
         Die die = new Die(5, Color.RED);
         cell.setContainedDie(die);
@@ -45,7 +45,7 @@ public class CellTest {
     @Test
     public void updateSetRoleCheck (){
 
-        Cell cell = new Cell(1,1 , null);
+        Cell cell = new Cell(1,1);
         Die die = new Die(2, Color.RED);
 
         cell.setContainedDie(die);
@@ -74,7 +74,7 @@ public class CellTest {
      */
     @Test
     public void checkRemove(){
-        Cell cell = new Cell(0,0, null);
+        Cell cell = new Cell(0,0);
         Die die = new Die(1,Color.RED);
         ColorRestriction c = new ColorRestriction(Color.RED);
         Cell cellRestricted = new Cell (1,1, c);

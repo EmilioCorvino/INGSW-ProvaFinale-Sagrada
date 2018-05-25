@@ -15,8 +15,8 @@ public class WindowPatternCard extends ADieContainer {
     /**
      * Maximum values of row and column.
      */
-    private static final int MAX_COL = 5;
-    private static final int MAX_ROW = 4;
+    public static final int MAX_COL = 5;
+    public static final int MAX_ROW = 4;
 
     /**
      * The code that identify the map.
