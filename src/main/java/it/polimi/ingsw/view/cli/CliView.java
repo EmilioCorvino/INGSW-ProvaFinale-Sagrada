@@ -25,11 +25,6 @@ public class CliView extends AViewMaster{
     private IFromClientToServer server;
 
     /**
-     * The port number use to create the socket connection
-     */
-    private int portNumber;
-
-    /**
      *The manager of the connection and login state
      */
     private LoginCli loginState;
@@ -73,7 +68,6 @@ public class CliView extends AViewMaster{
                 ipOk = true;
             }catch (BrokenConnectionException e){
                 inputOutputManager.print("Indirizzo IP non corretto.");
-                ipOk = false;
             }
         }
 
@@ -84,7 +78,6 @@ public class CliView extends AViewMaster{
                 this.server.login(loginState.getGameMode(), loginState.getUsername());
                 userNameOk = true;
             } catch (UserNameAlreadyTakenException e) {
-                userNameOk = false;
                 inputOutputManager.print("Username già in uso!");
             } catch (BrokenConnectionException e) {
                 inputOutputManager.print("Error in creating connection");

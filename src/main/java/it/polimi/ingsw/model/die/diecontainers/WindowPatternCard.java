@@ -136,7 +136,7 @@ public class WindowPatternCard extends ADieContainer {
      * @param selectedCell: the cell where the player wants to place the die.
      * @return true if the die respects all the restrictions of the selected cell.
      */
-    private boolean checkOwnRoleSet(Die die, Cell selectedCell){
+    private boolean checkOwnRuleSet(Die die, Cell selectedCell){
         boolean ok = true;
 
         for (ARestriction restriction : glassWindow[selectedCell.getRow()][selectedCell.getCol()].getRuleSetCell())
@@ -151,7 +151,7 @@ public class WindowPatternCard extends ADieContainer {
      * @param selectedCell: the cell where the player wants to place the die.
      * @return true if the die respects all the restrictions of the adjacent cells.
      */
-    private boolean checkAdjacentRoleSet(Die die, Cell selectedCell) {
+    private boolean checkAdjacentRuleSet(Die die, Cell selectedCell) {
 
         List<ARestriction> adjacentRules = new ArrayList<>();
         if (selectedCell.getRow() != 0 && !glassWindow[selectedCell.getRow()-1][selectedCell.getCol()].isEmpty())
@@ -190,9 +190,9 @@ public class WindowPatternCard extends ADieContainer {
         if (!glassWindow[selectedCell.getRow()][selectedCell.getCol()].isEmpty())
             return false;
         if (matrixIsEmpty()) {
-            return checkBorderCells(selectedCell) && checkOwnRoleSet(die, selectedCell);
+            return checkBorderCells(selectedCell) && checkOwnRuleSet(die, selectedCell);
         }else {
-            return checkAdjacentCells(selectedCell) && checkOwnRoleSet(die, selectedCell) && checkAdjacentRoleSet(die, selectedCell);
+            return checkAdjacentCells(selectedCell) && checkOwnRuleSet(die, selectedCell) && checkAdjacentRuleSet(die, selectedCell);
         }
     }
 
