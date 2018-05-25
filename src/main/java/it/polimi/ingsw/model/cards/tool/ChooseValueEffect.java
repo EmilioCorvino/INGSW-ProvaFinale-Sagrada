@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.cards.tool;
 import it.polimi.ingsw.controller.IOController;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.model.die.diecontainers.ADieContainer;
 
 /**
  * This class manages the effect of those tool cards that allow the player to increase the value of a chosen die.

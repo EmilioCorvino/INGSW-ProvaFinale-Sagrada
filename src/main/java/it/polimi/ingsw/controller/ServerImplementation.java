@@ -6,6 +6,10 @@ import it.polimi.ingsw.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.network.IFromServerToClient;
 
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * This class manages server related operation that aren't strictly related to the game. Moreover, it handles the
  * messages arriving from the client, calling methods from {@link ControllerMaster}.
@@ -35,11 +39,11 @@ public class ServerImplementation implements IFromClientToServer {
      */
     @Override
     public void login(String gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException {
-        if(this.controller.getStartGameState().isFull()) {
+        if(((StartGameManager)this.controller.getStartGameManager()).isFull()) {
             System.out.println("The server reached the maximum number of players!");
             throw new TooManyUsersException();
         }
-        if(!this.controller.getStartGameState().checkLogin(playerName)) {
+        if(!((StartGameManager)this.controller.getStartGameManager()).checkLogin(playerName)) {
             System.out.println("Username already taken");
             throw new UserNameAlreadyTakenException();
         }
@@ -67,10 +71,30 @@ public class ServerImplementation implements IFromClientToServer {
      */
     public void establishConnection(IFromServerToClient client, String gameMode, String playerName) throws
             UserNameAlreadyTakenException, TooManyUsersException {
+
         this.login(gameMode, playerName);
+
         //If login doesn't throw any exception, the player is added to the map and the other players get notified.
         this.controller.getConnectedPlayers().put(playerName, client);
         System.out.println("Player " + playerName + " just joined!");
-        this.controller.getStartGameState().notifyWaitingPlayers(gameMode);
+        ((StartGameManager)this.controller.getStartGameManager()).notifyWaitingPlayers(gameMode);
+
+        checkNumberOfPlayers();
+    }
+
+    /**
+     * This method checks if the minimum player for a multiplayer match is reached, then starts the timer.
+     */
+    public void checkNumberOfPlayers() {
+
+        if(this.controller.getConnectedPlayers().size() == 2) {
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    System.out.println("timer is expired");
+                }
+            }, 5 * 1000);
+        }
     }
 }

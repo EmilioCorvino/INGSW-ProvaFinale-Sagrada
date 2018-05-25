@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This is the class representing the first state of the game.
+ * This class provides methods to support all the operations needed before the match starts.
  */
-public class StartGameState extends AGameState {
-    
-    public StartGameState(ControllerMaster controllerMaster) {
+public class StartGameManager extends AGameManager {
+
+    public StartGameManager(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
     }
 
@@ -63,6 +63,15 @@ public class StartGameState extends AGameState {
         }
     }
 
+    /**
+     *
+     * @param namePlayer
+     */
+    public void disconnectPlayer(String namePlayer) {
+
+
+    }
+
     /*
     public boolean isAlreadyConnected(String namePlayer, List<Player> playersRoom) {
        boolean[] res = new boolean[1];
@@ -75,8 +84,4 @@ public class StartGameState extends AGameState {
     }
     */
 
-    @Override
-    public void changeGameState(ControllerMaster controllerMaster) {
-
-    }
 }
