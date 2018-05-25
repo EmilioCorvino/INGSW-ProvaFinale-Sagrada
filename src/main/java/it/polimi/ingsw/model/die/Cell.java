@@ -49,6 +49,7 @@ public class Cell {
         this.row = row;
         this.col = col;
         this.ruleSetCell = new ArrayList<>();
+        this.defaultRestriction = null;
         this.containedDie = null;
     }
 
