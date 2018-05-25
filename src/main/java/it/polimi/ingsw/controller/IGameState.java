@@ -7,7 +7,6 @@ import it.polimi.ingsw.network.IFromServerToClient;
  */
 public interface IGameState {
 
-
     /**
      *
      * @param controllerMaster

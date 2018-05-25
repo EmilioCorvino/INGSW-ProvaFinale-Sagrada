@@ -1,57 +1,82 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.ServerMain;
+import it.polimi.ingsw.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.exceptions.TooManyUsersException;
 import it.polimi.ingsw.exceptions.UserNameAlreadyTakenException;
+import it.polimi.ingsw.view.ClientImplementation;
 import it.polimi.ingsw.network.IFromClientToServer;
-import it.polimi.ingsw.IServer;
 import it.polimi.ingsw.view.AViewMaster;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 
-public class RmiFromClientToServer extends UnicastRemoteObject implements IFromClientToServer {
+/**
+ * This class represents the server on the client side. View can call controller's methods
+ * through this class using RMI protocol.
+ */
+public class RmiFromClientToServer implements IFromClientToServer {
 
-    private IServer rmiServer;
+    /**
+     * Server's remote interface. This object can call remotely {@link IRmiServer} methods.
+     */
+    private IRmiServer rmiServer;
 
-    public RmiFromClientToServer(String ip, AViewMaster viewMaster) throws RemoteException {
+    /**
+     * Client's remote interface. This class uses it to register the client on the server, allowing RMI callback.
+     */
+    private IRmiClient callBack;
+
+    /**
+     * This constructor retrieves the remote object published on RMI registry by {@link ServerMain} and creates a
+     * {@link RmiClient} for callback.
+     * @param ip address to get the registry from.
+     * @param view instance of the view the server can use.
+     * @throws BrokenConnectionException when the connection drops.
+     * @see RmiClient
+     */
+    public RmiFromClientToServer(String ip, AViewMaster view) throws BrokenConnectionException {
         try {
             Registry registry = LocateRegistry.getRegistry(ip, ServerMain.PORT);
-            rmiServer = (IServer) registry.lookup("IServer");
-        } catch(NotBoundException e) {
-            System.err.println("Rmi client exception: " + e.toString());
-            e.printStackTrace();
-        }
-
-        RmiClient rmiClient = new RmiClient(viewMaster);
-        try {
-            RmiFromServerToClient fromServerToClient = new RmiFromServerToClient(rmiClient);
-            rmiServer.establishConnection(fromServerToClient);
-        } catch (Exception e) {
-            System.err.println("Rmi client exception: " + e.toString());
-            e.printStackTrace();
+            this.rmiServer = (IRmiServer) registry.lookup("RmiServer");
+            this.callBack = new RmiClient(new ClientImplementation(view));
+        } catch (RemoteException e) {
+            System.err.println("Cannot connect to server during connection assignment: " + e.toString());
+            throw new BrokenConnectionException();
+        } catch (NotBoundException e) {
+            System.err.println("There is no such interface in the registry: " + e.toString());
         }
 
     }
 
+    /**
+     * Lets the player log in the match.
+     * @param gameMode can be either single player or multi-player.
+     * @param playerName name the player chooses for himself in the application.
+     * @throws UserNameAlreadyTakenException when a user with the same username is already logged in.
+     * @throws TooManyUsersException when there already is the maximum number of players inside a game.
+     * @throws BrokenConnectionException when the connection drops.
+     */
     @Override
-    public void login(String gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException {
+    public void login(String gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException,
+            BrokenConnectionException {
         try {
-            rmiServer.login(gameMode, playerName);
-        } catch(RemoteException e) {
-            e.printStackTrace();
+            this.rmiServer.login(gameMode, playerName, this.callBack);
+        } catch (RemoteException e) {
+            System.err.println("Connection to server has been lost: " + e.toString());
+            throw new BrokenConnectionException();
         }
     }
 
+    /**
+     * Lets the player log out from the game.
+     * @param playerName player who wants to log out.
+     * @throws BrokenConnectionException when the connection drops.
+     */
     @Override
-    public void exitGame(String playerName) {
-        try {
-            rmiServer.exitGame(playerName);
-        } catch(RemoteException e) {
-            e.printStackTrace();
-        }
+    public void exitGame(String playerName) throws BrokenConnectionException {
+
     }
 }

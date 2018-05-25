@@ -1,18 +1,17 @@
 package it.polimi.ingsw.view.cli.stateManagers;
 
+import it.polimi.ingsw.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.network.rmi.RmiFromClientToServer;
 import it.polimi.ingsw.network.socket.SocketFromClientToServer;
 import it.polimi.ingsw.view.AViewMaster;
 import it.polimi.ingsw.view.cli.InputOutputManager;
 
-import java.io.Serializable;
-import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Scanner;
 
 /**
- * This class is used to manage all the interaction during the connection and login state.
+ * This class is used to manage all the interaction during the connection and notifyWaitingPlayers state.
  */
 public class LoginCli{
 
@@ -46,21 +45,21 @@ public class LoginCli{
      * This method allow the user to choose the kind of network interface
      * @return An instance of the network interface chosen.
      * @param ip : the ip address uses to create the connection.
-     * @param viewMaster:
+     * @param view
      */
-    public IFromClientToServer chooseNetworkInterface(String ip, AViewMaster viewMaster) throws RemoteException{
+    public IFromClientToServer chooseNetworkInterface(String ip, AViewMaster view) throws BrokenConnectionException {
 
         Scanner scan = new Scanner(System.in);
-        inputOutputManager.print("Scegliere l'interfaccia di rete desiderata:\n1-Socket\n2-RMI");
         String networkType;
 
         do {
+            inputOutputManager.print("Scegliere l'interfaccia di rete desiderata:\n1-Socket\n2-RMI");
             networkType = scan.next().trim();
         } while (!("1".equals(networkType) || "2".equals(networkType)));
-        if (networkType.equals("Socket"))
+        if (networkType.equals("1"))
             return new SocketFromClientToServer();
 
-        return new RmiFromClientToServer(ip, viewMaster);
+        return new RmiFromClientToServer(ip, view);
     }
 
     /**

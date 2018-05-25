@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
+import it.polimi.ingsw.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.exceptions.TooManyUsersException;
 import it.polimi.ingsw.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.network.IFromClientToServer;
@@ -9,7 +10,6 @@ import it.polimi.ingsw.view.cli.stateManagers.GamePlayCli;
 import it.polimi.ingsw.view.cli.stateManagers.LoginCli;
 import it.polimi.ingsw.view.cli.stateManagers.SetUpGameCli;
 
-import java.rmi.RemoteException;
 import java.util.List;
 
 public class CliView extends AViewMaster{
@@ -71,7 +71,7 @@ public class CliView extends AViewMaster{
                 String ipAddress = loginState.getIp();
                 this.server = loginState.chooseNetworkInterface(ipAddress, viewMaster);
                 ipOk = true;
-            }catch (RemoteException e){
+            }catch (BrokenConnectionException e){
                 inputOutputManager.print("Indirizzo IP non corretto.");
                 ipOk = false;
             }
@@ -86,7 +86,7 @@ public class CliView extends AViewMaster{
             } catch (UserNameAlreadyTakenException e) {
                 userNameOk = false;
                 inputOutputManager.print("Username già in uso!");
-            } catch (RemoteException e) {
+            } catch (BrokenConnectionException e) {
                 inputOutputManager.print("Error in creating connection");
                 e.printStackTrace();
             } catch (TooManyUsersException e) {
