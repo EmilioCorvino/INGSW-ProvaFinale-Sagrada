@@ -11,24 +11,31 @@ import java.util.List;
 
 public class WindowPatternCardDeck {
 
-    private List<WindowPatternCard> deck;
+    /**
+     * The list of window pattern card available
+     */
+    private List<WindowPatternCard> availableWP;
+
+    /**
+     * The list of window pattern card associated in front and back configuration.
+     */
+    private List<List<WindowPatternCard>> deck;
 
     public WindowPatternCardDeck(){
-        this.deck = new ArrayList<>();
+        this.availableWP = new ArrayList<>();
     }
 
     public void parseDeck() {
         Gson gson = new Gson();
         try (Reader file = new FileReader("./src/main/resources/cards/windowPatternCard.json")) {
-            this.deck = gson.fromJson(file, new TypeToken<List<WindowPatternCard>>(){}.getType());
+            this.availableWP = gson.fromJson(file, new TypeToken<List<WindowPatternCard>>(){}.getType());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
-    public List<WindowPatternCard> getDeck() {
-        return this.deck;
+    public List<WindowPatternCard> getAvailableWP() {
+        return this.availableWP;
     }
 }
 

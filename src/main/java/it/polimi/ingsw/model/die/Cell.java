@@ -23,12 +23,17 @@ public class Cell {
     /**
      * The set of rules associated to a cell.
      */
-    private List<ARestriction> ruleSetCell;
+    private transient List<ARestriction> ruleSetCell;
 
     /**
-     * The restriction of the cell on the Window pattern card.
+     * The value restriction of the cell on the Window pattern card.
      */
-    private ARestriction defaultRestriction;
+    private ColorRestriction defaultColorRestriction;
+
+    /**
+     * The color restriction of the cell on the window pattern card
+     */
+    private ValueRestriction defaultValueRestriction;
 
     /**
      *
@@ -36,12 +41,23 @@ public class Cell {
      * @param col The column of the cell
      * @param restriction The restriction of a cell on the window pattern card.
      */
-    public Cell(int row, int col, ARestriction restriction) {
+    public Cell(int row, int col, ColorRestriction restriction) {
         this.row = row;
         this.col = col;
         this.ruleSetCell = new ArrayList<>();
         this.ruleSetCell.add(restriction);
-        this.defaultRestriction = restriction;
+        this.defaultColorRestriction = restriction;
+        this.defaultValueRestriction = null;
+        this.containedDie = null;
+    }
+
+    public Cell(int row, int col, ValueRestriction restriction){
+        this.row = row;
+        this.col = col;
+        this.ruleSetCell = new ArrayList<>();
+        this.ruleSetCell.add(restriction);
+        this.defaultColorRestriction = null;
+        this.defaultValueRestriction = restriction;
         this.containedDie = null;
     }
 
@@ -49,7 +65,8 @@ public class Cell {
         this.row = row;
         this.col = col;
         this.ruleSetCell = new ArrayList<>();
-        this.defaultRestriction = null;
+        this.defaultColorRestriction = null;
+        this.defaultValueRestriction = null;
         this.containedDie = null;
     }
 
@@ -73,12 +90,20 @@ public class Cell {
         return containedDie;
     }
 
-    public ARestriction getDefaultRestriction() {
-        return defaultRestriction;
+    public void setDefaultColorRestriction(ColorRestriction defaultColorRestriction) {
+        this.defaultColorRestriction = defaultColorRestriction;
     }
 
-    public void setDefaultRestriction(ARestriction defaultRestriction) {
-        this.defaultRestriction = defaultRestriction;
+    public void setDefaultValueRestriction(ValueRestriction defaultValueRestriction) {
+        this.defaultValueRestriction = defaultValueRestriction;
+    }
+
+    public ColorRestriction getDefaultColorRestriction() {
+        return defaultColorRestriction;
+    }
+
+    public ValueRestriction getDefaultValueRestriction() {
+        return defaultValueRestriction;
     }
 
     /**
@@ -132,8 +157,10 @@ public class Cell {
         this.ruleSetCell.clear();
         if(rulesToAdd != null)
             this.ruleSetCell.addAll(rulesToAdd);
-        else if (defaultRestriction != null)
-            this.ruleSetCell.add(defaultRestriction);
+        else if (defaultValueRestriction != null)
+            this.ruleSetCell.add(defaultValueRestriction);
+        else if(defaultColorRestriction != null)
+            this.ruleSetCell.add(defaultColorRestriction);
     }
 
 }

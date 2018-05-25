@@ -8,121 +8,101 @@
         {
           "row":0,
           "col":0,
-          "ruleSetCell":[{"value":4}],
-          "defaultRestriction":{"value":4}
+          "defaultValueRestriction":{"value":4}
         },
         {
           "row":0,
-          "col":1,
-          "ruleSetCell":[]
+          "col":1
         },
         {
           "row":0,
           "col":2,
-          "ruleSetCell":[{"value":2}],
-          "defaultRestriction":{"value":2}
+          "defaultValueRestriction":{"value":2}
         },
         {
           "row":0,
           "col":3,
-          "ruleSetCell":[{"value":5}],
-          "defaultRestriction":{"value":5}
+          "defaultValueRestriction":{"value":5}
         },
         {
           "row":0,
           "col":4,
-          "ruleSetCell":[{"color":"GREEN"}],
-          "defaultRestriction":{"color":"GREEN"}
+          "defaultColorRestriction":{"color":"GREEN"}
         }
       ],
       [
         {
           "row":1,
-          "col":0,
-          "ruleSetCell":[]
+          "col":0
         },
         {
           "row":1,
-          "col":1,
-          "ruleSetCell":[]
+          "col":1
         },
         {
           "row":1,
           "col":2,
-          "ruleSetCell":[{"value":6}],
-          "defaultRestriction":{"value":6}
+          "defaultValueRestriction":{"value":6}
         },
         {
           "row":1,
           "col":3,
-          "ruleSetCell":[{"color":"GREEN"}],
-          "defaultRestriction":{"color":"GREEN"}
+          "defaultColorRestriction":{"color":"GREEN"}
         },
         {
           "row":1,
           "col":4,
-          "ruleSetCell":[{"value":2}],
-          "defaultRestriction":{"value":2}
+          "defaultValueRestriction":{"value":2}
         }
       ],
       [
         {
           "row":2,
-          "col":0,
-          "ruleSetCell":[]
+          "col":0
         },
         {
           "row":2,
           "col":1,
-          "ruleSetCell":[{"value":3}],
-          "defaultRestriction":{"value":3}
+          "defaultValueRestriction":{"value":3}
         },
         {
           "row":2,
           "col":2,
-          "ruleSetCell":[{"color":"GREEN"}],
-          "defaultRestriction":{"color":"GREEN"}
+          "defaultColorRestriction":{"color":"GREEN"}
         },
         {
           "row":2,
           "col":3,
-          "ruleSetCell":[{"value":4}],
-          "defaultRestriction":{"value":4}
+          "defaultValueRestriction":{"value":4}
         },
         {
           "row":2,
-          "col":4,
-          "ruleSetCell":[]
+          "col":4
         }
       ],
       [
         {
           "row":3,
           "col":0,
-          "ruleSetCell":[{"value":5}],
-          "defaultRestriction":{"value":5}
+          "defaultValueRestriction":{"value":5}
         },
         {
           "row":3,
           "col":1,
-          "ruleSetCell":[{"color":"GREEN"}],
-          "defaultRestriction":{"color":"GREEN"}
+          "defaultColorRestriction":{"color":"GREEN"}
         },
         {
           "row":3,
           "col":2,
-          "ruleSetCell":[{"value":1}],
-          "defaultRestriction":{"value":1}
+          "defaultValueRestriction":{"value":1}
         },
         {
           "row":3,
-          "col":3,
-          "ruleSetCell":[]
+          "col":3
         },
         {
           "row":3,
-          "col":4,
-          "ruleSetCell":[]
+          "col":4
         }
       ]
     ]
@@ -136,120 +116,100 @@
         {
           "row":0,
           "col":0,
-          "ruleSetCell":[{"color":"YELLOW"}],
-          "defaultRestriction":{"color":"YELLOW"}
+          "defaultColorRestriction":{"color":"YELLOW"}
         },
         {
           "row":0,
           "col":1,
-          "ruleSetCell":[{"color":"BLUE"}],
-          "defaultRestriction":{"color":"BLUE"}
+          "defaultColorRestriction":{"color":"BLUE"}
         },
         {
           "row":0,
-          "col":2,
-          "ruleSetCell":[]
+          "col":2
         },
         {
           "row":0,
-          "col":3,
-          "ruleSetCell":[]
+          "col":3
         },
         {
           "row":0,
           "col":4,
-          "ruleSetCell":[{"value":1}],
-          "defaultRestriction":{"value":1}
+          "defaultValueRestriction":{"value":1}
         }
       ],
       [
         {
           "row":1,
           "col":0,
-          "ruleSetCell":[{"color":"GREEN"}],
-          "defaultRestriction":{"color":"GREEN"}
+          "defaultColorRestriction":{"color":"GREEN"}
         },
         {
           "row":1,
-          "col":1,
-          "ruleSetCell":[]
+          "col":1
         },
         {
           "row":1,
           "col":2,
-          "ruleSetCell":[{"value":5}],
-          "defaultRestriction":{"value":5}
+          "defaultValueRestriction":{"value":5}
         },
         {
           "row":1,
-          "col":3,
-          "ruleSetCell":[]
+          "col":3
         },
         {
           "row":1,
           "col":4,
-          "ruleSetCell":[{"value":4}],
-          "defaultRestriction":{"value":4}
+          "defaultValueRestriction":{"value":4}
         }
       ],
       [
         {
           "row":2,
           "col":0,
-          "ruleSetCell":[{"value":3}],
-          "defaultRestriction":{"value":3}
+          "defaultValueRestriction":{"value":3}
         },
         {
           "row":2,
-          "col":1,
-          "ruleSetCell":[]
+          "col":1
         },
         {
           "row":2,
           "col":2,
-          "ruleSetCell":[{"color":"RED"}],
-          "defaultRestriction":{"color":"RED"}
+          "defaultColorRestriction":{"color":"RED"}
         },
         {
           "row":2,
-          "col":3,
-          "ruleSetCell":[]
+          "col":3
         },
         {
           "row":2,
           "col":4,
-          "ruleSetCell":[{"color":"GREEN"}],
-          "defaultRestriction":{"color":"GREEN"}
+          "defaultColorRestriction":{"color":"GREEN"}
         }
       ],
       [
         {
           "row":3,
           "col":0,
-          "ruleSetCell":[{"value":2}],
-          "defaultRestriction":{"value":2}
+          "defaultValueRestriction":{"value":2}
         },
         {
           "row":3,
-          "col":1,
-          "ruleSetCell":[]
+          "col":1
         },
         {
           "row":3,
-          "col":2,
-          "ruleSetCell":[]
+          "col":2
         },
         {
           "row":3,
           "col":3,
-          "ruleSetCell":[{"color":"BLUE"}],
-          "defaultRestriction":{"color":"BLUE"}
+          "defaultColorRestriction":{"color":"BLUE"}
         },
         {
           "row":3,
           "col":4,
-          "ruleSetCell":[{"color":"YELLOW"}],
-          "defaultRestriction":{"color":"YELLOW"}
+          "defaultColorRestriction":{"color":"YELLOW"}
         }
       ]
     ]
