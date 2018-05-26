@@ -1,4 +1,4 @@
-package it.polimi.ingsw.exceptions;
+package it.polimi.ingsw.utils.exceptions;
 
 /**
  * This exception is thrown if the connection between a server and a client drops.

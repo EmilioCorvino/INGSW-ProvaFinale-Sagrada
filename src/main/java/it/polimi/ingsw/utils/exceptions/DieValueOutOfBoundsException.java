@@ -1,4 +1,4 @@
-package it.polimi.ingsw.exceptions;
+package it.polimi.ingsw.utils.exceptions;
 
 public class DieValueOutOfBoundsException extends Exception {
     private final String message;

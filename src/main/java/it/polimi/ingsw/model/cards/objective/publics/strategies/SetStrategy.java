@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.cards.objective.publics.strategies;
 
-import it.polimi.ingsw.exceptions.AbsentAttributeException;
+import it.polimi.ingsw.utils.exceptions.AbsentAttributeException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.cards.objective.publics.ColorPublicObjectiveCard;

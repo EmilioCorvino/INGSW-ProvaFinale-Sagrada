@@ -1,8 +1,7 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.exceptions.TooManyUsersException;
-import it.polimi.ingsw.exceptions.UserNameAlreadyTakenException;
-import it.polimi.ingsw.view.AViewMaster;
+import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
+import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

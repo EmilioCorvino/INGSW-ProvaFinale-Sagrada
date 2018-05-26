@@ -1,8 +1,8 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.exceptions.BrokenConnectionException;
-import it.polimi.ingsw.exceptions.TooManyUsersException;
-import it.polimi.ingsw.exceptions.UserNameAlreadyTakenException;
+import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
+import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
+import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 
 /**
  * This interface lists all the methods the client can require from the server. Methods in this interface are agnostic
