@@ -60,8 +60,9 @@ public class WindowPatternCardDeck {
      */
     private void populateCellsRuleSet(){
         for(WindowPatternCard wp : availableWP) {
-            for (int i = 0; i < wp.MAX_ROW; i++) {
-                for (int j = 0; j < wp.MAX_COL; j++) {
+            for (int i = 0; i < WindowPatternCard.MAX_ROW; i++) {
+                for (int j = 0; j < WindowPatternCard.MAX_COL; j++) {
+                    wp.getGlassWindow()[i][j].setRuleSetCell(new ArrayList<>());
                     List<ARestriction> rules = new ArrayList<>();
                     rules.add(wp.getGlassWindow()[i][j].getDefaultColorRestriction());
                     rules.add(wp.getGlassWindow()[i][j].getDefaultValueRestriction());

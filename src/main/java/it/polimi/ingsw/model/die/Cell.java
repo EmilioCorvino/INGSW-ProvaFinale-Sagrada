@@ -140,6 +140,10 @@ public class Cell {
         return ruleSetCell;
     }
 
+    public void setRuleSetCell(List<ARestriction> ruleSetCell) {
+        this.ruleSetCell = ruleSetCell;
+    }
+
     /**
      * This method check if the cell is Empty.
      * @return true if the cell doesn't contain a die.
