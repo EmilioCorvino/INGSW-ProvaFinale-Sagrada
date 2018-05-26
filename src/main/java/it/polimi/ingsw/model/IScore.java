@@ -8,5 +8,5 @@ public interface IScore {
     /**
      * Computes a player's final score.
      */
-    public void computeTotalScore();
+    void computeTotalScore();
 }

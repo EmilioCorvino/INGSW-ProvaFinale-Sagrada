@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.cards.objective.publics.strategies.ColumnStrategy;
 import it.polimi.ingsw.model.cards.objective.publics.strategies.DiagonalStrategy;
 import it.polimi.ingsw.model.cards.objective.publics.strategies.RowStrategy;
 import it.polimi.ingsw.model.cards.objective.publics.strategies.SetStrategy;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,11 +16,23 @@ import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
+
 /**
  * This class contains a collection of {@link APublicObjectiveCard}.
  * It initializes them parsing information from file.
  */
 public class PublicObjectiveCardsDeck extends AObjectiveCardsDeck {
+
+    /**
+     * Path of colorPublicObjectiveCards.json.
+     */
+    private static final String COLOR_PUB_OBJ_CARDS = "./src/main/resources/cards/colorPublicObjectiveCards.json";
+
+    /**
+     * Path of valuePublicObjectiveCards.json.
+     */
+    private static final String VALUE_PUB_OBJ_CARDS = "./src/main/resources/cards/valuePublicObjectiveCards.json";
 
     public List<APublicObjectiveCard> getDeck() {
         return (List<APublicObjectiveCard>) this.deck;
@@ -33,23 +46,23 @@ public class PublicObjectiveCardsDeck extends AObjectiveCardsDeck {
         Gson gson = new Gson();
         //The TypeToken is needed to get the full parametrized type of the collection.
         Type listColorCards = new TypeToken<Vector<ColorPublicObjectiveCard>>(){}.getType();
-        try(Reader file = new FileReader("./src/main/resources/cards/colorPublicObjectiveCards.json")){
+        try(Reader file = new FileReader(COLOR_PUB_OBJ_CARDS)){
             this.deck = gson.fromJson(file, listColorCards);
         } catch (IOException e) {
-            e.printStackTrace();
+            SagradaLogger.log(Level.SEVERE, "Impossible to access color public objective cards file", e);
         }
 
         Type listValueCards = new TypeToken<Vector<ValuePublicObjectiveCard>>(){}.getType();
-        try(Reader file = new FileReader("./src/main/resources/cards/valuePublicObjectiveCards.json")){
+        try(Reader file = new FileReader(VALUE_PUB_OBJ_CARDS)){
             this.deck.addAll(gson.fromJson(file, listValueCards));
         } catch (IOException e) {
-            e.printStackTrace();
+            SagradaLogger.log(Level.SEVERE, "Impossible to access value public objective cards file", e);
         }
 
         try {
             this.assignStrategy();
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            SagradaLogger.log(Level.SEVERE, "Impossible to access find strategy name on file", e);
         }
     }
 
@@ -68,7 +81,7 @@ public class PublicObjectiveCardsDeck extends AObjectiveCardsDeck {
                                     break;
                 case "diagonal":    card.setStrategy(new DiagonalStrategy());
                                     break;
-                default:            throw new IOException("Impossible to find strategy name on file.");
+                default:            throw new IOException();
             }
         }
     }
