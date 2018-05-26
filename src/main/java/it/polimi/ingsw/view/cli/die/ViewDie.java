@@ -11,7 +11,7 @@ public class ViewDie {
         this.dieValue = dieValue;
     }
 
-    public String  printDie(){
+    public String toStringDie(){
         return "\033["+this.dieColor.getColorNumber()+";1m"+dieValue+"\033[0m";
     }
 }

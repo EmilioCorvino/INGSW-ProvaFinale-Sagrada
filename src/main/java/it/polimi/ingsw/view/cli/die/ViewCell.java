@@ -8,9 +8,9 @@ public class ViewCell {
 
     private ViewValueRestriction defaultValueRestriction;
 
-    public String printCell(){
+    public String toStringCell(){
         if(die != null)
-            return die.printDie();
+            return die.toStringDie();
         else if (defaultColorRestriction != null)
             return "\033["+defaultColorRestriction.getColor().getColorNumber()+"m"+defaultColorRestriction.getColor().getId()+"\033[0m";
         else if(defaultValueRestriction != null)
