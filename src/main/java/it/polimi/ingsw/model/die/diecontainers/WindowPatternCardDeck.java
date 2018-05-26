@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.die.diecontainers;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.exceptions.EmptyException;
+import it.polimi.ingsw.utils.exceptions.EmptyException;
 import it.polimi.ingsw.model.restrictions.ARestriction;
 
 import java.io.FileReader;
