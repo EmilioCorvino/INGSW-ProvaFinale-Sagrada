@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.network.Connection;
+import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
@@ -61,19 +62,26 @@ public class WaitingRoom {
             addPlayer(username, connection);
         }
 
+        notifyWaitingPlayers();
+
         checkNumberOfPlayers();
+    }
+
+    public void notifyWaitingPlayers() {
 
         List<String> listName = new ArrayList<>();
 
-        playersRoom.entrySet().forEach( entry -> {
-            listName.add(entry.getKey());
+        playersRoom.entrySet().forEach( entry -> listName.add(entry.getKey()));
+
+        playersRoom.entrySet().forEach(entry -> {
 
             try {
-                playersRoom.get(username).getClient().showRoom(listName);
+                entry.getValue().getClient().showRoom(listName);
             } catch (BrokenConnectionException e) {
                 e.printStackTrace();
             }
         });
+
     }
 
     /**
