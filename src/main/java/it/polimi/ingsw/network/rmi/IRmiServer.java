@@ -18,7 +18,7 @@ public interface IRmiServer extends Remote {
      * @param playerName name the player chooses for himself in the application.
      * @param callBack reference to the client, to be stored in the server.
      */
-    void login(String gameMode, String playerName, IRmiClient callBack) throws UserNameAlreadyTakenException,
+    void login(int gameMode, String playerName, IRmiClient callBack) throws UserNameAlreadyTakenException,
             TooManyUsersException, RemoteException;
 
     /**

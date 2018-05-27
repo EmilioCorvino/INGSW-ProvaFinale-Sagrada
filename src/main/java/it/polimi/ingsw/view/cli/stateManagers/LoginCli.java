@@ -32,13 +32,13 @@ public class LoginCli{
         return inputOutputManager.askInformation("Inserire l'username: ");
     }
 
-    public String getGameMode(){
+    public int getGameMode(){
         String gameMode = inputOutputManager.askInformation("Inserire la modalità di partita:\n1-Multigiocatore\n2-Giocatore Singolo");
         while (!("1".equals(gameMode) || "2".equals(gameMode))) {
             inputOutputManager.print("ERRORE: Scelta non supportata, inserire GiocatoreSingolo o Multigiocatore: ");
             gameMode = inputOutputManager.read();
         }
-        return gameMode;
+        return Integer.parseInt(gameMode);
     }
 
     /**

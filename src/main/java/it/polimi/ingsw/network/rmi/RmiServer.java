@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.controller.WaitingRoom;
+import it.polimi.ingsw.network.Connection;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.network.IFromServerToClient;
@@ -17,17 +19,17 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
     /**
      * Effective instance of the server. It can call methods from {@link it.polimi.ingsw.controller.ControllerMaster}.
      */
-    private transient ServerImplementation server;
+    private transient WaitingRoom room;
 
     /**
      * This constructor exports this class on the RMI registry on the given port, and sets {@link ServerImplementation}.
      * @param port on which the object is exported.
-     * @param server it can call methods from the controller.
+     * @param room it can call methods from the controller.
      * @throws RemoteException when RMI connection drops.
      */
-    public RmiServer(int port, ServerImplementation server) throws RemoteException {
+    public RmiServer(int port, WaitingRoom room) throws RemoteException {
         super(port);
-        this.server = server;
+        this.room = room;
     }
 
     /**
@@ -41,10 +43,10 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
      * @see RmiFromServerToClient
      */
     @Override
-    public void login(String gameMode, String playerName, IRmiClient callBack) throws UserNameAlreadyTakenException,
+    public void login(int gameMode, String playerName, IRmiClient callBack) throws UserNameAlreadyTakenException,
             TooManyUsersException {
         IFromServerToClient client = new RmiFromServerToClient(callBack);
-        this.server.establishConnection(client, gameMode, playerName);
+        this.room.addPlayer(playerName, new Connection(client, new ServerImplementation()), gameMode);
     }
 
     /**

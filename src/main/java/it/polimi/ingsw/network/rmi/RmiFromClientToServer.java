@@ -62,7 +62,7 @@ public class RmiFromClientToServer implements IFromClientToServer {
      * @throws BrokenConnectionException when the connection drops.
      */
     @Override
-    public void login(String gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException,
+    public void login(int gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException,
             BrokenConnectionException {
         try {
             this.rmiServer.login(gameMode, playerName, this.callBack);
