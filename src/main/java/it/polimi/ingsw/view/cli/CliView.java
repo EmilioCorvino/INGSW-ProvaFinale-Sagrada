@@ -88,6 +88,10 @@ public class CliView extends AViewMaster{
         }
     }
 
+    public void chooseWP(){
+
+    }
+
     @Override
     public void showRoom(List<String> players) {
         this.loginState.showRoom(players);
