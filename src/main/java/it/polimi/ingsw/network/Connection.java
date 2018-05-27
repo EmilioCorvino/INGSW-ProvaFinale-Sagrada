@@ -31,4 +31,12 @@ public class Connection {
     public void setPlayerColor(PlayerColor playerColor) {
         this.playerColor = playerColor;
     }
+
+    public IFromServerToClient getClient() {
+        return client;
+    }
+
+    public void setClient(IFromServerToClient client) {
+        this.client = client;
+    }
 }

@@ -46,16 +46,17 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
     public void login(int gameMode, String playerName, IRmiClient callBack) throws UserNameAlreadyTakenException,
             TooManyUsersException {
         IFromServerToClient client = new RmiFromServerToClient(callBack);
-        this.room.addPlayer(playerName, new Connection(client, new ServerImplementation()), gameMode);
+        //this.room.addPlayer(playerName, new Connection(client, new ServerImplementation()), gameMode);
+        this.room.login(playerName, new Connection(client, new ServerImplementation()), gameMode);
     }
 
     /**
      * Lets the player log out from the game.
      * @param playerName player who wants to log out.
-     * @throws RemoteException when RMI connection drops.
      */
     @Override
-    public void exitGame(String playerName) throws RemoteException {
+    public void exitGame(String playerName) {
 
     }
+
 }

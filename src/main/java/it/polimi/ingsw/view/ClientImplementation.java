@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.network.IFromServerToClient;
 
 import java.util.List;
@@ -26,4 +27,5 @@ public class ClientImplementation implements IFromServerToClient {
     public void showRoom(List<String> players) {
         view.showRoom(players);
     }
+
 }

@@ -29,4 +29,5 @@ public interface IFromClientToServer {
      * @throws BrokenConnectionException when the connection drops.
      */
     void exitGame(String playerName) throws BrokenConnectionException;
+
 }

@@ -81,4 +81,5 @@ public class RmiFromClientToServer implements IFromClientToServer {
     public void exitGame(String playerName) throws BrokenConnectionException {
         //todo implement this.
     }
+
 }

@@ -37,4 +37,5 @@ public class RmiFromServerToClient implements IFromServerToClient {
             throw new BrokenConnectionException();
         }
     }
+
 }

@@ -26,4 +26,5 @@ public interface IRmiServer extends Remote {
      * @param playerName player who wants to log out.
      */
     void exitGame(String playerName) throws RemoteException;
+
 }

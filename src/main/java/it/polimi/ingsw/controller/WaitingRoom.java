@@ -1,12 +1,11 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.network.Connection;
+import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 /**
  * This class manages the waiting player before the match starts.
@@ -38,11 +37,19 @@ public class WaitingRoom {
      */
     boolean running;
 
-    public void login(String username, Connection connection, String gameMode) throws UserNameAlreadyTakenException, TooManyUsersException {
+    /**
+     * This method is responsible for the log in of a player.
+     * @param username the player who wants to play.
+     * @param connection the connection assigned to the player.
+     * @param gameMode the type of match the players wants to play.
+     * @throws UserNameAlreadyTakenException
+     * @throws TooManyUsersException
+     */
+    public void login(String username, Connection connection, int gameMode) throws UserNameAlreadyTakenException, TooManyUsersException {
 
-        if(Integer.parseInt(gameMode) == SINGLEPLAYER_MODE)
+        if(gameMode == SINGLEPLAYER_MODE)
             startSingleMatch();
-        else if(Integer.parseInt(gameMode) == MULTIPLAYER_MODE) {
+        else if(gameMode == MULTIPLAYER_MODE) {
 
             if (playersRoom.size() == MAX_PLAYERS)
                 throw new TooManyUsersException();
@@ -52,6 +59,17 @@ public class WaitingRoom {
 
         checkNumberOfPlayers();
 
+        List<String> listName = new ArrayList<>();
+
+        playersRoom.entrySet().forEach( entry -> {
+            listName.add(entry.getKey());
+
+            try {
+                playersRoom.get(username).getClient().showRoom(listName);
+            } catch (BrokenConnectionException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     /**
@@ -109,4 +127,3 @@ public class WaitingRoom {
 
     }
 }
-

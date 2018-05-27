@@ -54,6 +54,7 @@ public class ServerImplementation implements IFromClientToServer {
 
     }
 
+
     /**
      * This method is used by {@link it.polimi.ingsw.network.rmi.RmiServer} and SocketServer //todo add link
      * to ensure the login can be done. It establishes the connection updating the connected players map with the
@@ -80,7 +81,7 @@ public class ServerImplementation implements IFromClientToServer {
     /**
      * This method checks if the minimum player for a multiplayer match is reached, then starts the timer.
      */
-    public void checkNumberOfPlayers() {
+    private void checkNumberOfPlayers() {
 
         if(this.controller.getConnectedPlayers().size() == 2) {
             Timer timer = new Timer();
@@ -92,4 +93,8 @@ public class ServerImplementation implements IFromClientToServer {
             }, 5 * 1000);
         }
     }
+
+
+
+
 }
