@@ -18,4 +18,14 @@ public interface IFromServerToClient {
      */
     void showRoom(List<String> players) throws BrokenConnectionException;
 
+    /**
+     *
+     * @param map1
+     * @param map2
+     * @param map3
+     * @param map4
+     */
+   // void windowPatternCardSelection(String map1, String map2, String map3, String map4) throws BrokenConnectionException;
+
+
 }

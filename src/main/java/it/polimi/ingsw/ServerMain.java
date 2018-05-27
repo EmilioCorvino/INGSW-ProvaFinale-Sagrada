@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.controller.ServerImplementation;
+import it.polimi.ingsw.controller.WaitingRoom;
 import it.polimi.ingsw.network.rmi.RmiServer;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 
@@ -20,10 +21,11 @@ public class ServerMain {
     public static final int PORT = 54242;
 
     public static void main(String[] args) {
+        WaitingRoom room = new WaitingRoom();
         //Sets up Rmi server and client remote interfaces.
         try {
             Registry registry = LocateRegistry.createRegistry(PORT);
-            RmiServer rmiServer = new RmiServer(PORT, new ServerImplementation());
+            RmiServer rmiServer = new RmiServer(PORT, room); //to handle more matches, here a MatchHandler should be passed.
             registry.bind("RmiServer", rmiServer);
         } catch (Exception e) {
             SagradaLogger.log(Level.SEVERE, "Rmi server exception", e);

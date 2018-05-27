@@ -8,6 +8,12 @@ import it.polimi.ingsw.model.CommonBoard;
  */
 public class DiePlacementMove implements IMove {
 
+    private ChooseDieMove chooseDieMove;
+
+    public DiePlacementMove() {
+
+    }
+
     /**
      *
      * @param commonBoard

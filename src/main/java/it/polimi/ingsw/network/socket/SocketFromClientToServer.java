@@ -1,10 +1,11 @@
 package it.polimi.ingsw.network.socket;
 
+import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.network.IFromClientToServer;
 
 public class SocketFromClientToServer implements IFromClientToServer {
     @Override
-    public void login(String gameMode, String playerName) {
+    public void login(int gameMode, String playerName) {
 
     }
 
@@ -12,4 +13,5 @@ public class SocketFromClientToServer implements IFromClientToServer {
     public void exitGame(String playerName) {
 
     }
+    
 }

@@ -20,7 +20,7 @@ public interface IFromClientToServer {
      * @throws TooManyUsersException when there already is the maximum number of players inside a game.
      * @throws BrokenConnectionException when the connection drops.
      */
-    void login(String gameMode, String playerName) throws UserNameAlreadyTakenException,
+    void login(int gameMode, String playerName) throws UserNameAlreadyTakenException,
             TooManyUsersException, BrokenConnectionException;
 
     /**
@@ -29,4 +29,5 @@ public interface IFromClientToServer {
      * @throws BrokenConnectionException when the connection drops.
      */
     void exitGame(String playerName) throws BrokenConnectionException;
+
 }

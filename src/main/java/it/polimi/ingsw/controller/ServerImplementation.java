@@ -6,7 +6,6 @@ import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.network.IFromServerToClient;
 
-import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,10 +25,6 @@ public class ServerImplementation implements IFromClientToServer {
      */
     static final int MAX_PLAYERS = 4;
 
-    public ServerImplementation() {
-        this.controller = new ControllerMaster();
-    }
-
     /**
      * Lets the player log in the match.
      * @param gameMode can be either single player or multi-player.
@@ -38,7 +33,7 @@ public class ServerImplementation implements IFromClientToServer {
      * @throws TooManyUsersException when there already is the maximum number of players inside a game.
      */
     @Override
-    public void login(String gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException {
+    public void login(int gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException {
         if(((StartGameManager)this.controller.getStartGameManager()).isFull()) {
             System.out.println("The server reached the maximum number of players!");
             throw new TooManyUsersException();
@@ -59,6 +54,7 @@ public class ServerImplementation implements IFromClientToServer {
 
     }
 
+
     /**
      * This method is used by {@link it.polimi.ingsw.network.rmi.RmiServer} and SocketServer //todo add link
      * to ensure the login can be done. It establishes the connection updating the connected players map with the
@@ -69,7 +65,7 @@ public class ServerImplementation implements IFromClientToServer {
      * @throws UserNameAlreadyTakenException when a user with the same username is already logged in.
      * @throws TooManyUsersException when there already is the maximum number of players inside a game.
      */
-    public void establishConnection(IFromServerToClient client, String gameMode, String playerName) throws
+    public void establishConnection(IFromServerToClient client, int gameMode, String playerName) throws
             UserNameAlreadyTakenException, TooManyUsersException {
 
         this.login(gameMode, playerName);
@@ -85,7 +81,7 @@ public class ServerImplementation implements IFromClientToServer {
     /**
      * This method checks if the minimum player for a multiplayer match is reached, then starts the timer.
      */
-    public void checkNumberOfPlayers() {
+    private void checkNumberOfPlayers() {
 
         if(this.controller.getConnectedPlayers().size() == 2) {
             Timer timer = new Timer();
@@ -97,4 +93,8 @@ public class ServerImplementation implements IFromClientToServer {
             }, 5 * 1000);
         }
     }
+
+
+
+
 }

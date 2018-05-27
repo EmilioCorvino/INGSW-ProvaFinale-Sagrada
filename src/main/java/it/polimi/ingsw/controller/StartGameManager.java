@@ -46,7 +46,7 @@ public class StartGameManager extends AGameManager {
      * This method manages the notifyWaitingPlayers of a player and initializes the match according to his/her choice.
      * @param gameMode the type of match to initialize.
      */
-    public void notifyWaitingPlayers(String gameMode) {
+    public void notifyWaitingPlayers(int gameMode) {
 
         List<String> listName = new ArrayList<>();
 

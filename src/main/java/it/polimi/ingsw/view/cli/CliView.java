@@ -11,6 +11,7 @@ import it.polimi.ingsw.view.cli.stateManagers.LoginCli;
 import it.polimi.ingsw.view.cli.stateManagers.SetUpGameCli;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class CliView extends AViewMaster{
 
@@ -95,5 +96,15 @@ public class CliView extends AViewMaster{
     @Override
     public void showRoom(List<String> players) {
         this.loginState.showRoom(players);
+    }
+
+
+
+    public IFromClientToServer getServer() {
+        return server;
+    }
+
+    public void setServer(IFromClientToServer server) {
+        this.server = server;
     }
 }
