@@ -44,8 +44,7 @@ public class WaitingRoom {
      * @throws TooManyUsersException
      */
     public void addPlayer(String username, Connection connection, int gameMode) throws UserNameAlreadyTakenException, TooManyUsersException {
-
-
+        
             if(gameMode == SINGLEPLAYER_MODE)
                 startSingleMatch();
             else if(gameMode == MULTIPLAYER_MODE) {
@@ -72,7 +71,7 @@ public class WaitingRoom {
     }
 
     /**
-     * 
+     *
      */
     private void startSingleMatch() {
 
