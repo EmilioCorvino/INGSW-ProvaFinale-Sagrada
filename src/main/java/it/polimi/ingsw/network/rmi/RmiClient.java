@@ -14,9 +14,9 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     /**
      * Effective instance of the client. It can call methods from {@link it.polimi.ingsw.view.AViewMaster}.
      */
-    private ClientImplementation client;
+    private transient ClientImplementation client;
 
-    protected RmiClient(ClientImplementation client) throws RemoteException {
+    RmiClient(ClientImplementation client) throws RemoteException{
         this.client = client;
     }
 

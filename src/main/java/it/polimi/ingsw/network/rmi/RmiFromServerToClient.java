@@ -2,9 +2,11 @@ package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.network.IFromServerToClient;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * This class represents the client on the server side. Controller can call view's methods
@@ -17,7 +19,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
      */
     private IRmiClient rmiClient;
 
-    public RmiFromServerToClient(IRmiClient rmiClient) {
+    RmiFromServerToClient(IRmiClient rmiClient) {
         this.rmiClient = rmiClient;
     }
 
@@ -31,7 +33,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
         try {
             this.rmiClient.showRoom(players);
         } catch (RemoteException e) {
-            System.err.println("Impossible to show clients the updated room: " + e.toString());
+            SagradaLogger.log(Level.SEVERE, "Impossible to show clients the updated room", e);
             throw new BrokenConnectionException();
         }
     }

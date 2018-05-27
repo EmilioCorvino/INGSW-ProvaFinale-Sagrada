@@ -17,7 +17,7 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
     /**
      * Effective instance of the server. It can call methods from {@link it.polimi.ingsw.controller.ControllerMaster}.
      */
-    private ServerImplementation server;
+    private transient ServerImplementation server;
 
     /**
      * This constructor exports this class on the RMI registry on the given port, and sets {@link ServerImplementation}.
