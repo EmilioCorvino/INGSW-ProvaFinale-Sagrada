@@ -5,8 +5,14 @@ import java.util.List;
 
 public class ViewDieDraftPool {
 
+    /**
+     * This object manage the input output communication with the user.
+     */
     private InputOutputManager inputOutputManager;
 
+    /**
+     * The list of dice contained.
+     */
     private List<ViewDie> dice;
 
     public ViewDieDraftPool(List<ViewDie> dice){
@@ -14,12 +20,18 @@ public class ViewDieDraftPool {
         this.dice = dice;
     }
 
-
+    /**
+     * This method print the draft pool
+     */
     public void printDraftPool(){
         inputOutputManager.print("RISERVA:");
         inputOutputManager.print(diceDraftToString());
     }
 
+    /**
+     * This method create a draft pool in a string format with: DIE (number colored)
+     * @return The draft pool in string format.
+     */
     private String diceDraftToString(){
         String diceDraft = "|";
 
