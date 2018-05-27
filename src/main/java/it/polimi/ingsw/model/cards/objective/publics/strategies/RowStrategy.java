@@ -57,16 +57,7 @@ public class RowStrategy implements IScoreComputationStrategy {
      */
     private boolean hasDistinctColors(Cell[] cells) {
         Set<Color> foundColors = new HashSet<>();
-        for(Cell c: cells){
-            if(c.isEmpty()) {
-                return false;
-            }
-            if(foundColors.contains(c.getContainedDie().getDieColor())){
-                return false;
-            }
-            foundColors.add(c.getContainedDie().getDieColor());
-        }
-        return true;
+        return (StrategyUtils.areFullAndHaveDifferentColors(cells, foundColors));
     }
 
     /**
@@ -76,15 +67,8 @@ public class RowStrategy implements IScoreComputationStrategy {
      */
     private boolean hasDistinctValues(Cell[] cells) {
         Set<Integer> foundValues = new HashSet<>();
-        for(Cell c: cells) {
-            if(c.isEmpty()) {
-                return false;
-            }
-            if(foundValues.contains(c.getContainedDie().getActualDieValue())) {
-                return false;
-            }
-            foundValues.add(c.getContainedDie().getActualDieValue());
-        }
-        return true;
+        return (StrategyUtils.areFullAndHaveDifferentValues(cells, foundValues));
     }
+
+
 }

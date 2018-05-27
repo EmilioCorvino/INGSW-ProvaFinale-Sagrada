@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.cards.objective.publics.ColorPublicObjectiveCard;
 import it.polimi.ingsw.model.cards.objective.publics.ValuePublicObjectiveCard;
 
+/**
+ * Strategy for diagonal based score computation.
+ */
 public class DiagonalStrategy implements IScoreComputationStrategy {
 
     /**
@@ -38,12 +41,8 @@ public class DiagonalStrategy implements IScoreComputationStrategy {
      * @return {@code true} if the cell exists and contains a die, {@code false} otherwise.
      */
     private boolean canBeChecked(int row, int col, WindowPatternCard window) {
-        if(row >= 0 && row < WindowPatternCard.getMaxRow() && col >= 0 && col < WindowPatternCard.getMaxCol()) {
-            if(!window.getGlassWindow()[row][col].isEmpty()) {
-                return true;
-            }
-        }
-        return false;
+        return (row >= 0 && row < WindowPatternCard.getMaxRow() && col >= 0 && col < WindowPatternCard.getMaxCol() &&
+                !window.getGlassWindow()[row][col].isEmpty());
     }
 
     /**
@@ -101,7 +100,7 @@ public class DiagonalStrategy implements IScoreComputationStrategy {
     }
 
     /**
-     * This strategy is not present in the game, because there is no such card that have this effect.
+     * This strategy is not present in the game, because there is no such card that has this effect.
      * However, it could be easily implemented.
      * For now it just throws an {@link UnsupportedOperationException}.
      */

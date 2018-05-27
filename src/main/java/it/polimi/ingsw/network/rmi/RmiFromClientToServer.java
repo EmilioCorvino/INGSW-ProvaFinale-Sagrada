@@ -4,6 +4,7 @@ import it.polimi.ingsw.ServerMain;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.ClientImplementation;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.view.AViewMaster;
@@ -12,6 +13,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.logging.Level;
 
 /**
  * This class represents the server on the client side. View can call controller's methods
@@ -43,10 +45,10 @@ public class RmiFromClientToServer implements IFromClientToServer {
             this.rmiServer = (IRmiServer) registry.lookup("RmiServer");
             this.callBack = new RmiClient(new ClientImplementation(view));
         } catch (RemoteException e) {
-            System.err.println("Cannot connect to server during connection assignment: " + e.toString());
+            SagradaLogger.log(Level.SEVERE, "Cannot connect to server during connection assignment", e);
             throw new BrokenConnectionException();
         } catch (NotBoundException e) {
-            System.err.println("There is no such interface in the registry: " + e.toString());
+            SagradaLogger.log(Level.SEVERE, "There is no such interface in the registry", e);
         }
 
     }
@@ -65,7 +67,7 @@ public class RmiFromClientToServer implements IFromClientToServer {
         try {
             this.rmiServer.login(gameMode, playerName, this.callBack);
         } catch (RemoteException e) {
-            System.err.println("Connection to server has been lost: " + e.toString());
+            SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during login", e);
             throw new BrokenConnectionException();
         }
     }
@@ -77,6 +79,6 @@ public class RmiFromClientToServer implements IFromClientToServer {
      */
     @Override
     public void exitGame(String playerName) throws BrokenConnectionException {
-
+        //todo implement this.
     }
 }

@@ -8,6 +8,9 @@ import java.util.logging.Logger;
 
 /**
  * This class, implemented as a singleton, initialized the logger of the application.
+ * To call the logger, it's sufficient to call the methods {@link #log(Level, String)} or
+ * {@link #log(Level, String, Throwable)} of this class. The first one is used for a generic log, the second can be
+ * related to an exception.
  */
 public class SagradaLogger {
 
@@ -22,28 +25,32 @@ public class SagradaLogger {
     private static final String CONF_PATH = "./src/main/java/it/polimi/ingsw/utils/logs/logger.properties";
 
     /**
-     * The constructor loads the configuration of the logger from file.
+     * This class shouldn't be instantiated.
      */
     private SagradaLogger() {
-        //Server logger setup.
-        final LogManager logManager = LogManager.getLogManager();
-        logger = Logger.getLogger("sagradaLogger");
-        try {
-            logManager.readConfiguration(new FileInputStream(
-                    CONF_PATH));
-
-        } catch (IOException e) {
-                logger.log(Level.SEVERE, "Error in loading configuration", e);
-        }
+        //Never directly try to instantiate this class!
+        throw new IllegalStateException();
     }
 
     /**
      * Retrieves the logger and creates this class if it doesn't already exist.
+     * In case the custom logger cannot be loaded, this methods returns the default one.
      * @return the logger of the application.
      */
     private static Logger getLogger() {
         if(logger == null) {
-            new SagradaLogger();
+            final LogManager logManager = LogManager.getLogManager();
+
+            try {
+                logManager.readConfiguration(new FileInputStream(
+                        CONF_PATH));
+                logger = Logger.getLogger("sagradaLogger");
+            } catch (IOException e) {
+                Logger stockLogger = Logger.getLogger(SagradaLogger.class.getName());
+                stockLogger.log(Level.WARNING,
+                        "Error in loading custom logger configuration, using the default one.", e);
+                logger = stockLogger;
+            }
         }
         return logger;
     }
@@ -54,12 +61,7 @@ public class SagradaLogger {
      * @param message explains what is the log about.
      */
     public static void log(Level level, String message) {
-        try {
-            getLogger().log(level, message);
-        } catch (NullPointerException e) {
-            Logger logger = Logger.getLogger(SagradaLogger.class.getName());
-            logger.log(Level.SEVERE, "Couldn't retrieve SagradaLogger.");
-        }
+        getLogger().log(level, message);
     }
 
     /**
@@ -69,12 +71,6 @@ public class SagradaLogger {
      * @param exception to which the log is relative to.
      */
     public static void log(Level level, String message, Throwable exception) {
-        try {
-            getLogger().log(level, message, exception);
-        } catch (NullPointerException e) {
-            Logger logger = Logger.getLogger(SagradaLogger.class.getName());
-            logger.log(Level.SEVERE, "Couldn't retrieve SagradaLogger.");
-        }
+        getLogger().log(level, message, exception);
     }
-
 }
