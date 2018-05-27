@@ -37,6 +37,10 @@ public class WaitingRoom {
      */
     boolean running;
 
+    public WaitingRoom() {
+        playersRoom = new HashMap<>();
+    }
+
     /**
      * This method is responsible for the log in of a player.
      * @param username the player who wants to play.
