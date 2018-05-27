@@ -4,7 +4,7 @@ import it.polimi.ingsw.network.IFromClientToServer;
 
 public class SocketFromClientToServer implements IFromClientToServer {
     @Override
-    public void login(String gameMode, String playerName) {
+    public void login(int gameMode, String playerName) {
 
     }
 
