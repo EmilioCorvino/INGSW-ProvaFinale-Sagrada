@@ -12,9 +12,9 @@ import it.polimi.ingsw.model.cards.objective.publics.ValuePublicObjectiveCard;
  */
 public interface IObjectiveCardVisitor {
 
-    public void visit(PrivateObjectiveCard privateObjectiveCard, WindowPatternCard windowPatternCard);
+    void visit(PrivateObjectiveCard privateObjectiveCard, WindowPatternCard windowPatternCard);
 
-    public void visit(ColorPublicObjectiveCard colorPublicObjectiveCard, WindowPatternCard windowPatternCard);
+    void visit(ColorPublicObjectiveCard colorPublicObjectiveCard, WindowPatternCard windowPatternCard);
 
-    public void visit(ValuePublicObjectiveCard valuePublicObjectiveCard, WindowPatternCard windowPatternCard);
+    void visit(ValuePublicObjectiveCard valuePublicObjectiveCard, WindowPatternCard windowPatternCard);
 }
