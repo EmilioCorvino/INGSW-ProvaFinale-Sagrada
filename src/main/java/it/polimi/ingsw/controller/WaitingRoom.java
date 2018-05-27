@@ -19,7 +19,7 @@ public class WaitingRoom {
     /**
      *
      */
-    Map<String, Connection> playersRoom;
+    private Map<String, Connection> playersRoom;
 
     /**
      *
@@ -35,14 +35,22 @@ public class WaitingRoom {
      */
     public void addPlayer(String username, Connection connection) throws UserNameAlreadyTakenException, TooManyUsersException {
 
-        playersRoom.entrySet().forEach( entry -> {
-            if(username.equals(entry.getKey()))
+        for (String name : playersRoom.keySet())
+            if (username.equals(name))
                 throw new UserNameAlreadyTakenException();
 
-            if(playersRoom.size() == MAX_PLAYERS)
-                throw new TooManyUsersException();
-        });
+        if (playersRoom.size() == MAX_PLAYERS)
+            throw new TooManyUsersException();
 
         playersRoom.put(username, connection);
     }
+
+    public Map<String, Connection> getPlayersRoom() {
+        return playersRoom;
+    }
+
+    public void setPlayersRoom(Map<String, Connection> playersRoom) {
+        this.playersRoom = playersRoom;
+    }
 }
+
