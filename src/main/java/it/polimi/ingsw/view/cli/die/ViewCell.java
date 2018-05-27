@@ -4,17 +4,17 @@ public class ViewCell {
 
     private ViewDie die;
 
-    private ViewColorRestriction defaultColorRestriction;
+    private ViewColor defaultColorRestriction;
 
-    private ViewValueRestriction defaultValueRestriction;
+    private Integer defaultValueRestriction;
 
     public String toStringCell(){
         if(die != null)
             return die.toStringDie();
         else if (defaultColorRestriction != null)
-            return "\033["+defaultColorRestriction.getColor().getColorNumber()+"m"+defaultColorRestriction.getColor().getId()+"\033[0m";
+            return "\033["+defaultColorRestriction.getColorNumber()+"m"+defaultColorRestriction.getId()+"\033[0m";
         else if(defaultValueRestriction != null)
-            return defaultValueRestriction.getValue().toString();
+            return defaultValueRestriction.toString();
         else
             return" ";
     }
