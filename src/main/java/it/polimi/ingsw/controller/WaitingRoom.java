@@ -119,6 +119,7 @@ public class WaitingRoom {
 
         playersRoom.put(username, connection);
 
+
     }
 
     public Map<String, Connection> getPlayersRoom() {
@@ -138,14 +139,15 @@ public class WaitingRoom {
 
         IControllerMaster controllerMaster = new ControllerMaster();
 
+        Map<PlayerColor, Player> playerMap = new HashMap<>();
+
         playersRoom.entrySet().forEach(entry -> {
             PlayerColor playerColor = PlayerColor.BLUE;
             entry.getValue().getServer().setPlayerColor(playerColor.selectRandomColor());
             entry.getValue().getServer().setController(controllerMaster);
+            playerMap.put(entry.getValue().getServer().getPlayerColor(), new Player(entry.getKey(), ((ControllerMaster) controllerMaster).getCommonBoard()));
         });
-
-
-
+        ((ControllerMaster) controllerMaster).getCommonBoard().setPlayerMap(playerMap);
     }
 
     /**

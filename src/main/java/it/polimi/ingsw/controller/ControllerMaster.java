@@ -1,11 +1,14 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.CommonBoard;
+import it.polimi.ingsw.model.move.ChooseDieMove;
+import it.polimi.ingsw.model.move.DiePlacementMove;
+import it.polimi.ingsw.model.move.IMove;
 import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.network.PlayerColor;
-import it.polimi.ingsw.view.cli.stateManagers.GamePlayCli;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -39,6 +42,7 @@ public class ControllerMaster implements IControllerMaster {
      */
     private final AGameManager endGameManager;
 
+
     public ControllerMaster() {
         commonBoard = new CommonBoard();
         startGameManager = new StartGameManager(this);
@@ -67,5 +71,21 @@ public class ControllerMaster implements IControllerMaster {
         return endGameManager;
     }
 
+    /**
+     *
+     * @param playerColor
+     * @return
+     */
+    @Override
+    public void analyzeMoveRequest(PlayerColor playerColor) {
+
+
+    }
+
+
+
+
     //todo handle reconnection
+
+
 }

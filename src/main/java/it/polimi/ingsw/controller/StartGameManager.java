@@ -2,9 +2,11 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
+import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCardDeck;
+import it.polimi.ingsw.network.PlayerColor;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
 
 import java.util.ArrayList;
@@ -25,11 +27,18 @@ public class StartGameManager extends AGameManager {
     public void chooseWindowPatternCard() {
 
         super.getControllerMaster().getConnectedPlayers().entrySet().forEach(entry -> {
-            List<SimplifiedWindowPatternCard> listToSend = windowPatternCardConverter();
-            entry.getValue().showMapsToChoose(listToSend.get(0), listToSend.get(1));
 
-            List<SimplifiedWindowPatternCard> listToSend2 = windowPatternCardConverter();
-            entry.getValue().showMapsToChoose(listToSend2.get(0), listToSend2.get(1));
+            List<SimplifiedWindowPatternCard> listToSend = new ArrayList<>();
+
+            List<SimplifiedWindowPatternCard> list1 = windowPatternCardConverter();
+            listToSend.add(list1.get(0));
+            listToSend.add(list1.get(1));
+
+            List<SimplifiedWindowPatternCard> list2 = windowPatternCardConverter();
+            listToSend.add(list2.get(0));
+            listToSend.add(list2.get(1));
+
+            entry.getValue().showMapsToChoose(listToSend);
         });
     }
 
@@ -63,11 +72,16 @@ public class StartGameManager extends AGameManager {
         return wpToSend;
     }
 
-
-
-
-
-
+    /**
+     * This method associates the chosen window pattern card to the specific player.
+     * @param player
+     * @param chosenWp
+     */
+    public void wpToSet(PlayerColor player, int chosenWp) {
+        CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
+        WindowPatternCard wpToSet = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenWp);
+        commonBoard.getPlayerMap().get(player).setWindowPatternCard(wpToSet);
+    }
 
     /*
     public boolean isAlreadyConnected(String namePlayer, List<Player> playersRoom) {

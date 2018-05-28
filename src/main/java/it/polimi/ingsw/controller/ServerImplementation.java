@@ -1,5 +1,8 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.controller.simplified_view.InformationUnit;
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.controller.simplified_view.SimplifiedDraftpool;
 import it.polimi.ingsw.network.PlayerColor;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
@@ -22,14 +25,55 @@ public class ServerImplementation  {
     private PlayerColor playerColor;
 
     /**
+     *
+     */
+    private String username;
+
+    /**
      * Controller of the match.
      */
     private  IControllerMaster controller;
 
+
+    public ServerImplementation() {
+
+    }
+
     /**
-     * Maximum number of players that can connect to the match.
+     *
      */
-    static final int MAX_PLAYERS = 4;
+    public void defaultMoveRequest() {
+        this.controller.analyzeMoveRequest(this.playerColor);
+    }
+
+    public void performMove() {
+
+    }
+
+    /**
+     *
+     * @param toolIndex
+     */
+    public void toolCardMoveRequest(int toolIndex) {
+
+    }
+    
+
+    /**
+     *
+     * @param destination
+     */
+    public void placeDie(InformationUnit destination) {
+
+    }
+
+
+    /**
+     *
+     */
+    public void endTurn() {
+
+    }
 
 
 

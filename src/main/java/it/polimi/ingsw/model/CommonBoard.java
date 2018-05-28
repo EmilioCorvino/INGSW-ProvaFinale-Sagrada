@@ -8,10 +8,14 @@ import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
 import it.polimi.ingsw.model.die.diecontainers.RoundTrack;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCardDeck;
+import it.polimi.ingsw.model.player.IPlayer;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.network.PlayerColor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class represents everything which is visible by all players.
@@ -28,6 +32,11 @@ public class CommonBoard {
      * Players connected to the match.
      */
     private final List<Player> players;
+
+    /**
+     *
+     */
+    private Map<PlayerColor, Player> playerMap;
 
     /**
      * {@link it.polimi.ingsw.model.die.diecontainers.DiceDraftPool} of the match.
@@ -83,6 +92,7 @@ public class CommonBoard {
         this.windowPatternCardDeck = new WindowPatternCardDeck();
         this.windowPatternCardDeck.parseDeck();
         //todo the same with tool cards deck.
+        this.playerMap = new HashMap<>();
     }
 
     /*todo This method will update the Window pattern of a specific player.
@@ -161,5 +171,17 @@ public class CommonBoard {
 
     public List<ToolCardSlot> getToolCardSlots() {
         return toolCardSlots;
+    }
+
+    public Map<PlayerColor, Player> getPlayerMap() {
+        return playerMap;
+    }
+
+    public void setPlayerMap(Map<PlayerColor, Player> playerMap) {
+        this.playerMap = playerMap;
+    }
+
+    public WindowPatternCardDeck getWindowPatternCardDeck() {
+        return windowPatternCardDeck;
     }
 }
