@@ -1,10 +1,12 @@
 package it.polimi.ingsw.view.cli.die;
 
+import it.polimi.ingsw.model.Color;
+
 public class ViewCell {
 
     private ViewDie die;
 
-    private ViewColor defaultColorRestriction;
+    private Color defaultColorRestriction;
 
     private Integer defaultValueRestriction;
 
