@@ -17,6 +17,12 @@ public class InformationUnit implements Serializable {
      */
     private int offset;
 
+    /**
+     * Default constructor.
+     */
+    public InformationUnit() {
+
+    }
 
     public InformationUnit(int index) {
         //0 is the default value, but it can be changed if needed.

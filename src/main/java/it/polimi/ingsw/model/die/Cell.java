@@ -166,4 +166,6 @@ public class Cell {
             this.ruleSetCell.add(defaultColorRestriction);
     }
 
+
+
 }

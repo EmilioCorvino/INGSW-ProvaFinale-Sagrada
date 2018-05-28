@@ -1,11 +1,14 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
-import it.polimi.ingsw.network.IFromServerToClient;
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
+import it.polimi.ingsw.model.die.Cell;
+import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
+import it.polimi.ingsw.model.die.diecontainers.WindowPatternCardDeck;
+import it.polimi.ingsw.utils.exceptions.EmptyException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class provides methods to support all the operations needed before the match starts.
@@ -17,60 +20,54 @@ public class StartGameManager extends AGameManager {
     }
 
     /**
-     * This method checks if the username of a player already exists in the current match.
-     * @param namePlayer the name of the player to check.
+     * This method shows to the client four window pattern cards among which to choose.
      */
-    public boolean checkLogin(String namePlayer) {
-        //Player player = new Player(namePlayer, super.getControllerMaster().getCommonBoard());
+    public void chooseWindowPatternCard() {
 
-        if (super.getControllerMaster().getConnectedPlayers().isEmpty()) {
-            return true;
-        } else {
-            for (Map.Entry<String, IFromServerToClient> entry : getControllerMaster().getConnectedPlayers().entrySet())
-                if (namePlayer.equals(entry.getKey()))
-                    return false;
-        }
-        return true;
+        super.getControllerMaster().getConnectedPlayers().entrySet().forEach(entry -> {
+            List<SimplifiedWindowPatternCard> listToSend = windowPatternCardConverter();
+            entry.getValue().showMapsToChoose(listToSend.get(0), listToSend.get(1));
+
+            List<SimplifiedWindowPatternCard> listToSend2 = windowPatternCardConverter();
+            entry.getValue().showMapsToChoose(listToSend2.get(0), listToSend2.get(1));
+        });
     }
 
     /**
-     * This method checks if the maximum number of player for a match is reached.
-     * @return true if the maximum number is reached.
+     * This method converts the window pattern card into objects to send to the client.
+     * @return a list of a couple of matched window pattern card.
      */
-    public boolean isFull() {
-        return super.getControllerMaster().getConnectedPlayers().size() == ServerImplementation.MAX_PLAYERS;
-    }
+    public List<SimplifiedWindowPatternCard> windowPatternCardConverter() {
 
-    //todo handle gameMode
-    /**
-     * This method manages the notifyWaitingPlayers of a player and initializes the match according to his/her choice.
-     * @param gameMode the type of match to initialize.
-     */
-    public void notifyWaitingPlayers(int gameMode) {
+        WindowPatternCardDeck windowPatternCardDeck = new WindowPatternCardDeck();
+        windowPatternCardDeck.parseDeck();
+        List<SetUpInformationUnit> informationUnitList = new ArrayList<>();
+        List<SimplifiedWindowPatternCard> wpToSend = new ArrayList<>();
 
-        List<String> listName = new ArrayList<>();
+        try {
+            List<WindowPatternCard> coupleOfWP = windowPatternCardDeck.drawCard();
 
-        for(Map.Entry<String, IFromServerToClient> entry: getControllerMaster().getConnectedPlayers().entrySet()) {
-            listName.add(entry.getKey());
-        }
+            for(WindowPatternCard wp : coupleOfWP) {
+                Cell[][] gw = wp.getGlassWindow();
 
-        for(Map.Entry<String, IFromServerToClient> entry: getControllerMaster().getConnectedPlayers().entrySet()) {
-            try {
-                entry.getValue().showRoom(listName);
-            } catch (BrokenConnectionException e) {
-                e.printStackTrace();
+                for(int i=0; i<WindowPatternCard.getMaxRow(); i++)
+                    for(int j=0; j<WindowPatternCard.getMaxCol(); i++)
+                        if(!gw[i][j].getRuleSetCell().isEmpty())
+                            informationUnitList.add(new SetUpInformationUnit(i*WindowPatternCard.getMaxCol()+j, gw[i][j].getDefaultColorRestriction().getColor(), gw[i][j].getDefaultValueRestriction().getValue()));
+
+                wpToSend.add(new SimplifiedWindowPatternCard(informationUnitList));
             }
+        } catch (EmptyException empty) {
+            empty.printStackTrace();
         }
+        return wpToSend;
     }
 
-    /**
-     *
-     * @param namePlayer
-     */
-    public void disconnectPlayer(String namePlayer) {
 
 
-    }
+
+
+
 
     /*
     public boolean isAlreadyConnected(String namePlayer, List<Player> playersRoom) {
