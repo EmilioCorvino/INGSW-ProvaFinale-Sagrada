@@ -9,6 +9,16 @@ import java.util.List;
 public class SimplifiedWindowPatternCard implements Serializable {
 
     /**
+     * Identification number of the map.
+     */
+    private int idMap;
+
+    /**
+     * Number of favor token associated to this map
+     */
+    private int difficulty;
+
+    /**
      * The information unit the client has to fill.
      */
     private InformationUnit informationUnit;
@@ -40,5 +50,13 @@ public class SimplifiedWindowPatternCard implements Serializable {
 
     public void setInformationUnitList(List<SetUpInformationUnit> informationUnitList) {
         this.informationUnitList = informationUnitList;
+    }
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public int getIdMap() {
+        return idMap;
     }
 }

@@ -30,8 +30,9 @@ public interface IFromServerToClient {
 
     /**
      *
-     * @param listToShow
+     * @param wp1
+     * @param wp2
      */
-    void showMapsToChoose(List<SimplifiedWindowPatternCard> listToShow);
+    void showMapsToChoose(SimplifiedWindowPatternCard wp1, SimplifiedWindowPatternCard wp2);
 
 }

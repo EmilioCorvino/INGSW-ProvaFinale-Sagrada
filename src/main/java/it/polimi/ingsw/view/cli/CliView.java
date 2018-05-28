@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
+import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
@@ -11,7 +12,6 @@ import it.polimi.ingsw.view.cli.stateManagers.LoginCli;
 import it.polimi.ingsw.view.cli.stateManagers.SetUpGameCli;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class CliView extends AViewMaster{
 
@@ -33,7 +33,7 @@ public class CliView extends AViewMaster{
     /**
      * The manager of the game set up.
      */
-    private SetUpGameCli initializzationState;
+    private SetUpGameCli initializationState;
 
     /**
      * The manager of the game play.
@@ -48,7 +48,7 @@ public class CliView extends AViewMaster{
     public CliView(){
         inputOutputManager = new InputOutputManager();
         loginState = new LoginCli();
-        initializzationState = new SetUpGameCli();
+        initializationState = new SetUpGameCli();
         gameplaySate = new GamePlayCli();
         endGameState = new EndGameCli();
     }
@@ -89,16 +89,21 @@ public class CliView extends AViewMaster{
         }
     }
 
-    public void chooseWP(){
-
-    }
-
     @Override
     public void showRoom(List<String> players) {
         this.loginState.showRoom(players);
     }
 
-
+    @Override
+    public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) {
+        int idChosen = this.initializationState.showMapsToChoose(listWp);
+        try {
+            this.server.windowPatternCardRequest(idChosen);
+        } catch (BrokenConnectionException e) {
+            inputOutputManager.print("");
+            e.printStackTrace();
+        }
+    }
 
     public IFromClientToServer getServer() {
         return server;

@@ -8,17 +8,28 @@ public class ViewCell {
 
     private Color defaultColorRestriction;
 
-    private Integer defaultValueRestriction;
+    private int defaultValueRestriction;
 
     public String toStringCell(){
         if(die != null)
             return die.toStringDie();
         else if (defaultColorRestriction != null)
             return "\033["+defaultColorRestriction.getColorNumber()+"m"+defaultColorRestriction.getId()+"\033[0m";
-        else if(defaultValueRestriction != null)
-            return defaultValueRestriction.toString();
+        else if(defaultValueRestriction != 0)
+            return ""+defaultValueRestriction;
         else
             return" ";
     }
 
+    public void setDie(ViewDie die) {
+        this.die = die;
+    }
+
+    public void setDefaultColorRestriction(Color defaultColorRestriction) {
+        this.defaultColorRestriction = defaultColorRestriction;
+    }
+
+    public void setDefaultValueRestriction(int defaultValueRestriction) {
+        this.defaultValueRestriction = defaultValueRestriction;
+    }
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -15,5 +17,7 @@ public interface IRmiClient extends Remote {
      * @param players names of the players already connected (including the player itself).
      */
     void showRoom(List<String> players) throws RemoteException;
+
+    void showMapsToChoose(SimplifiedWindowPatternCard wp1, SimplifiedWindowPatternCard wp2) throws RemoteException;
 
 }

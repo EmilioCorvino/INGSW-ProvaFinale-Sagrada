@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.view.ClientImplementation;
 
 import java.rmi.RemoteException;
@@ -27,5 +28,10 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     @Override
     public void showRoom(List<String> players) {
         this.client.showRoom(players);
+    }
+
+    @Override
+    public void showMapsToChoose(SimplifiedWindowPatternCard wp1, SimplifiedWindowPatternCard wp2) {
+        this.client.showMapsToChoose(wp1, wp2);
     }
 }
