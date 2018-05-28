@@ -30,8 +30,8 @@ public class ClientImplementation implements IFromServerToClient {
     }
 
     @Override
-    public void showMapsToChoose(SimplifiedWindowPatternCard wp1, SimplifiedWindowPatternCard wp2) {
-        view.showMapsToChoose();
+    public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) {
+        view.showMapsToChoose(listWp);
     }
 
 }
