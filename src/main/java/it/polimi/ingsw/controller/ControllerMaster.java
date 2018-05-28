@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.network.IFromServerToClient;
+import it.polimi.ingsw.network.PlayerColor;
 import it.polimi.ingsw.view.cli.stateManagers.GamePlayCli;
 
 import java.util.HashMap;
@@ -21,7 +22,7 @@ public class ControllerMaster implements IControllerMaster {
     /**
      * This is the attribute that maps each username with the correspondent client reference.
      */
-    private final Map<String, IFromServerToClient> connectedPlayers;
+    private final Map<PlayerColor, IFromServerToClient> connectedPlayers;
 
     /**
      * This attribute represents the manager for the first state of the game.
@@ -50,7 +51,7 @@ public class ControllerMaster implements IControllerMaster {
         return commonBoard;
     }
 
-    public Map<String, IFromServerToClient> getConnectedPlayers() {
+    public Map<PlayerColor, IFromServerToClient> getConnectedPlayers() {
         return connectedPlayers;
     }
 

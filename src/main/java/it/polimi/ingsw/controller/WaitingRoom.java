@@ -111,7 +111,7 @@ public class WaitingRoom {
      * @param connection the connection of the player to add.
      * @throws UserNameAlreadyTakenException
      */
-    public void addPlayer(String username, Connection connection) throws UserNameAlreadyTakenException {
+    public synchronized void addPlayer(String username, Connection connection) throws UserNameAlreadyTakenException {
 
         for (String name : playersRoom.keySet())
             if (username.equals(name))
@@ -143,6 +143,8 @@ public class WaitingRoom {
             entry.getValue().getServer().setPlayerColor(playerColor.selectRandomColor());
             entry.getValue().getServer().setController(controllerMaster);
         });
+
+
 
     }
 

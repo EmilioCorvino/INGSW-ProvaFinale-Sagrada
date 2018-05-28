@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 
 import java.util.List;
@@ -27,5 +28,11 @@ public interface IFromServerToClient {
      */
    // void windowPatternCardSelection(String map1, String map2, String map3, String map4) throws BrokenConnectionException;
 
+    /**
+     *
+     * @param wp1
+     * @param wp2
+     */
+    void showMapsToChoose(SimplifiedWindowPatternCard wp1, SimplifiedWindowPatternCard wp2);
 
 }

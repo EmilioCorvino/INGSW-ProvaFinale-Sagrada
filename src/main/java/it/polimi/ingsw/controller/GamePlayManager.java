@@ -29,11 +29,11 @@ public class GamePlayManager extends AGameManager {
     public GamePlayManager(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
         playerList = new ArrayList<>();
-        constructPlayerList();
         this.currentPlayer = 0;
         this.currentRound = 1;
     }
 
+    /*
     private void constructPlayerList() {
         for(Map.Entry<String, IFromServerToClient> entry: getControllerMaster().getConnectedPlayers().entrySet()) {
             playerList.add(entry.getKey());
@@ -41,6 +41,7 @@ public class GamePlayManager extends AGameManager {
         for(int i = playerList.size() -1; i>=0; i-- )
             playerList.add(playerList.get(i));
     }
+    */
 
 
     public void startTurn() {
