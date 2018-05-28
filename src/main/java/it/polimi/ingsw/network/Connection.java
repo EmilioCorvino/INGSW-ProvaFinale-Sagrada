@@ -16,20 +16,17 @@ public class Connection {
     /**
      * Reference to the server.
      */
-    private ServerImplementation server;
+    private final ServerImplementation server;
 
-    /**
-     * Color identifying the player.
-     */
-    private PlayerColor playerColor;
+
 
     public Connection(IFromServerToClient client, ServerImplementation server) {
         this.client = client;
         this.server = server;
     }
 
-    public void setPlayerColor(PlayerColor playerColor) {
-        this.playerColor = playerColor;
+    public void setPlayerColor() {
+
     }
 
     public IFromServerToClient getClient() {
@@ -39,4 +36,9 @@ public class Connection {
     public void setClient(IFromServerToClient client) {
         this.client = client;
     }
+
+    public ServerImplementation getServer() {
+        return server;
+    }
+
 }

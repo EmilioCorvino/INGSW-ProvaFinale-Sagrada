@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * This class
  */
-public class ControllerMaster {
+public class ControllerMaster implements IControllerMaster {
 
     /**
      * This is the reference to the common board of the game.

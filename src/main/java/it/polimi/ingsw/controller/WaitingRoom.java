@@ -1,6 +1,9 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.Connection;
+import it.polimi.ingsw.network.IFromServerToClient;
+import it.polimi.ingsw.network.PlayerColor;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
@@ -37,6 +40,11 @@ public class WaitingRoom {
      */
     boolean running;
 
+    public WaitingRoom() {
+        playersRoom = new HashMap<>();
+        running = false;
+    }
+
     /**
      * This method is responsible for the log in of a player.
      * @param username the player who wants to play.
@@ -57,15 +65,23 @@ public class WaitingRoom {
             addPlayer(username, connection);
         }
 
+        notifyWaitingPlayers();
+
         checkNumberOfPlayers();
+    }
+
+    /**
+     * This method allows the connected clients of a multi player match to see other connecting players.
+     */
+    private void notifyWaitingPlayers() {
 
         List<String> listName = new ArrayList<>();
 
-        playersRoom.entrySet().forEach( entry -> {
-            listName.add(entry.getKey());
+        playersRoom.entrySet().forEach( entry -> listName.add(entry.getKey()));
 
+        playersRoom.entrySet().forEach(entry -> {
             try {
-                playersRoom.get(username).getClient().showRoom(listName);
+                entry.getValue().getClient().showRoom(listName);
             } catch (BrokenConnectionException e) {
                 e.printStackTrace();
             }
@@ -114,9 +130,19 @@ public class WaitingRoom {
     }
 
     /**
-     *
+     * This method starts a multi player match.
      */
     public void startMultiPlayerMatch() {
+
+        running = true;
+
+        IControllerMaster controllerMaster = new ControllerMaster();
+
+        playersRoom.entrySet().forEach(entry -> {
+            PlayerColor playerColor = PlayerColor.BLUE;
+            entry.getValue().getServer().setPlayerColor(playerColor.selectRandomColor());
+            entry.getValue().getServer().setController(controllerMaster);
+        });
 
     }
 

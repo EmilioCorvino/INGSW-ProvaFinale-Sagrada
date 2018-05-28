@@ -13,5 +13,5 @@ public class SocketFromClientToServer implements IFromClientToServer {
     public void exitGame(String playerName) {
 
     }
-    
+
 }
