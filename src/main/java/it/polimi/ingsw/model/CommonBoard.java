@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.cards.objective.publics.PublicObjectiveCardsDeck;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
 import it.polimi.ingsw.model.die.diecontainers.RoundTrack;
+import it.polimi.ingsw.model.die.diecontainers.WindowPatternCardDeck;
 import it.polimi.ingsw.model.player.Player;
 
 import java.util.ArrayList;
@@ -62,6 +63,11 @@ public class CommonBoard {
      */
     private final PublicObjectiveCardsDeck publicObjectiveCardsDeck;
 
+    /**
+     * Deck composed by {@link it.polimi.ingsw.model.die.diecontainers.WindowPatternCard}.
+     */
+    private final WindowPatternCardDeck windowPatternCardDeck;
+
     /*todo private final ToolCardsDeck toolCardsDeck */
 
     public CommonBoard() {
@@ -74,6 +80,8 @@ public class CommonBoard {
         this.privateObjectiveCardsDeck.parseDeck();
         this.publicObjectiveCardsDeck = new PublicObjectiveCardsDeck();
         this.publicObjectiveCardsDeck.parseDeck();
+        this.windowPatternCardDeck = new WindowPatternCardDeck();
+        this.windowPatternCardDeck.parseDeck();
         //todo the same with tool cards deck.
     }
 
