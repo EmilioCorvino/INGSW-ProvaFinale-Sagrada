@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.cli.die;
 
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.view.cli.InputOutputManager;
 
 public class ViewWindowPatternCard {
@@ -18,17 +20,19 @@ public class ViewWindowPatternCard {
     private ViewCell[][] glassWindow;
 
 
-    public ViewWindowPatternCard(){
+    public ViewWindowPatternCard(SimplifiedWindowPatternCard sWP){
         this.inputOutputManager = new InputOutputManager();
         this.glassWindow = new ViewCell[MAX_ROW][MAX_COL];
+        this.populateViewWP(sWP);
     }
 
     /**
      * This method print the wp
      */
     public void printWp(){
-        inputOutputManager.print("\nMAPPA: ");
+        inputOutputManager.print("\nMAPPA "+idMap+": ");
         inputOutputManager.print(wpToString());
+        inputOutputManager.print("Difficoltà: " + difficulty);
     }
 
     /**
@@ -45,5 +49,36 @@ public class ViewWindowPatternCard {
             wp += "|\n";
         }
         return wp;
+    }
+
+    /**
+     * This method populate create an object view window pattern card with the info contained in simplified window pattern card.
+     * @param sWP: the object with the info needed to populate the window pattern
+     * @return The window pattern populated
+     */
+    public void populateViewWP(SimplifiedWindowPatternCard sWP){
+
+        for (SetUpInformationUnit info : sWP.getInformationUnitList()) {
+            this.setIdMap(sWP.getIdMap());
+            this.setDifficulty(sWP.getDifficulty());
+            this.getGlassWindow()[info.getIndex() % (ViewWindowPatternCard.MAX_ROW)][info.getIndex() / (ViewWindowPatternCard.MAX_COL)].setDefaultColorRestriction(info.getColor());
+            this.getGlassWindow()[info.getIndex() % (ViewWindowPatternCard.MAX_ROW)][info.getIndex() / (ViewWindowPatternCard.MAX_COL)].setDefaultValueRestriction(info.getValue());
+        }
+    }
+
+    public ViewCell[][] getGlassWindow() {
+        return glassWindow;
+    }
+
+    public void setIdMap(int idMap) {
+        this.idMap = idMap;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public int getIdMap() {
+        return idMap;
     }
 }

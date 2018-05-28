@@ -23,6 +23,7 @@ public interface IFromClientToServer {
     void login(int gameMode, String playerName) throws UserNameAlreadyTakenException,
             TooManyUsersException, BrokenConnectionException;
 
+    void windowPatternCardRequest(int idMap) throws BrokenConnectionException;
     /**
      * Lets the player log out from the game.
      * @param playerName player who wants to log out.
