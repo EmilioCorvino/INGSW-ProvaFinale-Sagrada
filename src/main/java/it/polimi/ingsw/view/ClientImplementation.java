@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.network.IFromServerToClient;
 
@@ -26,6 +27,16 @@ public class ClientImplementation implements IFromServerToClient {
     @Override
     public void showRoom(List<String> players) {
         view.showRoom(players);
+    }
+
+    /**
+     *
+     * @param wp1
+     * @param wp2
+     */
+    @Override
+    public void showMapsToChoose(SimplifiedWindowPatternCard wp1, SimplifiedWindowPatternCard wp2) {
+        //todo fill this
     }
 
 }

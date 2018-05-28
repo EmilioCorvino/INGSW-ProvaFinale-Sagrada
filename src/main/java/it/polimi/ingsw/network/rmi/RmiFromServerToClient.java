@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
@@ -34,6 +35,23 @@ public class RmiFromServerToClient implements IFromServerToClient {
             this.rmiClient.showRoom(players);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to show clients the updated room", e);
+            throw new BrokenConnectionException();
+        }
+    }
+
+    /**
+     *
+     * @param wp1
+     * @param wp2
+     * @throws BrokenConnectionException
+     */
+    @Override
+    public void showMapsToChoose(SimplifiedWindowPatternCard wp1, SimplifiedWindowPatternCard wp2) throws
+            BrokenConnectionException {
+        try {
+            this.rmiClient.showMapsToChoose(wp1, wp2);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to show clients the window pattern cards", e);
             throw new BrokenConnectionException();
         }
     }

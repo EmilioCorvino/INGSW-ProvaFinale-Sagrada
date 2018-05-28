@@ -1,4 +1,25 @@
 package it.polimi.ingsw.network.socket;
 
-public class NetworkMessage {
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * This class represent the messages sent through socket protocol.
+ */
+public class NetworkMessage implements Serializable {
+
+    /**
+     * Parameters the machine on the other end of the connection will use.
+     */
+    private List<Serializable> parameters;
+
+    /**
+     * Enum value representing the method the sender wants to call from the machine on the other end.
+     */
+    private INetworkMethod method;
+
+    NetworkMessage(INetworkMethod method, List<Serializable> parameters) {
+        this.method = method;
+        this.parameters = parameters;
+    }
 }
