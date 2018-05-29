@@ -173,7 +173,7 @@ public class GamePlayManager extends AGameManager {
             } catch (BrokenConnectionException br) {
                 //handle
             }
-
         });
+        endTurn();
     }
 }
