@@ -69,9 +69,9 @@ public class GamePlayManager extends AGameManager {
      * //TODO testing
      */
     private void reOrderPlayerList() {
-        PlayerColor colorToMove = playerColorList.get(startPlayer -1);
+        PlayerColor colorToMove = playerColorList.get(startPlayer );
         if(startPlayer != 0) {
-            playerColorList.remove(startPlayer -1);
+            playerColorList.remove(startPlayer );
             playerColorList.add(colorToMove);
         }
     }
