@@ -10,5 +10,15 @@ public class CommonBoardView {
 
     RoundTrackView roundTrack;
 
+    public Map<String, WindowPatternCardView> getPlayers() {
+        return players;
+    }
 
+    public DieDraftPoolView getDraftPool() {
+        return draftPool;
+    }
+
+    public RoundTrackView getRoundTrack() {
+        return roundTrack;
+    }
 }

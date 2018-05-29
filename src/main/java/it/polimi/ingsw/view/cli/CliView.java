@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedDraftpool;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
@@ -121,7 +122,16 @@ public class CliView extends AViewMaster{
         }
     }
 
-    public void showCommonBoard(DiceDraftPool draft, WindowPatternCard wp){
+    @Override
+    public void showCommonBoard(DiceDraftPool draft, SimplifiedWindowPatternCard wp){}
+
+    @Override
+    public void showCommand() {
+
+    }
+
+    @Override
+    public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) {
 
     }
 

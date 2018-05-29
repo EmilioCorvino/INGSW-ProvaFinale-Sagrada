@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedDraftpool;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
+import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 
 import java.util.List;
@@ -37,7 +38,9 @@ public interface IFromServerToClient {
      */
     void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) throws BrokenConnectionException;
 
-    void showCommonBoard(SimplifiedDraftpool draft, SimplifiedWindowPatternCard wp) throws BrokenConnectionException;
+    void showCommonBoard(DiceDraftPool draft, SimplifiedWindowPatternCard wp) throws BrokenConnectionException;
+
+    void showCommand() throws BrokenConnectionException;
 
     void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws BrokenConnectionException;
 

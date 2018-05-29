@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedDraftpool;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
+import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.network.IFromServerToClient;
 
@@ -36,11 +37,18 @@ public class ClientImplementation implements IFromServerToClient {
         view.showMapsToChoose(listWp);
     }
 
-    
-    public void showCommonBoard(SimplifiedDraftpool draft, SimplifiedWindowPatternCard wp){}
 
     @Override
     public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws BrokenConnectionException {
+        view.giveProperObjectToFill(setInfoUnit);
+    }
+    @Override
+    public void showCommonBoard(DiceDraftPool draft, SimplifiedWindowPatternCard wp) throws BrokenConnectionException{
+        view.showCommonBoard(draft, wp);
+    }
 
+    @Override
+    public void showCommand() throws BrokenConnectionException {
+        view.showCommand();
     }
 }
