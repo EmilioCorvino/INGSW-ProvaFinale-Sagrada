@@ -152,6 +152,9 @@ public class ServerImplementation implements IFromClientToServer {
         startGameManager.wpToSet(this.playerColor, idMap);
     }
 
+
+
+
     @Override
     public void exitGame(String playerName) throws BrokenConnectionException {
 

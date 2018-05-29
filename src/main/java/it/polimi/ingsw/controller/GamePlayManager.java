@@ -81,6 +81,8 @@ public class GamePlayManager extends AGameManager {
         //for this current player advise that his/her inputs are needed
         //unlock commands for the current player
         //start the timer
+
+        /*
         Timer timerTurn = new Timer();
         timerTurn.schedule(new TimerTask() {
             @Override
@@ -94,6 +96,7 @@ public class GamePlayManager extends AGameManager {
 
             }
         }, 5 * 1000);
+        */
     }
 
     /**

@@ -6,12 +6,14 @@ import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCardDeck;
+import it.polimi.ingsw.model.restrictions.ARestriction;
 import it.polimi.ingsw.network.PlayerColor;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * This class provides methods to support all the operations needed before the match starts.
@@ -66,7 +68,9 @@ public class StartGameManager extends AGameManager {
 
                 for(int i=0; i<WindowPatternCard.getMaxRow(); i++)
                     for(int j=0; j<WindowPatternCard.getMaxCol(); i++)
+
                         if(!gw[i][j].getRuleSetCell().isEmpty())
+
                             informationUnitList.add(new SetUpInformationUnit(i*WindowPatternCard.getMaxCol()+j, gw[i][j].getDefaultColorRestriction().getColor(), gw[i][j].getDefaultValueRestriction().getValue()));
 
                 wpToSend.add(new SimplifiedWindowPatternCard(informationUnitList));
@@ -75,6 +79,23 @@ public class StartGameManager extends AGameManager {
             empty.printStackTrace();
         }
         return wpToSend;
+    }
+
+    public SimplifiedWindowPatternCard convertOneWp(int chosenMap) {
+        CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
+        WindowPatternCard wp = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenMap);
+
+        Cell[][] gw = wp.getGlassWindow();
+
+        List<SetUpInformationUnit> informationUnitList = new ArrayList<>();
+
+        for(int i=0; i<WindowPatternCard.getMaxRow(); i++)
+            for(int j=0; j<WindowPatternCard.getMaxCol(); i++)
+                if(!gw[i][j].getRuleSetCell().isEmpty())
+                   informationUnitList.add(new SetUpInformationUnit(i*WindowPatternCard.getMaxCol()+j, gw[i][j].getDefaultColorRestriction().getColor(), gw[i][j].getDefaultValueRestriction().getValue()));
+
+        return new SimplifiedWindowPatternCard(informationUnitList);
+
     }
 
     /**
@@ -86,7 +107,17 @@ public class StartGameManager extends AGameManager {
         CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
         WindowPatternCard wpToSet = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenWp);
         commonBoard.getPlayerMap().get(player).setWindowPatternCard(wpToSet);
+        SimplifiedWindowPatternCard wpToSend = convertOneWp(chosenWp);
+
+        try{
+            super.getControllerMaster().getConnectedPlayers().get(player).showCommonBoard(commonBoard.getDraftPool(), wpToSend);
+
+        } catch (BrokenConnectionException br) {
+            //TODO handle broken connection.
+        }
     }
+
+
 
     /*
     public boolean isAlreadyConnected(String namePlayer, List<Player> playersRoom) {
