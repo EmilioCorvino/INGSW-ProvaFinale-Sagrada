@@ -98,7 +98,9 @@ public class WaitingRoom {
                 public void run() {
                     System.out.println("timer is expired");
                     setRunning(true);
+                    System.out.println("running");
                     startMultiPlayerMatch();
+                    System.out.println("match started");
                 }
             }, 5 * 1000);
         }
@@ -125,6 +127,7 @@ public class WaitingRoom {
     public void startMultiPlayerMatch() {
         ControllerMaster controllerMaster = new ControllerMaster();
         Map<PlayerColor, Player> playerMap = new HashMap<>();
+        System.out.println("map created");
 
         playersRoom.entrySet().forEach(entry -> {
             PlayerColor playerColor = PlayerColor.BLUE; //default value
@@ -132,7 +135,10 @@ public class WaitingRoom {
             entry.getValue().getServer().setController(controllerMaster);
             playerMap.put(entry.getValue().getServer().getPlayerColor(), new Player(entry.getKey(), ((ControllerMaster) controllerMaster).getCommonBoard()));
         });
-        ((ControllerMaster) controllerMaster).getCommonBoard().setPlayerMap(playerMap);
+        controllerMaster.getCommonBoard().setPlayerMap(playerMap);
+
+        ((StartGameManager)controllerMaster.getStartGameManager()).chooseWindowPatternCard();
+        System.out.println("maps????");
     }
 
     /**

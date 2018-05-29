@@ -47,6 +47,7 @@ public class StartGameManager extends AGameManager {
             }
 
         });
+        System.out.println("choooooooseeeeeeeeeeeee");
     }
 
     /**
