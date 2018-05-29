@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.controller.WaitingRoom;
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.network.Connection;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
@@ -58,6 +59,16 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
     @Override
     public void windowPatternCardRequest(int idMap) {
         this.serverImplementation.windowPatternCardRequest(idMap);
+    }
+
+    @Override
+    public void defaultMoveRequest() {
+        this.serverImplementation.defaultMoveRequest();
+    }
+
+    @Override
+    public void performMove(SetUpInformationUnit info) {
+        this.serverImplementation.performMove(info);
     }
 
     /**

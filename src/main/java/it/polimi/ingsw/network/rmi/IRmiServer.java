@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 
@@ -22,6 +23,10 @@ public interface IRmiServer extends Remote {
             TooManyUsersException, RemoteException;
 
     void windowPatternCardRequest(int idMap) throws RemoteException;
+
+    void defaultMoveRequest() throws RemoteException;
+
+    void performMove(SetUpInformationUnit info) throws RemoteException;
 
     /**
      * Lets the player log out from the game.

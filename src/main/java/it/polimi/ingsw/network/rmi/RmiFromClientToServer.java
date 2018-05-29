@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.ServerMain;
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
@@ -83,6 +84,26 @@ public class RmiFromClientToServer implements IFromClientToServer {
             this.rmiServer.windowPatternCardRequest(idMap);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during window pattern card request", e);
+            throw new BrokenConnectionException();
+        }
+    }
+
+    @Override
+    public void defaultMoveRequest() throws BrokenConnectionException {
+        try {
+            this.rmiServer.defaultMoveRequest();
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during default move request", e);
+            throw new BrokenConnectionException();
+        }
+    }
+
+    @Override
+    public void performMove(SetUpInformationUnit info) throws BrokenConnectionException {
+        try {
+            this.rmiServer.performMove(info);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during move execution", e);
             throw new BrokenConnectionException();
         }
     }
