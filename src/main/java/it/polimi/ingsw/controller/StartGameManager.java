@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCardDeck;
 import it.polimi.ingsw.network.PlayerColor;
+import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
 
 import java.util.ArrayList;
@@ -37,8 +38,12 @@ public class StartGameManager extends AGameManager {
             List<SimplifiedWindowPatternCard> list2 = windowPatternCardConverter();
             listToSend.add(list2.get(0));
             listToSend.add(list2.get(1));
+            try{
+                entry.getValue().showMapsToChoose(listToSend);
+            } catch (BrokenConnectionException br) {
+                //TODO handle broken connection: suspend player...
+            }
 
-            entry.getValue().showMapsToChoose(listToSend);
         });
     }
 
