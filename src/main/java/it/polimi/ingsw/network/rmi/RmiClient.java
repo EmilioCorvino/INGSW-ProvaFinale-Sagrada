@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.view.ClientImplementation;
 
@@ -33,5 +34,10 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     @Override
     public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) {
         this.client.showMapsToChoose(listWp);
+    }
+
+    @Override
+    public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) {
+        this.client.giveProperObjectToFill(setInfoUnit);
     }
 }

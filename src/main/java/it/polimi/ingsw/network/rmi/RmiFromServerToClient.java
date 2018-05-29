@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.network.IFromServerToClient;
@@ -52,6 +53,21 @@ public class RmiFromServerToClient implements IFromServerToClient {
             this.rmiClient.showMapsToChoose(listWp);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to show clients the window pattern cards", e);
+            throw new BrokenConnectionException();
+        }
+    }
+
+    /**
+     *
+     * @param setInfoUnit
+     * @throws BrokenConnectionException
+     */
+    @Override
+    public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws BrokenConnectionException {
+        try {
+            this.rmiClient.giveProperObjectToFill(setInfoUnit);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to show to the client the proper object to fill", e);
             throw new BrokenConnectionException();
         }
     }
