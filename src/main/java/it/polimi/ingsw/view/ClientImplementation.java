@@ -36,5 +36,11 @@ public class ClientImplementation implements IFromServerToClient {
         view.showMapsToChoose(listWp);
     }
 
+    
     public void showCommonBoard(SimplifiedDraftpool draft, SimplifiedWindowPatternCard wp){}
+
+    @Override
+    public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws BrokenConnectionException {
+
+    }
 }
