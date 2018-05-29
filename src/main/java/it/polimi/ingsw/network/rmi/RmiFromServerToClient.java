@@ -41,15 +41,15 @@ public class RmiFromServerToClient implements IFromServerToClient {
 
     /**
      *
-     * @param wp1
-     * @param wp2
+     *
+     * @param listWp
      * @throws BrokenConnectionException
      */
     @Override
-    public void showMapsToChoose(SimplifiedWindowPatternCard wp1, SimplifiedWindowPatternCard wp2) throws
+    public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) throws
             BrokenConnectionException {
         try {
-            this.rmiClient.showMapsToChoose(wp1, wp2);
+            this.rmiClient.showMapsToChoose(listWp);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to show clients the window pattern cards", e);
             throw new BrokenConnectionException();

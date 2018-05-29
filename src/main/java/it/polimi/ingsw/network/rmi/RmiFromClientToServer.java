@@ -72,6 +72,11 @@ public class RmiFromClientToServer implements IFromClientToServer {
         }
     }
 
+    @Override
+    public void windowPatternCardRequest(int idMap) throws BrokenConnectionException {
+
+    }
+
     /**
      * Lets the player log out from the game.
      * @param playerName player who wants to log out.

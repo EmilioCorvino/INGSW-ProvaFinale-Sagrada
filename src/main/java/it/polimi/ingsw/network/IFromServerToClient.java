@@ -30,8 +30,7 @@ public interface IFromServerToClient {
 
     /**
      *
-     * @param wp1
-     * @param wp2
+     * @param listWp
      */
     void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) throws
             BrokenConnectionException;

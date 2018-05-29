@@ -10,6 +10,11 @@ public class SocketFromClientToServer implements IFromClientToServer {
     }
 
     @Override
+    public void windowPatternCardRequest(int idMap) throws BrokenConnectionException {
+
+    }
+
+    @Override
     public void exitGame(String playerName) {
 
     }

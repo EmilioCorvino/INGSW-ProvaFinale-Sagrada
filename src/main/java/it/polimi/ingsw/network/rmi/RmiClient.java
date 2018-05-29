@@ -31,7 +31,7 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
-    public void showMapsToChoose(SimplifiedWindowPatternCard wp1, SimplifiedWindowPatternCard wp2) {
-        this.client.showMapsToChoose(wp1, wp2);
+    public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) {
+        this.client.showMapsToChoose(listWp);
     }
 }

@@ -18,6 +18,6 @@ public interface IRmiClient extends Remote {
      */
     void showRoom(List<String> players) throws RemoteException;
 
-    void showMapsToChoose(SimplifiedWindowPatternCard wp1, SimplifiedWindowPatternCard wp2) throws RemoteException;
+    void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) throws RemoteException;
 
 }

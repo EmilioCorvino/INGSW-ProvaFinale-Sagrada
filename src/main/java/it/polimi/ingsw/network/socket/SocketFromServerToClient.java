@@ -13,7 +13,7 @@ public class SocketFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void showMapsToChoose(SimplifiedWindowPatternCard wp1, SimplifiedWindowPatternCard wp2) {
+    public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) throws BrokenConnectionException {
 
     }
 
