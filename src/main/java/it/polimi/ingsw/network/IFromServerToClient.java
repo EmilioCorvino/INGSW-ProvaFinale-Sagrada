@@ -37,7 +37,7 @@ public interface IFromServerToClient {
      */
     void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) throws BrokenConnectionException;
 
-    public void showCommonBoard(SimplifiedDraftpool draft, SimplifiedWindowPatternCard wp) throws BrokenConnectionException;
+    void showCommonBoard(SimplifiedDraftpool draft, SimplifiedWindowPatternCard wp) throws BrokenConnectionException;
 
     void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws BrokenConnectionException;
 
