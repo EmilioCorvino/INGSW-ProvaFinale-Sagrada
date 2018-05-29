@@ -38,6 +38,8 @@ public interface IFromServerToClient {
 
     void showCommonBoard(DiceDraftPool draft, SimplifiedWindowPatternCard wp) throws BrokenConnectionException;
 
+    void showCommand() throws BrokenConnectionException;
+
     void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws BrokenConnectionException;
 
 }

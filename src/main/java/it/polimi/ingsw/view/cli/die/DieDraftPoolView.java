@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.cli.die;
 
+import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
 import it.polimi.ingsw.view.cli.InputOutputManager;
 import java.util.List;
 
@@ -15,9 +17,11 @@ public class DieDraftPoolView {
      */
     private List<DieView> dice;
 
-    public DieDraftPoolView(List<DieView> dice){
+    public DieDraftPoolView(DiceDraftPool draft){
         this.inputOutputManager = new InputOutputManager();
-        this.dice = dice;
+
+        for(Die die: draft.getAvailableDice())
+            dice.add(new DieView(die.getDieColor(),die.getActualDieValue()));
     }
 
     /**
