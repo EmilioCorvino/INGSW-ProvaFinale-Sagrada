@@ -1,11 +1,15 @@
 package it.polimi.ingsw.view.cli;
 
+import it.polimi.ingsw.controller.simplified_view.SimplifiedDraftpool;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
+import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
+import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.view.AViewMaster;
+import it.polimi.ingsw.view.cli.die.CommonBoardView;
 import it.polimi.ingsw.view.cli.stateManagers.EndGameCli;
 import it.polimi.ingsw.view.cli.stateManagers.GamePlayCli;
 import it.polimi.ingsw.view.cli.stateManagers.LoginCli;
@@ -14,6 +18,16 @@ import it.polimi.ingsw.view.cli.stateManagers.SetUpGameCli;
 import java.util.List;
 
 public class CliView extends AViewMaster{
+
+    /**
+     * The user name of the player connected with the client.
+     */
+    private String userName;
+
+    /**
+     * The structure that contain the draft pool the cards (public objective and tool).
+     */
+    private CommonBoardView commonBoard;
 
     /**
      * Input Output Manager.
@@ -46,6 +60,7 @@ public class CliView extends AViewMaster{
     private EndGameCli endGameState;
 
     public CliView(){
+        commonBoard = new CommonBoardView();
         inputOutputManager = new InputOutputManager();
         loginState = new LoginCli();
         initializationState = new SetUpGameCli();
@@ -76,7 +91,8 @@ public class CliView extends AViewMaster{
 
         while(!userNameOk){
             try {
-                this.server.login(loginState.getGameMode(), loginState.getUsername());
+                this.userName = loginState.getUsername();
+                this.server.login(loginState.getGameMode(), userName);
                 userNameOk = true;
             } catch (UserNameAlreadyTakenException e) {
                 inputOutputManager.print("Username già in uso!");
@@ -103,6 +119,10 @@ public class CliView extends AViewMaster{
             inputOutputManager.print("");
             e.printStackTrace();
         }
+    }
+
+    public void showCommonBoard(DiceDraftPool draft, WindowPatternCard wp){
+
     }
 
     public IFromClientToServer getServer() {

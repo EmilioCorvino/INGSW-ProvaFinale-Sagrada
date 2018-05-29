@@ -56,7 +56,7 @@ public class WindowPatternCardView {
      * @param sWP: the object with the info needed to populate the window pattern
      * @return The window pattern populated
      */
-    public void populateViewWP(SimplifiedWindowPatternCard sWP){
+    private void populateViewWP(SimplifiedWindowPatternCard sWP){
 
         for (SetUpInformationUnit info : sWP.getInformationUnitList()) {
             this.setIdMap(sWP.getIdMap());
