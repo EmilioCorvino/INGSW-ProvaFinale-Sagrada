@@ -47,6 +47,9 @@ public class DiePlacementMove implements IMove {
 
         if (!wp.canBePlaced(die, desiredCell)) {
             //tell the client that the die cannot be placed
+
+            manager.givePlayerObjectTofill();
+
         }
         wp.update(die);
         manager.getControllerMaster().getCommonBoard().getDraftPool().update(die);

@@ -59,7 +59,7 @@ public class GamePlayManager extends AGameManager {
             supportList.add(color);
             playerColorList.add(color);
         });
-        reOrderPlayerList();
+        //reOrderPlayerList();
         for(int i= supportList.size()-1; i>=0; i--)
             playerColorList.add(supportList.get(i));
     }
