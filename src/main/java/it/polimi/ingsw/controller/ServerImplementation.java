@@ -153,6 +153,9 @@ public class ServerImplementation implements IFromClientToServer {
 
     }
 
+
+
+
     @Override
     public void exitGame(String playerName) throws BrokenConnectionException {
 

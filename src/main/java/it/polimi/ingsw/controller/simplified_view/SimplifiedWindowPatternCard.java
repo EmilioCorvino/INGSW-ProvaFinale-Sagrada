@@ -36,6 +36,7 @@ public class SimplifiedWindowPatternCard implements Serializable {
         setInformationUnit(informationUnit);
     }
 
+
     public InformationUnit getInformationUnit() {
         return informationUnit;
     }
