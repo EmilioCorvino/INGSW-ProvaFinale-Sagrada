@@ -21,6 +21,8 @@ public interface IRmiServer extends Remote {
     void login(int gameMode, String playerName, IRmiClient callBack) throws UserNameAlreadyTakenException,
             TooManyUsersException, RemoteException;
 
+    void windowPatternCardRequest(int idMap) throws RemoteException;
+
     /**
      * Lets the player log out from the game.
      * @param playerName player who wants to log out.
