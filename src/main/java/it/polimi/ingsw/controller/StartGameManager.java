@@ -109,7 +109,12 @@ public class StartGameManager extends AGameManager {
         commonBoard.getPlayerMap().get(player).setWindowPatternCard(wpToSet);
         SimplifiedWindowPatternCard wpToSend = convertOneWp(chosenWp);
 
-        super.getControllerMaster().getConnectedPlayers().get(player).showCommonBoard(commonBoard.getDraftPool(), wpToSend);
+        try{
+            super.getControllerMaster().getConnectedPlayers().get(player).showCommonBoard(commonBoard.getDraftPool(), wpToSend);
+
+        } catch (BrokenConnectionException br) {
+            //TODO handle broken connection.
+        }
     }
 
 
