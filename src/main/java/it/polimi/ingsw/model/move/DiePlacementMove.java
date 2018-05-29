@@ -50,6 +50,7 @@ public class DiePlacementMove implements IMove {
         }
         wp.update(die);
         manager.getControllerMaster().getCommonBoard().getDraftPool().update(die);
+        manager.showPlacementResult(currentPlayer, setUpInfoUnit);
     }
 }
 

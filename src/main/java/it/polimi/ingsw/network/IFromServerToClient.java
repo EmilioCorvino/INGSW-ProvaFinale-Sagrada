@@ -42,4 +42,6 @@ public interface IFromServerToClient {
 
     void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws BrokenConnectionException;
 
+    void showUpdatedWp(String username, SetUpInformationUnit info) throws BrokenConnectionException;
+
 }
