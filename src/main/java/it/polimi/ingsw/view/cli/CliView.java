@@ -9,10 +9,7 @@ import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.AViewMaster;
-import it.polimi.ingsw.view.cli.die.CommonBoardView;
-import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
-import it.polimi.ingsw.view.cli.die.PlayerView;
-import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
+import it.polimi.ingsw.view.cli.die.*;
 import it.polimi.ingsw.view.cli.stateManagers.EndGameCli;
 import it.polimi.ingsw.view.cli.stateManagers.GamePlayCli;
 import it.polimi.ingsw.view.cli.stateManagers.LoginCli;
@@ -138,7 +135,7 @@ public class CliView extends AViewMaster{
 
     @Override
     public void showCommand() {
-        int command = initializationState.showCommand();
+        int command = gameplaySate.showCommand();
         switch (command){
             case 1: try{
                 server.defaultMoveRequest();
@@ -150,12 +147,28 @@ public class CliView extends AViewMaster{
 
     @Override
     public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) {
-        initializationState.makeMove(commonBoard.getDraftPool(), player.getWp(), setInfoUnit);
+        gameplaySate.makeMove(commonBoard.getDraftPool(), player.getWp(), setInfoUnit);
 
         try {
             server.performMove(setInfoUnit);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during normal placement",e);
+        }
+    }
+
+    @Override
+    public void showUpdatedWp(String username, SetUpInformationUnit unit) {
+
+        gameplaySate.updateDraft(commonBoard.getDraftPool(), unit);
+
+        for (PlayerView player : commonBoard.getPlayers())
+            if(player.getUserName().equals(username))
+                gameplaySate.updateWp(player.getWp(), unit);
+
+
+        if (player.getUserName().equals(username)) {
+            inputOutputManager.print("Dado piazzato!");
+            player.getWp().printWp();
         }
     }
 

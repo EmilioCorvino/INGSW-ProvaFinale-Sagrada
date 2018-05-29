@@ -22,5 +22,7 @@ public abstract class AViewMaster  {
 
     public abstract void giveProperObjectToFill(SetUpInformationUnit setInfoUnit);
 
+    public abstract void showUpdatedWp(String username, SetUpInformationUnit info);
+
     public abstract IFromClientToServer getServer();
 }

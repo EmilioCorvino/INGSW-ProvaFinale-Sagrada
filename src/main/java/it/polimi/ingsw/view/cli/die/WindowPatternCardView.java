@@ -61,8 +61,8 @@ public class WindowPatternCardView {
         for (SetUpInformationUnit info : sWP.getInformationUnitList()) {
             this.setIdMap(sWP.getIdMap());
             this.setDifficulty(sWP.getDifficulty());
-            this.getGlassWindow()[info.getIndex() / (WindowPatternCardView.MAX_ROW)][info.getIndex() % (WindowPatternCardView.MAX_COL)].setDefaultColorRestriction(info.getColor());
-            this.getGlassWindow()[info.getIndex() / (WindowPatternCardView.MAX_ROW)][info.getIndex() % (WindowPatternCardView.MAX_COL)].setDefaultValueRestriction(info.getValue());
+            this.getGlassWindow()[info.getIndex() / (WindowPatternCardView.MAX_COL)][info.getIndex() % (WindowPatternCardView.MAX_COL)].setDefaultColorRestriction(info.getColor());
+            this.getGlassWindow()[info.getIndex() / (WindowPatternCardView.MAX_COL)][info.getIndex() % (WindowPatternCardView.MAX_COL)].setDefaultValueRestriction(info.getValue());
         }
     }
 

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.cli.die;
 
+import it.polimi.ingsw.model.player.Player;
+
 public class PlayerView {
     private String userName;
     private WindowPatternCardView wp;
@@ -18,5 +20,9 @@ public class PlayerView {
 
     public void setWp(WindowPatternCardView wp) {
         this.wp = wp;
+    }
+
+    public boolean isSamePlayerAs(Player player) {
+        return this.getUserName().equals(player.getPlayerName());
     }
 }
