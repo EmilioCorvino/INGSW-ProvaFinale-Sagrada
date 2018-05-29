@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.controller.simplified_view.SimplifiedDraftpool;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.network.IFromServerToClient;
@@ -53,6 +54,17 @@ public class RmiFromServerToClient implements IFromServerToClient {
             this.rmiClient.showMapsToChoose(listWp);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to show clients the window pattern cards", e);
+            throw new BrokenConnectionException();
+        }
+    }
+
+    @Override
+    public void showCommonBoard(SimplifiedDraftpool draft, SimplifiedWindowPatternCard wp) throws
+            BrokenConnectionException {
+        try {
+            this.rmiClient.showCommonBoard(draft, wp);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to show clients the initialized board", e);
             throw new BrokenConnectionException();
         }
     }

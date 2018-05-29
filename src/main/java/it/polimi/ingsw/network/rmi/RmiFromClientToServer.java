@@ -72,9 +72,19 @@ public class RmiFromClientToServer implements IFromClientToServer {
         }
     }
 
+    /**
+     *
+     * @param idMap
+     * @throws BrokenConnectionException
+     */
     @Override
     public void windowPatternCardRequest(int idMap) throws BrokenConnectionException {
-
+        try {
+            this.rmiServer.windowPatternCardRequest(idMap);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during window pattern card request", e);
+            throw new BrokenConnectionException();
+        }
     }
 
     /**
