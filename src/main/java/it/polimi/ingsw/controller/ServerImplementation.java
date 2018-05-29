@@ -3,6 +3,8 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedDraftpool;
+import it.polimi.ingsw.model.move.IMove;
+import it.polimi.ingsw.network.Connection;
 import it.polimi.ingsw.network.PlayerColor;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
@@ -17,7 +19,7 @@ import java.util.TimerTask;
  * This class manages server related operation that aren't strictly related to the game. Moreover, it handles the
  * messages arriving from the client, calling methods from {@link ControllerMaster}.
  */
-public class ServerImplementation  {
+public class ServerImplementation implements IFromClientToServer {
 
     /**
      * Color identifying the player.
@@ -32,21 +34,39 @@ public class ServerImplementation  {
     /**
      * Controller of the match.
      */
-    private  IControllerMaster controller;
-
-
-    public ServerImplementation() {
-
-    }
+    private ControllerMaster controller;
 
     /**
      *
      */
-    public void defaultMoveRequest() {
-        this.controller.analyzeMoveRequest(this.playerColor);
+    private final WaitingRoom waitingRoom;
+
+
+    public ServerImplementation(WaitingRoom waitingRoom) {
+        this.waitingRoom = waitingRoom;
     }
 
-    public void performMove() {
+    /**
+     * This method manages the request of the user to make a default move.
+     */
+    public void defaultMoveRequest() {
+        GamePlayManager gamePlayManager = (GamePlayManager)controller.getGamePlayManager();
+        if(gamePlayManager.checkCurrentPlayer(gamePlayManager.getPlayerColorList().get(gamePlayManager.getCurrentPlayer()))) {
+            //tell the player that parameters are needed, the controller will send proper objects
+            gamePlayManager.givePlayerObjectTofill();
+        } else {
+            // tell the user that it's not his/her turn.
+        }
+
+    }
+
+    /**
+     * This method tells the proper game manager of the controller to perform the move request.
+     * @param sourceInfo the coordinates of the source container.
+     */
+    public void performMove(SetUpInformationUnit sourceInfo) {
+        GamePlayManager gamePlayManager = (GamePlayManager)controller.getGamePlayManager();
+        gamePlayManager.performMove(sourceInfo);
 
     }
 
@@ -116,7 +136,25 @@ public class ServerImplementation  {
         return controller;
     }
 
-    public void setController(IControllerMaster controller) {
+    public void setController(ControllerMaster controller) {
         this.controller = controller;
+    }
+
+    @Override
+    public void login(int gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException, BrokenConnectionException {
+        Connection playerConn = this.waitingRoom.getPlayersRoom().get(playerName);
+        this.waitingRoom.login(playerName, playerConn, gameMode);
+    }
+
+    @Override
+    public void windowPatternCardRequest(int idMap) throws BrokenConnectionException {
+        StartGameManager startGameManager = (StartGameManager)controller.getStartGameManager();
+        startGameManager.wpToSet(this.playerColor, idMap);
+
+    }
+
+    @Override
+    public void exitGame(String playerName) throws BrokenConnectionException {
+
     }
 }

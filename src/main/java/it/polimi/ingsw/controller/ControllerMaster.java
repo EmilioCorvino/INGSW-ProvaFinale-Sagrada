@@ -71,21 +71,5 @@ public class ControllerMaster implements IControllerMaster {
         return endGameManager;
     }
 
-    /**
-     *
-     * @param playerColor
-     * @return
-     */
-    @Override
-    public void analyzeMoveRequest(PlayerColor playerColor) {
-
-
-    }
-
-
-
-
     //todo handle reconnection
-
-
 }

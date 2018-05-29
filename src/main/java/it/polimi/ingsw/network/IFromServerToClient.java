@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.controller.simplified_view.InformationUnit;
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 
@@ -32,7 +34,8 @@ public interface IFromServerToClient {
      *
      * @param listWp
      */
-    void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) throws
-            BrokenConnectionException;
+    void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) throws BrokenConnectionException;
+
+    void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws BrokenConnectionException;
 
 }
