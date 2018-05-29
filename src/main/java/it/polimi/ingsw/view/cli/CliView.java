@@ -99,8 +99,7 @@ public class CliView extends AViewMaster{
             } catch (UserNameAlreadyTakenException e) {
                 inputOutputManager.print("Username già in uso!");
             } catch (BrokenConnectionException e) {
-                inputOutputManager.print("Error in creating connection");
-                e.printStackTrace();
+                SagradaLogger.log(Level.SEVERE, "Connection broken during login", e);
             } catch (TooManyUsersException e) {
                 inputOutputManager.print("Partita piena, numero massimo di giocatori raggiunto\nArrivederci.");
             }
@@ -114,12 +113,10 @@ public class CliView extends AViewMaster{
 
     @Override
     public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) {
-        int idChosen = this.initializationState.showMapsToChoose(listWp);
         try {
-            this.server.windowPatternCardRequest(idChosen);
+            this.server.windowPatternCardRequest(this.initializationState.showMapsToChoose(listWp));
         } catch (BrokenConnectionException e) {
-            inputOutputManager.print("");
-            e.printStackTrace();
+            SagradaLogger.log(Level.SEVERE, "Connection broken during map choosing", e);
         }
     }
 
@@ -140,7 +137,7 @@ public class CliView extends AViewMaster{
             case 1: try{
                 server.defaultMoveRequest();
             } catch (BrokenConnectionException e){
-                e.printStackTrace();
+                SagradaLogger.log(Level.SEVERE, "Connection broken during command request");
             }
         }
     }
