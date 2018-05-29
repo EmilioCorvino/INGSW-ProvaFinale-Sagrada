@@ -1,29 +1,32 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.controller.simplified_view.SimplifiedDraftpool;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
-import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.network.IFromClientToServer;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.AViewMaster;
 import it.polimi.ingsw.view.cli.die.CommonBoardView;
+import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
+import it.polimi.ingsw.view.cli.die.PlayerView;
+import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 import it.polimi.ingsw.view.cli.stateManagers.EndGameCli;
 import it.polimi.ingsw.view.cli.stateManagers.GamePlayCli;
 import it.polimi.ingsw.view.cli.stateManagers.LoginCli;
 import it.polimi.ingsw.view.cli.stateManagers.SetUpGameCli;
 
 import java.util.List;
+import java.util.logging.Level;
 
 public class CliView extends AViewMaster{
 
     /**
      * The user name of the player connected with the client.
      */
-    private String userName;
+    private PlayerView player;
 
     /**
      * The structure that contain the draft pool the cards (public objective and tool).
@@ -61,6 +64,7 @@ public class CliView extends AViewMaster{
     private EndGameCli endGameState;
 
     public CliView(){
+        player = new PlayerView();
         commonBoard = new CommonBoardView();
         inputOutputManager = new InputOutputManager();
         loginState = new LoginCli();
@@ -92,8 +96,8 @@ public class CliView extends AViewMaster{
 
         while(!userNameOk){
             try {
-                this.userName = loginState.getUsername();
-                this.server.login(loginState.getGameMode(), userName);
+                this.player.setUserName(loginState.getUsername());
+                this.server.login(loginState.getGameMode(), player.getUserName());
                 userNameOk = true;
             } catch (UserNameAlreadyTakenException e) {
                 inputOutputManager.print("Username già in uso!");
@@ -123,17 +127,38 @@ public class CliView extends AViewMaster{
     }
 
     @Override
-    public void showCommonBoard(DiceDraftPool draft, SimplifiedWindowPatternCard wp){}
+    public void showCommonBoard(DiceDraftPool draft, SimplifiedWindowPatternCard wp){
+        this.player.setWp(new WindowPatternCardView(wp));
+        DieDraftPoolView draftPool = new DieDraftPoolView(draft);
+
+        this.commonBoard.setDraftPool(draftPool);
+        this.commonBoard.getPlayers().add(player);
+        initializationState.showCommonBoard(draftPool, player.getWp());
+    }
 
     @Override
     public void showCommand() {
-
+        int command = initializationState.showCommand();
+        switch (command){
+            case 1: try{
+                server.defaultMoveRequest();
+            } catch (BrokenConnectionException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) {
+        initializationState.makeMove(commonBoard.getDraftPool(), player.getWp(), setInfoUnit);
 
+        try {
+            server.performMove(setInfoUnit);
+        } catch (BrokenConnectionException e){
+            SagradaLogger.log(Level.SEVERE, "Connection broken during normal placement",e);
+        }
     }
+
 
     public IFromClientToServer getServer() {
         return server;
