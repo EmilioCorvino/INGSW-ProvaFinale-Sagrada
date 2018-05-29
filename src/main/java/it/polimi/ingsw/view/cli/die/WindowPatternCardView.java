@@ -4,7 +4,7 @@ import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.view.cli.InputOutputManager;
 
-public class ViewWindowPatternCard {
+public class WindowPatternCardView {
 
     /**
      * This object manage the input output communication with the user.
@@ -17,12 +17,12 @@ public class ViewWindowPatternCard {
     private static final int MAX_COL = 5;
     private static final int MAX_ROW = 4;
 
-    private ViewCell[][] glassWindow;
+    private CellView[][] glassWindow;
 
 
-    public ViewWindowPatternCard(SimplifiedWindowPatternCard sWP){
+    public WindowPatternCardView(SimplifiedWindowPatternCard sWP){
         this.inputOutputManager = new InputOutputManager();
-        this.glassWindow = new ViewCell[MAX_ROW][MAX_COL];
+        this.glassWindow = new CellView[MAX_ROW][MAX_COL];
         this.populateViewWP(sWP);
     }
 
@@ -61,12 +61,12 @@ public class ViewWindowPatternCard {
         for (SetUpInformationUnit info : sWP.getInformationUnitList()) {
             this.setIdMap(sWP.getIdMap());
             this.setDifficulty(sWP.getDifficulty());
-            this.getGlassWindow()[info.getIndex() % (ViewWindowPatternCard.MAX_ROW)][info.getIndex() / (ViewWindowPatternCard.MAX_COL)].setDefaultColorRestriction(info.getColor());
-            this.getGlassWindow()[info.getIndex() % (ViewWindowPatternCard.MAX_ROW)][info.getIndex() / (ViewWindowPatternCard.MAX_COL)].setDefaultValueRestriction(info.getValue());
+            this.getGlassWindow()[info.getIndex() % (WindowPatternCardView.MAX_ROW)][info.getIndex() / (WindowPatternCardView.MAX_COL)].setDefaultColorRestriction(info.getColor());
+            this.getGlassWindow()[info.getIndex() % (WindowPatternCardView.MAX_ROW)][info.getIndex() / (WindowPatternCardView.MAX_COL)].setDefaultValueRestriction(info.getValue());
         }
     }
 
-    public ViewCell[][] getGlassWindow() {
+    public CellView[][] getGlassWindow() {
         return glassWindow;
     }
 

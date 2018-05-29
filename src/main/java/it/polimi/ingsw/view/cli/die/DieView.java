@@ -2,13 +2,13 @@ package it.polimi.ingsw.view.cli.die;
 
 import it.polimi.ingsw.model.Color;
 
-public class ViewDie {
+public class DieView {
 
     private Color dieColor;
 
     private int dieValue;
 
-    public ViewDie(Color dieColor, int dieValue){
+    public DieView(Color dieColor, int dieValue){
         this.dieColor = dieColor;
         this.dieValue = dieValue;
     }

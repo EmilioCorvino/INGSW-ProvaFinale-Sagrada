@@ -3,7 +3,7 @@ package it.polimi.ingsw.view.cli.die;
 import it.polimi.ingsw.view.cli.InputOutputManager;
 import java.util.List;
 
-public class ViewDieDraftPool {
+public class DieDraftPoolView {
 
     /**
      * This object manage the input output communication with the user.
@@ -13,9 +13,9 @@ public class ViewDieDraftPool {
     /**
      * The list of dice contained.
      */
-    private List<ViewDie> dice;
+    private List<DieView> dice;
 
-    public ViewDieDraftPool(List<ViewDie> dice){
+    public DieDraftPoolView(List<DieView> dice){
         this.inputOutputManager = new InputOutputManager();
         this.dice = dice;
     }
@@ -41,7 +41,7 @@ public class ViewDieDraftPool {
         return diceDraft;
     }
 
-    public List<ViewDie> getDice() {
+    public List<DieView> getDice() {
         return dice;
     }
 }

@@ -2,9 +2,9 @@ package it.polimi.ingsw.view.cli.die;
 
 import it.polimi.ingsw.model.Color;
 
-public class ViewCell {
+public class CellView {
 
-    private ViewDie die;
+    private DieView die;
 
     private Color defaultColorRestriction;
 
@@ -21,7 +21,7 @@ public class ViewCell {
             return" ";
     }
 
-    public void setDie(ViewDie die) {
+    public void setDie(DieView die) {
         this.die = die;
     }
 
