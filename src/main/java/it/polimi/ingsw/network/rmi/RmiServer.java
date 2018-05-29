@@ -55,6 +55,11 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
         this.room.login(playerName, new Connection(client, serverImplementation), gameMode);
     }
 
+    @Override
+    public void windowPatternCardRequest(int idMap) {
+        this.serverImplementation.windowPatternCardRequest(idMap);
+    }
+
     /**
      * Lets the player log out from the game.
      * @param playerName player who wants to log out.

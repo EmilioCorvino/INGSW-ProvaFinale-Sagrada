@@ -1,8 +1,8 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.controller.simplified_view.SimplifiedDraftpool;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
+import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
@@ -59,7 +59,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void showCommonBoard(SimplifiedDraftpool draft, SimplifiedWindowPatternCard wp) throws
+    public void showCommonBoard(DiceDraftPool draft, SimplifiedWindowPatternCard wp) throws
             BrokenConnectionException {
         try {
             this.rmiClient.showCommonBoard(draft, wp);
