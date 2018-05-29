@@ -141,16 +141,15 @@ public class ServerImplementation implements IFromClientToServer {
     }
 
     @Override
-    public void login(int gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException, BrokenConnectionException {
+    public void login(int gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException {
         Connection playerConn = this.waitingRoom.getPlayersRoom().get(playerName);
         this.waitingRoom.login(playerName, playerConn, gameMode);
     }
 
     @Override
-    public void windowPatternCardRequest(int idMap) throws BrokenConnectionException {
+    public void windowPatternCardRequest(int idMap) {
         StartGameManager startGameManager = (StartGameManager)controller.getStartGameManager();
         startGameManager.wpToSet(this.playerColor, idMap);
-
     }
 
     @Override
