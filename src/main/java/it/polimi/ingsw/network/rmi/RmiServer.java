@@ -19,6 +19,11 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
     /**
      * Effective instance of the server. It can call methods from {@link it.polimi.ingsw.controller.ControllerMaster}.
      */
+    private transient ServerImplementation serverImplementation;
+
+    /**
+     * Room where the players wait for the match to start.
+     */
     private transient WaitingRoom room;
 
     /**
@@ -30,6 +35,7 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
     public RmiServer(int port, WaitingRoom room) throws RemoteException {
         super(port);
         this.room = room;
+        this.serverImplementation = new ServerImplementation(room);
     }
 
     /**
@@ -46,8 +52,7 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
     public void login(int gameMode, String playerName, IRmiClient callBack) throws UserNameAlreadyTakenException,
             TooManyUsersException {
         IFromServerToClient client = new RmiFromServerToClient(callBack);
-        //this.room.addPlayer(playerName, new Connection(client, new ServerImplementation()), gameMode);
-        this.room.login(playerName, new Connection(client, new ServerImplementation()), gameMode);
+        this.room.login(playerName, new Connection(client, serverImplementation), gameMode);
     }
 
     /**
