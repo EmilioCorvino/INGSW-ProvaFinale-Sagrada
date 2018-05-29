@@ -34,4 +34,9 @@ public class SocketFromServerToClient implements IFromServerToClient {
 
     }
 
+    @Override
+    public void showUpdatedWp(String username, SetUpInformationUnit info) throws BrokenConnectionException {
+
+    }
+
 }
