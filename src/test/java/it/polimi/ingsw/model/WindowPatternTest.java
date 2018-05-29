@@ -139,4 +139,6 @@ public class WindowPatternTest {
 
         assertTrue(wp.canBePlaced(incorrectColorDie,diagAdjacentCell));
     }
+
+
 }

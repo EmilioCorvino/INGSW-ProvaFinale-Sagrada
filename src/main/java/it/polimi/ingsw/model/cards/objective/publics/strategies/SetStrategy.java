@@ -28,7 +28,7 @@ public class SetStrategy implements IScoreComputationStrategy {
     public int applyColorStrategy(ColorPublicObjectiveCard card, WindowPatternCard window) {
         EnumMap<Color, Integer> diceAccumulators = new EnumMap<>(Color.class);
         //Initialization of accumulators in the EnumMap.
-        for(Color c: Color.values()) {
+        for(Color c: Color.availableColors()) {
             diceAccumulators.put(c, 0);
         }
         //Iteration of the window pattern card to count different dices on a color basis.
@@ -42,9 +42,9 @@ public class SetStrategy implements IScoreComputationStrategy {
             }
         }
         //Filling of an array to compute the minimum accumulator.
-        Integer[] arrayAccumulators = new Integer[Color.values().length];
+        Integer[] arrayAccumulators = new Integer[Color.availableColors().size()];
         int index = 0;
-        for(Color c: Color.values()) {
+        for(Color c: Color.availableColors()) {
             arrayAccumulators[index] = diceAccumulators.get(c);
             index++;
         }

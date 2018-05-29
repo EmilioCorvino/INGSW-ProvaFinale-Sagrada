@@ -34,7 +34,7 @@ public class DiceBag extends ADieContainer {
         this.availableDice = new ArrayList<>();
         for(int i = 0; i < NUMBER_OF_COLORS; i++)
             for (int j = 0; j< DICE_NUMBER_FOR_EACH_COLOR; j++)
-                availableDice.add(new Die(1 + new Random().nextInt(6), Color.values()[i]));
+                availableDice.add(new Die(1 + new Random().nextInt(6), Color.availableColors().get(i)));
     }
 
     public List<Die> getAvailableDice() {
