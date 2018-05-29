@@ -37,16 +37,16 @@ public class ClientImplementation implements IFromServerToClient {
     }
 
     @Override
-    public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws BrokenConnectionException {
+    public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) {
         view.giveProperObjectToFill(setInfoUnit);
     }
     @Override
-    public void showCommonBoard(DiceDraftPool draft, SimplifiedWindowPatternCard wp) throws BrokenConnectionException{
+    public void showCommonBoard(DiceDraftPool draft, SimplifiedWindowPatternCard wp) {
         view.showCommonBoard(draft, wp);
     }
 
     @Override
-    public void showCommand() throws BrokenConnectionException {
+    public void showCommand() {
         view.showCommand();
     }
 }

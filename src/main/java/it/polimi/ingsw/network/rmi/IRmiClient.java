@@ -24,6 +24,8 @@ public interface IRmiClient extends Remote {
 
     void showCommonBoard(DiceDraftPool draft, SimplifiedWindowPatternCard wp) throws RemoteException;
 
+    void showCommand() throws RemoteException;
+
     void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws RemoteException;
 
 }

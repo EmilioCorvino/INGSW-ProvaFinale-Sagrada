@@ -69,6 +69,16 @@ public class RmiFromServerToClient implements IFromServerToClient {
         }
     }
 
+    @Override
+    public void showCommand() throws BrokenConnectionException {
+        try {
+            this.rmiClient.showCommand();
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to show clients the available commands", e);
+            throw new BrokenConnectionException();
+        }
+    }
+
     /**
      *
      * @param setInfoUnit

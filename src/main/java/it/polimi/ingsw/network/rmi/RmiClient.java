@@ -43,6 +43,11 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
+    public void showCommand() {
+        this.client.showCommand();
+    }
+
+    @Override
     public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) {
         this.client.giveProperObjectToFill(setInfoUnit);
     }
