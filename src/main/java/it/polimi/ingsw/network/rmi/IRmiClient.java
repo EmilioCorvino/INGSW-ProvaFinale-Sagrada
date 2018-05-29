@@ -28,4 +28,6 @@ public interface IRmiClient extends Remote {
 
     void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws RemoteException;
 
+    void showUpdatedWp(String username, SetUpInformationUnit info) throws RemoteException;
+
 }

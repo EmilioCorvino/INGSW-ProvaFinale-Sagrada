@@ -51,4 +51,9 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) {
         this.client.giveProperObjectToFill(setInfoUnit);
     }
+
+    @Override
+    public void showUpdatedWp(String username, SetUpInformationUnit info) {
+        this.client.showUpdatedWp(username, info);
+    }
 }
