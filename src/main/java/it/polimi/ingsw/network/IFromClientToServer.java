@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
@@ -25,6 +26,9 @@ public interface IFromClientToServer {
 
     void windowPatternCardRequest(int idMap) throws BrokenConnectionException;
 
+    void defaultMoveRequest() throws BrokenConnectionException;
+
+    void performMove(SetUpInformationUnit info) throws BrokenConnectionException;
     /**
      * Lets the player log out from the game.
      * @param playerName player who wants to log out.

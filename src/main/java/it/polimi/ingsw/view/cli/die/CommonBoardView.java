@@ -1,16 +1,16 @@
 package it.polimi.ingsw.view.cli.die;
 
-import java.util.Map;
+import java.util.List;
 
 public class CommonBoardView {
 
-    Map<String, WindowPatternCardView> players;
+    List<PlayerView> players;
 
     DieDraftPoolView draftPool;
 
     RoundTrackView roundTrack;
 
-    public Map<String, WindowPatternCardView> getPlayers() {
+    public List<PlayerView> getPlayers() {
         return players;
     }
 
@@ -20,5 +20,9 @@ public class CommonBoardView {
 
     public RoundTrackView getRoundTrack() {
         return roundTrack;
+    }
+
+    public void setDraftPool(DieDraftPoolView draftPool) {
+        this.draftPool = draftPool;
     }
 }

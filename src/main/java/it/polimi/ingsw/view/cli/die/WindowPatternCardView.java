@@ -14,8 +14,8 @@ public class WindowPatternCardView {
     private int idMap;
     private int difficulty;
 
-    private static final int MAX_COL = 5;
-    private static final int MAX_ROW = 4;
+    public static final int MAX_COL = 5;
+    public static final int MAX_ROW = 4;
 
     private CellView[][] glassWindow;
 
@@ -61,8 +61,8 @@ public class WindowPatternCardView {
         for (SetUpInformationUnit info : sWP.getInformationUnitList()) {
             this.setIdMap(sWP.getIdMap());
             this.setDifficulty(sWP.getDifficulty());
-            this.getGlassWindow()[info.getIndex() % (WindowPatternCardView.MAX_ROW)][info.getIndex() / (WindowPatternCardView.MAX_COL)].setDefaultColorRestriction(info.getColor());
-            this.getGlassWindow()[info.getIndex() % (WindowPatternCardView.MAX_ROW)][info.getIndex() / (WindowPatternCardView.MAX_COL)].setDefaultValueRestriction(info.getValue());
+            this.getGlassWindow()[info.getIndex() / (WindowPatternCardView.MAX_ROW)][info.getIndex() % (WindowPatternCardView.MAX_COL)].setDefaultColorRestriction(info.getColor());
+            this.getGlassWindow()[info.getIndex() / (WindowPatternCardView.MAX_ROW)][info.getIndex() % (WindowPatternCardView.MAX_COL)].setDefaultValueRestriction(info.getValue());
         }
     }
 

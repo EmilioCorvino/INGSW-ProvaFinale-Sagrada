@@ -13,6 +13,14 @@ public class DieView {
         this.dieValue = dieValue;
     }
 
+    public Color getDieColor() {
+        return dieColor;
+    }
+
+    public int getDieValue() {
+        return dieValue;
+    }
+
     public String toStringDie(){
         return "\033["+this.dieColor.getColorNumber()+";1m"+dieValue+"\033[0m";
     }
