@@ -1,8 +1,8 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.controller.simplified_view.SimplifiedDraftpool;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
+import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
 import it.polimi.ingsw.view.ClientImplementation;
 
 import java.rmi.RemoteException;
@@ -38,12 +38,22 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
-    public void showCommonBoard(SimplifiedDraftpool draft, SimplifiedWindowPatternCard wp) {
+    public void showCommonBoard(DiceDraftPool draft, SimplifiedWindowPatternCard wp) {
         this.client.showCommonBoard(draft, wp);
+    }
+
+    @Override
+    public void showCommand() {
+        this.client.showCommand();
     }
 
     @Override
     public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) {
         this.client.giveProperObjectToFill(setInfoUnit);
+    }
+
+    @Override
+    public void showUpdatedWp(String username, SetUpInformationUnit info) {
+        this.client.showUpdatedWp(username, info);
     }
 }

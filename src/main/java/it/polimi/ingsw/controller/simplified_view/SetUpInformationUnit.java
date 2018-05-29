@@ -45,4 +45,12 @@ public class SetUpInformationUnit extends InformationUnit {
     public void setValue(int value) {
         this.value = value;
     }
+
+    public void setIndex(int index) {
+        super.setIndex(index);
+    }
+
+    public int getIndex() {
+        return super.getIndex();
+    }
 }

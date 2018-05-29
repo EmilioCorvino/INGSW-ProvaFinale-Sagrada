@@ -1,8 +1,6 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.controller.simplified_view.SimplifiedDraftpool;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
@@ -43,5 +41,7 @@ public interface IFromServerToClient {
     void showCommand() throws BrokenConnectionException;
 
     void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws BrokenConnectionException;
+
+    void showUpdatedWp(String username, SetUpInformationUnit info) throws BrokenConnectionException;
 
 }

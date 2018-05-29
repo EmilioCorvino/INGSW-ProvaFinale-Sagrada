@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.move.DiePlacementMove;
 import it.polimi.ingsw.model.move.IMove;
 import it.polimi.ingsw.network.PlayerColor;
@@ -81,6 +82,8 @@ public class GamePlayManager extends AGameManager {
         //for this current player advise that his/her inputs are needed
         //unlock commands for the current player
         //start the timer
+
+        /*
         Timer timerTurn = new Timer();
         timerTurn.schedule(new TimerTask() {
             @Override
@@ -94,6 +97,7 @@ public class GamePlayManager extends AGameManager {
 
             }
         }, 5 * 1000);
+        */
     }
 
     /**
@@ -157,5 +161,19 @@ public class GamePlayManager extends AGameManager {
         } catch (BrokenConnectionException br) {
             //TODO handle broken connection by suspending player, using logs etc.
         }
+    }
+
+
+    public void showPlacementResult(PlayerColor playerColor, SetUpInformationUnit setUpInformationUnit) {
+        CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
+        super.getControllerMaster().getConnectedPlayers().entrySet().forEach(emtry -> {
+            try {
+                emtry.getValue().showUpdatedWp(commonBoard.getPlayerMap().get(playerColor).getPlayerName(), setUpInformationUnit);
+
+            } catch (BrokenConnectionException br) {
+                //handle
+            }
+
+        });
     }
 }

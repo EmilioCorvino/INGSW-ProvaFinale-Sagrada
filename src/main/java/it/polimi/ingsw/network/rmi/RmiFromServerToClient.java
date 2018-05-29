@@ -1,8 +1,8 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.controller.simplified_view.SimplifiedDraftpool;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
+import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
@@ -59,12 +59,22 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void showCommonBoard(SimplifiedDraftpool draft, SimplifiedWindowPatternCard wp) throws
+    public void showCommonBoard(DiceDraftPool draft, SimplifiedWindowPatternCard wp) throws
             BrokenConnectionException {
         try {
             this.rmiClient.showCommonBoard(draft, wp);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to show clients the initialized board", e);
+            throw new BrokenConnectionException();
+        }
+    }
+
+    @Override
+    public void showCommand() throws BrokenConnectionException {
+        try {
+            this.rmiClient.showCommand();
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to show clients the available commands", e);
             throw new BrokenConnectionException();
         }
     }
@@ -80,6 +90,16 @@ public class RmiFromServerToClient implements IFromServerToClient {
             this.rmiClient.giveProperObjectToFill(setInfoUnit);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to show to the client the proper object to fill", e);
+            throw new BrokenConnectionException();
+        }
+    }
+
+    @Override
+    public void showUpdatedWp(String username, SetUpInformationUnit info) throws BrokenConnectionException {
+        try {
+            this.rmiClient.showUpdatedWp(username, info);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to show to the client the updated wp", e);
             throw new BrokenConnectionException();
         }
     }
