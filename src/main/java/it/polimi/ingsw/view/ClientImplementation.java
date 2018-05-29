@@ -42,8 +42,8 @@ public class ClientImplementation implements IFromServerToClient {
     }
 
     @Override
-    public void showUpdatedWp(String username, SetUpInformationUnit info) throws BrokenConnectionException {
-
+    public void showUpdatedWp(String username, SetUpInformationUnit info) {
+        view.showUpdatedWp(username, info);
     }
 
     @Override
