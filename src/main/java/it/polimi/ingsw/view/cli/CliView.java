@@ -53,7 +53,7 @@ public class CliView extends AViewMaster{
     /**
      * The manager of the game play.
      */
-    private GamePlayCli gameplaySate;
+    private GamePlayCli gamePlaySate;
 
     /**
      * The manager of the game play.
@@ -66,13 +66,13 @@ public class CliView extends AViewMaster{
         inputOutputManager = new InputOutputManager();
         loginState = new LoginCli();
         initializationState = new SetUpGameCli();
-        gameplaySate = new GamePlayCli();
+        gamePlaySate = new GamePlayCli();
         endGameState = new EndGameCli();
     }
 
     /**
      * This method create the connection and logs the player
-     * @param viewMaster
+     * @param viewMaster Is the view connected to the net.
      */
     @Override
     public void createConnection(AViewMaster viewMaster) {
@@ -132,19 +132,20 @@ public class CliView extends AViewMaster{
 
     @Override
     public void showCommand() {
-        int command = gameplaySate.showCommand();
+        int command = gamePlaySate.showCommands();
         switch (command){
             case 1: try{
                 server.defaultMoveRequest();
             } catch (BrokenConnectionException e){
                 SagradaLogger.log(Level.SEVERE, "Connection broken during command request");
             }
+
         }
     }
 
     @Override
     public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) {
-        gameplaySate.getPlacementInfo(commonBoard.getDraftPool(), player.getWp(), setInfoUnit);
+        gamePlaySate.getPlacementInfo(commonBoard.getDraftPool(), player.getWp(), setInfoUnit);
 
         try {
             server.performMove(setInfoUnit);
@@ -156,9 +157,9 @@ public class CliView extends AViewMaster{
     @Override
     public void showUpdatedWp(String username, SetUpInformationUnit unit) {
 
-        for (PlayerView player : commonBoard.getPlayers())
-            if(player.getUserName().equals(username))
-                gameplaySate.updateWp(player.getWp(), unit);
+        for (PlayerView p : commonBoard.getPlayers())
+            if(p.getUserName().equals(username))
+                gamePlaySate.updateWp(p.getWp(), unit);
 
 
         if (player.getUserName().equals(username)) {

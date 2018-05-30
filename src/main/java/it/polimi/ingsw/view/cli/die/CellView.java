@@ -10,7 +10,7 @@ public class CellView {
 
     private int defaultValueRestriction;
 
-    public String toStringCell(){
+    String toStringCell(){
         if(die != null)
             return die.toStringDie();
         else if (defaultColorRestriction != Color.BLANK)
@@ -25,11 +25,11 @@ public class CellView {
         this.die = die;
     }
 
-    public void setDefaultColorRestriction(Color defaultColorRestriction) {
+    void setDefaultColorRestriction(Color defaultColorRestriction) {
         this.defaultColorRestriction = defaultColorRestriction;
     }
 
-    public void setDefaultValueRestriction(int defaultValueRestriction) {
+    void setDefaultValueRestriction(int defaultValueRestriction) {
         this.defaultValueRestriction = defaultValueRestriction;
     }
 }

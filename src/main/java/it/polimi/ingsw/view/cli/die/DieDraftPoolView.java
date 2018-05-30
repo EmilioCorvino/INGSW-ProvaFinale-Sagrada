@@ -3,6 +3,8 @@ package it.polimi.ingsw.view.cli.die;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
 import it.polimi.ingsw.view.cli.InputOutputManager;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class DieDraftPoolView {
@@ -19,6 +21,7 @@ public class DieDraftPoolView {
 
     public DieDraftPoolView(DiceDraftPool draft){
         this.inputOutputManager = new InputOutputManager();
+        this.dice = new ArrayList<>();
 
         for(Die die: draft.getAvailableDice())
             dice.add(new DieView(die.getDieColor(),die.getActualDieValue()));
@@ -37,12 +40,12 @@ public class DieDraftPoolView {
      * @return The draft pool in string format.
      */
     private String diceDraftToString(){
-        String diceDraft = "|";
+        StringBuilder diceDraft = new StringBuilder("|");
 
-        for(int i = 0; i < dice.size(); i++)
-            diceDraft += " " + dice.get(i).toStringDie() + " |";
+        for(DieView d : this.dice)
+            diceDraft.append(" ").append(d.toStringDie()).append(" |");
 
-        return diceDraft;
+        return diceDraft.toString();
     }
 
     public List<DieView> getDice() {

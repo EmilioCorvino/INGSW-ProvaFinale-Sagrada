@@ -1,14 +1,20 @@
 package it.polimi.ingsw.view.cli.die;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommonBoardView {
 
-    List<PlayerView> players;
+    private List<PlayerView> players;
 
-    DieDraftPoolView draftPool;
+    private DieDraftPoolView draftPool;
 
-    RoundTrackView roundTrack;
+    private RoundTrackView roundTrack;
+
+    public CommonBoardView(){
+        this.players = new ArrayList<>();
+        this.roundTrack = new RoundTrackView();
+    }
 
     public List<PlayerView> getPlayers() {
         return players;

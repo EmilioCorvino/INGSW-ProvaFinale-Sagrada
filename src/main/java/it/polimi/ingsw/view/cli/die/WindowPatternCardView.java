@@ -15,7 +15,7 @@ public class WindowPatternCardView {
     private int difficulty;
 
     public static final int MAX_COL = 5;
-    public static final int MAX_ROW = 4;
+    private static final int MAX_ROW = 4;
 
     private CellView[][] glassWindow;
 
@@ -40,21 +40,20 @@ public class WindowPatternCardView {
      * @return The wp in string format
      */
     private String wpToString(){
-        String wp = new String();
+        StringBuilder wp = new StringBuilder();
 
         for(int i = 0; i < glassWindow.length; i++) {
             for (int j = 0; j < glassWindow[i].length; j++) {
-                wp += "| " + glassWindow[i][j].toStringCell() + " ";
+                wp.append("| ").append(glassWindow[i][j].toStringCell()).append(" ");
             }
-            wp += "|\n";
+            wp.append("|\n");
         }
-        return wp;
+        return wp.toString();
     }
 
     /**
      * This method populate create an object view window pattern card with the info contained in simplified window pattern card.
      * @param sWP: the object with the info needed to populate the window pattern
-     * @return The window pattern populated
      */
     private void populateViewWP(SimplifiedWindowPatternCard sWP){
 
@@ -70,11 +69,11 @@ public class WindowPatternCardView {
         return glassWindow;
     }
 
-    public void setIdMap(int idMap) {
+    private void setIdMap(int idMap) {
         this.idMap = idMap;
     }
 
-    public void setDifficulty(int difficulty) {
+    private void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
     }
 
