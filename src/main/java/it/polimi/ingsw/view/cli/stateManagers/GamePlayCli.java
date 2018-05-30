@@ -30,7 +30,7 @@ public class GamePlayCli implements Serializable {
         return row*WindowPatternCardView.MAX_COL+col;
     }
 
-    public void makeMove(DieDraftPoolView draft, WindowPatternCardView wp, SetUpInformationUnit unit){
+    public void getPlacementInfo(DieDraftPoolView draft, WindowPatternCardView wp, SetUpInformationUnit unit){
         unit.setColor(draft.getDice().get(this.choseDraftDie(draft)).getDieColor());
         unit.setValue(draft.getDice().get(this.choseDraftDie(draft)).getDieValue());
         unit.setIndex(this.choseCellWp(wp));

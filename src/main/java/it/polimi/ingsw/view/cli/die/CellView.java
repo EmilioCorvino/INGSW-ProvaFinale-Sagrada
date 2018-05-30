@@ -13,7 +13,7 @@ public class CellView {
     public String toStringCell(){
         if(die != null)
             return die.toStringDie();
-        else if (defaultColorRestriction != null)
+        else if (defaultColorRestriction != Color.BLANK)
             return "\033["+defaultColorRestriction.getColorNumber()+"m"+defaultColorRestriction.getId()+"\033[0m";
         else if(defaultValueRestriction != 0)
             return ""+defaultValueRestriction;

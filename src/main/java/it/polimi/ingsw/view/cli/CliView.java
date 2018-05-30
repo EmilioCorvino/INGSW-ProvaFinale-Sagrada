@@ -144,7 +144,7 @@ public class CliView extends AViewMaster{
 
     @Override
     public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) {
-        gameplaySate.makeMove(commonBoard.getDraftPool(), player.getWp(), setInfoUnit);
+        gameplaySate.getPlacementInfo(commonBoard.getDraftPool(), player.getWp(), setInfoUnit);
 
         try {
             server.performMove(setInfoUnit);
@@ -155,8 +155,6 @@ public class CliView extends AViewMaster{
 
     @Override
     public void showUpdatedWp(String username, SetUpInformationUnit unit) {
-
-        gameplaySate.updateDraft(commonBoard.getDraftPool(), unit);
 
         for (PlayerView player : commonBoard.getPlayers())
             if(player.getUserName().equals(username))
