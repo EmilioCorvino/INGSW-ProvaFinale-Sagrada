@@ -4,7 +4,8 @@ import it.polimi.ingsw.model.restrictions.ARestriction;
 import it.polimi.ingsw.model.restrictions.ColorRestriction;
 import it.polimi.ingsw.model.restrictions.ValueRestriction;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class manages the cells objects of which the window pattern card matrix is made.
@@ -27,12 +28,12 @@ public class Cell {
     /**
      * The value restriction of the cell on the Window pattern card.
      */
-    private ColorRestriction defaultColorRestriction;
+    public ColorRestriction defaultColorRestriction;
 
     /**
      * The color restriction of the cell on the window pattern card
      */
-    private ValueRestriction defaultValueRestriction;
+    public ValueRestriction defaultValueRestriction;
 
     /**
      *
