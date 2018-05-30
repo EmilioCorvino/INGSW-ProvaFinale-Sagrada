@@ -3,13 +3,17 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
+import it.polimi.ingsw.model.die.diecontainers.WindowPatternCardDeck;
 import it.polimi.ingsw.model.restrictions.ColorRestriction;
 import it.polimi.ingsw.model.restrictions.ValueRestriction;
+import it.polimi.ingsw.utils.exceptions.EmptyException;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public class WindowPatternTest {
 
@@ -140,5 +144,38 @@ public class WindowPatternTest {
         assertTrue(wp.canBePlaced(incorrectColorDie,diagAdjacentCell));
     }
 
+    @Test
+    public void testPlacementInsideWpParsed(){
+        WindowPatternCard wp;
+        Cell cell1 = new Cell(0,4);
+        Cell cell2 = new Cell(0,2);
+        Cell cell3 = new Cell(0,1);
+
+        Die die1 = new Die(4, Color.GREEN);
+        Die die2 = new Die(2, Color.YELLOW);
+
+        List<WindowPatternCard> card = new ArrayList<>();
+        WindowPatternCardDeck windowPatternCardDeck = new WindowPatternCardDeck();
+        windowPatternCardDeck.parseDeck();
+        try {
+            card = windowPatternCardDeck.drawCard();
+        } catch (EmptyException e){
+            SagradaLogger.log(Level.SEVERE, "Error: try to draw window pattern card in an empty deck");
+        }
+        wp = card.get(0);
+
+        // Test of color restricted cell.
+        assertTrue(wp.canBePlaced(die1,cell1));
+        assertFalse(wp.canBePlaced(die2,cell1));
+
+        // Test of value restricted cell.
+        assertTrue(wp.canBePlaced(die2, cell2));
+        assertFalse(wp.canBePlaced(die1, cell2));
+
+        // Test of no restricted cell.
+        assertTrue(wp.canBePlaced(die1, cell3));
+        assertTrue(wp.canBePlaced(die2, cell3));
+
+    }
 
 }
