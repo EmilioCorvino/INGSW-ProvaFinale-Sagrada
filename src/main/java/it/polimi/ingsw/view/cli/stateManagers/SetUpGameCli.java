@@ -1,10 +1,6 @@
 package it.polimi.ingsw.view.cli.stateManagers;
 
-import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.controller.simplified_view.SimplifiedDraftpool;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
-import it.polimi.ingsw.model.CommonBoard;
-import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.view.cli.InputOutputManager;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
@@ -40,9 +36,7 @@ public class SetUpGameCli {
     public void showCommonBoard(DieDraftPoolView draftPool, WindowPatternCardView wp){
         draftPool.printDraftPool();
         wp.printWp();
-
     }
-
 
     public int getIdChosen(){
         return Integer.parseInt(inputOutputManager.askInformation("Inserire l'id della mappa scelta: "));
