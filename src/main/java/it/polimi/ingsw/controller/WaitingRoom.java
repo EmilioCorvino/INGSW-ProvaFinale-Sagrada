@@ -133,7 +133,9 @@ public class WaitingRoom {
             PlayerColor playerColor = PlayerColor.BLUE; //default value
             entry.getValue().getServer().setPlayerColor(playerColor.selectRandomColor());
             entry.getValue().getServer().setController(controllerMaster);
-            playerMap.put(entry.getValue().getServer().getPlayerColor(), new Player(entry.getKey(), ((ControllerMaster) controllerMaster).getCommonBoard()));
+            playerMap.put(entry.getValue().getServer().getPlayerColor(), new Player(entry.getKey(), controllerMaster.getCommonBoard()));
+
+            controllerMaster.getConnectedPlayers().put(playerColor, getPlayersRoom().get(entry.getKey()).getClient());
         });
         controllerMaster.getCommonBoard().setPlayerMap(playerMap);
 

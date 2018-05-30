@@ -6,14 +6,12 @@ import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCardDeck;
-import it.polimi.ingsw.model.restrictions.ARestriction;
 import it.polimi.ingsw.network.PlayerColor;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * This class provides methods to support all the operations needed before the match starts.
