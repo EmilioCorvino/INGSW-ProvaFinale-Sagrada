@@ -3,8 +3,8 @@ package it.polimi.ingsw.model.die.diecontainers;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.utils.exceptions.EmptyException;
 import it.polimi.ingsw.model.restrictions.ARestriction;
+import it.polimi.ingsw.utils.exceptions.EmptyException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.io.FileReader;
@@ -83,13 +83,11 @@ public class WindowPatternCardDeck {
     private void associateFrontAndBack(){
         for(int i = 0; i < availableWP.size()/2; i++){
             deck.add(new ArrayList<>());
-            for (int j = 0; j < availableWP.size(); j = j+2){
-                deck.get(i).add(availableWP.get(j));
-                deck.get(i).add(availableWP.get(j+1));
-            }
+            for (int j = 0; j <2; j++)
+                deck.get(i).add(availableWP.get(i*2 + j));
         }
-
     }
+
     public List<WindowPatternCard> getAvailableWP() {
         return this.availableWP;
     }

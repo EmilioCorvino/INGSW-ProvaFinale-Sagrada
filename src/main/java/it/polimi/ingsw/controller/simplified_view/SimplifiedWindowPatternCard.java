@@ -60,4 +60,12 @@ public class SimplifiedWindowPatternCard implements Serializable {
     public int getIdMap() {
         return idMap;
     }
+
+    public void setIdMap(int idMap) {
+        this.idMap = idMap;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
 }

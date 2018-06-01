@@ -57,25 +57,33 @@ public class StartGameManager extends AGameManager {
      */
     public List<SimplifiedWindowPatternCard> windowPatternCardConverter() {
 
-        WindowPatternCardDeck windowPatternCardDeck = new WindowPatternCardDeck();
-        windowPatternCardDeck.parseDeck();
-        List<SetUpInformationUnit> informationUnitList = new ArrayList<>();
+        WindowPatternCardDeck mapDeck = super.getControllerMaster().getCommonBoard().getWindowPatternCardDeck();
+        System.out.println(mapDeck.getDeck().size() + "");
+        //WindowPatternCardDeck windowPatternCardDeck = new WindowPatternCardDeck();
+        //windowPatternCardDeck.parseDeck();
         List<SimplifiedWindowPatternCard> wpToSend = new ArrayList<>();
 
         try {
-            List<WindowPatternCard> coupleOfWP = windowPatternCardDeck.drawCard();
-
+            List<WindowPatternCard> coupleOfWP = mapDeck.drawCard();
+            System.out.println(coupleOfWP.size() + "");
             for(WindowPatternCard wp : coupleOfWP) {
                 Cell[][] gw = wp.getGlassWindow();
-
+                List<SetUpInformationUnit> informationUnitList = new ArrayList<>();
                 for(int i=0; i<WindowPatternCard.getMaxRow(); i++)
                     for(int j=0; j<WindowPatternCard.getMaxCol(); j++) {
-                        System.out.println(i + " " + j);
-                        if(!(gw[i][j].getRuleSetCell().isEmpty()))
-                            informationUnitList.add(new SetUpInformationUnit(i*WindowPatternCard.getMaxCol()+j, gw[i][j].getDefaultColorRestriction().getColor(), gw[i][j].getDefaultValueRestriction().getValue()));
-                    }
 
-                wpToSend.add(new SimplifiedWindowPatternCard(informationUnitList));
+                        //System.out.println(i + " " + j);
+                        SetUpInformationUnit setUpInfo = new SetUpInformationUnit(i*WindowPatternCard.getMaxCol()+j,
+                                gw[i][j].getDefaultColorRestriction().getColor(),
+                                gw[i][j].getDefaultValueRestriction().getValue());
+                        informationUnitList.add(setUpInfo);
+                    }
+                System.out.println(gw[0][4].getDefaultColorRestriction().getColor() + "   " + gw[0][4].getDefaultValueRestriction().getValue() );
+
+                SimplifiedWindowPatternCard simpleWp = new SimplifiedWindowPatternCard(informationUnitList);
+                simpleWp.setIdMap(wp.getIdMap());
+                simpleWp.setDifficulty(wp.getDifficulty());
+                wpToSend.add(simpleWp);
             }
         } catch (EmptyException empty) {
             empty.printStackTrace();
@@ -92,8 +100,7 @@ public class StartGameManager extends AGameManager {
         List<SetUpInformationUnit> informationUnitList = new ArrayList<>();
 
         for(int i=0; i<WindowPatternCard.getMaxRow(); i++)
-            for(int j=0; j<WindowPatternCard.getMaxCol(); i++)
-                if(!gw[i][j].getRuleSetCell().isEmpty())
+            for(int j=0; j<WindowPatternCard.getMaxCol(); j++)
                    informationUnitList.add(new SetUpInformationUnit(i*WindowPatternCard.getMaxCol()+j, gw[i][j].getDefaultColorRestriction().getColor(), gw[i][j].getDefaultValueRestriction().getValue()));
 
         return new SimplifiedWindowPatternCard(informationUnitList);
@@ -107,16 +114,24 @@ public class StartGameManager extends AGameManager {
      */
     public void wpToSet(PlayerColor player, int chosenWp) {
         CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
-        WindowPatternCard wpToSet = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenWp);
+        WindowPatternCard wpToSet = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenWp - 1);
         commonBoard.getPlayerMap().get(player).setWindowPatternCard(wpToSet);
         SimplifiedWindowPatternCard wpToSend = convertOneWp(chosenWp);
 
         try{
+            System.out.println(commonBoard.getDraftPool().toString());
+            System.out.println(wpToSend.toString());
+            System.out.println(getControllerMaster().toString());
+            System.out.println(getControllerMaster().getConnectedPlayers().toString());
+            System.out.println(getControllerMaster().getConnectedPlayers().get(player).toString());
+
             super.getControllerMaster().getConnectedPlayers().get(player).showCommonBoard(commonBoard.getDraftPool(), wpToSend);
 
         } catch (BrokenConnectionException br) {
             //TODO handle broken connection.
         }
+
+
     }
 
 

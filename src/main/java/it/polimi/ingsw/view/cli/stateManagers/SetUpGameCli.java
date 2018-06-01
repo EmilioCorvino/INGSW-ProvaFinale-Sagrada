@@ -6,7 +6,10 @@ import it.polimi.ingsw.view.cli.InputOutputManager;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,15 +31,23 @@ public class SetUpGameCli {
         List<WindowPatternCardView> cards = new ArrayList<>();
         int idChosen;
 
+        /*
         for (SimplifiedWindowPatternCard swp : listWp)
             cards.add(new WindowPatternCardView(swp));
+         */
+        cards.add(new WindowPatternCardView(listWp.get(0)));
+        cards.add(new WindowPatternCardView(listWp.get(1)));
 
         inputOutputManager.print(   "\n--------------------------------" +
                                     "\n Scegli la WP desiderata tra: ");
+        /*
         for (WindowPatternCardView wp : cards)
             wp.printWp();
+           */
+        cards.get(0).printWp();
+        cards.get(1).printWp();
         idChosen = this.getIdChosen();
-        while (idChosen!= cards.get(0).getIdMap() || idChosen!=cards.get(1).getIdMap() || idChosen!=cards.get(2).getIdMap() || idChosen!=cards.get(3).getIdMap()){
+        while (!(idChosen == cards.get(0).getIdMap() || idChosen == cards.get(1).getIdMap() || idChosen == cards.get(2).getIdMap() || idChosen == cards.get(3).getIdMap())){
             inputOutputManager.print("Id non presente!");
             idChosen = this.getIdChosen();
         }
