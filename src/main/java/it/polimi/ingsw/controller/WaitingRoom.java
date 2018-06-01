@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.Connection;
-import it.polimi.ingsw.network.PlayerColor;
+import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
@@ -126,20 +126,15 @@ public class WaitingRoom {
      */
     public void startMultiPlayerMatch() {
         ControllerMaster controllerMaster = new ControllerMaster();
-        Map<PlayerColor, Player> playerMap = new HashMap<>();
+        Map<String, IFromServerToClient> playerMap = controllerMaster.getConnectedPlayers();
         controllerMaster.getCommonBoard().getDraftPool().populateDiceDraftPool(playerMap.size());
         System.out.println("map created");
 
         playersRoom.entrySet().forEach(entry -> {
-            PlayerColor playerColor = PlayerColor.BLUE; //default value
-            entry.getValue().getServer().setPlayerColor(playerColor.selectRandomColor());
             entry.getValue().getServer().setController(controllerMaster);
-            playerMap.put(entry.getValue().getServer().getPlayerColor(), new Player(entry.getKey(), controllerMaster.getCommonBoard()));
-
-            controllerMaster.getConnectedPlayers().put(playerColor, getPlayersRoom().get(entry.getKey()).getClient());
+            playerMap.put(entry.getKey(), entry.getValue().getClient());
+            controllerMaster.getCommonBoard().getPlayers().add(new Player(entry.getKey(),controllerMaster.getCommonBoard()));
         });
-        controllerMaster.getCommonBoard().setPlayerMap(playerMap);
-
         ((StartGameManager)controllerMaster.getStartGameManager()).chooseWindowPatternCard();
         System.out.println("maps????");
     }

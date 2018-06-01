@@ -2,18 +2,12 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.controller.simplified_view.SimplifiedDraftpool;
-import it.polimi.ingsw.model.move.IMove;
 import it.polimi.ingsw.network.Connection;
+import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.network.PlayerColor;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
-import it.polimi.ingsw.network.IFromClientToServer;
-import it.polimi.ingsw.network.IFromServerToClient;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * This class manages server related operation that aren't strictly related to the game. Moreover, it handles the
@@ -51,7 +45,7 @@ public class ServerImplementation implements IFromClientToServer {
      */
     public void defaultMoveRequest() {
         GamePlayManager gamePlayManager = (GamePlayManager)controller.getGamePlayManager();
-        if(gamePlayManager.checkCurrentPlayer(gamePlayManager.getPlayerColorList().get(gamePlayManager.getCurrentPlayer()))) {
+        if(gamePlayManager.checkCurrentPlayer(username)){
             //tell the player that parameters are needed, the controller will send proper objects
             gamePlayManager.givePlayerObjectTofill();
         } else {
@@ -149,7 +143,7 @@ public class ServerImplementation implements IFromClientToServer {
     @Override
     public void windowPatternCardRequest(int idMap) {
         StartGameManager startGameManager = (StartGameManager)controller.getStartGameManager();
-        startGameManager.wpToSet(this.playerColor, idMap);
+        startGameManager.wpToSet(username, idMap);
     }
 
 

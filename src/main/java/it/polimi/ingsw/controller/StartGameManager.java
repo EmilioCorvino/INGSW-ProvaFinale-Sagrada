@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCardDeck;
-import it.polimi.ingsw.network.PlayerColor;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
 
@@ -108,33 +107,22 @@ public class StartGameManager extends AGameManager {
     }
 
     /**
-     * This method associates the chosen window pattern card to the specific player.
-     * @param player
+     *
+     * @param username
      * @param chosenWp
      */
-    public void wpToSet(PlayerColor player, int chosenWp) {
+    public void wpToSet(String username, int chosenWp) {
         CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
         WindowPatternCard wpToSet = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenWp - 1);
-        commonBoard.getPlayerMap().get(player).setWindowPatternCard(wpToSet);
+        commonBoard.getSpecificPlyer(username).setWindowPatternCard(wpToSet);
         SimplifiedWindowPatternCard wpToSend = convertOneWp(chosenWp);
 
         try{
-            System.out.println(commonBoard.getDraftPool().toString());
-            System.out.println(wpToSend.toString());
-            System.out.println(getControllerMaster().toString());
-            System.out.println(getControllerMaster().getConnectedPlayers().toString());
-            System.out.println(getControllerMaster().getConnectedPlayers().get(player).toString());
-
-            super.getControllerMaster().getConnectedPlayers().get(player).showCommonBoard(commonBoard.getDraftPool(), wpToSend);
-
+            super.getControllerMaster().getConnectedPlayers().get(username).showCommonBoard(commonBoard.getDraftPool(), wpToSend);
         } catch (BrokenConnectionException br) {
             //TODO handle broken connection.
         }
-
-
     }
-
-
 
     /*
     public boolean isAlreadyConnected(String namePlayer, List<Player> playersRoom) {

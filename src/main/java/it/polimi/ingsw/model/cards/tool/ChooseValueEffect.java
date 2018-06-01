@@ -5,7 +5,6 @@ import it.polimi.ingsw.controller.IOController;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.network.PlayerColor;
 
 /**
  * This class manages the effect of those tool cards that allow the player to increase the value of a chosen die.
@@ -61,7 +60,7 @@ public class ChooseValueEffect extends AValueEffect {
     }
 
     @Override
-    public void executeMove(PlayerColor currentPlayer, GamePlayManager commonBoard, SetUpInformationUnit setUpInfoUnit) {
+    public void executeMove(GamePlayManager commonBoard, SetUpInformationUnit setUpInfoUnit) {
 
     }
 }

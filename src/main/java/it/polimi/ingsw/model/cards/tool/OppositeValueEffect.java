@@ -5,7 +5,6 @@ import it.polimi.ingsw.controller.IOController;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.network.PlayerColor;
 
 /**
  *
@@ -33,7 +32,7 @@ public class OppositeValueEffect extends AValueEffect {
     }
 
     @Override
-    public void executeMove(PlayerColor currentPlayer, GamePlayManager commonBoard, SetUpInformationUnit setUpInfoUnit) {
+    public void executeMove(GamePlayManager commonBoard, SetUpInformationUnit setUpInfoUnit) {
 
     }
 }
