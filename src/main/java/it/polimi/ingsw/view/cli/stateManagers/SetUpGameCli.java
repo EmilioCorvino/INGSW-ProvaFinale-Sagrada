@@ -31,21 +31,17 @@ public class SetUpGameCli {
         List<WindowPatternCardView> cards = new ArrayList<>();
         int idChosen;
 
-        /*
+
         for (SimplifiedWindowPatternCard swp : listWp)
             cards.add(new WindowPatternCardView(swp));
-         */
-        cards.add(new WindowPatternCardView(listWp.get(0)));
-        cards.add(new WindowPatternCardView(listWp.get(1)));
 
+        inputOutputManager.print(""+cards.size());
         inputOutputManager.print(   "\n--------------------------------" +
                                     "\n Scegli la WP desiderata tra: ");
-        /*
+
         for (WindowPatternCardView wp : cards)
             wp.printWp();
-           */
-        cards.get(0).printWp();
-        cards.get(1).printWp();
+        
         idChosen = this.getIdChosen();
         while (!(idChosen == cards.get(0).getIdMap() || idChosen == cards.get(1).getIdMap() || idChosen == cards.get(2).getIdMap() || idChosen == cards.get(3).getIdMap())){
             inputOutputManager.print("Id non presente!");
