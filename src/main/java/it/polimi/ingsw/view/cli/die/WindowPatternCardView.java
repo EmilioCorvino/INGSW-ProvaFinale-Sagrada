@@ -46,11 +46,11 @@ public class WindowPatternCardView {
      * @return The wp in string format
      */
     private String wpToString(){
-        StringBuilder wp = new StringBuilder();
+        StringBuilder wp = new StringBuilder(100);
 
         for(int i = 0; i < glassWindow.length; i++) {
             for (int j = 0; j < glassWindow[i].length; j++) {
-                wp.append("| ").append(glassWindow[i][j].toStringCell()).append(" ");
+                wp.append("| ").append(this.glassWindow[i][j].toStringCell()).append(" ");
             }
             wp.append("|\n");
         }
@@ -62,12 +62,10 @@ public class WindowPatternCardView {
      * @param sWP: the object with the info needed to populate the window pattern
      */
     private void populateViewWP(SimplifiedWindowPatternCard sWP){
-
         for (SetUpInformationUnit info : sWP.getInformationUnitList()) {
             this.setIdMap(sWP.getIdMap());
             this.setDifficulty(sWP.getDifficulty());
-            this.getGlassWindow()[info.getIndex() / (WindowPatternCardView.MAX_COL)][info.getIndex() % (WindowPatternCardView.MAX_COL)].setDefaultColorRestriction(info.getColor());
-            this.getGlassWindow()[info.getIndex() / (WindowPatternCardView.MAX_COL)][info.getIndex() % (WindowPatternCardView.MAX_COL)].setDefaultValueRestriction(info.getValue());
+            this.glassWindow[info.getIndex() / (WindowPatternCardView.MAX_COL)][info.getIndex() % (WindowPatternCardView.MAX_COL)] = new CellView(info.getColor(), info.getValue());
         }
     }
 

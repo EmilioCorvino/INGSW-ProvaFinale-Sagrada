@@ -13,6 +13,11 @@ public class CellView {
 
     private int defaultValueRestriction;
 
+    CellView(Color defaultColorRestriction, int defaultValueRestriction){
+        this.defaultColorRestriction = defaultColorRestriction;
+        this.defaultValueRestriction = defaultValueRestriction;
+    }
+
     String toStringCell(){
         if(die != null)
             return die.toStringDie();

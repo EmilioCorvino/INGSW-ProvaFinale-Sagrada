@@ -43,7 +43,8 @@ public class DieDraftPoolView {
      * @return The draft pool in string format.
      */
     private String diceDraftToString(){
-        StringBuilder diceDraft = new StringBuilder("|");
+        StringBuilder diceDraft = new StringBuilder(100);
+        diceDraft.append("|");
 
         for(DieView d : this.dice)
             diceDraft.append(" ").append(d.toStringDie()).append(" |");
