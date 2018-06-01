@@ -27,9 +27,10 @@ public class StartGameManager extends AGameManager {
      */
     public void chooseWindowPatternCard() {
 
-        super.getControllerMaster().getConnectedPlayers().entrySet().forEach(entry -> {
+        List<SimplifiedWindowPatternCard> listToSend = new ArrayList<>();
+        System.out.println("created list to send");
 
-            List<SimplifiedWindowPatternCard> listToSend = new ArrayList<>();
+        super.getControllerMaster().getConnectedPlayers().entrySet().forEach(entry -> {
 
             List<SimplifiedWindowPatternCard> list1 = windowPatternCardConverter();
             listToSend.add(list1.get(0));
@@ -38,6 +39,9 @@ public class StartGameManager extends AGameManager {
             List<SimplifiedWindowPatternCard> list2 = windowPatternCardConverter();
             listToSend.add(list2.get(0));
             listToSend.add(list2.get(1));
+
+        System.out.println("choooooooseeeeeeeeeeeee");
+
             try{
                 entry.getValue().showMapsToChoose(listToSend);
             } catch (BrokenConnectionException br) {
@@ -45,7 +49,6 @@ public class StartGameManager extends AGameManager {
             }
 
         });
-        System.out.println("choooooooseeeeeeeeeeeee");
     }
 
     /**
@@ -66,11 +69,11 @@ public class StartGameManager extends AGameManager {
                 Cell[][] gw = wp.getGlassWindow();
 
                 for(int i=0; i<WindowPatternCard.getMaxRow(); i++)
-                    for(int j=0; j<WindowPatternCard.getMaxCol(); i++)
-
-                        if(!gw[i][j].getRuleSetCell().isEmpty())
-
+                    for(int j=0; j<WindowPatternCard.getMaxCol(); j++) {
+                        System.out.println(i + " " + j);
+                        if(!(gw[i][j].getRuleSetCell().isEmpty()))
                             informationUnitList.add(new SetUpInformationUnit(i*WindowPatternCard.getMaxCol()+j, gw[i][j].getDefaultColorRestriction().getColor(), gw[i][j].getDefaultValueRestriction().getValue()));
+                    }
 
                 wpToSend.add(new SimplifiedWindowPatternCard(informationUnitList));
             }
