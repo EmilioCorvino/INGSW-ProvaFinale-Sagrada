@@ -62,10 +62,12 @@ public class WindowPatternCardView {
      * @param sWP: the object with the info needed to populate the window pattern
      */
     private void populateViewWP(SimplifiedWindowPatternCard sWP){
+        this.setIdMap(sWP.getIdMap());
+        this.setDifficulty(sWP.getDifficulty());
         for (SetUpInformationUnit info : sWP.getInformationUnitList()) {
-            this.setIdMap(sWP.getIdMap());
-            this.setDifficulty(sWP.getDifficulty());
-            this.glassWindow[info.getIndex() / (WindowPatternCardView.MAX_COL)][info.getIndex() % (WindowPatternCardView.MAX_COL)] = new CellView(info.getColor(), info.getValue());
+            this.glassWindow[info.getIndex() / (WindowPatternCardView.MAX_COL)]
+                    [info.getIndex() % (WindowPatternCardView.MAX_COL)] =
+                    new CellView(info.getColor(), info.getValue());
         }
     }
 

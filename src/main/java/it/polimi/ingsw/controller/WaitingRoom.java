@@ -127,6 +127,7 @@ public class WaitingRoom {
     public void startMultiPlayerMatch() {
         ControllerMaster controllerMaster = new ControllerMaster();
         Map<PlayerColor, Player> playerMap = new HashMap<>();
+        controllerMaster.getCommonBoard().getDraftPool().populateDiceDraftPool(playerMap.size());
         System.out.println("map created");
 
         playersRoom.entrySet().forEach(entry -> {
