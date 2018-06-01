@@ -31,7 +31,8 @@ public class SetUpGameCli {
         for (SimplifiedWindowPatternCard swp : listWp)
             cards.add(new WindowPatternCardView(swp));
 
-        inputOutputManager.print("Scegli la WP desiderata tra: ");
+        inputOutputManager.print(   "\n--------------------------------" +
+                                    "\n Scegli la WP desiderata tra: ");
         for (WindowPatternCardView wp : cards)
             wp.printWp();
         idChosen = this.getIdChosen();

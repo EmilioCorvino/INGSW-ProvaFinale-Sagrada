@@ -89,7 +89,7 @@ public class CliView extends AViewMaster{
             }
         }
 
-        inputOutputManager.print("Connessione stabilita.\nProcedere con il login.");
+        inputOutputManager.print("\nConnessione stabilita.\nProcedere con il login.");
 
         while(!userNameOk){
             try {

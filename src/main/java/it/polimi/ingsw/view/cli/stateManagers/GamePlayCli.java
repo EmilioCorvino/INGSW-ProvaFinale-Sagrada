@@ -69,8 +69,8 @@ public class GamePlayCli implements Serializable {
         inputOutputManager.print("E' il tuo turno!");
 
         int commandChosen = Integer.parseInt(inputOutputManager.askInformation("Scegli il comando:" +
-                "\n1-Piazzamento\n2-Uso Tool\n3-Visualizza mappe altri giocatori\n" +
-                "4-Visualizza obiettivi pubblici\n5-Visualizza carte strumento\n6-Passa)"));
+                "\n\t 1 - Piazzamento\n\t 2 - Uso Tool\n\t 3 - Visualizza mappe altri giocatori" +
+                "\n\t 4 - Visualizza obiettivi pubblici\n\t 5 - Visualizza carte strumento\n\t 6 - Passa)"));
 
         while(commandChosen < 1 || commandChosen > 6)
             commandChosen = Integer.parseInt(inputOutputManager.askInformation("Errore: Scelta non supportata, inserisci un valore tra (1-6)"));
