@@ -24,5 +24,7 @@ public abstract class AViewMaster  {
 
     public abstract void showUpdatedWp(String username, SetUpInformationUnit info);
 
+    public abstract void showNotice(String notice);
+
     public abstract IFromClientToServer getServer();
 }

@@ -44,4 +44,5 @@ public interface IFromServerToClient {
 
     void showUpdatedWp(String username, SetUpInformationUnit info) throws BrokenConnectionException;
 
+    void showNotice(String notice) throws BrokenConnectionException;
 }

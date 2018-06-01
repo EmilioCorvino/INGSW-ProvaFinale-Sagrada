@@ -35,7 +35,15 @@ public class ClientImplementation implements IFromServerToClient {
     public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) {
         view.showMapsToChoose(listWp);
     }
+    @Override
+    public void showCommonBoard(DiceDraftPool draft, SimplifiedWindowPatternCard wp) {
+        view.showCommonBoard(draft, wp);
+    }
 
+    @Override
+    public void showCommand() {
+        view.showCommand();
+    }
     @Override
     public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) {
         view.giveProperObjectToFill(setInfoUnit);
@@ -47,12 +55,6 @@ public class ClientImplementation implements IFromServerToClient {
     }
 
     @Override
-    public void showCommonBoard(DiceDraftPool draft, SimplifiedWindowPatternCard wp) {
-        view.showCommonBoard(draft, wp);
-    }
+    public void showNotice(String notice){ view.showNotice(notice);}
 
-    @Override
-    public void showCommand() {
-        view.showCommand();
-    }
 }

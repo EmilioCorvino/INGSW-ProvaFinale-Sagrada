@@ -203,6 +203,10 @@ public class CliView extends AViewMaster{
         }
     }
 
+    @Override
+    public void showNotice(String notice){
+        inputOutputManager.print(notice);
+    }
 
     public IFromClientToServer getServer() {
         return server;
