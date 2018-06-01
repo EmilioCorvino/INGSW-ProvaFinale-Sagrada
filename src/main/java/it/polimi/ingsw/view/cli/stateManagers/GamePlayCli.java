@@ -7,6 +7,8 @@ import it.polimi.ingsw.view.cli.die.DieView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 
 import java.io.Serializable;
+import java.util.List;
+
 /**
  * This class manages all the interaction during the game play state.
  */
@@ -39,12 +41,12 @@ public class GamePlayCli implements Serializable {
         inputOutputManager.print("Inserisci le coordinate della cella in cui vuoi inserire il dado.");
 
         int row = Integer.parseInt(inputOutputManager.askInformation("Riga: "));
-        while (row < 1 || row > WindowPatternCardView.MAX_ROW)
-            row = Integer.parseInt(inputOutputManager.askInformation("Errore: Valore non supportato, inserire un valore tra (1-"+WindowPatternCardView.MAX_ROW+"): "));
+        while (row < 0 || row > WindowPatternCardView.MAX_ROW - 1)
+            row = Integer.parseInt(inputOutputManager.askInformation("Errore: Valore non supportato, inserire un valore tra (0-"+(WindowPatternCardView.MAX_ROW-1)+"): "));
 
         int col = Integer.parseInt(inputOutputManager.askInformation("Colonna: "));
-        while (col < 1 || col > WindowPatternCardView.MAX_COL)
-            col = Integer.parseInt(inputOutputManager.askInformation("Errore: Valore non supportato, inserire un valore tra (1-"+WindowPatternCardView.MAX_COL+"): "));
+        while (col < 0 || col > WindowPatternCardView.MAX_COL - 1)
+            col = Integer.parseInt(inputOutputManager.askInformation("Errore: Valore non supportato, inserire un valore tra (0-"+(WindowPatternCardView.MAX_COL-1)+"): "));
 
         return row*WindowPatternCardView.MAX_COL+col;
     }
@@ -62,15 +64,15 @@ public class GamePlayCli implements Serializable {
     }
 
     /**
-     *
-     * @return
+     * This method allow the player to choose the command.
+     * @return: the command chosen.
      */
     public int showCommands(){
         inputOutputManager.print("E' il tuo turno!");
 
         int commandChosen = Integer.parseInt(inputOutputManager.askInformation("Scegli il comando:" +
                 "\n\t 1 - Piazzamento\n\t 2 - Uso Tool\n\t 3 - Visualizza mappe altri giocatori" +
-                "\n\t 4 - Visualizza obiettivi pubblici\n\t 5 - Visualizza carte strumento\n\t 6 - Passa)"));
+                "\n\t 4 - Visualizza carte obiettivo pubblico\n\t 5 - Visualizza carte strumento\n\t 6 - Passa)"));
 
         while(commandChosen < 1 || commandChosen > 6)
             commandChosen = Integer.parseInt(inputOutputManager.askInformation("Errore: Scelta non supportata, inserisci un valore tra (1-6)"));
@@ -101,5 +103,13 @@ public class GamePlayCli implements Serializable {
         wp.getGlassWindow()[unit.getIndex()/WindowPatternCardView.MAX_COL][unit.getIndex() % WindowPatternCardView.MAX_COL].setDie(new DieView(unit.getColor(), unit.getValue()));
     }
 
+    public void printCard(List<String> cards,  String type){
+        int index = 1;
 
+        inputOutputManager.print("Carte "+ type + ":");
+        for (String s : cards){
+            inputOutputManager.print("\t - " + index + ": " + s);
+            index ++;
+        }
+    }
 }

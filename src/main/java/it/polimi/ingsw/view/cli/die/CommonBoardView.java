@@ -15,11 +15,10 @@ public class CommonBoardView {
 
     private RoundTrackView roundTrack;
 
-    //Forse basta una lista
-    private Map<Integer,String> publicObjectiveCards;
+    private List<String> publicObjectiveCards;
 
-    //Forse basta una lista
-    private Map<Integer,String> toolCards;
+    private List<String> toolCards;
+
 
     public CommonBoardView(){
         this.players = new ArrayList<>();
@@ -38,11 +37,11 @@ public class CommonBoardView {
         return roundTrack;
     }
 
-    public Map<Integer,String> getPublicObjectiveCards() {
+    public List<String> getPublicObjectiveCards() {
         return publicObjectiveCards;
     }
 
-    public Map<Integer,String> getToolCards() {
+    public List<String> getToolCards() {
         return toolCards;
     }
 

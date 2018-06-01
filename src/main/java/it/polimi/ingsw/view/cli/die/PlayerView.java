@@ -9,6 +9,10 @@ public class PlayerView {
 
     private String userName;
 
+    private String privateObjCard;
+
+    private int favorToken;
+
     /**
      * Window pattern card own by this player
      */

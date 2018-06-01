@@ -70,6 +70,9 @@ public class CliView extends AViewMaster{
         endGameState = new EndGameCli();
     }
 
+//----------------------------------------------------------
+//                      LOGIN STATE
+//----------------------------------------------------------
     /**
      * This method create the connection and logs the player
      * @param viewMaster Is the view connected to the net.
@@ -115,6 +118,10 @@ public class CliView extends AViewMaster{
         this.loginState.showRoom(players);
     }
 
+
+//----------------------------------------------------------
+//                  INITIALIZATION STATE
+//----------------------------------------------------------
     /**
      *This method print for maps to the user and return to the server the id of the map chosen colling windowPatternRequest().
      * @param listWp: The list of maps need to be choose.
@@ -143,6 +150,9 @@ public class CliView extends AViewMaster{
         initializationState.showCommonBoard(draftPool, player.getWp());
     }
 
+//----------------------------------------------------------
+//                  GAME PLAY STATE
+//----------------------------------------------------------
     /**
      *This method show the available commands to the user and allow him to chose one.
      */
@@ -153,18 +163,33 @@ public class CliView extends AViewMaster{
             case 1:     try{
                             server.defaultMoveRequest();
                         } catch (BrokenConnectionException e){
-                            SagradaLogger.log(Level.SEVERE, "Connection broken during command request");
+                            SagradaLogger.log(Level.SEVERE, "Connection broken during placement move",e);
                         }
                         break;
-            case 2: //todo toolmove;
 
-            case 3: //todo showOther maps;
+            case 2:     try{
+                            server.toolMoveRequest();
+                        } catch (BrokenConnectionException e){
+                            SagradaLogger.log(Level.SEVERE, "Connection broken during tool move",e);
+                        }
+                        break;
 
-            case 4://todo
+            case 3:
 
-            case 5://todo
+            case 4:     gamePlaySate.printCard(commonBoard.getPublicObjectiveCards(), "obiettivo pubblico");
+                        gamePlaySate.showCommands();
+                        break;
 
-            case 6: //todo passa;
+            case 5:     gamePlaySate.printCard(commonBoard.getToolCards(), "strumento");
+                        gamePlaySate.showCommands();
+                        break;
+
+            case 6:     try{
+                            server.endTurn();
+                        } catch (BrokenConnectionException e) {
+                            SagradaLogger.log(Level.SEVERE, "Connection broken during end game", e);
+                        }
+                        break;
 
         }
     }
@@ -208,6 +233,16 @@ public class CliView extends AViewMaster{
         inputOutputManager.print(notice);
     }
 
+//----------------------------------------------------------
+//                  END GAME STATE
+//----------------------------------------------------------
+
+
+
+
+//----------------------------------------------------------
+//                  GENERAL METHODS
+//----------------------------------------------------------
     public IFromClientToServer getServer() {
         return server;
     }

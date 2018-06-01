@@ -50,9 +50,9 @@ public class WindowPatternCardView {
 
         for(int i = 0; i < glassWindow.length; i++) {
             for (int j = 0; j < glassWindow[i].length; j++) {
-                wp.append("| ").append(this.glassWindow[i][j].toStringCell()).append(" ");
+                wp.append( " " + i +" | ").append(this.glassWindow[i][j].toStringCell()).append(" ");
             }
-            wp.append("|\n");
+            wp.append("|\n 0   1   2   3   4");
         }
         return wp.toString();
     }

@@ -22,6 +22,8 @@ public class SetUpGameCli {
 
     private InputOutputManager inputOutputManager = new InputOutputManager();
 
+
+
     /**
      * This method print for maps to the user.
      * @param listWp: The list of maps need to be choose.
@@ -41,7 +43,7 @@ public class SetUpGameCli {
 
         for (WindowPatternCardView wp : cards)
             wp.printWp();
-        
+
         idChosen = this.getIdChosen();
         while (!(idChosen == cards.get(0).getIdMap() || idChosen == cards.get(1).getIdMap() || idChosen == cards.get(2).getIdMap() || idChosen == cards.get(3).getIdMap())){
             inputOutputManager.print("Id non presente!");
@@ -50,10 +52,18 @@ public class SetUpGameCli {
         return idChosen;
     }
 
+
+    /**
+     *
+     * @param draftPool
+     * @param wp
+     */
     public void showCommonBoard(DieDraftPoolView draftPool, WindowPatternCardView wp){
         draftPool.printDraftPool();
         wp.printWp();
     }
+
+
 
     /**
      * This method populate the cards of the common board, loading files from resources.
@@ -61,19 +71,24 @@ public class SetUpGameCli {
      * @param cards: the list (maps) of cards of the common board.
      * @param type: The type of card, can be: - pubObj, -toolCard.
      */
-    public void createCard(int[] id, Map<Integer,String> cards, String type){
+    public void createCard(int[] id, List<String> cards, String type){
 
         for (int i : id){
             try (Reader file = new FileReader("./src/main/resources/cards/publicObjectiveText/"+ type + i +".txt")){
                 BufferedReader b = new BufferedReader(file);
                 String s = b.readLine();
-                cards.put(i,s);
+                cards.add(s);
             } catch (IOException e) {
                 SagradaLogger.log(Level.WARNING, "Card txt file can't be read!", e);
             }
         }
     }
 
+
+    /**
+     * This method ask to the user which maps want to select
+     * @return: the id of the map chosen.
+     */
     private int getIdChosen(){
         return Integer.parseInt(inputOutputManager.askInformation("Inserire l'id della mappa scelta: "));
     }
