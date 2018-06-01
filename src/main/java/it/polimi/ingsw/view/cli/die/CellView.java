@@ -2,6 +2,9 @@ package it.polimi.ingsw.view.cli.die;
 
 import it.polimi.ingsw.model.Color;
 
+/**
+ * This class identify a cell
+ */
 public class CellView {
 
     private DieView die;

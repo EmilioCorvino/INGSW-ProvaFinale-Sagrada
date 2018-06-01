@@ -2,8 +2,16 @@ package it.polimi.ingsw.view.cli.die;
 
 import it.polimi.ingsw.model.player.Player;
 
+/**
+ * This class identify the player.
+ */
 public class PlayerView {
+
     private String userName;
+
+    /**
+     * Window pattern card own by this player
+     */
     private WindowPatternCardView wp;
 
     public String getUserName() {
