@@ -9,7 +9,6 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -44,10 +43,9 @@ public class GamePlayManager extends AGameManager {
 
     public GamePlayManager(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
-        playerList = new LinkedList<>();
+        playerList = new ArrayList<>();
         this.startPlayer = 0;
         this.currentRound = 1;
-        initializePlayerList();
     }
 
     /**
@@ -55,11 +53,20 @@ public class GamePlayManager extends AGameManager {
      * //TODO testing
      */
     public void initializePlayerList() {
+        System.out.println("initializing players....");
+        List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
         List<Player> supportList = new ArrayList<>();
-        super.getControllerMaster().getCommonBoard().getPlayers().forEach(player -> supportList.add(player));
+        players.forEach(player -> {
+            playerList.add(player);
+            supportList.add(player);
+        });
+
         for(int i= supportList.size()-1; i>=0; i--)
             playerList.add(supportList.get(i));
         //reOrderPlayerList();
+
+        for(Player p : playerList)
+            System.out.println(p.getPlayerName());
     }
 
     /**

@@ -134,18 +134,34 @@ public class ServerImplementation implements IFromClientToServer {
         this.controller = controller;
     }
 
+    /**
+     *
+     * @param gameMode can be either single-player or multi-player.
+     * @param playerName name the player chooses for himself in the application.
+     * @throws UserNameAlreadyTakenException
+     * @throws TooManyUsersException
+     */
     @Override
     public void login(int gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException {
         Connection playerConn = this.waitingRoom.getPlayersRoom().get(playerName);
         this.waitingRoom.login(playerName, playerConn, gameMode);
     }
 
+    /**
+     *
+     * @param idMap
+     */
     @Override
     public void windowPatternCardRequest(int idMap) {
         StartGameManager startGameManager = (StartGameManager)controller.getStartGameManager();
         startGameManager.wpToSet(username, idMap);
     }
 
+    /**
+     *
+     * @param playerName player who wants to log out.
+     * @throws BrokenConnectionException
+     */
     @Override
     public void exitGame(String playerName) throws BrokenConnectionException {
 

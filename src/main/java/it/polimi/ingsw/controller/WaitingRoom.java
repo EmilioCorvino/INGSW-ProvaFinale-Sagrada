@@ -128,6 +128,7 @@ public class WaitingRoom {
         ControllerMaster controllerMaster = new ControllerMaster();
         Map<String, IFromServerToClient> playerMap = controllerMaster.getConnectedPlayers();
         controllerMaster.getCommonBoard().getDraftPool().populateDiceDraftPool(playerMap.size());
+        ((GamePlayManager)controllerMaster.getGamePlayManager()).initializePlayerList();
 
         for(String name : playersRoom.keySet()) {
             playersRoom.get(name).getServer().setController(controllerMaster);
@@ -136,9 +137,6 @@ public class WaitingRoom {
             controllerMaster.getCommonBoard().getPlayers().add(new Player(name,controllerMaster.getCommonBoard()));
 
         }
-
-        for(Player name : controllerMaster.getCommonBoard().getPlayers() )
-            System.out.println(name.getPlayerName());
 
         ((StartGameManager)controllerMaster.getStartGameManager()).chooseWindowPatternCard();
         System.out.println("maps????");

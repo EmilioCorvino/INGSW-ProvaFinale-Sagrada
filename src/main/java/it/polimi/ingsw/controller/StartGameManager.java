@@ -58,14 +58,12 @@ public class StartGameManager extends AGameManager {
     public List<SimplifiedWindowPatternCard> windowPatternCardConverter() {
 
         WindowPatternCardDeck mapDeck = super.getControllerMaster().getCommonBoard().getWindowPatternCardDeck();
-        System.out.println(mapDeck.getDeck().size() + "");
         //WindowPatternCardDeck windowPatternCardDeck = new WindowPatternCardDeck();
         //windowPatternCardDeck.parseDeck();
         List<SimplifiedWindowPatternCard> wpToSend = new ArrayList<>();
 
         try {
             List<WindowPatternCard> coupleOfWP = mapDeck.drawCard();
-            System.out.println(coupleOfWP.size() + "");
             for(WindowPatternCard wp : coupleOfWP) {
                 Cell[][] gw = wp.getGlassWindow();
                 List<SetUpInformationUnit> informationUnitList = new ArrayList<>();
