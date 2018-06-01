@@ -155,10 +155,10 @@ public class WindowPatternTest {
         Die die2 = new Die(2, Color.YELLOW);
 
         List<WindowPatternCard> card = new ArrayList<>();
-        WindowPatternCardDeck windowPatternCardDeck = new WindowPatternCardDeck();
-        windowPatternCardDeck.parseDeck();
+        CommonBoard commonBoard = new CommonBoard();
+
         try {
-            card = windowPatternCardDeck.drawCard();
+            card = commonBoard.getWindowPatternCardDeck().drawCard();
         } catch (EmptyException e){
             SagradaLogger.log(Level.SEVERE, "Error: try to draw window pattern card in an empty deck");
         }
