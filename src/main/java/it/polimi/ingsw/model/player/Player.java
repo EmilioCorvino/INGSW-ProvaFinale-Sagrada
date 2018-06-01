@@ -56,7 +56,7 @@ public class Player implements IPlayer {
     public Player(String playerName, CommonBoard board) {
         this.playerName = playerName;
         this.board = board;
-        board.getPlayers().add(this);
+        //board.getPlayers().add(this);
         this.score = new Score(this);
         this.playerMoves = new ArrayList<>();
     }

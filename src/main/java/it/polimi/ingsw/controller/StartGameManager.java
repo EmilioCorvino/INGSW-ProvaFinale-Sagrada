@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.die.Cell;
+import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCardDeck;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
@@ -77,8 +78,6 @@ public class StartGameManager extends AGameManager {
                                 gw[i][j].getDefaultValueRestriction().getValue());
                         informationUnitList.add(setUpInfo);
                     }
-                System.out.println(gw[0][4].getDefaultColorRestriction().getColor() + "   " + gw[0][4].getDefaultValueRestriction().getValue() );
-
                 SimplifiedWindowPatternCard simpleWp = new SimplifiedWindowPatternCard(informationUnitList);
                 simpleWp.setIdMap(wp.getIdMap());
                 simpleWp.setDifficulty(wp.getDifficulty());
@@ -114,14 +113,27 @@ public class StartGameManager extends AGameManager {
     public void wpToSet(String username, int chosenWp) {
         CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
         WindowPatternCard wpToSet = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenWp - 1);
-        commonBoard.getSpecificPlyer(username).setWindowPatternCard(wpToSet);
+        commonBoard.getSpecificPlayer(username).setWindowPatternCard(wpToSet);
         SimplifiedWindowPatternCard wpToSend = convertOneWp(chosenWp);
 
         try{
+            //substitute commonBoard.getDraftPool with list of SetUpInformationUnit
             super.getControllerMaster().getConnectedPlayers().get(username).showCommonBoard(commonBoard.getDraftPool(), wpToSend);
         } catch (BrokenConnectionException br) {
             //TODO handle broken connection.
         }
+    }
+
+    /**
+     *
+     * @return
+     */
+    public List<SetUpInformationUnit> draftPoolConverter() {
+        List<Die> draftPoolDice = super.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice();
+        List<SetUpInformationUnit> draftPoolInfo = new ArrayList<>();
+        for(Die die : draftPoolDice)
+            draftPoolInfo.add(new SetUpInformationUnit(draftPoolDice.indexOf(die), die.getDieColor(), die.getActualDieValue()));
+        return draftPoolInfo;
     }
 
     /*

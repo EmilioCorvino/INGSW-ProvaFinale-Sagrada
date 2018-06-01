@@ -146,11 +146,20 @@ public class ServerImplementation implements IFromClientToServer {
         startGameManager.wpToSet(username, idMap);
     }
 
-
-
-
     @Override
     public void exitGame(String playerName) throws BrokenConnectionException {
 
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public WaitingRoom getWaitingRoom() {
+        return waitingRoom;
     }
 }

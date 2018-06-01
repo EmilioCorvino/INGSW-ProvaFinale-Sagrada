@@ -183,7 +183,8 @@ public class CommonBoard {
         return windowPatternCardDeck;
     }
 
-    public Player getSpecificPlyer(String username) throws UnsupportedOperationException {
+    public Player getSpecificPlayer(String username) throws UnsupportedOperationException {
+        System.out.println(username);
         for(Player p: players)
             if(username.equals(p.getPlayerName()))
                 return p;
