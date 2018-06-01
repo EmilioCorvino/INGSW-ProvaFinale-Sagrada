@@ -1,20 +1,29 @@
 package it.polimi.ingsw.view.cli.stateManagers;
 
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.cli.InputOutputManager;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * This class manages all the interaction during the game's state of set up.
  */
 public class SetUpGameCli {
 
-    InputOutputManager inputOutputManager = new InputOutputManager();
+    private InputOutputManager inputOutputManager = new InputOutputManager();
 
+    /**
+     * This method print for maps to the user.
+     * @param listWp: The list of maps need to be choose.
+     * @return: the id of the map chosen.
+     */
     public int showMapsToChoose(List<SimplifiedWindowPatternCard> listWp){
         List<WindowPatternCardView> cards = new ArrayList<>();
         int idChosen;
@@ -38,7 +47,26 @@ public class SetUpGameCli {
         wp.printWp();
     }
 
-    public int getIdChosen(){
+    /**
+     * This method populate the cards of the common board, loading files from resources.
+     * @param id: the id of the cards drown by the controller.
+     * @param cards: the list (maps) of cards of the common board.
+     * @param type: The type of card, can be: - pubObj, -toolCard.
+     */
+    public void createCard(int[] id, Map<Integer,String> cards, String type){
+
+        for (int i : id){
+            try (Reader file = new FileReader("./src/main/resources/cards/publicObjectiveText/"+ type + i +".txt")){
+                BufferedReader b = new BufferedReader(file);
+                String s = b.readLine();
+                cards.put(i,s);
+            } catch (IOException e) {
+                SagradaLogger.log(Level.WARNING, "Card txt file can't be read!", e);
+            }
+        }
+    }
+
+    private int getIdChosen(){
         return Integer.parseInt(inputOutputManager.askInformation("Inserire l'id della mappa scelta: "));
     }
 }
