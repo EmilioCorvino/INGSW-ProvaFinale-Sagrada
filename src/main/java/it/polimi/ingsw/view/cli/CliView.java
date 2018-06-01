@@ -106,11 +106,19 @@ public class CliView extends AViewMaster{
         }
     }
 
+    /**
+     *This method print the name of all the players connected.
+     * @param players: list of username of players connected.
+     */
     @Override
     public void showRoom(List<String> players) {
         this.loginState.showRoom(players);
     }
 
+    /**
+     *This method print for maps to the user and return to the server the id of the map chosen colling windowPatternRequest().
+     * @param listWp: The list of maps need to be choose.
+     */
     @Override
     public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) {
         try {
@@ -120,6 +128,11 @@ public class CliView extends AViewMaster{
         }
     }
 
+    /**
+     *This method take the info from the server to initialize the common board at the beginning of the match.
+     * @param draft:
+     * @param wp:
+     */
     @Override
     public void showCommonBoard(DiceDraftPool draft, SimplifiedWindowPatternCard wp){
         this.player.setWp(new WindowPatternCardView(wp));
@@ -130,19 +143,36 @@ public class CliView extends AViewMaster{
         initializationState.showCommonBoard(draftPool, player.getWp());
     }
 
+    /**
+     *This method show the available commands to the user and allow him to chose one.
+     */
     @Override
     public void showCommand() {
         int command = gamePlaySate.showCommands();
         switch (command){
-            case 1: try{
-                server.defaultMoveRequest();
-            } catch (BrokenConnectionException e){
-                SagradaLogger.log(Level.SEVERE, "Connection broken during command request");
-            }
+            case 1:     try{
+                            server.defaultMoveRequest();
+                        } catch (BrokenConnectionException e){
+                            SagradaLogger.log(Level.SEVERE, "Connection broken during command request");
+                        }
+                        break;
+            case 2: //todo toolmove;
+
+            case 3: //todo showOther maps;
+
+            case 4://todo
+
+            case 5://todo
+
+            case 6: //todo passa;
 
         }
     }
 
+    /**
+     * This method fill the information unit with all the input token from the user.
+     * @param setInfoUnit: This object contains all of the placement info chosen by the user.
+     */
     @Override
     public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) {
         gamePlaySate.getPlacementInfo(commonBoard.getDraftPool(), player.getWp(), setInfoUnit);
@@ -154,6 +184,11 @@ public class CliView extends AViewMaster{
         }
     }
 
+    /**
+     * This method update the wp of a specified player.
+     * @param username: Username of player that need the update.
+     * @param unit: The set of information needed to place a die in the wp.
+     */
     @Override
     public void showUpdatedWp(String username, SetUpInformationUnit unit) {
 

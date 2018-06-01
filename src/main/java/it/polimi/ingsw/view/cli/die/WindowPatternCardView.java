@@ -4,6 +4,9 @@ import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.view.cli.InputOutputManager;
 
+/**
+ * This class identify the window pattern card in the view.
+ */
 public class WindowPatternCardView {
 
     /**
@@ -15,11 +18,14 @@ public class WindowPatternCardView {
     private int difficulty;
 
     public static final int MAX_COL = 5;
-    private static final int MAX_ROW = 4;
+    public static final int MAX_ROW = 4;
 
     private CellView[][] glassWindow;
 
-
+    /**
+     * This constructor build a window pattern card from the information given from the controller.
+     * @param sWP: The set of useful information to identify a window pattern card.
+     */
     public WindowPatternCardView(SimplifiedWindowPatternCard sWP){
         this.inputOutputManager = new InputOutputManager();
         this.glassWindow = new CellView[MAX_ROW][MAX_COL];

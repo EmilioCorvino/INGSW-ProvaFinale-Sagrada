@@ -7,6 +7,9 @@ import it.polimi.ingsw.view.cli.InputOutputManager;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class identify the list of die that can be place in each turn.
+ */
 public class DieDraftPoolView {
 
     /**
