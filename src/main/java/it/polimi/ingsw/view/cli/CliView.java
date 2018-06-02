@@ -135,6 +135,7 @@ public class CliView extends AViewMaster{
      * @param draftPool
      * @param wp :
      */
+    /*
     @Override
     public void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp){
         this.player.setWp(new WindowPatternCardView(wp));
@@ -143,6 +144,17 @@ public class CliView extends AViewMaster{
         this.commonBoard.setDraftPool(draftPool);
         this.commonBoard.getPlayers().add(player);
         initializationState.showCommonBoard(draftPool, player.getWp());
+    }
+    */
+
+    @Override
+    public void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp){
+        this.player.setWp(new WindowPatternCardView(wp));
+        DieDraftPoolView draft = new DieDraftPoolView(draftPool);
+
+        this.commonBoard.setDraftPool(draft);
+        this.commonBoard.getPlayers().add(player);
+        initializationState.showCommonBoard(draft, player.getWp());
     }
 
     /**
