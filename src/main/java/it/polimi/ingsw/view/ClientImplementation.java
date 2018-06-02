@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.network.IFromServerToClient;
 
 import java.util.List;
@@ -26,4 +28,31 @@ public class ClientImplementation implements IFromServerToClient {
     public void showRoom(List<String> players) {
         view.showRoom(players);
     }
+
+    @Override
+    public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) {
+        view.showMapsToChoose(listWp);
+    }
+    @Override
+    public void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) {
+        view.showCommonBoard(draftPool, wp);
+    }
+
+    @Override
+    public void showCommand() {
+        view.showCommand();
+    }
+    @Override
+    public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) {
+        view.giveProperObjectToFill(setInfoUnit);
+    }
+
+    @Override
+    public void showUpdatedWp(String username, SetUpInformationUnit info) {
+        view.showUpdatedWp(username, info);
+    }
+
+    @Override
+    public void showNotice(String notice){ view.showNotice(notice);}
+
 }

@@ -1,10 +1,13 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.exceptions.BrokenConnectionException;
-import it.polimi.ingsw.exceptions.TooManyUsersException;
-import it.polimi.ingsw.exceptions.UserNameAlreadyTakenException;
+import it.polimi.ingsw.controller.simplified_view.InformationUnit;
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.network.Connection;
 import it.polimi.ingsw.network.IFromClientToServer;
-import it.polimi.ingsw.network.IFromServerToClient;
+import it.polimi.ingsw.network.PlayerColor;
+import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
+import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
+import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 
 /**
  * This class manages server related operation that aren't strictly related to the game. Moreover, it handles the
@@ -13,64 +16,166 @@ import it.polimi.ingsw.network.IFromServerToClient;
 public class ServerImplementation implements IFromClientToServer {
 
     /**
+     * Color identifying the player.
+     */
+    private PlayerColor playerColor;
+
+    /**
+     *
+     */
+    private String username;
+
+    /**
      * Controller of the match.
      */
     private ControllerMaster controller;
 
     /**
-     * Maximum number of players that can connect to the match.
+     *
      */
-    static final int MAX_PLAYERS = 4;
+    private final WaitingRoom waitingRoom;
 
-    public ServerImplementation() {
-        this.controller = new ControllerMaster();
+
+    public ServerImplementation(WaitingRoom waitingRoom) {
+        this.waitingRoom = waitingRoom;
     }
 
     /**
-     * Lets the player log in the match.
-     * @param gameMode can be either single player or multi-player.
-     * @param playerName name the player chooses for himself in the application.
-     * @throws UserNameAlreadyTakenException when a user with the same username is already logged in.
-     * @throws TooManyUsersException when there already is the maximum number of players inside a game.
+     * This method manages the request of the user to make a default move.
      */
-    @Override
-    public void login(String gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException {
-        if(this.controller.getStartGameState().isFull()) {
+    public void defaultMoveRequest() {
+        GamePlayManager gamePlayManager = (GamePlayManager)controller.getGamePlayManager();
+        if(gamePlayManager.checkCurrentPlayer(username)){
+            //tell the player that parameters are needed, the controller will send proper objects
+            gamePlayManager.givePlayerObjectTofill();
+        } else {
+            // tell the user that it's not his/her turn.
+        }
+
+    }
+
+    /**
+     * This method tells the proper game manager of the controller to perform the move request.
+     * @param sourceInfo the coordinates of the source container.
+     */
+    public void performMove(SetUpInformationUnit sourceInfo) {
+        GamePlayManager gamePlayManager = (GamePlayManager)controller.getGamePlayManager();
+        gamePlayManager.performMove(sourceInfo);
+
+    }
+
+    /**
+     *
+     * @param toolIndex
+     */
+    public void toolCardMoveRequest(int toolIndex) {
+
+    }
+    
+
+    /**
+     *
+     * @param destination
+     */
+    public void placeDie(InformationUnit destination) {
+
+    }
+
+
+    /**
+     *
+     */
+    public void endTurn() {
+
+    }
+
+
+
+
+    /*
+    public void login(int gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException {
+        if(((StartGameManager)this.controller.getStartGameManager()).isFull()) {
             System.out.println("The server reached the maximum number of players!");
             throw new TooManyUsersException();
         }
-        if(!this.controller.getStartGameState().checkLogin(playerName)) {
+        if(!((StartGameManager)this.controller.getStartGameManager()).checkLogin(playerName)) {
             System.out.println("Username already taken");
             throw new UserNameAlreadyTakenException();
         }
     }
+    */
 
-    /**
+
+    /*
      * Lets the player log out from the game.
      * @param playerName player who wants to log out.
      * @throws BrokenConnectionException when the connection drops.
+     */
+    /*
+    @Override
+    public void exitGame(String playerName) throws BrokenConnectionException {
+
+    }
+    */
+
+    public PlayerColor getPlayerColor() {
+        return playerColor;
+    }
+
+    public void setPlayerColor(PlayerColor playerColor) {
+        this.playerColor = playerColor;
+    }
+
+    public IControllerMaster getController() {
+        return controller;
+    }
+
+    public void setController(ControllerMaster controller) {
+        this.controller = controller;
+    }
+
+    /**
+     *
+     * @param gameMode can be either single-player or multi-player.
+     * @param playerName name the player chooses for himself in the application.
+     * @throws UserNameAlreadyTakenException
+     * @throws TooManyUsersException
+     */
+    @Override
+    public void login(int gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException {
+        Connection playerConn = this.waitingRoom.getPlayersRoom().get(playerName);
+        this.waitingRoom.login(playerName, playerConn, gameMode);
+    }
+
+    /**
+     *
+     * @param idMap
+     */
+    @Override
+    public void windowPatternCardRequest(int idMap) {
+        StartGameManager startGameManager = (StartGameManager)controller.getStartGameManager();
+        startGameManager.wpToSet(username, idMap);
+    }
+
+    /**
+     *
+     * @param playerName player who wants to log out.
+     * @throws BrokenConnectionException
      */
     @Override
     public void exitGame(String playerName) throws BrokenConnectionException {
 
     }
 
-    /**
-     * This method is used by {@link it.polimi.ingsw.network.rmi.RmiServer} and SocketServer //todo add link
-     * to ensure the login can be done. It establishes the connection updating the connected players map with the
-     * player's name and a reference to his client.
-     * @param client reference to the player's client.
-     * @param gameMode can either be single-player or multi-player.
-     * @param playerName name the player chooses for himself in the application.
-     * @throws UserNameAlreadyTakenException when a user with the same username is already logged in.
-     * @throws TooManyUsersException when there already is the maximum number of players inside a game.
-     */
-    public void establishConnection(IFromServerToClient client, String gameMode, String playerName) throws
-            UserNameAlreadyTakenException, TooManyUsersException {
-        this.login(gameMode, playerName);
-        //If login doesn't throw any exception, the player is added to the map and the other players get notified.
-        this.controller.getConnectedPlayers().put(playerName, client);
-        System.out.println("Player " + playerName + " just joined!");
-        this.controller.getStartGameState().notifyWaitingPlayers(gameMode);
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public WaitingRoom getWaitingRoom() {
+        return waitingRoom;
     }
 }

@@ -1,8 +1,9 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.exceptions.BrokenConnectionException;
-import it.polimi.ingsw.exceptions.TooManyUsersException;
-import it.polimi.ingsw.exceptions.UserNameAlreadyTakenException;
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
+import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
+import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 
 /**
  * This interface lists all the methods the client can require from the server. Methods in this interface are agnostic
@@ -20,13 +21,19 @@ public interface IFromClientToServer {
      * @throws TooManyUsersException when there already is the maximum number of players inside a game.
      * @throws BrokenConnectionException when the connection drops.
      */
-    void login(String gameMode, String playerName) throws UserNameAlreadyTakenException,
+    void login(int gameMode, String playerName) throws UserNameAlreadyTakenException,
             TooManyUsersException, BrokenConnectionException;
 
+    void windowPatternCardRequest(int idMap) throws BrokenConnectionException;
+
+    void defaultMoveRequest() throws BrokenConnectionException;
+
+    void performMove(SetUpInformationUnit info) throws BrokenConnectionException;
     /**
      * Lets the player log out from the game.
      * @param playerName player who wants to log out.
      * @throws BrokenConnectionException when the connection drops.
      */
     void exitGame(String playerName) throws BrokenConnectionException;
+
 }

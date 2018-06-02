@@ -10,41 +10,40 @@ import java.util.Map;
 /**
  * This class
  */
-public class ControllerMaster {
+public class ControllerMaster implements IControllerMaster {
 
     /**
-     *
+     * This is the reference to the common board of the game.
      */
     private final CommonBoard commonBoard;
 
     /**
-     *
-     */
-    private IGameState currentGameState;
-
-    /**
-     *
+     * This is the attribute that maps each username with the correspondent client reference.
      */
     private final Map<String, IFromServerToClient> connectedPlayers;
 
     /**
-     *
+     * This attribute represents the manager for the first state of the game.
      */
-    private StartGameState startGameState;
+    private final AGameManager startGameManager;
+
+    /**
+     * This attribute represents the manager for the second state of the game.
+     */
+    private final AGameManager gamePlayManager;
+
+    /**
+     * This attribute represents the manager for the last state of the game.
+     */
+    private final AGameManager endGameManager;
+
 
     public ControllerMaster() {
         commonBoard = new CommonBoard();
-        startGameState = new StartGameState(this);
+        startGameManager = new StartGameManager(this);
+        gamePlayManager = new GamePlayManager(this);
+        endGameManager = new EndGameManager(this);
         connectedPlayers = new HashMap<>();
-        currentGameState = startGameState;
-    }
-
-    public IGameState getCurrentGameState() {
-        return currentGameState;
-    }
-
-    public void setCurrentGameState(IGameState currentGameState) {
-        this.currentGameState = currentGameState;
     }
 
     public CommonBoard getCommonBoard() {
@@ -55,12 +54,16 @@ public class ControllerMaster {
         return connectedPlayers;
     }
 
-    public StartGameState getStartGameState() {
-        return startGameState;
+    public AGameManager getStartGameManager() {
+        return startGameManager;
     }
 
-    public void setStartGameState(StartGameState startGameState) {
-        this.startGameState = startGameState;
+    public AGameManager getGamePlayManager() {
+        return gamePlayManager;
+    }
+
+    public AGameManager getEndGameManager() {
+        return endGameManager;
     }
 
     //todo handle reconnection

@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard;
 import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCardsDeck;
 import it.polimi.ingsw.model.cards.objective.publics.APublicObjectiveCard;
 import it.polimi.ingsw.model.cards.objective.publics.PublicObjectiveCardsDeck;
-import it.polimi.ingsw.exceptions.EmptyException;
+import it.polimi.ingsw.utils.exceptions.EmptyException;
 
 import java.util.List;
 import java.util.Random;

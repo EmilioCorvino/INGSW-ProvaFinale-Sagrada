@@ -1,10 +1,14 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.exceptions.BrokenConnectionException;
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.network.IFromServerToClient;
+import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * This class represents the client on the server side. Controller can call view's methods
@@ -17,7 +21,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
      */
     private IRmiClient rmiClient;
 
-    public RmiFromServerToClient(IRmiClient rmiClient) {
+    RmiFromServerToClient(IRmiClient rmiClient) {
         this.rmiClient = rmiClient;
     }
 
@@ -31,8 +35,77 @@ public class RmiFromServerToClient implements IFromServerToClient {
         try {
             this.rmiClient.showRoom(players);
         } catch (RemoteException e) {
-            System.err.println("Impossible to show clients the updated room: " + e.toString());
+            SagradaLogger.log(Level.SEVERE, "Impossible to show clients the updated room", e);
             throw new BrokenConnectionException();
         }
     }
+
+    /**
+     *
+     *
+     * @param listWp
+     * @throws BrokenConnectionException
+     */
+    @Override
+    public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) throws
+            BrokenConnectionException {
+        try {
+            this.rmiClient.showMapsToChoose(listWp);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to show clients the window pattern cards", e);
+            throw new BrokenConnectionException();
+        }
+    }
+
+    @Override
+    public void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) throws
+            BrokenConnectionException {
+        try {
+            this.rmiClient.showCommonBoard(draftPool, wp);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to show clients the initialized board", e);
+            throw new BrokenConnectionException();
+        }
+    }
+
+    @Override
+    public void showCommand() throws BrokenConnectionException {
+        try {
+            this.rmiClient.showCommand();
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to show clients the available commands", e);
+            throw new BrokenConnectionException();
+        }
+    }
+
+    /**
+     *
+     * @param setInfoUnit
+     * @throws BrokenConnectionException
+     */
+    @Override
+    public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws BrokenConnectionException {
+        try {
+            this.rmiClient.giveProperObjectToFill(setInfoUnit);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to show to the client the proper object to fill", e);
+            throw new BrokenConnectionException();
+        }
+    }
+
+    @Override
+    public void showUpdatedWp(String username, SetUpInformationUnit info) throws BrokenConnectionException {
+        try {
+            this.rmiClient.showUpdatedWp(username, info);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to show to the client the updated wp", e);
+            throw new BrokenConnectionException();
+        }
+    }
+
+    @Override
+    public void showNotice(String notice) throws BrokenConnectionException {
+
+    }
+
 }

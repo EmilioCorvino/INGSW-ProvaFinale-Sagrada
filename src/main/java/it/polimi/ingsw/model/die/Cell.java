@@ -1,11 +1,11 @@
 package it.polimi.ingsw.model.die;
 
-import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.restrictions.ARestriction;
 import it.polimi.ingsw.model.restrictions.ColorRestriction;
 import it.polimi.ingsw.model.restrictions.ValueRestriction;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class manages the cells objects of which the window pattern card matrix is made.
@@ -28,12 +28,12 @@ public class Cell {
     /**
      * The value restriction of the cell on the Window pattern card.
      */
-    private ColorRestriction defaultColorRestriction;
+    public ColorRestriction defaultColorRestriction;
 
     /**
      * The color restriction of the cell on the window pattern card
      */
-    private ValueRestriction defaultValueRestriction;
+    public ValueRestriction defaultValueRestriction;
 
     /**
      *
@@ -141,6 +141,10 @@ public class Cell {
         return ruleSetCell;
     }
 
+    public void setRuleSetCell(List<ARestriction> ruleSetCell) {
+        this.ruleSetCell = ruleSetCell;
+    }
+
     /**
      * This method check if the cell is Empty.
      * @return true if the cell doesn't contain a die.
@@ -162,5 +166,7 @@ public class Cell {
         else if(defaultColorRestriction != null)
             this.ruleSetCell.add(defaultColorRestriction);
     }
+
+
 
 }

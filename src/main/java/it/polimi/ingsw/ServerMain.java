@@ -1,10 +1,17 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.controller.ServerImplementation;
+import it.polimi.ingsw.controller.WaitingRoom;
 import it.polimi.ingsw.network.rmi.RmiServer;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.file.FileAlreadyExistsException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.logging.Level;
 
 /**
  * This class is used to start the server of the application. It creates an instance of both {@link RmiServer} and
@@ -12,24 +19,62 @@ import java.rmi.registry.Registry;
  */
 public class ServerMain {
 
-    /**
-     * Port that the application will be using.
-     */
-    public static final int PORT = 54242;
+    private WaitingRoom room; //Substitute this with a match handler to handle more matches.
 
-    public static void main(String[] args) {
-        //Sets up Rmi server and client remote interfaces.
+    public static final String RMI_PORT_PATH = "./src/main/java/it/polimi/ingsw/utils/config/rmiPort";
+
+    private ServerMain(WaitingRoom room) {
+        this.room = room;
+    }
+
+    private void startRmiServer() {
+        int port = loadPort(RMI_PORT_PATH);
+        SagradaLogger.log(Level.CONFIG, "RMI port successfully loaded.");
         try {
-            Registry registry = LocateRegistry.createRegistry(PORT);
-            RmiServer rmiServer = new RmiServer(PORT, new ServerImplementation());
+            Registry registry = LocateRegistry.createRegistry(port);
+            RmiServer rmiServer = new RmiServer(port, room); //to handle more matches, here a MatchHandler should be passed.
             registry.bind("RmiServer", rmiServer);
         } catch (Exception e) {
-            System.err.println("Rmi server exception: " + e.toString());
-            e.printStackTrace();
+            SagradaLogger.log(Level.SEVERE, "Rmi server exception", e);
         }
-        System.err.println("Rmi Server ready, waiting for connections...");
+        SagradaLogger.log(Level.INFO,"Rmi Server ready on port " + port + ", waiting for connections...");
+    }
 
+   /* private void startSocketServer() {
+        ExecutorService executor = Executors.newCachedThreadPool();
+        ServerSocket serverSocket;
 
-        //todo setup socket server
+        try {
+            serverSocket = new ServerSocket(port);
+        } catch (IOException e) {
+            SagradaLogger.log(Level.SEVERE, "Socket server exception", e);
+        }
+        boolean serverIsOn = true;
+        SagradaLogger.log(Level.CONFIG, "Socket server ready, waiting for connections...");
+        while (serverIsOn) {
+            try {
+                Socket clientSocket = serverSocket.accept();
+                executor.submit(new )
+            }
+        }
+    }*/
+
+   public static int loadPort(String path) {
+       int port = 0;
+       try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)))) {
+           port = Integer.parseInt(reader.readLine());
+       } catch (FileAlreadyExistsException e) {
+           SagradaLogger.log(Level.SEVERE, "Impossible to find the file in which the port is stored.", e);
+       } catch (IOException e) {
+           SagradaLogger.log(Level.SEVERE, "Impossible to load the port from file.", e);
+       }
+       SagradaLogger.log(Level.CONFIG, "Port successfully loaded.");
+       return port;
+   }
+
+    public static void main(String[] args) {
+        ServerMain serverMain = new ServerMain(new WaitingRoom());
+        serverMain.startRmiServer();
+        // todo serverMain.startSocketServer();
     }
 }

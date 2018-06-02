@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-public abstract class AGameState implements IGameState {
+public abstract class AGameManager implements IGameManager {
 
     private ControllerMaster controllerMaster;
 

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.exceptions.BrokenConnectionException;
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
+import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 
 import java.util.List;
 
@@ -18,4 +20,28 @@ public interface IFromServerToClient {
      */
     void showRoom(List<String> players) throws BrokenConnectionException;
 
+    /**
+     *
+     * @param map1
+     * @param map2
+     * @param map3
+     * @param map4
+     */
+   // void windowPatternCardSelection(String map1, String map2, String map3, String map4) throws BrokenConnectionException;
+
+    /**
+     *
+     * @param listWp
+     */
+    void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) throws BrokenConnectionException;
+
+    void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) throws BrokenConnectionException;
+
+    void showCommand() throws BrokenConnectionException;
+
+    void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws BrokenConnectionException;
+
+    void showUpdatedWp(String username, SetUpInformationUnit info) throws BrokenConnectionException;
+
+    void showNotice(String notice) throws BrokenConnectionException;
 }

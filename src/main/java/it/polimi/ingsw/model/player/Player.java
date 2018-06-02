@@ -4,13 +4,11 @@ import it.polimi.ingsw.controller.IOController;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.Score;
 import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard;
-import it.polimi.ingsw.model.cards.tool.ChooseValueEffect;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.move.IMove;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * This class is the representation of the player: it does anything the real player can do and has everything
@@ -58,7 +56,7 @@ public class Player implements IPlayer {
     public Player(String playerName, CommonBoard board) {
         this.playerName = playerName;
         this.board = board;
-        board.getPlayers().add(this);
+        //board.getPlayers().add(this);
         this.score = new Score(this);
         this.playerMoves = new ArrayList<>();
     }

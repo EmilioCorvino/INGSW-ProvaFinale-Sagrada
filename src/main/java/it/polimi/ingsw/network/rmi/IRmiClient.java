@@ -1,5 +1,8 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -15,5 +18,15 @@ public interface IRmiClient extends Remote {
      * @param players names of the players already connected (including the player itself).
      */
     void showRoom(List<String> players) throws RemoteException;
+
+    void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) throws RemoteException;
+
+    void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) throws RemoteException;
+
+    void showCommand() throws RemoteException;
+
+    void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws RemoteException;
+
+    void showUpdatedWp(String username, SetUpInformationUnit info) throws RemoteException;
 
 }

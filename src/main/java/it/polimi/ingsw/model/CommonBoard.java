@@ -4,13 +4,16 @@ import it.polimi.ingsw.model.cards.PublicObjectiveCardSlot;
 import it.polimi.ingsw.model.cards.ToolCardSlot;
 import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCardsDeck;
 import it.polimi.ingsw.model.cards.objective.publics.PublicObjectiveCardsDeck;
-import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
 import it.polimi.ingsw.model.die.diecontainers.RoundTrack;
+import it.polimi.ingsw.model.die.diecontainers.WindowPatternCardDeck;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.network.PlayerColor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class represents everything which is visible by all players.
@@ -27,6 +30,11 @@ public class CommonBoard {
      * Players connected to the match.
      */
     private final List<Player> players;
+
+    /**
+     *
+     */
+    private Map<PlayerColor, Player> playerMap;
 
     /**
      * {@link it.polimi.ingsw.model.die.diecontainers.DiceDraftPool} of the match.
@@ -62,6 +70,11 @@ public class CommonBoard {
      */
     private final PublicObjectiveCardsDeck publicObjectiveCardsDeck;
 
+    /**
+     * Deck composed by {@link it.polimi.ingsw.model.die.diecontainers.WindowPatternCard}.
+     */
+    private final WindowPatternCardDeck windowPatternCardDeck;
+
     /*todo private final ToolCardsDeck toolCardsDeck */
 
     public CommonBoard() {
@@ -74,7 +87,10 @@ public class CommonBoard {
         this.privateObjectiveCardsDeck.parseDeck();
         this.publicObjectiveCardsDeck = new PublicObjectiveCardsDeck();
         this.publicObjectiveCardsDeck.parseDeck();
+        this.windowPatternCardDeck = new WindowPatternCardDeck();
+        this.windowPatternCardDeck.parseDeck();
         //todo the same with tool cards deck.
+        this.playerMap = new HashMap<>();
     }
 
     /*todo This method will update the Window pattern of a specific player.
@@ -153,5 +169,25 @@ public class CommonBoard {
 
     public List<ToolCardSlot> getToolCardSlots() {
         return toolCardSlots;
+    }
+
+    public Map<PlayerColor, Player> getPlayerMap() {
+        return playerMap;
+    }
+
+    public void setPlayerMap(Map<PlayerColor, Player> playerMap) {
+        this.playerMap = playerMap;
+    }
+
+    public WindowPatternCardDeck getWindowPatternCardDeck() {
+        return windowPatternCardDeck;
+    }
+
+    public Player getSpecificPlayer(String username) throws UnsupportedOperationException {
+        System.out.println(username);
+        for(Player p: players)
+            if(username.equals(p.getPlayerName()))
+                return p;
+        throw new UnsupportedOperationException();
     }
 }

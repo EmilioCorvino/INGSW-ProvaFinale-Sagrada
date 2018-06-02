@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.cards.objective.publics.strategies;
 
-import it.polimi.ingsw.exceptions.AbsentAttributeException;
+import it.polimi.ingsw.model.Shade;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.cards.objective.publics.ColorPublicObjectiveCard;
@@ -10,6 +10,9 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Strategy for set based score computation.
+ */
 public class SetStrategy implements IScoreComputationStrategy {
 
     /**
@@ -25,7 +28,7 @@ public class SetStrategy implements IScoreComputationStrategy {
     public int applyColorStrategy(ColorPublicObjectiveCard card, WindowPatternCard window) {
         EnumMap<Color, Integer> diceAccumulators = new EnumMap<>(Color.class);
         //Initialization of accumulators in the EnumMap.
-        for(Color c: Color.values()) {
+        for(Color c: Color.availableColors()) {
             diceAccumulators.put(c, 0);
         }
         //Iteration of the window pattern card to count different dices on a color basis.
@@ -39,9 +42,9 @@ public class SetStrategy implements IScoreComputationStrategy {
             }
         }
         //Filling of an array to compute the minimum accumulator.
-        Integer[] arrayAccumulators = new Integer[Color.values().length];
+        Integer[] arrayAccumulators = new Integer[Color.availableColors().size()];
         int index = 0;
-        for(Color c: Color.values()) {
+        for(Color c: Color.availableColors()) {
             arrayAccumulators[index] = diceAccumulators.get(c);
             index++;
         }
@@ -52,95 +55,45 @@ public class SetStrategy implements IScoreComputationStrategy {
      * This method computes the score from the card by checking how many sets of dice with different values
      * (aka {@link it.polimi.ingsw.model.Shade}) there are in the {@link WindowPatternCard}. This number is the same as
      * the minimum number of dice with a certain value.
-     * For each completed set, this method gives a certain number of points, defined in the card.
+     * For each completed set, this method gives a certain number of points, defined by the card.
      * There are different set based cards, so this methods returns the right value based on
      * {@link it.polimi.ingsw.model.Shade}
      * @param card from which taking the parameters.
      * @param window to which the strategy is applied.
      * @return points given by the card.
-     * @throws AbsentAttributeException if the {@link it.polimi.ingsw.model.Shade} is not set in the card.
      */
     @Override
     public int applyValueStrategy(ValuePublicObjectiveCard card, WindowPatternCard window) {
-        switch(card.getShade()) {
-            case LIGHT: return lightShadesSets(window) * card.getPointsForCompletion();
-            case MEDIUM: return mediumShadesSets(window) * card.getPointsForCompletion();
-            case DARK: return darkShadesSets(window) * card.getPointsForCompletion();
-            case ALL: return allShadesSets(window) * card.getPointsForCompletion();
+        if(card.getShade() == Shade.ALL) {
+            return (this.allShadesSets(window) * card.getPointsForCompletion());
+        } else {
+            return (this.shadesSetsCount(window, card.getShade()) * card.getPointsForCompletion());
         }
-        throw new AbsentAttributeException("Impossible to find card shade");
     }
 
     /**
-     * Counts the complete sets of dice with light shades (1 and 2).
+     * Counts the complete sets of dice with the same {@link Shade}.
      * @param window to analyze.
-     * @return the number of complete sets composed by 1 and 2 (which is the minimum number of dice with
-     * either value 1 or 2).
+     * @param shade to consider.
+     * @return the number of complete sets composed by dice of the same {@link Shade} (which is the minimum number of
+     * dice with one of the values of which the shade is composed by).
      */
-    private int lightShadesSets(WindowPatternCard window) {
-        int lighterShade = 0;
-        int darkerShade = 0;
+    private int shadesSetsCount(WindowPatternCard window, Shade shade) {
+        int lighterShadeCount = 0;
+        int darkerShadeCount = 0;
         for(int i = 0; i < WindowPatternCard.getMaxRow(); i++) {
             for(int j = 0; j < WindowPatternCard.getMaxCol(); j++) {
                 if(!window.getGlassWindow()[i][j].isEmpty()) {
                     int dieValue = window.getGlassWindow()[i][j].getContainedDie().getActualDieValue();
-                    if(dieValue == 1) {
-                        lighterShade++;
-                    } else if(dieValue == 2) {
-                        darkerShade++;
+                    if(dieValue == shade.getLighterShade()) {
+                        lighterShadeCount++;
+                    } else if(dieValue == shade.getDarkerShade()) {
+                        darkerShadeCount++;
                     }
                 }
             }
         }
-        return (lighterShade < darkerShade) ? lighterShade : darkerShade;
-    }
-
-    /**
-     * Counts the complete sets of dice with medium shades (3 and 4).
-     * @param window to analyze.
-     * @return the number of complete sets composed by 3 and 4 (which is the minimum number of dice with
-     * either value 3 or 4).
-     */
-    private int mediumShadesSets(WindowPatternCard window) {
-        int lighterShade = 0;
-        int darkerShade = 0;
-        for(int i = 0; i < WindowPatternCard.getMaxRow(); i++) {
-            for(int j = 0; j < WindowPatternCard.getMaxCol(); j++) {
-                if(!window.getGlassWindow()[i][j].isEmpty()) {
-                    int dieValue = window.getGlassWindow()[i][j].getContainedDie().getActualDieValue();
-                    if(dieValue == 3) {
-                        lighterShade++;
-                    } else if(dieValue == 4) {
-                        darkerShade++;
-                    }
-                }
-            }
-        }
-        return (lighterShade < darkerShade) ? lighterShade : darkerShade;
-    }
-
-    /**
-     * Counts the complete sets of dice with light shades (5 and 6).
-     * @param window to analyze.
-     * @return the number of complete sets composed by 5 and 6 (which is the minimum number of dice with
-     * either value 5 or 6).
-     */
-    private int darkShadesSets(WindowPatternCard window) {
-        int lighterShade = 0;
-        int darkerShade = 0;
-        for(int i = 0; i < WindowPatternCard.getMaxRow(); i++) {
-            for(int j = 0; j < WindowPatternCard.getMaxCol(); j++) {
-                if(!window.getGlassWindow()[i][j].isEmpty()) {
-                    int dieValue = window.getGlassWindow()[i][j].getContainedDie().getActualDieValue();
-                    if(dieValue == 5) {
-                        lighterShade++;
-                    } else if(dieValue == 6) {
-                        darkerShade++;
-                    }
-                }
-            }
-        }
-        return (lighterShade < darkerShade) ? lighterShade : darkerShade;
+        return (lighterShadeCount < darkerShadeCount) ? lighterShadeCount : darkerShadeCount;
     }
 
     /**

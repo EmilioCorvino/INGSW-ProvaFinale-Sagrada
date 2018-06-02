@@ -2,8 +2,10 @@ package it.polimi.ingsw.model.die.diecontainers;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.exceptions.EmptyException;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.restrictions.ARestriction;
+import it.polimi.ingsw.utils.exceptions.EmptyException;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,6 +13,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 
 public class WindowPatternCardDeck {
 
@@ -37,7 +40,7 @@ public class WindowPatternCardDeck {
         try (Reader file = new FileReader("./src/main/resources/cards/windowPatternCard.json")) {
             this.availableWP = gson.fromJson(file, new TypeToken<List<WindowPatternCard>>(){}.getType());
         } catch (IOException e) {
-            e.printStackTrace();
+            SagradaLogger.log(Level.SEVERE, "Error during parsing, file not read", e);
         }
         this.populateCellsRuleSet();
         this.associateFrontAndBack();
@@ -60,11 +63,14 @@ public class WindowPatternCardDeck {
      */
     private void populateCellsRuleSet(){
         for(WindowPatternCard wp : availableWP) {
-            for (int i = 0; i < wp.MAX_ROW; i++) {
-                for (int j = 0; j < wp.MAX_COL; j++) {
+            for (int i = 0; i < WindowPatternCard.MAX_ROW; i++) {
+                for (int j = 0; j < WindowPatternCard.MAX_COL; j++) {
+                    wp.getGlassWindow()[i][j].setRuleSetCell(new ArrayList<>());
                     List<ARestriction> rules = new ArrayList<>();
-                    rules.add(wp.getGlassWindow()[i][j].getDefaultColorRestriction());
-                    rules.add(wp.getGlassWindow()[i][j].getDefaultValueRestriction());
+                    if(!(wp.getGlassWindow()[i][j].getDefaultColorRestriction().getColor().equals(Color.BLANK)))
+                        rules.add(wp.getGlassWindow()[i][j].getDefaultColorRestriction());
+                    if(wp.getGlassWindow()[i][j].getDefaultValueRestriction().getValue() != 0)
+                        rules.add(wp.getGlassWindow()[i][j].getDefaultValueRestriction());
                     wp.getGlassWindow()[i][j].updateRuleSet(rules);
                 }
             }
@@ -77,13 +83,11 @@ public class WindowPatternCardDeck {
     private void associateFrontAndBack(){
         for(int i = 0; i < availableWP.size()/2; i++){
             deck.add(new ArrayList<>());
-            for (int j = 0; j < availableWP.size(); j = j+2){
-                deck.get(i).add(availableWP.get(j));
-                deck.get(i).add(availableWP.get(j+1));
-            }
+            for (int j = 0; j <2; j++)
+                deck.get(i).add(availableWP.get(i*2 + j));
         }
-
     }
+
     public List<WindowPatternCard> getAvailableWP() {
         return this.availableWP;
     }

@@ -43,7 +43,7 @@ public abstract class APublicObjectiveCard extends AObjectiveCard {
      * @see DiagonalStrategy
      * @see SetStrategy
      */
-    transient IScoreComputationStrategy strategy;
+    private transient IScoreComputationStrategy strategy;
 
     public String getName() {
         return name;
