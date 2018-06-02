@@ -113,5 +113,5 @@ public class GamePlayCli implements Serializable {
         }
     }
 
-    public pri
+    public void printAllWp(){}
 }
