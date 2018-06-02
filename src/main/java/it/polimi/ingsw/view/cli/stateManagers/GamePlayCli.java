@@ -82,6 +82,12 @@ public class GamePlayCli implements Serializable {
         return commandChosen;
     }
 
+    public void showNotMyTurnCommand(){
+       inputOutputManager.print("Scegli il comando:" +
+                "\n\t 1 - Visualizza mappe altri giocatori" +
+                "\n\t 2 - Visualizza carte obiettivo pubblico\n\t 3 - Visualizza carte strumento)");
+}
+
     /**
      *
      * @param draft

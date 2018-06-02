@@ -18,9 +18,17 @@ import it.polimi.ingsw.view.cli.stateManagers.LoginCli;
 import it.polimi.ingsw.view.cli.stateManagers.SetUpGameCli;
 
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 
-public class CliView extends AViewMaster{
+public class CliView extends AViewMaster implements Runnable{
+
+    Thread threadInputs;
+
+    /**
+     * This attribute is set true when is the turn of this client else is set false.
+     */
+    private boolean isMyTurn;
 
     /**
      * The user name of the player connected with the client.
@@ -206,9 +214,7 @@ public class CliView extends AViewMaster{
 */
 
     @Override
-    public void showCommand() {
-
-    }
+    public void showCommand(){}
 
     /**
      * This method fill the information unit with all the input token from the user.
@@ -255,8 +261,40 @@ public class CliView extends AViewMaster{
 
 
 
-
 //----------------------------------------------------------
+//                  CLIENT NOT SERVED
+//----------------------------------------------------------
+
+
+    @Override
+    public void run() {
+        Scanner scanner = new Scanner(System.in);
+        isMyTurn = false;
+
+        threadInputs = new Thread(() -> {
+            while (!isMyTurn) {
+                gamePlaySate.showNotMyTurnCommand();
+                int commandChosen = Integer.parseInt(scanner.nextLine());
+                switch (commandChosen) {
+                    case 1:
+                        gamePlaySate.printAllWp(commonBoard.getPlayers());
+                        break;
+
+                    case 2:
+                        gamePlaySate.printPubObj(commonBoard.getPublicObjectiveCards());
+                        break;
+
+                    case 3:
+                        gamePlaySate.printTool(commonBoard.getToolCards());
+                        break;
+                }
+            }
+        });
+
+        threadInputs.start();
+    }
+
+    //----------------------------------------------------------
 //                  GENERAL METHODS
 //----------------------------------------------------------
     public IFromClientToServer getServer() {
@@ -265,5 +303,13 @@ public class CliView extends AViewMaster{
 
     public void setServer(IFromClientToServer server) {
         this.server = server;
+    }
+
+    public boolean isMyTurn() {
+        return isMyTurn;
+    }
+
+    public void setMyTurn(boolean myTurn) {
+        isMyTurn = myTurn;
     }
 }
