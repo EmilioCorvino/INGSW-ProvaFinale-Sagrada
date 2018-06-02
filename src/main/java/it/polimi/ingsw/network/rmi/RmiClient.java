@@ -37,6 +37,11 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
+    public void choseWpId() {
+        this.client.choseWpId();
+    }
+
+    @Override
     public void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) {
         this.client.showCommonBoard(draftPool, wp);
     }
@@ -54,5 +59,10 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     @Override
     public void showUpdatedWp(String username, SetUpInformationUnit info) {
         this.client.showUpdatedWp(username, info);
+    }
+
+    @Override
+    public void showNotice(String notice) {
+        this.client.showNotice(notice);
     }
 }
