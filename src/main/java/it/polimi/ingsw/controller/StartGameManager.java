@@ -4,9 +4,9 @@ import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.die.Cell;
+import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCardDeck;
-import it.polimi.ingsw.network.PlayerColor;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
 
@@ -58,14 +58,12 @@ public class StartGameManager extends AGameManager {
     public List<SimplifiedWindowPatternCard> windowPatternCardConverter() {
 
         WindowPatternCardDeck mapDeck = super.getControllerMaster().getCommonBoard().getWindowPatternCardDeck();
-        System.out.println(mapDeck.getDeck().size() + "");
         //WindowPatternCardDeck windowPatternCardDeck = new WindowPatternCardDeck();
         //windowPatternCardDeck.parseDeck();
         List<SimplifiedWindowPatternCard> wpToSend = new ArrayList<>();
 
         try {
             List<WindowPatternCard> coupleOfWP = mapDeck.drawCard();
-            System.out.println(coupleOfWP.size() + "");
             for(WindowPatternCard wp : coupleOfWP) {
                 Cell[][] gw = wp.getGlassWindow();
                 List<SetUpInformationUnit> informationUnitList = new ArrayList<>();
@@ -78,8 +76,6 @@ public class StartGameManager extends AGameManager {
                                 gw[i][j].getDefaultValueRestriction().getValue());
                         informationUnitList.add(setUpInfo);
                     }
-                System.out.println(gw[0][4].getDefaultColorRestriction().getColor() + "   " + gw[0][4].getDefaultValueRestriction().getValue() );
-
                 SimplifiedWindowPatternCard simpleWp = new SimplifiedWindowPatternCard(informationUnitList);
                 simpleWp.setIdMap(wp.getIdMap());
                 simpleWp.setDifficulty(wp.getDifficulty());
@@ -108,33 +104,35 @@ public class StartGameManager extends AGameManager {
     }
 
     /**
-     * This method associates the chosen window pattern card to the specific player.
-     * @param player
+     *
+     * @param username
      * @param chosenWp
      */
-    public void wpToSet(PlayerColor player, int chosenWp) {
+    public void wpToSet(String username, int chosenWp) {
         CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
         WindowPatternCard wpToSet = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenWp - 1);
-        commonBoard.getPlayerMap().get(player).setWindowPatternCard(wpToSet);
+        commonBoard.getSpecificPlayer(username).setWindowPatternCard(wpToSet);
         SimplifiedWindowPatternCard wpToSend = convertOneWp(chosenWp);
 
         try{
-            System.out.println(commonBoard.getDraftPool().toString());
-            System.out.println(wpToSend.toString());
-            System.out.println(getControllerMaster().toString());
-            System.out.println(getControllerMaster().getConnectedPlayers().toString());
-            System.out.println(getControllerMaster().getConnectedPlayers().get(player).toString());
-
-            super.getControllerMaster().getConnectedPlayers().get(player).showCommonBoard(commonBoard.getDraftPool(), wpToSend);
-
+            //substitute commonBoard.getDraftPool with list of SetUpInformationUnit
+            super.getControllerMaster().getConnectedPlayers().get(username).showCommonBoard(draftPoolConverter(), wpToSend);
         } catch (BrokenConnectionException br) {
             //TODO handle broken connection.
         }
-
-
     }
 
-
+    /**
+     *
+     * @return
+     */
+    public List<SetUpInformationUnit> draftPoolConverter() {
+        List<Die> draftPoolDice = super.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice();
+        List<SetUpInformationUnit> draftPoolInfo = new ArrayList<>();
+        for(Die die : draftPoolDice)
+            draftPoolInfo.add(new SetUpInformationUnit(draftPoolDice.indexOf(die), die.getDieColor(), die.getActualDieValue()));
+        return draftPoolInfo;
+    }
 
     /*
     public boolean isAlreadyConnected(String namePlayer, List<Player> playersRoom) {

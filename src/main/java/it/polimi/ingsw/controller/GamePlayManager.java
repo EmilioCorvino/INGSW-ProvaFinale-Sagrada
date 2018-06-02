@@ -1,29 +1,30 @@
 package it.polimi.ingsw.controller;
 
 
-import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.move.DiePlacementMove;
 import it.polimi.ingsw.model.move.IMove;
-import it.polimi.ingsw.network.PlayerColor;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  */
 public class GamePlayManager extends AGameManager {
 
+    /**
+     *
+     */
     private final int NUM_ROUND = 10;
-
-    private IMove move;
 
     /**
      *
      */
-    private List<PlayerColor> playerColorList;
+    private List<Player> playerList;
 
     /**
      * The index of the start player inside playerList. It is updated each round.
@@ -42,10 +43,9 @@ public class GamePlayManager extends AGameManager {
 
     public GamePlayManager(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
-        playerColorList = new LinkedList<>();
+        playerList = new ArrayList<>();
         this.startPlayer = 0;
         this.currentRound = 1;
-        initializePlayerList();
     }
 
     /**
@@ -53,15 +53,20 @@ public class GamePlayManager extends AGameManager {
      * //TODO testing
      */
     public void initializePlayerList() {
-        Set<PlayerColor> mapKeys = getControllerMaster().getCommonBoard().getPlayerMap().keySet();
-        List<PlayerColor> supportList = new ArrayList<>();
-        mapKeys.forEach(color -> {
-            supportList.add(color);
-            playerColorList.add(color);
+        System.out.println("initializing players....");
+        List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
+        List<Player> supportList = new ArrayList<>();
+        players.forEach(player -> {
+            playerList.add(player);
+            supportList.add(player);
         });
-        //reOrderPlayerList();
+
         for(int i= supportList.size()-1; i>=0; i--)
-            playerColorList.add(supportList.get(i));
+            playerList.add(supportList.get(i));
+        //reOrderPlayerList();
+
+        for(Player p : playerList)
+            System.out.println(p.getPlayerName());
     }
 
     /**
@@ -69,12 +74,13 @@ public class GamePlayManager extends AGameManager {
      * //TODO testing
      */
     private void reOrderPlayerList() {
-        PlayerColor colorToMove = playerColorList.get(startPlayer );
+        Player playerToMove = playerList.get(startPlayer);
         if(startPlayer != 0) {
-            playerColorList.remove(startPlayer );
-            playerColorList.add(colorToMove);
+            playerList.remove(startPlayer );
+            playerList.add(playerToMove);
         }
     }
+
 
 
     public void startTurn() {
@@ -105,18 +111,18 @@ public class GamePlayManager extends AGameManager {
      */
     private void endTurn() {
         //increment current player variable
-        playerColorList.remove(playerColorList.get(startPlayer));
+        playerList.remove(playerList.get(startPlayer));
         startPlayer++;
         //lock ex current player
     }
 
     /**
      * This method checks the current player.
-     * @param playerColor the color of the current player.
+     * @param username the color of the current player.
      * @return true if the given color matches the color of the current player.
      */
-    public boolean checkCurrentPlayer(PlayerColor playerColor) {
-        return playerColor.equals(this.playerColorList.get(startPlayer));
+    public boolean checkCurrentPlayer(String username) {
+        return username.equals(this.playerList.get(startPlayer).getPlayerName());
     }
 
 
@@ -134,16 +140,16 @@ public class GamePlayManager extends AGameManager {
      */
     public void performMove(SetUpInformationUnit info) {
         IMove move = new DiePlacementMove();
-        move.executeMove(playerColorList.get(startPlayer), this, info);
+        move.executeMove(this, info);
 
     }
 
-    public List<PlayerColor> getPlayerColorList() {
-        return playerColorList;
+    public List<Player> getPlayerColorList() {
+        return playerList;
     }
 
-    public void setPlayerColorList(List<PlayerColor> playerColorList) {
-        this.playerColorList = playerColorList;
+    public void setPlayerColorList(List<Player> playerColorList) {
+        this.playerList = playerColorList;
     }
 
     public int getCurrentPlayer() {
@@ -157,18 +163,18 @@ public class GamePlayManager extends AGameManager {
     public void givePlayerObjectTofill() {
         SetUpInformationUnit setUpInfo = new SetUpInformationUnit();
         try {
-            super.getControllerMaster().getConnectedPlayers().get(playerColorList.get(currentPlayer)).giveProperObjectToFill(setUpInfo);
+            super.getControllerMaster().getConnectedPlayers().get(playerList.get(currentPlayer).getPlayerName()).giveProperObjectToFill(setUpInfo);
         } catch (BrokenConnectionException br) {
             //TODO handle broken connection by suspending player, using logs etc.
         }
     }
 
 
-    public void showPlacementResult(PlayerColor playerColor, SetUpInformationUnit setUpInformationUnit) {
+    public void showPlacementResult(Player playerColor, SetUpInformationUnit setUpInformationUnit) {
         CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
-        super.getControllerMaster().getConnectedPlayers().entrySet().forEach(emtry -> {
+        super.getControllerMaster().getConnectedPlayers().entrySet().forEach(entry -> {
             try {
-                emtry.getValue().showUpdatedWp(commonBoard.getPlayerMap().get(playerColor).getPlayerName(), setUpInformationUnit);
+                entry.getValue().showUpdatedWp(commonBoard.getPlayerMap().get(playerColor).getPlayerName(), setUpInformationUnit);
 
             } catch (BrokenConnectionException br) {
                 //handle

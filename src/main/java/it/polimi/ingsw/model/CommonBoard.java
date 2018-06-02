@@ -4,11 +4,9 @@ import it.polimi.ingsw.model.cards.PublicObjectiveCardSlot;
 import it.polimi.ingsw.model.cards.ToolCardSlot;
 import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCardsDeck;
 import it.polimi.ingsw.model.cards.objective.publics.PublicObjectiveCardsDeck;
-import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
 import it.polimi.ingsw.model.die.diecontainers.RoundTrack;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCardDeck;
-import it.polimi.ingsw.model.player.IPlayer;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.PlayerColor;
 
@@ -183,5 +181,13 @@ public class CommonBoard {
 
     public WindowPatternCardDeck getWindowPatternCardDeck() {
         return windowPatternCardDeck;
+    }
+
+    public Player getSpecificPlayer(String username) throws UnsupportedOperationException {
+        System.out.println(username);
+        for(Player p: players)
+            if(username.equals(p.getPlayerName()))
+                return p;
+        throw new UnsupportedOperationException();
     }
 }

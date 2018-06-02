@@ -1,14 +1,9 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.CommonBoard;
-import it.polimi.ingsw.model.move.ChooseDieMove;
-import it.polimi.ingsw.model.move.DiePlacementMove;
-import it.polimi.ingsw.model.move.IMove;
 import it.polimi.ingsw.network.IFromServerToClient;
-import it.polimi.ingsw.network.PlayerColor;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -25,7 +20,7 @@ public class ControllerMaster implements IControllerMaster {
     /**
      * This is the attribute that maps each username with the correspondent client reference.
      */
-    private final Map<PlayerColor, IFromServerToClient> connectedPlayers;
+    private final Map<String, IFromServerToClient> connectedPlayers;
 
     /**
      * This attribute represents the manager for the first state of the game.
@@ -55,7 +50,7 @@ public class ControllerMaster implements IControllerMaster {
         return commonBoard;
     }
 
-    public Map<PlayerColor, IFromServerToClient> getConnectedPlayers() {
+    public Map<String, IFromServerToClient> getConnectedPlayers() {
         return connectedPlayers;
     }
 
