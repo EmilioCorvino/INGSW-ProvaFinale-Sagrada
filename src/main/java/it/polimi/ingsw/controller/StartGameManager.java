@@ -7,11 +7,15 @@ import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCardDeck;
+import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class provides methods to support all the operations needed before the match starts.
@@ -25,30 +29,13 @@ public class StartGameManager extends AGameManager {
     /**
      * This method shows to the client four window pattern cards among which to choose.
      */
-    public void chooseWindowPatternCard() {
-
+    public List<SimplifiedWindowPatternCard> chooseWindowPatternCard() {
         List<SimplifiedWindowPatternCard> listToSend = new ArrayList<>();
-        System.out.println("created list to send");
-
         super.getControllerMaster().getConnectedPlayers().entrySet().forEach(entry -> {
-
             List<SimplifiedWindowPatternCard> list1 = windowPatternCardConverter();
-            listToSend.add(list1.get(0));
-            listToSend.add(list1.get(1));
-
-            List<SimplifiedWindowPatternCard> list2 = windowPatternCardConverter();
-            listToSend.add(list2.get(0));
-            listToSend.add(list2.get(1));
-
-        System.out.println("choooooooseeeeeeeeeeeee");
-
-            try{
-                entry.getValue().showMapsToChoose(listToSend);
-            } catch (BrokenConnectionException br) {
-                //TODO handle broken connection: suspend player...
-            }
-
+            listToSend.addAll(list1);
         });
+        return listToSend;
     }
 
     /**
@@ -56,21 +43,18 @@ public class StartGameManager extends AGameManager {
      * @return a list of a couple of matched window pattern card.
      */
     public List<SimplifiedWindowPatternCard> windowPatternCardConverter() {
-
         WindowPatternCardDeck mapDeck = super.getControllerMaster().getCommonBoard().getWindowPatternCardDeck();
-        //WindowPatternCardDeck windowPatternCardDeck = new WindowPatternCardDeck();
-        //windowPatternCardDeck.parseDeck();
         List<SimplifiedWindowPatternCard> wpToSend = new ArrayList<>();
 
         try {
+            //System.out.println(super.getControllerMaster().getCommonBoard().getWindowPatternCardDeck().getAvailableWP().size());
             List<WindowPatternCard> coupleOfWP = mapDeck.drawCard();
+            //System.out.println(super.getControllerMaster().getCommonBoard().getWindowPatternCardDeck().getAvailableWP().size());
             for(WindowPatternCard wp : coupleOfWP) {
                 Cell[][] gw = wp.getGlassWindow();
                 List<SetUpInformationUnit> informationUnitList = new ArrayList<>();
                 for(int i=0; i<WindowPatternCard.getMaxRow(); i++)
                     for(int j=0; j<WindowPatternCard.getMaxCol(); j++) {
-
-                        //System.out.println(i + " " + j);
                         SetUpInformationUnit setUpInfo = new SetUpInformationUnit(i*WindowPatternCard.getMaxCol()+j,
                                 gw[i][j].getDefaultColorRestriction().getColor(),
                                 gw[i][j].getDefaultValueRestriction().getValue());
@@ -87,6 +71,11 @@ public class StartGameManager extends AGameManager {
         return wpToSend;
     }
 
+    /**
+     *
+     * @param chosenMap
+     * @return
+     */
     public SimplifiedWindowPatternCard convertOneWp(int chosenMap) {
         CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
         WindowPatternCard wp = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenMap);
@@ -99,8 +88,10 @@ public class StartGameManager extends AGameManager {
             for(int j=0; j<WindowPatternCard.getMaxCol(); j++)
                    informationUnitList.add(new SetUpInformationUnit(i*WindowPatternCard.getMaxCol()+j, gw[i][j].getDefaultColorRestriction().getColor(), gw[i][j].getDefaultValueRestriction().getValue()));
 
-        return new SimplifiedWindowPatternCard(informationUnitList);
-
+        SimplifiedWindowPatternCard simpleWp = new SimplifiedWindowPatternCard(informationUnitList);
+        simpleWp.setDifficulty(wp.getDifficulty());
+        simpleWp.setIdMap(chosenMap);
+        return simpleWp;
     }
 
     /**
@@ -108,25 +99,17 @@ public class StartGameManager extends AGameManager {
      * @param username
      * @param chosenWp
      */
-    public void wpToSet(String username, int chosenWp) {
+    public synchronized void wpToSet(String username, int chosenWp) {
         CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
         WindowPatternCard wpToSet = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenWp - 1);
         commonBoard.getSpecificPlayer(username).setWindowPatternCard(wpToSet);
-        SimplifiedWindowPatternCard wpToSend = convertOneWp(chosenWp);
-
-        try{
-            //substitute commonBoard.getDraftPool with list of SetUpInformationUnit
-            super.getControllerMaster().getConnectedPlayers().get(username).showCommonBoard(draftPoolConverter(), wpToSend);
-        } catch (BrokenConnectionException br) {
-            //TODO handle broken connection.
-        }
     }
 
     /**
      *
      * @return
      */
-    public List<SetUpInformationUnit> draftPoolConverter() {
+    private List<SetUpInformationUnit> draftPoolConverter() {
         List<Die> draftPoolDice = super.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice();
         List<SetUpInformationUnit> draftPoolInfo = new ArrayList<>();
         for(Die die : draftPoolDice)
@@ -134,7 +117,69 @@ public class StartGameManager extends AGameManager {
         return draftPoolInfo;
     }
 
-    /*
+    /**
+     * This m
+     */
+    public void setUpWindowPattern() {
+        List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
+
+        players.forEach(player -> {
+            IFromServerToClient iFromServerToClient = super.getControllerMaster().getConnectedPlayers().get(player.getPlayerName());
+            try{
+                iFromServerToClient.showMapsToChoose(chooseWindowPatternCard());
+            } catch (BrokenConnectionException br) {
+                //handle broken connection.
+            }
+        });
+
+        players.forEach(entry -> {
+            IFromServerToClient iFromServerToClient = super.getControllerMaster().getConnectedPlayers().get(entry.getPlayerName());
+            try {
+                iFromServerToClient.choseWpId();
+            } catch (BrokenConnectionException br) {
+                //broken connection
+            }
+        });
+        //method that shows the common board
+        setCommonBoard();
+    }
+
+    /**
+     *
+     */
+    public void setCommonBoard() {
+        List<SetUpInformationUnit> draftPool = draftPoolConverter();
+        Map<String, SimplifiedWindowPatternCard> mapOfWp = mapsOfPlayersConverter();
+
+        super.getControllerMaster().getConnectedPlayers().entrySet().forEach(entry -> {
+                try {
+                    entry.getValue().showCommonBoard(draftPool, mapOfWp.get(entry.getKey()));
+                } catch (BrokenConnectionException e) {
+                    e.printStackTrace();
+                }
+            });
+    }
+
+    /**
+     *
+     * @return
+     */
+    private Map<String, SimplifiedWindowPatternCard> mapsOfPlayersConverter() {
+        Map<String, SimplifiedWindowPatternCard> mapOfWp = new HashMap<>();
+        List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
+
+        for(Player player : players) {
+            System.out.println(player.getWindowPatternCard().getIdMap());
+            mapOfWp.put(player.getPlayerName(), convertOneWp(player.getWindowPatternCard().getIdMap()));
+        }
+        return mapOfWp;
+    }
+}
+
+
+
+
+/*
     public boolean isAlreadyConnected(String namePlayer, List<Player> playersRoom) {
        boolean[] res = new boolean[1];
         playersRoom.forEach(player -> {
@@ -145,5 +190,3 @@ public class StartGameManager extends AGameManager {
         return res[0];
     }
     */
-
-}
