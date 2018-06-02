@@ -98,9 +98,9 @@ public class WaitingRoom {
                 public void run() {
                     System.out.println("timer is expired");
                     setRunning(true);
-                    System.out.println("running");
+                   // System.out.println("running");
                     startMultiPlayerMatch();
-                    System.out.println("match started");
+                    //System.out.println("match started");
                 }
             }, 5 * 1000);
         }
@@ -135,11 +135,8 @@ public class WaitingRoom {
             playersRoom.get(name).getServer().setUsername(name);
             playerMap.put(name, playersRoom.get(name).getClient());
             controllerMaster.getCommonBoard().getPlayers().add(new Player(name,controllerMaster.getCommonBoard()));
-
         }
-
-        ((StartGameManager)controllerMaster.getStartGameManager()).chooseWindowPatternCard();
-        System.out.println("maps????");
+        ((StartGameManager)controllerMaster.getStartGameManager()).setUpWindowPattern();
     }
 
     /**

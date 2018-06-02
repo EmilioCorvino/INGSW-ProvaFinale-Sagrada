@@ -1,12 +1,12 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.controller.ServerImplementation;
 import it.polimi.ingsw.controller.WaitingRoom;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.network.Connection;
+import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
-import it.polimi.ingsw.network.IFromServerToClient;
-import it.polimi.ingsw.controller.ServerImplementation;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -36,7 +36,7 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
     public RmiServer(int port, WaitingRoom room) throws RemoteException {
         super(port);
         this.room = room;
-        this.serverImplementation = new ServerImplementation(room);
+       // this.serverImplementation = new ServerImplementation(room);
     }
 
     /**
