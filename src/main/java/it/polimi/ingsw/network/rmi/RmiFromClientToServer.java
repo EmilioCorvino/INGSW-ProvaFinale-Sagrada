@@ -42,7 +42,7 @@ public class RmiFromClientToServer implements IFromClientToServer {
      */
     public RmiFromClientToServer(String ip, AViewMaster view) throws BrokenConnectionException {
         try {
-            Registry registry = LocateRegistry.getRegistry(ip, ServerMain.PORT);
+            Registry registry = LocateRegistry.getRegistry(ip, ServerMain.getRmiPort());
             this.rmiServer = (IRmiServer) registry.lookup("RmiServer");
             this.callBack = new RmiClient(new ClientImplementation(view));
         } catch (RemoteException e) {
