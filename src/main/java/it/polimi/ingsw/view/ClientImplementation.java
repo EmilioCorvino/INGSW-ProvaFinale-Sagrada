@@ -2,8 +2,6 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
-import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
-import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.network.IFromServerToClient;
 
 import java.util.List;
@@ -47,8 +45,8 @@ public class ClientImplementation implements IFromServerToClient {
     }
 
     @Override
-    public void showCommonBoard(DiceDraftPool draft, SimplifiedWindowPatternCard wp) {
-        view.showCommonBoard(draft, wp);
+    public void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) {
+        view.showCommonBoard(draftPool, wp);
     }
 
     @Override

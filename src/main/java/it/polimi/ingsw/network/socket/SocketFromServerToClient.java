@@ -2,9 +2,8 @@ package it.polimi.ingsw.network.socket;
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
-import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
-import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.network.IFromServerToClient;
+import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class SocketFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void showCommonBoard(DiceDraftPool draft, SimplifiedWindowPatternCard wp) throws BrokenConnectionException {
+    public void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) throws BrokenConnectionException {
 
     }
 

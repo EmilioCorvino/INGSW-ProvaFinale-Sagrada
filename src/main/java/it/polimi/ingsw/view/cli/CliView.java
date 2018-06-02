@@ -2,14 +2,16 @@ package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
-import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
+import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
-import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.AViewMaster;
-import it.polimi.ingsw.view.cli.die.*;
+import it.polimi.ingsw.view.cli.die.CommonBoardView;
+import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
+import it.polimi.ingsw.view.cli.die.PlayerView;
+import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 import it.polimi.ingsw.view.cli.stateManagers.EndGameCli;
 import it.polimi.ingsw.view.cli.stateManagers.GamePlayCli;
 import it.polimi.ingsw.view.cli.stateManagers.LoginCli;
@@ -130,11 +132,11 @@ public class CliView extends AViewMaster{
 
     /**
      *This method take the info from the server to initialize the common board at the beginning of the match.
-     * @param draft:
-     * @param wp:
+     * @param draftPool
+     * @param wp :
      */
     @Override
-    public void showCommonBoard(DiceDraftPool draft, SimplifiedWindowPatternCard wp){
+    public void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp){
         this.player.setWp(new WindowPatternCardView(wp));
         DieDraftPoolView draftPool = new DieDraftPoolView(draft);
 

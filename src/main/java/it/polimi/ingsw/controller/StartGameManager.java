@@ -116,7 +116,7 @@ public class StartGameManager extends AGameManager {
 
         try{
             //substitute commonBoard.getDraftPool with list of SetUpInformationUnit
-            super.getControllerMaster().getConnectedPlayers().get(username).showCommonBoard(commonBoard.getDraftPool(), wpToSend);
+            super.getControllerMaster().getConnectedPlayers().get(username).showCommonBoard(draftPoolConverter(), wpToSend);
         } catch (BrokenConnectionException br) {
             //TODO handle broken connection.
         }
