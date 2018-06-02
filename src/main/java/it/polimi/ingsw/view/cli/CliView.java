@@ -200,10 +200,10 @@ public class CliView extends AViewMaster{
                             SagradaLogger.log(Level.SEVERE, "Connection broken during end game", e);
                         }
                         break;
-*/
+
         }
     }
-    */
+*/
 
     @Override
     public void showCommand() {
