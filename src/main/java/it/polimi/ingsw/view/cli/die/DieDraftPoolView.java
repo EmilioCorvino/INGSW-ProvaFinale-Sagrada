@@ -21,15 +21,6 @@ public class DieDraftPoolView {
      */
     private List<DieView> dice;
 
-    /*
-    public DieDraftPoolView(DiceDraftPool draft){
-        this.inputOutputManager = new InputOutputManager();
-        this.dice = new ArrayList<>();
-
-        for(Die die: draft.getAvailableDice())
-            dice.add(new DieView(die.getDieColor(),die.getActualDieValue()));
-    }
-    */
 
     public DieDraftPoolView(List<SetUpInformationUnit> draft){
         this.inputOutputManager = new InputOutputManager();

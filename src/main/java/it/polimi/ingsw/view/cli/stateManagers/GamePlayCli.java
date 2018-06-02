@@ -112,4 +112,6 @@ public class GamePlayCli implements Serializable {
             index ++;
         }
     }
+
+    public pri
 }

@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 
 /**
@@ -37,7 +36,7 @@ public class SetUpGameCli {
         for (SimplifiedWindowPatternCard swp : listWp)
             cards.add(new WindowPatternCardView(swp));
 
-        inputOutputManager.print(""+cards.size());
+
         inputOutputManager.print(   "\n--------------------------------" +
                                     "\n Scegli la WP desiderata tra: ");
 
