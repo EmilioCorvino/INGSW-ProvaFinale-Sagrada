@@ -33,6 +33,10 @@ public class ClientImplementation implements IFromServerToClient {
     public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) {
         view.showMapsToChoose(listWp);
     }
+
+    @Override
+    public void choseWpId(){ view.choseWpId();}
+
     @Override
     public void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) {
         view.showCommonBoard(draftPool, wp);

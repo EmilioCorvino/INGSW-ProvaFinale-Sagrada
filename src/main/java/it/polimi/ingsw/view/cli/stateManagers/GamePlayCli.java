@@ -4,10 +4,12 @@ import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.view.cli.InputOutputManager;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.die.DieView;
+import it.polimi.ingsw.view.cli.die.PlayerView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class manages all the interaction during the game play state.
@@ -67,7 +69,7 @@ public class GamePlayCli implements Serializable {
      * This method allow the player to choose the command.
      * @return: the command chosen.
      */
-    public int showCommands(){
+    public int showCommand(){
         inputOutputManager.print("E' il tuo turno!");
 
         int commandChosen = Integer.parseInt(inputOutputManager.askInformation("Scegli il comando:" +
@@ -103,15 +105,30 @@ public class GamePlayCli implements Serializable {
         wp.getGlassWindow()[unit.getIndex()/WindowPatternCardView.MAX_COL][unit.getIndex() % WindowPatternCardView.MAX_COL].setDie(new DieView(unit.getColor(), unit.getValue()));
     }
 
-    public void printCard(List<String> cards,  String type){
+    public void printPubObj(List<String> cards){
         int index = 1;
 
-        inputOutputManager.print("Carte "+ type + ":");
+        inputOutputManager.print("Carte obiettivo pubblico: ");
         for (String s : cards){
             inputOutputManager.print("\t - " + index + ": " + s);
             index ++;
         }
     }
 
-    public void printAllWp(){}
+    public void printTool(Map<String, Integer> cards){
+        int index = 1;
+
+        inputOutputManager.print("Carte strumento: ");
+        for (String s : cards.keySet()){
+            inputOutputManager.print("\t - " + index + ": " + s + " | Segnalini favore da usare: " + cards.get(s));
+            index ++;
+        }
+    }
+
+    public void printAllWp(List<PlayerView> players){
+        for(PlayerView p : players){
+            inputOutputManager.print("Giocatore " + p.getUserName());
+            p.getWp().printWp();
+        }
+    }
 }

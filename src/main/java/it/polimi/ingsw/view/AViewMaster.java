@@ -14,6 +14,8 @@ public abstract class AViewMaster  {
 
     public abstract void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp);
 
+    public abstract void choseWpId();
+
     public abstract void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp);
 
     public abstract void showCommand();

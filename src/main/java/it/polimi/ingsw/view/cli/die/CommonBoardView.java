@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.cli.die;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,12 +18,14 @@ public class CommonBoardView {
 
     private List<String> publicObjectiveCards;
 
-    private List<String> toolCards;
+    private Map<String, Integer> toolCards;
 
 
     public CommonBoardView(){
         this.players = new ArrayList<>();
         this.roundTrack = new RoundTrackView();
+        this.publicObjectiveCards = new ArrayList<>();
+        this.toolCards = new HashMap<>();
     }
 
     public List<PlayerView> getPlayers() {
@@ -41,7 +44,7 @@ public class CommonBoardView {
         return publicObjectiveCards;
     }
 
-    public List<String> getToolCards() {
+    public Map<String, Integer> getToolCards() {
         return toolCards;
     }
 

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 /**
@@ -28,10 +29,8 @@ public class SetUpGameCli {
      * @param listWp: The list of maps need to be choose.
      * @return: the id of the map chosen.
      */
-    public int showMapsToChoose(List<SimplifiedWindowPatternCard> listWp){
+    public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp){
         List<WindowPatternCardView> cards = new ArrayList<>();
-        int idChosen;
-
 
         for (SimplifiedWindowPatternCard swp : listWp)
             cards.add(new WindowPatternCardView(swp));
@@ -42,15 +41,15 @@ public class SetUpGameCli {
 
         for (WindowPatternCardView wp : cards)
             wp.printWp();
-
-        idChosen = this.getIdChosen();
-        while (!(idChosen == cards.get(0).getIdMap() || idChosen == cards.get(1).getIdMap() || idChosen == cards.get(2).getIdMap() || idChosen == cards.get(3).getIdMap())){
-            inputOutputManager.print("Id non presente!");
-            idChosen = this.getIdChosen();
-        }
-        return idChosen;
     }
 
+    /**
+     * This method ask to the user which maps want to select
+     * @return: the id of the map chosen.
+     */
+    public int getIdChosen(){
+        return Integer.parseInt(inputOutputManager.askInformation("Inserire l'id della mappa scelta: "));
+    }
 
     /**
      *
@@ -68,12 +67,11 @@ public class SetUpGameCli {
      * This method populate the cards of the common board, loading files from resources.
      * @param id: the id of the cards drown by the controller.
      * @param cards: the list (maps) of cards of the common board.
-     * @param type: The type of card, can be: - pubObj, -toolCard.
      */
-    public void createCard(int[] id, List<String> cards, String type){
+    public void createObjCards(int[] id, List<String> cards){
 
         for (int i : id){
-            try (Reader file = new FileReader("./src/main/resources/cards/publicObjectiveText/"+ type + i +".txt")){
+            try (Reader file = new FileReader("./src/main/resources/cards/publicObjectiveText/pubObj" + i +".txt")){
                 BufferedReader b = new BufferedReader(file);
                 String s = b.readLine();
                 cards.add(s);
@@ -83,12 +81,17 @@ public class SetUpGameCli {
         }
     }
 
+    public void createToolCards(int[] id, Map<String, Integer> cards){
 
-    /**
-     * This method ask to the user which maps want to select
-     * @return: the id of the map chosen.
-     */
-    private int getIdChosen(){
-        return Integer.parseInt(inputOutputManager.askInformation("Inserire l'id della mappa scelta: "));
+        for (int i : id){
+            try (Reader file = new FileReader("./src/main/resources/cards/publicObjectiveText/toolCard" + i +".txt")){
+                BufferedReader b = new BufferedReader(file);
+                String s = b.readLine();
+                cards.put(s,1);
+            } catch (IOException e) {
+                SagradaLogger.log(Level.WARNING, "Card txt file can't be read!", e);
+            }
+        }
     }
+
 }

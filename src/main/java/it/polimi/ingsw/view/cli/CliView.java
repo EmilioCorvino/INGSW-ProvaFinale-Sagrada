@@ -130,13 +130,18 @@ public class CliView extends AViewMaster{
      */
     @Override
     public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) {
-        try {
-            this.server.windowPatternCardRequest(this.initializationState.showMapsToChoose(listWp));
-        } catch (BrokenConnectionException e) {
-            SagradaLogger.log(Level.SEVERE, "Connection broken during map choosing", e);
-        }
+        this.initializationState.showMapsToChoose(listWp);
     }
 
+    @Override
+    public void choseWpId() {
+        try {
+            server.windowPatternCardRequest(initializationState.getIdChosen());
+        } catch (BrokenConnectionException e){
+            SagradaLogger.log(Level.SEVERE, "Connection broken during map id choose.");
+        }
+
+    }
     /**
      *This method take the info from the server to initialize the common board at the beginning of the match.
      * @param draftPool
@@ -160,7 +165,7 @@ public class CliView extends AViewMaster{
      */
     @Override
     public void showCommand() {
-        int command = gamePlaySate.showCommands();
+        int command = gamePlaySate.showCommand();
         switch (command){
             case 1:     try{
                             server.defaultMoveRequest();
@@ -168,7 +173,7 @@ public class CliView extends AViewMaster{
                             SagradaLogger.log(Level.SEVERE, "Connection broken during placement move",e);
                         }
                         break;
-
+/*
             case 2:     try{
                             server.toolMoveRequest();
                         } catch (BrokenConnectionException e){
@@ -176,14 +181,16 @@ public class CliView extends AViewMaster{
                         }
                         break;
 
-            case 3:     gamePlaySate.printAllWp();
-
-            case 4:     gamePlaySate.printCard(commonBoard.getPublicObjectiveCards(), "obiettivo pubblico");
-                        gamePlaySate.showCommands();
+            case 3:     gamePlaySate.printAllWp(commonBoard.getPlayers());
+                        this.showCommand();
                         break;
 
-            case 5:     gamePlaySate.printCard(commonBoard.getToolCards(), "strumento");
-                        gamePlaySate.showCommands();
+            case 4:     gamePlaySate.printPubObj(commonBoard.getPublicObjectiveCards());
+                        this.showCommand();
+                        break;
+
+            case 5:     gamePlaySate.printTool(commonBoard.getToolCards());
+                        this.showCommand();
                         break;
 
             case 6:     try{
@@ -192,7 +199,7 @@ public class CliView extends AViewMaster{
                             SagradaLogger.log(Level.SEVERE, "Connection broken during end game", e);
                         }
                         break;
-
+*/
         }
     }
 
