@@ -163,6 +163,7 @@ public class CliView extends AViewMaster{
     /**
      *This method show the available commands to the user and allow him to chose one.
      */
+    /*
     @Override
     public void showCommand() {
         int command = gamePlaySate.showCommand();
@@ -201,6 +202,12 @@ public class CliView extends AViewMaster{
                         break;
 */
         }
+    }
+    */
+
+    @Override
+    public void showCommand() {
+
     }
 
     /**

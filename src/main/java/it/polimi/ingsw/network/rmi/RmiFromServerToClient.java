@@ -103,4 +103,9 @@ public class RmiFromServerToClient implements IFromServerToClient {
         }
     }
 
+    @Override
+    public void showNotice(String notice) throws BrokenConnectionException {
+
+    }
+
 }

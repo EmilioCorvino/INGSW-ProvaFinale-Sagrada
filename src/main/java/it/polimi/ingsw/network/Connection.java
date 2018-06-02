@@ -18,15 +18,9 @@ public class Connection {
      */
     private final ServerImplementation server;
 
-
-
     public Connection(IFromServerToClient client, ServerImplementation server) {
         this.client = client;
         this.server = server;
-    }
-
-    public void setPlayerColor() {
-
     }
 
     public IFromServerToClient getClient() {
