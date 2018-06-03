@@ -26,6 +26,14 @@ public class PlayerView {
         return wp;
     }
 
+    public String getPrivateObjCard() {
+        return privateObjCard;
+    }
+
+    public int getFavorToken() {
+        return favorToken;
+    }
+
     public void setUserName(String userName) {
         this.userName = userName;
     }
@@ -33,6 +41,15 @@ public class PlayerView {
     public void setWp(WindowPatternCardView wp) {
         this.wp = wp;
     }
+
+    public void setPrivateObjCard(String privateObjCard) {
+        this.privateObjCard = privateObjCard;
+    }
+
+    public void setFavorToken(int favorToken) {
+        this.favorToken = favorToken;
+    }
+
 
     public boolean isSamePlayerAs(Player player) {
         return this.getUserName().equals(player.getPlayerName());

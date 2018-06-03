@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.cli.InputOutputManager;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
+import it.polimi.ingsw.view.cli.die.PlayerView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 
 import java.io.BufferedReader;
@@ -68,7 +69,7 @@ public class SetUpGameCli {
      * @param id: the id of the cards drown by the controller.
      * @param cards: the list (maps) of cards of the common board.
      */
-    public void createObjCards(int[] id, List<String> cards){
+    public void createPubObjCards(int[] id, List<String> cards){
 
         for (int i : id){
             try (Reader file = new FileReader("./src/main/resources/cards/publicObjectiveText/pubObj" + i +".txt")){
@@ -76,7 +77,7 @@ public class SetUpGameCli {
                 String s = b.readLine();
                 cards.add(s);
             } catch (IOException e) {
-                SagradaLogger.log(Level.WARNING, "Card txt file can't be read!", e);
+                SagradaLogger.log(Level.WARNING, "Public Objective Card txt file can't be read!", e);
             }
         }
     }
@@ -84,14 +85,26 @@ public class SetUpGameCli {
     public void createToolCards(int[] id, Map<String, Integer> cards){
 
         for (int i : id){
-            try (Reader file = new FileReader("./src/main/resources/cards/publicObjectiveText/toolCard" + i +".txt")){
+            try (Reader file = new FileReader("./src/main/resources/cards/toolCardsText/toolCard" + i +".txt")){
                 BufferedReader b = new BufferedReader(file);
                 String s = b.readLine();
                 cards.put(s,1);
             } catch (IOException e) {
-                SagradaLogger.log(Level.WARNING, "Card txt file can't be read!", e);
+                SagradaLogger.log(Level.WARNING, "Tool Card txt file can't be read!", e);
             }
         }
+    }
+
+    public void createPrivateObjCard(int id, PlayerView p){
+
+        try (Reader file = new FileReader("./src/main/resources/cards/privateObjectiveText/privObj" + id +".txt")){
+            BufferedReader b = new BufferedReader(file);
+            String s = b.readLine();
+            p.setPrivateObjCard(s);
+        } catch (IOException e) {
+            SagradaLogger.log(Level.WARNING, "Private Objective Card txt file can't be read!", e);
+        }
+
     }
 
 }

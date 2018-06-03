@@ -32,7 +32,7 @@ public class LoginCli{
      * This method ask the username to the user.
      * @return the username.
      */
-    public String getUsername(){
+    public String getUserName(){
         return inputOutputManager.askInformation("\nInserire l'username: ");
     }
 
