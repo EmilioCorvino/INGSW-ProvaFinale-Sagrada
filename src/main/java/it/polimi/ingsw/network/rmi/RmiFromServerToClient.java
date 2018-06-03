@@ -58,6 +58,16 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
+    public void choseWpId() throws BrokenConnectionException {
+        try {
+            this.rmiClient.choseWpId();
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to show make the client choose the wp id", e);
+            throw new BrokenConnectionException();
+        }
+    }
+
+    @Override
     public void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) throws
             BrokenConnectionException {
         try {
@@ -105,7 +115,12 @@ public class RmiFromServerToClient implements IFromServerToClient {
 
     @Override
     public void showNotice(String notice) throws BrokenConnectionException {
-
+        try {
+            this.rmiClient.showNotice(notice);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to show to the client the instruction message", e);
+            throw new BrokenConnectionException();
+        }
     }
 
 }

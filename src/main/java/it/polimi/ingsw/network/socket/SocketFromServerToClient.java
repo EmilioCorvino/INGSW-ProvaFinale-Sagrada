@@ -19,6 +19,11 @@ public class SocketFromServerToClient implements IFromServerToClient {
     }
 
     @Override
+    public void choseWpId() throws BrokenConnectionException {
+
+    }
+
+    @Override
     public void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) throws BrokenConnectionException {
 
     }

@@ -21,6 +21,8 @@ public interface IRmiClient extends Remote {
 
     void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) throws RemoteException;
 
+    void choseWpId() throws RemoteException;
+
     void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) throws RemoteException;
 
     void showCommand() throws RemoteException;
@@ -28,5 +30,7 @@ public interface IRmiClient extends Remote {
     void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws RemoteException;
 
     void showUpdatedWp(String username, SetUpInformationUnit info) throws RemoteException;
+
+    void showNotice(String notice) throws RemoteException;
 
 }
