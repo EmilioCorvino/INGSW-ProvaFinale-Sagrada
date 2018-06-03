@@ -86,21 +86,8 @@ public class GamePlayCli implements Serializable {
        inputOutputManager.print("Scegli il comando:" +
                 "\n\t 1 - Visualizza mappe altri giocatori" +
                 "\n\t 2 - Visualizza carte obiettivo pubblico\n\t 3 - Visualizza carte strumento)");
-}
-
-    /**
-     *
-     * @param draft
-     * @param unit
-     */
-    public void updateDraft(DieDraftPoolView draft, SetUpInformationUnit unit){
-        for (DieView die : draft.getDice())
-            if (die.getDieColor().equals(unit.getColor()) && die.getDieValue() == unit.getValue()){
-                draft.getDice().remove(die);
-                return;
-        }
-
     }
+
 
     /**
      *
@@ -125,8 +112,8 @@ public class GamePlayCli implements Serializable {
         int index = 1;
 
         inputOutputManager.print("Carte strumento: ");
-        for (String s : cards.keySet()){
-            inputOutputManager.print("\t - " + index + ": " + s + " | Segnalini favore da usare: " + cards.get(s));
+        for (Map.Entry<String,Integer> s : cards.entrySet()){
+            inputOutputManager.print("\t - " + index + ": " + s.getKey() + " | Segnalini favore da usare: " + s.getValue());
             index ++;
         }
     }
