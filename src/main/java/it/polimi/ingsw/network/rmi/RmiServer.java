@@ -18,14 +18,14 @@ import java.rmi.server.UnicastRemoteObject;
 public class RmiServer extends UnicastRemoteObject implements IRmiServer {
 
     /**
-     * Effective instance of the server. It can call methods from {@link it.polimi.ingsw.controller.ControllerMaster}.
-     */
-    private transient ServerImplementation serverImplementation;
-
-    /**
      * Room where the players wait for the match to start.
      */
     private transient WaitingRoom room;
+
+    /**
+     * Implementation of the server.
+     */
+    private transient ServerImplementation serverImplementation;
 
     /**
      * This constructor exports this class on the RMI registry on the given port, and sets {@link ServerImplementation}.
@@ -36,7 +36,7 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
     public RmiServer(int port, WaitingRoom room) throws RemoteException {
         super(port);
         this.room = room;
-       // this.serverImplementation = new ServerImplementation(room);
+        this.serverImplementation = new ServerImplementation();
     }
 
     /**
@@ -45,38 +45,46 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
      * @param gameMode can be either single player or multi-player.
      * @param playerName name the player chooses for himself in the application.
      * @param callBack reference to the client, to be stored in the server.
+     * @param connection established between server and client.
      * @throws UserNameAlreadyTakenException when a user with the same username is already logged in.
      * @throws TooManyUsersException when there already is the maximum number of players inside a game.
      * @see RmiFromServerToClient
      */
     @Override
-    public void login(int gameMode, String playerName, IRmiClient callBack) throws UserNameAlreadyTakenException,
-            TooManyUsersException {
+    public void login(int gameMode, String playerName, IRmiClient callBack, Connection connection)
+            throws UserNameAlreadyTakenException, TooManyUsersException {
         IFromServerToClient client = new RmiFromServerToClient(callBack);
-        this.room.login(playerName, new Connection(client, serverImplementation), gameMode);
+        connection.setClient(client);
+        connection.setServer(this.serverImplementation);
+        this.serverImplementation.register(gameMode, playerName, room, connection);
     }
 
     @Override
-    public void windowPatternCardRequest(int idMap) {
+    public void windowPatternCardRequest(int idMap, Connection connection) {
+        this.serverImplementation.getConnectionsQueue().add(connection);
         this.serverImplementation.windowPatternCardRequest(idMap);
     }
 
     @Override
-    public void defaultMoveRequest() {
+    public void defaultMoveRequest(Connection connection) {
+        this.serverImplementation.getConnectionsQueue().add(connection);
         this.serverImplementation.defaultMoveRequest();
     }
 
     @Override
-    public void performMove(SetUpInformationUnit info) {
+    public void performMove(SetUpInformationUnit info, Connection connection) {
+        this.serverImplementation.getConnectionsQueue().add(connection);
         this.serverImplementation.performMove(info);
     }
 
     /**
      * Lets the player log out from the game.
      * @param playerName player who wants to log out.
+     * @param connection
+     *
      */
     @Override
-    public void exitGame(String playerName) {
+    public void exitGame(String playerName, Connection connection) {
 
     }
 

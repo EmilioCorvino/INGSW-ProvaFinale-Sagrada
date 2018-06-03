@@ -51,7 +51,7 @@ public class CliView extends AViewMaster implements Runnable{
     private IFromClientToServer server;
 
     /**
-     *The manager of the connection and login state
+     *The manager of the connection and register state
      */
     private LoginCli loginState;
 
@@ -102,7 +102,7 @@ public class CliView extends AViewMaster implements Runnable{
             }
         }
 
-        inputOutputManager.print("\nConnessione stabilita.\nProcedere con il login.");
+        inputOutputManager.print("\nConnessione stabilita.\nProcedere con il register.");
 
         while(!userNameOk){
             try {
@@ -112,7 +112,7 @@ public class CliView extends AViewMaster implements Runnable{
             } catch (UserNameAlreadyTakenException e) {
                 inputOutputManager.print("Username già in uso!");
             } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.SEVERE, "Connection broken during login", e);
+                SagradaLogger.log(Level.SEVERE, "Connection broken during register", e);
             } catch (TooManyUsersException e) {
                 inputOutputManager.print("Partita piena, numero massimo di giocatori raggiunto\nArrivederci.");
             }

@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.cards.objective.AObjectiveCard;
 import it.polimi.ingsw.model.cards.objective.publics.strategies.*;
 
 /**
- * Generic publics objective card.
+ * Generic public objective card.
  * @see ColorPublicObjectiveCard
  * @see ValuePublicObjectiveCard
  */

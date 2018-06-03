@@ -6,8 +6,10 @@ import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.util.*;
+import java.util.logging.Level;
 
 /**
  * This class manages the waiting players before the match starts.
@@ -45,14 +47,15 @@ public class WaitingRoom {
     }
 
     /**
-     * This method is responsible for the login of a player.
+     * This method is responsible for the register of a player.
      * @param username the player who wants to play.
      * @param connection the connection assigned to the player.
      * @param gameMode the type of match the players wants to play.
      * @throws UserNameAlreadyTakenException
      * @throws TooManyUsersException
      */
-    public void login(String username, Connection connection, int gameMode) throws UserNameAlreadyTakenException, TooManyUsersException {
+    public void joinRoom(String username, Connection connection, int gameMode) throws UserNameAlreadyTakenException,
+            TooManyUsersException {
         if(!isRunning()) {
             if(gameMode == SINGLEPLAYER_MODE)
                 startSingleMatch();
@@ -102,7 +105,7 @@ public class WaitingRoom {
                     startMultiPlayerMatch();
                     //System.out.println("match started");
                 }
-            }, 5 * 1000);
+            }, 2 * (long)1000);
         }
     }
 
@@ -125,16 +128,17 @@ public class WaitingRoom {
      * //TODO testing
      */
     public void startMultiPlayerMatch() {
-        ControllerMaster controllerMaster = new ControllerMaster();
-        Map<String, IFromServerToClient> playerMap = controllerMaster.getConnectedPlayers();
-        controllerMaster.getCommonBoard().getDraftPool().populateDiceDraftPool(playerMap.size());
-        ((GamePlayManager)controllerMaster.getGamePlayManager()).initializePlayerList();
+        /*Map<String, IFromServerToClient> connectedPlayers = new HashMap<>();
+        playersRoom.forEach((playerName, connection) -> connectedPlayers.put(playerName, connection.getClient()));*/
+        ControllerMaster controllerMaster = new ControllerMaster(this.playersRoom);
 
-        for(String name : playersRoom.keySet()) {
-            playersRoom.get(name).getServer().setController(controllerMaster);
-            playersRoom.get(name).getServer().setUsername(name);
-            playerMap.put(name, playersRoom.get(name).getClient());
-            controllerMaster.getCommonBoard().getPlayers().add(new Player(name,controllerMaster.getCommonBoard()));
+        controllerMaster.getCommonBoard().getDraftPool().populateDiceDraftPool(
+                controllerMaster.getConnectedPlayers().size());
+        //((GamePlayManager)controllerMaster.getGamePlayManager()).initializePlayerList(); this shouldn't be here
+
+        for(Map.Entry<String, Connection> entry: controllerMaster.getConnectedPlayers().entrySet()) {
+            controllerMaster.getCommonBoard().getPlayers().add(new Player(entry.getKey(), controllerMaster.getCommonBoard()));
+            entry.getValue().getServer().setController(controllerMaster);
         }
         ((StartGameManager)controllerMaster.getStartGameManager()).setUpWindowPattern();
     }

@@ -4,10 +4,13 @@ import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.network.Connection;
 import it.polimi.ingsw.network.IFromClientToServer;
-import it.polimi.ingsw.network.PlayerColor;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
+
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 
 /**
  * This class manages server related operation that aren't strictly related to the game. Moreover, it handles the
@@ -16,34 +19,24 @@ import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 public class ServerImplementation implements IFromClientToServer {
 
     /**
-     * Color identifying the player.
-     */
-    private PlayerColor playerColor;
-
-    /**
-     *
-     */
-    private String username;
-
-    /**
      * Controller of the match.
      */
     private ControllerMaster controller;
 
     /**
-     *
+     * Various connections related to clients requests arrive in this queue, and they get resolved with a FIFO policy.
      */
-    private final WaitingRoom waitingRoom;
+    private Queue<Connection> connectionsQueue;
 
-
-    public ServerImplementation(WaitingRoom waitingRoom) {
-        this.waitingRoom = waitingRoom;
+    public ServerImplementation() {
+        this.connectionsQueue = new ConcurrentLinkedQueue<>();
     }
 
     /**
      * This method manages the request of the user to make a default move.
      */
     public void defaultMoveRequest() {
+        String username = connectionsQueue.poll().getUserName();
         GamePlayManager gamePlayManager = (GamePlayManager)controller.getGamePlayManager();
         if(gamePlayManager.checkCurrentPlayer(username)){
             //tell the player that parameters are needed, the controller will send proper objects
@@ -93,7 +86,7 @@ public class ServerImplementation implements IFromClientToServer {
 
 
     /*
-    public void login(int gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException {
+    public void register(int gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException {
         if(((StartGameManager)this.controller.getStartGameManager()).isFull()) {
             System.out.println("The server reached the maximum number of players!");
             throw new TooManyUsersException();
@@ -118,33 +111,33 @@ public class ServerImplementation implements IFromClientToServer {
     }
     */
 
-    public PlayerColor getPlayerColor() {
-        return playerColor;
-    }
-
-    public void setPlayerColor(PlayerColor playerColor) {
-        this.playerColor = playerColor;
-    }
-
     public IControllerMaster getController() {
         return controller;
-    }
-
-    public void setController(ControllerMaster controller) {
-        this.controller = controller;
     }
 
     /**
      *
      * @param gameMode can be either single-player or multi-player.
      * @param playerName name the player chooses for himself in the application.
+     */
+    @Override
+    public void login(int gameMode, String playerName) {
+        //figure how to use this
+    }
+
+    /**
+     * Registers the player to the starting match, adding him to the {@link WaitingRoom}.
+     * @param gameMode can be either multi-player or single-player.
+     * @param playerName name chosen by the player.
+     * @param room waiting room where players waiting for the match to start are gathered.
+     * @param connection established between client and server.
      * @throws UserNameAlreadyTakenException
      * @throws TooManyUsersException
      */
-    @Override
-    public void login(int gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException {
-        Connection playerConn = this.waitingRoom.getPlayersRoom().get(playerName);
-        this.waitingRoom.login(playerName, playerConn, gameMode);
+    public void register(int gameMode, String playerName, WaitingRoom room, Connection connection) throws
+            UserNameAlreadyTakenException, TooManyUsersException {
+        room.joinRoom(playerName, connection, gameMode);
+        //this.login(gameMode, playerName);
     }
 
     /**
@@ -153,6 +146,7 @@ public class ServerImplementation implements IFromClientToServer {
      */
     @Override
     public void windowPatternCardRequest(int idMap) {
+        String username = connectionsQueue.poll().getUserName();
         StartGameManager startGameManager = (StartGameManager)controller.getStartGameManager();
         startGameManager.wpToSet(username, idMap);
     }
@@ -167,15 +161,11 @@ public class ServerImplementation implements IFromClientToServer {
 
     }
 
-    public String getUsername() {
-        return username;
+    public void setController(ControllerMaster controller) {
+        this.controller = controller;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public WaitingRoom getWaitingRoom() {
-        return waitingRoom;
+    public Queue<Connection> getConnectionsQueue() {
+        return connectionsQueue;
     }
 }

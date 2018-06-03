@@ -6,7 +6,7 @@ import it.polimi.ingsw.network.IFromClientToServer;
 
 import java.util.List;
 
-public abstract class AViewMaster  {
+public abstract class AViewMaster {
 
     public abstract void createConnection(AViewMaster viewMaster);
 

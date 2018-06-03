@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.ServerMain;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.network.Connection;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
@@ -33,6 +34,11 @@ public class RmiFromClientToServer implements IFromClientToServer {
     private IRmiClient callBack;
 
     /**
+     * Connection established between client and server.
+     */
+    private Connection connection;
+
+    /**
      * This constructor retrieves the remote object published on RMI registry by {@link ServerMain} and creates a
      * {@link RmiClient} for callback.
      * @param ip address to get the registry from.
@@ -52,7 +58,6 @@ public class RmiFromClientToServer implements IFromClientToServer {
         } catch (NotBoundException e) {
             SagradaLogger.log(Level.SEVERE, "There is no such interface in the registry", e);
         }
-
     }
 
     /**
@@ -66,10 +71,11 @@ public class RmiFromClientToServer implements IFromClientToServer {
     @Override
     public void login(int gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException,
             BrokenConnectionException {
+        this.connection = new Connection(playerName);
         try {
-            this.rmiServer.login(gameMode, playerName, this.callBack);
+            this.rmiServer.login(gameMode, playerName, this.callBack, connection);
         } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during login", e);
+            SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during register", e);
             throw new BrokenConnectionException();
         }
     }
@@ -82,7 +88,7 @@ public class RmiFromClientToServer implements IFromClientToServer {
     @Override
     public void windowPatternCardRequest(int idMap) throws BrokenConnectionException {
         try {
-            this.rmiServer.windowPatternCardRequest(idMap);
+            this.rmiServer.windowPatternCardRequest(idMap, connection);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during window pattern card request", e);
             throw new BrokenConnectionException();
@@ -92,7 +98,7 @@ public class RmiFromClientToServer implements IFromClientToServer {
     @Override
     public void defaultMoveRequest() throws BrokenConnectionException {
         try {
-            this.rmiServer.defaultMoveRequest();
+            this.rmiServer.defaultMoveRequest(connection);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during default move request", e);
             throw new BrokenConnectionException();
@@ -102,7 +108,7 @@ public class RmiFromClientToServer implements IFromClientToServer {
     @Override
     public void performMove(SetUpInformationUnit info) throws BrokenConnectionException {
         try {
-            this.rmiServer.performMove(info);
+            this.rmiServer.performMove(info, connection);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during move execution", e);
             throw new BrokenConnectionException();

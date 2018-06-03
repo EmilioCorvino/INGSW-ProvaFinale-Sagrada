@@ -124,7 +124,7 @@ public class StartGameManager extends AGameManager {
         List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
 
         players.forEach(player -> {
-            IFromServerToClient iFromServerToClient = super.getControllerMaster().getConnectedPlayers().get(player.getPlayerName());
+            IFromServerToClient iFromServerToClient = super.getControllerMaster().getConnectedPlayers().get(player.getPlayerName()).getClient();
             try{
                 iFromServerToClient.showMapsToChoose(chooseWindowPatternCard());
             } catch (BrokenConnectionException br) {
@@ -133,7 +133,7 @@ public class StartGameManager extends AGameManager {
         });
 
         players.forEach(entry -> {
-            IFromServerToClient iFromServerToClient = super.getControllerMaster().getConnectedPlayers().get(entry.getPlayerName());
+            IFromServerToClient iFromServerToClient = super.getControllerMaster().getConnectedPlayers().get(entry.getPlayerName()).getClient();
             try {
                 iFromServerToClient.choseWpId();
             } catch (BrokenConnectionException br) {
@@ -153,7 +153,7 @@ public class StartGameManager extends AGameManager {
 
         super.getControllerMaster().getConnectedPlayers().entrySet().forEach(entry -> {
                 try {
-                    entry.getValue().showCommonBoard(draftPool, mapOfWp.get(entry.getKey()));
+                    entry.getValue().getClient().showCommonBoard(draftPool, mapOfWp.get(entry.getKey()));
                 } catch (BrokenConnectionException e) {
                     e.printStackTrace();
                 }

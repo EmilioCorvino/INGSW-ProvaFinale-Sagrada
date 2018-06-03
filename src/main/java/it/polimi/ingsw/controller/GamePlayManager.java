@@ -163,7 +163,7 @@ public class GamePlayManager extends AGameManager {
     public void givePlayerObjectTofill() {
         SetUpInformationUnit setUpInfo = new SetUpInformationUnit();
         try {
-            super.getControllerMaster().getConnectedPlayers().get(playerList.get(currentPlayer).getPlayerName()).giveProperObjectToFill(setUpInfo);
+            super.getControllerMaster().getConnectedPlayers().get(playerList.get(currentPlayer).getPlayerName()).getClient().giveProperObjectToFill(setUpInfo);
         } catch (BrokenConnectionException br) {
             //TODO handle broken connection by suspending player, using logs etc.
         }
@@ -174,7 +174,7 @@ public class GamePlayManager extends AGameManager {
         CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
         super.getControllerMaster().getConnectedPlayers().entrySet().forEach(entry -> {
             try {
-                entry.getValue().showUpdatedWp(commonBoard.getPlayerMap().get(playerColor).getPlayerName(), setUpInformationUnit);
+                entry.getValue().getClient().showUpdatedWp(commonBoard.getPlayerMap().get(playerColor).getPlayerName(), setUpInformationUnit);
 
             } catch (BrokenConnectionException br) {
                 //handle

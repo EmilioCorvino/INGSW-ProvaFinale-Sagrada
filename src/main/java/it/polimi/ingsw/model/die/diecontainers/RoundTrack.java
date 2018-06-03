@@ -15,7 +15,7 @@ public class RoundTrack extends ADieContainer {
     /**
      * The index of round where is the die that needs to be update
      */
-    private int roundToBeUpdate;
+    private int roundToBeUpdated;
 
     public RoundTrack(int nRounds){
         this.availableDice = new ArrayList<>();
@@ -29,7 +29,7 @@ public class RoundTrack extends ADieContainer {
      */
     @Override
     public void update(Die die) {
-        this.getAvailableDice().get(roundToBeUpdate).add(die);
+        this.getAvailableDice().get(roundToBeUpdated).add(die);
     }
 
     /**
@@ -39,15 +39,15 @@ public class RoundTrack extends ADieContainer {
      */
     public Die remove(Die die){
         Die dieToBeRemoved = null;
-        for (Die d : this.getAvailableDice().get(roundToBeUpdate))
+        for (Die d : this.getAvailableDice().get(roundToBeUpdated))
             if(die.getDieColor() == d.getDieColor() && die.getActualDieValue() == d.getActualDieValue())
                 dieToBeRemoved = d;
-        this.getAvailableDice().get(roundToBeUpdate).remove(dieToBeRemoved);
+        this.getAvailableDice().get(roundToBeUpdated).remove(dieToBeRemoved);
         return dieToBeRemoved;
     }
 
-    public void setRoundToBeUpdate(int round) {
-        this.roundToBeUpdate = round;
+    public void setRoundToBeUpdated(int round) {
+        this.roundToBeUpdated = round;
     }
 
     public List<ArrayList<Die>> getAvailableDice() {
