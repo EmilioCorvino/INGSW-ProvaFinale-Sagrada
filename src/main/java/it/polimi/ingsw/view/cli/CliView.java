@@ -33,11 +33,6 @@ public class CliView extends AViewMaster implements Runnable{
     private boolean isMyTurn;
 
     /**
-     * The name of the player connected to this client
-     */
-    private String userName;
-
-    /**
      * The user name of the player connected with the client.
      */
     private PlayerView player;
@@ -113,7 +108,6 @@ public class CliView extends AViewMaster implements Runnable{
 
         while(!userNameOk){
             try {
-                // da rimpiazzare con: this.userName = loginState.getUserName();
                 this.player.setUserName(loginState.getUserName());
                 this.server.login(loginState.getGameMode(), player.getUserName());
                 userNameOk = true;
@@ -213,12 +207,9 @@ public class CliView extends AViewMaster implements Runnable{
     @Override
     public void setPlayer(String userName, int nFavTokens, int idPrivateObj){
 
-        for(PlayerView p : commonBoard.getPlayers())
-            if(p.getUserName().equals(userName)){
-                initializationState.createPrivateObjCard(idPrivateObj, p);
-                p.setFavorToken(nFavTokens);
-                return;
-            }
+        this.player.setFavorToken(nFavTokens);
+        this.initializationState.createPrivateObjCard(idPrivateObj, this.player);
+
     }
 
 //----------------------------------------------------------
@@ -265,9 +256,7 @@ public class CliView extends AViewMaster implements Runnable{
                         this.showCommand();
                         break;
 
-            case 6:     for (PlayerView p : this.commonBoard.getPlayers())
-                            if (p.getUserName().equals(this.userName))
-                                gamePlaySate.printPrivObj(p.getPrivateObjCard());
+            case 6:     gamePlaySate.printPrivObj(this.player.getPrivateObjCard());
                         this.showCommand();
                         break;
                         /*
@@ -346,11 +335,7 @@ public class CliView extends AViewMaster implements Runnable{
      */
     @Override
     public void updateFavTokenPlayer(String userName, int nFavorToken){
-        for (PlayerView p : this.commonBoard.getPlayers())
-            if(p.getUserName().equals(userName)) {
-                p.setFavorToken(nFavorToken);
-                return;
-            }
+        this.player.setFavorToken(nFavorToken);
     }
 
     public void updateFavTokenTool(int idSlot, int nFavToken){
@@ -416,9 +401,7 @@ public class CliView extends AViewMaster implements Runnable{
                         break;
 
                     case 4:
-                        for (PlayerView p : this.commonBoard.getPlayers())
-                            if (p.getUserName().equals(this.userName))
-                                gamePlaySate.printPrivObj(p.getPrivateObjCard());
+                        gamePlaySate.printPrivObj(this.player.getPrivateObjCard());
                         break;
                 }
             }
