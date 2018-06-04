@@ -147,23 +147,17 @@ public class WindowPatternTest {
     @Test
     public void testPlacementInsideWpParsed(){
         WindowPatternCard wp;
-        Cell cell1 = new Cell(0,4);
-        Cell cell2 = new Cell(0,2);
-        Cell cell3 = new Cell(0,1);
+        Cell cell1 = new Cell(0,3);
+        Cell cell2 = new Cell(0,1);
+        Cell cell3 = new Cell(0,0);
         Cell cell4 = new Cell(1,3);
 
-        Die die1 = new Die(4, Color.GREEN);
-        Die die2 = new Die(2, Color.YELLOW);
+        Die die1 = new Die(4, Color.PURPLE);
+        Die die2 = new Die(1, Color.GREEN);
 
-        List<WindowPatternCard> card = new ArrayList<>();
         CommonBoard commonBoard = new CommonBoard();
 
-        try {
-            card = commonBoard.getWindowPatternCardDeck().drawCard();
-        } catch (EmptyException e){
-            SagradaLogger.log(Level.SEVERE, "Error: try to draw window pattern card in an empty deck");
-        }
-        wp = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(0);
+        wp = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(7);
 
         // Test of color restricted cell.
         assertTrue(wp.canBePlaced(die1,cell1));
