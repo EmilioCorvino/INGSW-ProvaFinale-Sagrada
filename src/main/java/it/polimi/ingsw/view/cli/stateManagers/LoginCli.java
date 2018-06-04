@@ -9,6 +9,7 @@ import it.polimi.ingsw.view.cli.InputOutputManager;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 /**
  * This class is used to manage all the interaction during the connection and notifyWaitingPlayers state.
@@ -25,7 +26,23 @@ public class LoginCli{
      * @return The IP address chosen by the user.
      */
     public String getIp(){
-        return inputOutputManager.askInformation("Inserire l'indirizzo IP del server: ");
+
+        Pattern p = Pattern.compile("^"
+                + "(((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}" // Domain name
+                + "|"
+                + "localhost" // localhost
+                + "|"
+                + "(([0-9]{1,3}\\.){3})[0-9]{1,3})"); // Ip
+
+        String ip = inputOutputManager.askInformation("Inserire l'indirizzo IP del server: ");
+        boolean validIp = p.matcher(ip).matches();
+
+        while(!validIp) {
+            ip = inputOutputManager.askInformation("Errore: Indirizzo IP non corretto!\nInserire nuovamente: ");
+            validIp = p.matcher(ip).matches();
+        }
+
+        return ip;
     }
 
     /**
@@ -53,7 +70,7 @@ public class LoginCli{
      * This method allow the user to choose the kind of network interface
      * @return An instance of the network interface chosen.
      * @param ip : the ip address uses to create the connection.
-     * @param view
+     * @param view: An instance of view.
      */
     public IFromClientToServer chooseNetworkInterface(String ip, AViewMaster view) throws BrokenConnectionException {
 

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.regex.Pattern;
 
 /**
  * This class manages all the interaction during the game's state of set up.
@@ -49,7 +50,14 @@ public class SetUpGameCli {
      * @return: the id of the map chosen.
      */
     public int getIdChosen(){
-        return Integer.parseInt(inputOutputManager.askInformation("Inserire l'id della mappa scelta: "));
+        boolean validInput = false;
+        String idChosen = null;
+
+        while(!validInput) {
+            idChosen = inputOutputManager.askInformation("Inserire l'id della mappa scelta: ");
+            validInput = Pattern.matches("\\d*", idChosen);
+        }
+        return Integer.parseInt(idChosen);
     }
 
     /**
