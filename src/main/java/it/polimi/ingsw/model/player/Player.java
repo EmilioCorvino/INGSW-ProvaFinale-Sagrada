@@ -121,7 +121,7 @@ public class Player implements IPlayer {
      */
     @Override
     public void performMove(CommonBoard commonBoard, IOController ioController, IMove move) {
-        move.executeMove(commonBoard, ioController);
+
         this.getPlayerMoves().add(move);
     }
 

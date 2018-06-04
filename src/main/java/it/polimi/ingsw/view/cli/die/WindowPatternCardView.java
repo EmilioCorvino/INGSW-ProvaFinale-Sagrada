@@ -36,7 +36,7 @@ public class WindowPatternCardView {
      * This method print the wp
      */
     public void printWp(){
-        inputOutputManager.print("\nMAPPA "+idMap+": ");
+        inputOutputManager.print("\nMAPPA "+idMap +": ");
         inputOutputManager.print(wpToString());
         inputOutputManager.print("Difficoltà: " + difficulty);
     }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.CommonBoard;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.Connection;
 
 import java.util.Map;
@@ -64,6 +65,24 @@ public class ControllerMaster implements IControllerMaster {
     public AGameManager getEndGameManager() {
         return endGameManager;
     }
+
+    public void initializeGame() {
+        ((GamePlayManager)this.gamePlayManager).initializePlayerList();
+    }
+
+    public void startTurnPlayer(Player currPlayer) {
+        ((GamePlayManager)this.gamePlayManager).startTurn(currPlayer);
+    }
+
+    public void checkMoveAvailability(String username) {
+        if(((GamePlayManager)this.gamePlayManager).checkCurrentPlayer(username))
+            ((GamePlayManager)gamePlayManager).givePlayerObjectTofill();
+
+        else {
+            //not valid
+        }
+    }
+
 
     //todo handle reconnection
 }

@@ -1,9 +1,8 @@
 package it.polimi.ingsw.model.move;
 
 import it.polimi.ingsw.controller.GamePlayManager;
-import it.polimi.ingsw.controller.IOController;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.model.CommonBoard;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.die.Die;
 
 /**
@@ -14,12 +13,9 @@ public class ChooseDieMove implements IMove {
     private Die chosenDie;
 
     public ChooseDieMove() {
-
+        chosenDie = new Die(0, Color.BLANK);
     }
 
-    public ChooseDieMove(Die chosenDie) {
-        setChosenDie(chosenDie);
-    }
 
     public Die getChosenDie() {
         return chosenDie;
@@ -30,12 +26,8 @@ public class ChooseDieMove implements IMove {
     }
 
     @Override
-    public void executeMove(CommonBoard commonBoard, IOController ioController) {
-
-    }
-
-    @Override
     public void executeMove(GamePlayManager commonBoard, SetUpInformationUnit setUpInfoUnit) {
+
 
     }
 }
