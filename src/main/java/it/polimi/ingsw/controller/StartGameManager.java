@@ -101,7 +101,7 @@ public class StartGameManager extends AGameManager {
      */
     public synchronized void wpToSet(String username, int chosenWp) {
         CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
-        WindowPatternCard wpToSet = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenWp - 1);
+        WindowPatternCard wpToSet = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenWp -1);
         commonBoard.getSpecificPlayer(username).setWindowPatternCard(wpToSet);
     }
 
@@ -142,6 +142,8 @@ public class StartGameManager extends AGameManager {
         });
         //method that shows the common board
         setCommonBoard();
+
+        super.getControllerMaster().initializeGame();
     }
 
     /**
@@ -169,7 +171,7 @@ public class StartGameManager extends AGameManager {
         List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
 
         for(Player player : players) {
-            System.out.println(player.getWindowPatternCard().getIdMap());
+           // System.out.println(player.getWindowPatternCard().getIdMap());
             mapOfWp.put(player.getPlayerName(), convertOneWp(player.getWindowPatternCard().getIdMap()));
         }
         return mapOfWp;

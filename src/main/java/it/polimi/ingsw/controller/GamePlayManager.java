@@ -65,8 +65,7 @@ public class GamePlayManager extends AGameManager {
             playerList.add(supportList.get(i));
         //reOrderPlayerList();
 
-        for(Player p : playerList)
-            System.out.println(p.getPlayerName());
+        super.getControllerMaster().startTurnPlayer(playerList.get(currentPlayer));
     }
 
     /**
@@ -82,28 +81,17 @@ public class GamePlayManager extends AGameManager {
     }
 
 
+    /**
+     *
+     * @param currentPlayer
+     */
+    public void startTurn(Player currentPlayer) {
+        try {
+            super.getControllerMaster().getConnectedPlayers().get(currentPlayer.getPlayerName()).getClient().showCommand();
+        } catch(BrokenConnectionException br) {
+            //handle broken connection
+        }
 
-    public void startTurn() {
-        //all the view commands are blocked by default
-        //for this current player advise that his/her inputs are needed
-        //unlock commands for the current player
-        //start the timer
-
-        /*
-        Timer timerTurn = new Timer();
-        timerTurn.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                endTurn();
-                //TODO adjust this
-                if(currentRound == NUM_ROUND) {
-                    timerTurn.cancel();
-                    //go to end game in  some way
-                }
-
-            }
-        }, 5 * 1000);
-        */
     }
 
     /**
@@ -122,8 +110,9 @@ public class GamePlayManager extends AGameManager {
      * @return true if the given color matches the color of the current player.
      */
     public boolean checkCurrentPlayer(String username) {
-        return username.equals(this.playerList.get(startPlayer).getPlayerName());
+        return username.equals(this.playerList.get(currentPlayer).getPlayerName());
     }
+
 
 
     public int getStartPlayer() {
@@ -182,4 +171,19 @@ public class GamePlayManager extends AGameManager {
         });
         endTurn();
     }
+
+    /**
+     * Thi method notifies the client any type of issue may occur in each request.
+     * @param message the message to tell.
+     */
+    /*
+    public void showNotification(String message) {
+       // IFromServerToClient iFromServerToClient = super.getControllerMaster().getConnectedPlayers().get(playerList.get(currentPlayer).getPlayerName());
+        try{
+            iFromServerToClient.showNotice(message);
+        } catch (BrokenConnectionException br) {
+            //handle broken connection.
+        }
+    }
+    */
 }

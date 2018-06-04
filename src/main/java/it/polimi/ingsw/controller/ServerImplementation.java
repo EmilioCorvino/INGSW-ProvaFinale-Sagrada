@@ -37,13 +37,7 @@ public class ServerImplementation implements IFromClientToServer {
      */
     public void defaultMoveRequest() {
         String username = connectionsQueue.poll().getUserName();
-        GamePlayManager gamePlayManager = (GamePlayManager)controller.getGamePlayManager();
-        if(gamePlayManager.checkCurrentPlayer(username)){
-            //tell the player that parameters are needed, the controller will send proper objects
-            gamePlayManager.givePlayerObjectTofill();
-        } else {
-            // tell the user that it's not his/her turn.
-        }
+        controller.checkMoveAvailability(username);
 
     }
 
