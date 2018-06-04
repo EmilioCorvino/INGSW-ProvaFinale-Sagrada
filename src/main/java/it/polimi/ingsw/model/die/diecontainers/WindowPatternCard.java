@@ -3,6 +3,8 @@ package it.polimi.ingsw.model.die.diecontainers;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.restrictions.ARestriction;
+import it.polimi.ingsw.model.restrictions.ColorRestriction;
+import it.polimi.ingsw.model.restrictions.ValueRestriction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,17 @@ public class WindowPatternCard extends ADieContainer {
     private Cell desiredCell;
 
     /**
+     * This attributes indicates if the original glass window has been modified
+     */
+    private boolean isGlassWindowModified = false;
+
+    /**
+     * The copy of the glass window.
+     */
+    private Cell[][] glassWindowCopy = new Cell[MAX_ROW][MAX_COL];
+
+
+    /**
      *This constructor is used for create window pattern card with restriction.
      * @param idMap: The code that identify a map.
      * @param difficulty: Difficulty of the window pattern card. It is equal to the number of favor tokens to assign to each player.
@@ -52,6 +65,26 @@ public class WindowPatternCard extends ADieContainer {
                     glassWindow[i][j] = new Cell(i,j);
             for (Cell c : restrictedCells)
                 glassWindow [c.getRow()] [c.getCol()] = c;
+    }
+
+    /**
+     * Constructor that generates a copy of the current class window.
+     */
+    public void copyGlassWindow() {
+        Cell[][] gwToCopy = this.getGlassWindow();
+        List<ARestriction> ruleSet;
+        for(int i=0; i<WindowPatternCard.getMaxRow(); i++)
+            for(int j=0; j<WindowPatternCard.getMaxCol(); j++) {
+                ruleSet = new ArrayList<>();
+                if(!gwToCopy[i][j].isEmpty()) {
+                    ruleSet.add(new ColorRestriction(gwToCopy[i][j].getContainedDie().getDieColor()));
+                    ruleSet.add(new ValueRestriction(gwToCopy[i][j].getContainedDie().getActualDieValue()));
+                } else {
+                    ruleSet.add(new ColorRestriction(gwToCopy[i][j].getDefaultColorRestriction().getColor()));
+                    ruleSet.add(new ValueRestriction(gwToCopy[i][j].getDefaultValueRestriction().getValue()));
+                }
+                this.glassWindowCopy[i][j].setRuleSetCell(ruleSet);
+            }
     }
 
     /**
@@ -73,8 +106,30 @@ public class WindowPatternCard extends ADieContainer {
      * @param die: the die with which the window pattern card has to be updated.
      */
     public void update(Die die) {
+        if(this.isGlassWindowModified())
+            restoreGlassWindow();
         glassWindow[desiredCell.getRow()][desiredCell.getCol()].setContainedDie(die);
         setDesiredCell(null);
+    }
+
+    /**
+     * This method restore the original glass window.
+     */
+    private void restoreGlassWindow() {
+        List<ARestriction> ruleSet;
+        for(int i=0; i<WindowPatternCard.getMaxRow(); i++)
+            for(int j=0; j<WindowPatternCard.getMaxCol(); j++) {
+                ruleSet = new ArrayList<>();
+                if(!glassWindowCopy[i][j].isEmpty()) {
+                    ruleSet.add(new ColorRestriction(glassWindowCopy[i][j].getContainedDie().getDieColor()));
+                    ruleSet.add(new ValueRestriction(glassWindowCopy[i][j].getContainedDie().getActualDieValue()));
+                } else {
+                    ruleSet.add(new ColorRestriction(glassWindowCopy[i][j].getDefaultColorRestriction().getColor()));
+                    ruleSet.add(new ValueRestriction(glassWindowCopy[i][j].getDefaultValueRestriction().getValue()));
+                }
+                this.glassWindow[i][j].setRuleSetCell(ruleSet);
+            }
+
     }
 
     /**
@@ -196,6 +251,43 @@ public class WindowPatternCard extends ADieContainer {
         }
     }
 
+    /**
+     * This method checks if a specific die is containet in the window pattern card
+     * @param dieToSearch
+     * @return
+     */
+    public boolean isContained(Die dieToSearch) {
+        for(int i=0; i<MAX_ROW; i++)
+            for(int j=0; i<MAX_COL; j++)
+                if(!glassWindow[i][j].isEmpty())
+                    return glassWindow[i][j].getContainedDie().equals(dieToSearch);
+        return false;
+    }
+
+    /**
+     *
+     * @return
+     * @throws CloneNotSupportedException
+     */
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    public boolean isGlassWindowModified() {
+        return isGlassWindowModified;
+    }
+
+    public void setGlassWindowModified(boolean glassWindowModified) {
+        isGlassWindowModified = glassWindowModified;
+    }
+
+    public Cell[][] getGlassWindowCopy() {
+        return glassWindowCopy;
+    }
+
+    public void setGlassWindowCopy(Cell[][] glassWindowCopy) {
+        this.glassWindowCopy = glassWindowCopy;
+    }
 
     public int getIdMap() {
         return idMap;

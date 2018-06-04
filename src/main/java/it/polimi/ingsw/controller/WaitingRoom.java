@@ -102,7 +102,7 @@ public class WaitingRoom {
                     startMultiPlayerMatch();
                     //System.ut.println("match started");
                 }
-            }, 20 * (long)1000);
+            }, 5 * (long)1000);
         }
     }
 

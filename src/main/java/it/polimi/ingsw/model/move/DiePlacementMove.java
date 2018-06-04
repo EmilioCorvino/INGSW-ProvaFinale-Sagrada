@@ -34,11 +34,17 @@ public class DiePlacementMove implements IMove {
         wp.setDesiredCell(desiredCell);
 
         if (!wp.canBePlaced(die, desiredCell)) {
-           // manager.showNotification("il dado non può essere piazzato perchè non rispetta le restrizioni");
-            System.out.println("the die cannot be placed");
+            if(manager.getCurrentRound() == 1) {
+                manager.showNotification("il dado deve essere piazzato sui bordi o in uno degli angoli");
+                manager.givePlayerObjectTofill();
+                return;
+            }
+        else {
+            manager.showNotification("il dado non può essere piazzato perchè non rispetta le restrizioni");
             manager.givePlayerObjectTofill();
             return;
         }
+    }
 
         wp.update(die);
         manager.getControllerMaster().getCommonBoard().getDraftPool().update(die);

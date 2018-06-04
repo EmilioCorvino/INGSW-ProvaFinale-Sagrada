@@ -16,7 +16,7 @@ public abstract class AValueEffect extends AToolCardEffect {
     /**
      * This attribute defines which method has to be called when the player wants to increase or decrease the value of a die.
      */
-    protected String symbol;
+    //protected String symbol;
 
     /**
      *
@@ -54,6 +54,7 @@ public abstract class AValueEffect extends AToolCardEffect {
         this.offset = offset;
     }
 
+    /*
     public String getSymbol() {
         return symbol;
     }
@@ -61,6 +62,7 @@ public abstract class AValueEffect extends AToolCardEffect {
     public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
+    */
 
     /**
      * This method checks if the result of an operation on the value of die is a right value.
