@@ -150,6 +150,7 @@ public class WindowPatternTest {
         Cell cell1 = new Cell(0,4);
         Cell cell2 = new Cell(0,2);
         Cell cell3 = new Cell(0,1);
+        Cell cell4 = new Cell(1,3);
 
         Die die1 = new Die(4, Color.GREEN);
         Die die2 = new Die(2, Color.YELLOW);
@@ -162,7 +163,7 @@ public class WindowPatternTest {
         } catch (EmptyException e){
             SagradaLogger.log(Level.SEVERE, "Error: try to draw window pattern card in an empty deck");
         }
-        wp = card.get(0);
+        wp = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(0);
 
         // Test of color restricted cell.
         assertTrue(wp.canBePlaced(die1,cell1));
@@ -175,6 +176,10 @@ public class WindowPatternTest {
         // Test of no restricted cell.
         assertTrue(wp.canBePlaced(die1, cell3));
         assertTrue(wp.canBePlaced(die2, cell3));
+
+        //Test of no border cell
+        assertFalse(wp.canBePlaced(die1, cell4));
+
 
     }
 

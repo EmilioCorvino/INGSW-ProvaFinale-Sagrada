@@ -26,11 +26,11 @@ public class GamePlayCli implements Serializable {
     private int choseDraftDie(DieDraftPoolView draftPoolView){
         draftPoolView.printDraftPool();
 
-        int index = Integer.parseInt(inputOutputManager.askInformation("Inserisci l'indice del dado che vuoi piazzare: "));
+        int index = Integer.parseInt(inputOutputManager.askInformation("Inserisci l'indice del dado che vuoi piazzare (da 1 a "+draftPoolView.getDice().size()+"): "));
 
         while(index < 1 || index > draftPoolView.getDice().size())
                 index = Integer.parseInt(inputOutputManager.askInformation("Errore: inserire un valore tra (1-"+draftPoolView.getDice().size()+"): "));
-        return index;
+        return index-1;
     }
 
     /**
