@@ -1,8 +1,54 @@
 package it.polimi.ingsw.model.cards.tool;
 
+import com.google.gson.annotations.SerializedName;
+import it.polimi.ingsw.model.Color;
+
+import java.util.List;
+
 public class ToolCard implements IToolCard {
 
+    /**
+     * ID that identifies a card.
+     */
+    private int id;
+
+    /**
+     * Name of the card.
+     */
+    private String name;
+
+    /**
+     * Description of the card.
+     */
+    private String description;
+
+    /**
+     * Color of the card. This is only used in single-player mode.
+     */
+    @SerializedName("color")
+    private Color singlePlayerColor;
+
+    /**
+     * Turn in which the card is available.
+     * 0 = first
+     * 1 = second
+     * 2 = both
+     */
+    @SerializedName("turn")
     private int availableTurn;
+
+    /**
+     * Object storing information needed to build the effects after the parsing.
+     */
+    @SerializedName("effect")
+    private EffectBuilder effectBuilder;
+
+
+
+    /**
+     * Effects possessed by the card.
+     */
+    private transient List<AToolCardEffect> cardEffects;
 
     /**
      * Checks if the available turn in which the tool card can be used corresponds to the current turn.
@@ -11,6 +57,30 @@ public class ToolCard implements IToolCard {
      */
     public boolean canBeUsed(int currentTurn) {
         return this.availableTurn == currentTurn || this.availableTurn == 2;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Color getSinglePlayerColor() {
+        return singlePlayerColor;
+    }
+
+    public EffectBuilder getEffectBuilder() {
+        return effectBuilder;
+    }
+
+    public List<AToolCardEffect> getCardEffects() {
+        return cardEffects;
     }
 
     public int getAvailableTurn() {

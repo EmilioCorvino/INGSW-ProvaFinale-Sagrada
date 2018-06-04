@@ -27,19 +27,19 @@ public class PublicObjectiveCardsDeck extends AObjectiveCardsDeck {
     /**
      * Path of colorPublicObjectiveCards.json.
      */
-    private static final String COLOR_PUB_OBJ_CARDS = "./src/main/resources/cards/colorPublicObjectiveCards.json";
+    private static final String COLOR_PUB_OBJ_CARDS = "./src/main/resources/cards/objective/colorPublicObjectiveCards.json";
 
     /**
      * Path of valuePublicObjectiveCards.json.
      */
-    private static final String VALUE_PUB_OBJ_CARDS = "./src/main/resources/cards/valuePublicObjectiveCards.json";
+    private static final String VALUE_PUB_OBJ_CARDS = "./src/main/resources/cards/objective/valuePublicObjectiveCards.json";
 
     public List<APublicObjectiveCard> getDeck() {
         return (List<APublicObjectiveCard>) this.deck;
     }
 
     /**
-     * This method uses {@link Gson} to parse all private objective cards from a JSON file.
+     * This method uses {@link Gson} to parse all {@link APublicObjectiveCard}s from a JSON file.
      */
     @Override
     public void parseDeck() {
@@ -62,7 +62,7 @@ public class PublicObjectiveCardsDeck extends AObjectiveCardsDeck {
         try {
             this.assignStrategy();
         } catch (IOException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to access find strategy name on file", e);
+            SagradaLogger.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 
@@ -81,7 +81,7 @@ public class PublicObjectiveCardsDeck extends AObjectiveCardsDeck {
                                     break;
                 case "diagonal":    card.setStrategy(new DiagonalStrategy());
                                     break;
-                default:            throw new IOException();
+                default:            throw new IOException("Illegal strategy found on file.");
             }
         }
     }

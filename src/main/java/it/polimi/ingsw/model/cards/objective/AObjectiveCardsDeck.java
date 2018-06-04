@@ -33,11 +33,11 @@ public abstract class AObjectiveCardsDeck {
 
     /**
      * Draws a random card and removes it from the deck.
-     * @return a random card from the deck.
+     * @return a random {@link AObjectiveCard} from the deck.
      */
     public AObjectiveCard drawCard() throws EmptyException {
         if(this.deck.isEmpty()) {
-            throw new EmptyException("The deck is empty");
+            throw new EmptyException("The objective card deck is empty");
         }
         int index = new Random().nextInt(this.deck.size());
         return this.deck.remove(index);

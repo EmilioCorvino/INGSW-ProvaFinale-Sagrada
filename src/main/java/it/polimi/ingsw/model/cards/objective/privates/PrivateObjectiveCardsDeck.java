@@ -18,20 +18,20 @@ import java.util.logging.Level;
  */
 public class PrivateObjectiveCardsDeck extends AObjectiveCardsDeck {
 
-    private static final String PRIV_OBJ_CARDS = "./src/main/resources/cards/privateObjectiveCards.json";
+    private static final String PRIV_OBJ_CARDS = "./src/main/resources/cards/objective/privateObjectiveCards.json";
 
     public List<PrivateObjectiveCard> getDeck() {
         return (List<PrivateObjectiveCard>) this.deck;
     }
 
     /**
-     * This method uses {@link Gson} to parse all private objective cards from a JSON file.
+     * This method uses {@link Gson} to parse all {@link PrivateObjectiveCard}s from a JSON file.
      */
     public void parseDeck() {
         Gson gson = new Gson();
         //The TypeToken is needed to get the full parametrized type of the collection.
         Type listCards = new TypeToken<Vector<PrivateObjectiveCard>>(){}.getType();
-        try(Reader file = new FileReader(PRIV_OBJ_CARDS)){
+        try(Reader file = new FileReader(PRIV_OBJ_CARDS)) {
             this.deck = gson.fromJson(file, listCards);
         } catch (IOException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to access private objective cards file", e);

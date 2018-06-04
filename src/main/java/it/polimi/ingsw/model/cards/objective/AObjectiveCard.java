@@ -12,6 +12,9 @@ import it.polimi.ingsw.model.cards.objective.publics.ValuePublicObjectiveCard;
  */
 public abstract class AObjectiveCard {
 
+    /**
+     * ID that identifies a card.
+     */
     protected int id;
 
     public int getId() {
