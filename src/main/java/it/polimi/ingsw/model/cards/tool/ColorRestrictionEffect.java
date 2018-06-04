@@ -1,16 +1,16 @@
 package it.polimi.ingsw.model.cards.tool;
 
-import it.polimi.ingsw.model.restrictions.ColorRestriction;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
+import it.polimi.ingsw.model.restrictions.ColorRestriction;
 
 /**
  *
  */
-public class ColorRestrictionPlacementEffect extends PlacementRestrictionEffect {
+public class ColorRestrictionEffect extends PlacementRestrictionEffect {
 
     private final ColorRestriction colorRestriction;
 
-    public ColorRestrictionPlacementEffect(ColorRestriction colorRestriction) {
+    public ColorRestrictionEffect(ColorRestriction colorRestriction) {
         this.colorRestriction = colorRestriction;
     }
 
