@@ -76,7 +76,7 @@ public class GamePlayCli implements Serializable {
 
         int commandChosen = Integer.parseInt(inputOutputManager.askInformation("Scegli il comando:" +
                 "\n\t 1 - Piazzamento\n\t 2 - Uso Tool\n\t 3 - Visualizza mappe altri giocatori" +
-                "\n\t 4 - Visualizza carte obiettivo pubblico\n\t 5 - Visualizza carte strumento\n\t 6 - Passa)"));
+                "\n\t 4 - Visualizza obiettivi pubblici\n\t 5 - Visualizza carte strumento\n\t 6 - Visualizza obiettivo privato\n\t 7 - Passa)"));
 
         while(commandChosen < 1 || commandChosen > 6)
             commandChosen = Integer.parseInt(inputOutputManager.askInformation("Errore: Scelta non supportata, inserisci un valore tra (1-6)"));
@@ -87,7 +87,8 @@ public class GamePlayCli implements Serializable {
     public void showNotMyTurnCommand(){
        inputOutputManager.print("Scegli il comando:" +
                 "\n\t 1 - Visualizza mappe altri giocatori" +
-                "\n\t 2 - Visualizza carte obiettivo pubblico\n\t 3 - Visualizza carte strumento)");
+                "\n\t 2 - Visualizza obiettivi pubblici\n\t" +
+               " 3 - Visualizza carte strumento\n\t 4 - Visualizza obiettivo privato)");
     }
 
 
@@ -118,6 +119,10 @@ public class GamePlayCli implements Serializable {
             inputOutputManager.print("\t - " + index + ": " + s.getKey() + " | Segnalini favore da usare: " + s.getValue());
             index ++;
         }
+    }
+
+    public void printPrivObj(String card){
+        inputOutputManager.print("Il tuo obiettivo privato e': "+ card);
     }
 
     public void printAllWp(List<PlayerView> players){

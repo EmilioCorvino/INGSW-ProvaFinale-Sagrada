@@ -261,8 +261,14 @@ public class CliView extends AViewMaster implements Runnable{
             case 5:     gamePlaySate.printTool(commonBoard.getToolCards());
                         this.showCommand();
                         break;
+
+            case 6:     for (PlayerView p : this.commonBoard.getPlayers())
+                            if (p.getUserName().equals(this.userName))
+                                gamePlaySate.printPrivObj(p.getPrivateObjCard());
+                        this.showCommand();
+                        break;
                         /*
-            case 6:     try{
+            case 7:     try{
                             server.endTurn();
                         } catch (BrokenConnectionException e) {
                             SagradaLogger.log(Level.SEVERE, "Connection broken during end game", e);
@@ -400,6 +406,12 @@ public class CliView extends AViewMaster implements Runnable{
 
                     case 3:
                         gamePlaySate.printTool(commonBoard.getToolCards());
+                        break;
+
+                    case 4:
+                        for (PlayerView p : this.commonBoard.getPlayers())
+                            if (p.getUserName().equals(this.userName))
+                                gamePlaySate.printPrivObj(p.getPrivateObjCard());
                         break;
                 }
             }
