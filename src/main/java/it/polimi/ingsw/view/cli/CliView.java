@@ -181,6 +181,7 @@ public class CliView extends AViewMaster implements Runnable{
      * @param idPubObj: The ids of all the public objective cards drown by the controller.
      * @param idTool: The ids of all the tool cards drown by the controller.
      */
+    @Override
     public void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool){
 
         for (Map.Entry<String, SimplifiedWindowPatternCard> ply : players.entrySet()) {
@@ -198,6 +199,7 @@ public class CliView extends AViewMaster implements Runnable{
      * This method will populate the draft pool in each round
      * @param draft: the list of dice contain in the draft Pool.
      */
+    @Override
     public void setDraft(List<SetUpInformationUnit> draft){
         this.commonBoard.setDraftPool(new DieDraftPoolView(draft));
     }
@@ -208,6 +210,7 @@ public class CliView extends AViewMaster implements Runnable{
      * @param nFavTokens: the number of favor tokens.
      * @param idPrivateObj: the id of his private obj card.
      */
+    @Override
     public void setPlayer(String userName, int nFavTokens, int idPrivateObj){
 
         for(PlayerView p : commonBoard.getPlayers())
@@ -300,6 +303,7 @@ public class CliView extends AViewMaster implements Runnable{
      * @param userName: name of player connected.
      * @param unit: information for the update, index of matrix and die that needs to be place.
      */
+    @Override
     public void updateOwnWp(String userName, SetUpInformationUnit unit){
 
         for (PlayerView p : commonBoard.getPlayers())
@@ -314,6 +318,7 @@ public class CliView extends AViewMaster implements Runnable{
      * This method update the wp of all player.
      * @param allWp: A map which contains the information to modify the wp of the player specified by the key.
      */
+    @Override
     public void updateAllWp(Map<String, SetUpInformationUnit> allWp){
 
         for (Map.Entry<String, SetUpInformationUnit> p : allWp.entrySet())
@@ -329,6 +334,7 @@ public class CliView extends AViewMaster implements Runnable{
      * This method remove a die from the draft in a specified index.
      * @param info: the containers of the index information.
      */
+    @Override
     public void updateDraft(InformationUnit info){
         this.commonBoard.getDraftPool().getDice().remove(info.getIndex());
     }
@@ -338,6 +344,7 @@ public class CliView extends AViewMaster implements Runnable{
      * @param userName: the number of player connected to this client
      * @param nFavorToken: number of favor token remain.
      */
+    @Override
     public void updateFavTokenPlayer(String userName, int nFavorToken){
         for (PlayerView p : this.commonBoard.getPlayers())
             if(p.getUserName().equals(userName)) {
