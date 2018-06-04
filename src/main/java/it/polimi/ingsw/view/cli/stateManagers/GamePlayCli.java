@@ -78,8 +78,8 @@ public class GamePlayCli implements Serializable {
                 "\n\t 1 - Piazzamento\n\t 2 - Uso Tool\n\t 3 - Visualizza mappe altri giocatori" +
                 "\n\t 4 - Visualizza obiettivi pubblici\n\t 5 - Visualizza carte strumento\n\t 6 - Visualizza obiettivo privato\n\t 7 - Passa)"));
 
-        while(commandChosen < 1 || commandChosen > 6)
-            commandChosen = Integer.parseInt(inputOutputManager.askInformation("Errore: Scelta non supportata, inserisci un valore tra (1-6)"));
+        while(commandChosen < 0 || commandChosen > 5)
+            commandChosen = Integer.parseInt(inputOutputManager.askInformation("Errore: Scelta non supportata, inserisci un valore tra (0-5)"));
 
         return commandChosen;
     }
