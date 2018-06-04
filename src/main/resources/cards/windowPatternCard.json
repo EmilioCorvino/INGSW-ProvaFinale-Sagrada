@@ -1,6 +1,6 @@
 [
   {
-    "idMap":1,
+    "idMap":0,
     "difficulty":5,
     "glassWindow":
     [
@@ -135,7 +135,7 @@
     ]
   },
   {
-    "idMap":2,
+    "idMap":1,
     "difficulty":6,
     "glassWindow":
     [
@@ -270,7 +270,7 @@
     ]
   },
   {
-    "idMap":3,
+    "idMap":2,
     "difficulty":4,
     "glassWindow":
     [
@@ -405,7 +405,7 @@
     ]
   },
   {
-    "idMap":4,
+    "idMap":3,
     "difficulty":5,
     "glassWindow":
     [
@@ -540,7 +540,7 @@
     ]
   },
   {
-    "idMap":5,
+    "idMap":4,
     "difficulty":3,
     "glassWindow":
     [
@@ -675,7 +675,7 @@
     ]
   },
   {
-    "idMap":6,
+    "idMap":5,
     "difficulty":5,
     "glassWindow":
     [
@@ -810,7 +810,7 @@
     ]
   },
   {
-    "idMap":7,
+    "idMap":6,
     "difficulty":6,
     "glassWindow":
     [
@@ -934,6 +934,141 @@
           "col":3,
           "defaultValueRestriction":{"value":0},
           "defaultColorRestriction":{"color":"GREEN"}
+        },
+        {
+          "row":3,
+          "col":4,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        }
+      ]
+    ]
+  },
+  {
+    "idMap":7,
+    "difficulty":5,
+    "glassWindow":
+    [
+      [
+        {
+          "row":0,
+          "col":0,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":0,
+          "col":1,
+          "defaultValueRestriction":{"value":1},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":0,
+          "col":2,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"GREEN"}
+        },
+        {
+          "row":0,
+          "col":3,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"PURPLE"}
+        },
+        {
+          "row":0,
+          "col":4,
+          "defaultValueRestriction":{"value":4},
+          "defaultColorRestriction":{"color":"BLANK"}
+        }
+      ],
+      [
+        {
+          "row":1,
+          "col":0,
+          "defaultValueRestriction":{"value":6},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":1,
+          "col":1,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"PURPLE"}
+        },
+        {
+          "row":1,
+          "col":2,
+          "defaultValueRestriction":{"value":2},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":1,
+          "col":3,
+          "defaultValueRestriction":{"value":5},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":1,
+          "col":4,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"GREEN"}
+        }
+      ],
+      [
+        {
+          "row":2,
+          "col":0,
+          "defaultValueRestriction":{"value":1},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":2,
+          "col":1,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"GREEN"}
+        },
+        {
+          "row":2,
+          "col":2,
+          "defaultValueRestriction":{"value":5},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":2,
+          "col":3,
+          "defaultValueRestriction":{"value":3},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":2,
+          "col":4,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"PURPLE"}
+        }
+      ],
+      [
+        {
+          "row":3,
+          "col":0,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":3,
+          "col":1,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":3,
+          "col":2,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":3,
+          "col":3,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
         },
         {
           "row":3,
@@ -953,31 +1088,31 @@
         {
           "row":0,
           "col":0,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":0,
-          "col":1,
           "defaultValueRestriction":{"value":1},
           "defaultColorRestriction":{"color":"BLANK"}
         },
         {
           "row":0,
-          "col":2,
+          "col":1,
           "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"GREEN"}
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":0,
+          "col":2,
+          "defaultValueRestriction":{"value":3},
+          "defaultColorRestriction":{"color":"BLANK"}
         },
         {
           "row":0,
           "col":3,
           "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"PURPLE"}
+          "defaultColorRestriction":{"color":"BLUE"}
         },
         {
           "row":0,
           "col":4,
-          "defaultValueRestriction":{"value":4},
+          "defaultValueRestriction":{"value":0},
           "defaultColorRestriction":{"color":"BLANK"}
         }
       ],
@@ -985,83 +1120,83 @@
         {
           "row":1,
           "col":0,
-          "defaultValueRestriction":{"value":6},
+          "defaultValueRestriction":{"value":0},
           "defaultColorRestriction":{"color":"BLANK"}
         },
         {
           "row":1,
           "col":1,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"PURPLE"}
-        },
-        {
-          "row":1,
-          "col":2,
           "defaultValueRestriction":{"value":2},
           "defaultColorRestriction":{"color":"BLANK"}
         },
         {
           "row":1,
+          "col":2,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLUE"}
+        },
+        {
+          "row":1,
           "col":3,
-          "defaultValueRestriction":{"value":5},
+          "defaultValueRestriction":{"value":0},
           "defaultColorRestriction":{"color":"BLANK"}
         },
         {
           "row":1,
           "col":4,
           "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"GREEN"}
+          "defaultColorRestriction":{"color":"BLANK"}
         }
       ],
       [
         {
           "row":2,
           "col":0,
-          "defaultValueRestriction":{"value":1},
+          "defaultValueRestriction":{"value":6},
           "defaultColorRestriction":{"color":"BLANK"}
         },
         {
           "row":2,
           "col":1,
           "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"GREEN"}
+          "defaultColorRestriction":{"color":"BLUE"}
         },
         {
           "row":2,
           "col":2,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":2,
+          "col":3,
+          "defaultValueRestriction":{"value":4},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":2,
+          "col":4,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        }
+      ],
+      [
+        {
+          "row":3,
+          "col":0,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLUE"}
+        },
+        {
+          "row":3,
+          "col":1,
           "defaultValueRestriction":{"value":5},
           "defaultColorRestriction":{"color":"BLANK"}
         },
         {
-          "row":2,
-          "col":3,
-          "defaultValueRestriction":{"value":3},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":2,
-          "col":4,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"PURPLE"}
-        }
-      ],
-      [
-        {
-          "row":3,
-          "col":0,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":3,
-          "col":1,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
           "row":3,
           "col":2,
-          "defaultValueRestriction":{"value":0},
+          "defaultValueRestriction":{"value":2},
           "defaultColorRestriction":{"color":"BLANK"}
         },
         {
@@ -1073,7 +1208,7 @@
         {
           "row":3,
           "col":4,
-          "defaultValueRestriction":{"value":0},
+          "defaultValueRestriction":{"value":1},
           "defaultColorRestriction":{"color":"BLANK"}
         }
       ]
@@ -1081,141 +1216,6 @@
   },
   {
     "idMap":9,
-    "difficulty":5,
-    "glassWindow":
-    [
-      [
-        {
-          "row":0,
-          "col":0,
-          "defaultValueRestriction":{"value":1},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":0,
-          "col":1,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":0,
-          "col":2,
-          "defaultValueRestriction":{"value":3},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":0,
-          "col":3,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLUE"}
-        },
-        {
-          "row":0,
-          "col":4,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        }
-      ],
-      [
-        {
-          "row":1,
-          "col":0,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":1,
-          "col":1,
-          "defaultValueRestriction":{"value":2},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":1,
-          "col":2,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLUE"}
-        },
-        {
-          "row":1,
-          "col":3,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":1,
-          "col":4,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        }
-      ],
-      [
-        {
-          "row":2,
-          "col":0,
-          "defaultValueRestriction":{"value":6},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":2,
-          "col":1,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLUE"}
-        },
-        {
-          "row":2,
-          "col":2,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":2,
-          "col":3,
-          "defaultValueRestriction":{"value":4},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":2,
-          "col":4,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        }
-      ],
-      [
-        {
-          "row":3,
-          "col":0,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLUE"}
-        },
-        {
-          "row":3,
-          "col":1,
-          "defaultValueRestriction":{"value":5},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":3,
-          "col":2,
-          "defaultValueRestriction":{"value":2},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":3,
-          "col":3,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":3,
-          "col":4,
-          "defaultValueRestriction":{"value":1},
-          "defaultColorRestriction":{"color":"BLANK"}
-        }
-      ]
-    ]
-  },
-  {
-    "idMap":10,
     "difficulty":6,
     "glassWindow":
     [
@@ -1338,6 +1338,141 @@
           "row":3,
           "col":3,
           "defaultValueRestriction":{"value":3},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":3,
+          "col":4,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"PURPLE"}
+        }
+      ]
+    ]
+  },
+  {
+    "idMap":10,
+    "difficulty":3,
+    "glassWindow":
+    [
+      [
+        {
+          "row":0,
+          "col":0,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":0,
+          "col":1,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLUE"}
+        },
+        {
+          "row":0,
+          "col":2,
+          "defaultValueRestriction":{"value":2},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":0,
+          "col":3,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":0,
+          "col":4,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"YELLOW"}
+        }
+      ],
+      [
+        {
+          "row":1,
+          "col":0,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":1,
+          "col":1,
+          "defaultValueRestriction":{"value":4},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":1,
+          "col":2,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":1,
+          "col":3,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"RED"}
+        },
+        {
+          "row":1,
+          "col":4,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        }
+      ],
+      [
+        {
+          "row":2,
+          "col":0,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":2,
+          "col":1,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":2,
+          "col":2,
+          "defaultValueRestriction":{"value":5},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":2,
+          "col":3,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"YELLOW"}
+        },
+        {
+          "row":2,
+          "col":4,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        }
+      ],
+      [
+        {
+          "row":3,
+          "col":0,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"GREEN"}
+        },
+        {
+          "row":3,
+          "col":1,
+          "defaultValueRestriction":{"value":3},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":3,
+          "col":2,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":3,
+          "col":3,
+          "defaultValueRestriction":{"value":0},
           "defaultColorRestriction":{"color":"BLANK"}
         },
         {
@@ -1351,141 +1486,6 @@
   },
   {
     "idMap":11,
-    "difficulty":3,
-    "glassWindow":
-    [
-      [
-        {
-          "row":0,
-          "col":0,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":0,
-          "col":1,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLUE"}
-        },
-        {
-          "row":0,
-          "col":2,
-          "defaultValueRestriction":{"value":2},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":0,
-          "col":3,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":0,
-          "col":4,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"YELLOW"}
-        }
-      ],
-      [
-        {
-          "row":1,
-          "col":0,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":1,
-          "col":1,
-          "defaultValueRestriction":{"value":4},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":1,
-          "col":2,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":1,
-          "col":3,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"RED"}
-        },
-        {
-          "row":1,
-          "col":4,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        }
-      ],
-      [
-        {
-          "row":2,
-          "col":0,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":2,
-          "col":1,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":2,
-          "col":2,
-          "defaultValueRestriction":{"value":5},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":2,
-          "col":3,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"YELLOW"}
-        },
-        {
-          "row":2,
-          "col":4,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        }
-      ],
-      [
-        {
-          "row":3,
-          "col":0,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"GREEN"}
-        },
-        {
-          "row":3,
-          "col":1,
-          "defaultValueRestriction":{"value":3},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":3,
-          "col":2,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":3,
-          "col":3,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":3,
-          "col":4,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"PURPLE"}
-        }
-      ]
-    ]
-  },
-  {
-    "idMap":12,
     "difficulty":5,
     "glassWindow":
     [
@@ -1620,7 +1620,7 @@
     ]
   },
   {
-    "idMap":13,
+    "idMap":12,
     "difficulty":5,
     "glassWindow":
     [
@@ -1755,7 +1755,7 @@
     ]
   },
   {
-    "idMap":14,
+    "idMap":13,
     "difficulty":4,
     "glassWindow":
     [
@@ -1890,7 +1890,7 @@
     ]
   },
   {
-    "idMap":15,
+    "idMap":14,
     "difficulty":5,
     "glassWindow":
     [
@@ -2025,7 +2025,7 @@
     ]
   },
   {
-    "idMap":16,
+    "idMap":15,
     "difficulty":6,
     "glassWindow":
     [
@@ -2160,7 +2160,7 @@
     ]
   },
   {
-    "idMap":17,
+    "idMap":16,
     "difficulty":5,
     "glassWindow":
     [
@@ -2295,7 +2295,7 @@
     ]
   },
   {
-    "idMap":18,
+    "idMap":17,
     "difficulty":3,
     "glassWindow":
     [
@@ -2430,7 +2430,7 @@
     ]
   },
   {
-    "idMap":19,
+    "idMap":18,
     "difficulty":5,
     "glassWindow":
     [
@@ -2553,6 +2553,141 @@
           "row":3,
           "col":3,
           "defaultValueRestriction":{"value":1},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":3,
+          "col":4,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        }
+      ]
+    ]
+  },
+  {
+    "idMap":19,
+    "difficulty":3,
+    "glassWindow":
+    [
+      [
+        {
+          "row":0,
+          "col":0,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":0,
+          "col":1,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":0,
+          "col":2,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"RED"}
+        },
+        {
+          "row":0,
+          "col":3,
+          "defaultValueRestriction":{"value":5},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":0,
+          "col":4,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        }
+      ],
+      [
+        {
+          "row":1,
+          "col":0,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"PURPLE"}
+        },
+        {
+          "row":1,
+          "col":1,
+          "defaultValueRestriction":{"value":4},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":1,
+          "col":2,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":1,
+          "col":3,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"GREEN"}
+        },
+        {
+          "row":1,
+          "col":4,
+          "defaultValueRestriction":{"value":3},
+          "defaultColorRestriction":{"color":"BLANK"}
+        }
+      ],
+      [
+        {
+          "row":2,
+          "col":0,
+          "defaultValueRestriction":{"value":6},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":2,
+          "col":1,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":2,
+          "col":2,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":2,
+          "col":3,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLUE"}
+        },
+        {
+          "row":2,
+          "col":4,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        }
+      ],
+      [
+        {
+          "row":3,
+          "col":0,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":3,
+          "col":1,
+          "defaultValueRestriction":{"value":0},
+          "defaultColorRestriction":{"color":"YELLOW"}
+        },
+        {
+          "row":3,
+          "col":2,
+          "defaultValueRestriction":{"value":2},
+          "defaultColorRestriction":{"color":"BLANK"}
+        },
+        {
+          "row":3,
+          "col":3,
+          "defaultValueRestriction":{"value":0},
           "defaultColorRestriction":{"color":"BLANK"}
         },
         {
@@ -2566,141 +2701,6 @@
   },
   {
     "idMap":20,
-    "difficulty":3,
-    "glassWindow":
-    [
-      [
-        {
-          "row":0,
-          "col":0,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":0,
-          "col":1,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":0,
-          "col":2,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"RED"}
-        },
-        {
-          "row":0,
-          "col":3,
-          "defaultValueRestriction":{"value":5},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":0,
-          "col":4,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        }
-      ],
-      [
-        {
-          "row":1,
-          "col":0,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"PURPLE"}
-        },
-        {
-          "row":1,
-          "col":1,
-          "defaultValueRestriction":{"value":4},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":1,
-          "col":2,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":1,
-          "col":3,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"GREEN"}
-        },
-        {
-          "row":1,
-          "col":4,
-          "defaultValueRestriction":{"value":3},
-          "defaultColorRestriction":{"color":"BLANK"}
-        }
-      ],
-      [
-        {
-          "row":2,
-          "col":0,
-          "defaultValueRestriction":{"value":6},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":2,
-          "col":1,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":2,
-          "col":2,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":2,
-          "col":3,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLUE"}
-        },
-        {
-          "row":2,
-          "col":4,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        }
-      ],
-      [
-        {
-          "row":3,
-          "col":0,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":3,
-          "col":1,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"YELLOW"}
-        },
-        {
-          "row":3,
-          "col":2,
-          "defaultValueRestriction":{"value":2},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":3,
-          "col":3,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        },
-        {
-          "row":3,
-          "col":4,
-          "defaultValueRestriction":{"value":0},
-          "defaultColorRestriction":{"color":"BLANK"}
-        }
-      ]
-    ]
-  },
-  {
-    "idMap":21,
     "difficulty":4,
     "glassWindow":
     [
@@ -2835,7 +2835,7 @@
     ]
   },
   {
-    "idMap":22,
+    "idMap":21,
     "difficulty":5,
     "glassWindow":
     [
@@ -2970,7 +2970,7 @@
     ]
   },
   {
-    "idMap":23,
+    "idMap":22,
     "difficulty":4,
     "glassWindow":
     [
@@ -3105,7 +3105,7 @@
     ]
   },
   {
-    "idMap":24,
+    "idMap":23,
     "difficulty":5,
     "glassWindow":
     [

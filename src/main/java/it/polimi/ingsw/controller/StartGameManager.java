@@ -101,7 +101,7 @@ public class StartGameManager extends AGameManager {
      */
     public synchronized void wpToSet(String username, int chosenWp) {
         CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
-        WindowPatternCard wpToSet = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenWp -1);
+        WindowPatternCard wpToSet = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenWp);
         commonBoard.getSpecificPlayer(username).setWindowPatternCard(wpToSet);
     }
 
