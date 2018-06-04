@@ -60,8 +60,10 @@ public class GamePlayCli implements Serializable {
      * @param unit
      */
     public void getPlacementInfo(DieDraftPoolView draft, WindowPatternCardView wp, SetUpInformationUnit unit){
-        unit.setColor(draft.getDice().get(this.choseDraftDie(draft)).getDieColor());
-        unit.setValue(draft.getDice().get(this.choseDraftDie(draft)).getDieValue());
+        int index = this.choseDraftDie(draft);
+
+        unit.setColor(draft.getDice().get(index).getDieColor());
+        unit.setValue(draft.getDice().get(index).getDieValue());
         unit.setIndex(this.choseCellWp(wp));
     }
 
