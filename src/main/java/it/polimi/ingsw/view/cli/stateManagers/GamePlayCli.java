@@ -10,6 +10,7 @@ import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * This class manages all the interaction during the game play state.
@@ -19,22 +20,23 @@ public class GamePlayCli implements Serializable {
     private transient InputOutputManager inputOutputManager = new InputOutputManager();
 
     /**
-     *
-     * @param draftPoolView
-     * @return
+     * This method ask the index of the die chosen in the draft, verifying if it is an int and if it is in bound.
+     * @param draftPoolView: The draft Pool
+     * @return: the index chosen.
      */
     private int choseDraftDie(DieDraftPoolView draftPoolView){
         draftPoolView.printDraftPool();
 
-        int index = Integer.parseInt(inputOutputManager.askInformation("Inserisci l'indice del dado che vuoi piazzare (da 0 a "+(draftPoolView.getDice().size()-1)+"): "));
+        String index = inputOutputManager.askInformation("Inserisci l'indice del dado che vuoi piazzare (da 0 a "+(draftPoolView.getDice().size()-1)+"): ");
+        boolean validInput = Pattern.matches("\\d*", index);
 
-        while(index < 0 || index > draftPoolView.getDice().size()-1)
-                index = Integer.parseInt(inputOutputManager.askInformation("Errore: inserire un valore tra (0-"+(draftPoolView.getDice().size()-1)+"): "));
-        return index;
+        while(!validInput || Integer.parseInt(index) < 0 || Integer.parseInt(index) > draftPoolView.getDice().size()-1)
+                index = inputOutputManager.askInformation("Errore: inserire un valore tra (0-"+(draftPoolView.getDice().size()-1)+"): ");
+        return Integer.parseInt(index);
     }
 
     /**
-     *
+     * This method ask to the user the row and the column of the cell where he want to place the die, and verifying if it is an int and if it is in bound.
      * @param wp
      * @return
      */
@@ -42,15 +44,19 @@ public class GamePlayCli implements Serializable {
         wp.printWp();
         inputOutputManager.print("Inserisci le coordinate della cella in cui vuoi inserire il dado.");
 
-        int row = Integer.parseInt(inputOutputManager.askInformation("Riga: "));
-        while (row < 0 || row > WindowPatternCardView.MAX_ROW - 1)
-            row = Integer.parseInt(inputOutputManager.askInformation("Errore: Valore non supportato, inserire un valore tra (0-"+(WindowPatternCardView.MAX_ROW-1)+"): "));
+        String row = inputOutputManager.askInformation("Riga: ");
+        boolean validRow = Pattern.matches("\\d*", row);
 
-        int col = Integer.parseInt(inputOutputManager.askInformation("Colonna: "));
-        while (col < 0 || col > WindowPatternCardView.MAX_COL - 1)
-            col = Integer.parseInt(inputOutputManager.askInformation("Errore: Valore non supportato, inserire un valore tra (0-"+(WindowPatternCardView.MAX_COL-1)+"): "));
+        while (!validRow || Integer.parseInt(row) < 0 || Integer.parseInt(row) > WindowPatternCardView.MAX_ROW - 1)
+            row = inputOutputManager.askInformation("Errore: Valore non supportato, inserire un valore tra (0-"+(WindowPatternCardView.MAX_ROW-1)+"): ");
 
-        return row*WindowPatternCardView.MAX_COL+col;
+        String col = inputOutputManager.askInformation("Colonna: ");
+        boolean validCol = Pattern.matches("\\d*", col);
+
+        while (!validCol || Integer.parseInt(col) < 0 || Integer.parseInt(col) > WindowPatternCardView.MAX_COL - 1)
+            col = inputOutputManager.askInformation("Errore: Valore non supportato, inserire un valore tra (0-"+(WindowPatternCardView.MAX_COL-1)+"): ");
+
+        return Integer.parseInt(row) * WindowPatternCardView.MAX_COL + Integer.parseInt(col);
     }
 
     /**
