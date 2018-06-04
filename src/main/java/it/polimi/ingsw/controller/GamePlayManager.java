@@ -173,14 +173,21 @@ public class GamePlayManager extends AGameManager {
      * Thi method notifies the client any type of issue may occur in each request.
      * @param message the message to tell.
      */
-    /*
+
     public void showNotification(String message) {
-       // IFromServerToClient iFromServerToClient = super.getControllerMaster().getConnectedPlayers().get(playerList.get(currentPlayer).getPlayerName());
+       IFromServerToClient iFromServerToClient = super.getControllerMaster().getConnectedPlayers().get(playerList.get(currentPlayer).getPlayerName()).getClient();
         try{
             iFromServerToClient.showNotice(message);
         } catch (BrokenConnectionException br) {
             //handle broken connection.
         }
     }
-    */
+
+    public int getCurrentRound() {
+        return currentRound;
+    }
+
+    public void setCurrentRound(int currentRound) {
+        this.currentRound = currentRound;
+    }
 }
