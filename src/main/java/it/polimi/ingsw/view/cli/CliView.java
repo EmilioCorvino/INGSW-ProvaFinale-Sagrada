@@ -230,7 +230,7 @@ public class CliView extends AViewMaster implements Runnable{
      * 5: show the tool cards
      * 6: end the turn
      */
-    /*
+
     @Override
     public void showCommand() {
         int command = gamePlaySate.showCommand();
@@ -241,13 +241,14 @@ public class CliView extends AViewMaster implements Runnable{
                             SagradaLogger.log(Level.SEVERE, "Connection broken during placement move",e);
                         }
                         break;
-/*
+            /*
             case 2:     try{
                             server.toolMoveRequest();
                         } catch (BrokenConnectionException e){
                             SagradaLogger.log(Level.SEVERE, "Connection broken during tool move",e);
                         }
                         break;
+                */
 
             case 3:     gamePlaySate.printAllWp(commonBoard.getPlayers());
                         this.showCommand();
@@ -260,21 +261,18 @@ public class CliView extends AViewMaster implements Runnable{
             case 5:     gamePlaySate.printTool(commonBoard.getToolCards());
                         this.showCommand();
                         break;
-
+                        /*
             case 6:     try{
                             server.endTurn();
                         } catch (BrokenConnectionException e) {
                             SagradaLogger.log(Level.SEVERE, "Connection broken during end game", e);
                         }
                         break;
-
+                */
         }
     }
-*/
 
-    // DA CANCELLARE
-    @Override
-    public void showCommand(){}
+
 
     /**
      * This method fill the information unit with all the input token from the user.

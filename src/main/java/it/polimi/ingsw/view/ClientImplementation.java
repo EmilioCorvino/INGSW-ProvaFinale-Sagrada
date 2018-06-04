@@ -35,7 +35,8 @@ public class ClientImplementation implements IFromServerToClient {
     }
 
     @Override
-    public void choseWpId(){ view.choseWpId();}
+    public void choseWpId(){
+        view.choseWpId();}
 
     @Override
     public void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) {

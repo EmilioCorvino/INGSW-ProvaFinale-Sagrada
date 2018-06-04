@@ -2,10 +2,10 @@ package it.polimi.ingsw.controller;
 
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.move.DiePlacementMove;
 import it.polimi.ingsw.model.move.IMove;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 
 import java.util.ArrayList;
@@ -160,16 +160,13 @@ public class GamePlayManager extends AGameManager {
 
 
     public void showPlacementResult(Player playerColor, SetUpInformationUnit setUpInformationUnit) {
-        CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
-        super.getControllerMaster().getConnectedPlayers().entrySet().forEach(entry -> {
-            try {
-                entry.getValue().getClient().showUpdatedWp(commonBoard.getPlayerMap().get(playerColor).getPlayerName(), setUpInformationUnit);
-
-            } catch (BrokenConnectionException br) {
-                //handle
-            }
-        });
-        endTurn();
+        IFromServerToClient ifstc = super.getControllerMaster().getConnectedPlayers().get(playerColor.getPlayerName()).getClient();
+        try {
+            System.out.println("me la mostri o no sta mappa " + playerColor.getPlayerName());
+            ifstc.showUpdatedWp(playerColor.getPlayerName(), setUpInformationUnit);
+        } catch (BrokenConnectionException br) {
+            //handle broken connection
+        }
     }
 
     /**
