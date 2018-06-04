@@ -31,10 +31,13 @@ public class StartGameManager extends AGameManager {
      */
     public List<SimplifiedWindowPatternCard> chooseWindowPatternCard() {
         List<SimplifiedWindowPatternCard> listToSend = new ArrayList<>();
-        super.getControllerMaster().getConnectedPlayers().entrySet().forEach(entry -> {
+
             List<SimplifiedWindowPatternCard> list1 = windowPatternCardConverter();
             listToSend.addAll(list1);
-        });
+
+        List<SimplifiedWindowPatternCard> list2 = windowPatternCardConverter();
+        listToSend.addAll(list2);
+
         return listToSend;
     }
 
