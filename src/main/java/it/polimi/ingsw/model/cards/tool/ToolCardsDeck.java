@@ -65,20 +65,21 @@ public class ToolCardsDeck {
 
     private void assignEffect() throws IOException {
         for(ToolCard card: this.getDeck()) {
+            card.initializeCardEffects();
             EffectBuilder builder = card.getEffectBuilder();
             for(String effectName: builder.getEffects()) {
                 switch (effectName) {
                     case "ChooseValue":             card.getCardEffects().add(new ChooseValueEffect(builder.getEffectSpecificParameter()));
                                                     break;
-                    case "ValueRestriction":        card.getCardEffects().add(new ValueRestrictionPlacementEffect());
+                    case "ValueRestriction":        card.getCardEffects().add(new ValueRestrictionEffect());
                                                     break;
-                    case "ColorRestriction":        card.getCardEffects().add(new ColorRestrictionPlacementEffect());
+                    case "ColorRestriction":        card.getCardEffects().add(new ColorRestrictionEffect());
                                                     break;
                     case "PlacementRestriction":    card.getCardEffects().add(new PlacementRestrictionEffect());
                                                     break;
                     case "SwapDie":                 card.getCardEffects().add(new SwapDieEffect());
                                                     break;
-                    case "DraftValue":              card.getCardEffects().add(new DraftValueEffect());
+                    case "DraftValue":              card.getCardEffects().add(new DraftValueEffect(builder.getEffectSpecificParameter()));
                                                     break;
                     default:                        throw new IOException("Illegal effect found on file.");
 

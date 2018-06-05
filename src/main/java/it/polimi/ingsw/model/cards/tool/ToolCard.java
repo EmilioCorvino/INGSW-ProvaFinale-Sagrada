@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.cards.tool;
 import com.google.gson.annotations.SerializedName;
 import it.polimi.ingsw.model.Color;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ToolCard implements IToolCard {
@@ -81,6 +82,10 @@ public class ToolCard implements IToolCard {
 
     public List<AToolCardEffect> getCardEffects() {
         return cardEffects;
+    }
+
+    public void initializeCardEffects() {
+        this.cardEffects = new ArrayList<>();
     }
 
     public int getAvailableTurn() {
