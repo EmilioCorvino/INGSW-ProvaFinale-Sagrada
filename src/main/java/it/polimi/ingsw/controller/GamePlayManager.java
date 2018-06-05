@@ -66,6 +66,16 @@ public class GamePlayManager extends AGameManager {
         //reOrderPlayerList();
 
         super.getControllerMaster().startTurnPlayer(playerList.get(currentPlayer));
+
+        /*
+        super.getControllerMaster().getConnectedPlayers().get(currentPlayer).getClient().setMyTurn(true);
+        for(Player p: this.playerList){
+            if (!p.isSamePlayerAs(playerList.get(currentPlayer)){
+                super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient().setMyTurn(false);
+                super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient().run();
+            }
+        }
+        */
     }
 
     /**
