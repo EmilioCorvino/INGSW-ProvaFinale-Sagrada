@@ -45,4 +45,8 @@ public abstract class AViewMaster {
     public abstract void showNotice(String notice);
 
     public abstract IFromClientToServer getServer();
+
+    public abstract void runCli();
+
+    public abstract void setMyTurn(boolean myTurn);
 }

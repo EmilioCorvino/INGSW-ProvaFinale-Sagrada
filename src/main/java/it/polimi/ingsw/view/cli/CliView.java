@@ -377,6 +377,10 @@ public class CliView extends AViewMaster implements Runnable{
 //                  CLIENT NOT SERVED
 //----------------------------------------------------------
 
+    @Override
+    public void runCli(){
+        this.run();
+    }
 
     @Override
     public void run() {
@@ -425,6 +429,7 @@ public class CliView extends AViewMaster implements Runnable{
         return isMyTurn;
     }
 
+    @Override
     public void setMyTurn(boolean myTurn) {
         isMyTurn = myTurn;
     }

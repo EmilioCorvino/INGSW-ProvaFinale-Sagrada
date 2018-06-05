@@ -64,4 +64,8 @@ public interface IFromServerToClient {
     void updateFavTokenPlayer(String userName, int nFavorToken) throws BrokenConnectionException;
 
     void showNotice(String notice) throws BrokenConnectionException;
+
+    void runCli() throws BrokenConnectionException;
+
+    void setMyTurn(boolean myTurn) throws BrokenConnectionException;
 }
