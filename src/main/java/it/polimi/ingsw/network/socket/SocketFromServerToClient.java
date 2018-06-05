@@ -85,4 +85,9 @@ public class SocketFromServerToClient implements IFromServerToClient {
 
     }
 
+    @Override
+    public void setMyTurn(boolean myTurn) throws BrokenConnectionException {
+
+    }
+
 }

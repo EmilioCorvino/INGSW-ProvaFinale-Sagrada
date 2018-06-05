@@ -49,4 +49,6 @@ public interface IRmiClient extends Remote {
 
     void showNotice(String notice) throws RemoteException;
 
+    void setMyTurn(boolean myTurn) throws RemoteException;
+
 }

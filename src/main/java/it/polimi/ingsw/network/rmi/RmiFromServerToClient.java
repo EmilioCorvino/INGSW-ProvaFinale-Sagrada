@@ -86,6 +86,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
             this.rmiClient.setCommonBoard(players, idPubObj, idTool);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to show clients the initialized board", e);
+            throw new BrokenConnectionException();
         }
     }
 
@@ -94,8 +95,9 @@ public class RmiFromServerToClient implements IFromServerToClient {
         try {
             this.rmiClient.setDraft(draft);
         } catch (RemoteException e) {
-        SagradaLogger.log(Level.SEVERE, "Impossible to show clients the initialized draft pool", e);
-    }
+            SagradaLogger.log(Level.SEVERE, "Impossible to show clients the initialized draft pool", e);
+            throw new BrokenConnectionException();
+        }
     }
 
     @Override
@@ -104,6 +106,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
             this.rmiClient.setPlayer(userName, nFavTokens, idPrivateObj);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to correctly set the player", e);
+            throw new BrokenConnectionException();
         }
     }
 
@@ -148,6 +151,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
             this.rmiClient.updateOwnWp(userName, unit);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to update the window pattern card of the player", e);
+            throw new BrokenConnectionException();
         }
     }
 
@@ -158,6 +162,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to update the window pattern cards of the" +
                     " other players", e);
+            throw new BrokenConnectionException();
         }
     }
 
@@ -167,6 +172,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
             this.rmiClient.updateDraft(info);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to update draft pool", e);
+            throw new BrokenConnectionException();
         }
     }
 
@@ -176,6 +182,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
             this.rmiClient.updateFavTokenPlayer(userName, nFavorToken);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to update the facor tokens owned by the player", e);
+            throw new BrokenConnectionException();
         }
     }
 
@@ -185,6 +192,16 @@ public class RmiFromServerToClient implements IFromServerToClient {
             this.rmiClient.showNotice(notice);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to show to the client the instruction message", e);
+            throw new BrokenConnectionException();
+        }
+    }
+
+    @Override
+    public void setMyTurn(boolean myTurn) throws BrokenConnectionException {
+        try {
+            this.rmiClient.setMyTurn(myTurn);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to say to the player if it's or it's not his turn", e);
             throw new BrokenConnectionException();
         }
     }

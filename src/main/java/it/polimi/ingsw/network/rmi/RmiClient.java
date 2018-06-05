@@ -103,4 +103,9 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     public void showNotice(String notice) {
         this.client.showNotice(notice);
     }
+
+    @Override
+    public void setMyTurn(boolean myTurn) {
+        this.client.setMyTurn(myTurn);
+    }
 }
