@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.cards.tool.ToolCard;
+import it.polimi.ingsw.model.cards.ToolCardSlot;
 import it.polimi.ingsw.model.player.Player;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class TurnTracker {
     }
 
 
-    public boolean existToolCardToUse(List<ToolCard> toolsToCheck, Player currPlayer) {
+    public boolean existToolCardToUse(List<ToolCardSlot> toolsToCheck, Player currPlayer) {
         toolsToCheck.forEach( tool -> {
 
 

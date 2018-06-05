@@ -24,11 +24,6 @@ public class ToolCard implements IToolCard {
     private String description;
 
     /**
-     *
-     */
-    private boolean placement;
-
-    /**
      * Color of the card. This is only used in single-player mode.
      */
     @SerializedName("color")
@@ -109,13 +104,5 @@ public class ToolCard implements IToolCard {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public boolean isPlacement() {
-        return placement;
-    }
-
-    public void setPlacement(boolean placement) {
-        this.placement = placement;
     }
 }
