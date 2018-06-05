@@ -200,4 +200,12 @@ public class GamePlayManager extends AGameManager {
     public void setCurrentRound(int currentRound) {
         this.currentRound = currentRound;
     }
+
+    public List<Player> getPlayerList() {
+        return playerList;
+    }
+
+    public void setPlayerList(List<Player> playerList) {
+        this.playerList = playerList;
+    }
 }

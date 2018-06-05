@@ -8,6 +8,9 @@ import it.polimi.ingsw.model.move.AEffectMoveDecorator;
  */
 public abstract class AToolCardEffect extends AEffectMoveDecorator implements IToolCardEffect {
 
+
+
+
     ADieContainer sourceContainer;
 
     ADieContainer destinationContainer;

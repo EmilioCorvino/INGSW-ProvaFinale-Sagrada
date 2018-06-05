@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.controller.ControllerMaster;
+import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.view.ClientImplementation;
@@ -8,6 +9,7 @@ import it.polimi.ingsw.view.ClientImplementation;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class is the implementation of the remote interface {@link IRmiClient} and it's used for callback purposes.
@@ -48,6 +50,21 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
+    public void setCommonBoard(Map<String, SimplifiedWindowPatternCard> players, int[] idPubObj, int[] idTool) {
+        this.client.setCommonBoard(players, idPubObj, idTool);
+    }
+
+    @Override
+    public void setDraft(List<SetUpInformationUnit> draft) {
+        this.client.setDraft(draft);
+    }
+
+    @Override
+    public void setPlayer(String userName, int nFavTokens, int idPrivateObj) {
+        this.client.setPlayer(userName, nFavTokens, idPrivateObj);
+    }
+
+    @Override
     public void showCommand() {
         this.client.showCommand();
     }
@@ -60,6 +77,26 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     @Override
     public void showUpdatedWp(String username, SetUpInformationUnit info) {
         this.client.showUpdatedWp(username, info);
+    }
+
+    @Override
+    public void updateOwnWp(String userName, SetUpInformationUnit unit) {
+        this.client.updateOwnWp(userName, unit);
+    }
+
+    @Override
+    public void updateAllWp(Map<String, SetUpInformationUnit> allWp) {
+        this.client.updateAllWp(allWp);
+    }
+
+    @Override
+    public void updateDraft(InformationUnit info) {
+        this.client.updateDraft(info);
+    }
+
+    @Override
+    public void updateFavTokenPlayer(String userName, int nFavorToken) {
+        this.client.updateFavTokenPlayer(userName, nFavorToken);
     }
 
     @Override

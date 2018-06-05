@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.controller.ControllerMaster;
+import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.network.IFromServerToClient;
@@ -9,6 +9,7 @@ import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 /**
@@ -80,6 +81,33 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
+    public void setCommonBoard(Map<String, SimplifiedWindowPatternCard> players, int[] idPubObj, int[] idTool) throws BrokenConnectionException {
+        try {
+            this.rmiClient.setCommonBoard(players, idPubObj, idTool);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to show clients the initialized board", e);
+        }
+    }
+
+    @Override
+    public void setDraft(List<SetUpInformationUnit> draft) throws BrokenConnectionException {
+        try {
+            this.rmiClient.setDraft(draft);
+        } catch (RemoteException e) {
+        SagradaLogger.log(Level.SEVERE, "Impossible to show clients the initialized draft pool", e);
+    }
+    }
+
+    @Override
+    public void setPlayer(String userName, int nFavTokens, int idPrivateObj) throws BrokenConnectionException {
+        try {
+            this.rmiClient.setPlayer(userName, nFavTokens, idPrivateObj);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to correctly set the player", e);
+        }
+    }
+
+    @Override
     public void showCommand() throws BrokenConnectionException {
         try {
             this.rmiClient.showCommand();
@@ -111,6 +139,43 @@ public class RmiFromServerToClient implements IFromServerToClient {
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to show to the client the updated wp", e);
             throw new BrokenConnectionException();
+        }
+    }
+
+    @Override
+    public void updateOwnWp(String userName, SetUpInformationUnit unit) throws BrokenConnectionException {
+        try {
+            this.rmiClient.updateOwnWp(userName, unit);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to update the window pattern card of the player", e);
+        }
+    }
+
+    @Override
+    public void updateAllWp(Map<String, SetUpInformationUnit> allWp) throws BrokenConnectionException {
+        try {
+            this.rmiClient.updateAllWp(allWp);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to update the window pattern cards of the" +
+                    " other players", e);
+        }
+    }
+
+    @Override
+    public void updateDraft(InformationUnit info) throws BrokenConnectionException {
+        try {
+            this.rmiClient.updateDraft(info);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to update draft pool", e);
+        }
+    }
+
+    @Override
+    public void updateFavTokenPlayer(String userName, int nFavorToken) throws BrokenConnectionException {
+        try {
+            this.rmiClient.updateFavTokenPlayer(userName, nFavorToken);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to update the facor tokens owned by the player", e);
         }
     }
 

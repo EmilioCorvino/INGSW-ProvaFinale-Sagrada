@@ -70,16 +70,16 @@ public class WindowPatternCardDeckTest {
             }
         }
 
-        assertEquals(wp2.getGlassWindow()[2][2].getDefaultColorRestriction().getColor(), windowPatternCardDeck.getAvailableWP().get(1).getGlassWindow()[2][2].getDefaultColorRestriction().getColor());
+        assertEquals(wp2.getGlassWindow()[2][2].getDefaultColorRestriction().getColor(), windowPatternCardDeck.getAvailableWP().get(2).getGlassWindow()[2][2].getDefaultColorRestriction().getColor());
 
         for(int i = 0; i < wp2.MAX_ROW; i++) {
             for (int j = 0; j < wp2.MAX_COL; j++) {
                 if (wp2.getGlassWindow()[i][j].getDefaultColorRestriction() != null)
                     assertEquals(wp2.getGlassWindow()[i][j].getDefaultColorRestriction().getColor(),
-                            windowPatternCardDeck.getAvailableWP().get(1).getGlassWindow()[i][j].getDefaultColorRestriction().getColor());
+                            windowPatternCardDeck.getAvailableWP().get(2).getGlassWindow()[i][j].getDefaultColorRestriction().getColor());
                 if (wp2.getGlassWindow()[i][j].getDefaultValueRestriction() != null)
                     assertEquals(wp2.getGlassWindow()[i][j].getDefaultValueRestriction().getValue(),
-                            windowPatternCardDeck.getAvailableWP().get(1).getGlassWindow()[i][j].getDefaultValueRestriction().getValue());
+                            windowPatternCardDeck.getAvailableWP().get(2).getGlassWindow()[i][j].getDefaultValueRestriction().getValue());
             }
         }
 
@@ -91,6 +91,6 @@ public class WindowPatternCardDeckTest {
         WindowPatternCardDeck windowPatternCardDeck = new WindowPatternCardDeck();
         windowPatternCardDeck.parseDeck();
 
-        assertEquals(2, windowPatternCardDeck.getAvailableWP().size());
+        assertEquals(24, windowPatternCardDeck.getAvailableWP().size());
     }
 }

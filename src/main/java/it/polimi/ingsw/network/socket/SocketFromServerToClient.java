@@ -1,12 +1,13 @@
 package it.polimi.ingsw.network.socket;
 
-import it.polimi.ingsw.controller.ControllerMaster;
+import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 
 import java.util.List;
+import java.util.Map;
 
 public class SocketFromServerToClient implements IFromServerToClient {
     @Override
@@ -30,6 +31,21 @@ public class SocketFromServerToClient implements IFromServerToClient {
     }
 
     @Override
+    public void setCommonBoard(Map<String, SimplifiedWindowPatternCard> players, int[] idPubObj, int[] idTool) throws BrokenConnectionException {
+
+    }
+
+    @Override
+    public void setDraft(List<SetUpInformationUnit> draft) throws BrokenConnectionException {
+
+    }
+
+    @Override
+    public void setPlayer(String userName, int nFavTokens, int idPrivateObj) throws BrokenConnectionException {
+
+    }
+
+    @Override
     public void showCommand() throws BrokenConnectionException {
 
     }
@@ -41,6 +57,26 @@ public class SocketFromServerToClient implements IFromServerToClient {
 
     @Override
     public void showUpdatedWp(String username, SetUpInformationUnit info) throws BrokenConnectionException {
+
+    }
+
+    @Override
+    public void updateOwnWp(String userName, SetUpInformationUnit unit) throws BrokenConnectionException {
+
+    }
+
+    @Override
+    public void updateAllWp(Map<String, SetUpInformationUnit> allWp) throws BrokenConnectionException {
+
+    }
+
+    @Override
+    public void updateDraft(InformationUnit info) throws BrokenConnectionException {
+
+    }
+
+    @Override
+    public void updateFavTokenPlayer(String userName, int nFavorToken) throws BrokenConnectionException {
 
     }
 

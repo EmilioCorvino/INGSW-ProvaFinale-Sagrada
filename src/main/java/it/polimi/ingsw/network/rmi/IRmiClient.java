@@ -1,12 +1,13 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.controller.ControllerMaster;
+import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This interface presents the same methods as {@link it.polimi.ingsw.network.IFromServerToClient}, but suited for a RMI
@@ -26,11 +27,25 @@ public interface IRmiClient extends Remote {
 
     void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) throws RemoteException;
 
+    void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool) throws RemoteException;
+
+    void setDraft(List<SetUpInformationUnit> draft) throws RemoteException;
+
+    void setPlayer(String userName, int nFavTokens, int idPrivateObj) throws RemoteException;
+
     void showCommand() throws RemoteException;
 
     void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws RemoteException;
 
     void showUpdatedWp(String username, SetUpInformationUnit info) throws RemoteException;
+
+    void updateOwnWp(String userName, SetUpInformationUnit unit)throws RemoteException;
+
+    void updateAllWp(Map<String, SetUpInformationUnit> allWp) throws RemoteException;
+
+    void updateDraft(InformationUnit info) throws RemoteException;
+
+    void updateFavTokenPlayer(String userName, int nFavorToken) throws RemoteException;
 
     void showNotice(String notice) throws RemoteException;
 
