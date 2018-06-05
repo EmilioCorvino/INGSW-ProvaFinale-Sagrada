@@ -65,7 +65,5 @@ public interface IFromServerToClient {
 
     void showNotice(String notice) throws BrokenConnectionException;
 
-    void runCli() throws BrokenConnectionException;
-
     void setMyTurn(boolean myTurn) throws BrokenConnectionException;
 }
