@@ -14,11 +14,21 @@ public class ToolCardSlot extends AContainer {
      */
     private final IToolCard toolCard;
 
+    /**
+     * Cost, in favor tokens, to use the {@link it.polimi.ingsw.model.cards.tool.ToolCard}. If it hasn't been used
+     * before, the cost is 1, otherwise is 2.
+     */
+    private int cost;
+
     public ToolCardSlot(IToolCard card) {
         this.toolCard = card;
     }
 
     public IToolCard getToolCard() {
         return toolCard;
+    }
+
+    public int getCost() {
+        return cost;
     }
 }
