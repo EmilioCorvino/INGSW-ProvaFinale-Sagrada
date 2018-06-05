@@ -67,15 +67,6 @@ public class GamePlayManager extends AGameManager {
 
         super.getControllerMaster().startTurnPlayer(playerList.get(currentPlayer));
 
-        /*
-        super.getControllerMaster().getConnectedPlayers().get(currentPlayer).getClient().setMyTurn(true);
-        for(Player p: this.playerList){
-            if (!p.isSamePlayerAs(playerList.get(currentPlayer)){
-                super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient().setMyTurn(false);
-                super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient().run();
-            }
-        }
-        */
     }
 
     /**
@@ -96,7 +87,14 @@ public class GamePlayManager extends AGameManager {
      * @param currentPlayer
      */
     public void startTurn(Player currentPlayer) {
-        try {
+        //GIAN
+
+        try{
+            super.getControllerMaster().getConnectedPlayers().get(currentPlayer.getPlayerName()).getClient().setMyTurn(true);
+            for(Player p: this.playerList) {
+                if (!p.isSamePlayerAs(playerList.get(this.currentPlayer)))
+                    super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient().setMyTurn(false);
+            }
             super.getControllerMaster().getConnectedPlayers().get(currentPlayer.getPlayerName()).getClient().showCommand();
         } catch(BrokenConnectionException br) {
             //handle broken connection
