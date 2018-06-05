@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
+import org.fusesource.jansi.AnsiConsole;
+
 import java.util.Scanner;
 
 /**
@@ -19,6 +21,11 @@ public class InputOutputManager {
 
     public void print(String string){
         System.out.println(string);
+        /*
+        System.setProperty("jansi.passthrough", "true");
+        AnsiConsole.systemInstall();
+        AnsiConsole.out.println(string);
+        */
     }
 
 }
