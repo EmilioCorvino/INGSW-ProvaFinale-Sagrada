@@ -41,11 +41,18 @@ public class GamePlayManager extends AGameManager {
      */
     private int currentPlayer;
 
+    /**
+     *
+     */
+    private TurnTracker turnTracker;
+
+
     public GamePlayManager(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
         playerList = new ArrayList<>();
         this.startPlayer = 0;
         this.currentRound = 1;
+        turnTracker = new TurnTracker();
     }
 
     /**
@@ -53,7 +60,6 @@ public class GamePlayManager extends AGameManager {
      * //TODO testing
      */
     public void initializePlayerList() {
-        System.out.println("initializing players....");
         List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
         List<Player> supportList = new ArrayList<>();
         players.forEach(player -> {
@@ -66,16 +72,6 @@ public class GamePlayManager extends AGameManager {
         //reOrderPlayerList();
 
         super.getControllerMaster().startTurnPlayer(playerList.get(currentPlayer));
-
-        /*
-        super.getControllerMaster().getConnectedPlayers().get(currentPlayer).getClient().setMyTurn(true);
-        for(Player p: this.playerList){
-            if (!p.isSamePlayerAs(playerList.get(currentPlayer)){
-                super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient().setMyTurn(false);
-                super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient().run();
-            }
-        }
-        */
     }
 
     /**
@@ -90,12 +86,24 @@ public class GamePlayManager extends AGameManager {
         }
     }
 
+    public void endRound() {
+        currentRound ++;
+        if(currentRound > NUM_ROUND) {
+            //end match
+        }
+    }
+
+    public void checkTurn() {
+
+
+    }
 
     /**
      *
      * @param currentPlayer
      */
     public void startTurn(Player currentPlayer) {
+
         try {
             super.getControllerMaster().getConnectedPlayers().get(currentPlayer.getPlayerName()).getClient().showCommand();
         } catch(BrokenConnectionException br) {
@@ -207,5 +215,17 @@ public class GamePlayManager extends AGameManager {
 
     public void setPlayerList(List<Player> playerList) {
         this.playerList = playerList;
+    }
+
+    public int getNUM_ROUND() {
+        return NUM_ROUND;
+    }
+
+    public TurnTracker getTurnTracker() {
+        return turnTracker;
+    }
+
+    public void setTurnTracker(TurnTracker turnTracker) {
+        this.turnTracker = turnTracker;
     }
 }
