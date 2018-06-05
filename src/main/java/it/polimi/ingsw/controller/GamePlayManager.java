@@ -2,7 +2,6 @@ package it.polimi.ingsw.controller;
 
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.model.cards.ToolCardSlot;
 import it.polimi.ingsw.model.move.DiePlacementMove;
 import it.polimi.ingsw.model.move.IMove;
 import it.polimi.ingsw.model.player.Player;
@@ -42,18 +41,11 @@ public class GamePlayManager extends AGameManager {
      */
     private int currentPlayer;
 
-    /**
-     *
-     */
-    private TurnTracker turnTracker;
-
-
     public GamePlayManager(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
         playerList = new ArrayList<>();
         this.startPlayer = 0;
         this.currentRound = 1;
-        turnTracker = new TurnTracker();
     }
 
     /**
@@ -61,6 +53,7 @@ public class GamePlayManager extends AGameManager {
      * //TODO testing
      */
     public void initializePlayerList() {
+        System.out.println("initializing players....");
         List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
         List<Player> supportList = new ArrayList<>();
         players.forEach(player -> {
@@ -72,24 +65,7 @@ public class GamePlayManager extends AGameManager {
             playerList.add(supportList.get(i));
         //reOrderPlayerList();
 
-        //super.getControllerMaster().startTurnPlayer(playerList.get(currentPlayer));
-        startMatch();
-
-    }
-
-    //external cycle
-    private void startMatch() {
-        //ciclo tutti i client per mostrargli la common board
-
-        while(this.currentRound <= NUM_ROUND) {
-            playerList.forEach(player -> {
-                
-                //metodo scritto da gian
-
-                startTurn(player);
-            });
-        }
-
+        super.getControllerMaster().startTurnPlayer(playerList.get(currentPlayer));
 
     }
 
@@ -105,27 +81,20 @@ public class GamePlayManager extends AGameManager {
         }
     }
 
-    public void endRound() {
-        currentRound ++;
-        if(currentRound > NUM_ROUND) {
-            //end match
-        }
-    }
-
-    public void checkTurn() {
-        List<ToolCardSlot> cardSlots = super.getControllerMaster().getCommonBoard().getToolCardSlots();
-         if(turnTracker.isDiePlaced() && turnTracker.existToolCardToUse(cardSlots, playerList.get(currentPlayer)))
-             endTurn();
-
-    }
 
     /**
      *
      * @param currentPlayer
      */
     public void startTurn(Player currentPlayer) {
+        //GIAN
 
-        try {
+        try{
+            super.getControllerMaster().getConnectedPlayers().get(currentPlayer.getPlayerName()).getClient().setMyTurn(true);
+            for(Player p: this.playerList) {
+                if (!p.isSamePlayerAs(playerList.get(this.currentPlayer)))
+                    super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient().setMyTurn(false);
+            }
             super.getControllerMaster().getConnectedPlayers().get(currentPlayer.getPlayerName()).getClient().showCommand();
         } catch(BrokenConnectionException br) {
             //handle broken connection
@@ -140,13 +109,6 @@ public class GamePlayManager extends AGameManager {
         //increment current player variable
         playerList.remove(playerList.get(startPlayer));
         startPlayer++;
-        Player p = playerList.get(currentPlayer+1);
-        try{
-            super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient().showCommand();
-
-        } catch (BrokenConnectionException br) {
-
-        }
         //lock ex current player
     }
 
@@ -243,17 +205,5 @@ public class GamePlayManager extends AGameManager {
 
     public void setPlayerList(List<Player> playerList) {
         this.playerList = playerList;
-    }
-
-    public int getNUM_ROUND() {
-        return NUM_ROUND;
-    }
-
-    public TurnTracker getTurnTracker() {
-        return turnTracker;
-    }
-
-    public void setTurnTracker(TurnTracker turnTracker) {
-        this.turnTracker = turnTracker;
     }
 }

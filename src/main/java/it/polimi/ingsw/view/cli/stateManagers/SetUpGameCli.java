@@ -54,7 +54,7 @@ public class SetUpGameCli {
         String idChosen = null;
 
         while(!validInput) {
-            idChosen = inputOutputManager.askInformation("Inserire l'id della mappa scelta: ");
+            idChosen = inputOutputManager.askInformation("\nInserire l'id della mappa scelta: ");
             validInput = Pattern.matches("\\d*", idChosen);
         }
         return Integer.parseInt(idChosen);

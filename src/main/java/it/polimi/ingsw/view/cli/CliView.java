@@ -25,8 +25,6 @@ import java.util.logging.Level;
 
 public class CliView extends AViewMaster implements Runnable{
 
-    private Thread threadInputs;
-
     /**
      * This attribute is set true when is the turn of this client else is set false.
      */
@@ -220,9 +218,10 @@ public class CliView extends AViewMaster implements Runnable{
      * 1: make a placement move
      * 2: make a tool move
      * 3: show the wp of all players.
-     * 4: show the pub obj cards.
+     * 4: show the public objective cards.
      * 5: show the tool cards
-     * 6: end the turn
+     * 6: show the private objective card.
+     * 7: end the turn
      */
 
     @Override
@@ -244,7 +243,7 @@ public class CliView extends AViewMaster implements Runnable{
                         break;
                 */
 
-            case 3:     gamePlaySate.printAllWp(commonBoard.getPlayers());
+            case 3:     gamePlaySate.printAllWp(commonBoard.getPlayers(), this.player);
                         this.showCommand();
                         break;
 
@@ -256,7 +255,7 @@ public class CliView extends AViewMaster implements Runnable{
                         this.showCommand();
                         break;
 
-            case 6:     gamePlaySate.printPrivObj(this.player.getPrivateObjCard());
+            case 6:     gamePlaySate.printPrivateObj(this.player.getPrivateObjCard());
                         this.showCommand();
                         break;
                         /*
@@ -267,6 +266,8 @@ public class CliView extends AViewMaster implements Runnable{
                         }
                         break;
                 */
+            default:    this.showCommand();
+                        break;
         }
     }
 
@@ -381,15 +382,14 @@ public class CliView extends AViewMaster implements Runnable{
     @Override
     public void run() {
         Scanner scanner = new Scanner(System.in);
-        isMyTurn = false;
 
-        threadInputs = new Thread(() -> {
+        Thread threadInputs = new Thread(() -> {
             while (!isMyTurn) {
                 gamePlaySate.showNotMyTurnCommand();
                 int commandChosen = Integer.parseInt(scanner.nextLine());
                 switch (commandChosen) {
                     case 1:
-                        gamePlaySate.printAllWp(commonBoard.getPlayers());
+                        gamePlaySate.printAllWp(commonBoard.getPlayers(), this.player);
                         break;
 
                     case 2:
@@ -401,8 +401,9 @@ public class CliView extends AViewMaster implements Runnable{
                         break;
 
                     case 4:
-                        gamePlaySate.printPrivObj(this.player.getPrivateObjCard());
+                        gamePlaySate.printPrivateObj(this.player.getPrivateObjCard());
                         break;
+                    default:
                 }
             }
         });

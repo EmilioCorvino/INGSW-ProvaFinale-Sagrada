@@ -78,7 +78,7 @@ public class GamePlayCli implements Serializable {
      * @return: the command chosen.
      */
     public int showCommand(){
-        inputOutputManager.print("E' il tuo turno!");
+        inputOutputManager.print("\nE' il tuo turno!");
 
         int commandChosen = Integer.parseInt(inputOutputManager.askInformation("Scegli il comando:" +
                 "\n\t 1 - Piazzamento\n\t 2 - Uso Tool\n\t 3 - Visualizza mappe altri giocatori" +
@@ -91,10 +91,10 @@ public class GamePlayCli implements Serializable {
     }
 
     public void showNotMyTurnCommand(){
-       inputOutputManager.print("Scegli il comando:" +
+       inputOutputManager.print("\nScegli il comando:" +
                 "\n\t 1 - Visualizza mappe altri giocatori" +
                 "\n\t 2 - Visualizza obiettivi pubblici\n\t" +
-               " 3 - Visualizza carte strumento\n\t 4 - Visualizza obiettivo privato)");
+               " 3 - Visualizza carte strumento\n\t 4 - Visualizza obiettivo privato");
     }
 
 
@@ -110,7 +110,7 @@ public class GamePlayCli implements Serializable {
     public void printPubObj(List<String> cards){
         int index = 1;
 
-        inputOutputManager.print("Carte obiettivo pubblico: ");
+        inputOutputManager.print("\nCarte obiettivo pubblico: ");
         for (String s : cards){
             inputOutputManager.print("\t - " + index + ": " + s);
             index ++;
@@ -120,21 +120,23 @@ public class GamePlayCli implements Serializable {
     public void printTool(Map<String, Integer> cards){
         int index = 1;
 
-        inputOutputManager.print("Carte strumento: ");
+        inputOutputManager.print("\nCarte strumento: ");
         for (Map.Entry<String,Integer> s : cards.entrySet()){
             inputOutputManager.print("\t - " + index + ": " + s.getKey() + " | Segnalini favore da usare: " + s.getValue());
             index ++;
         }
     }
 
-    public void printPrivObj(String card){
-        inputOutputManager.print("Il tuo obiettivo privato e': "+ card);
+    public void printPrivateObj(String card){
+        inputOutputManager.print("\nIl tuo obiettivo privato e': "+ card);
     }
 
-    public void printAllWp(List<PlayerView> players){
+    public void printAllWp(List<PlayerView> players, PlayerView currPlayer){
         for(PlayerView p : players){
-            inputOutputManager.print("Giocatore " + p.getUserName());
-            p.getWp().printWp();
+            if(!p.getUserName().equals(currPlayer.getUserName())) {
+                inputOutputManager.print("\nGiocatore " + p.getUserName());
+                p.getWp().printWp();
+            }
         }
     }
 }
