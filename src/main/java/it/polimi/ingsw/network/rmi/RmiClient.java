@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.controller.ControllerMaster;
 import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
@@ -60,8 +59,8 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
-    public void setPlayer(String userName, int nFavTokens, int idPrivateObj) {
-        this.client.setPlayer(userName, nFavTokens, idPrivateObj);
+    public void setPlayer(int nFavTokens, int idPrivateObj) {
+        this.client.setPlayer(nFavTokens, idPrivateObj);
     }
 
     @Override
@@ -80,13 +79,13 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
-    public void updateOwnWp(String userName, SetUpInformationUnit unit) {
-        this.client.updateOwnWp(userName, unit);
+    public void updateOwnWp(SetUpInformationUnit unit) {
+        this.client.updateOwnWp(unit);
     }
 
     @Override
-    public void updateAllWp(Map<String, SetUpInformationUnit> allWp) {
-        this.client.updateAllWp(allWp);
+    public void updateOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) {
+        this.client.updateOtherPlayerWp(userName, infoUnit);
     }
 
     @Override
@@ -95,8 +94,8 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
-    public void updateFavTokenPlayer(String userName, int nFavorToken) {
-        this.client.updateFavTokenPlayer(userName, nFavorToken);
+    public void updateFavTokenPlayer(int nFavorToken) {
+        this.client.updateFavTokenPlayer(nFavorToken);
     }
 
     @Override

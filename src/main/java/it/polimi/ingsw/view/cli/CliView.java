@@ -198,12 +198,11 @@ public class CliView extends AViewMaster implements Runnable{
 
     /**
      * This method give at the player connected to this client the information of his private objective card and the number of his favor tokens.
-     * @param userName: the userName.
-     * @param nFavTokens: the number of favor tokens.
-     * @param idPrivateObj: the id of his private obj card.
+     * @param nFavTokens : the number of favor tokens.
+     * @param idPrivateObj : the id of his private obj card.
      */
     @Override
-    public void setPlayer(String userName, int nFavTokens, int idPrivateObj){
+    public void setPlayer(int nFavTokens, int idPrivateObj){
 
         this.player.setFavorToken(nFavTokens);
         this.initializationState.createPrivateObjCard(idPrivateObj, this.player);
@@ -290,38 +289,38 @@ public class CliView extends AViewMaster implements Runnable{
 
     /**
      * This method update the wp of the player connected and print it.
-     * @param userName: name of player connected.
-     * @param unit: information for the update, index of matrix and die that needs to be place.
+     * @param unit : information for the update, index of matrix and die that needs to be place.
      */
     @Override
-    public void updateOwnWp(String userName, SetUpInformationUnit unit){
+    public void updateOwnWp(SetUpInformationUnit unit){
 
         for (PlayerView p : commonBoard.getPlayers())
-            if(p.getUserName().equals(userName)) {
+            if (p.getUserName().equals(this.player.getUserName())){
                 gamePlaySate.updateWp(p.getWp(), unit);
                 p.getWp().printWp();
                 return;
             }
+
     }
 
     /**
      * This method update the wp of all player.
-     * @param allWp: A map which contains the information to modify the wp of the player specified by the key.
+     * @param userName : The userName of the player with the wp modified
+     * @param infoUnit : The info of modification of the wp.
      */
     @Override
-    public void updateAllWp(Map<String, SetUpInformationUnit> allWp){
+    public void updateOtherPlayerWp(String userName, SetUpInformationUnit infoUnit){
 
-        for (Map.Entry<String, SetUpInformationUnit> p : allWp.entrySet())
-            for (PlayerView ply : this.commonBoard.getPlayers())
-                if (ply.getUserName().equals(p.getKey())) {
-                    gamePlaySate.updateWp(ply.getWp(), p.getValue());
-                    return;
-                }
+        for (PlayerView ply : this.commonBoard.getPlayers())
+            if (ply.getUserName().equals(userName)) {
+                gamePlaySate.updateWp(ply.getWp(), infoUnit);
+                return;
+            }
 
     }
 
     /**
-     * This method remove a die from the draft in a specified index.
+     * This method remove a die fr<om the draft in a specified index.
      * @param info: the containers of the index information.
      */
     @Override
@@ -331,11 +330,10 @@ public class CliView extends AViewMaster implements Runnable{
 
     /**
      * This method update the number of favor token assigned to a player
-     * @param userName: the number of player connected to this client
-     * @param nFavorToken: number of favor token remain.
+     * @param nFavorToken : number of favor token remain.
      */
     @Override
-    public void updateFavTokenPlayer(String userName, int nFavorToken){
+    public void updateFavTokenPlayer(int nFavorToken){
         this.player.setFavorToken(nFavorToken);
     }
 

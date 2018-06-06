@@ -91,12 +91,15 @@ public class CommonBoard {
         this.toolCardSlots = new ArrayList<>();
         this.privateObjectiveCardsDeck = new PrivateObjectiveCardsDeck();
         this.privateObjectiveCardsDeck.parseDeck();
+        this.populatePubObjSlots();
         this.publicObjectiveCardsDeck = new PublicObjectiveCardsDeck();
         this.publicObjectiveCardsDeck.parseDeck();
+        this.givePrivateObjCard();
         this.windowPatternCardDeck = new WindowPatternCardDeck();
         this.windowPatternCardDeck.parseDeck();
         this.toolCardsDeck = new ToolCardsDeck();
         this.toolCardsDeck.parseDeck();
+        this.populateToolSlots();
         this.playerMap = new HashMap<>();
     }
 

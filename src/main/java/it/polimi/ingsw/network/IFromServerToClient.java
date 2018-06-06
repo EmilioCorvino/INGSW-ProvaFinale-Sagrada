@@ -46,7 +46,7 @@ public interface IFromServerToClient {
 
     void setDraft(List<SetUpInformationUnit> draft) throws BrokenConnectionException;
 
-    void setPlayer(String userName, int nFavTokens, int idPrivateObj) throws BrokenConnectionException;
+    void setPlayer(int nFavTokens, int idPrivateObj) throws BrokenConnectionException;
 
     void showCommand() throws BrokenConnectionException;
 
@@ -55,13 +55,13 @@ public interface IFromServerToClient {
     // DA CANCELLARE
     void showUpdatedWp(String username, SetUpInformationUnit info) throws BrokenConnectionException;
 
-    void updateOwnWp(String userName, SetUpInformationUnit unit)throws BrokenConnectionException;
+    void updateOwnWp(SetUpInformationUnit unit)throws BrokenConnectionException;
 
-    void updateAllWp(Map<String, SetUpInformationUnit> allWp) throws BrokenConnectionException;
+    void updateOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) throws BrokenConnectionException;
 
     void updateDraft(InformationUnit info) throws BrokenConnectionException;
 
-    void updateFavTokenPlayer(String userName, int nFavorToken) throws BrokenConnectionException;
+    void updateFavTokenPlayer(int nFavorToken) throws BrokenConnectionException;
 
     void showNotice(String notice) throws BrokenConnectionException;
 

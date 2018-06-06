@@ -101,9 +101,9 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void setPlayer(String userName, int nFavTokens, int idPrivateObj) throws BrokenConnectionException {
+    public void setPlayer(int nFavTokens, int idPrivateObj) throws BrokenConnectionException {
         try {
-            this.rmiClient.setPlayer(userName, nFavTokens, idPrivateObj);
+            this.rmiClient.setPlayer(nFavTokens, idPrivateObj);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to correctly set the player", e);
             throw new BrokenConnectionException();
@@ -146,9 +146,9 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void updateOwnWp(String userName, SetUpInformationUnit unit) throws BrokenConnectionException {
+    public void updateOwnWp(SetUpInformationUnit unit) throws BrokenConnectionException {
         try {
-            this.rmiClient.updateOwnWp(userName, unit);
+            this.rmiClient.updateOwnWp(unit);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to update the window pattern card of the player", e);
             throw new BrokenConnectionException();
@@ -156,9 +156,9 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void updateAllWp(Map<String, SetUpInformationUnit> allWp) throws BrokenConnectionException {
+    public void updateOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) throws BrokenConnectionException {
         try {
-            this.rmiClient.updateAllWp(allWp);
+            this.rmiClient.updateOtherPlayerWp(userName, );
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to update the window pattern cards of the" +
                     " other players", e);
@@ -177,9 +177,9 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void updateFavTokenPlayer(String userName, int nFavorToken) throws BrokenConnectionException {
+    public void updateFavTokenPlayer(int nFavorToken) throws BrokenConnectionException {
         try {
-            this.rmiClient.updateFavTokenPlayer(userName, nFavorToken);
+            this.rmiClient.updateFavTokenPlayer(nFavorToken);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to update the facor tokens owned by the player", e);
             throw new BrokenConnectionException();

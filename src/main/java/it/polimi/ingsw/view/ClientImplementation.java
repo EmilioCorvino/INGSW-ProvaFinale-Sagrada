@@ -56,8 +56,8 @@ public class ClientImplementation implements IFromServerToClient {
     }
 
     @Override
-    public void setPlayer(String userName, int nFavTokens, int idPrivateObj){
-        view.setPlayer(userName,nFavTokens,idPrivateObj);
+    public void setPlayer(int nFavTokens, int idPrivateObj){
+        view.setPlayer(nFavTokens,idPrivateObj);
     }
 
     @Override
@@ -77,13 +77,13 @@ public class ClientImplementation implements IFromServerToClient {
     }
 
     @Override
-    public void updateOwnWp(String userName, SetUpInformationUnit unit){
-        view.updateOwnWp(userName, unit);
+    public void updateOwnWp(SetUpInformationUnit unit){
+        view.updateOwnWp(unit);
     }
 
     @Override
-    public void updateAllWp(Map<String, SetUpInformationUnit> allWp){
-        view.updateAllWp(allWp);
+    public void updateOtherPlayerWp(String userName, SetUpInformationUnit infoUnit){
+        view.updateOtherPlayerWp(userName,infoUnit);
     }
 
     @Override
@@ -92,8 +92,8 @@ public class ClientImplementation implements IFromServerToClient {
     }
 
     @Override
-    public void updateFavTokenPlayer(String userName, int nFavorToken){
-        view.updateFavTokenPlayer(userName, nFavorToken);
+    public void updateFavTokenPlayer(int nFavorToken){
+        view.updateFavTokenPlayer(nFavorToken);
     }
 
     @Override

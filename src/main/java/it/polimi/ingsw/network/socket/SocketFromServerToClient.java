@@ -41,7 +41,7 @@ public class SocketFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void setPlayer(String userName, int nFavTokens, int idPrivateObj) throws BrokenConnectionException {
+    public void setPlayer(int nFavTokens, int idPrivateObj) throws BrokenConnectionException {
 
     }
 
@@ -61,12 +61,12 @@ public class SocketFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void updateOwnWp(String userName, SetUpInformationUnit unit) throws BrokenConnectionException {
+    public void updateOwnWp(SetUpInformationUnit unit) throws BrokenConnectionException {
 
     }
 
     @Override
-    public void updateAllWp(Map<String, SetUpInformationUnit> allWp) throws BrokenConnectionException {
+    public void updateOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) throws BrokenConnectionException {
 
     }
 
@@ -76,7 +76,7 @@ public class SocketFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void updateFavTokenPlayer(String userName, int nFavorToken) throws BrokenConnectionException {
+    public void updateFavTokenPlayer(int nFavorToken) throws BrokenConnectionException {
 
     }
 

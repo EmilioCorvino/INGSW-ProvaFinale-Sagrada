@@ -25,7 +25,7 @@ public abstract class AViewMaster {
 
     public abstract void setDraft(List<SetUpInformationUnit> draft);
 
-    public abstract void setPlayer(String userName, int nFavTokens, int idPrivateObj);
+    public abstract void setPlayer(int nFavTokens, int idPrivateObj);
 
     public abstract void showCommand();
 
@@ -34,13 +34,13 @@ public abstract class AViewMaster {
     // DA CANCELLARE
     public abstract void showUpdatedWp(String username, SetUpInformationUnit info);
 
-    public abstract void updateOwnWp(String userName, SetUpInformationUnit unit);
+    public abstract void updateOwnWp(SetUpInformationUnit unit);
 
-    public abstract void updateAllWp(Map<String, SetUpInformationUnit> allWp);
+    public abstract void updateOtherPlayerWp(String userName, SetUpInformationUnit infoUnit);
 
     public abstract void updateDraft(InformationUnit info);
 
-    public abstract void updateFavTokenPlayer(String userName, int nFavorToken);
+    public abstract void updateFavTokenPlayer(int nFavorToken);
 
     public abstract void showNotice(String notice);
 

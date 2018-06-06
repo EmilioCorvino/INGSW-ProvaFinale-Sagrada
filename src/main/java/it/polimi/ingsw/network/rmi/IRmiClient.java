@@ -31,7 +31,7 @@ public interface IRmiClient extends Remote {
 
     void setDraft(List<SetUpInformationUnit> draft) throws RemoteException;
 
-    void setPlayer(String userName, int nFavTokens, int idPrivateObj) throws RemoteException;
+    void setPlayer(int nFavTokens, int idPrivateObj) throws RemoteException;
 
     void showCommand() throws RemoteException;
 
@@ -39,13 +39,13 @@ public interface IRmiClient extends Remote {
 
     void showUpdatedWp(String username, SetUpInformationUnit info) throws RemoteException;
 
-    void updateOwnWp(String userName, SetUpInformationUnit unit)throws RemoteException;
+    void updateOwnWp(SetUpInformationUnit unit)throws RemoteException;
 
-    void updateAllWp(Map<String, SetUpInformationUnit> allWp) throws RemoteException;
+    void updateOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) throws RemoteException;
 
     void updateDraft(InformationUnit info) throws RemoteException;
 
-    void updateFavTokenPlayer(String userName, int nFavorToken) throws RemoteException;
+    void updateFavTokenPlayer(int nFavorToken) throws RemoteException;
 
     void showNotice(String notice) throws RemoteException;
 
