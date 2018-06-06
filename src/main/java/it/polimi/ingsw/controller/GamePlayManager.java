@@ -65,8 +65,24 @@ public class GamePlayManager extends AGameManager {
             playerList.add(supportList.get(i));
         //reOrderPlayerList();
 
-        super.getControllerMaster().startTurnPlayer(playerList.get(currentPlayer));
 
+        //super.getControllerMaster().startTurnPlayer(playerList.get(currentPlayer));
+        startMatch();
+
+    }
+
+    //external cycle
+    private void startMatch() {
+        //ciclo tutti i client per mostrargli la common board
+
+        while(this.currentRound <= NUM_ROUND) {
+            playerList.forEach(player -> {
+                startTurn(player);
+                //this.turnTracker.checkTurn(...params...)
+            });
+            currentRound ++;
+        }
+        //endMatch()
     }
 
     /**

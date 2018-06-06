@@ -38,6 +38,7 @@ public class ServerImplementation implements IFromClientToServer {
     public void defaultMoveRequest() {
         String username = connectionsQueue.poll().getUserName();
         controller.checkMoveAvailability(username);
+        //checkTurn
 
     }
 
