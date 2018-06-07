@@ -20,10 +20,9 @@ import it.polimi.ingsw.view.cli.stateManagers.SetUpGameCli;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.logging.Level;
 
-public class CliView extends AViewMaster implements Runnable{
+public class CliView extends AViewMaster{
 
     /**
      * This attribute is set true when is the turn of this client else is set false.
@@ -376,37 +375,11 @@ public class CliView extends AViewMaster implements Runnable{
 //                  CLIENT NOT SERVED
 //----------------------------------------------------------
 
-
     @Override
-    public void run() {
-        Scanner scanner = new Scanner(System.in);
-
-        Thread threadInputs = new Thread(() -> {
-            while (!isMyTurn) {
-                gamePlaySate.showNotMyTurnCommand();
-                int commandChosen = Integer.parseInt(scanner.nextLine());
-                switch (commandChosen) {
-                    case 1:
-                        gamePlaySate.printAllWp(commonBoard.getPlayers(), this.player);
-                        break;
-
-                    case 2:
-                        gamePlaySate.printPubObj(commonBoard.getPublicObjectiveCards());
-                        break;
-
-                    case 3:
-                        gamePlaySate.printTool(commonBoard.getToolCards());
-                        break;
-
-                    case 4:
-                        gamePlaySate.printPrivateObj(this.player.getPrivateObjCard());
-                        break;
-                    default:
-                }
-            }
-        });
-
-        threadInputs.start();
+    public void setMyTurn(boolean myTurn) {
+        isMyTurn = myTurn;
+        OutOfTurnManager manager = new OutOfTurnManager(this);
+        manager.run();
     }
 
 //----------------------------------------------------------
@@ -424,10 +397,18 @@ public class CliView extends AViewMaster implements Runnable{
         return isMyTurn;
     }
 
-    @Override
-    public void setMyTurn(boolean myTurn) {
-        isMyTurn = myTurn;
-        this.run();
+
+
+    GamePlayCli getGamePlaySate() {
+        return gamePlaySate;
+    }
+
+    public CommonBoardView getCommonBoard() {
+        return commonBoard;
+    }
+
+    public PlayerView getPlayer() {
+        return player;
     }
 
     private PlayerView getPlayerConnected(){
