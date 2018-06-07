@@ -3,6 +3,10 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.model.CommonBoard;
+import it.polimi.ingsw.model.cards.PublicObjectiveCardSlot;
+import it.polimi.ingsw.model.cards.ToolCardSlot;
+import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard;
+import it.polimi.ingsw.model.cards.tool.ToolCard;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
@@ -153,12 +157,19 @@ public class StartGameManager extends AGameManager {
      *
      */
     public void setCommonBoard() {
+        super.getControllerMaster().getCommonBoard().givePrivateObjCard();
         List<SetUpInformationUnit> draftPool = draftPoolConverter();
         Map<String, SimplifiedWindowPatternCard> mapOfWp = mapsOfPlayersConverter();
+        int [] idPubObj = pubObjConverter();
+        int [] idTool = toolConverter();
+
 
         super.getControllerMaster().getConnectedPlayers().entrySet().forEach(entry -> {
                 try {
-                    entry.getValue().getClient().showCommonBoard(draftPool, mapOfWp.get(entry.getKey()));
+                    entry.getValue().getClient().setCommonBoard(mapOfWp, idPubObj, idTool);
+                    entry.getValue().getClient().setDraft(draftPool);
+                    entry.getValue().getClient().setPlayer(numberFavTokenConverter(entry.getKey()), privateObjCardConverter(entry.getKey()));
+                    //entry.getValue().getClient().showCommonBoard(draftPool, mapOfWp.get(entry.getKey()));
                 } catch (BrokenConnectionException e) {
                     e.printStackTrace();
                 }
@@ -178,6 +189,51 @@ public class StartGameManager extends AGameManager {
             mapOfWp.put(player.getPlayerName(), convertOneWp(player.getWindowPatternCard().getIdMap()));
         }
         return mapOfWp;
+    }
+
+    private int[] pubObjConverter(){
+        int index = 0;
+        int [] pubObj = new int[3];
+        List <PublicObjectiveCardSlot> slotList = super.getControllerMaster().getCommonBoard().getPublicObjectiveCardSlots();
+
+        for (PublicObjectiveCardSlot slot : slotList){
+            pubObj[index] = slot.getPublicObjectiveCard().getId();
+            index++;
+        }
+
+        return pubObj;
+    }
+
+    private int[] toolConverter(){
+        int index = 0;
+        int [] tool = new int[3];
+        List <ToolCardSlot> slotList = super.getControllerMaster().getCommonBoard().getToolCardSlots();
+
+        for (ToolCardSlot slot : slotList){
+            tool[index] = ((ToolCard) slot.getToolCard()).getId();
+            index++;
+        }
+
+        return tool;
+    }
+
+    private int numberFavTokenConverter(String userName){
+        List <Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
+
+        for (Player p : players)
+            if (p.getPlayerName().equals(userName))
+                return p.getFavorTokens();
+        return 0;
+    }
+
+    private int privateObjCardConverter(String userName){
+        List <Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
+
+        for (Player p : players)
+            if (p.getPlayerName().equals(userName)) {
+                return p.getPrivateObjectiveCard().getId();
+            }
+        return 0;
     }
 }
 
