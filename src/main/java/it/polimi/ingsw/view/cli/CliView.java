@@ -378,8 +378,10 @@ public class CliView extends AViewMaster{
     @Override
     public void setMyTurn(boolean myTurn) {
         isMyTurn = myTurn;
-        OutOfTurnManager manager = new OutOfTurnManager(this);
-        manager.run();
+        if(!isMyTurn()) {
+            OutOfTurnManager manager = new OutOfTurnManager(this);
+            manager.run();
+        }
     }
 
 //----------------------------------------------------------

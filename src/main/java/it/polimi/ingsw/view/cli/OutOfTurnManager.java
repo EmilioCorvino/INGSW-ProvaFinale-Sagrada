@@ -14,12 +14,11 @@ public class OutOfTurnManager implements Runnable {
 
     @Override
     public void run() {
-        Scanner scanner = new Scanner(System.in);
 
         Thread threadInputs = new Thread(() -> {
             while (!view.isMyTurn()) {
                 this.showNotMyTurnCommand();
-                int commandChosen = Integer.parseInt(scanner.nextLine());
+                int commandChosen = Integer.parseInt(inputOutputManager.read());
                 switch (commandChosen) {
                     case 1:
                         view.getGamePlaySate().printAllWp(view.getCommonBoard().getPlayers(), view.getPlayer());
