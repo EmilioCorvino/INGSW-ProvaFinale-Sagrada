@@ -184,7 +184,7 @@ public class CliView extends AViewMaster implements Runnable{
         }
 
         initializationState.createPubObjCards(idPubObj, commonBoard.getPublicObjectiveCards());
-        initializationState.createToolCards(idTool, commonBoard.getToolCards());
+        //initializationState.createToolCards(idTool, commonBoard.getToolCards());
     }
 
     /**
@@ -278,7 +278,9 @@ public class CliView extends AViewMaster implements Runnable{
      */
     @Override
     public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) {
-        gamePlaySate.getPlacementInfo(commonBoard.getDraftPool(), player.getWp(), setInfoUnit);
+        WindowPatternCardView wp = this.getClientPlayer().getWp();
+
+        gamePlaySate.getPlacementInfo(commonBoard.getDraftPool(),wp, setInfoUnit);
 
         try {
             server.performMove(setInfoUnit);
@@ -357,7 +359,7 @@ public class CliView extends AViewMaster implements Runnable{
 
         if (player.getUserName().equals(username)) {
             inputOutputManager.print("Dado piazzato!");
-            player.getWp().printWp();
+            this.getClientPlayer().getWp().printWp();
         }
     }
 
@@ -428,5 +430,14 @@ public class CliView extends AViewMaster implements Runnable{
     public void setMyTurn(boolean myTurn) {
         isMyTurn = myTurn;
         this.run();
+    }
+
+    public PlayerView getClientPlayer(){
+
+        for (PlayerView p: this.commonBoard.getPlayers())
+            if (p.getUserName().equals(this.player.getUserName()))
+                return p;
+
+        return null;
     }
 }

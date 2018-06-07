@@ -158,7 +158,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
     @Override
     public void updateOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) throws BrokenConnectionException {
         try {
-            this.rmiClient.updateOtherPlayerWp(userName, );
+            this.rmiClient.updateOtherPlayerWp(userName, infoUnit);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to update the window pattern cards of the" +
                     " other players", e);
