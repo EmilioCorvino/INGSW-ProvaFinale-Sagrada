@@ -278,7 +278,7 @@ public class CliView extends AViewMaster implements Runnable{
      */
     @Override
     public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) {
-        WindowPatternCardView wp = this.getClientPlayer().getWp();
+        WindowPatternCardView wp = this.getPlayerConnected().getWp();
 
         gamePlaySate.getPlacementInfo(commonBoard.getDraftPool(),wp, setInfoUnit);
 
@@ -295,13 +295,11 @@ public class CliView extends AViewMaster implements Runnable{
      */
     @Override
     public void updateOwnWp(SetUpInformationUnit unit){
+        WindowPatternCardView wp = this.getPlayerConnected().getWp();
 
-        for (PlayerView p : commonBoard.getPlayers())
-            if (p.getUserName().equals(this.player.getUserName())){
-                gamePlaySate.updateWp(p.getWp(), unit);
-                p.getWp().printWp();
-                return;
-            }
+        gamePlaySate.updateWp(wp, unit);
+        wp.printWp();
+
 
     }
 
@@ -359,7 +357,7 @@ public class CliView extends AViewMaster implements Runnable{
 
         if (player.getUserName().equals(username)) {
             inputOutputManager.print("Dado piazzato!");
-            this.getClientPlayer().getWp().printWp();
+            this.getPlayerConnected().getWp().printWp();
         }
     }
 
@@ -432,7 +430,7 @@ public class CliView extends AViewMaster implements Runnable{
         this.run();
     }
 
-    public PlayerView getClientPlayer(){
+    private PlayerView getPlayerConnected(){
 
         for (PlayerView p: this.commonBoard.getPlayers())
             if (p.getUserName().equals(this.player.getUserName()))
