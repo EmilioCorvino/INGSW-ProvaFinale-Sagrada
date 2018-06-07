@@ -64,9 +64,25 @@ public class GamePlayManager extends AGameManager {
         for(int i= supportList.size()-1; i>=0; i--)
             playerList.add(supportList.get(i));
         //reOrderPlayerList();
+        //super.getControllerMaster().startTurnPlayer(playerList.get(currentPlayer));
+        startMatch();
+    }
 
-        super.getControllerMaster().startTurnPlayer(playerList.get(currentPlayer));
+    /**
+     * This method embeds the cycle of the flow of the game. It counts the round and flows the turn for each player.
+     */
+    //external cycle
+    private void startMatch() {
+        //ciclo tutti i client per mostrargli la common board
 
+        while(this.currentRound <= NUM_ROUND) {
+            playerList.forEach(player -> {
+                startTurn(player);
+                //this.turnTracker.checkTurn(...params...)
+            });
+            currentRound ++;
+        }
+        //endMatch()
     }
 
     /**
@@ -81,13 +97,12 @@ public class GamePlayManager extends AGameManager {
         }
     }
 
-
     /**
-     *
-     * @param currentPlayer
+     * This method manages the turn of the current player.
+     * @param currentPlayer the current player.
      */
     public void startTurn(Player currentPlayer) {
-        //GIAN
+        //GIAN ???
 
         try{
             super.getControllerMaster().getConnectedPlayers().get(currentPlayer.getPlayerName()).getClient().setMyTurn(true);
@@ -99,11 +114,10 @@ public class GamePlayManager extends AGameManager {
         } catch(BrokenConnectionException br) {
             //handle broken connection
         }
-
     }
 
     /**
-     *
+     * //provisional
      */
     private void endTurn() {
         //increment current player variable

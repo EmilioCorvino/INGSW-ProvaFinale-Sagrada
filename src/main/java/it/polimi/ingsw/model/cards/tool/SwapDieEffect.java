@@ -30,6 +30,7 @@ public class SwapDieEffect extends AToolCardEffect {
         setUpInfoUnit.setValue(roundDie.getActualDieValue());
         setUpInfoUnit.setColor(roundDie.getDieColor());
 
+        //Check controls
         manager.getControllerMaster().getCommonBoard().getDraftPool().update(roundDie);
         manager.getControllerMaster().getCommonBoard().getRoundTrack().update(chosenDie);
 
