@@ -77,6 +77,9 @@ public class CliView extends AViewMaster{
         initializationState = new SetUpGameCli();
         gamePlaySate = new GamePlayCli();
         endGameState = new EndGameCli();
+
+        //TODO provisional
+        //new Thread(new ScannerThread(this::analyzeStringInput)).start();
     }
 
 //----------------------------------------------------------
@@ -183,7 +186,7 @@ public class CliView extends AViewMaster{
         }
 
         initializationState.createPubObjCards(idPubObj, commonBoard.getPublicObjectiveCards());
-        //initializationState.createToolCards(idTool, commonBoard.getToolCards());
+        initializationState.createToolCards(idTool, commonBoard.getToolCards());
     }
 
     /**
@@ -346,6 +349,7 @@ public class CliView extends AViewMaster{
      * @param username: Username of player that need the update.
      * @param unit: The set of information needed to place a die in the wp.
      */
+    @Deprecated
     @Override
     public void showUpdatedWp(String username, SetUpInformationUnit unit) {
 
@@ -374,6 +378,7 @@ public class CliView extends AViewMaster{
 //----------------------------------------------------------
 //                  CLIENT NOT SERVED
 //----------------------------------------------------------
+
 
     @Override
     public void setMyTurn(boolean myTurn) {
