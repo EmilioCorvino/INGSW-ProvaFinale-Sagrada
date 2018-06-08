@@ -78,6 +78,9 @@ public class CliView extends AViewMaster implements Runnable{
         initializationState = new SetUpGameCli();
         gamePlaySate = new GamePlayCli();
         endGameState = new EndGameCli();
+
+        //TODO provisional
+        //new Thread(new ScannerThread(this::analyzeStringInput)).start();
     }
 
 //----------------------------------------------------------
@@ -320,7 +323,7 @@ public class CliView extends AViewMaster implements Runnable{
     }
 
     /**
-     * This method remove a die fr<om the draft in a specified index.
+     * This method remove a die from the draft in a specified index.
      * @param info: the containers of the index information.
      */
     @Override
@@ -347,6 +350,7 @@ public class CliView extends AViewMaster implements Runnable{
      * @param username: Username of player that need the update.
      * @param unit: The set of information needed to place a die in the wp.
      */
+    @Deprecated
     @Override
     public void showUpdatedWp(String username, SetUpInformationUnit unit) {
 
@@ -401,12 +405,24 @@ public class CliView extends AViewMaster implements Runnable{
                     case 4:
                         gamePlaySate.printPrivateObj(this.player.getPrivateObjCard());
                         break;
-                    default:
                 }
             }
         });
 
         threadInputs.start();
+    }
+
+    /**
+     * This method analyzes a string taken by the input CLI threa
+     * TODO
+     * @param string
+     */
+    public void analyzeStringInput(String string){
+        //TODO
+        System.out.println("Ho letto "+string);
+        //Estrae il comando
+        //Usa la mappa di Hash per ottenere il riferimento funzionale al metodo da eseguire
+        //Nel caso questo esista, lo esegue
     }
 
 //----------------------------------------------------------

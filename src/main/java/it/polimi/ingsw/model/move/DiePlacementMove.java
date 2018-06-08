@@ -8,7 +8,7 @@ import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.player.Player;
 
 /**
- *
+ * TODO
  */
 public class DiePlacementMove implements IMove {
 
