@@ -6,6 +6,7 @@ import it.polimi.ingsw.view.cli.InputOutputManager;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.die.PlayerView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
+import org.omg.PortableInterceptor.INACTIVE;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -22,9 +23,11 @@ import java.util.regex.Pattern;
  */
 public class SetUpGameCli {
 
-    private InputOutputManager inputOutputManager = new InputOutputManager();
+    private InputOutputManager inputOutputManager;
 
-
+    public SetUpGameCli(InputOutputManager inputOutputManager){
+        this.inputOutputManager = inputOutputManager;
+    }
 
     /**
      * This method print for maps to the user.
