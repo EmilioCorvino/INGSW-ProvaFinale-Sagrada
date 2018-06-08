@@ -54,7 +54,7 @@ public class ClientEncoderDecoder {
 
     private void buildDictionary() {
         this.clientMethods = new EnumMap<>(NetworkMethod.class);
-        this.clientMethods.put(NetworkMethod.SHOW_ROOM, (ArrayList<String> names) -> clientImplementation.showRoom(names));
+        //this.clientMethods.put(NetworkMethod.SHOW_ROOM, ((ArrayList<String>)ArrayList<Serializable> names) -> clientImplementation.showRoom(names));
 
     }
 }
