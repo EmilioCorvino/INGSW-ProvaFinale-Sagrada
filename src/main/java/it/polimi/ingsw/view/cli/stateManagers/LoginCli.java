@@ -19,8 +19,11 @@ public class LoginCli{
     /**
      * Input Output Manager
      */
-    private InputOutputManager inputOutputManager = new InputOutputManager();
+    private InputOutputManager inputOutputManager;
 
+    public LoginCli(InputOutputManager inputOutputManager){
+        this.inputOutputManager = inputOutputManager;
+    }
     /**
      * This method ask the IP address of the server to the user.
      * @return The IP address chosen by the user.

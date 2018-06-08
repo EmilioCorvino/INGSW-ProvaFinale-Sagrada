@@ -8,17 +8,17 @@ public class OutOfTurnManager implements Runnable {
 
     private InputOutputManager inputOutputManager = new InputOutputManager();
 
-    public OutOfTurnManager(CliView view){
+    OutOfTurnManager(CliView view){
         this.view = view;
     }
+
     @Override
     public void run() {
-        Scanner scanner = new Scanner(System.in);
 
         Thread threadInputs = new Thread(() -> {
             while (!view.isMyTurn()) {
                 this.showNotMyTurnCommand();
-                int commandChosen = Integer.parseInt(scanner.nextLine());
+                int commandChosen = Integer.parseInt(inputOutputManager.read());
                 switch (commandChosen) {
                     case 1:
                         view.getGamePlaySate().printAllWp(view.getCommonBoard().getPlayers(), view.getPlayer());
@@ -43,7 +43,7 @@ public class OutOfTurnManager implements Runnable {
         threadInputs.start();
     }
 
-    public void showNotMyTurnCommand(){
+    private void showNotMyTurnCommand(){
         inputOutputManager.print("\nScegli il comando:" +
                 "\n\t 1 - Visualizza mappe altri giocatori" +
                 "\n\t 2 - Visualizza obiettivi pubblici\n\t" +
