@@ -80,7 +80,7 @@ public class SetUpGameCli {
     public void createPubObjCards(int[] id, List<String> cards){
 
         for (int i : id){
-            try (Reader file = new FileReader("./src/main/resources/cards/publicObjectiveText/pubObj" + i +".txt")){
+            try (Reader file = new FileReader("./src/main/resources/cards/publicObjectiveText/pubObj" + i)){
                 BufferedReader b = new BufferedReader(file);
                 String s = b.readLine();
                 cards.add(s);
@@ -93,7 +93,7 @@ public class SetUpGameCli {
     public void createToolCards(int[] id, Map<String, Integer> cards){
 
         for (int i : id){
-            try (Reader file = new FileReader("./src/main/resources/cards/toolCardsText/toolCard" + i +".txt")){
+            try (Reader file = new FileReader("./src/main/resources/cards/toolCardsText/toolCard" + i)){
                 BufferedReader b = new BufferedReader(file);
                 String s = b.readLine();
                 cards.put(s,1);
@@ -105,7 +105,7 @@ public class SetUpGameCli {
 
     public void createPrivateObjCard(int id, PlayerView p){
 
-        try (Reader file = new FileReader("./src/main/resources/cards/privateObjectiveText/privObj" + id +".txt")){
+        try (Reader file = new FileReader("./src/main/resources/cards/privateObjectiveText/privObj" + id)){
             BufferedReader b = new BufferedReader(file);
             String s = b.readLine();
             p.setPrivateObjCard(s);

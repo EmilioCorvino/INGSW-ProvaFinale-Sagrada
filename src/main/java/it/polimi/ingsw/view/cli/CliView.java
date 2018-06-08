@@ -20,10 +20,9 @@ import it.polimi.ingsw.view.cli.stateManagers.SetUpGameCli;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.logging.Level;
 
-public class CliView extends AViewMaster implements Runnable{
+public class CliView extends AViewMaster{
 
     /**
      * This attribute is set true when is the turn of this client else is set false.
@@ -281,7 +280,9 @@ public class CliView extends AViewMaster implements Runnable{
      */
     @Override
     public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) {
-        gamePlaySate.getPlacementInfo(commonBoard.getDraftPool(), player.getWp(), setInfoUnit);
+        WindowPatternCardView wp = this.getPlayerConnected().getWp();
+
+        gamePlaySate.getPlacementInfo(commonBoard.getDraftPool(),wp, setInfoUnit);
 
         try {
             server.performMove(setInfoUnit);
@@ -296,13 +297,11 @@ public class CliView extends AViewMaster implements Runnable{
      */
     @Override
     public void updateOwnWp(SetUpInformationUnit unit){
+        WindowPatternCardView wp = this.getPlayerConnected().getWp();
 
-        for (PlayerView p : commonBoard.getPlayers())
-            if (p.getUserName().equals(this.player.getUserName())){
-                gamePlaySate.updateWp(p.getWp(), unit);
-                p.getWp().printWp();
-                return;
-            }
+        gamePlaySate.updateWp(wp, unit);
+        wp.printWp();
+
 
     }
 
@@ -323,7 +322,7 @@ public class CliView extends AViewMaster implements Runnable{
     }
 
     /**
-     * This method remove a die from the draft in a specified index.
+     * This method remove a die fr<om the draft in a specified index.
      * @param info: the containers of the index information.
      */
     @Override
@@ -361,7 +360,7 @@ public class CliView extends AViewMaster implements Runnable{
 
         if (player.getUserName().equals(username)) {
             inputOutputManager.print("Dado piazzato!");
-            player.getWp().printWp();
+            this.getPlayerConnected().getWp().printWp();
         }
     }
 
@@ -382,47 +381,10 @@ public class CliView extends AViewMaster implements Runnable{
 
 
     @Override
-    public void run() {
-        Scanner scanner = new Scanner(System.in);
-
-        Thread threadInputs = new Thread(() -> {
-            while (!isMyTurn) {
-                gamePlaySate.showNotMyTurnCommand();
-                int commandChosen = Integer.parseInt(scanner.nextLine());
-                switch (commandChosen) {
-                    case 1:
-                        gamePlaySate.printAllWp(commonBoard.getPlayers(), this.player);
-                        break;
-
-                    case 2:
-                        gamePlaySate.printPubObj(commonBoard.getPublicObjectiveCards());
-                        break;
-
-                    case 3:
-                        gamePlaySate.printTool(commonBoard.getToolCards());
-                        break;
-
-                    case 4:
-                        gamePlaySate.printPrivateObj(this.player.getPrivateObjCard());
-                        break;
-                }
-            }
-        });
-
-        threadInputs.start();
-    }
-
-    /**
-     * This method analyzes a string taken by the input CLI threa
-     * TODO
-     * @param string
-     */
-    public void analyzeStringInput(String string){
-        //TODO
-        System.out.println("Ho letto "+string);
-        //Estrae il comando
-        //Usa la mappa di Hash per ottenere il riferimento funzionale al metodo da eseguire
-        //Nel caso questo esista, lo esegue
+    public void setMyTurn(boolean myTurn) {
+        isMyTurn = myTurn;
+        OutOfTurnManager manager = new OutOfTurnManager(this);
+        manager.run();
     }
 
 //----------------------------------------------------------
@@ -440,9 +402,26 @@ public class CliView extends AViewMaster implements Runnable{
         return isMyTurn;
     }
 
-    @Override
-    public void setMyTurn(boolean myTurn) {
-        isMyTurn = myTurn;
-        this.run();
+
+
+    GamePlayCli getGamePlaySate() {
+        return gamePlaySate;
+    }
+
+    public CommonBoardView getCommonBoard() {
+        return commonBoard;
+    }
+
+    public PlayerView getPlayer() {
+        return player;
+    }
+
+    private PlayerView getPlayerConnected(){
+
+        for (PlayerView p: this.commonBoard.getPlayers())
+            if (p.getUserName().equals(this.player.getUserName()))
+                return p;
+
+        return null;
     }
 }
