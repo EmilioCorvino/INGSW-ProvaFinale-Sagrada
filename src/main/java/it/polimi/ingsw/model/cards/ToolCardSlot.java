@@ -43,7 +43,7 @@ public class ToolCardSlot extends AContainer {
         return this.toolCard.impliesPlacement();
     }
 
-    public IToolCard getToolCard() {
+    public ToolCard getToolCard() {
         return toolCard;
     }
 
