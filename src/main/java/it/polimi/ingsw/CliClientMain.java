@@ -10,6 +10,7 @@ import it.polimi.ingsw.view.cli.CliView;
 public class CliClientMain {
 
     public static void main(String[] args) {
+        //new Thread(new ScannerThread(this::analyzeStringInput)).start();
         AViewMaster viewMaster = new CliView();
         viewMaster.createConnection(viewMaster);
     }

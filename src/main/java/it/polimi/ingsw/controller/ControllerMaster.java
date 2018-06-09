@@ -1,14 +1,16 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.CommonBoard;
+import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.Connection;
 
+import java.util.List;
 import java.util.Map;
 
 
 /**
- * This class
+ * This class represents the part of the controller that manages all its other components and the possible flow of the game.
  */
 public class ControllerMaster implements IControllerMaster {
 
@@ -37,6 +39,16 @@ public class ControllerMaster implements IControllerMaster {
      */
     private final AGameManager endGameManager;
 
+    /**
+     * This attribute represents a specific state of the match.
+     */
+    private GameState gameState;
+
+    /**
+     * List of the suspended player after a problem of connection.
+     */
+    private List<Player> suspendedPlayers;
+
 
     public ControllerMaster(Map<String, Connection> connectedPlayers) {
         commonBoard = new CommonBoard();
@@ -44,6 +56,7 @@ public class ControllerMaster implements IControllerMaster {
         gamePlayManager = new GamePlayManager(this);
         endGameManager = new EndGameManager(this);
         this.connectedPlayers = connectedPlayers;
+        this.gameState = new GameState();
     }
 
     public CommonBoard getCommonBoard() {
@@ -66,9 +79,7 @@ public class ControllerMaster implements IControllerMaster {
         return endGameManager;
     }
 
-    public void initializeGame() {
-        ((GamePlayManager)this.gamePlayManager).initializePlayerList();
-    }
+
 
     public void startTurnPlayer(Player currPlayer) {
         ((GamePlayManager)this.gamePlayManager).startTurn(currPlayer);
@@ -83,6 +94,13 @@ public class ControllerMaster implements IControllerMaster {
         }
     }
 
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
 
     //todo handle reconnection
 }

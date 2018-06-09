@@ -1,7 +1,5 @@
 package it.polimi.ingsw.view.cli;
 
-import org.fusesource.jansi.AnsiConsole;
-
 import java.util.Scanner;
 
 /**
@@ -15,8 +13,8 @@ public class InputOutputManager {
     }
 
     public String read(){
-        Scanner scan = new Scanner(System.in);
-        return scan.next().trim();
+       Scanner scan = new Scanner (System.in);
+       return scan.next().trim();
     }
 
     public void print(String string){

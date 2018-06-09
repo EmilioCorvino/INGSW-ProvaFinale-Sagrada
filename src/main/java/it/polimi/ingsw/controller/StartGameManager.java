@@ -5,7 +5,6 @@ import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.cards.PublicObjectiveCardSlot;
 import it.polimi.ingsw.model.cards.ToolCardSlot;
-import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard;
 import it.polimi.ingsw.model.cards.tool.ToolCard;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
@@ -150,7 +149,7 @@ public class StartGameManager extends AGameManager {
         //method that shows the common board
         setCommonBoard();
 
-        super.getControllerMaster().initializeGame();
+      //  super.getControllerMaster().initializeGame();
     }
 
     /**
