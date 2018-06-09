@@ -17,7 +17,11 @@ import java.util.regex.Pattern;
  */
 public class GamePlayCli implements Serializable {
 
-    private transient InputOutputManager inputOutputManager = new InputOutputManager();
+    private transient InputOutputManager inputOutputManager;
+
+    public GamePlayCli(InputOutputManager inputOutputManager){
+        this.inputOutputManager = inputOutputManager;
+    }
 
     /**
      * This method ask the index of the die chosen in the draft, verifying if it is an int and if it is in bound.

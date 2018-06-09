@@ -73,10 +73,10 @@ public class CliView extends AViewMaster{
         player = new PlayerView();
         commonBoard = new CommonBoardView();
         inputOutputManager = new InputOutputManager();
-        loginState = new LoginCli();
-        initializationState = new SetUpGameCli();
-        gamePlaySate = new GamePlayCli();
-        endGameState = new EndGameCli();
+        loginState = new LoginCli(inputOutputManager);
+        initializationState = new SetUpGameCli(inputOutputManager);
+        gamePlaySate = new GamePlayCli(inputOutputManager);
+        endGameState = new EndGameCli(inputOutputManager);
 
         //TODO provisional
     }
@@ -191,7 +191,7 @@ public class CliView extends AViewMaster{
         }
 
         initializationState.createPubObjCards(idPubObj, commonBoard.getPublicObjectiveCards());
-        initializationState.createToolCards(idTool, commonBoard.getToolCards());
+        //initializationState.createToolCards(idTool, commonBoard.getToolCards());
     }
 
     /**
@@ -389,8 +389,10 @@ public class CliView extends AViewMaster{
     @Override
     public void setMyTurn(boolean myTurn) {
         isMyTurn = myTurn;
-        OutOfTurnManager manager = new OutOfTurnManager(this);
-        manager.run();
+        if(!isMyTurn()) {
+            OutOfTurnManager manager = new OutOfTurnManager(this);
+            manager.run();
+        }
     }
 
 //----------------------------------------------------------
