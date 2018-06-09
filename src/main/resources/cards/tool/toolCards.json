@@ -1,0 +1,99 @@
+[
+  {
+    "id": 300,
+    "name": "Pinza Sgrossatrice",
+    "description": "Dopo aver scelto un dado, aumenta o diminuisci il valore del dado scelto di 1. Non puoi cambiare un 6 in 1 o un 1 in 6.",
+    "color": "PURPLE",
+    "turn": 2,
+    "placement": true,
+    "effect": {
+      "names": [
+        "ChooseValue"
+      ],
+      "source": "DraftPool",
+      "destination": "None",
+      "parameter": 1
+    }
+  },
+  {
+    "id": 301,
+    "name": "Pennello per Eglomise",
+    "description": "Muovi un qualsiasi dado nella tua vetrata IGNORANDO LE RESTRIZIONI DI COLORE. Devi rispettare tutte le altre restrizioni di piazzamento.",
+    "color": "BLUE",
+    "turn": 2,
+    "placement": false,
+    "effect": {
+      "names": [
+        "ValueRestriction"
+      ],
+      "source": "WindowPatternCard",
+      "destination": "None",
+      "parameter": 0
+    }
+  },
+  {
+    "id": 302,
+    "name": "Alesatore per lamina di rame",
+    "description": "Muovi un qualsiasi dado nella tua vetrata IGNORANDO LE RESTRIZIONI DI VALORE. Devi rispettare tutte le altre restrizioni di piazzamento.",
+    "color": "RED",
+    "turn": 2,
+    "placement": false,
+    "effect": {
+      "names": [
+        "ColorRestriction"
+      ],
+      "source": "WindowPatternCard",
+      "destination": "None",
+      "parameter": 0
+    }
+  },
+  {
+    "id": 303,
+    "name": "Lathekin",
+    "description": "Muovi esattamente due dadi, rispettando tutte le restrizioni di piazzamento.",
+    "color": "YELLOW",
+    "turn": 2,
+    "placement": false,
+    "effect": {
+      "names": [
+        "PlacementRestriction",
+        "PlacementRestriction"
+      ],
+      "source": "WindowPatternCard",
+      "destination": "None",
+      "parameter": 0
+    }
+  },
+  {
+    "id": 304,
+    "name": "Taglierina circolare",
+    "description": "Dopo aver scelto un dado, scambia quel dado con una dado sul Tracciato dei Round.",
+    "color": "GREEN",
+    "turn": 2,
+    "placement": true,
+    "effect": {
+      "names": [
+        "SwapDie"
+      ],
+      "source": "DraftPool",
+      "destination": "RoundTrack",
+      "parameter": 0
+    }
+  },
+  {
+    "id": 305,
+    "name": "Pennello per Pasta Salda",
+    "description": "Dopo aver scelto un dado, tira nuovamente quel dado. Se non puoi piazzarlo, riponilo nella Riserva.",
+    "color": "PURPLE",
+    "turn": 2,
+    "placement": true,
+    "effect": {
+      "names": [
+        "DraftValue"
+      ],
+      "source": "DraftPool",
+      "destination": "None",
+      "parameter": 1
+    }
+  }
+]

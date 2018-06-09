@@ -1,32 +1,20 @@
 package it.polimi.ingsw.model.move;
 
 import it.polimi.ingsw.controller.GamePlayManager;
-import it.polimi.ingsw.controller.IOController;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.player.Player;
 
 /**
- *
+ * TODO
  */
 public class DiePlacementMove implements IMove {
 
     private ChooseDieMove chooseDieMove;
 
     public DiePlacementMove() {
-
-    }
-
-    /**
-     *
-     * @param commonBoard
-     * @param ioController
-     */
-    @Override
-    public void executeMove(CommonBoard commonBoard, IOController ioController) {
 
     }
 
@@ -41,14 +29,23 @@ public class DiePlacementMove implements IMove {
         Player p = manager.getPlayerColorList().get(manager.getCurrentPlayer());
         WindowPatternCard wp = p.getWindowPatternCard();
         Die die = new Die(setUpInfoUnit.getValue(), setUpInfoUnit.getColor());
+        //CAREFUL
         Cell desiredCell = new Cell(setUpInfoUnit.getIndex() / WindowPatternCard.getMaxCol(), setUpInfoUnit.getIndex() % WindowPatternCard.getMaxCol());
+        wp.setDesiredCell(desiredCell);
 
         if (!wp.canBePlaced(die, desiredCell)) {
-            //tell the client that the die cannot be placed
-
+            if(manager.getCurrentRound() == 1) {
+                manager.showNotification("il dado deve essere piazzato sui bordi o in uno degli angoli");
+                manager.givePlayerObjectTofill();
+                return;
+            }
+        else {
+            manager.showNotification("il dado non può essere piazzato perchè non rispetta le restrizioni");
             manager.givePlayerObjectTofill();
-
+            return;
         }
+    }
+
         wp.update(die);
         manager.getControllerMaster().getCommonBoard().getDraftPool().update(die);
         manager.showPlacementResult(p, setUpInfoUnit);

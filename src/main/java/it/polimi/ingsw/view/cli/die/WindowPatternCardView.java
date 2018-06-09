@@ -36,7 +36,7 @@ public class WindowPatternCardView {
      * This method print the wp
      */
     public void printWp(){
-        inputOutputManager.print("\nMAPPA "+idMap+": ");
+        inputOutputManager.print("\nMAPPA "+idMap +": ");
         inputOutputManager.print(wpToString());
         inputOutputManager.print("Difficoltà: " + difficulty);
     }
@@ -49,11 +49,13 @@ public class WindowPatternCardView {
         StringBuilder wp = new StringBuilder(100);
 
         for(int i = 0; i < glassWindow.length; i++) {
+            wp.append(" " + i + "  ");
             for (int j = 0; j < glassWindow[i].length; j++) {
-                wp.append( " " + i +" | ").append(this.glassWindow[i][j].toStringCell()).append(" ");
+                wp.append(" | ").append(this.glassWindow[i][j].toStringCell()).append(" ");
             }
-            wp.append("|\n 0   1   2   3   4");
+            wp.append("|\n");
         }
+        wp.append("       0    1    2    3    4");
         return wp.toString();
     }
 

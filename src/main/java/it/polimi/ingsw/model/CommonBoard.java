@@ -2,18 +2,24 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.PublicObjectiveCardSlot;
 import it.polimi.ingsw.model.cards.ToolCardSlot;
+import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard;
 import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCardsDeck;
+import it.polimi.ingsw.model.cards.objective.publics.APublicObjectiveCard;
 import it.polimi.ingsw.model.cards.objective.publics.PublicObjectiveCardsDeck;
+import it.polimi.ingsw.model.cards.tool.ToolCardsDeck;
 import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
 import it.polimi.ingsw.model.die.diecontainers.RoundTrack;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCardDeck;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.PlayerColor;
+import it.polimi.ingsw.utils.exceptions.EmptyException;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * This class represents everything which is visible by all players.
@@ -75,7 +81,7 @@ public class CommonBoard {
      */
     private final WindowPatternCardDeck windowPatternCardDeck;
 
-    /*todo private final ToolCardsDeck toolCardsDeck */
+    private final ToolCardsDeck toolCardsDeck;
 
     public CommonBoard() {
         this.players = new ArrayList<>();
@@ -89,8 +95,11 @@ public class CommonBoard {
         this.publicObjectiveCardsDeck.parseDeck();
         this.windowPatternCardDeck = new WindowPatternCardDeck();
         this.windowPatternCardDeck.parseDeck();
-        //todo the same with tool cards deck.
+        this.toolCardsDeck = new ToolCardsDeck();
+        this.toolCardsDeck.parseDeck();
         this.playerMap = new HashMap<>();
+        this.populatePubObjSlots();
+        this.populateToolSlots();
     }
 
     /*todo This method will update the Window pattern of a specific player.
@@ -183,11 +192,52 @@ public class CommonBoard {
         return windowPatternCardDeck;
     }
 
+    public PrivateObjectiveCardsDeck getPrivateObjectiveCardsDeck() {
+        return privateObjectiveCardsDeck;
+    }
+
+    public PublicObjectiveCardsDeck getPublicObjectiveCardsDeck() {
+        return publicObjectiveCardsDeck;
+    }
+
+    public ToolCardsDeck getToolCardsDeck() {
+        return toolCardsDeck;
+    }
+
     public Player getSpecificPlayer(String username) throws UnsupportedOperationException {
         System.out.println(username);
         for(Player p: players)
             if(username.equals(p.getPlayerName()))
                 return p;
         throw new UnsupportedOperationException();
+    }
+
+    public void populateToolSlots(){
+        for (int i = 0; i < 3; i++) {
+            try {
+                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().drawCard()));
+            } catch (EmptyException e) {
+                SagradaLogger.log(Level.SEVERE, "Error during tool card drawing");
+            }
+        }
+    }
+
+    public void populatePubObjSlots(){
+        for (int i = 0; i < 3; i++) {
+            try {
+                this.getPublicObjectiveCardSlots().add(new PublicObjectiveCardSlot( (APublicObjectiveCard) this.getPublicObjectiveCardsDeck().drawCard()));
+            } catch (EmptyException e) {
+                SagradaLogger.log(Level.SEVERE, "Error during public objective card drawing");
+            }
+        }
+    }
+
+    public void givePrivateObjCard(){
+        for (Player p: this.players)
+            try {
+                p.setPrivateObjectiveCard( (PrivateObjectiveCard) this.privateObjectiveCardsDeck.drawCard());
+            } catch (EmptyException e){
+                SagradaLogger.log(Level.SEVERE, "Error during private objective card drawing");
+            }
     }
 }

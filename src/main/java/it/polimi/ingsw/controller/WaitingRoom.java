@@ -2,7 +2,6 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.Connection;
-import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
@@ -45,14 +44,15 @@ public class WaitingRoom {
     }
 
     /**
-     * This method is responsible for the login of a player.
+     * This method is responsible for the register of a player.
      * @param username the player who wants to play.
      * @param connection the connection assigned to the player.
      * @param gameMode the type of match the players wants to play.
      * @throws UserNameAlreadyTakenException
      * @throws TooManyUsersException
      */
-    public void login(String username, Connection connection, int gameMode) throws UserNameAlreadyTakenException, TooManyUsersException {
+    public void joinRoom(String username, Connection connection, int gameMode) throws UserNameAlreadyTakenException,
+            TooManyUsersException {
         if(!isRunning()) {
             if(gameMode == SINGLEPLAYER_MODE)
                 startSingleMatch();
@@ -98,11 +98,11 @@ public class WaitingRoom {
                 public void run() {
                     System.out.println("timer is expired");
                     setRunning(true);
-                    System.out.println("running");
+                   // System.out.println("running");
                     startMultiPlayerMatch();
-                    System.out.println("match started");
+                    //System.ut.println("match started");
                 }
-            }, 5 * 1000);
+            }, 5 * (long)1000);
         }
     }
 
@@ -125,21 +125,19 @@ public class WaitingRoom {
      * //TODO testing
      */
     public void startMultiPlayerMatch() {
-        ControllerMaster controllerMaster = new ControllerMaster();
-        Map<String, IFromServerToClient> playerMap = controllerMaster.getConnectedPlayers();
-        controllerMaster.getCommonBoard().getDraftPool().populateDiceDraftPool(playerMap.size());
-        ((GamePlayManager)controllerMaster.getGamePlayManager()).initializePlayerList();
+        /*Map<String, IFromServerToClient> connectedPlayers = new HashMap<>();
+        playersRoom.forEach((playerName, connection) -> connectedPlayers.put(playerName, connection.getClient()));*/
+        ControllerMaster controllerMaster = new ControllerMaster(this.playersRoom);
 
-        for(String name : playersRoom.keySet()) {
-            playersRoom.get(name).getServer().setController(controllerMaster);
-            playersRoom.get(name).getServer().setUsername(name);
-            playerMap.put(name, playersRoom.get(name).getClient());
-            controllerMaster.getCommonBoard().getPlayers().add(new Player(name,controllerMaster.getCommonBoard()));
+        controllerMaster.getCommonBoard().getDraftPool().populateDiceDraftPool(
+                controllerMaster.getConnectedPlayers().size());
+        //((GamePlayManager)controllerMaster.getGamePlayManager()).initializePlayerList(); this shouldn't be here
 
+        for(Map.Entry<String, Connection> entry: controllerMaster.getConnectedPlayers().entrySet()) {
+            controllerMaster.getCommonBoard().getPlayers().add(new Player(entry.getKey(), controllerMaster.getCommonBoard()));
+            entry.getValue().getServer().setController(controllerMaster);
         }
-
-        ((StartGameManager)controllerMaster.getStartGameManager()).chooseWindowPatternCard();
-        System.out.println("maps????");
+        ((StartGameManager)controllerMaster.getStartGameManager()).setUpWindowPattern();
     }
 
     /**

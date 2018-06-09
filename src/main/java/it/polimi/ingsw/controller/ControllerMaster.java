@@ -1,9 +1,9 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.CommonBoard;
-import it.polimi.ingsw.network.IFromServerToClient;
+import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.network.Connection;
 
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -20,7 +20,7 @@ public class ControllerMaster implements IControllerMaster {
     /**
      * This is the attribute that maps each username with the correspondent client reference.
      */
-    private final Map<String, IFromServerToClient> connectedPlayers;
+    private final Map<String, Connection> connectedPlayers;
 
     /**
      * This attribute represents the manager for the first state of the game.
@@ -38,19 +38,19 @@ public class ControllerMaster implements IControllerMaster {
     private final AGameManager endGameManager;
 
 
-    public ControllerMaster() {
+    public ControllerMaster(Map<String, Connection> connectedPlayers) {
         commonBoard = new CommonBoard();
         startGameManager = new StartGameManager(this);
         gamePlayManager = new GamePlayManager(this);
         endGameManager = new EndGameManager(this);
-        connectedPlayers = new HashMap<>();
+        this.connectedPlayers = connectedPlayers;
     }
 
     public CommonBoard getCommonBoard() {
         return commonBoard;
     }
 
-    public Map<String, IFromServerToClient> getConnectedPlayers() {
+    public Map<String, Connection> getConnectedPlayers() {
         return connectedPlayers;
     }
 
@@ -65,6 +65,24 @@ public class ControllerMaster implements IControllerMaster {
     public AGameManager getEndGameManager() {
         return endGameManager;
     }
+
+    public void initializeGame() {
+        ((GamePlayManager)this.gamePlayManager).initializePlayerList();
+    }
+
+    public void startTurnPlayer(Player currPlayer) {
+        ((GamePlayManager)this.gamePlayManager).startTurn(currPlayer);
+    }
+
+    public void checkMoveAvailability(String username) {
+        if(((GamePlayManager)this.gamePlayManager).checkCurrentPlayer(username))
+            ((GamePlayManager)gamePlayManager).givePlayerObjectTofill();
+
+        else {
+            //not valid
+        }
+    }
+
 
     //todo handle reconnection
 }

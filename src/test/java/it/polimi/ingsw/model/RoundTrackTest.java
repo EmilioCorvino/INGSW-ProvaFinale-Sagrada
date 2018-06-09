@@ -20,7 +20,7 @@ public class RoundTrackTest {
         RoundTrack roundTrack = new RoundTrack(nRounds);
 
         for ( int i = 0; i < nRounds; i++) {
-            roundTrack.setRoundToBeUpdate(i);
+            roundTrack.setRoundToBeUpdated(i);
             for (int j = 0; j < 2; j++)
                 roundTrack.update(new Die(1 + new Random().nextInt(6), Color.availableColors().get(new Random().nextInt(5))));
         }
@@ -29,7 +29,7 @@ public class RoundTrackTest {
             assertEquals(2, roundTrack.getAvailableDice().get(k).size());
 
 
-        roundTrack.setRoundToBeUpdate(roundWithRemove);
+        roundTrack.setRoundToBeUpdated(roundWithRemove);
         roundTrack.remove(roundTrack.getAvailableDice().get(roundWithRemove).get(0));
         assertEquals(1, roundTrack.getAvailableDice().get(roundWithRemove).size());
     }

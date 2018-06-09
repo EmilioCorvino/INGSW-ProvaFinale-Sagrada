@@ -1,9 +1,7 @@
 package it.polimi.ingsw.model.cards.tool;
 
 import it.polimi.ingsw.controller.GamePlayManager;
-import it.polimi.ingsw.controller.IOController;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.die.Die;
 
 /**
@@ -24,11 +22,6 @@ public class OppositeValueEffect extends AValueEffect {
         chosenDie.setActualDieValue(super.offset - chosenDie.getActualDieValue());
         super.checkValue(chosenDie.getActualDieValue());
         return chosenDie;
-    }
-
-    @Override
-    public void executeMove(CommonBoard commonBoard, IOController ioController) {
-        
     }
 
     @Override

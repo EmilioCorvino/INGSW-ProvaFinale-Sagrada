@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.view.ClientImplementation;
@@ -7,6 +8,7 @@ import it.polimi.ingsw.view.ClientImplementation;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class is the implementation of the remote interface {@link IRmiClient} and it's used for callback purposes.
@@ -37,8 +39,28 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
+    public void choseWpId() {
+        this.client.choseWpId();
+    }
+
+    @Override
     public void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) {
         this.client.showCommonBoard(draftPool, wp);
+    }
+
+    @Override
+    public void setCommonBoard(Map<String, SimplifiedWindowPatternCard> players, int[] idPubObj, int[] idTool) {
+        this.client.setCommonBoard(players, idPubObj, idTool);
+    }
+
+    @Override
+    public void setDraft(List<SetUpInformationUnit> draft) {
+        this.client.setDraft(draft);
+    }
+
+    @Override
+    public void setPlayer(int nFavTokens, int idPrivateObj) {
+        this.client.setPlayer(nFavTokens, idPrivateObj);
     }
 
     @Override
@@ -54,5 +76,35 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     @Override
     public void showUpdatedWp(String username, SetUpInformationUnit info) {
         this.client.showUpdatedWp(username, info);
+    }
+
+    @Override
+    public void updateOwnWp(SetUpInformationUnit unit) {
+        this.client.updateOwnWp(unit);
+    }
+
+    @Override
+    public void updateOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) {
+        this.client.updateOtherPlayerWp(userName, infoUnit);
+    }
+
+    @Override
+    public void updateDraft(InformationUnit info) {
+        this.client.updateDraft(info);
+    }
+
+    @Override
+    public void updateFavTokenPlayer(int nFavorToken) {
+        this.client.updateFavTokenPlayer(nFavorToken);
+    }
+
+    @Override
+    public void showNotice(String notice) {
+        this.client.showNotice(notice);
+    }
+
+    @Override
+    public void setMyTurn(boolean myTurn) {
+        this.client.setMyTurn(myTurn);
     }
 }

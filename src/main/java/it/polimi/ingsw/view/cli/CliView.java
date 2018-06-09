@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
+import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.network.IFromClientToServer;
@@ -18,9 +19,15 @@ import it.polimi.ingsw.view.cli.stateManagers.LoginCli;
 import it.polimi.ingsw.view.cli.stateManagers.SetUpGameCli;
 
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 public class CliView extends AViewMaster{
+
+    /**
+     * This attribute is set true when is the turn of this client else is set false.
+     */
+    private boolean isMyTurn;
 
     /**
      * The user name of the player connected with the client.
@@ -43,7 +50,7 @@ public class CliView extends AViewMaster{
     private IFromClientToServer server;
 
     /**
-     *The manager of the connection and login state
+     *The manager of the connection and register state
      */
     private LoginCli loginState;
 
@@ -66,10 +73,13 @@ public class CliView extends AViewMaster{
         player = new PlayerView();
         commonBoard = new CommonBoardView();
         inputOutputManager = new InputOutputManager();
-        loginState = new LoginCli();
-        initializationState = new SetUpGameCli();
-        gamePlaySate = new GamePlayCli();
-        endGameState = new EndGameCli();
+        loginState = new LoginCli(inputOutputManager);
+        initializationState = new SetUpGameCli(inputOutputManager);
+        gamePlaySate = new GamePlayCli(inputOutputManager);
+        endGameState = new EndGameCli(inputOutputManager);
+
+        //TODO provisional
+        //new Thread(new ScannerThread(this::analyzeStringInput)).start();
     }
 
 //----------------------------------------------------------
@@ -94,17 +104,17 @@ public class CliView extends AViewMaster{
             }
         }
 
-        inputOutputManager.print("\nConnessione stabilita.\nProcedere con il login.");
+        inputOutputManager.print("\nConnessione stabilita.\nProcedere con il register.");
 
         while(!userNameOk){
             try {
-                this.player.setUserName(loginState.getUsername());
+                this.player.setUserName(loginState.getUserName());
                 this.server.login(loginState.getGameMode(), player.getUserName());
                 userNameOk = true;
             } catch (UserNameAlreadyTakenException e) {
                 inputOutputManager.print("Username già in uso!");
             } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.SEVERE, "Connection broken during login", e);
+                SagradaLogger.log(Level.SEVERE, "Connection broken during register", e);
             } catch (TooManyUsersException e) {
                 inputOutputManager.print("Partita piena, numero massimo di giocatori raggiunto\nArrivederci.");
             }
@@ -130,13 +140,20 @@ public class CliView extends AViewMaster{
      */
     @Override
     public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) {
-        try {
-            this.server.windowPatternCardRequest(this.initializationState.showMapsToChoose(listWp));
-        } catch (BrokenConnectionException e) {
-            SagradaLogger.log(Level.SEVERE, "Connection broken during map choosing", e);
-        }
+        this.initializationState.showMapsToChoose(listWp);
     }
 
+    @Override
+    public void choseWpId() {
+        try {
+            server.windowPatternCardRequest(initializationState.getIdChosen());
+        } catch (BrokenConnectionException e){
+            SagradaLogger.log(Level.SEVERE, "Connection broken during map id choose.");
+        }
+
+    }
+
+    // DA CANCELLARE
     /**
      *This method take the info from the server to initialize the common board at the beginning of the match.
      * @param draftPool
@@ -152,16 +169,65 @@ public class CliView extends AViewMaster{
         initializationState.showCommonBoard(draft, player.getWp());
     }
 
+    /**
+     * This method will set the common board with all the common information for each player.
+     * @param players: A map witch contains a simplified wp for each userName that identify a player.
+     * @param idPubObj: The ids of all the public objective cards drown by the controller.
+     * @param idTool: The ids of all the tool cards drown by the controller.
+     */
+    @Override
+    public void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool){
+
+        for (Map.Entry<String, SimplifiedWindowPatternCard> ply : players.entrySet()) {
+            PlayerView p = new PlayerView();
+            p.setUserName(ply.getKey());
+            p.setWp(new WindowPatternCardView(ply.getValue()));
+            this.commonBoard.getPlayers().add(p);
+        }
+
+        initializationState.createPubObjCards(idPubObj, commonBoard.getPublicObjectiveCards());
+        //initializationState.createToolCards(idTool, commonBoard.getToolCards());
+    }
+
+    /**
+     * This method will populate the draft pool in each round
+     * @param draft: the list of dice contain in the draft Pool.
+     */
+    @Override
+    public void setDraft(List<SetUpInformationUnit> draft){
+        this.commonBoard.setDraftPool(new DieDraftPoolView(draft));
+    }
+
+    /**
+     * This method give at the player connected to this client the information of his private objective card and the number of his favor tokens.
+     * @param nFavTokens : the number of favor tokens.
+     * @param idPrivateObj : the id of his private obj card.
+     */
+    @Override
+    public void setPlayer(int nFavTokens, int idPrivateObj){
+
+        this.player.setFavorToken(nFavTokens);
+        this.initializationState.createPrivateObjCard(idPrivateObj, this.player);
+
+    }
+
 //----------------------------------------------------------
 //                  GAME PLAY STATE
 //----------------------------------------------------------
     /**
      *This method show the available commands to the user and allow him to chose one.
+     * 1: make a placement move
+     * 2: make a tool move
+     * 3: show the wp of all players.
+     * 4: show the public objective cards.
+     * 5: show the tool cards
+     * 6: show the private objective card.
+     * 7: end the turn
      */
-    /*
+
     @Override
     public void showCommand() {
-        int command = gamePlaySate.showCommands();
+        int command = gamePlaySate.showCommand();
         switch (command){
             case 1:     try{
                             server.defaultMoveRequest();
@@ -169,39 +235,44 @@ public class CliView extends AViewMaster{
                             SagradaLogger.log(Level.SEVERE, "Connection broken during placement move",e);
                         }
                         break;
-
+            /*
             case 2:     try{
                             server.toolMoveRequest();
                         } catch (BrokenConnectionException e){
                             SagradaLogger.log(Level.SEVERE, "Connection broken during tool move",e);
                         }
                         break;
+                */
 
-            case 3:     gamePlaySate.printAllWp();
-
-            case 4:     gamePlaySate.printCard(commonBoard.getPublicObjectiveCards(), "obiettivo pubblico");
-                        gamePlaySate.showCommands();
+            case 3:     gamePlaySate.printAllWp(commonBoard.getPlayers(), this.player);
+                        this.showCommand();
                         break;
 
-            case 5:     gamePlaySate.printCard(commonBoard.getToolCards(), "strumento");
-                        gamePlaySate.showCommands();
+            case 4:     gamePlaySate.printPubObj(commonBoard.getPublicObjectiveCards());
+                        this.showCommand();
                         break;
 
-            case 6:     try{
+            case 5:     gamePlaySate.printTool(commonBoard.getToolCards());
+                        this.showCommand();
+                        break;
+
+            case 6:     gamePlaySate.printPrivateObj(this.player.getPrivateObjCard());
+                        this.showCommand();
+                        break;
+                        /*
+            case 7:     try{
                             server.endTurn();
                         } catch (BrokenConnectionException e) {
                             SagradaLogger.log(Level.SEVERE, "Connection broken during end game", e);
                         }
                         break;
-
+                */
+            default:    this.showCommand();
+                        break;
         }
     }
-    */
 
-    @Override
-    public void showCommand() {
 
-    }
 
     /**
      * This method fill the information unit with all the input token from the user.
@@ -209,7 +280,9 @@ public class CliView extends AViewMaster{
      */
     @Override
     public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) {
-        gamePlaySate.getPlacementInfo(commonBoard.getDraftPool(), player.getWp(), setInfoUnit);
+        WindowPatternCardView wp = this.getPlayerConnected().getWp();
+
+        gamePlaySate.getPlacementInfo(commonBoard.getDraftPool(),wp, setInfoUnit);
 
         try {
             server.performMove(setInfoUnit);
@@ -219,10 +292,64 @@ public class CliView extends AViewMaster{
     }
 
     /**
+     * This method update the wp of the player connected and print it.
+     * @param unit : information for the update, index of matrix and die that needs to be place.
+     */
+    @Override
+    public void updateOwnWp(SetUpInformationUnit unit){
+        WindowPatternCardView wp = this.getPlayerConnected().getWp();
+
+        gamePlaySate.updateWp(wp, unit);
+        wp.printWp();
+
+
+    }
+
+    /**
+     * This method update the wp of all player.
+     * @param userName : The userName of the player with the wp modified
+     * @param infoUnit : The info of modification of the wp.
+     */
+    @Override
+    public void updateOtherPlayerWp(String userName, SetUpInformationUnit infoUnit){
+
+        for (PlayerView ply : this.commonBoard.getPlayers())
+            if (ply.getUserName().equals(userName)) {
+                gamePlaySate.updateWp(ply.getWp(), infoUnit);
+                return;
+            }
+
+    }
+
+    /**
+     * This method remove a die fr<om the draft in a specified index.
+     * @param info: the containers of the index information.
+     */
+    @Override
+    public void updateDraft(InformationUnit info){
+        this.commonBoard.getDraftPool().getDice().remove(info.getIndex());
+    }
+
+    /**
+     * This method update the number of favor token assigned to a player
+     * @param nFavorToken : number of favor token remain.
+     */
+    @Override
+    public void updateFavTokenPlayer(int nFavorToken){
+        this.player.setFavorToken(nFavorToken);
+    }
+
+    public void updateFavTokenTool(int idSlot, int nFavToken){
+
+    }
+
+    // DA CANCELLARE
+    /**
      * This method update the wp of a specified player.
      * @param username: Username of player that need the update.
      * @param unit: The set of information needed to place a die in the wp.
      */
+    @Deprecated
     @Override
     public void showUpdatedWp(String username, SetUpInformationUnit unit) {
 
@@ -233,7 +360,7 @@ public class CliView extends AViewMaster{
 
         if (player.getUserName().equals(username)) {
             inputOutputManager.print("Dado piazzato!");
-            player.getWp().printWp();
+            this.getPlayerConnected().getWp().printWp();
         }
     }
 
@@ -248,6 +375,19 @@ public class CliView extends AViewMaster{
 
 
 
+//----------------------------------------------------------
+//                  CLIENT NOT SERVED
+//----------------------------------------------------------
+
+
+    @Override
+    public void setMyTurn(boolean myTurn) {
+        isMyTurn = myTurn;
+        if(!isMyTurn()) {
+            OutOfTurnManager manager = new OutOfTurnManager(this);
+            manager.run();
+        }
+    }
 
 //----------------------------------------------------------
 //                  GENERAL METHODS
@@ -258,5 +398,32 @@ public class CliView extends AViewMaster{
 
     public void setServer(IFromClientToServer server) {
         this.server = server;
+    }
+
+    public boolean isMyTurn() {
+        return isMyTurn;
+    }
+
+
+
+    GamePlayCli getGamePlaySate() {
+        return gamePlaySate;
+    }
+
+    public CommonBoardView getCommonBoard() {
+        return commonBoard;
+    }
+
+    public PlayerView getPlayer() {
+        return player;
+    }
+
+    private PlayerView getPlayerConnected(){
+
+        for (PlayerView p: this.commonBoard.getPlayers())
+            if (p.getUserName().equals(this.player.getUserName()))
+                return p;
+
+        return null;
     }
 }

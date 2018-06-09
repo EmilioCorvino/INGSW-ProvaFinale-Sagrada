@@ -1,6 +1,9 @@
 package it.polimi.ingsw.view.cli.die;
 
 import it.polimi.ingsw.model.Color;
+import org.fusesource.jansi.Ansi;
+
+import static org.fusesource.jansi.Ansi.ansi;
 
 /**
  * This class identify a die in the view context.
@@ -26,5 +29,8 @@ public class DieView {
 
     String toStringDie(){
         return "\033["+this.dieColor.getColorNumber()+";1m"+dieValue+"\033[0m";
+        /*
+        return ansi().fg(Ansi.Color.valueOf(dieColor.toString())) + "" + dieValue + ansi().fg(Ansi.Color.DEFAULT);
+        */
     }
 }

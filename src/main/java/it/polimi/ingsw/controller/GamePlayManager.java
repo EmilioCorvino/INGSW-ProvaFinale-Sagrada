@@ -2,10 +2,10 @@ package it.polimi.ingsw.controller;
 
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.move.DiePlacementMove;
 import it.polimi.ingsw.model.move.IMove;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 
 import java.util.ArrayList;
@@ -64,9 +64,25 @@ public class GamePlayManager extends AGameManager {
         for(int i= supportList.size()-1; i>=0; i--)
             playerList.add(supportList.get(i));
         //reOrderPlayerList();
+        //super.getControllerMaster().startTurnPlayer(playerList.get(currentPlayer));
+        startMatch();
+    }
 
-        for(Player p : playerList)
-            System.out.println(p.getPlayerName());
+    /**
+     * This method embeds the cycle of the flow of the game. It counts the round and flows the turn for each player.
+     */
+    //external cycle
+    private void startMatch() {
+        //ciclo tutti i client per mostrargli la common board
+
+        while(this.currentRound <= NUM_ROUND) {
+            playerList.forEach(player -> {
+                startTurn(player);
+                //this.turnTracker.checkTurn(...params...)
+            });
+            currentRound ++;
+        }
+        //endMatch()
     }
 
     /**
@@ -81,33 +97,27 @@ public class GamePlayManager extends AGameManager {
         }
     }
 
+    /**
+     * This method manages the turn of the current player.
+     * @param currentPlayer the current player.
+     */
+    public void startTurn(Player currentPlayer) {
+        //GIAN ???
 
-
-    public void startTurn() {
-        //all the view commands are blocked by default
-        //for this current player advise that his/her inputs are needed
-        //unlock commands for the current player
-        //start the timer
-
-        /*
-        Timer timerTurn = new Timer();
-        timerTurn.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                endTurn();
-                //TODO adjust this
-                if(currentRound == NUM_ROUND) {
-                    timerTurn.cancel();
-                    //go to end game in  some way
-                }
-
+        try{
+            super.getControllerMaster().getConnectedPlayers().get(currentPlayer.getPlayerName()).getClient().setMyTurn(true);
+            for(Player p: this.playerList) {
+                if (!p.isSamePlayerAs(playerList.get(this.currentPlayer)))
+                    super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient().setMyTurn(false);
             }
-        }, 5 * 1000);
-        */
+            super.getControllerMaster().getConnectedPlayers().get(currentPlayer.getPlayerName()).getClient().showCommand();
+        } catch(BrokenConnectionException br) {
+            //handle broken connection
+        }
     }
 
     /**
-     *
+     * //provisional
      */
     private void endTurn() {
         //increment current player variable
@@ -122,8 +132,9 @@ public class GamePlayManager extends AGameManager {
      * @return true if the given color matches the color of the current player.
      */
     public boolean checkCurrentPlayer(String username) {
-        return username.equals(this.playerList.get(startPlayer).getPlayerName());
+        return username.equals(this.playerList.get(currentPlayer).getPlayerName());
     }
+
 
 
     public int getStartPlayer() {
@@ -163,7 +174,7 @@ public class GamePlayManager extends AGameManager {
     public void givePlayerObjectTofill() {
         SetUpInformationUnit setUpInfo = new SetUpInformationUnit();
         try {
-            super.getControllerMaster().getConnectedPlayers().get(playerList.get(currentPlayer).getPlayerName()).giveProperObjectToFill(setUpInfo);
+            super.getControllerMaster().getConnectedPlayers().get(playerList.get(currentPlayer).getPlayerName()).getClient().giveProperObjectToFill(setUpInfo);
         } catch (BrokenConnectionException br) {
             //TODO handle broken connection by suspending player, using logs etc.
         }
@@ -171,15 +182,42 @@ public class GamePlayManager extends AGameManager {
 
 
     public void showPlacementResult(Player playerColor, SetUpInformationUnit setUpInformationUnit) {
-        CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
-        super.getControllerMaster().getConnectedPlayers().entrySet().forEach(entry -> {
-            try {
-                entry.getValue().showUpdatedWp(commonBoard.getPlayerMap().get(playerColor).getPlayerName(), setUpInformationUnit);
+        IFromServerToClient ifstc = super.getControllerMaster().getConnectedPlayers().get(playerColor.getPlayerName()).getClient();
+        try {
+            System.out.println("me la mostri o no sta mappa " + playerColor.getPlayerName());
+            ifstc.showUpdatedWp(playerColor.getPlayerName(), setUpInformationUnit);
+        } catch (BrokenConnectionException br) {
+            //handle broken connection
+        }
+    }
 
-            } catch (BrokenConnectionException br) {
-                //handle
-            }
-        });
-        endTurn();
+    /**
+     * Thi method notifies the client any type of issue may occur in each request.
+     * @param message the message to tell.
+     */
+
+    public void showNotification(String message) {
+       IFromServerToClient iFromServerToClient = super.getControllerMaster().getConnectedPlayers().get(playerList.get(currentPlayer).getPlayerName()).getClient();
+        try{
+            iFromServerToClient.showNotice(message);
+        } catch (BrokenConnectionException br) {
+            //handle broken connection.
+        }
+    }
+
+    public int getCurrentRound() {
+        return currentRound;
+    }
+
+    public void setCurrentRound(int currentRound) {
+        this.currentRound = currentRound;
+    }
+
+    public List<Player> getPlayerList() {
+        return playerList;
+    }
+
+    public void setPlayerList(List<Player> playerList) {
+        this.playerList = playerList;
     }
 }
