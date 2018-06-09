@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.cards.tool;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 
@@ -63,26 +64,32 @@ public class ToolCardsDeck {
         return this.deck.remove(index);
     }
 
+    /**
+     * Assigns the right effect to the {@link ToolCard} based on the command found on file and saved in
+     * {@link EffectBuilder}
+     * @throws IOException when the effect name found on file is not present in the game.
+     */
     private void assignEffect() throws IOException {
         for(ToolCard card: this.getDeck()) {
             card.initializeCardEffects();
             EffectBuilder builder = card.getEffectBuilder();
-            for(String effectName: builder.getEffects()) {
+            for(Commands effectName: builder.getEffects()) {
                 switch (effectName) {
-                    case "ChooseValue":             card.getCardEffects().add(new ChooseValueEffect(builder.getEffectSpecificParameter()));
-                                                    break;
-                    case "ValueRestriction":        card.getCardEffects().add(new ValueRestrictionEffect());
-                                                    break;
-                    case "ColorRestriction":        card.getCardEffects().add(new ColorRestrictionEffect());
-                                                    break;
-                    case "PlacementRestriction":    card.getCardEffects().add(new PlacementRestrictionEffect());
-                                                    break;
-                    case "SwapDie":                 card.getCardEffects().add(new SwapDieEffect());
-                                                    break;
-                    case "DraftValue":              card.getCardEffects().add(new DraftValueEffect(builder.getEffectSpecificParameter()));
-                                                    break;
-                    default:                        throw new IOException("Illegal effect found on file.");
-
+                    case CHOOSE_VALUE_EFFECT:             card.getCardEffects().add(new ChooseValueEffect(builder.
+                                                            getEffectSpecificParameter()));
+                                                          break;
+                    case VALUE_RESTRICTION_EFFECT:        card.getCardEffects().add(new ValueRestrictionEffect());
+                                                          break;
+                    case COLOR_RESTRICTION_EFFECT:        card.getCardEffects().add(new ColorRestrictionEffect());
+                                                          break;
+                    case PLACEMENT_RESTRICTION_EFFECT:    card.getCardEffects().add(new PlacementRestrictionEffect());
+                                                          break;
+                    case SWAP_DIE_EFFECT:                 card.getCardEffects().add(new SwapDieEffect());
+                                                          break;
+                    case DRAFT_VALUE_EFFECT:              card.getCardEffects().add(new DraftValueEffect(builder.
+                                                            getEffectSpecificParameter()));
+                                                          break;
+                    default:                              throw new IOException("Illegal effect found on file.");
                 }
             }
         }

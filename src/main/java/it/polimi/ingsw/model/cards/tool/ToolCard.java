@@ -80,6 +80,10 @@ public class ToolCard implements IToolCard {
         return singlePlayerColor;
     }
 
+    public boolean impliesPlacement() {
+        return impliesPlacement;
+    }
+
     public EffectBuilder getEffectBuilder() {
         return effectBuilder;
     }

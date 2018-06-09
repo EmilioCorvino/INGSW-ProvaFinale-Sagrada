@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.AContainer;
 import it.polimi.ingsw.model.cards.tool.IToolCard;
+import it.polimi.ingsw.model.cards.tool.ToolCard;
 
 /**
  * A class that contains a {@link it.polimi.ingsw.model.cards.tool.IToolCard}.
@@ -12,7 +13,7 @@ public class ToolCardSlot extends AContainer {
     /**
      * {@link IToolCard} contained in the slot.
      */
-    private final IToolCard toolCard;
+    private final ToolCard toolCard;
 
     /**
      * Cost, in favor tokens, to use the {@link it.polimi.ingsw.model.cards.tool.ToolCard}. If it hasn't been used
@@ -20,7 +21,7 @@ public class ToolCardSlot extends AContainer {
      */
     private int cost;
 
-    public ToolCardSlot(IToolCard card) {
+    public ToolCardSlot(ToolCard card) {
         this.toolCard = card;
     }
 
@@ -39,7 +40,7 @@ public class ToolCardSlot extends AContainer {
      * @return true if it implies a die placement, false otherwise.
      */
     public boolean checkImpliesPlacement() {
-        return false;
+        return this.toolCard.impliesPlacement();
     }
 
     public IToolCard getToolCard() {

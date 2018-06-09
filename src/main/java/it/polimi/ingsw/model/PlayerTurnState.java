@@ -79,7 +79,7 @@ public class PlayerTurnState {
      * @return the next player.
      */
     public Player getNext() {
-        if(currentPlayerIndex < turnOrder.size() - 1)
+        if(currentPlayerIndex < turnOrder.size())
             return turnOrder.get(currentPlayerIndex + 1);
 
         return turnOrder.get(currentPlayerIndex);

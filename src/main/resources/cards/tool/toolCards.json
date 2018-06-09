@@ -8,7 +8,7 @@
     "placement": true,
     "effect": {
       "names": [
-        "ChooseValue"
+        "CHOOSE_VALUE_EFFECT"
       ],
       "source": "DraftPool",
       "destination": "None",
@@ -24,7 +24,7 @@
     "placement": false,
     "effect": {
       "names": [
-        "ValueRestriction"
+        "VALUE_RESTRICTION_EFFECT"
       ],
       "source": "WindowPatternCard",
       "destination": "None",
@@ -40,7 +40,7 @@
     "placement": false,
     "effect": {
       "names": [
-        "ColorRestriction"
+        "COLOR_RESTRICTION_EFFECT"
       ],
       "source": "WindowPatternCard",
       "destination": "None",
@@ -56,8 +56,8 @@
     "placement": false,
     "effect": {
       "names": [
-        "PlacementRestriction",
-        "PlacementRestriction"
+        "PLACEMENT_RESTRICTION_EFFECT",
+        "PLACEMENT_RESTRICTION_EFFECT"
       ],
       "source": "WindowPatternCard",
       "destination": "None",
@@ -73,7 +73,7 @@
     "placement": true,
     "effect": {
       "names": [
-        "SwapDie"
+        "SWAP_DIE_EFFECT"
       ],
       "source": "DraftPool",
       "destination": "RoundTrack",
@@ -89,7 +89,7 @@
     "placement": true,
     "effect": {
       "names": [
-        "DraftValue"
+        "DRAFT_VALUE_EFFECT"
       ],
       "source": "DraftPool",
       "destination": "None",

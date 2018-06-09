@@ -79,7 +79,7 @@ public class GamePlayCli implements Serializable {
 
     /**
      * This method allow the player to choose the command.
-     * @return: the command chosen.
+     * @return the command chosen.
      */
     public int showCommand(){
         inputOutputManager.print("\nE' il tuo turno!");
