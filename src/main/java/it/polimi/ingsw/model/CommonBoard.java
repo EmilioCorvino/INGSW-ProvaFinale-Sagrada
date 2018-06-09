@@ -11,14 +11,11 @@ import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
 import it.polimi.ingsw.model.die.diecontainers.RoundTrack;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCardDeck;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.network.PlayerColor;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 
 /**
@@ -37,10 +34,6 @@ public class CommonBoard {
      */
     private final List<Player> players;
 
-    /**
-     *
-     */
-    private Map<PlayerColor, Player> playerMap;
 
     /**
      * {@link it.polimi.ingsw.model.die.diecontainers.DiceDraftPool} of the match.
@@ -97,7 +90,6 @@ public class CommonBoard {
         this.windowPatternCardDeck.parseDeck();
         this.toolCardsDeck = new ToolCardsDeck();
         this.toolCardsDeck.parseDeck();
-        this.playerMap = new HashMap<>();
         this.populatePubObjSlots();
         this.populateToolSlots();
     }
@@ -180,13 +172,6 @@ public class CommonBoard {
         return toolCardSlots;
     }
 
-    public Map<PlayerColor, Player> getPlayerMap() {
-        return playerMap;
-    }
-
-    public void setPlayerMap(Map<PlayerColor, Player> playerMap) {
-        this.playerMap = playerMap;
-    }
 
     public WindowPatternCardDeck getWindowPatternCardDeck() {
         return windowPatternCardDeck;

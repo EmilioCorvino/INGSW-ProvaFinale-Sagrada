@@ -2,13 +2,13 @@ package it.polimi.ingsw.controller;
 
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.model.cards.ToolCardSlot;
 import it.polimi.ingsw.model.move.DiePlacementMove;
 import it.polimi.ingsw.model.move.IMove;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,137 +16,63 @@ import java.util.List;
  */
 public class GamePlayManager extends AGameManager {
 
-    /**
-     *
-     */
-    private final int NUM_ROUND = 10;
 
-    /**
-     *
-     */
-    private List<Player> playerList;
+    //private static final int NUM_ROUND = 10;
+    //private List<Player> playerList;
+    //private int startPlayer;
+    //private int currentRound;
+    //private int currentPlayer;
 
-    /**
-     * The index of the start player inside playerList. It is updated each round.
-     */
-    private int startPlayer;
-
-    /**
-     * The index of the current round.
-     */
-    private int currentRound;
-
-    /**
-     * The index of the current player inside playerList.
-     */
-    private int currentPlayer;
 
     public GamePlayManager(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
-        playerList = new ArrayList<>();
-        this.startPlayer = 0;
-        this.currentRound = 1;
     }
 
-    /**
-     * This method creates the appropriate list of player to flow each round.
-     * //TODO testing
-     */
-    public void initializePlayerList() {
-        System.out.println("initializing players....");
-        List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
-        List<Player> supportList = new ArrayList<>();
-        players.forEach(player -> {
-            playerList.add(player);
-            supportList.add(player);
-        });
 
-        for(int i= supportList.size()-1; i>=0; i--)
-            playerList.add(supportList.get(i));
-        //reOrderPlayerList();
-        //super.getControllerMaster().startTurnPlayer(playerList.get(currentPlayer));
-        startMatch();
-    }
 
-    /**
-     * This method embeds the cycle of the flow of the game. It counts the round and flows the turn for each player.
-     */
-    //external cycle
-    private void startMatch() {
-        //ciclo tutti i client per mostrargli la common board
-
-        while(this.currentRound <= NUM_ROUND) {
-            playerList.forEach(player -> {
-                startTurn(player);
-                //this.turnTracker.checkTurn(...params...)
-            });
-            currentRound ++;
-        }
-        //endMatch()
-    }
-
-    /**
-     * This method reorders the list of the player.
-     * //TODO testing
-     */
-    private void reOrderPlayerList() {
-        Player playerToMove = playerList.get(startPlayer);
-        if(startPlayer != 0) {
-            playerList.remove(startPlayer );
-            playerList.add(playerToMove);
-        }
-    }
 
     /**
      * This method manages the turn of the current player.
+     *
      * @param currentPlayer the current player.
      */
+
     public void startTurn(Player currentPlayer) {
         //GIAN ???
-
-        try{
+        /*
+        try {
             super.getControllerMaster().getConnectedPlayers().get(currentPlayer.getPlayerName()).getClient().setMyTurn(true);
-            for(Player p: this.playerList) {
+            for (Player p : super.getControllerMaster().getGameState().g) {
                 if (!p.isSamePlayerAs(playerList.get(this.currentPlayer)))
                     super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient().setMyTurn(false);
             }
             super.getControllerMaster().getConnectedPlayers().get(currentPlayer.getPlayerName()).getClient().showCommand();
-        } catch(BrokenConnectionException br) {
+        } catch (BrokenConnectionException br) {
             //handle broken connection
         }
+        */
     }
 
     /**
      * //provisional
      */
     private void endTurn() {
-        //increment current player variable
-        playerList.remove(playerList.get(startPlayer));
-        startPlayer++;
-        //lock ex current player
+
     }
 
     /**
      * This method checks the current player.
+     *
      * @param username the color of the current player.
      * @return true if the given color matches the color of the current player.
      */
     public boolean checkCurrentPlayer(String username) {
-        return username.equals(this.playerList.get(currentPlayer).getPlayerName());
+        Player player = super.getControllerMaster().getGameState().getActualPlayer();
+        return username.equals(player.getPlayerName());
     }
 
-
-
-    public int getStartPlayer() {
-        return startPlayer;
-    }
-
-    public void setStartPlayer(int startPlayer) {
-        this.startPlayer = startPlayer;
-    }
 
     /**
-     *
      * @param info
      */
     public void performMove(SetUpInformationUnit info) {
@@ -155,26 +81,11 @@ public class GamePlayManager extends AGameManager {
 
     }
 
-    public List<Player> getPlayerColorList() {
-        return playerList;
-    }
-
-    public void setPlayerColorList(List<Player> playerColorList) {
-        this.playerList = playerColorList;
-    }
-
-    public int getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-    public void setCurrentPlayer(int currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-
     public void givePlayerObjectTofill() {
         SetUpInformationUnit setUpInfo = new SetUpInformationUnit();
+        Player player = super.getControllerMaster().getGameState().getActualPlayer();
         try {
-            super.getControllerMaster().getConnectedPlayers().get(playerList.get(currentPlayer).getPlayerName()).getClient().giveProperObjectToFill(setUpInfo);
+            super.getControllerMaster().getConnectedPlayers().get(player.getPlayerName()).getClient().giveProperObjectToFill(setUpInfo);
         } catch (BrokenConnectionException br) {
             //TODO handle broken connection by suspending player, using logs etc.
         }
@@ -193,31 +104,75 @@ public class GamePlayManager extends AGameManager {
 
     /**
      * Thi method notifies the client any type of issue may occur in each request.
+     *
      * @param message the message to tell.
      */
 
     public void showNotification(String message) {
-       IFromServerToClient iFromServerToClient = super.getControllerMaster().getConnectedPlayers().get(playerList.get(currentPlayer).getPlayerName()).getClient();
-        try{
+        Player player = super.getControllerMaster().getGameState().getActualPlayer();
+        IFromServerToClient iFromServerToClient = super.getControllerMaster().getConnectedPlayers().get(player.getPlayerName()).getClient();
+        try {
             iFromServerToClient.showNotice(message);
         } catch (BrokenConnectionException br) {
             //handle broken connection.
         }
     }
 
-    public int getCurrentRound() {
-        return currentRound;
-    }
+    /**
+     * This method checks if are satisfied the right conditions to move to the next player.
+     * @return true if the end-turn conditions are satisfied, false otherwise.
+     */
+    public boolean checkEndTurn() {
 
-    public void setCurrentRound(int currentRound) {
-        this.currentRound = currentRound;
-    }
+        if (this.getControllerMaster().getGameState().movesTurnState())
+            return true;
 
-    public List<Player> getPlayerList() {
-        return playerList;
-    }
+        List<ToolCardSlot> toolCardSlots = super.getControllerMaster().getCommonBoard().getToolCardSlots();
+        int slotUsed = super.getControllerMaster().getGameState().getTurnState().getToolSlotUsed();
+        int playerTokens = super.getControllerMaster().getGameState().getActualPlayer().getFavorTokens();
 
-    public void setPlayerList(List<Player> playerList) {
-        this.playerList = playerList;
+        if (this.getControllerMaster().getGameState().getTurnState().isPlacedDie())
+            for (ToolCardSlot slot : toolCardSlots)
+                if (slot.checkTokens(playerTokens) && !slot.checkImpliesPlacement())
+                    return true;
+
+        if (this.getControllerMaster().getGameState().getTurnState().isUsedToolCard())
+            if(toolCardSlots.get(slotUsed).checkImpliesPlacement())
+                return true;
+        return false;
     }
 }
+
+       /*
+    private void reOrderPlayerList() {
+        Player playerToMove = playerList.get(startPlayer);
+        if(startPlayer != 0) {
+            playerList.remove(startPlayer );
+            playerList.add(playerToMove);
+        }
+    }
+    */
+
+        /*
+    public void initializePlayerList() {
+        System.out.println("initializing players....");
+        List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
+        List<Player> supportList = new ArrayList<>();
+        players.forEach(player -> {
+            playerList.add(player);
+            supportList.add(player);
+        });
+
+        for(int i= supportList.size()-1; i>=0; i--)
+            playerList.add(supportList.get(i));
+        //reOrderPlayerList();
+        //super.getControllerMaster().startTurnPlayer(playerList.get(currentPlayer));
+        startMatch();
+    }
+    */
+
+         /*
+        playerList = new ArrayList<>();
+        this.startPlayer = 0;
+        this.currentRound = 1;
+        */

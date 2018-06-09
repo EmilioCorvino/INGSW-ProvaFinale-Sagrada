@@ -50,8 +50,6 @@ public class ToolCard implements IToolCard {
     @SerializedName("effect")
     private EffectBuilder effectBuilder;
 
-
-
     /**
      * Effects possessed by the card.
      */

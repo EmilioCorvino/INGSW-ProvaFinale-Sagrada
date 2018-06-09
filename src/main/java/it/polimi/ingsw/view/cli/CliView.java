@@ -79,7 +79,11 @@ public class CliView extends AViewMaster{
         endGameState = new EndGameCli(inputOutputManager);
 
         //TODO provisional
-        //new Thread(new ScannerThread(this::analyzeStringInput)).start();
+    }
+
+    public void analyzeStringInput(String word) {
+        System.out.println("ho letto " + word);
+
     }
 
 //----------------------------------------------------------
@@ -97,6 +101,7 @@ public class CliView extends AViewMaster{
         while(!ipOk){
             try{
                 String ipAddress = loginState.getIp();
+                System.out.println("ip preso?");
                 this.server = loginState.chooseNetworkInterface(ipAddress, viewMaster);
                 ipOk = true;
             }catch (BrokenConnectionException e){
@@ -225,6 +230,7 @@ public class CliView extends AViewMaster{
      * 7: end the turn
      */
 
+    //TODO questo metodo è sbagliata!!!!
     @Override
     public void showCommand() {
         int command = gamePlaySate.showCommand();
@@ -232,7 +238,7 @@ public class CliView extends AViewMaster{
             case 1:     try{
                             server.defaultMoveRequest();
                         } catch (BrokenConnectionException e){
-                            SagradaLogger.log(Level.SEVERE, "Connection broken during placement move",e);
+                            SagradaLogger.log(Level.SEVERE, "Connection broken during placement move", e);
                         }
                         break;
             /*
