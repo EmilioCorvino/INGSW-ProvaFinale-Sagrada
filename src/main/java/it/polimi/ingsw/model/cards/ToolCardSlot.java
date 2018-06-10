@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.AContainer;
 import it.polimi.ingsw.model.cards.tool.IToolCard;
+import it.polimi.ingsw.model.cards.tool.ToolCard;
 
 /**
  * A class that contains a {@link it.polimi.ingsw.model.cards.tool.IToolCard}.
@@ -12,23 +13,43 @@ public class ToolCardSlot extends AContainer {
     /**
      * {@link IToolCard} contained in the slot.
      */
-    private final IToolCard toolCard;
+    private final ToolCard toolCard;
 
     /**
      * Cost, in favor tokens, to use the {@link it.polimi.ingsw.model.cards.tool.ToolCard}. If it hasn't been used
-     * before, the cost is 1, otherwise is 2.
+     * before, the cost is 1, otherwise will be set to 2.
      */
     private int cost;
 
-    public ToolCardSlot(IToolCard card) {
+    public ToolCardSlot(ToolCard card) {
         this.toolCard = card;
     }
 
-    public IToolCard getToolCard() {
+    /**
+     * This method checks if a player has enough favor tokens to use the tool card contained in this slot.
+     * @param playerTokens the favor tokens to check.
+     * @return true if the condition is satisfied, false otherwise.
+     */
+    public boolean checkTokens(int playerTokens) {
+        return playerTokens >= this.cost;
+    }
+
+    /**
+     * TODO
+     * This method checks if the tool card contained inside implies a die placement.
+     * @return true if it implies a die placement, false otherwise.
+     */
+    public boolean checkImpliesPlacement() {
+        return this.toolCard.impliesPlacement();
+    }
+
+    public ToolCard getToolCard() {
         return toolCard;
     }
 
     public int getCost() {
         return cost;
     }
+
+
 }

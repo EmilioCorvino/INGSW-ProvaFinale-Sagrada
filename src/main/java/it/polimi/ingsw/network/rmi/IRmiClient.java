@@ -27,11 +27,13 @@ public interface IRmiClient extends Remote {
 
     void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) throws RemoteException;
 
+    void showPrivateObjectiveCard(int privateObjCardId) throws RemoteException;
+
     void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool) throws RemoteException;
 
     void setDraft(List<SetUpInformationUnit> draft) throws RemoteException;
 
-    void setPlayer(int nFavTokens, int idPrivateObj) throws RemoteException;
+    void setFavorTokens(int nFavTokens) throws RemoteException;
 
     void showCommand() throws RemoteException;
 

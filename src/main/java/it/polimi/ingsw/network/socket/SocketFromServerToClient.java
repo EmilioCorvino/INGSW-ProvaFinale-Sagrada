@@ -31,6 +31,11 @@ public class SocketFromServerToClient implements IFromServerToClient {
     }
 
     @Override
+    public void showPrivateObjectiveCard(int privateObjCardId) throws BrokenConnectionException {
+
+    }
+
+    @Override
     public void setCommonBoard(Map<String, SimplifiedWindowPatternCard> players, int[] idPubObj, int[] idTool) throws BrokenConnectionException {
 
     }
@@ -41,7 +46,7 @@ public class SocketFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void setPlayer(int nFavTokens, int idPrivateObj) throws BrokenConnectionException {
+    public void setFavorTokens(int nFavTokens) throws BrokenConnectionException {
 
     }
 

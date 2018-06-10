@@ -101,9 +101,9 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void setPlayer(int nFavTokens, int idPrivateObj) throws BrokenConnectionException {
+    public void setFavorTokens(int nFavTokens) throws BrokenConnectionException {
         try {
-            this.rmiClient.setPlayer(nFavTokens, idPrivateObj);
+            this.rmiClient.setFavorTokens(nFavTokens);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to correctly set the player", e);
             throw new BrokenConnectionException();

@@ -50,8 +50,6 @@ public class ToolCard implements IToolCard {
     @SerializedName("effect")
     private EffectBuilder effectBuilder;
 
-
-
     /**
      * Effects possessed by the card.
      */
@@ -80,6 +78,10 @@ public class ToolCard implements IToolCard {
 
     public Color getSinglePlayerColor() {
         return singlePlayerColor;
+    }
+
+    public boolean impliesPlacement() {
+        return impliesPlacement;
     }
 
     public EffectBuilder getEffectBuilder() {

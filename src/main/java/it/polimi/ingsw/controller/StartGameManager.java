@@ -5,7 +5,6 @@ import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.cards.PublicObjectiveCardSlot;
 import it.polimi.ingsw.model.cards.ToolCardSlot;
-import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard;
 import it.polimi.ingsw.model.cards.tool.ToolCard;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
@@ -15,11 +14,13 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * This class provides methods to support all the operations needed before the match starts.
@@ -54,9 +55,7 @@ public class StartGameManager extends AGameManager {
         List<SimplifiedWindowPatternCard> wpToSend = new ArrayList<>();
 
         try {
-            //System.out.println(super.getControllerMaster().getCommonBoard().getWindowPatternCardDeck().getAvailableWP().size());
             List<WindowPatternCard> coupleOfWP = mapDeck.drawCard();
-            //System.out.println(super.getControllerMaster().getCommonBoard().getWindowPatternCardDeck().getAvailableWP().size());
             for(WindowPatternCard wp : coupleOfWP) {
                 Cell[][] gw = wp.getGlassWindow();
                 List<SetUpInformationUnit> informationUnitList = new ArrayList<>();
@@ -73,7 +72,7 @@ public class StartGameManager extends AGameManager {
                 wpToSend.add(simpleWp);
             }
         } catch (EmptyException empty) {
-            empty.printStackTrace();
+            SagradaLogger.log(Level.SEVERE, "Window pattern card deck is empty!", empty);
         }
         return wpToSend;
     }
@@ -150,7 +149,7 @@ public class StartGameManager extends AGameManager {
         //method that shows the common board
         setCommonBoard();
 
-        super.getControllerMaster().initializeGame();
+      //  super.getControllerMaster().initializeGame();
     }
 
     /**
@@ -185,7 +184,6 @@ public class StartGameManager extends AGameManager {
         List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
 
         for(Player player : players) {
-           // System.out.println(player.getWindowPatternCard().getIdMap());
             mapOfWp.put(player.getPlayerName(), convertOneWp(player.getWindowPatternCard().getIdMap()));
         }
         return mapOfWp;
