@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
@@ -70,20 +71,9 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) throws
-            BrokenConnectionException {
+    public void showPrivateObjective(int idPrivateObjCard) throws BrokenConnectionException {
         try {
-            this.rmiClient.showCommonBoard(draftPool, wp);
-        } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to show clients the initialized board", e);
-            throw new BrokenConnectionException();
-        }
-    }
-
-    @Override
-    public void showPrivateObjectiveCard(int privateObjCardId) throws BrokenConnectionException {
-        try {
-            this.rmiClient.showPrivateObjectiveCard(privateObjCardId);
+            this.rmiClient.showPrivateObjectiveCard(idPrivateObjCard);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to show clients their private objective card", e);
             throw new BrokenConnectionException();
@@ -111,7 +101,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void setFavorTokens(int nFavTokens) throws BrokenConnectionException {
+    public void setFavorToken(int nFavTokens) throws BrokenConnectionException {
         try {
             this.rmiClient.setFavorTokens(nFavTokens);
         } catch (RemoteException e) {
@@ -121,26 +111,11 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void showCommand() throws BrokenConnectionException {
+    public void showCommand(List<Commands> commands) throws BrokenConnectionException {
         try {
             this.rmiClient.showCommand();
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to show clients the available commands", e);
-            throw new BrokenConnectionException();
-        }
-    }
-
-    /**
-     *
-     * @param setInfoUnit
-     * @throws BrokenConnectionException
-     */
-    @Override
-    public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws BrokenConnectionException {
-        try {
-            this.rmiClient.giveProperObjectToFill(setInfoUnit);
-        } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to show to the client the proper object to fill", e);
             throw new BrokenConnectionException();
         }
     }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
@@ -25,19 +26,15 @@ public interface IRmiClient extends Remote {
 
     void choseWpId() throws RemoteException;
 
-    void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) throws RemoteException;
-
-    void showPrivateObjectiveCard(int privateObjCardId) throws RemoteException;
+    void showPrivateObjective(int privateObjCardId) throws RemoteException;
 
     void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool) throws RemoteException;
 
     void setDraft(List<SetUpInformationUnit> draft) throws RemoteException;
 
-    void setFavorTokens(int nFavTokens) throws RemoteException;
+    void setFavorToken(int nFavTokens) throws RemoteException;
 
-    void showCommand() throws RemoteException;
-
-    void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws RemoteException;
+    void showCommand(List<Commands> commands) throws RemoteException;
 
     void showUpdatedWp(String username, SetUpInformationUnit info) throws RemoteException;
 
