@@ -204,7 +204,7 @@ public class CliView extends AViewMaster{
         }
 
         setUpManager.createPubObjCards(idPubObj, commonBoard.getPublicObjectiveCards());
-        //setUpManager.createToolCards(idTool, commonBoard.getToolCards());
+        setUpManager.createToolCards(idTool, commonBoard.getToolCards());
 
         setUpManager.printPubObj(commonBoard.getPublicObjectiveCards());
         setUpManager.printTool(commonBoard.getToolCards());
