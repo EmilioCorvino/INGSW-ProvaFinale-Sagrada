@@ -119,7 +119,7 @@ public class CliView extends AViewMaster{
             }
         }
 
-        inputOutputManager.print("\nConnessione stabilita.\nProcedere con il register.");
+        inputOutputManager.print("\nConnessione stabilita.\nProcedere con la registrazione.");
 
         while(!userNameOk){
             try {
@@ -206,6 +206,7 @@ public class CliView extends AViewMaster{
         setUpManager.createPubObjCards(idPubObj, commonBoard.getPublicObjectiveCards());
         setUpManager.createToolCards(idTool, commonBoard.getToolCards());
 
+        inputOutputManager.print("\nPLANCIA DI GIOCO: ");
         setUpManager.printPubObj(commonBoard.getPublicObjectiveCards());
         setUpManager.printTool(commonBoard.getToolCards());
         this.player.getWp().printWp();
@@ -242,8 +243,8 @@ public class CliView extends AViewMaster{
     @Override
     public void showCommand(List<Commands> commands) {
         functions = bank.getCommandMap(commands);
-        inputOutputManager.print("Camandi disponibili: ");
-        functions.forEach((k,v) -> inputOutputManager.print(k));
+        inputOutputManager.print("\nCamandi disponibili: ");
+        functions.forEach((k,v) -> inputOutputManager.print("\t- "+k));
         //scannerThread.start();
     }
 
@@ -376,9 +377,17 @@ public class CliView extends AViewMaster{
      * @param s: the key related of the method in the map.
      */
     private void analyzeStringInput(String s){
-        if(functions.keySet().contains(s))
+        if(stringInTheMap(s))
             functions.get(s).run();
         else
             inputOutputManager.print("Comando non disponibile");
+    }
+
+    private boolean stringInTheMap(String s){
+
+        for (String string : functions.keySet())
+            if(s.equalsIgnoreCase(string))
+                return true;
+        return false;
     }
 }

@@ -34,7 +34,7 @@ public class DieDraftPoolView {
      * This method print the draft pool
      */
     public void printDraftPool(){
-        inputOutputManager.print("RISERVA:");
+        inputOutputManager.print("\nRISERVA:");
         inputOutputManager.print(diceDraftToString());
     }
 
