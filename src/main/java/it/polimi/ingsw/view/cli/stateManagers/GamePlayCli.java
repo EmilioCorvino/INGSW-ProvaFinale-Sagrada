@@ -94,9 +94,6 @@ public class GamePlayCli implements Serializable {
         return commandChosen;
     }
 
-
-
-
     /**
      *
      * @param wp
@@ -106,36 +103,4 @@ public class GamePlayCli implements Serializable {
         wp.getGlassWindow()[unit.getIndex()/WindowPatternCardView.MAX_COL][unit.getIndex() % WindowPatternCardView.MAX_COL].setDie(new DieView(unit.getColor(), unit.getValue()));
     }
 
-    public void printPubObj(List<String> cards){
-        int index = 1;
-
-        inputOutputManager.print("\nCarte obiettivo pubblico: ");
-        for (String s : cards){
-            inputOutputManager.print("\t - " + index + ": " + s);
-            index ++;
-        }
-    }
-
-    public void printTool(Map<String, Integer> cards){
-        int index = 1;
-
-        inputOutputManager.print("\nCarte strumento: ");
-        for (Map.Entry<String,Integer> s : cards.entrySet()){
-            inputOutputManager.print("\t - " + index + ": " + s.getKey() + " | Segnalini favore da usare: " + s.getValue());
-            index ++;
-        }
-    }
-
-    public void printPrivateObj(String card){
-        inputOutputManager.print("\nIl tuo obiettivo privato e': "+ card);
-    }
-
-    public void printAllWp(List<PlayerView> players, PlayerView currPlayer){
-        for(PlayerView p : players){
-            if(!p.getUserName().equals(currPlayer.getUserName())) {
-                inputOutputManager.print("\nGiocatore " + p.getUserName());
-                p.getWp().printWp();
-            }
-        }
-    }
 }

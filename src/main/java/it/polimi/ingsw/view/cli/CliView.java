@@ -1,8 +1,10 @@
 package it.polimi.ingsw.view.cli;
 
+import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
@@ -13,10 +15,7 @@ import it.polimi.ingsw.view.cli.die.CommonBoardView;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.die.PlayerView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
-import it.polimi.ingsw.view.cli.stateManagers.EndGameCli;
-import it.polimi.ingsw.view.cli.stateManagers.GamePlayCli;
-import it.polimi.ingsw.view.cli.stateManagers.LoginCli;
-import it.polimi.ingsw.view.cli.stateManagers.SetUpGameCli;
+import it.polimi.ingsw.view.cli.stateManagers.*;
 
 import java.util.List;
 import java.util.Map;
@@ -30,7 +29,18 @@ public class CliView extends AViewMaster{
     private boolean isMyTurn;
 
     /**
-     * The user name of the player connected with the client.
+     * The object that create the map functions, taking info from a map of possible function.
+     */
+    private Bank bank;
+
+    /**
+     * The map populate a ran time, with all the possible command usable in a stage of the game.
+     */
+    private Map<String, Runnable> functions;
+
+    /**
+     * The player connected with the client, with the info of his private objective card, and the number of his favor toke.
+     * (No his wp, that information his inside the common board to this player in the players list)
      */
     private PlayerView player;
 
@@ -70,6 +80,7 @@ public class CliView extends AViewMaster{
     private EndGameCli endGameState;
 
     public CliView(){
+        bank = new Bank(this);
         player = new PlayerView();
         commonBoard = new CommonBoardView();
         inputOutputManager = new InputOutputManager();
@@ -78,8 +89,7 @@ public class CliView extends AViewMaster{
         gamePlaySate = new GamePlayCli(inputOutputManager);
         endGameState = new EndGameCli(inputOutputManager);
 
-        //TODO provisional
-        //new Thread(new ScannerThread(this::analyzeStringInput)).start();
+        new Thread(new ScannerThread(this::analyzeStringInput, inputOutputManager)).start();
     }
 
 //----------------------------------------------------------
@@ -134,6 +144,17 @@ public class CliView extends AViewMaster{
 //----------------------------------------------------------
 //                  INITIALIZATION STATE
 //----------------------------------------------------------
+
+    /**
+     * This method set the private objective of the player and than show it to him.
+     * @param idPrivateObj: the id of the private objective drown.
+     */
+    @Override
+    public void showPrivateObjective(int idPrivateObj){
+        this.initializationState.createPrivateObjCard(idPrivateObj, this.player);
+        inputOutputManager.print("Il tuo obiettivo privato e': " + this.player.getPrivateObjCard());
+    }
+
     /**
      *This method print for maps to the user and return to the server the id of the map chosen colling windowPatternRequest().
      * @param listWp: The list of maps need to be choose.
@@ -151,22 +172,6 @@ public class CliView extends AViewMaster{
             SagradaLogger.log(Level.SEVERE, "Connection broken during map id choose.");
         }
 
-    }
-
-    // DA CANCELLARE
-    /**
-     *This method take the info from the server to initialize the common board at the beginning of the match.
-     * @param draftPool
-     * @param wp :
-     */
-    @Override
-    public void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp){
-        this.player.setWp(new WindowPatternCardView(wp));
-        DieDraftPoolView draft = new DieDraftPoolView(draftPool);
-
-        this.commonBoard.setDraftPool(draft);
-        this.commonBoard.getPlayers().add(player);
-        initializationState.showCommonBoard(draft, player.getWp());
     }
 
     /**
@@ -187,6 +192,8 @@ public class CliView extends AViewMaster{
 
         initializationState.createPubObjCards(idPubObj, commonBoard.getPublicObjectiveCards());
         //initializationState.createToolCards(idTool, commonBoard.getToolCards());
+
+        this.getPlayerConnectedFromCommonBoard().getWp().printWp();
     }
 
     /**
@@ -196,99 +203,31 @@ public class CliView extends AViewMaster{
     @Override
     public void setDraft(List<SetUpInformationUnit> draft){
         this.commonBoard.setDraftPool(new DieDraftPoolView(draft));
+        this.commonBoard.getDraftPool().printDraftPool();
     }
 
     /**
      * This method give at the player connected to this client the information of his private objective card and the number of his favor tokens.
      * @param nFavTokens : the number of favor tokens.
-     * @param idPrivateObj : the id of his private obj card.
      */
     @Override
-    public void setPlayer(int nFavTokens, int idPrivateObj){
-
+    public void setFavorToken(int nFavTokens){
         this.player.setFavorToken(nFavTokens);
-        this.initializationState.createPrivateObjCard(idPrivateObj, this.player);
-
     }
 
 //----------------------------------------------------------
 //                  GAME PLAY STATE
 //----------------------------------------------------------
-    /**
-     *This method show the available commands to the user and allow him to chose one.
-     * 1: make a placement move
-     * 2: make a tool move
-     * 3: show the wp of all players.
-     * 4: show the public objective cards.
-     * 5: show the tool cards
-     * 6: show the private objective card.
-     * 7: end the turn
-     */
-
-    @Override
-    public void showCommand() {
-        int command = gamePlaySate.showCommand();
-        switch (command){
-            case 1:     try{
-                            server.defaultMoveRequest();
-                        } catch (BrokenConnectionException e){
-                            SagradaLogger.log(Level.SEVERE, "Connection broken during placement move",e);
-                        }
-                        break;
-            /*
-            case 2:     try{
-                            server.toolMoveRequest();
-                        } catch (BrokenConnectionException e){
-                            SagradaLogger.log(Level.SEVERE, "Connection broken during tool move",e);
-                        }
-                        break;
-                */
-
-            case 3:     gamePlaySate.printAllWp(commonBoard.getPlayers(), this.player);
-                        this.showCommand();
-                        break;
-
-            case 4:     gamePlaySate.printPubObj(commonBoard.getPublicObjectiveCards());
-                        this.showCommand();
-                        break;
-
-            case 5:     gamePlaySate.printTool(commonBoard.getToolCards());
-                        this.showCommand();
-                        break;
-
-            case 6:     gamePlaySate.printPrivateObj(this.player.getPrivateObjCard());
-                        this.showCommand();
-                        break;
-                        /*
-            case 7:     try{
-                            server.endTurn();
-                        } catch (BrokenConnectionException e) {
-                            SagradaLogger.log(Level.SEVERE, "Connection broken during end game", e);
-                        }
-                        break;
-                */
-            default:    this.showCommand();
-                        break;
-        }
-    }
-
-
 
     /**
-     * This method fill the information unit with all the input token from the user.
-     * @param setInfoUnit: This object contains all of the placement info chosen by the user.
+     * This method populate the function map when the controller give the command list
+     * @param commands: the list of commands available.
      */
     @Override
-    public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) {
-        WindowPatternCardView wp = this.getPlayerConnected().getWp();
-
-        gamePlaySate.getPlacementInfo(commonBoard.getDraftPool(),wp, setInfoUnit);
-
-        try {
-            server.performMove(setInfoUnit);
-        } catch (BrokenConnectionException e){
-            SagradaLogger.log(Level.SEVERE, "Connection broken during normal placement",e);
-        }
+    public void showCommand(List<Commands> commands) {
+        functions = bank.getCommandMap(commands);
+        inputOutputManager.print("Camandi disponibili: ");
+        functions.forEach((k,v) -> inputOutputManager.print(k));
     }
 
     /**
@@ -297,7 +236,7 @@ public class CliView extends AViewMaster{
      */
     @Override
     public void updateOwnWp(SetUpInformationUnit unit){
-        WindowPatternCardView wp = this.getPlayerConnected().getWp();
+        WindowPatternCardView wp = this.getPlayerConnectedFromCommonBoard().getWp();
 
         gamePlaySate.updateWp(wp, unit);
         wp.printWp();
@@ -360,7 +299,7 @@ public class CliView extends AViewMaster{
 
         if (player.getUserName().equals(username)) {
             inputOutputManager.print("Dado piazzato!");
-            this.getPlayerConnected().getWp().printWp();
+            this.getPlayerConnectedFromCommonBoard().getWp().printWp();
         }
     }
 
@@ -404,8 +343,6 @@ public class CliView extends AViewMaster{
         return isMyTurn;
     }
 
-
-
     GamePlayCli getGamePlaySate() {
         return gamePlaySate;
     }
@@ -418,12 +355,25 @@ public class CliView extends AViewMaster{
         return player;
     }
 
-    private PlayerView getPlayerConnected(){
+    public InputOutputManager getInputOutputManager() {
+        return inputOutputManager;
+    }
+
+    /**
+     * This method take the connected player from the list of players in the common board.
+     * @return: the player connected.
+     */
+    PlayerView getPlayerConnectedFromCommonBoard(){
+        PlayerView ply = new PlayerView();
 
         for (PlayerView p: this.commonBoard.getPlayers())
             if (p.getUserName().equals(this.player.getUserName()))
-                return p;
+                ply = p;
 
-        return null;
+        return ply;
+    }
+
+    private void analyzeStringInput(String s){
+        functions.get(s).run();
     }
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
@@ -22,35 +23,19 @@ public interface IFromServerToClient {
      */
     void showRoom(List<String> players) throws BrokenConnectionException;
 
-    /**
-     *
-     * @param map1
-     * @param map2
-     * @param map3
-     * @param map4
-     */
-   // void windowPatternCardSelection(String map1, String map2, String map3, String map4) throws BrokenConnectionException;
+    void showPrivateObjective(int idPrivateObj) throws BrokenConnectionException;
 
-    /**
-     *
-     * @param listWp
-     */
     void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) throws BrokenConnectionException;
 
     void choseWpId() throws BrokenConnectionException;
-
-    // DA CANCELLARE
-    void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) throws BrokenConnectionException;
 
     void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool) throws BrokenConnectionException;
 
     void setDraft(List<SetUpInformationUnit> draft) throws BrokenConnectionException;
 
-    void setPlayer(int nFavTokens, int idPrivateObj) throws BrokenConnectionException;
+    void setFavorToken(int nFavTokens) throws BrokenConnectionException;
 
-    void showCommand() throws BrokenConnectionException;
-
-    void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws BrokenConnectionException;
+    void showCommand(List<Commands> commands) throws BrokenConnectionException;
 
     // DA CANCELLARE
     void showUpdatedWp(String username, SetUpInformationUnit info) throws BrokenConnectionException;
