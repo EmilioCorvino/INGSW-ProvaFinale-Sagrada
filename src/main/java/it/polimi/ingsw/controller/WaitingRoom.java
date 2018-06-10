@@ -134,9 +134,12 @@ public class WaitingRoom {
         ((GamePlayManager)controllerMaster.getGamePlayManager()).initializePlayerList(); this shouldn't be here*/
 
         for(Map.Entry<String, Connection> entry: controllerMaster.getConnectedPlayers().entrySet()) {
-            controllerMaster.getCommonBoard().getPlayers().add(new Player(entry.getKey(), controllerMaster.getCommonBoard()));
+            controllerMaster.getCommonBoard().getPlayers().add(
+                    new Player(entry.getKey(), controllerMaster.getCommonBoard()));
             entry.getValue().getServer().setController(controllerMaster);
         }
+        controllerMaster.getCommonBoard().getDraftPool().populateDiceDraftPool(
+                controllerMaster.getCommonBoard().getPlayers().size());
         ((StartGameManager)controllerMaster.getStartGameManager()).setUpMatch();
     }
 
