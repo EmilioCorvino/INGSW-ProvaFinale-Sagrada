@@ -23,13 +23,19 @@ import java.util.logging.Level;
  */
 public class StartGameManager extends AGameManager {
 
+    /**
+     * Counter of how many player have chosen a {@link WindowPatternCard}.
+     */
     private int wpSetCount;
 
-    private List<Integer> listOfSentWpID;
+    /**
+     * List
+     */
+    private Map<String, List<Integer>> listOfSentWpID;
 
     public StartGameManager(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
-        this.listOfSentWpID = new ArrayList<>();
+        this.listOfSentWpID = new HashMap<>();
     }
 
     /**
@@ -123,7 +129,7 @@ public class StartGameManager extends AGameManager {
      */
     synchronized void wpToSet(String username, int chosenWp) {
         CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
-        if(this.listOfSentWpID.contains(chosenWp)) {
+        if(this.listOfSentWpID.get(username).contains(chosenWp)) {
             WindowPatternCard wpToSet = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenWp);
             commonBoard.getSpecificPlayer(username).setWindowPatternCard(wpToSet);
             this.incrementSetWpAndEventuallyStartMatch(username);
@@ -196,13 +202,19 @@ public class StartGameManager extends AGameManager {
      */
     private void setUpWindowPattern() {
         List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
-        List<SimplifiedWindowPatternCard> listOfSentWp = chooseWindowPatternCard();
-        listOfSentWp.forEach(wp -> this.listOfSentWpID.add(wp.getIdMap()));
 
         players.forEach(player -> {
             IFromServerToClient iFromServerToClient = super.getControllerMaster().getConnectedPlayers().get(player.getPlayerName()).getClient();
-            try{
+            List<SimplifiedWindowPatternCard> listOfSentWp = chooseWindowPatternCard();
+
+            //This list is useful to check the ids of the window pattern cards sent.
+            List<Integer> sentWpIDs = new ArrayList<>();
+            listOfSentWp.forEach(wp -> sentWpIDs.add(wp.getIdMap()));
+
+            //Sends to the player the window pattern cards drawn for him and saves their ids in the map of this class.
+            try {
                 iFromServerToClient.showMapsToChoose(listOfSentWp);
+                this.listOfSentWpID.put(player.getPlayerName(), sentWpIDs);
             } catch (BrokenConnectionException br) {
                 //handle broken connection.
             }
