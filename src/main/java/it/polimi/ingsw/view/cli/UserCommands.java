@@ -18,7 +18,7 @@ public enum UserCommands {
     OBIETTIVO_PRIVATO("Obiettivo Privato"),
     CARTE_STRUMENTO_DISPONIBILI("Carte strumento disponibili"),
     LOGOUT(""),
-    HELP("Comandi disponibili");
+    HELP("Visualizza comandi disponibili");
 
     /**
      * This is the italian description that will be print and digit by the user, during command choosing.
