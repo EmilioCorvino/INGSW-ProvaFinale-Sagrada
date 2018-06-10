@@ -140,7 +140,7 @@ public class WaitingRoom {
         }
         controllerMaster.getCommonBoard().getDraftPool().populateDiceDraftPool(
                 controllerMaster.getCommonBoard().getPlayers().size());
-        ((StartGameManager)controllerMaster.getStartGameManager()).setUpMatch();
+        ((StartGameManager)controllerMaster.getStartGameManager()).setUpPrivateObjectiveCardAndWp();
     }
 
     /**

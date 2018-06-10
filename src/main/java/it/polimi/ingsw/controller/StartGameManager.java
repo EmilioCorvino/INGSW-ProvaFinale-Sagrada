@@ -29,7 +29,7 @@ public class StartGameManager extends AGameManager {
     private int wpSetCount;
 
     /**
-     * List
+     * Map containing, for each player on the game, the ids of the {@link WindowPatternCard}s drawn for them.
      */
     private Map<String, List<Integer>> listOfSentWpID;
 
@@ -39,15 +39,13 @@ public class StartGameManager extends AGameManager {
     }
 
     /**
-     * This method gathers from the client everything that is needed to set up the match and then sends the initialized
-     * board to the view.
-     * Finally, it triggers the start of the match, giving control to the {@link GamePlayManager}.
+     * This method gathers from the clients everything that is needed to set up the match, allowing players to see
+     * the {@link it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard} drawn for each of them and to
+     * choose the {@link WindowPatternCard} among those sent to each of them.
      */
-    public void setUpMatch() {
+    public void setUpPrivateObjectiveCardAndWp() {
         this.setPrivateObjectiveCard();
         this.setUpWindowPattern();
-        /*this.setCommonBoard();
-        ((GamePlayManager) super.getControllerMaster().getGamePlayManager()).startMatch();*/
     }
 
     /**
@@ -63,37 +61,6 @@ public class StartGameManager extends AGameManager {
         listToSend.addAll(list2);
 
         return listToSend;
-    }
-
-    /**
-     * This method converts the window pattern card into objects to send to the client.
-     * @return a list of a couple of matched window pattern card.
-     */
-    private List<SimplifiedWindowPatternCard> windowPatternCardConverter() {
-        WindowPatternCardDeck mapDeck = super.getControllerMaster().getCommonBoard().getWindowPatternCardDeck();
-        List<SimplifiedWindowPatternCard> wpToSend = new ArrayList<>();
-
-        try {
-            List<WindowPatternCard> coupleOfWP = mapDeck.drawCard();
-            for(WindowPatternCard wp : coupleOfWP) {
-                Cell[][] gw = wp.getGlassWindow();
-                List<SetUpInformationUnit> informationUnitList = new ArrayList<>();
-                for(int i=0; i<WindowPatternCard.getMaxRow(); i++)
-                    for(int j=0; j<WindowPatternCard.getMaxCol(); j++) {
-                        SetUpInformationUnit setUpInfo = new SetUpInformationUnit(i*WindowPatternCard.getMaxCol()+j,
-                                gw[i][j].getDefaultColorRestriction().getColor(),
-                                gw[i][j].getDefaultValueRestriction().getValue());
-                        informationUnitList.add(setUpInfo);
-                    }
-                SimplifiedWindowPatternCard simpleWp = new SimplifiedWindowPatternCard(informationUnitList);
-                simpleWp.setIdMap(wp.getIdMap());
-                simpleWp.setDifficulty(wp.getDifficulty());
-                wpToSend.add(simpleWp);
-            }
-        } catch (EmptyException empty) {
-            SagradaLogger.log(Level.SEVERE, "Window pattern card deck is empty!", empty);
-        }
-        return wpToSend;
     }
 
     /**
@@ -137,7 +104,8 @@ public class StartGameManager extends AGameManager {
             try {
                 super.getControllerMaster().getConnectedPlayers().get(username).getClient().showNotice(
                         "Hai selezionato una vetrata non valida, reinserisci un ID tra quelli mostrati.");
-                super.getControllerMaster().getConnectedPlayers().get(username).getClient().choseWpId();
+                super.getControllerMaster().getConnectedPlayers().get(username).getClient().showCommand(
+                        Collections.singletonList(Commands.CHOOSE_WP));
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Impossible to send a notice to the client", e);
                 //todo handle disconnection.
@@ -165,20 +133,6 @@ public class StartGameManager extends AGameManager {
                 //todo handle disconnection.
             }
         }
-    }
-
-
-
-    /**
-     *
-     * @return
-     */
-    private List<SetUpInformationUnit> draftPoolConverter() {
-        List<Die> draftPoolDice = super.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice();
-        List<SetUpInformationUnit> draftPoolInfo = new ArrayList<>();
-        for(Die die : draftPoolDice)
-            draftPoolInfo.add(new SetUpInformationUnit(draftPoolDice.indexOf(die), die.getDieColor(), die.getActualDieValue()));
-        return draftPoolInfo;
     }
 
     /**
@@ -223,7 +177,6 @@ public class StartGameManager extends AGameManager {
         players.forEach(player -> {
             IFromServerToClient iFromServerToClient = super.getControllerMaster().getConnectedPlayers().get(player.getPlayerName()).getClient();
             try {
-                //iFromServerToClient.choseWpId();
                 iFromServerToClient.showCommand(Collections.singletonList(Commands.CHOOSE_WP));
             } catch (BrokenConnectionException br) {
                 //broken connection
@@ -247,11 +200,45 @@ public class StartGameManager extends AGameManager {
                 connection.getClient().setCommonBoard(mapOfWp, idPubObj, idTool);
                 connection.getClient().setDraft(draftPool);
                 connection.getClient().setFavorToken(numberFavTokenConverter(playerName));
-                //entry.getValue().getClient().showCommonBoard(draftPool, mapOfWp.get(entry.getKey()));
             } catch (BrokenConnectionException e) {
                 //todo handle disconnecion
             }
         });
+    }
+
+//----------------------------------------------------------
+//           MODEL TO VIEW OBJECTS CONVERTERS
+//----------------------------------------------------------
+
+    /**
+     * This method converts the window pattern card into objects to send to the client.
+     * @return a list of a couple of matched window pattern card.
+     */
+    private List<SimplifiedWindowPatternCard> windowPatternCardConverter() {
+        WindowPatternCardDeck mapDeck = super.getControllerMaster().getCommonBoard().getWindowPatternCardDeck();
+        List<SimplifiedWindowPatternCard> wpToSend = new ArrayList<>();
+
+        try {
+            List<WindowPatternCard> coupleOfWP = mapDeck.drawCard();
+            for(WindowPatternCard wp : coupleOfWP) {
+                Cell[][] gw = wp.getGlassWindow();
+                List<SetUpInformationUnit> informationUnitList = new ArrayList<>();
+                for(int i=0; i<WindowPatternCard.getMaxRow(); i++)
+                    for(int j=0; j<WindowPatternCard.getMaxCol(); j++) {
+                        SetUpInformationUnit setUpInfo = new SetUpInformationUnit(i*WindowPatternCard.getMaxCol()+j,
+                                gw[i][j].getDefaultColorRestriction().getColor(),
+                                gw[i][j].getDefaultValueRestriction().getValue());
+                        informationUnitList.add(setUpInfo);
+                    }
+                SimplifiedWindowPatternCard simpleWp = new SimplifiedWindowPatternCard(informationUnitList);
+                simpleWp.setIdMap(wp.getIdMap());
+                simpleWp.setDifficulty(wp.getDifficulty());
+                wpToSend.add(simpleWp);
+            }
+        } catch (EmptyException empty) {
+            SagradaLogger.log(Level.SEVERE, "Window pattern card deck is empty!", empty);
+        }
+        return wpToSend;
     }
 
     /**
@@ -266,6 +253,18 @@ public class StartGameManager extends AGameManager {
             mapOfWp.put(player.getPlayerName(), convertOneWp(player.getWindowPatternCard().getIdMap()));
         }
         return mapOfWp;
+    }
+
+    /**
+     *
+     * @return
+     */
+    private List<SetUpInformationUnit> draftPoolConverter() {
+        List<Die> draftPoolDice = super.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice();
+        List<SetUpInformationUnit> draftPoolInfo = new ArrayList<>();
+        for(Die die : draftPoolDice)
+            draftPoolInfo.add(new SetUpInformationUnit(draftPoolDice.indexOf(die), die.getDieColor(), die.getActualDieValue()));
+        return draftPoolInfo;
     }
 
     private int[] pubObjConverter(){
