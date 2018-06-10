@@ -125,6 +125,15 @@ public class StartGameManager extends AGameManager {
         if(this.wpSetCount == super.getControllerMaster().getCommonBoard().getPlayers().size()) {
             this.setCommonBoard();
             ((GamePlayManager) super.getControllerMaster().getGamePlayManager()).startMatch();
+        } else {
+            try {
+                super.getControllerMaster().getConnectedPlayers().get(username).getClient().showNotice(
+                        "Alcuni giocatori (n: " + (super.getControllerMaster().getCommonBoard().getPlayers().size() - 1) +
+                                ") devono ancora scegliere la vetrata, attendi...");
+            } catch (BrokenConnectionException e) {
+                SagradaLogger.log(Level.SEVERE, "Impossible to send a notice to the client", e);
+                //todo handle disconnection.
+            }
         }
     }
 
