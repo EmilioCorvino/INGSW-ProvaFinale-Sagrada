@@ -69,4 +69,8 @@ class CommunicationManager {
         this.view.choseWpId();
     }
 
+    void printCommands(){
+        view.printCommands();
+    }
+
 }
