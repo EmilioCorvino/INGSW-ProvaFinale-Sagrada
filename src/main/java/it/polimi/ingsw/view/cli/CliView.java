@@ -243,8 +243,7 @@ public class CliView extends AViewMaster{
     @Override
     public void showCommand(List<Commands> commands) {
         functions = bank.getCommandMap(commands);
-        inputOutputManager.print("\nCamandi disponibili: ");
-        functions.forEach((k,v) -> inputOutputManager.print("\t- "+k));
+        printCommands();
         //scannerThread.start();
     }
 
@@ -396,5 +395,10 @@ public class CliView extends AViewMaster{
             if(s.equalsIgnoreCase(string))
                 return string;
         return s;
+    }
+
+    void printCommands(){
+        inputOutputManager.print("\nCamandi disponibili: ");
+        functions.forEach((k,v) -> inputOutputManager.print("\t- "+k));
     }
 }

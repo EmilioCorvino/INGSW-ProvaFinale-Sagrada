@@ -70,7 +70,8 @@ public class Bank {
     Map<String, Runnable> getCommandMap(List <Commands> commands){
         Map<String, Runnable> function = new HashMap<>();
 
-       commands.forEach(c -> function.put(commandToStringConverter(c), availableCommands.get(c)));
+        commands.forEach(c -> function.put(commandToStringConverter(c), availableCommands.get(c)));
+        function.put(UserCommands.HELP.getDescription(), communicationManager::printCommands);
 
         return function;
     }
