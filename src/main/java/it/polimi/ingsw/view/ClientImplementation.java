@@ -46,6 +46,11 @@ public class ClientImplementation implements IFromServerToClient {
     }
 
     @Override
+    public void showPrivateObjectiveCard(int privateObjCardId) {
+
+    }
+
+    @Override
     public void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool){
         view.setCommonBoard(players,idPubObj, idTool);
     }
@@ -56,8 +61,8 @@ public class ClientImplementation implements IFromServerToClient {
     }
 
     @Override
-    public void setPlayer(int nFavTokens, int idPrivateObj){
-        view.setPlayer(nFavTokens,idPrivateObj);
+    public void setFavorTokens(int nFavTokens){
+        view.setPlayer(nFavTokens);
     }
 
     @Override

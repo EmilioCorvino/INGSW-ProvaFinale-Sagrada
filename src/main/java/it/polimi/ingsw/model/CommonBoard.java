@@ -189,8 +189,7 @@ public class CommonBoard {
         return toolCardsDeck;
     }
 
-    public Player getSpecificPlayer(String username) throws UnsupportedOperationException {
-        System.out.println(username);
+    public Player getSpecificPlayer(String username) {
         for(Player p: players)
             if(username.equals(p.getPlayerName()))
                 return p;

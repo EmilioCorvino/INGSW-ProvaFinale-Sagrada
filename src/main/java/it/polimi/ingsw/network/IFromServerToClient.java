@@ -42,14 +42,17 @@ public interface IFromServerToClient {
     // DA CANCELLARE
     void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) throws BrokenConnectionException;
 
+    void showPrivateObjectiveCard(int privateObjCardId) throws BrokenConnectionException;
+
     void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool) throws BrokenConnectionException;
 
     void setDraft(List<SetUpInformationUnit> draft) throws BrokenConnectionException;
 
-    void setPlayer(int nFavTokens, int idPrivateObj) throws BrokenConnectionException;
+    void setFavorTokens(int nFavTokens) throws BrokenConnectionException;
 
     void showCommand() throws BrokenConnectionException;
 
+    // DA CANCELLARE
     void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws BrokenConnectionException;
 
     // DA CANCELLARE

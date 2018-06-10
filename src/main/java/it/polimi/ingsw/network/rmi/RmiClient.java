@@ -49,6 +49,11 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
+    public void showPrivateObjectiveCard(int privateObjCardId) throws RemoteException {
+
+    }
+
+    @Override
     public void setCommonBoard(Map<String, SimplifiedWindowPatternCard> players, int[] idPubObj, int[] idTool) {
         this.client.setCommonBoard(players, idPubObj, idTool);
     }
@@ -59,8 +64,8 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
-    public void setPlayer(int nFavTokens, int idPrivateObj) {
-        this.client.setPlayer(nFavTokens, idPrivateObj);
+    public void setFavorTokens(int nFavTokens) {
+        this.client.setFavorTokens(nFavTokens);
     }
 
     @Override
