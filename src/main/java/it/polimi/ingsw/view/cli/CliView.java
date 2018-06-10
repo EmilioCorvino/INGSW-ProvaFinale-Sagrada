@@ -377,17 +377,24 @@ public class CliView extends AViewMaster{
      * @param s: the key related of the method in the map.
      */
     private void analyzeStringInput(String s){
-        if(stringInTheMap(s))
-            functions.get(s).run();
+        String filteredString = stringConverter(s);
+
+        if(functions.keySet().contains(filteredString))
+            functions.get(filteredString).run();
         else
             inputOutputManager.print("Comando non disponibile");
     }
 
-    private boolean stringInTheMap(String s){
+    /**
+     * This method check if the command is contained in the map ignoring the case.
+     * @param s: It is the command.
+     * @return: The corresponding string of the key set if the command is equals (ignoring the case), else input sting.
+     */
+    private String stringConverter(String s){
 
         for (String string : functions.keySet())
             if(s.equalsIgnoreCase(string))
-                return true;
-        return false;
+                return string;
+        return s;
     }
 }
