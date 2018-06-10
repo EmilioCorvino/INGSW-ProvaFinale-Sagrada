@@ -4,12 +4,9 @@ import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.view.cli.InputOutputManager;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.die.DieView;
-import it.polimi.ingsw.view.cli.die.PlayerView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -64,10 +61,10 @@ public class GamePlayCli implements Serializable {
     }
 
     /**
-     *
-     * @param draft
-     * @param wp
-     * @param unit
+     * This method ask all the information needed for a default placement
+     * @param draft: the draft pool of the common board.
+     * @param wp: the wp of the player connected.
+     * @param unit: the unit that need to be fill with the placement information and that need to be send to the controller.
      */
     public void getPlacementInfo(DieDraftPoolView draft, WindowPatternCardView wp, SetUpInformationUnit unit){
         int index = this.choseDraftDie(draft);
@@ -94,9 +91,6 @@ public class GamePlayCli implements Serializable {
         return commandChosen;
     }
 
-
-
-
     /**
      *
      * @param wp
@@ -106,36 +100,4 @@ public class GamePlayCli implements Serializable {
         wp.getGlassWindow()[unit.getIndex()/WindowPatternCardView.MAX_COL][unit.getIndex() % WindowPatternCardView.MAX_COL].setDie(new DieView(unit.getColor(), unit.getValue()));
     }
 
-    public void printPubObj(List<String> cards){
-        int index = 1;
-
-        inputOutputManager.print("\nCarte obiettivo pubblico: ");
-        for (String s : cards){
-            inputOutputManager.print("\t - " + index + ": " + s);
-            index ++;
-        }
-    }
-
-    public void printTool(Map<String, Integer> cards){
-        int index = 1;
-
-        inputOutputManager.print("\nCarte strumento: ");
-        for (Map.Entry<String,Integer> s : cards.entrySet()){
-            inputOutputManager.print("\t - " + index + ": " + s.getKey() + " | Segnalini favore da usare: " + s.getValue());
-            index ++;
-        }
-    }
-
-    public void printPrivateObj(String card){
-        inputOutputManager.print("\nIl tuo obiettivo privato e': "+ card);
-    }
-
-    public void printAllWp(List<PlayerView> players, PlayerView currPlayer){
-        for(PlayerView p : players){
-            if(!p.getUserName().equals(currPlayer.getUserName())) {
-                inputOutputManager.print("\nGiocatore " + p.getUserName());
-                p.getWp().printWp();
-            }
-        }
-    }
 }

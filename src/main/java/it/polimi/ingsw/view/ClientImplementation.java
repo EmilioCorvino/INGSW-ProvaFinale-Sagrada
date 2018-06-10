@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
@@ -32,6 +33,9 @@ public class ClientImplementation implements IFromServerToClient {
     }
 
     @Override
+    public void showPrivateObjective(int idPrivateObj){view.showPrivateObjective(idPrivateObj);}
+
+    @Override
     public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) {
         view.showMapsToChoose(listWp);
     }
@@ -39,16 +43,6 @@ public class ClientImplementation implements IFromServerToClient {
     @Override
     public void choseWpId(){
         view.choseWpId();}
-    // DA CANCELLARE
-    @Override
-    public void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) {
-        view.showCommonBoard(draftPool, wp);
-    }
-
-    @Override
-    public void showPrivateObjectiveCard(int privateObjCardId) {
-
-    }
 
     @Override
     public void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool){
@@ -61,19 +55,15 @@ public class ClientImplementation implements IFromServerToClient {
     }
 
     @Override
-    public void setFavorTokens(int nFavTokens){
-        view.setPlayer(nFavTokens);
+    public void setFavorToken(int nFavTokens){
+        view.setFavorToken(nFavTokens);
     }
 
     @Override
-    public void showCommand() {
-        view.showCommand();
+    public void showCommand(List<Commands> commands) {
+        view.showCommand(commands);
     }
 
-    @Override
-    public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) {
-        view.giveProperObjectToFill(setInfoUnit);
-    }
 
     // DA CANCELLARE
     @Override
