@@ -4,12 +4,9 @@ import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.view.cli.InputOutputManager;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.die.DieView;
-import it.polimi.ingsw.view.cli.die.PlayerView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -64,10 +61,10 @@ public class GamePlayCli implements Serializable {
     }
 
     /**
-     *
-     * @param draft
-     * @param wp
-     * @param unit
+     * This method ask all the information needed for a default placement
+     * @param draft: the draft pool of the common board.
+     * @param wp: the wp of the player connected.
+     * @param unit: the unit that need to be fill with the placement information and that need to be send to the controller.
      */
     public void getPlacementInfo(DieDraftPoolView draft, WindowPatternCardView wp, SetUpInformationUnit unit){
         int index = this.choseDraftDie(draft);

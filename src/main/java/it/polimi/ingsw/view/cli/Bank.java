@@ -15,7 +15,9 @@ public class Bank {
     /**
      * This map contains all the possible command usable in all the game.
      */
-    private Map<Commands, Runnable> bank;
+    private Map<Commands, Runnable> availableCommands;
+
+    private Map<Commands,UserCommands> commandMap;
 
     /**
      * This is a reference to the view
@@ -29,8 +31,9 @@ public class Bank {
 
 
     public Bank (CliView view){
-        this.bank = new HashMap<>();
-        this.createMap();
+        this.availableCommands = new HashMap<>();
+        this.populateAvailableCommandMap();
+        this.populateCommandMap();
         this.view = view;
         this.communicationManager = new CommunicationManager(this.view);
     }
@@ -38,23 +41,32 @@ public class Bank {
     /**
      * This method populate the map matching the command with his method.
      */
-    private void createMap(){
-        bank.put(Commands.PLACEMENT, communicationManager::defaultPlacement);
-        bank.put(Commands.OTHER_PLAYERS_MAPS, communicationManager::showAllWp);
-        bank.put(Commands.PUBLIC_OBJ_CARDS, communicationManager::showPublicObj);
-        bank.put(Commands.AVAILABLE_TOOL_CARDS, communicationManager::showTool);
-        bank.put(Commands.PRIVATE_OBJECTIVE_CARDS, communicationManager::showPrivateObj);
+    private void populateAvailableCommandMap(){
+        availableCommands.put(Commands.PLACEMENT, communicationManager::defaultPlacement);
+        availableCommands.put(Commands.OTHER_PLAYERS_MAPS, communicationManager::showAllWp);
+        availableCommands.put(Commands.PUBLIC_OBJ_CARDS, communicationManager::showPublicObj);
+        availableCommands.put(Commands.AVAILABLE_TOOL_CARDS, communicationManager::showTool);
+        availableCommands.put(Commands.PRIVATE_OBJ_CARD, communicationManager::showPrivateObj);
     }
+
+    private void populateCommandMap(){
+        commandMap.put(Commands.PLACEMENT, UserCommands.PIAZZAMENTO);
+        commandMap.put(Commands.OTHER_PLAYERS_MAPS, UserCommands.MAPPE_ALTRI_GIOCATORI);
+        commandMap.put(Commands.PUBLIC_OBJ_CARDS, UserCommands.OBBIETTIVI_PUBBLICI);
+        commandMap.put(Commands.AVAILABLE_TOOL_CARDS, UserCommands.CARTE_STRUMENTO_DISPONIBILI);
+        commandMap.put(Commands.PRIVATE_OBJ_CARD, UserCommands.OBIETTIVO_PRIVATO);
+    }
+
 
     /**
      * This method create a map of commands taking them from the bank
      * @param commands: The list of commands available
      * @return: the new map that contains the methods just of the command available.
      */
-    public Map<String, Runnable> getCommandMap(List <Commands> commands){
+    Map<String, Runnable> getCommandMap(List <Commands> commands){
         Map<String, Runnable> function = new HashMap<>();
 
-       commands.forEach(c -> function.put(commandToStringConverter(c), bank.get(c)));
+       commands.forEach(c -> function.put(commandToStringConverter(c), availableCommands.get(c)));
 
         return function;
     }
@@ -65,6 +77,6 @@ public class Bank {
      * @return: the string of the command.
      */
     private String commandToStringConverter(Commands command){
-        return command.toString();
+        return commandMap.get(command).getDescription();
     }
 }

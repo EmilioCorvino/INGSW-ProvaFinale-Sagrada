@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
-import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
@@ -23,6 +22,8 @@ import java.util.logging.Level;
 
 public class CliView extends AViewMaster{
 
+
+    //DA CANCELLARE
     /**
      * This attribute is set true when is the turn of this client else is set false.
      */
@@ -79,6 +80,11 @@ public class CliView extends AViewMaster{
      */
     private EndGameCli endGameState;
 
+    /**
+     * The scanner of commands from the user.
+     */
+    private Thread scannerThread;
+
     public CliView(){
         bank = new Bank(this);
         player = new PlayerView();
@@ -88,8 +94,7 @@ public class CliView extends AViewMaster{
         initializationState = new SetUpGameCli(inputOutputManager);
         gamePlaySate = new GamePlayCli(inputOutputManager);
         endGameState = new EndGameCli(inputOutputManager);
-
-        new Thread(new ScannerThread(this::analyzeStringInput, inputOutputManager)).start();
+        scannerThread = new Thread(new ScannerThread(this::analyzeStringInput, inputOutputManager));
     }
 
 //----------------------------------------------------------
@@ -164,6 +169,9 @@ public class CliView extends AViewMaster{
         this.initializationState.showMapsToChoose(listWp);
     }
 
+    /**
+     * This method send to the server the id of the wp chosen.
+     */
     @Override
     public void choseWpId() {
         try {
@@ -228,6 +236,7 @@ public class CliView extends AViewMaster{
         functions = bank.getCommandMap(commands);
         inputOutputManager.print("Camandi disponibili: ");
         functions.forEach((k,v) -> inputOutputManager.print(k));
+        scannerThread.start();
     }
 
     /**
@@ -288,7 +297,6 @@ public class CliView extends AViewMaster{
      * @param username: Username of player that need the update.
      * @param unit: The set of information needed to place a die in the wp.
      */
-    @Deprecated
     @Override
     public void showUpdatedWp(String username, SetUpInformationUnit unit) {
 
@@ -303,6 +311,10 @@ public class CliView extends AViewMaster{
         }
     }
 
+    /**
+     * This method notice a message to the user.
+     * @param notice: the message that need to be printed.
+     */
     @Override
     public void showNotice(String notice){
         inputOutputManager.print(notice);
@@ -318,7 +330,7 @@ public class CliView extends AViewMaster{
 //                  CLIENT NOT SERVED
 //----------------------------------------------------------
 
-
+//DA CANCELLARE
     @Override
     public void setMyTurn(boolean myTurn) {
         isMyTurn = myTurn;
@@ -374,6 +386,9 @@ public class CliView extends AViewMaster{
     }
 
     private void analyzeStringInput(String s){
-        functions.get(s).run();
+        if(functions.keySet().contains(s))
+            functions.get(s).run();
+        else
+            inputOutputManager.print("Comando non disponibile");
     }
 }
