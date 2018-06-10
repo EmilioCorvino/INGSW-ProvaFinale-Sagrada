@@ -5,7 +5,6 @@ import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.cards.PublicObjectiveCardSlot;
 import it.polimi.ingsw.model.cards.ToolCardSlot;
-import it.polimi.ingsw.model.cards.tool.ToolCard;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
@@ -32,9 +31,21 @@ public class StartGameManager extends AGameManager {
     }
 
     /**
+     * This method gathers from the client everything that is needed to set up the match and then sends the initialized
+     * board to the view.
+     * Finally, it triggers the start of the match, giving control to the {@link GamePlayManager}.
+     */
+    public void setUpMatch() {
+        this.setPrivateObjectiveCard();
+        this.setUpWindowPattern();
+        this.setCommonBoard();
+        ((GamePlayManager) super.getControllerMaster().getGamePlayManager()).startMatch();
+    }
+
+    /**
      * This method shows to the client four window pattern cards among which to choose.
      */
-    public List<SimplifiedWindowPatternCard> chooseWindowPatternCard() {
+    private List<SimplifiedWindowPatternCard> chooseWindowPatternCard() {
         List<SimplifiedWindowPatternCard> listToSend = new ArrayList<>();
 
             List<SimplifiedWindowPatternCard> list1 = windowPatternCardConverter();
@@ -50,7 +61,7 @@ public class StartGameManager extends AGameManager {
      * This method converts the window pattern card into objects to send to the client.
      * @return a list of a couple of matched window pattern card.
      */
-    public List<SimplifiedWindowPatternCard> windowPatternCardConverter() {
+    private List<SimplifiedWindowPatternCard> windowPatternCardConverter() {
         WindowPatternCardDeck mapDeck = super.getControllerMaster().getCommonBoard().getWindowPatternCardDeck();
         List<SimplifiedWindowPatternCard> wpToSend = new ArrayList<>();
 
@@ -82,7 +93,7 @@ public class StartGameManager extends AGameManager {
      * @param chosenMap
      * @return
      */
-    public SimplifiedWindowPatternCard convertOneWp(int chosenMap) {
+    private SimplifiedWindowPatternCard convertOneWp(int chosenMap) {
         CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
         WindowPatternCard wp = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenMap);
 
@@ -124,9 +135,25 @@ public class StartGameManager extends AGameManager {
     }
 
     /**
+     * This methods shows to the clients the {@link it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard}
+     * that has been drawn for them and sets it in the view.
+     */
+    private void setPrivateObjectiveCard() {
+        super.getControllerMaster().getCommonBoard().givePrivateObjCard();
+        super.getControllerMaster().getConnectedPlayers().forEach((playerName, connection) -> {
+            int privateObjId = this.privateObjCardConverter(playerName);
+            try {
+                connection.getClient().showPrivateObjectiveCard(privateObjId);
+            } catch (BrokenConnectionException e) {
+                //todo handle disconnecion
+            }
+        });
+    }
+
+    /**
      * This m
      */
-    public void setUpWindowPattern() {
+    private void setUpWindowPattern() {
         List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
 
         players.forEach(player -> {
@@ -146,33 +173,29 @@ public class StartGameManager extends AGameManager {
                 //broken connection
             }
         });
-        //method that shows the common board
-        setCommonBoard();
-
       //  super.getControllerMaster().initializeGame();
     }
 
     /**
      *
      */
-    public void setCommonBoard() {
-        super.getControllerMaster().getCommonBoard().givePrivateObjCard();
+    private void setCommonBoard() {
         List<SetUpInformationUnit> draftPool = draftPoolConverter();
         Map<String, SimplifiedWindowPatternCard> mapOfWp = mapsOfPlayersConverter();
         int [] idPubObj = pubObjConverter();
         int [] idTool = toolConverter();
 
 
-        super.getControllerMaster().getConnectedPlayers().entrySet().forEach(entry -> {
-                try {
-                    entry.getValue().getClient().setCommonBoard(mapOfWp, idPubObj, idTool);
-                    entry.getValue().getClient().setDraft(draftPool);
-                    entry.getValue().getClient().setPlayer(numberFavTokenConverter(entry.getKey()), privateObjCardConverter(entry.getKey()));
-                    //entry.getValue().getClient().showCommonBoard(draftPool, mapOfWp.get(entry.getKey()));
-                } catch (BrokenConnectionException e) {
-                    e.printStackTrace();
-                }
-            });
+        super.getControllerMaster().getConnectedPlayers().forEach((playerName, connection) -> {
+            try {
+                connection.getClient().setCommonBoard(mapOfWp, idPubObj, idTool);
+                connection.getClient().setDraft(draftPool);
+                connection.getClient().setFavorTokens(numberFavTokenConverter(playerName));
+                //entry.getValue().getClient().showCommonBoard(draftPool, mapOfWp.get(entry.getKey()));
+            } catch (BrokenConnectionException e) {
+                //todo handle disconnecion
+            }
+        });
     }
 
     /**
@@ -208,7 +231,7 @@ public class StartGameManager extends AGameManager {
         List <ToolCardSlot> slotList = super.getControllerMaster().getCommonBoard().getToolCardSlots();
 
         for (ToolCardSlot slot : slotList){
-            tool[index] = ((ToolCard) slot.getToolCard()).getId();
+            tool[index] = slot.getToolCard().getId();
             index++;
         }
 

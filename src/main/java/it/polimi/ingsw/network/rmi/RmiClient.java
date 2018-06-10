@@ -49,8 +49,8 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
-    public void showPrivateObjectiveCard(int privateObjCardId) throws RemoteException {
-
+    public void showPrivateObjectiveCard(int privateObjCardId) {
+        this.client.showPrivateObjectiveCard(privateObjCardId);
     }
 
     @Override

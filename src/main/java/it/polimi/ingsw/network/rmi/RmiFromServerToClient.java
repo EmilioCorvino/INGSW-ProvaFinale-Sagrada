@@ -81,6 +81,16 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
+    public void showPrivateObjectiveCard(int privateObjCardId) throws BrokenConnectionException {
+        try {
+            this.rmiClient.showPrivateObjectiveCard(privateObjCardId);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to show clients their private objective card", e);
+            throw new BrokenConnectionException();
+        }
+    }
+
+    @Override
     public void setCommonBoard(Map<String, SimplifiedWindowPatternCard> players, int[] idPubObj, int[] idTool) throws BrokenConnectionException {
         try {
             this.rmiClient.setCommonBoard(players, idPubObj, idTool);
