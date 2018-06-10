@@ -17,7 +17,7 @@ public class PlacementRestrictionEffect extends AToolCardEffect {
      */
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
-        Die chosenDie = new Die(setUpInfoUnit.getValue(), setUpInfoUnit.getColor());
+        /*Die chosenDie = new Die(setUpInfoUnit.getValue(), setUpInfoUnit.getColor());
         WindowPatternCard playerWp = manager.getPlayerList().get(manager.getCurrentPlayer()).getWindowPatternCard();
 
         if(!playerWp.isContained(chosenDie)) {
@@ -27,6 +27,6 @@ public class PlacementRestrictionEffect extends AToolCardEffect {
         }
 
         playerWp.update(chosenDie);
-        manager.showPlacementResult(manager.getPlayerList().get(manager.getCurrentPlayer()), setUpInfoUnit);
+        manager.showPlacementResult(manager.getPlayerList().get(manager.getCurrentPlayer()), setUpInfoUnit);*/
     }
 }

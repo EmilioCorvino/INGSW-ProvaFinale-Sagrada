@@ -26,7 +26,7 @@ public class DiePlacementMove implements IMove {
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
 
-        Player p = manager.getPlayerColorList().get(manager.getCurrentPlayer());
+       /* Player p = manager.getPlayerColorList().get(manager.getCurrentPlayer());
         WindowPatternCard wp = p.getWindowPatternCard();
         Die die = new Die(setUpInfoUnit.getValue(), setUpInfoUnit.getColor());
         //CAREFUL
@@ -48,7 +48,7 @@ public class DiePlacementMove implements IMove {
 
         wp.update(die);
         manager.getControllerMaster().getCommonBoard().getDraftPool().update(die);
-        manager.showPlacementResult(p, setUpInfoUnit);
+        manager.showPlacementResult(p, setUpInfoUnit);*/
     }
 }
 

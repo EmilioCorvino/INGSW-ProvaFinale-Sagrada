@@ -37,9 +37,9 @@ public class ServerImplementation implements IFromClientToServer {
      * //todo collapse onto performMove
      */
     public void defaultMoveRequest() {
-        String username = connectionsQueue.poll().getUserName();
+        /*String username = connectionsQueue.poll().getUserName();
         controller.checkMoveAvailability(username);
-        //checkTurn
+        //checkTurn*/
 
     }
 

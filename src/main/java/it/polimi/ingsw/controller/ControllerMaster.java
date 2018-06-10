@@ -87,15 +87,6 @@ public class ControllerMaster implements IControllerMaster {
         ((GamePlayManager)this.gamePlayManager).startTurn(currPlayer);
     }
 
-    public void checkMoveAvailability(String username) {
-        if(((GamePlayManager)this.gamePlayManager).checkCurrentPlayer(username))
-            ((GamePlayManager)gamePlayManager).givePlayerObjectTofill();
-
-        else {
-            //not valid
-        }
-    }
-
     public GameState getGameState() {
         return gameState;
     }

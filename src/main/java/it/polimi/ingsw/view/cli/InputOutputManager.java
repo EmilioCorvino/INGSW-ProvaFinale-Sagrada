@@ -14,7 +14,7 @@ public class InputOutputManager {
 
     public String read(){
        Scanner scan = new Scanner (System.in);
-       return scan.next().trim();
+       return scan.nextLine().trim();
     }
 
     public void print(String string){

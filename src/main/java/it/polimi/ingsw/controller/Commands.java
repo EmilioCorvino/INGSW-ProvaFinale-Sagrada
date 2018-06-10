@@ -7,6 +7,7 @@ package it.polimi.ingsw.controller;
  * {@link it.polimi.ingsw.model.cards.tool.ToolCard}s can be drawn.
  */
 public enum Commands {
+    CHOOSE_WP,
     PLACEMENT,
     //todo insert specific tool card effects here
     CHOOSE_VALUE_EFFECT,

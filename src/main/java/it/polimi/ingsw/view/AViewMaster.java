@@ -44,5 +44,5 @@ public abstract class AViewMaster {
 
     public abstract IFromClientToServer getServer();
 
-    public abstract void setMyTurn(boolean myTurn);
+    //public abstract void setMyTurn(boolean myTurn);
 }

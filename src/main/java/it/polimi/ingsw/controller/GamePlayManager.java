@@ -100,17 +100,6 @@ public class GamePlayManager extends AGameManager {
         move.executeMove(this, info);
     }
 
-    public void givePlayerObjectTofill() {
-        SetUpInformationUnit setUpInfo = new SetUpInformationUnit();
-        Player player = super.getControllerMaster().getGameState().getActualPlayer();
-        try {
-            super.getControllerMaster().getConnectedPlayers().get(player.getPlayerName()).getClient().giveProperObjectToFill(setUpInfo);
-        } catch (BrokenConnectionException br) {
-            //TODO handle broken connection by suspending player, using logs etc.
-        }
-    }
-
-
     public void showPlacementResult(Player playerColor, SetUpInformationUnit setUpInformationUnit) {
         IFromServerToClient ifstc = super.getControllerMaster().getConnectedPlayers().get(playerColor.getPlayerName()).getClient();
         try {

@@ -15,16 +15,15 @@ import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 
 /**
  * This class provides methods to support all the operations needed before the match starts.
  */
 public class StartGameManager extends AGameManager {
+
+    private int wpSetCount;
 
     public StartGameManager(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
@@ -38,8 +37,8 @@ public class StartGameManager extends AGameManager {
     public void setUpMatch() {
         this.setPrivateObjectiveCard();
         this.setUpWindowPattern();
-        this.setCommonBoard();
-        ((GamePlayManager) super.getControllerMaster().getGamePlayManager()).startMatch();
+        /*this.setCommonBoard();
+        ((GamePlayManager) super.getControllerMaster().getGamePlayManager()).startMatch();*/
     }
 
     /**
@@ -120,6 +119,13 @@ public class StartGameManager extends AGameManager {
         CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
         WindowPatternCard wpToSet = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenWp);
         commonBoard.getSpecificPlayer(username).setWindowPatternCard(wpToSet);
+
+        //Checks if all the players have chosen a window pattern card.
+        this.wpSetCount++;
+        if(this.wpSetCount == super.getControllerMaster().getCommonBoard().getPlayers().size()) {
+            this.setCommonBoard();
+            ((GamePlayManager) super.getControllerMaster().getGamePlayManager()).startMatch();
+        }
     }
 
     /**
@@ -143,7 +149,7 @@ public class StartGameManager extends AGameManager {
         super.getControllerMaster().getConnectedPlayers().forEach((playerName, connection) -> {
             int privateObjId = this.privateObjCardConverter(playerName);
             try {
-                connection.getClient().showPrivateObjectiveCard(privateObjId);
+                connection.getClient().showPrivateObjective(privateObjId);
             } catch (BrokenConnectionException e) {
                 //todo handle disconnecion
             }
@@ -165,10 +171,11 @@ public class StartGameManager extends AGameManager {
             }
         });
 
-        players.forEach(entry -> {
-            IFromServerToClient iFromServerToClient = super.getControllerMaster().getConnectedPlayers().get(entry.getPlayerName()).getClient();
+        players.forEach(player -> {
+            IFromServerToClient iFromServerToClient = super.getControllerMaster().getConnectedPlayers().get(player.getPlayerName()).getClient();
             try {
-                iFromServerToClient.choseWpId();
+                //iFromServerToClient.choseWpId();
+                iFromServerToClient.showCommand(Collections.singletonList(Commands.CHOOSE_WP));
             } catch (BrokenConnectionException br) {
                 //broken connection
             }
@@ -190,7 +197,7 @@ public class StartGameManager extends AGameManager {
             try {
                 connection.getClient().setCommonBoard(mapOfWp, idPubObj, idTool);
                 connection.getClient().setDraft(draftPool);
-                connection.getClient().setFavorTokens(numberFavTokenConverter(playerName));
+                connection.getClient().setFavorToken(numberFavTokenConverter(playerName));
                 //entry.getValue().getClient().showCommonBoard(draftPool, mapOfWp.get(entry.getKey()));
             } catch (BrokenConnectionException e) {
                 //todo handle disconnecion

@@ -28,7 +28,7 @@ public class ValueRestrictionEffect extends PlacementRestrictionEffect {
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
 
-        Player currPlayer = manager.getPlayerList().get(manager.getCurrentPlayer());
+        /*Player currPlayer = manager.getPlayerList().get(manager.getCurrentPlayer());
         WindowPatternCard wp = currPlayer.getWindowPatternCard();
         wp.copyGlassWindow();
         Cell[][] playerGlassWindow = wp.getGlassWindow();
@@ -51,6 +51,6 @@ public class ValueRestrictionEffect extends PlacementRestrictionEffect {
 
         wp.setGlassWindow(glassWindow);
         wp.setGlassWindowModified(true);
-        super.executeMove(manager, setUpInfoUnit);
+        super.executeMove(manager, setUpInfoUnit);*/
     }
 }

@@ -71,6 +71,10 @@ class CommunicationManager {
         this.printPrivateObj(view.getPlayer().getPrivateObjCard());
     }
 
+    void chooseWp() {
+        this.view.choseWpId();
+    }
+
 
     /**
      * This method print all the public objective.

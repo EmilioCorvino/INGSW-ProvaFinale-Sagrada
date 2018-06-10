@@ -5,6 +5,7 @@ package it.polimi.ingsw.view.cli;
  */
 public enum UserCommands {
 
+    SCELTA_WP("Scelta della vetrata"),
     PIAZZAMENTO("Piazzamento dado"),
     CARTA_STRUMENTO("Utilizzo carta strumento"),
     VALUE_RESTRICTION_EFFECT(""),

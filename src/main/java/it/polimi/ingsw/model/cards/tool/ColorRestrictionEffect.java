@@ -23,7 +23,7 @@ public class ColorRestrictionEffect extends PlacementRestrictionEffect {
      * @param manager
      * @param setUpInfoUnit
      */
-    @Override
+    /*@Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
         Player currPlayer = manager.getPlayerList().get(manager.getCurrentPlayer());
         WindowPatternCard wp = currPlayer.getWindowPatternCard();
@@ -49,5 +49,5 @@ public class ColorRestrictionEffect extends PlacementRestrictionEffect {
         wp.setGlassWindow(glassWindow);
         wp.setGlassWindowModified(true);
         super.executeMove(manager, setUpInfoUnit);
-    }
+    }*/
 }

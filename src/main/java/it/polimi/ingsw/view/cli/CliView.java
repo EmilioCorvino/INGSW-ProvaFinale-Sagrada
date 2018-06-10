@@ -158,6 +158,7 @@ public class CliView extends AViewMaster{
     public void showPrivateObjective(int idPrivateObj){
         this.initializationState.createPrivateObjCard(idPrivateObj, this.player);
         inputOutputManager.print("Il tuo obiettivo privato e': " + this.player.getPrivateObjCard());
+        scannerThread.start();
     }
 
     /**
@@ -236,7 +237,7 @@ public class CliView extends AViewMaster{
         functions = bank.getCommandMap(commands);
         inputOutputManager.print("Camandi disponibili: ");
         functions.forEach((k,v) -> inputOutputManager.print(k));
-        scannerThread.start();
+        //scannerThread.start();
     }
 
     /**
@@ -330,15 +331,6 @@ public class CliView extends AViewMaster{
 //                  CLIENT NOT SERVED
 //----------------------------------------------------------
 
-//DA CANCELLARE
-    @Override
-    public void setMyTurn(boolean myTurn) {
-        isMyTurn = myTurn;
-        if(!isMyTurn()) {
-            OutOfTurnManager manager = new OutOfTurnManager(this);
-            manager.run();
-        }
-    }
 
 //----------------------------------------------------------
 //                  GENERAL METHODS

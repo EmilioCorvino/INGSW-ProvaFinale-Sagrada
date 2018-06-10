@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.Commands;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,17 +32,19 @@ public class Bank {
 
 
     public Bank (CliView view){
-        this.availableCommands = new HashMap<>();
-        this.populateAvailableCommandMap();
-        this.populateCommandMap();
         this.view = view;
         this.communicationManager = new CommunicationManager(this.view);
+        this.availableCommands = new EnumMap<>(Commands.class);
+        this.commandMap = new EnumMap<>(Commands.class);
+        this.populateAvailableCommandMap();
+        this.populateCommandMap();
     }
 
     /**
      * This method populate the map matching the command with his method.
      */
     private void populateAvailableCommandMap(){
+        availableCommands.put(Commands.CHOOSE_WP, communicationManager::chooseWp);
         availableCommands.put(Commands.PLACEMENT, communicationManager::defaultPlacement);
         availableCommands.put(Commands.OTHER_PLAYERS_MAPS, communicationManager::showAllWp);
         availableCommands.put(Commands.PUBLIC_OBJ_CARDS, communicationManager::showPublicObj);
@@ -50,6 +53,7 @@ public class Bank {
     }
 
     private void populateCommandMap(){
+        commandMap.put(Commands.CHOOSE_WP, UserCommands.SCELTA_WP);
         commandMap.put(Commands.PLACEMENT, UserCommands.PIAZZAMENTO);
         commandMap.put(Commands.OTHER_PLAYERS_MAPS, UserCommands.MAPPE_ALTRI_GIOCATORI);
         commandMap.put(Commands.PUBLIC_OBJ_CARDS, UserCommands.OBBIETTIVI_PUBBLICI);
@@ -61,7 +65,7 @@ public class Bank {
     /**
      * This method create a map of commands taking them from the bank
      * @param commands: The list of commands available
-     * @return: the new map that contains the methods just of the command available.
+     * @return the new map that contains the methods just of the command available.
      */
     Map<String, Runnable> getCommandMap(List <Commands> commands){
         Map<String, Runnable> function = new HashMap<>();
@@ -74,7 +78,7 @@ public class Bank {
     /**
      * This method convert a command to a string
      * @param command: The command that need to be converted.
-     * @return: the string of the command.
+     * @return the string of the command.
      */
     private String commandToStringConverter(Commands command){
         return commandMap.get(command).getDescription();

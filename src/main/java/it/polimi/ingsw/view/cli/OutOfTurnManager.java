@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.cli;
+/*package it.polimi.ingsw.view.cli;
 
 import java.util.Scanner;
 
@@ -50,3 +50,4 @@ public class OutOfTurnManager implements Runnable {
                 " 3 - Visualizza carte strumento\n\t 4 - Visualizza obiettivo privato");
     }
 }
+*/
