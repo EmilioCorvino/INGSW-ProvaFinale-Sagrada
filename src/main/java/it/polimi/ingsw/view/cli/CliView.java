@@ -63,22 +63,22 @@ public class CliView extends AViewMaster{
     /**
      *The manager of the connection and register state
      */
-    private LoginCli loginState;
+    private LoginManager loginManager;
 
     /**
      * The manager of the game set up.
      */
-    private SetUpGameCli initializationState;
+    private SetUpManager setUpManager;
 
     /**
      * The manager of the game play.
      */
-    private GamePlayCli gamePlaySate;
+    private GamePlayManager gamePlayManager;
 
     /**
      * The manager of the game play.
      */
-    private EndGameCli endGameState;
+    private EndGameManager endGameManager;
 
     /**
      * The scanner of commands from the user.
@@ -90,10 +90,10 @@ public class CliView extends AViewMaster{
         player = new PlayerView();
         commonBoard = new CommonBoardView();
         inputOutputManager = new InputOutputManager();
-        loginState = new LoginCli(inputOutputManager);
-        initializationState = new SetUpGameCli(inputOutputManager);
-        gamePlaySate = new GamePlayCli(inputOutputManager);
-        endGameState = new EndGameCli(inputOutputManager);
+        loginManager = new LoginManager(inputOutputManager);
+        setUpManager = new SetUpManager(inputOutputManager);
+        gamePlayManager = new GamePlayManager(inputOutputManager);
+        endGameManager = new EndGameManager(inputOutputManager);
         scannerThread = new Thread(new ScannerThread(this::analyzeStringInput, inputOutputManager));
     }
 
@@ -111,8 +111,8 @@ public class CliView extends AViewMaster{
 
         while(!ipOk){
             try{
-                String ipAddress = loginState.getIp();
-                this.server = loginState.chooseNetworkInterface(ipAddress, viewMaster);
+                String ipAddress = loginManager.getIp();
+                this.server = loginManager.chooseNetworkInterface(ipAddress, viewMaster);
                 ipOk = true;
             }catch (BrokenConnectionException e){
                 inputOutputManager.print("Indirizzo IP non corretto.");
@@ -123,8 +123,8 @@ public class CliView extends AViewMaster{
 
         while(!userNameOk){
             try {
-                this.player.setUserName(loginState.getUserName());
-                this.server.login(loginState.getGameMode(), player.getUserName());
+                this.player.setUserName(loginManager.getUserName());
+                this.server.login(loginManager.getGameMode(), player.getUserName());
                 userNameOk = true;
             } catch (UserNameAlreadyTakenException e) {
                 inputOutputManager.print("Username già in uso!");
@@ -142,7 +142,7 @@ public class CliView extends AViewMaster{
      */
     @Override
     public void showRoom(List<String> players) {
-        this.loginState.showRoom(players);
+        this.loginManager.showRoom(players);
     }
 
 
@@ -156,7 +156,7 @@ public class CliView extends AViewMaster{
      */
     @Override
     public void showPrivateObjective(int idPrivateObj){
-        this.initializationState.createPrivateObjCard(idPrivateObj, this.player);
+        this.setUpManager.createPrivateObjCard(idPrivateObj, this.player);
         inputOutputManager.print("Il tuo obiettivo privato e': " + this.player.getPrivateObjCard());
         scannerThread.start();
     }
@@ -167,7 +167,7 @@ public class CliView extends AViewMaster{
      */
     @Override
     public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) {
-        this.initializationState.showMapsToChoose(listWp);
+        this.setUpManager.showMapsToChoose(listWp);
     }
 
     /**
@@ -176,7 +176,7 @@ public class CliView extends AViewMaster{
     @Override
     public void choseWpId() {
         try {
-            server.windowPatternCardRequest(initializationState.getIdChosen());
+            server.windowPatternCardRequest(setUpManager.getIdChosen());
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during map id choose.");
         }
@@ -193,16 +193,22 @@ public class CliView extends AViewMaster{
     public void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool){
 
         for (Map.Entry<String, SimplifiedWindowPatternCard> ply : players.entrySet()) {
-            PlayerView p = new PlayerView();
-            p.setUserName(ply.getKey());
-            p.setWp(new WindowPatternCardView(ply.getValue()));
-            this.commonBoard.getPlayers().add(p);
+            if(!ply.getKey().equals(this.player.getUserName())) {
+                PlayerView p = new PlayerView();
+                p.setUserName(ply.getKey());
+                p.setWp(new WindowPatternCardView(ply.getValue()));
+                this.commonBoard.getPlayers().add(p);
+            }
+            else
+                this.player.setWp(new WindowPatternCardView(ply.getValue()));
         }
 
-        initializationState.createPubObjCards(idPubObj, commonBoard.getPublicObjectiveCards());
-        //initializationState.createToolCards(idTool, commonBoard.getToolCards());
+        setUpManager.createPubObjCards(idPubObj, commonBoard.getPublicObjectiveCards());
+        //setUpManager.createToolCards(idTool, commonBoard.getToolCards());
 
-        this.getPlayerConnectedFromCommonBoard().getWp().printWp();
+        setUpManager.printPubObj(commonBoard.getPublicObjectiveCards());
+        setUpManager.printTool(commonBoard.getToolCards());
+        this.player.getWp().printWp();
     }
 
     /**
@@ -222,6 +228,7 @@ public class CliView extends AViewMaster{
     @Override
     public void setFavorToken(int nFavTokens){
         this.player.setFavorToken(nFavTokens);
+        inputOutputManager.print("Il numero di segnalini favore e': "+nFavTokens);
     }
 
 //----------------------------------------------------------
@@ -246,9 +253,9 @@ public class CliView extends AViewMaster{
      */
     @Override
     public void updateOwnWp(SetUpInformationUnit unit){
-        WindowPatternCardView wp = this.getPlayerConnectedFromCommonBoard().getWp();
+        WindowPatternCardView wp = this.player.getWp();
 
-        gamePlaySate.updateWp(wp, unit);
+        gamePlayManager.updateWp(wp, unit);
         wp.printWp();
 
 
@@ -263,10 +270,7 @@ public class CliView extends AViewMaster{
     public void updateOtherPlayerWp(String userName, SetUpInformationUnit infoUnit){
 
         for (PlayerView ply : this.commonBoard.getPlayers())
-            if (ply.getUserName().equals(userName)) {
-                gamePlaySate.updateWp(ply.getWp(), infoUnit);
-                return;
-            }
+                gamePlayManager.updateWp(ply.getWp(), infoUnit);
 
     }
 
@@ -303,12 +307,12 @@ public class CliView extends AViewMaster{
 
         for (PlayerView p : commonBoard.getPlayers())
             if(p.getUserName().equals(username))
-                gamePlaySate.updateWp(p.getWp(), unit);
+                gamePlayManager.updateWp(p.getWp(), unit);
 
 
         if (player.getUserName().equals(username)) {
             inputOutputManager.print("Dado piazzato!");
-            this.getPlayerConnectedFromCommonBoard().getWp().printWp();
+            this.getPlayer().getWp().printWp();
         }
     }
 
@@ -347,8 +351,12 @@ public class CliView extends AViewMaster{
         return isMyTurn;
     }
 
-    GamePlayCli getGamePlaySate() {
-        return gamePlaySate;
+    public SetUpManager getSetUpManager() {
+        return setUpManager;
+    }
+
+    GamePlayManager getGamePlayManager() {
+        return gamePlayManager;
     }
 
     public CommonBoardView getCommonBoard() {
@@ -364,19 +372,9 @@ public class CliView extends AViewMaster{
     }
 
     /**
-     * This method take the connected player from the list of players in the common board.
-     * @return: the player connected.
+     * This method analyze the input given by the user and run the corresponding method in the map.
+     * @param s: the key related of the method in the map.
      */
-    PlayerView getPlayerConnectedFromCommonBoard(){
-        PlayerView ply = new PlayerView();
-
-        for (PlayerView p: this.commonBoard.getPlayers())
-            if (p.getUserName().equals(this.player.getUserName()))
-                ply = p;
-
-        return ply;
-    }
-
     private void analyzeStringInput(String s){
         if(functions.keySet().contains(s))
             functions.get(s).run();

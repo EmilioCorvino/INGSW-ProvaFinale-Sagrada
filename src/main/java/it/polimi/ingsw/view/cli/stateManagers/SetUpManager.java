@@ -21,11 +21,11 @@ import java.util.regex.Pattern;
 /**
  * This class manages all the interaction during the game's state of set up.
  */
-public class SetUpGameCli {
+public class SetUpManager {
 
     private InputOutputManager inputOutputManager;
 
-    public SetUpGameCli(InputOutputManager inputOutputManager){
+    public SetUpManager(InputOutputManager inputOutputManager){
         this.inputOutputManager = inputOutputManager;
     }
 
@@ -62,18 +62,6 @@ public class SetUpGameCli {
         }
         return Integer.parseInt(idChosen);
     }
-
-    /**
-     *
-     * @param draftPool
-     * @param wp
-     */
-    public void showCommonBoard(DieDraftPoolView draftPool, WindowPatternCardView wp){
-        draftPool.printDraftPool();
-        wp.printWp();
-    }
-
-
 
     /**
      * This method populate the cards of the common board, loading files from resources.
@@ -116,6 +104,50 @@ public class SetUpGameCli {
             SagradaLogger.log(Level.WARNING, "Private Objective Card txt file can't be read!", e);
         }
 
+    }
+
+    /**
+     * This method print all the public objective.
+     * @param cards: The list public objective card.
+     */
+    public void printPubObj(List<String> cards){
+        int index = 1;
+
+        inputOutputManager.print("\nCarte obiettivo pubblico: ");
+        for (String s : cards){
+            inputOutputManager.print("\t - " + index + ": " + s);
+            index ++;
+        }
+    }
+
+    /**
+     * This method print all the tool cards.
+     * @param cards: The list of Tool Cards.
+     */
+    public void printTool(Map<String, Integer> cards){
+        int index = 1;
+
+        inputOutputManager.print("\nCarte strumento: ");
+        for (Map.Entry<String,Integer> s : cards.entrySet()){
+            inputOutputManager.print("\t - " + index + ": " + s.getKey() + " | Segnalini favore da usare: " + s.getValue());
+            index ++;
+        }
+    }
+
+    /**
+     * This method print the private objective.
+     * @param card: The private objective card.
+     */
+    public void printPrivateObj(String card){
+        inputOutputManager.print("\nIl tuo obiettivo privato e': "+ card);
+    }
+
+    /**
+     * This method print all the wp of the other player in the game.
+     * @param players: all the players in the match
+     */
+    public void printAllWp(List<PlayerView> players){
+        players.forEach(p -> p.getWp().printWp());
     }
 
 }

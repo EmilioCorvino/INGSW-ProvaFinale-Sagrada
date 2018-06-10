@@ -12,11 +12,11 @@ import java.util.regex.Pattern;
 /**
  * This class manages all the interaction during the game play state.
  */
-public class GamePlayCli implements Serializable {
+public class GamePlayManager implements Serializable {
 
     private transient InputOutputManager inputOutputManager;
 
-    public GamePlayCli(InputOutputManager inputOutputManager){
+    public GamePlayManager(InputOutputManager inputOutputManager){
         this.inputOutputManager = inputOutputManager;
     }
 

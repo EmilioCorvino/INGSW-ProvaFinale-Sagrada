@@ -14,14 +14,14 @@ import java.util.regex.Pattern;
 /**
  * This class is used to manage all the interaction during the connection and notifyWaitingPlayers state.
  */
-public class LoginCli{
+public class LoginManager {
 
     /**
      * Input Output Manager
      */
     private InputOutputManager inputOutputManager;
 
-    public LoginCli(InputOutputManager inputOutputManager){
+    public LoginManager(InputOutputManager inputOutputManager){
         this.inputOutputManager = inputOutputManager;
     }
     /**

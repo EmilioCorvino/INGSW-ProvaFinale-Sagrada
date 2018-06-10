@@ -21,19 +21,19 @@ public class OutOfTurnManager implements Runnable {
                 int commandChosen = Integer.parseInt(inputOutputManager.read());
                 switch (commandChosen) {
                     case 1:
-                        view.getGamePlaySate().printAllWp(view.getCommonBoard().getPlayers(), view.getPlayer());
+                        view.getGamePlayManager().printAllWp(view.getCommonBoard().getPlayers(), view.getPlayer());
                         break;
 
                     case 2:
-                        view.getGamePlaySate().printPubObj(view.getCommonBoard().getPublicObjectiveCards());
+                        view.getGamePlayManager().printPubObj(view.getCommonBoard().getPublicObjectiveCards());
                         break;
 
                     case 3:
-                        view.getGamePlaySate().printTool(view.getCommonBoard().getToolCards());
+                        view.getGamePlayManager().printTool(view.getCommonBoard().getToolCards());
                         break;
 
                     case 4:
-                        view.getGamePlaySate().printPrivateObj(view.getPlayer().getPrivateObjCard());
+                        view.getGamePlayManager().printPrivateObj(view.getPlayer().getPrivateObjCard());
                         break;
                     default:
                 }

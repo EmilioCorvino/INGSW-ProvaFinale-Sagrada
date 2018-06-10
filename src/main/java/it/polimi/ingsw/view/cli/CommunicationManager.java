@@ -3,15 +3,9 @@ package it.polimi.ingsw.view.cli;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
-import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
-import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
-import it.polimi.ingsw.view.AViewMaster;
-import it.polimi.ingsw.view.cli.die.PlayerView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 
-import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 
 /**
@@ -44,9 +38,9 @@ class CommunicationManager {
 
     void defaultPlacement(){
         SetUpInformationUnit setInfoUnit = new SetUpInformationUnit();
-        WindowPatternCardView wp = this.view.getPlayerConnectedFromCommonBoard().getWp();
+        WindowPatternCardView wp = this.view.getPlayer().getWp();
 
-        view.getGamePlaySate().getPlacementInfo(view.getCommonBoard().getDraftPool(),wp, setInfoUnit);
+        view.getGamePlayManager().getPlacementInfo(view.getCommonBoard().getDraftPool(),wp, setInfoUnit);
 
         try {
             server.performMove(setInfoUnit);
@@ -56,73 +50,23 @@ class CommunicationManager {
     }
 
     void showAllWp(){
-        this.printAllWp(view.getCommonBoard().getPlayers(), view.getPlayer());
+        view.getSetUpManager().printAllWp(view.getCommonBoard().getPlayers());
     }
 
     void showPublicObj(){
-        this.printPubObj(view.getCommonBoard().getPublicObjectiveCards());
+        view.getSetUpManager().printPubObj(view.getCommonBoard().getPublicObjectiveCards());
     }
 
     void showTool(){
-        this.printTool(view.getCommonBoard().getToolCards());
+        view.getSetUpManager().printTool(view.getCommonBoard().getToolCards());
     }
 
     void showPrivateObj(){
-        this.printPrivateObj(view.getPlayer().getPrivateObjCard());
+        view.getSetUpManager().printPrivateObj(view.getPlayer().getPrivateObjCard());
     }
 
     void chooseWp() {
         this.view.choseWpId();
     }
 
-
-    /**
-     * This method print all the public objective.
-     * @param cards: The list public objective card.
-     */
-    private void printPubObj(List<String> cards){
-        int index = 1;
-
-        inputOutputManager.print("\nCarte obiettivo pubblico: ");
-        for (String s : cards){
-            inputOutputManager.print("\t - " + index + ": " + s);
-            index ++;
-        }
-    }
-
-    /**
-     * This method print all the tool cards.
-     * @param cards: The list of Tool Cards.
-     */
-    private void printTool(Map<String, Integer> cards){
-        int index = 1;
-
-        inputOutputManager.print("\nCarte strumento: ");
-        for (Map.Entry<String,Integer> s : cards.entrySet()){
-            inputOutputManager.print("\t - " + index + ": " + s.getKey() + " | Segnalini favore da usare: " + s.getValue());
-            index ++;
-        }
-    }
-
-    /**
-     * This method print the private objective.
-     * @param card: The private objective card.
-     */
-    private void printPrivateObj(String card){
-        inputOutputManager.print("\nIl tuo obiettivo privato e': "+ card);
-    }
-
-    /**
-     * This method print all the wp of the other player in the game.
-     * @param players: all the players in the match
-     * @param currPlayer: the player connected to this client.
-     */
-    private void printAllWp(List<PlayerView> players, PlayerView currPlayer){
-        for(PlayerView p : players){
-            if(!p.getUserName().equals(currPlayer.getUserName())) {
-                inputOutputManager.print("\nGiocatore " + p.getUserName());
-                p.getWp().printWp();
-            }
-        }
-    }
 }
