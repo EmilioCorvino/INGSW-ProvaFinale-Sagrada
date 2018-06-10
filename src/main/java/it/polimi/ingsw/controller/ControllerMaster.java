@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.Connection;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -52,11 +53,12 @@ public class ControllerMaster implements IControllerMaster {
 
     public ControllerMaster(Map<String, Connection> connectedPlayers) {
         commonBoard = new CommonBoard();
-        startGameManager = new StartGameManager(this);
-        gamePlayManager = new GamePlayManager(this);
-        endGameManager = new EndGameManager(this);
+        this.startGameManager = new StartGameManager(this);
+        this.gamePlayManager = new GamePlayManager(this);
+        this.endGameManager = new EndGameManager(this);
         this.connectedPlayers = connectedPlayers;
         this.gameState = new GameState();
+        this.suspendedPlayers = new ArrayList<>();
     }
 
     public CommonBoard getCommonBoard() {

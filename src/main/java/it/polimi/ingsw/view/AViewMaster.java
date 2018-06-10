@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
@@ -14,22 +15,19 @@ public abstract class AViewMaster {
 
     public abstract void showRoom(List<String> players);
 
+    public abstract void showPrivateObjective(int idPrivateObj);
+
     public abstract void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp);
 
     public abstract void choseWpId();
-
-    // DA CANCELLARE
-    public abstract void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp);
 
     public abstract void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool);
 
     public abstract void setDraft(List<SetUpInformationUnit> draft);
 
-    public abstract void setPlayer(int nFavTokens, int idPrivateObj);
+    public abstract void setFavorToken(int nFavTokens);
 
-    public abstract void showCommand();
-
-    public abstract void giveProperObjectToFill(SetUpInformationUnit setInfoUnit);
+   public abstract void showCommand(List<Commands> commands);
 
     // DA CANCELLARE
     public abstract void showUpdatedWp(String username, SetUpInformationUnit info);

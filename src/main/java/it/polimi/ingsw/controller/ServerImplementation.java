@@ -34,6 +34,7 @@ public class ServerImplementation implements IFromClientToServer {
 
     /**
      * This method manages the request of the user to make a default move.
+     * //todo collapse onto performMove
      */
     public void defaultMoveRequest() {
         String username = connectionsQueue.poll().getUserName();
@@ -53,7 +54,7 @@ public class ServerImplementation implements IFromClientToServer {
     }
 
     /**
-     *
+     * //todo not needed anymore
      * @param toolIndex
      */
     public void toolCardMoveRequest(int toolIndex) {

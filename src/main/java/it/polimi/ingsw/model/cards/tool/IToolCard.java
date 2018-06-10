@@ -7,5 +7,5 @@ public interface IToolCard {
      * @param currentTurn: the turn used to compare with the turn available for the tool card to be used.
      * @return true if the current turn is equal to the turn in which the card can be used.
      */
-    public boolean canBeUsed(int currentTurn);
+    boolean canBeUsed(int currentTurn);
 }

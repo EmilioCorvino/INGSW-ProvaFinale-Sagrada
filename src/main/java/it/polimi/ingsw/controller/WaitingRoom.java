@@ -129,22 +129,22 @@ public class WaitingRoom {
         playersRoom.forEach((playerName, connection) -> connectedPlayers.put(playerName, connection.getClient()));*/
         ControllerMaster controllerMaster = new ControllerMaster(this.playersRoom);
 
-        controllerMaster.getCommonBoard().getDraftPool().populateDiceDraftPool(
+        /*controllerMaster.getCommonBoard().getDraftPool().populateDiceDraftPool(
                 controllerMaster.getConnectedPlayers().size());
-        //((GamePlayManager)controllerMaster.getGamePlayManager()).initializePlayerList(); this shouldn't be here
+        ((GamePlayManager)controllerMaster.getGamePlayManager()).initializePlayerList(); this shouldn't be here*/
 
         for(Map.Entry<String, Connection> entry: controllerMaster.getConnectedPlayers().entrySet()) {
             controllerMaster.getCommonBoard().getPlayers().add(new Player(entry.getKey(), controllerMaster.getCommonBoard()));
             entry.getValue().getServer().setController(controllerMaster);
         }
-        ((StartGameManager)controllerMaster.getStartGameManager()).setUpWindowPattern();
+        ((StartGameManager)controllerMaster.getStartGameManager()).setUpMatch();
     }
 
     /**
      *
      */
     private void startSingleMatch() {
-
+        //Implement this to handle single player.
     }
 
     public boolean isRunning() {

@@ -189,15 +189,14 @@ public class CommonBoard {
         return toolCardsDeck;
     }
 
-    public Player getSpecificPlayer(String username) throws UnsupportedOperationException {
-        System.out.println(username);
+    public Player getSpecificPlayer(String username) {
         for(Player p: players)
             if(username.equals(p.getPlayerName()))
                 return p;
         throw new UnsupportedOperationException();
     }
 
-    public void populateToolSlots(){
+    private void populateToolSlots(){
         for (int i = 0; i < 3; i++) {
             try {
                 this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().drawCard()));
@@ -207,7 +206,7 @@ public class CommonBoard {
         }
     }
 
-    public void populatePubObjSlots(){
+    private void populatePubObjSlots(){
         for (int i = 0; i < 3; i++) {
             try {
                 this.getPublicObjectiveCardSlots().add(new PublicObjectiveCardSlot( (APublicObjectiveCard) this.getPublicObjectiveCardsDeck().drawCard()));

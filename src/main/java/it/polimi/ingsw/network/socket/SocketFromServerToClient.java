@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.socket;
 
+import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
@@ -26,7 +27,7 @@ public class SocketFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) throws BrokenConnectionException {
+    public void showPrivateObjective(int privateObjCardId) throws BrokenConnectionException {
 
     }
 
@@ -41,17 +42,12 @@ public class SocketFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void setPlayer(int nFavTokens, int idPrivateObj) throws BrokenConnectionException {
+    public void setFavorToken(int nFavTokens) throws BrokenConnectionException {
 
     }
 
     @Override
-    public void showCommand() throws BrokenConnectionException {
-
-    }
-
-    @Override
-    public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) throws BrokenConnectionException {
+    public void showCommand(List<Commands> commands) throws BrokenConnectionException {
 
     }
 

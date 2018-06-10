@@ -16,10 +16,18 @@ public class NetworkMessage implements Serializable {
     /**
      * Enum value representing the method the sender wants to call from the machine on the other end.
      */
-    private INetworkMethod method;
+    private NetworkMethod method;
 
-    NetworkMessage(INetworkMethod method, List<Serializable> parameters) {
+    NetworkMessage(NetworkMethod method, List<Serializable> parameters) {
         this.method = method;
         this.parameters = parameters;
+    }
+
+    NetworkMethod getMethod() {
+        return method;
+    }
+
+    List<Serializable> getParameters() {
+        return parameters;
     }
 }

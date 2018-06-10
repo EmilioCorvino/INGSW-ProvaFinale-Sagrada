@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
@@ -44,8 +45,8 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
-    public void showCommonBoard(List<SetUpInformationUnit> draftPool, SimplifiedWindowPatternCard wp) {
-        this.client.showCommonBoard(draftPool, wp);
+    public void showPrivateObjective(int privateObjCardId) {
+        this.client.showPrivateObjective(privateObjCardId);
     }
 
     @Override
@@ -59,18 +60,13 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
-    public void setPlayer(int nFavTokens, int idPrivateObj) {
-        this.client.setPlayer(nFavTokens, idPrivateObj);
+    public void setFavorToken(int nFavTokens) {
+        this.client.setFavorToken(nFavTokens);
     }
 
     @Override
-    public void showCommand() {
-        this.client.showCommand();
-    }
-
-    @Override
-    public void giveProperObjectToFill(SetUpInformationUnit setInfoUnit) {
-        this.client.giveProperObjectToFill(setInfoUnit);
+    public void showCommand(List<Commands> commands) {
+        this.client.showCommand(commands);
     }
 
     @Override
