@@ -3,7 +3,9 @@ package it.polimi.ingsw.model.cards.tool;
 import it.polimi.ingsw.controller.GamePlayManager;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.model.move.DiePlacementMove;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -51,8 +53,25 @@ public class DraftValueEffect extends AValueEffect {
     }
 
 
+    /**
+     * This method manages the placement of the chosen die with the new computed random value.
+     * @param manager the controller.
+     * @param setUpInfoUnit the information to use.
+     */
     @Override
-    public void executeMove(GamePlayManager commonBoard, SetUpInformationUnit setUpInfoUnit) {
+    public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
 
+        if(this.limit == 0) {
+            List<Die> diceToDraft = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice();
+            diceToDraft.forEach(die -> die.setActualDieValue(computeRandomDieValue(die).getActualDieValue()));
+            //TODO tell the manager to show updates.
+            return;
+        }
+
+        Die chosenDie = computeRandomDieValue(new Die(setUpInfoUnit.getValue(), setUpInfoUnit.getColor()));
+        setUpInfoUnit.setColor(chosenDie.getDieColor());
+        setUpInfoUnit.setValue(chosenDie.getActualDieValue());
+        DiePlacementMove move = new DiePlacementMove();
+        move.executeMove(manager, setUpInfoUnit);
     }
 }

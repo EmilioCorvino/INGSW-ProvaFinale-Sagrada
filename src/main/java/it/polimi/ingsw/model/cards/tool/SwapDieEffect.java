@@ -12,14 +12,14 @@ public class SwapDieEffect extends AToolCardEffect {
 
 
     /**
-     *
+     * TODO
      * @param manager
      * @param setUpInfoUnit
      */
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
 
-        Player player = manager.getPlayerList().get(manager.getCurrentPlayer());
+        Player player = manager.getControllerMaster().getGameState().getActualPlayer();
         Die chosenDie = new Die(setUpInfoUnit.getValue(), setUpInfoUnit.getColor());
 
         //check if die is contained in source e destination
@@ -33,9 +33,6 @@ public class SwapDieEffect extends AToolCardEffect {
         //Check controls
         manager.getControllerMaster().getCommonBoard().getDraftPool().update(roundDie);
         manager.getControllerMaster().getCommonBoard().getRoundTrack().update(chosenDie);
-
-
-
 
     }
 }

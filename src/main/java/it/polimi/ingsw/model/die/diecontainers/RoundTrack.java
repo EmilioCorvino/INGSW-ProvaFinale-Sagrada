@@ -32,6 +32,16 @@ public class RoundTrack extends ADieContainer {
         this.getAvailableDice().get(roundToBeUpdated).add(die);
     }
 
+    @Override
+    public boolean isContained(Die die) {
+        return false;
+    }
+
+    @Override
+    public void removeDie(Die die) {
+
+    }
+
     /**
      * This method remove a die from the round chosen and return the instance of the die removed.
      * @param die: the die that has to be removed.

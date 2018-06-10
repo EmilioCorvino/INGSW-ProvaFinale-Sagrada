@@ -67,6 +67,11 @@ public class WindowPatternCard extends ADieContainer {
                 glassWindow [c.getRow()] [c.getCol()] = c;
     }
 
+    @Override
+    public void removeDie(Die die) {
+
+    }
+
     /**
      * Constructor that generates a copy of the current class window.
      */
@@ -109,6 +114,7 @@ public class WindowPatternCard extends ADieContainer {
         if(this.isGlassWindowModified())
             restoreGlassWindow();
         glassWindow[desiredCell.getRow()][desiredCell.getCol()].setContainedDie(die);
+        //TODO
         setDesiredCell(null);
     }
 
@@ -161,7 +167,7 @@ public class WindowPatternCard extends ADieContainer {
      * @param selectedCell: the cell where the player wants to put the die.
      * @return true if the selected cell is adjacent to other non empty cells.
      */
-    private boolean checkAdjacentCells(Cell selectedCell) {
+    public boolean checkAdjacentCells(Cell selectedCell) {
         boolean check = false;
         int minR = 0;
         int maxR = 3;
@@ -191,7 +197,7 @@ public class WindowPatternCard extends ADieContainer {
      * @param selectedCell: the cell where the player wants to place the die.
      * @return true if the die respects all the restrictions of the selected cell.
      */
-    private boolean checkOwnRuleSet(Die die, Cell selectedCell){
+    public boolean checkOwnRuleSet(Die die, Cell selectedCell){
         boolean ok = true;
 
         for (ARestriction restriction : glassWindow[selectedCell.getRow()][selectedCell.getCol()].getRuleSetCell())
@@ -264,14 +270,6 @@ public class WindowPatternCard extends ADieContainer {
         return false;
     }
 
-    /**
-     *
-     * @return
-     * @throws CloneNotSupportedException
-     */
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
 
     public boolean isGlassWindowModified() {
         return isGlassWindowModified;

@@ -176,7 +176,7 @@ public class StartGameManager extends AGameManager {
     }
 
     /**
-     *
+     * 
      * @return
      */
     private Map<String, SimplifiedWindowPatternCard> mapsOfPlayersConverter() {

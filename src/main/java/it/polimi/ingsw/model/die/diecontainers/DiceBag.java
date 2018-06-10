@@ -71,4 +71,14 @@ public class DiceBag extends ADieContainer {
         availableDice.remove(die);
     }
 
+    @Override
+    public boolean isContained(Die die) {
+        return false;
+    }
+
+    @Override
+    public void removeDie(Die die) {
+
+    }
+
 }

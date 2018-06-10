@@ -19,14 +19,20 @@ import java.util.List;
 public class ColorRestrictionEffect extends PlacementRestrictionEffect {
 
     /**
-     *
-     * @param manager
-     * @param setUpInfoUnit
+     * This method makes a copy of the original window pattern card, modifies it and then executes the die
+     * placement with the modified one.
+     * @param manager the controller.
+     * @param setUpInfoUnit the info unit to use.
      */
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
-        Player currPlayer = manager.getPlayerList().get(manager.getCurrentPlayer());
+        Player currPlayer = manager.getControllerMaster().getGameState().getActualPlayer();
+        Die chosenDie = new Die(setUpInfoUnit.getValue(), setUpInfoUnit.getColor());
         WindowPatternCard wp = currPlayer.getWindowPatternCard();
+
+        if(!super.checkContainedDie(wp, chosenDie, manager))
+            return;
+
         wp.copyGlassWindow();
         Cell[][] playerGlassWindow = wp.getGlassWindow();
 
@@ -45,7 +51,8 @@ public class ColorRestrictionEffect extends PlacementRestrictionEffect {
                 }
                 glassWindow[i][j].setRuleSetCell(ruleSet);
             }
-
+        //ocio alla rimozione del dado.
+        wp.removeDie(chosenDie);
         wp.setGlassWindow(glassWindow);
         wp.setGlassWindowModified(true);
         super.executeMove(manager, setUpInfoUnit);

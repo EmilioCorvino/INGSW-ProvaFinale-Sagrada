@@ -18,6 +18,16 @@ public class SetUpInformationUnit extends InformationUnit {
     private int value;
 
     /**
+     *
+     */
+    private int sourceIndex;
+
+    /**
+     *
+     */
+    private int sourceOffset;
+
+    /**
      * Default constructor.
      */
     public SetUpInformationUnit() {
@@ -28,6 +38,7 @@ public class SetUpInformationUnit extends InformationUnit {
         super(index);
         setColor(color);
         setValue(value);
+        setSourceIndex(0);
     }
 
     public Color getColor() {
@@ -52,5 +63,21 @@ public class SetUpInformationUnit extends InformationUnit {
 
     public int getIndex() {
         return super.getIndex();
+    }
+
+    public int getSourceIndex() {
+        return sourceIndex;
+    }
+
+    public void setSourceIndex(int sourceIndex) {
+        this.sourceIndex = sourceIndex;
+    }
+
+    public int getSourceOffset() {
+        return sourceOffset;
+    }
+
+    public void setSourceOffset(int sourceOffset) {
+        this.sourceOffset = sourceOffset;
     }
 }

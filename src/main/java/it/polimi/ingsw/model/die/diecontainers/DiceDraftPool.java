@@ -74,4 +74,14 @@ public class DiceDraftPool extends ADieContainer {
                 dieToBeDeleted = d;
         this.getAvailableDice().remove(dieToBeDeleted);
     }
+
+    @Override
+    public boolean isContained(Die die) {
+        return false;
+    }
+
+    @Override
+    public void removeDie(Die die) {
+
+    }
 }
