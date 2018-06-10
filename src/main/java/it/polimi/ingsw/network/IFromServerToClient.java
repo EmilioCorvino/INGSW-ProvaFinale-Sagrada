@@ -23,32 +23,83 @@ public interface IFromServerToClient {
      */
     void showRoom(List<String> players) throws BrokenConnectionException;
 
+    /**
+     * This method set the private objective of the player and than show it to him.
+     * @param idPrivateObj: the id of the private objective drown.
+     */
     void showPrivateObjective(int idPrivateObj) throws BrokenConnectionException;
 
+    /**
+     *This method print for maps to the user and return to the server the id of the map chosen colling windowPatternRequest().
+     * @param listWp: The list of maps need to be choose.
+     */
     void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) throws BrokenConnectionException;
 
+    /**
+     * This method send to the server the id of the wp chosen.
+     */
     void choseWpId() throws BrokenConnectionException;
 
+    /**
+     * This method will set the common board with all the common information for each player.
+     * @param players: A map witch contains a simplified wp for each userName that identify a player.
+     * @param idPubObj: The ids of all the public objective cards drown by the controller.
+     * @param idTool: The ids of all the tool cards drown by the controller.
+     */
     void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool) throws BrokenConnectionException;
 
+    /**
+     * This method will populate the draft pool in each round
+     * @param draft: the list of dice contain in the draft Pool.
+     */
     void setDraft(List<SetUpInformationUnit> draft) throws BrokenConnectionException;
 
+    /**
+     * This method give at the player connected to this client the information of his private objective card and the number of his favor tokens.
+     * @param nFavTokens : the number of favor tokens.
+     */
     void setFavorToken(int nFavTokens) throws BrokenConnectionException;
 
+    /**
+     * This method populate the function map when the controller give the command list
+     * @param commands: the list of commands available.
+     */
     void showCommand(List<Commands> commands) throws BrokenConnectionException;
 
     // DA CANCELLARE
     void showUpdatedWp(String username, SetUpInformationUnit info) throws BrokenConnectionException;
 
+    /**
+     * This method update the wp of the player connected and print it.
+     * @param unit : information for the update, index of matrix and die that needs to be place.
+     */
     void updateOwnWp(SetUpInformationUnit unit)throws BrokenConnectionException;
 
+    /**
+     * This method update the wp of all player.
+     * @param userName : The userName of the player with the wp modified
+     * @param infoUnit : The info of modification of the wp.
+     */
     void updateOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) throws BrokenConnectionException;
 
+    /**
+     * This method remove a die fr<om the draft in a specified index.
+     * @param info: the containers of the index information.
+     */
     void updateDraft(InformationUnit info) throws BrokenConnectionException;
 
+    /**
+     * This method update the number of favor token assigned to a player
+     * @param nFavorToken : number of favor token remain.
+     */
     void updateFavTokenPlayer(int nFavorToken) throws BrokenConnectionException;
 
+    /**
+     * This method notice a message to the user.
+     * @param notice: the message that need to be printed.
+     */
     void showNotice(String notice) throws BrokenConnectionException;
 
+    //DA CANCELLARE
     void setMyTurn(boolean myTurn) throws BrokenConnectionException;
 }
