@@ -73,7 +73,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
     @Override
     public void showPrivateObjective(int idPrivateObjCard) throws BrokenConnectionException {
         try {
-            this.rmiClient.showPrivateObjectiveCard(idPrivateObjCard);
+            this.rmiClient.showPrivateObjective(idPrivateObjCard);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to show clients their private objective card", e);
             throw new BrokenConnectionException();
@@ -103,7 +103,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
     @Override
     public void setFavorToken(int nFavTokens) throws BrokenConnectionException {
         try {
-            this.rmiClient.setFavorTokens(nFavTokens);
+            this.rmiClient.setFavorToken(nFavTokens);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to correctly set the player", e);
             throw new BrokenConnectionException();
@@ -113,7 +113,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
     @Override
     public void showCommand(List<Commands> commands) throws BrokenConnectionException {
         try {
-            this.rmiClient.showCommand();
+            this.rmiClient.showCommand(commands);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to show clients the available commands", e);
             throw new BrokenConnectionException();
