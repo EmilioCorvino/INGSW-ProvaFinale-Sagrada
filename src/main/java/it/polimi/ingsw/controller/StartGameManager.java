@@ -25,8 +25,11 @@ public class StartGameManager extends AGameManager {
 
     private int wpSetCount;
 
+    private List<Integer> listOfSentWpID;
+
     public StartGameManager(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
+        this.listOfSentWpID = new ArrayList<>();
     }
 
     /**
@@ -111,16 +114,37 @@ public class StartGameManager extends AGameManager {
     }
 
     /**
-     *
-     * @param username
-     * @param chosenWp
+     * If the player sends an ID among those of the window pattern cards that have been drawn for him, this methods
+     * sets said window pattern card to the player, increments the counter of players that have correctly chosen the
+     * window pattern card ({@link #wpSetCount}) and starts the match if everybody have chosen.
+     * If the ID is not correct, this methods says it to the player and asks for another ID.
+     * @param username player sending the chosen {@link WindowPatternCard}.
+     * @param chosenWp chosen {@link WindowPatternCard}.
      */
-    public synchronized void wpToSet(String username, int chosenWp) {
+    synchronized void wpToSet(String username, int chosenWp) {
         CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
-        WindowPatternCard wpToSet = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenWp);
-        commonBoard.getSpecificPlayer(username).setWindowPatternCard(wpToSet);
+        if(this.listOfSentWpID.contains(chosenWp)) {
+            WindowPatternCard wpToSet = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenWp);
+            commonBoard.getSpecificPlayer(username).setWindowPatternCard(wpToSet);
+            this.incrementSetWpAndEventuallyStartMatch(username);
+        } else {
+            try {
+                super.getControllerMaster().getConnectedPlayers().get(username).getClient().showNotice(
+                        "Hai selezionato una vetrata non valida, reinserisci un ID tra quelli mostrati.");
+                super.getControllerMaster().getConnectedPlayers().get(username).getClient().choseWpId();
+            } catch (BrokenConnectionException e) {
+                SagradaLogger.log(Level.SEVERE, "Impossible to send a notice to the client", e);
+                //todo handle disconnection.
+            }
+        }
+    }
 
-        //Checks if all the players have chosen a window pattern card.
+    /**
+     * Checks if all the players have chosen a window pattern card. If so, starts the match. If not, informs the player
+     * of how many people still have to choose.
+     * @param username player that has just chosen a correct wp.
+     */
+    private void incrementSetWpAndEventuallyStartMatch(String username) {
         this.wpSetCount++;
         if(this.wpSetCount == super.getControllerMaster().getCommonBoard().getPlayers().size()) {
             this.setCommonBoard();
@@ -136,6 +160,8 @@ public class StartGameManager extends AGameManager {
             }
         }
     }
+
+
 
     /**
      *
@@ -170,11 +196,13 @@ public class StartGameManager extends AGameManager {
      */
     private void setUpWindowPattern() {
         List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
+        List<SimplifiedWindowPatternCard> listOfSentWp = chooseWindowPatternCard();
+        listOfSentWp.forEach(wp -> this.listOfSentWpID.add(wp.getIdMap()));
 
         players.forEach(player -> {
             IFromServerToClient iFromServerToClient = super.getControllerMaster().getConnectedPlayers().get(player.getPlayerName()).getClient();
             try{
-                iFromServerToClient.showMapsToChoose(chooseWindowPatternCard());
+                iFromServerToClient.showMapsToChoose(listOfSentWp);
             } catch (BrokenConnectionException br) {
                 //handle broken connection.
             }
