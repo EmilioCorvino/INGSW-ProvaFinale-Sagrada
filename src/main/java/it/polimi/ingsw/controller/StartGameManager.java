@@ -38,6 +38,10 @@ public class StartGameManager extends AGameManager {
         this.listOfSentWpID = new HashMap<>();
     }
 
+//----------------------------------------------------------
+//                    SET UP METHODS
+//----------------------------------------------------------
+
     /**
      * This method gathers from the clients everything that is needed to set up the match, allowing players to see
      * the {@link it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard} drawn for each of them and to
@@ -49,13 +53,29 @@ public class StartGameManager extends AGameManager {
     }
 
     /**
+     * This methods shows to the clients the {@link it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard}
+     * that has been drawn for them and sets it in the view.
+     */
+    private void setPrivateObjectiveCard() {
+        super.getControllerMaster().getCommonBoard().givePrivateObjCard();
+        super.getControllerMaster().getConnectedPlayers().forEach((playerName, connection) -> {
+            int privateObjId = this.privateObjCardConverter(playerName);
+            try {
+                connection.getClient().showPrivateObjective(privateObjId);
+            } catch (BrokenConnectionException e) {
+                //todo handle disconnecion
+            }
+        });
+    }
+
+    /**
      * This method shows to the client four window pattern cards among which to choose.
      */
     private List<SimplifiedWindowPatternCard> chooseWindowPatternCard() {
         List<SimplifiedWindowPatternCard> listToSend = new ArrayList<>();
 
-            List<SimplifiedWindowPatternCard> list1 = windowPatternCardConverter();
-            listToSend.addAll(list1);
+        List<SimplifiedWindowPatternCard> list1 = windowPatternCardConverter();
+        listToSend.addAll(list1);
 
         List<SimplifiedWindowPatternCard> list2 = windowPatternCardConverter();
         listToSend.addAll(list2);
@@ -64,34 +84,11 @@ public class StartGameManager extends AGameManager {
     }
 
     /**
-     *
-     * @param chosenMap
-     * @return
-     */
-    private SimplifiedWindowPatternCard convertOneWp(int chosenMap) {
-        CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
-        WindowPatternCard wp = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenMap);
-
-        Cell[][] gw = wp.getGlassWindow();
-
-        List<SetUpInformationUnit> informationUnitList = new ArrayList<>();
-
-        for(int i=0; i<WindowPatternCard.getMaxRow(); i++)
-            for(int j=0; j<WindowPatternCard.getMaxCol(); j++)
-                   informationUnitList.add(new SetUpInformationUnit(i*WindowPatternCard.getMaxCol()+j, gw[i][j].getDefaultColorRestriction().getColor(), gw[i][j].getDefaultValueRestriction().getValue()));
-
-        SimplifiedWindowPatternCard simpleWp = new SimplifiedWindowPatternCard(informationUnitList);
-        simpleWp.setDifficulty(wp.getDifficulty());
-        simpleWp.setIdMap(chosenMap);
-        return simpleWp;
-    }
-
-    /**
      * If the player sends an ID among those of the window pattern cards that have been drawn for him, this methods
      * sets said window pattern card to the player, increments the counter of players that have correctly chosen the
-     * window pattern card ({@link #wpSetCount}) and starts the match if everybody have chosen.
+     * window pattern card ({@link #wpSetCount}) and starts the match if everybody has chosen.
      * If the ID is not correct, this methods says it to the player and asks for another ID.
-     * @param username player sending the chosen {@link WindowPatternCard}.
+     * @param username name of the player sending the chosen {@link WindowPatternCard}.
      * @param chosenWp chosen {@link WindowPatternCard}.
      */
     synchronized void wpToSet(String username, int chosenWp) {
@@ -116,7 +113,7 @@ public class StartGameManager extends AGameManager {
     /**
      * Checks if all the players have chosen a window pattern card. If so, starts the match. If not, informs the player
      * of how many people still have to choose.
-     * @param username player that has just chosen a correct wp.
+     * @param username name of the player that has just chosen a correct wp.
      */
     private void incrementSetWpAndEventuallyStartMatch(String username) {
         this.wpSetCount++;
@@ -136,23 +133,10 @@ public class StartGameManager extends AGameManager {
     }
 
     /**
-     * This methods shows to the clients the {@link it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard}
-     * that has been drawn for them and sets it in the view.
-     */
-    private void setPrivateObjectiveCard() {
-        super.getControllerMaster().getCommonBoard().givePrivateObjCard();
-        super.getControllerMaster().getConnectedPlayers().forEach((playerName, connection) -> {
-            int privateObjId = this.privateObjCardConverter(playerName);
-            try {
-                connection.getClient().showPrivateObjective(privateObjId);
-            } catch (BrokenConnectionException e) {
-                //todo handle disconnecion
-            }
-        });
-    }
-
-    /**
-     * This m
+     * This method shows to the player the 4 {@link WindowPatternCard}s drawn for him and lets him choose one among
+     * those.
+     * It also saves the ids of the cards sent in {@link #listOfSentWpID}, to be able to check if the player has chosen
+     * a right id afterwards.
      */
     private void setUpWindowPattern() {
         List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
@@ -174,6 +158,7 @@ public class StartGameManager extends AGameManager {
             }
         });
 
+        //Allows the players to choose a Window Pattern Card among the ones drawn.
         players.forEach(player -> {
             IFromServerToClient iFromServerToClient = super.getControllerMaster().getConnectedPlayers().get(player.getPlayerName()).getClient();
             try {
@@ -186,7 +171,10 @@ public class StartGameManager extends AGameManager {
     }
 
     /**
-     *
+     * This method is used to set the rest of the {@link CommonBoard} with a populated
+     * {@link it.polimi.ingsw.model.die.diecontainers.DiceDraftPool}, other players' {@link WindowPatternCard}s,
+     * {@link it.polimi.ingsw.model.cards.objective.publics.APublicObjectiveCard}s and
+     * {@link it.polimi.ingsw.model.cards.tool.ToolCard}s drawn.
      */
     private void setCommonBoard() {
         List<SetUpInformationUnit> draftPool = draftPoolConverter();
@@ -209,6 +197,23 @@ public class StartGameManager extends AGameManager {
 //----------------------------------------------------------
 //           MODEL TO VIEW OBJECTS CONVERTERS
 //----------------------------------------------------------
+
+    /**
+     * Converts the {@link it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard} of a player into its id.
+     * @param userName name of the player owning the
+     * {@link it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard}.
+     * @return id of the {@link it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard} owned by
+     * the player.
+     */
+    private int privateObjCardConverter(String userName){
+        List <Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
+
+        for (Player p : players)
+            if (p.getPlayerName().equals(userName)) {
+                return p.getPrivateObjectiveCard().getId();
+            }
+        return 0;
+    }
 
     /**
      * This method converts the window pattern card into objects to send to the client.
@@ -242,8 +247,8 @@ public class StartGameManager extends AGameManager {
     }
 
     /**
-     *
-     * @return
+     * Maps each player (identified by his user name) with the {@link SimplifiedWindowPatternCard} of choice.
+     * @return the map in which each player is mapped with his {@link SimplifiedWindowPatternCard}.
      */
     private Map<String, SimplifiedWindowPatternCard> mapsOfPlayersConverter() {
         Map<String, SimplifiedWindowPatternCard> mapOfWp = new HashMap<>();
@@ -256,8 +261,34 @@ public class StartGameManager extends AGameManager {
     }
 
     /**
-     *
-     * @return
+     * Converts a complex {@link WindowPatternCard} into a {@link SimplifiedWindowPatternCard}.
+     * @param chosenMap id of the chosen {@link WindowPatternCard}.
+     * @return a {@link SimplifiedWindowPatternCard} obtained by a {@link WindowPatternCard}.
+     */
+    private SimplifiedWindowPatternCard convertOneWp(int chosenMap) {
+        CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
+        WindowPatternCard wp = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenMap);
+
+        Cell[][] gw = wp.getGlassWindow();
+
+        List<SetUpInformationUnit> informationUnitList = new ArrayList<>();
+
+        for(int i=0; i<WindowPatternCard.getMaxRow(); i++)
+            for(int j=0; j<WindowPatternCard.getMaxCol(); j++)
+                informationUnitList.add(new SetUpInformationUnit(i*WindowPatternCard.getMaxCol()+j,
+                        gw[i][j].getDefaultColorRestriction().getColor(), gw[i][j].getDefaultValueRestriction().getValue()));
+
+        SimplifiedWindowPatternCard simpleWp = new SimplifiedWindowPatternCard(informationUnitList);
+        simpleWp.setDifficulty(wp.getDifficulty());
+        simpleWp.setIdMap(chosenMap);
+        return simpleWp;
+    }
+
+    /**
+     * Converts the {@link it.polimi.ingsw.model.die.diecontainers.DiceDraftPool} of the model to a simpler
+     * List of {@link SetUpInformationUnit}, to represent it in the view.
+     * @return a list of {@link SetUpInformationUnit} generated from the match
+     * {@link it.polimi.ingsw.model.die.diecontainers.DiceDraftPool}.
      */
     private List<SetUpInformationUnit> draftPoolConverter() {
         List<Die> draftPoolDice = super.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice();
@@ -267,6 +298,12 @@ public class StartGameManager extends AGameManager {
         return draftPoolInfo;
     }
 
+    /**
+     * Converts the {@link it.polimi.ingsw.model.cards.objective.publics.APublicObjectiveCard}s drawn into an array of
+     * integers, which are their id.
+     * @return an array containing the drawn {@link it.polimi.ingsw.model.cards.objective.publics.APublicObjectiveCard}s'
+     * ids.
+     */
     private int[] pubObjConverter(){
         int index = 0;
         int [] pubObj = new int[3];
@@ -280,6 +317,11 @@ public class StartGameManager extends AGameManager {
         return pubObj;
     }
 
+    /**
+     * Converts the {@link it.polimi.ingsw.model.cards.tool.ToolCard}s drawn into an array of integers, which are their
+     * id.
+     * @return an array containing the drawn {@link it.polimi.ingsw.model.cards.tool.ToolCard}s' ids.
+     */
     private int[] toolConverter(){
         int index = 0;
         int [] tool = new int[3];
@@ -293,22 +335,17 @@ public class StartGameManager extends AGameManager {
         return tool;
     }
 
+    /**
+     * Gets the favor tokens owned by the player.
+     * @param userName name of the player owning the favor tokens.
+     * @return the number of favor tokens owned by the player.
+     */
     private int numberFavTokenConverter(String userName){
         List <Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
 
         for (Player p : players)
             if (p.getPlayerName().equals(userName))
                 return p.getFavorTokens();
-        return 0;
-    }
-
-    private int privateObjCardConverter(String userName){
-        List <Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
-
-        for (Player p : players)
-            if (p.getPlayerName().equals(userName)) {
-                return p.getPrivateObjectiveCard().getId();
-            }
         return 0;
     }
 }
