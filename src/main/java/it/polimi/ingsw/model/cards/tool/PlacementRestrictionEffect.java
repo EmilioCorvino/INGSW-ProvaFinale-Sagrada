@@ -16,7 +16,7 @@ public class PlacementRestrictionEffect extends AToolCardEffect {
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
         /*Die chosenDie = new Die(setUpInfoUnit.getValue(), setUpInfoUnit.getColor());
-        WindowPatternCard playerWp = manager.getPlayerList().get(manager.getCurrentPlayer()).getWindowPatternCard();
+        WindowPatternCard playerWp = manager.getPlayerList().get(manager.getCurrentPlayerTurnIndex()).getWindowPatternCard();
 
         if(!playerWp.isContained(chosenDie)) {
             manager.showNotification("il dado non è contenuto in in questa mappa. Scegliere un dado valido.");
@@ -25,6 +25,6 @@ public class PlacementRestrictionEffect extends AToolCardEffect {
         }
 
         playerWp.update(chosenDie);
-        manager.showPlacementResult(manager.getPlayerList().get(manager.getCurrentPlayer()), setUpInfoUnit);*/
+        manager.showPlacementResult(manager.getPlayerList().get(manager.getCurrentPlayerTurnIndex()), setUpInfoUnit);*/
     }
 }
