@@ -91,7 +91,7 @@ public class WaitingRoom {
     }
 
     /**
-     * This method checks if the minimum player for a multiplayer match is reached, then starts the timer.
+     * This method checks if the minimum player for a multi-player match is reached, then starts the timer.
      */
     private void checkNumberOfPlayers() {
         if(playersRoom.size() == 2) {

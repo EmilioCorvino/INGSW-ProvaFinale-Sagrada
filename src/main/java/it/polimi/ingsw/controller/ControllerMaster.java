@@ -5,7 +5,7 @@ import it.polimi.ingsw.controller.managers.EndGameManager;
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.managers.StartGameManager;
 import it.polimi.ingsw.model.CommonBoard;
-import it.polimi.ingsw.model.GameState;
+import it.polimi.ingsw.model.turn.GameState;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.Connection;
 
@@ -97,6 +97,16 @@ public class ControllerMaster implements IControllerMaster {
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
+    }
+
+    /**
+     * This method is used when a player disconnects or takes too much time to complete his turn. It adds the player to
+     * the {@link ControllerMaster}'s suspended players list and allows to skip his turns, considering him in the
+     * final score anyway.
+     * @param playerName player to suspend.
+     */
+    public void suspendPlayer(String playerName) {
+
     }
 
     //todo handle reconnection

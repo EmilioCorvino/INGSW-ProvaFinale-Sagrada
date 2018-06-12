@@ -17,7 +17,7 @@ public class SwapDieEffect extends AToolCardEffect {
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
 
-      /*  Player player = manager.getPlayerList().get(manager.getCurrentPlayer());
+      /*  Player player = manager.getPlayerList().get(manager.getCurrentPlayerTurnIndex());
         Die chosenDie = new Die(setUpInfoUnit.getValue(), setUpInfoUnit.getColor());
 
         //check if die is contained in source e destination
