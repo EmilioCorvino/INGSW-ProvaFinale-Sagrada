@@ -95,6 +95,13 @@ public interface IFromServerToClient {
     void updateFavTokenPlayer(int nFavorToken) throws BrokenConnectionException;
 
     /**
+     * This method update the cost of use for a specified tool, it is used after the first use of a tool.
+     * @param idSlot: It is the id of the tool updated
+     * @param cost: The new cost of the tool.
+     */
+    void updateToolCost(int idSlot, int cost) throws BrokenConnectionException;
+
+    /**
      * This method notice a message to the user.
      * @param notice: the message that need to be printed.
      */

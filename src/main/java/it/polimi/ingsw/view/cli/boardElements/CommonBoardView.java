@@ -21,14 +21,14 @@ public class CommonBoardView {
 
     private List<String> publicObjectiveCards;
 
-    private Map<String, Integer> toolCards;
+    private List<ToolCard> toolCards;
 
 
     public CommonBoardView(){
         this.players = new ArrayList<>();
         this.roundTrack = new RoundTrackView();
         this.publicObjectiveCards = new ArrayList<>();
-        this.toolCards = new HashMap<>();
+        this.toolCards = new ArrayList<>();
     }
 
     public List<PlayerView> getPlayers() {
@@ -47,7 +47,7 @@ public class CommonBoardView {
         return publicObjectiveCards;
     }
 
-    public Map<String, Integer> getToolCards() {
+    public List<ToolCard> getToolCards() {
         return toolCards;
     }
 

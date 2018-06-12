@@ -4,21 +4,22 @@ public class ToolCard {
 
     private String description;
 
-    private int nFavorToken;
+    private int cost;
+
+    public ToolCard(String description, int cost){
+        this.description = description;
+        this.cost = cost;
+    }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public int getCost() {
+        return cost;
     }
 
-    public int getnFavorToken() {
-        return nFavorToken;
-    }
-
-    public void setnFavorToken(int nFavorToken) {
-        this.nFavorToken = nFavorToken;
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 }

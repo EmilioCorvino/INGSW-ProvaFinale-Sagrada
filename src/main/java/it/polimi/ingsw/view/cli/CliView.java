@@ -253,7 +253,6 @@ public class CliView extends AViewMaster{
         gamePlayManager.updateWp(wp, unit);
         wp.printWp();
 
-
     }
 
     /**
@@ -287,8 +286,14 @@ public class CliView extends AViewMaster{
         this.player.setFavorToken(nFavorToken);
     }
 
-    public void updateFavTokenTool(int idSlot, int nFavToken){
-
+    /**
+     * This method update the cost of use for a specified tool, it is used after the first use of a tool.
+     * @param idSlot: It is the id of the tool updated
+     * @param cost: The new cost of the tool.
+     */
+    @Override
+    public void updateToolCost(int idSlot, int cost){
+        this.commonBoard.getToolCards().get(idSlot).setCost(cost);
     }
 
     // DA CANCELLARE

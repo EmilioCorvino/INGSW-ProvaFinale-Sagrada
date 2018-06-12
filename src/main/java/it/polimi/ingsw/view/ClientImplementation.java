@@ -92,6 +92,9 @@ public class ClientImplementation implements IFromServerToClient {
     }
 
     @Override
+    public void updateToolCost(int idSlot, int cost){ view.updateToolCost(idSlot,cost);}
+
+    @Override
     public void showNotice(String notice){ view.showNotice(notice);}
 
 }
