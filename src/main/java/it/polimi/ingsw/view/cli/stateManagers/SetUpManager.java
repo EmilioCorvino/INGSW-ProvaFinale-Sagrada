@@ -2,11 +2,9 @@ package it.polimi.ingsw.view.cli.stateManagers;
 
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
-import it.polimi.ingsw.view.cli.InputOutputManager;
-import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
-import it.polimi.ingsw.view.cli.die.PlayerView;
+import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
+import it.polimi.ingsw.view.cli.boardElements.PlayerView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
-import org.omg.PortableInterceptor.INACTIVE;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

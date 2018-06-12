@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.cli.die;
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.view.cli.InputOutputManager;
+import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
 
 import java.util.ArrayList;
 import java.util.List;

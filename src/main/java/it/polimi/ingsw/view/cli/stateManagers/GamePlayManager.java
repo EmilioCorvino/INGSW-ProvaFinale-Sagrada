@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.cli.stateManagers;
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.view.cli.InputOutputManager;
+import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.die.DieView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;

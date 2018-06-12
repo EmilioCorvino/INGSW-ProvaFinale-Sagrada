@@ -46,7 +46,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
     /**
      *
      *
-     * @param listWp
+     * @param listWp:
      * @throws BrokenConnectionException
      */
     @Override
@@ -181,14 +181,5 @@ public class RmiFromServerToClient implements IFromServerToClient {
         }
     }
 
-    @Override
-    public void setMyTurn(boolean myTurn) throws BrokenConnectionException {
-        try {
-            this.rmiClient.setMyTurn(myTurn);
-        } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to say to the player if it's or it's not his turn", e);
-            throw new BrokenConnectionException();
-        }
-    }
 
 }

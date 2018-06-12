@@ -100,6 +100,4 @@ public interface IFromServerToClient {
      */
     void showNotice(String notice) throws BrokenConnectionException;
 
-    //DA CANCELLARE
-    void setMyTurn(boolean myTurn) throws BrokenConnectionException;
 }

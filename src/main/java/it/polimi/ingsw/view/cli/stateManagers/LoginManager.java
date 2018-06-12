@@ -5,7 +5,7 @@ import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.network.rmi.RmiFromClientToServer;
 import it.polimi.ingsw.network.socket.SocketFromClientToServer;
 import it.polimi.ingsw.view.AViewMaster;
-import it.polimi.ingsw.view.cli.InputOutputManager;
+import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
 
 import java.util.List;
 import java.util.Scanner;

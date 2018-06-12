@@ -94,8 +94,4 @@ public class ClientImplementation implements IFromServerToClient {
     @Override
     public void showNotice(String notice){ view.showNotice(notice);}
 
-
-    @Override
-    public void setMyTurn(boolean myTurn){ /*view.setMyTurn(myTurn);*/}
-
 }

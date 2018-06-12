@@ -1,6 +1,7 @@
-package it.polimi.ingsw.view.cli.die;
+package it.polimi.ingsw.view.cli.boardElements;
 
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 
 /**
  * This class identify the player.

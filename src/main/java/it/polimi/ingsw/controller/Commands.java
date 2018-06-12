@@ -20,5 +20,6 @@ public enum Commands {
     PUBLIC_OBJ_CARDS,
     PRIVATE_OBJ_CARD,
     AVAILABLE_TOOL_CARDS,
+    END_TURN,
     LOGOUT
 }

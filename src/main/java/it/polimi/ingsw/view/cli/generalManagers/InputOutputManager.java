@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.cli;
+package it.polimi.ingsw.view.cli.generalManagers;
 
 import java.util.Scanner;
 

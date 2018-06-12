@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.cli;
+package it.polimi.ingsw.view.cli.commands;
 
 /**
  * This enum map the command available for the user.
@@ -16,9 +16,10 @@ public enum UserCommands {
     MAPPE_ALTRI_GIOCATORI("Mappe altri giocatori"),
     OBBIETTIVI_PUBBLICI("Obiettivi pubblici"),
     OBIETTIVO_PRIVATO("Obiettivo Privato"),
-    CARTE_STRUMENTO_DISPONIBILI("Carte strumento disponibili"),
-    LOGOUT(""),
-    HELP("Visualizza comandi disponibili");
+    CARTE_STRUMENTO_DISPONIBILI("Carte strumento"),
+    PASSA("Passa"),
+    HELP("Aiuto"),
+    LOGOUT("Logout");
 
     /**
      * This is the italian description that will be print and digit by the user, during command choosing.

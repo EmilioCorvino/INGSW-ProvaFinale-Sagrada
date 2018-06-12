@@ -1,4 +1,7 @@
-package it.polimi.ingsw.view.cli.die;
+package it.polimi.ingsw.view.cli.boardElements;
+
+import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
+import it.polimi.ingsw.view.cli.die.RoundTrackView;
 
 import java.util.ArrayList;
 import java.util.HashMap;

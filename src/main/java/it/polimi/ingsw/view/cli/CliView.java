@@ -10,10 +10,13 @@ import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.AViewMaster;
-import it.polimi.ingsw.view.cli.die.CommonBoardView;
+import it.polimi.ingsw.view.cli.boardElements.CommonBoardView;
+import it.polimi.ingsw.view.cli.commands.Bank;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
-import it.polimi.ingsw.view.cli.die.PlayerView;
+import it.polimi.ingsw.view.cli.boardElements.PlayerView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
+import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
+import it.polimi.ingsw.view.cli.generalManagers.ScannerThread;
 import it.polimi.ingsw.view.cli.stateManagers.*;
 
 import java.util.List;
@@ -21,13 +24,6 @@ import java.util.Map;
 import java.util.logging.Level;
 
 public class CliView extends AViewMaster{
-
-
-    //DA CANCELLARE
-    /**
-     * This attribute is set true when is the turn of this client else is set false.
-     */
-    private boolean isMyTurn;
 
     /**
      * The object that create the map functions, taking info from a map of possible function.
@@ -83,7 +79,7 @@ public class CliView extends AViewMaster{
     /**
      * The scanner of commands from the user.
      */
-    private Thread scannerThread;
+    private ScannerThread scannerThread;
 
     public CliView(){
         bank = new Bank(this);
@@ -94,7 +90,7 @@ public class CliView extends AViewMaster{
         setUpManager = new SetUpManager(inputOutputManager);
         gamePlayManager = new GamePlayManager(inputOutputManager);
         endGameManager = new EndGameManager(inputOutputManager);
-        scannerThread = new Thread(new ScannerThread(this::analyzeStringInput, inputOutputManager));
+        scannerThread = new ScannerThread(this::analyzeStringInput, inputOutputManager);
     }
 
 //----------------------------------------------------------
@@ -244,7 +240,6 @@ public class CliView extends AViewMaster{
     public void showCommand(List<Commands> commands) {
         functions = bank.getCommandMap(commands);
         printCommands();
-        //scannerThread.start();
     }
 
     /**
@@ -330,12 +325,6 @@ public class CliView extends AViewMaster{
 //----------------------------------------------------------
 
 
-
-//----------------------------------------------------------
-//                  CLIENT NOT SERVED
-//----------------------------------------------------------
-
-
 //----------------------------------------------------------
 //                  GENERAL METHODS
 //----------------------------------------------------------
@@ -347,15 +336,11 @@ public class CliView extends AViewMaster{
         this.server = server;
     }
 
-    public boolean isMyTurn() {
-        return isMyTurn;
-    }
-
     public SetUpManager getSetUpManager() {
         return setUpManager;
     }
 
-    GamePlayManager getGamePlayManager() {
+    public GamePlayManager getGamePlayManager() {
         return gamePlayManager;
     }
 
@@ -369,6 +354,10 @@ public class CliView extends AViewMaster{
 
     public InputOutputManager getInputOutputManager() {
         return inputOutputManager;
+    }
+
+    public ScannerThread getScannerThread() {
+        return scannerThread;
     }
 
     /**
@@ -397,7 +386,8 @@ public class CliView extends AViewMaster{
         return s;
     }
 
-    void printCommands(){
+
+    public void printCommands(){
         inputOutputManager.print("\nCamandi disponibili: ");
         functions.forEach((k,v) -> inputOutputManager.print("\t- "+k));
     }

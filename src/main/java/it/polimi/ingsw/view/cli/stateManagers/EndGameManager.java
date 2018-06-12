@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.cli.stateManagers;
 
-import it.polimi.ingsw.view.cli.InputOutputManager;
+import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
 
 import java.io.Serializable;
 
@@ -15,5 +15,5 @@ public class EndGameManager implements Serializable {
         this.inputOutputManager = inputOutputManager;
     }
 
-    public void showRank(String[] players, int[] score){};
+    public void showRank(String[] players, int[] score){}
 }

@@ -47,7 +47,4 @@ public interface IRmiClient extends Remote {
     void updateFavTokenPlayer(int nFavorToken) throws RemoteException;
 
     void showNotice(String notice) throws RemoteException;
-
-    void setMyTurn(boolean myTurn) throws RemoteException;
-
 }

@@ -1,10 +1,10 @@
-package it.polimi.ingsw.view.cli.stateManagers;
+package it.polimi.ingsw.view.cli.generalManagers;
 
-import it.polimi.ingsw.view.cli.InputOutputManager;
+import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
 
 import java.util.function.Consumer;
 
-public class ScannerThread implements Runnable {
+public class ScannerThread extends Thread {
     private InputOutputManager inputOutputManager;
     private Consumer<String> functionToInvoke;
     private boolean isOnGame = true;
@@ -22,7 +22,7 @@ public class ScannerThread implements Runnable {
         }
     }
 
-    public void stopExecution(){
+    void stopExecution(){
         isOnGame = false;
     }
 }
