@@ -1,17 +1,22 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.controller.managers;
 
 
+import it.polimi.ingsw.controller.Commands;
+import it.polimi.ingsw.controller.ControllerMaster;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.cards.ToolCardSlot;
 import it.polimi.ingsw.model.move.DiePlacementMove;
 import it.polimi.ingsw.model.move.IMove;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  *
@@ -20,11 +25,11 @@ public class GamePlayManager extends AGameManager {
 
     private List<Commands> currentPlayerCommands;
 
-    private List<Commands> otherPlayersCommands;
+    private List<Commands> waitingPlayersCommands;
 
     /**
      * This constructor, other than setting the controller master, also initializes the lists of commands to be shown
-     * both to the player on duty ({@link #currentPlayerCommands}) and to the others ({@link #otherPlayersCommands}).
+     * both to the player on duty ({@link #currentPlayerCommands}) and to the others ({@link #waitingPlayersCommands}).
      * @param controllerMaster main controller class.
      */
     public GamePlayManager(ControllerMaster controllerMaster) {
@@ -42,13 +47,19 @@ public class GamePlayManager extends AGameManager {
         //Inserts tool cards commands after the placement one.
         this.currentPlayerCommands.addAll(1, toolCommands);
 
-        this.otherPlayersCommands = new ArrayList<>(Arrays.asList(Commands.OTHER_PLAYERS_MAPS,
+        this.waitingPlayersCommands = new ArrayList<>(Arrays.asList(Commands.OTHER_PLAYERS_MAPS,
                 Commands.PUBLIC_OBJ_CARDS, Commands.PRIVATE_OBJ_CARD, Commands.AVAILABLE_TOOL_CARDS, Commands.LOGOUT));
     }
 
-    public void startMatch() {
+    /**
+     * Starts the match preparing the first list of turn order using {@link it.polimi.ingsw.model.PlayerTurnState}.
+     */
+    void startMatch() {
         List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
-        super.getControllerMaster().getGameState().getTurnState().initializePlayerList(players);
+        GameState gameState = super.getControllerMaster().getGameState();
+        gameState.getTurnState().initializePlayerList(players);
+        gameState.setStartPlayer(gameState.getActualPlayer());
+        this.startTurn(gameState.getStartPlayer());
     }
 
     /**
@@ -58,19 +69,34 @@ public class GamePlayManager extends AGameManager {
      */
     public void startTurn(Player currentPlayer) {
         //todo mostrare i comandi qui. Mostrare i comandi di turno al player di turno, mostrare gli altri comandi agli altri.
-        //GIAN ???
-        /*
+        //Shows the commands to the player on duty.
+        IFromServerToClient currentPlayerClient =
+                super.getControllerMaster().getConnectedPlayers().get(currentPlayer.getPlayerName()).getClient();
         try {
-            super.getControllerMaster().getConnectedPlayers().get(currentPlayer.getPlayerName()).getClient().setMyTurn(true);
-            for (Player p : super.getControllerMaster().getGameState().g) {
-                if (!p.isSamePlayerAs(playerList.get(this.currentPlayer)))
-                    super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient().setMyTurn(false);
-            }
-            super.getControllerMaster().getConnectedPlayers().get(currentPlayer.getPlayerName()).getClient().showCommand();
-        } catch (BrokenConnectionException br) {
-            //handle broken connection
+            currentPlayerClient.showCommand(this.currentPlayerCommands);
+        } catch (BrokenConnectionException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to show current player commands to the player on duty", e);
+            //todo suspendPlayer(currentPlayer.getPlayerName);
         }
-        */
+
+        //If the player on duty takes too much time to perform an action, suspends him.
+
+
+        //Shows the available commands to the players waiting.
+        List<Player> waitingPlayers = super.getControllerMaster().getCommonBoard().getPlayers();
+        for(Player player: waitingPlayers) {
+            if(!player.isSamePlayerAs(currentPlayer)) {
+                IFromServerToClient waitingPlayerClient =
+                        super.getControllerMaster().getConnectedPlayers().get(player.getPlayerName()).getClient();
+                try {
+                    waitingPlayerClient.showCommand(this.waitingPlayersCommands);
+                } catch (BrokenConnectionException e) {
+                    SagradaLogger.log(Level.SEVERE, "Impossible to show waiting players commands " +
+                            "to the waiting players", e);
+                    //todo suspendPlayer(player.getPlayerName);
+                }
+            }
+        }
     }
 
     /**
@@ -127,7 +153,7 @@ public class GamePlayManager extends AGameManager {
      * This method checks if are satisfied the right conditions to move to the next player.
      * @return {@code true} if the end-turn conditions are satisfied, {@code false} otherwise.
      */
-    public boolean checkEndTurn() {
+    public boolean isTurnOver() {
         //Checks if all possible moves have already been done.
         if (this.getControllerMaster().getGameState().movesTurnState())
             return true;
@@ -137,13 +163,13 @@ public class GamePlayManager extends AGameManager {
         int playerTokens = super.getControllerMaster().getGameState().getActualPlayer().getFavorTokens();
 
         //Checks if the tool card didn't imply a placement and if the player has enough favor tokens to pay for it.
-        if (this.getControllerMaster().getGameState().getTurnState().isPlacedDie())
+        if (this.getControllerMaster().getGameState().getTurnState().isDiePlaced())
             for (ToolCardSlot slot : toolCardSlots)
                 if (slot.checkTokens(playerTokens) && !slot.checkImpliesPlacement())
                     return true;
 
         //Checks if the tool card implied a placement.
-        if (this.getControllerMaster().getGameState().getTurnState().isUsedToolCard())
+        if (this.getControllerMaster().getGameState().getTurnState().isToolCardUsed())
             return (toolCardSlots.get(slotUsed).checkImpliesPlacement());
 
         //If none of the conditions ahead are verified.

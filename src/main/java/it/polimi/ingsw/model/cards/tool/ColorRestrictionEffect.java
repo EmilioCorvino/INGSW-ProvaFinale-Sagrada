@@ -1,17 +1,5 @@
 package it.polimi.ingsw.model.cards.tool;
 
-import it.polimi.ingsw.controller.GamePlayManager;
-import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.model.die.Cell;
-import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
-import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.restrictions.ARestriction;
-import it.polimi.ingsw.model.restrictions.ColorRestriction;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * This class manages the effect that allows the player to place a die ignoring the value restriction but
  * respecting only the color restriction of the personal window pattern card.

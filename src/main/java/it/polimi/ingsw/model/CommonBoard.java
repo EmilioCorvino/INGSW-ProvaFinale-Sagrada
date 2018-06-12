@@ -199,7 +199,8 @@ public class CommonBoard {
     private void populateToolSlots(){
         for (int i = 0; i < 3; i++) {
             try {
-                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().drawCard()));
+                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().drawCard(), i + 1));
+                this.getToolCardSlots().get(i).setCost(1); //Default cost to use a tool card.
             } catch (EmptyException e) {
                 SagradaLogger.log(Level.SEVERE, "Error during tool card drawing");
             }

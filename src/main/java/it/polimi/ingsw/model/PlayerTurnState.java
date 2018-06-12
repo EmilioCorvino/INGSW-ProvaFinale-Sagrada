@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.player.Player;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
+import java.util.stream.Collectors;
 
 /**
  * This class represents the state of the turns of a match.
@@ -24,26 +26,31 @@ public class PlayerTurnState {
     /**
      * This attribute indicates if the current player has placed a die.
      */
-    private boolean placedDie;
+    private boolean diePlaced;
 
     /**
      * This attribute indicates if the current player has used a tool card.
      */
-    private boolean usedToolCard;
+    private boolean toolCardUsed;
 
     /**
      * This attribute indicates the id of the slot containing the tool card the player has used.
      */
     private int toolSlotUsed;
 
+    /**
+     * This attributes indicates if the turn is over.
+     */
+    private boolean turnOver;
 
-
-    //TODO complete with other information
+    /**
+     * This attribute represents the time the player ond duty has to complete his turn.
+     */
+    private Timer timer;
 
     public PlayerTurnState() {
         turnOrder = new ArrayList<>();
         currentPlayerIndex = 0;
-        //TODO
     }
 
     /**
@@ -86,7 +93,7 @@ public class PlayerTurnState {
     }
 
     public boolean turnCompleted() {
-        return this.placedDie && this.usedToolCard;
+        return this.diePlaced && this.toolCardUsed;
     }
 
     /**
@@ -98,8 +105,7 @@ public class PlayerTurnState {
     }
 
     public List<Player> getAllPlayer() {
-        //TODO creare una nuova lista uguale a turnOrder ma diversa
-        return null;
+        return new ArrayList<>(this.turnOrder);
     }
 
     public int getCurrentPlayerIndex() {
@@ -110,20 +116,20 @@ public class PlayerTurnState {
         this.currentPlayerIndex = currentPlayerIndex;
     }
 
-    public boolean isPlacedDie() {
-        return placedDie;
+    public boolean isDiePlaced() {
+        return diePlaced;
     }
 
-    public void setPlacedDie(boolean placedDie) {
-        this.placedDie = placedDie;
+    public void setDiePlaced(boolean diePlaced) {
+        this.diePlaced = diePlaced;
     }
 
-    public boolean isUsedToolCard() {
-        return usedToolCard;
+    public boolean isToolCardUsed() {
+        return toolCardUsed;
     }
 
-    public void setUsedToolCard(boolean usedToolCard) {
-        this.usedToolCard = usedToolCard;
+    public void setToolCardUsed(boolean toolCardUsed) {
+        this.toolCardUsed = toolCardUsed;
     }
 
     public int getToolSlotUsed() {
