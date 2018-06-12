@@ -132,7 +132,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
     @Override
     public void addOnOwnWp(SetUpInformationUnit unit) throws BrokenConnectionException {
         try {
-            this.rmiClient.updateOwnWp(unit);
+            this.rmiClient.addOnOwnWp(unit);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to update the window pattern card of the player", e);
             throw new BrokenConnectionException();
@@ -140,9 +140,14 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
+    public void removeOnOwnWp(SetUpInformationUnit unit) throws BrokenConnectionException {
+
+    }
+
+    @Override
     public void addOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) throws BrokenConnectionException {
         try {
-            this.rmiClient.updateOtherPlayerWp(userName, infoUnit);
+            this.rmiClient.addOnOtherPlayerWp(userName, infoUnit);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to update the window pattern cards of the" +
                     " other players", e);
@@ -151,13 +156,33 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
+    public void removeOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) throws BrokenConnectionException {
+
+    }
+
+    @Override
+    public void addOnDraft(SetUpInformationUnit info) throws BrokenConnectionException {
+
+    }
+
+    @Override
     public void removeOnDraft(SetUpInformationUnit info) throws BrokenConnectionException {
         try {
-            this.rmiClient.updateDraft(info);
+            this.rmiClient.removeOnDraft(info);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to update draft pool", e);
             throw new BrokenConnectionException();
         }
+    }
+
+    @Override
+    public void addOnRoundTrack(SetUpInformationUnit info) throws BrokenConnectionException {
+
+    }
+
+    @Override
+    public void removeOnRoundTrack(SetUpInformationUnit info) throws BrokenConnectionException {
+
     }
 
     @Override
@@ -168,6 +193,11 @@ public class RmiFromServerToClient implements IFromServerToClient {
             SagradaLogger.log(Level.SEVERE, "Impossible to update the facor tokens owned by the player", e);
             throw new BrokenConnectionException();
         }
+    }
+
+    @Override
+    public void updateToolCost(int idSlot, int cost) throws BrokenConnectionException {
+
     }
 
     @Override

@@ -85,12 +85,6 @@ public class ControllerMaster implements IControllerMaster {
         return endGameManager;
     }
 
-
-
-    public void startTurnPlayer(Player currPlayer) {
-        ((GamePlayManager)this.gamePlayManager).startTurn(currPlayer);
-    }
-
     public GameState getGameState() {
         return gameState;
     }

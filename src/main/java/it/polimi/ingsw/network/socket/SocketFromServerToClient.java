@@ -61,7 +61,22 @@ public class SocketFromServerToClient implements IFromServerToClient {
     }
 
     @Override
+    public void removeOnOwnWp(SetUpInformationUnit unit) throws BrokenConnectionException {
+
+    }
+
+    @Override
     public void addOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) throws BrokenConnectionException {
+
+    }
+
+    @Override
+    public void removeOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) throws BrokenConnectionException {
+
+    }
+
+    @Override
+    public void addOnDraft(SetUpInformationUnit info) throws BrokenConnectionException {
 
     }
 
@@ -71,7 +86,22 @@ public class SocketFromServerToClient implements IFromServerToClient {
     }
 
     @Override
+    public void addOnRoundTrack(SetUpInformationUnit info) throws BrokenConnectionException {
+
+    }
+
+    @Override
+    public void removeOnRoundTrack(SetUpInformationUnit info) throws BrokenConnectionException {
+
+    }
+
+    @Override
     public void updateFavTokenPlayer(int nFavorToken) throws BrokenConnectionException {
+
+    }
+
+    @Override
+    public void updateToolCost(int idSlot, int cost) throws BrokenConnectionException {
 
     }
 

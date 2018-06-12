@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.cards.tool;
 
-import it.polimi.ingsw.controller.GamePlayManager;
+import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.player.Player;
@@ -19,7 +19,7 @@ public class SwapDieEffect extends AToolCardEffect {
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
 
-        Player player = manager.getControllerMaster().getGameState().getActualPlayer();
+        Player player = manager.getControllerMaster().getGameState().getCurrentPlayer();
         Die chosenDie = new Die(setUpInfoUnit.getValue(), setUpInfoUnit.getColor());
 
         //check if die is contained in source e destination

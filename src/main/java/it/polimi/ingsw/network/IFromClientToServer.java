@@ -29,6 +29,7 @@ public interface IFromClientToServer {
     void defaultMoveRequest() throws BrokenConnectionException;
 
     void performMove(SetUpInformationUnit info) throws BrokenConnectionException;
+
     /**
      * Lets the player log out from the game.
      * @param playerName player who wants to log out.

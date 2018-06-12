@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.controller.Commands;
-import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.view.ClientImplementation;
@@ -13,6 +12,9 @@ import java.util.Map;
 
 /**
  * This class is the implementation of the remote interface {@link IRmiClient} and it's used for callback purposes.
+ * For documentation:
+ * @see it.polimi.ingsw.network.IFromServerToClient
+ * @see ClientImplementation
  */
 public class RmiClient extends UnicastRemoteObject implements IRmiClient {
 
@@ -25,10 +27,6 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
         this.client = client;
     }
 
-    /**
-     * Shows the waiting room to the player owning the client.
-     * @param players names of the players already connected (including the player itself).
-     */
     @Override
     public void showRoom(List<String> players) {
         this.client.showRoom(players);
@@ -75,18 +73,43 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
-    public void updateOwnWp(SetUpInformationUnit unit) {
+    public void addOnOwnWp(SetUpInformationUnit unit) {
         this.client.addOnOwnWp(unit);
     }
 
     @Override
-    public void updateOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) {
+    public void removeOnOwnWp(SetUpInformationUnit unit) {
+        this.client.removeOnOwnWp(unit);
+    }
+
+    @Override
+    public void addOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) {
         this.client.addOnOtherPlayerWp(userName, infoUnit);
     }
 
     @Override
-    public void updateDraft(InformationUnit info) {
+    public void removeOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) {
+        this.client.removeOnOtherPlayerWp(userName, infoUnit);
+    }
+
+    @Override
+    public void addOnDraft(SetUpInformationUnit info) {
+        this.addOnDraft(info);
+    }
+
+    @Override
+    public void removeOnDraft(SetUpInformationUnit info) {
         this.client.removeOnDraft(info);
+    }
+
+    @Override
+    public void addOnRoundTrack(SetUpInformationUnit info) {
+        this.client.addOnRoundTrack(info);
+    }
+
+    @Override
+    public void removeOnRoundTrack(SetUpInformationUnit info) {
+        this.client.removeOnRoundTrack(info);
     }
 
     @Override
@@ -95,8 +118,22 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
+    public void updateToolCost(int idSlot, int cost) {
+        this.client.updateToolCost(idSlot, cost);
+    }
+
+    @Override
     public void showNotice(String notice) {
         this.client.showNotice(notice);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

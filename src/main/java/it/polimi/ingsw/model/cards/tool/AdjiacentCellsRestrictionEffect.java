@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.cards.tool;
 
-import it.polimi.ingsw.controller.GamePlayManager;
+import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
@@ -22,7 +22,7 @@ public class AdjiacentCellsRestrictionEffect extends PlacementRestrictionEffect 
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit info) {
 
-        Player p = manager.getControllerMaster().getGameState().getActualPlayer();
+        Player p = manager.getControllerMaster().getGameState().getCurrentPlayer();
         WindowPatternCard wp = p.getWindowPatternCard();
         Die chosenDie = new Die(info.getValue(), info.getColor());
 

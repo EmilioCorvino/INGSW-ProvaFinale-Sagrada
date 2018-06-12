@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.cards.tool;
 
-import it.polimi.ingsw.controller.GamePlayManager;
+import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
@@ -20,7 +20,7 @@ public class PlacementRestrictionEffect extends AToolCardEffect {
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
         Die chosenDie = new Die(setUpInfoUnit.getValue(), setUpInfoUnit.getColor());
-        WindowPatternCard playerWp = manager.getControllerMaster().getGameState().getActualPlayer().getWindowPatternCard();
+        WindowPatternCard playerWp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
 
         if(checkContainedDie(playerWp, chosenDie, manager)) {
             playerWp.removeDie(chosenDie);

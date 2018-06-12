@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.cards.tool;
 
-import it.polimi.ingsw.controller.GamePlayManager;
+import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
@@ -28,7 +28,7 @@ public class ValueRestrictionEffect extends PlacementRestrictionEffect {
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
 
-        Player currPlayer = manager.getControllerMaster().getGameState().getActualPlayer();
+        Player currPlayer = manager.getControllerMaster().getGameState().getCurrentPlayer();
         Die chosenDie = new Die(setUpInfoUnit.getValue(), setUpInfoUnit.getColor());
         WindowPatternCard wp = currPlayer.getWindowPatternCard();
 
