@@ -13,4 +13,19 @@ public abstract class ADieContainer extends AContainer {
      * @param die: the die that has to be placed.
      */
     public abstract void update(Die die);
+
+    /**
+     * This method computes if a given die is contained in a specific container.
+     * @param die the die to search.
+     * @return true if the given die is contained, false otherwise.
+     */
+    public abstract boolean isContained(Die die);
+
+    /**
+     * This method removes a die from a specific container.
+     * @param die the die to remove.
+     */
+    public abstract void removeDie(Die die);
+
+    //public abstract Die getSpecificDie(Die)
 }

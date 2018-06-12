@@ -1,7 +1,17 @@
 package it.polimi.ingsw.model.cards.tool;
 
-import it.polimi.ingsw.controller.managers.GamePlayManager;
+import it.polimi.ingsw.controller.GamePlayManager;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.model.die.Cell;
+import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
+import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.restrictions.ARestriction;
+import it.polimi.ingsw.model.restrictions.ValueRestriction;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 
 /**
@@ -18,8 +28,13 @@ public class ValueRestrictionEffect extends PlacementRestrictionEffect {
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
 
-        /*Player currPlayer = manager.getPlayerList().get(manager.getCurrentPlayerTurnIndex());
+        Player currPlayer = manager.getControllerMaster().getGameState().getActualPlayer();
+        Die chosenDie = new Die(setUpInfoUnit.getValue(), setUpInfoUnit.getColor());
         WindowPatternCard wp = currPlayer.getWindowPatternCard();
+
+        if(!super.checkContainedDie(wp, chosenDie, manager))
+            return;
+
         wp.copyGlassWindow();
         Cell[][] playerGlassWindow = wp.getGlassWindow();
 
@@ -39,8 +54,10 @@ public class ValueRestrictionEffect extends PlacementRestrictionEffect {
                 glassWindow[i][j].setRuleSetCell(ruleSet);
             }
 
+        //ocio alla rimozione del dado.
+        wp.removeDie(chosenDie);
         wp.setGlassWindow(glassWindow);
         wp.setGlassWindowModified(true);
-        super.executeMove(manager, setUpInfoUnit);*/
+        super.executeMove(manager, setUpInfoUnit);
     }
 }
