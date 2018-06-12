@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.socket;
 
 import it.polimi.ingsw.controller.Commands;
-import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.network.IFromServerToClient;
@@ -57,17 +56,17 @@ public class SocketFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void updateOwnWp(SetUpInformationUnit unit) throws BrokenConnectionException {
+    public void addOnOwnWp(SetUpInformationUnit unit) throws BrokenConnectionException {
 
     }
 
     @Override
-    public void updateOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) throws BrokenConnectionException {
+    public void addOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) throws BrokenConnectionException {
 
     }
 
     @Override
-    public void updateDraft(InformationUnit info) throws BrokenConnectionException {
+    public void removeOnDraft(SetUpInformationUnit info) throws BrokenConnectionException {
 
     }
 

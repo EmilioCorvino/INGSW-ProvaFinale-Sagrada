@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.Commands;
-import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
@@ -73,20 +72,51 @@ public interface IFromServerToClient {
      * This method update the wp of the player connected and print it.
      * @param unit : information for the update, index of matrix and die that needs to be place.
      */
-    void updateOwnWp(SetUpInformationUnit unit)throws BrokenConnectionException;
+    void addOnOwnWp(SetUpInformationUnit unit)throws BrokenConnectionException;
+
+    /**
+     * This method remove a die from a map in a specified index.
+     * @param unit: the container with all the info needed for the remove.
+     */
+    void removeOnOwnWp(SetUpInformationUnit unit) throws BrokenConnectionException;
 
     /**
      * This method update the wp of all player.
      * @param userName : The userName of the player with the wp modified
      * @param infoUnit : The info of modification of the wp.
      */
-    void updateOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) throws BrokenConnectionException;
+    void addOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) throws BrokenConnectionException;
+
+    /**
+     * This method remove the die in all the wp of all player.
+     * @param userName : The userName of the player with the wp modified
+     * @param infoUnit : The info of modification of the wp.
+     */
+    void removeOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) throws BrokenConnectionException;
+
+    /**
+     * This method add a die from the draft in a specified index.
+     * @param info : the containers of the die info.
+     */
+    void addOnDraft(SetUpInformationUnit info) throws BrokenConnectionException;
 
     /**
      * This method remove a die fr<om the draft in a specified index.
-     * @param info: the containers of the index information.
+     * @param info : the containers of the index information.
      */
-    void updateDraft(InformationUnit info) throws BrokenConnectionException;
+    void removeOnDraft(SetUpInformationUnit info) throws BrokenConnectionException;
+
+    /**
+     * This method add a die on the round track
+     * @param info: The containers of the info.
+     */
+    void addOnRoundTrack(SetUpInformationUnit info) throws BrokenConnectionException;
+
+    /**
+     * This method remove a die on the round track
+     * @param info: the container of the info of removing.
+     */
+    void removeOnRoundTrack(SetUpInformationUnit info) throws BrokenConnectionException;
 
     /**
      * This method update the number of favor token assigned to a player

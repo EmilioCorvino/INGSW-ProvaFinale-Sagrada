@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.Commands;
-import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.network.IFromClientToServer;
@@ -14,6 +13,7 @@ import it.polimi.ingsw.view.cli.boardElements.CommonBoardView;
 import it.polimi.ingsw.view.cli.commands.Bank;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.boardElements.PlayerView;
+import it.polimi.ingsw.view.cli.die.DieView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
 import it.polimi.ingsw.view.cli.generalManagers.ScannerThread;
@@ -247,34 +247,83 @@ public class CliView extends AViewMaster{
      * @param unit : information for the update, index of matrix and die that needs to be place.
      */
     @Override
-    public void updateOwnWp(SetUpInformationUnit unit){
+    public void addOnOwnWp(SetUpInformationUnit unit){
         WindowPatternCardView wp = this.player.getWp();
 
-        gamePlayManager.updateWp(wp, unit);
+        gamePlayManager.addOnWp(wp, unit);
         wp.printWp();
 
     }
 
     /**
-     * This method update the wp of all player.
+     * This method remove a die from a map in a specified index.
+     * @param unit: the container with all the info needed for the remove.
+     */
+    @Override
+    public void removeOnOwnWp(SetUpInformationUnit unit){
+        WindowPatternCardView wp = this.player.getWp();
+
+        gamePlayManager.removeOnWp(wp, unit);
+        wp.printWp();
+    }
+
+    /**
+     * This method add the die in all the wp of all player.
      * @param userName : The userName of the player with the wp modified
      * @param infoUnit : The info of modification of the wp.
      */
     @Override
-    public void updateOtherPlayerWp(String userName, SetUpInformationUnit infoUnit){
-
+    public void addOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit){
         for (PlayerView ply : this.commonBoard.getPlayers())
-                gamePlayManager.updateWp(ply.getWp(), infoUnit);
+                gamePlayManager.addOnWp(ply.getWp(), infoUnit);
 
     }
 
     /**
-     * This method remove a die fr<om the draft in a specified index.
-     * @param info: the containers of the index information.
+     * This method remove the die in all the wp of all player.
+     * @param userName : The userName of the player with the wp modified
+     * @param infoUnit : The info of modification of the wp.
      */
     @Override
-    public void updateDraft(InformationUnit info){
+    public void removeOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit){
+        for (PlayerView ply : this.commonBoard.getPlayers())
+            gamePlayManager.removeOnWp(ply.getWp(), infoUnit);
+    }
+
+    /**
+     * This method add a die from the draft in a specified index.
+     * @param info : the containers of the die info.
+     */
+    @Override
+    public void addOnDraft(SetUpInformationUnit info){
+        this.commonBoard.getDraftPool().getDice().add(new DieView(info.getColor(), info.getValue()));
+    }
+
+    /**
+     * This method remove a die from the draft in a specified index.
+     * @param info : the containers of the index information.
+     */
+    @Override
+    public void removeOnDraft(SetUpInformationUnit info){
         this.commonBoard.getDraftPool().getDice().remove(info.getIndex());
+    }
+
+    /**
+     * This method add a die on the round track
+     * @param info: The containers of the info.
+     */
+    @Override
+    public void addOnRoundTrack(SetUpInformationUnit info){
+
+    }
+
+    /**
+     * This method remove a die on the round track
+     * @param info: the container of the info of removing.
+     */
+    @Override
+    public void removeOnRoundTrack(SetUpInformationUnit info){
+
     }
 
     /**
@@ -307,7 +356,7 @@ public class CliView extends AViewMaster{
 
         for (PlayerView p : commonBoard.getPlayers())
             if(p.getUserName().equals(username))
-                gamePlayManager.updateWp(p.getWp(), unit);
+                gamePlayManager.addOnWp(p.getWp(), unit);
 
 
         if (player.getUserName().equals(username)) {

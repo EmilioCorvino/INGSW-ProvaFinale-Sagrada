@@ -29,6 +29,10 @@ public class CellView {
             return" ";
     }
 
+    public void removeDie(){
+        die = null;
+    }
+
     public void setDie(DieView die) {
         this.die = die;
     }

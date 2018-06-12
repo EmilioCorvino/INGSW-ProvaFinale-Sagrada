@@ -76,17 +76,17 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
 
     @Override
     public void updateOwnWp(SetUpInformationUnit unit) {
-        this.client.updateOwnWp(unit);
+        this.client.addOnOwnWp(unit);
     }
 
     @Override
     public void updateOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) {
-        this.client.updateOtherPlayerWp(userName, infoUnit);
+        this.client.addOnOtherPlayerWp(userName, infoUnit);
     }
 
     @Override
     public void updateDraft(InformationUnit info) {
-        this.client.updateDraft(info);
+        this.client.removeOnDraft(info);
     }
 
     @Override

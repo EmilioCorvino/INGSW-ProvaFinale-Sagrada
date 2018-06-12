@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.Commands;
-import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.network.IFromServerToClient;
@@ -72,18 +71,43 @@ public class ClientImplementation implements IFromServerToClient {
     }
 
     @Override
-    public void updateOwnWp(SetUpInformationUnit unit){
-        view.updateOwnWp(unit);
+    public void addOnOwnWp(SetUpInformationUnit unit){
+        view.addOnOwnWp(unit);
     }
 
     @Override
-    public void updateOtherPlayerWp(String userName, SetUpInformationUnit infoUnit){
-        view.updateOtherPlayerWp(userName,infoUnit);
+    public void removeOnOwnWp(SetUpInformationUnit unit){
+        view.removeOnOwnWp(unit);
     }
 
     @Override
-    public void updateDraft(InformationUnit info){
-        view.updateDraft(info);
+    public void addOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit){
+        view.addOnOtherPlayerWp(userName,infoUnit);
+    }
+
+    @Override
+    public void removeOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit){
+        view.removeOnOtherPlayerWp(userName, infoUnit);
+    }
+
+    @Override
+    public void addOnDraft(SetUpInformationUnit info){
+        view.addOnDraft(info);
+    }
+
+    @Override
+    public void removeOnDraft(SetUpInformationUnit info){
+        view.removeOnDraft(info);
+    }
+
+    @Override
+    public void addOnRoundTrack(SetUpInformationUnit info){
+        view.addOnRoundTrack(info);
+    }
+
+    @Override
+    public void removeOnRoundTrack(SetUpInformationUnit info){
+        view.removeOnDraft(info);
     }
 
     @Override

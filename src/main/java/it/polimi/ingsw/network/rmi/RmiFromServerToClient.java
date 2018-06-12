@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.controller.Commands;
-import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.network.IFromServerToClient;
@@ -131,7 +130,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void updateOwnWp(SetUpInformationUnit unit) throws BrokenConnectionException {
+    public void addOnOwnWp(SetUpInformationUnit unit) throws BrokenConnectionException {
         try {
             this.rmiClient.updateOwnWp(unit);
         } catch (RemoteException e) {
@@ -141,7 +140,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void updateOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) throws BrokenConnectionException {
+    public void addOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) throws BrokenConnectionException {
         try {
             this.rmiClient.updateOtherPlayerWp(userName, infoUnit);
         } catch (RemoteException e) {
@@ -152,7 +151,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void updateDraft(InformationUnit info) throws BrokenConnectionException {
+    public void removeOnDraft(SetUpInformationUnit info) throws BrokenConnectionException {
         try {
             this.rmiClient.updateDraft(info);
         } catch (RemoteException e) {

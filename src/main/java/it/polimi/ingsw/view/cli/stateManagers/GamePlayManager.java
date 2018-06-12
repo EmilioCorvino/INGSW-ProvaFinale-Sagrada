@@ -96,8 +96,16 @@ public class GamePlayManager implements Serializable {
      * @param wp
      * @param unit
      */
-    public void updateWp(WindowPatternCardView wp, SetUpInformationUnit unit){
+    public void addOnWp(WindowPatternCardView wp, SetUpInformationUnit unit){
         wp.getGlassWindow()[unit.getIndex()/WindowPatternCardView.MAX_COL][unit.getIndex() % WindowPatternCardView.MAX_COL].setDie(new DieView(unit.getColor(), unit.getValue()));
+    }
+
+    public void removeOnWp(WindowPatternCardView wp, SetUpInformationUnit unit){
+        wp.getGlassWindow()[unit.getIndex()/WindowPatternCardView.MAX_COL][unit.getIndex() % WindowPatternCardView.MAX_COL].removeDie();
+    }
+
+    public void addOnDraft(DieDraftPoolView draft, SetUpInformationUnit unit){
+        draft.getDice().add(new DieView(unit.getColor(), unit.getValue()));
     }
 
 }
