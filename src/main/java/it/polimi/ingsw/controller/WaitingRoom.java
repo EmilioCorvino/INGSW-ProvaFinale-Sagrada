@@ -1,12 +1,15 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.controller.managers.StartGameManager;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.Connection;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.util.*;
+import java.util.logging.Level;
 
 /**
  * This class manages the waiting players before the match starts.
@@ -96,11 +99,9 @@ public class WaitingRoom {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    System.out.println("timer is expired");
+                    SagradaLogger.log(Level.WARNING, "timer is expired");
                     setRunning(true);
-                   // System.out.println("running");
                     startMultiPlayerMatch();
-                    //System.ut.println("match started");
                 }
             }, 5 * (long)1000);
         }

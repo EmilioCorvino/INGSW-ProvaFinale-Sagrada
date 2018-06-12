@@ -1,6 +1,8 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.controller.managers;
 
-public abstract class AGameManager implements IGameManager {
+import it.polimi.ingsw.controller.ControllerMaster;
+
+public abstract class AGameManager {
 
     private ControllerMaster controllerMaster;
 

@@ -1,4 +1,6 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.controller.managers;
+
+import it.polimi.ingsw.controller.ControllerMaster;
 
 /**
  *

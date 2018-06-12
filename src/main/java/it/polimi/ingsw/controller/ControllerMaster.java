@@ -1,5 +1,9 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.controller.managers.AGameManager;
+import it.polimi.ingsw.controller.managers.EndGameManager;
+import it.polimi.ingsw.controller.managers.GamePlayManager;
+import it.polimi.ingsw.controller.managers.StartGameManager;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.player.Player;

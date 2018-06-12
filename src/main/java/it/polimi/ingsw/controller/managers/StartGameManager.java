@@ -1,5 +1,7 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.controller.managers;
 
+import it.polimi.ingsw.controller.Commands;
+import it.polimi.ingsw.controller.ControllerMaster;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.model.CommonBoard;
@@ -91,7 +93,7 @@ public class StartGameManager extends AGameManager {
      * @param username name of the player sending the chosen {@link WindowPatternCard}.
      * @param chosenWp chosen {@link WindowPatternCard}.
      */
-    synchronized void wpToSet(String username, int chosenWp) {
+    public synchronized void wpToSet(String username, int chosenWp) {
         CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
         if(this.listOfSentWpID.get(username).contains(chosenWp)) {
             WindowPatternCard wpToSet = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenWp);

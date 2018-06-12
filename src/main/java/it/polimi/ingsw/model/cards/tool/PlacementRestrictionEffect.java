@@ -1,9 +1,7 @@
 package it.polimi.ingsw.model.cards.tool;
 
-import it.polimi.ingsw.controller.GamePlayManager;
+import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 
 /**
  *

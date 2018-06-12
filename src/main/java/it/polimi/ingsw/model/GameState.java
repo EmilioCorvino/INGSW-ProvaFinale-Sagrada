@@ -30,6 +30,7 @@ public class GameState {
 
 
     public GameState() {
+        this.turnState = new PlayerTurnState();
         this.actualRound = 1;
     }
 

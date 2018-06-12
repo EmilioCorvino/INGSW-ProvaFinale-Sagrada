@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.AContainer;
-import it.polimi.ingsw.model.cards.tool.IToolCard;
 import it.polimi.ingsw.model.cards.tool.ToolCard;
 
 /**
@@ -11,7 +10,7 @@ import it.polimi.ingsw.model.cards.tool.ToolCard;
 public class ToolCardSlot extends AContainer {
 
     /**
-     * {@link IToolCard} contained in the slot.
+     * {@link ToolCard} contained in the slot.
      */
     private final ToolCard toolCard;
 
@@ -21,8 +20,11 @@ public class ToolCardSlot extends AContainer {
      */
     private int cost;
 
-    public ToolCardSlot(ToolCard card) {
+    private int slotId;
+
+    public ToolCardSlot(ToolCard card, int slotId) {
         this.toolCard = card;
+        this.slotId = slotId;
     }
 
     /**
@@ -51,5 +53,11 @@ public class ToolCardSlot extends AContainer {
         return cost;
     }
 
+    public int getSlotId() {
+        return slotId;
+    }
 
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
 }
