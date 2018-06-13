@@ -142,7 +142,7 @@ public class PublicObjectiveCardsDeckTest {
         try {
             testDeck.drawCard();
         } catch (EmptyException e) {
-            assertEquals("The deck is empty", e.getMessage());
+            assertEquals("The objective card deck is empty", e.getMessage());
         }
 
     }

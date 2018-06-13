@@ -12,7 +12,7 @@ public abstract class ADieContainer extends AContainer {
      * This method updates the die container involved with the die tha player wants to place.
      * @param die: the die that has to be placed.
      */
-    public abstract void update(Die die);
+    public abstract void addDie(Die die);
 
     /**
      * This method computes if a given die is contained in a specific container.

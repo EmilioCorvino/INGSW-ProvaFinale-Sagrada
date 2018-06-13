@@ -48,31 +48,31 @@ public class ColouredDiagonalsTest extends CardTestField {
 
         if(anotherWindow.canBePlaced(redDie1, anotherWindow.getGlassWindow()[0][2])) {
             anotherWindow.setDesiredCell(anotherWindow.getGlassWindow()[0][2]);
-            anotherWindow.update(redDie1);
+            anotherWindow.addDie(redDie1);
         }
         if(anotherWindow.canBePlaced(redDie2, anotherWindow.getGlassWindow()[1][3])) {
             anotherWindow.setDesiredCell(anotherWindow.getGlassWindow()[1][3]);
-            anotherWindow.update(redDie2);
+            anotherWindow.addDie(redDie2);
         }
         if(anotherWindow.canBePlaced(redDie3, anotherWindow.getGlassWindow()[2][2])) {
             anotherWindow.setDesiredCell(anotherWindow.getGlassWindow()[2][2]);
-            anotherWindow.update(redDie3);
+            anotherWindow.addDie(redDie3);
         }
         if(anotherWindow.canBePlaced(redDie4, anotherWindow.getGlassWindow()[2][4])) {
             anotherWindow.setDesiredCell(anotherWindow.getGlassWindow()[2][4]);
-            anotherWindow.update(redDie4);
+            anotherWindow.addDie(redDie4);
         }
         if(anotherWindow.canBePlaced(redDie5, anotherWindow.getGlassWindow()[3][3])) {
             anotherWindow.setDesiredCell(anotherWindow.getGlassWindow()[3][3]);
-            anotherWindow.update(redDie5);
+            anotherWindow.addDie(redDie5);
         }
         if(anotherWindow.canBePlaced(redDie6, anotherWindow.getGlassWindow()[3][1])) {
             anotherWindow.setDesiredCell(anotherWindow.getGlassWindow()[3][1]);
-            anotherWindow.update(redDie6);
+            anotherWindow.addDie(redDie6);
         }
         if(anotherWindow.canBePlaced(redDie7, anotherWindow.getGlassWindow()[2][0])) {
             anotherWindow.setDesiredCell(anotherWindow.getGlassWindow()[2][0]);
-            anotherWindow.update(redDie7);
+            anotherWindow.addDie(redDie7);
         }
         return anotherWindow;
     }

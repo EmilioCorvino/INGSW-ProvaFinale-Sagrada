@@ -34,8 +34,8 @@ public class DiePlacementMove implements IMove {
             return;
 
         //CAREFUL
-        wp.update(die);
-        manager.getControllerMaster().getCommonBoard().getDraftPool().update(die);
+        wp.addDie(die);
+        manager.getControllerMaster().getCommonBoard().getDraftPool().removeDie(die);
         manager.showPlacementResult(p, setUpInfoUnit);
     }
 

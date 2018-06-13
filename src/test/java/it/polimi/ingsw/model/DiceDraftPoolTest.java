@@ -24,7 +24,7 @@ public class DiceDraftPoolTest {
     }
 
     /**
-     * This test verify if an update of a Draft pool effective remove a die from the Draft.
+     * This test verify if an addDie of a Draft pool effective remove a die from the Draft.
      */
     @Test
     public void checkUpdate() {
@@ -34,8 +34,23 @@ public class DiceDraftPoolTest {
         diceDraftPool.populateDiceDraftPool(numberOfPlayer);
         Die die = diceDraftPool.getAvailableDice().get(new Random().nextInt(numberOfPlayer*2 + 1));
 
-        diceDraftPool.update(die);
+        diceDraftPool.removeDie(die);
         assertEquals( numberOfPlayer*2 + 1 - 1 , diceDraftPool.getAvailableDice().size());
 
+    }
+
+    @Test
+    public void checkAdd(){
+        DiceDraftPool diceDraftPool = new DiceDraftPool();
+        int numberOfPlayer = 4;
+        Die die = new Die(2, Color.RED);
+
+        diceDraftPool.populateDiceDraftPool(numberOfPlayer);
+
+        diceDraftPool.addDie(die);
+
+        assertEquals(numberOfPlayer*2 + 1 +1, diceDraftPool.getAvailableDice().size());
+        assertEquals(die.getDieColor(), diceDraftPool.getAvailableDice().get(diceDraftPool.getAvailableDice().size()-1).getDieColor());
+        assertEquals(die.getActualDieValue(), diceDraftPool.getAvailableDice().get(diceDraftPool.getAvailableDice().size()-1).getActualDieValue());
     }
 }

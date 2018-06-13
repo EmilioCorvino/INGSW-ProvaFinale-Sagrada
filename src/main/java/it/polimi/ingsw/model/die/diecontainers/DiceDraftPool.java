@@ -33,7 +33,7 @@ public class DiceDraftPool extends ADieContainer {
     }
 
     /**
-     * This method call the update the DiceDraftPool in each round.
+     * This method call the addDie the DiceDraftPool in each round.
      */
     public void populateDiceDraftPool(int numberOfPlayers){
         int i = 0;
@@ -63,11 +63,11 @@ public class DiceDraftPool extends ADieContainer {
     }
 
     /**
-     * This method update the DraftPool list's of dice, removing the die chosen.
+     * This method addDie the DraftPool list's of dice, removing the die chosen.
      * @param die: A copy of the die that has to be removed.
      */
     @Override
-    public void update(Die die) {
+    public void removeDie(Die die) {
         Die dieToBeDeleted = null;
         for( Die d : this.getAvailableDice())
             if(d.getDieColor() == die.getDieColor() && d.getActualDieValue() == die.getActualDieValue())
@@ -75,13 +75,20 @@ public class DiceDraftPool extends ADieContainer {
         this.getAvailableDice().remove(dieToBeDeleted);
     }
 
+    /**
+     * This method addDie a die in the draft.
+     * @param die: the die that has to be placed.
+     */
+    @Override
+    public void addDie(Die die) {
+        this.getAvailableDice().add(die);
+    }
+
     @Override
     public boolean isContained(Die die) {
         return false;
     }
 
-    @Override
-    public void removeDie(Die die) {
 
-    }
+
 }

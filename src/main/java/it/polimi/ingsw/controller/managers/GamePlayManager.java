@@ -233,7 +233,7 @@ public class GamePlayManager extends AGameManager {
         Player playerToMove = playerList.get(startPlayer);
         if(startPlayer != 0) {
             playerList.remove(startPlayer );
-            playerList.add(playerToMove);
+            playerList.addDie(playerToMove);
         }
     }
     */
@@ -244,12 +244,12 @@ public class GamePlayManager extends AGameManager {
         List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
         List<Player> supportList = new ArrayList<>();
         players.forEach(player -> {
-            playerList.add(player);
-            supportList.add(player);
+            playerList.addDie(player);
+            supportList.addDie(player);
         });
 
         for(int i= supportList.size()-1; i>=0; i--)
-            playerList.add(supportList.get(i));
+            playerList.addDie(supportList.get(i));
         //reOrderPlayerList();
         //super.getControllerMaster().startTurnPlayer(playerList.get(currentPlayer));
         startMatch();

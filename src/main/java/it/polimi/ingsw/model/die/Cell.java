@@ -107,7 +107,7 @@ public class Cell {
     }
 
     /**
-     * This method places a die in the cell, and update the role set with the color and the value of the die.
+     * This method places a die in the cell, and addDie the role set with the color and the value of the die.
      * @param die is the die which need to be place in the cell
      */
     public void setContainedDie(Die die) {
@@ -154,8 +154,8 @@ public class Cell {
     }
 
     /**
-     * This method update the cell's ruleSet.
-     * @param rulesToAdd rules that need to be add to the ruleSet, null when the player want to remove a die.
+     * This method addDie the cell's ruleSet.
+     * @param rulesToAdd rules that need to be addDie to the ruleSet, null when the player want to remove a die.
      */
     public void updateRuleSet(List<ARestriction> rulesToAdd) {
         this.ruleSetCell.clear();

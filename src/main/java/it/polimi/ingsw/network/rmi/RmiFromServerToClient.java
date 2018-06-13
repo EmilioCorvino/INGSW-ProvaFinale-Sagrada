@@ -134,7 +134,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
         try {
             this.rmiClient.addOnOwnWp(unit);
         } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to update the window pattern card of the player", e);
+            SagradaLogger.log(Level.SEVERE, "Impossible to addDie the window pattern card of the player", e);
             throw new BrokenConnectionException();
         }
     }
@@ -149,7 +149,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
         try {
             this.rmiClient.addOnOtherPlayerWp(userName, infoUnit);
         } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to update the window pattern cards of the" +
+            SagradaLogger.log(Level.SEVERE, "Impossible to addDie the window pattern cards of the" +
                     " other players", e);
             throw new BrokenConnectionException();
         }
@@ -170,7 +170,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
         try {
             this.rmiClient.removeOnDraft(info);
         } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to update draft pool", e);
+            SagradaLogger.log(Level.SEVERE, "Impossible to addDie draft pool", e);
             throw new BrokenConnectionException();
         }
     }
@@ -190,7 +190,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
         try {
             this.rmiClient.updateFavTokenPlayer(nFavorToken);
         } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to update the facor tokens owned by the player", e);
+            SagradaLogger.log(Level.SEVERE, "Impossible to addDie the facor tokens owned by the player", e);
             throw new BrokenConnectionException();
         }
     }
