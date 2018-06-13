@@ -121,7 +121,7 @@ public class GamePlayManager extends AGameManager {
     /**
      * Starts the timer of the turn. If it can't be loaded from file, a back up value is used.
      * @param turn turn of the player to suspend in case his turn isn't over when the timer expires. It has a reference
-     *             to said player.
+     *             to said {@link Player}.
      */
     private void startTimer(Turn turn) {
         this.timer = new Timer();
@@ -176,13 +176,19 @@ public class GamePlayManager extends AGameManager {
         move.executeMove(this, info);
     }
 
-    public void showPlacementResult(Player playerColor, SetUpInformationUnit setUpInformationUnit) {
-        IFromServerToClient ifstc = super.getControllerMaster().getConnectedPlayers().get(playerColor.getPlayerName()).getClient();
+    public void showPlacementResult(Player player, SetUpInformationUnit wpSetUpInformationUnit, SetUpInformationUnit draftSetUpInformationUnit) {
+        //Update the board of the player on duty.
+        IFromServerToClient client = super.getControllerMaster().getConnectedPlayers().get(player.getPlayerName()).getClient();
         try {
-            ifstc.showUpdatedWp(playerColor.getPlayerName(), setUpInformationUnit);
+            client.addOnOwnWp(wpSetUpInformationUnit);
+            client.removeOnDraft(draftSetUpInformationUnit);
         } catch (BrokenConnectionException br) {
             //handle broken connection
         }
+
+        //Update the board of waiting players.
+        for()
+
     }
 
     /**

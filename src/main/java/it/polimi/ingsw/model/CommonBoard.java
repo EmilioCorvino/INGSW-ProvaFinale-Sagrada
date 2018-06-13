@@ -83,12 +83,18 @@ public class CommonBoard {
         this.publicObjectiveCardSlots = new ArrayList<>();
         this.toolCardSlots = new ArrayList<>();
         this.privateObjectiveCardsDeck = new PrivateObjectiveCardsDeck();
-        this.privateObjectiveCardsDeck.parseDeck();
         this.publicObjectiveCardsDeck = new PublicObjectiveCardsDeck();
-        this.publicObjectiveCardsDeck.parseDeck();
         this.windowPatternCardDeck = new WindowPatternCardDeck();
-        this.windowPatternCardDeck.parseDeck();
         this.toolCardsDeck = new ToolCardsDeck();
+    }
+
+    /**
+     * This method is used for the parsing of the various decks and the population of card slots.
+     */
+    public void initializeBoard() {
+        this.privateObjectiveCardsDeck.parseDeck();
+        this.publicObjectiveCardsDeck.parseDeck();
+        this.windowPatternCardDeck.parseDeck();
         this.toolCardsDeck.parseDeck();
         this.populatePubObjSlots();
         this.populateToolSlots();

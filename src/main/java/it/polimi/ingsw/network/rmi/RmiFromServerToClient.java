@@ -15,6 +15,11 @@ import java.util.logging.Level;
 /**
  * This class represents the client on the server side. Controller can call view's methods
  * through this class using RMI protocol.
+ * Methods in this class catch {@link RemoteException} by throwing a new {@link BrokenConnectionException}, so that
+ * disconnection handling can be unified both for RMI and socket connections.
+ * For methods documentation:
+ * @see IFromServerToClient
+ * @see it.polimi.ingsw.view.ClientImplementation
  */
 public class RmiFromServerToClient implements IFromServerToClient {
 
@@ -27,11 +32,6 @@ public class RmiFromServerToClient implements IFromServerToClient {
         this.rmiClient = rmiClient;
     }
 
-    /**
-     * Shows the waiting room to the player owning the client.
-     * @param players names of the players already connected (including the player itself).
-     * @throws BrokenConnectionException when the connection drops.
-     */
     @Override
     public void showRoom(List<String> players) throws BrokenConnectionException {
         try {
@@ -42,12 +42,6 @@ public class RmiFromServerToClient implements IFromServerToClient {
         }
     }
 
-    /**
-     *
-     *
-     * @param listWp:
-     * @throws BrokenConnectionException
-     */
     @Override
     public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) throws
             BrokenConnectionException {
@@ -134,14 +128,20 @@ public class RmiFromServerToClient implements IFromServerToClient {
         try {
             this.rmiClient.addOnOwnWp(unit);
         } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to update the window pattern card of the player", e);
+            SagradaLogger.log(Level.SEVERE, "Impossible to add a die the window pattern card of the player", e);
             throw new BrokenConnectionException();
         }
     }
 
     @Override
     public void removeOnOwnWp(SetUpInformationUnit unit) throws BrokenConnectionException {
-
+        try {
+            this.rmiClient.removeOnOwnWp(unit);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to remove a die from the window pattern card of " +
+                    "the player", e);
+            throw new BrokenConnectionException();
+        }
     }
 
     @Override
@@ -149,20 +149,31 @@ public class RmiFromServerToClient implements IFromServerToClient {
         try {
             this.rmiClient.addOnOtherPlayerWp(userName, infoUnit);
         } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to update the window pattern cards of the" +
-                    " other players", e);
+            SagradaLogger.log(Level.SEVERE, "Impossible to add a die to the window pattern cards of " +
+                    "other players", e);
             throw new BrokenConnectionException();
         }
     }
 
     @Override
     public void removeOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) throws BrokenConnectionException {
-
+        try {
+            this.rmiClient.removeOnOtherPlayerWp(userName, infoUnit);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to remove a die from the window pattern card of " +
+                    "other players", e);
+            throw new BrokenConnectionException();
+        }
     }
 
     @Override
     public void addOnDraft(SetUpInformationUnit info) throws BrokenConnectionException {
-
+        try {
+            this.rmiClient.addOnDraft(info);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to add a die to draft pool", e);
+            throw new BrokenConnectionException();
+        }
     }
 
     @Override
@@ -170,19 +181,29 @@ public class RmiFromServerToClient implements IFromServerToClient {
         try {
             this.rmiClient.removeOnDraft(info);
         } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to update draft pool", e);
+            SagradaLogger.log(Level.SEVERE, "Impossible to remove a die from draft pool", e);
             throw new BrokenConnectionException();
         }
     }
 
     @Override
     public void addOnRoundTrack(SetUpInformationUnit info) throws BrokenConnectionException {
-
+        try {
+            this.rmiClient.addOnRoundTrack(info);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to add a die to round track", e);
+            throw new BrokenConnectionException();
+        }
     }
 
     @Override
     public void removeOnRoundTrack(SetUpInformationUnit info) throws BrokenConnectionException {
-
+        try {
+            this.rmiClient.removeOnRoundTrack(info);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to remove a die from round track", e);
+            throw new BrokenConnectionException();
+        }
     }
 
     @Override
@@ -197,7 +218,12 @@ public class RmiFromServerToClient implements IFromServerToClient {
 
     @Override
     public void updateToolCost(int idSlot, int cost) throws BrokenConnectionException {
-
+        try {
+            this.rmiClient.updateToolCost(idSlot, cost);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to update the cost of a tool card", e);
+            throw new BrokenConnectionException();
+        }
     }
 
     @Override
@@ -209,6 +235,4 @@ public class RmiFromServerToClient implements IFromServerToClient {
             throw new BrokenConnectionException();
         }
     }
-
-
 }

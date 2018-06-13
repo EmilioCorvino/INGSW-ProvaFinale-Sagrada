@@ -36,7 +36,7 @@ public class DiePlacementMove implements IMove {
         //CAREFUL
         wp.update(die);
         manager.getControllerMaster().getCommonBoard().getDraftPool().update(die);
-        manager.showPlacementResult(p, setUpInfoUnit);
+        manager.showPlacementResult(p, setUpInfoUnit, );
     }
 
     public boolean checkPlacement(WindowPatternCard wp, Die chosenDie, GamePlayManager manager, SetUpInformationUnit info) {
