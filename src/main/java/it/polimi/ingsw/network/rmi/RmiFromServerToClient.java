@@ -211,7 +211,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
         try {
             this.rmiClient.updateFavTokenPlayer(nFavorToken);
         } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to update the facor tokens owned by the player", e);
+            SagradaLogger.log(Level.SEVERE, "Impossible to update the favor tokens owned by the player", e);
             throw new BrokenConnectionException();
         }
     }

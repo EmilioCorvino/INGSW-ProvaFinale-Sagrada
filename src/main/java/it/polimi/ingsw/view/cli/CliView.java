@@ -243,8 +243,8 @@ public class CliView extends AViewMaster{
     }
 
     /**
-     * This method update the wp of the player connected and print it.
-     * @param unit : information for the update, index of matrix and die that needs to be place.
+     * This method addDie the wp of the player connected and print it.
+     * @param unit : information for the addDie, index of matrix and die that needs to be place.
      */
     @Override
     public void addOnOwnWp(SetUpInformationUnit unit){
@@ -268,7 +268,7 @@ public class CliView extends AViewMaster{
     }
 
     /**
-     * This method add the die in all the wp of all player.
+     * This method addDie the die in all the wp of all player.
      * @param userName : The userName of the player with the wp modified
      * @param infoUnit : The info of modification of the wp.
      */
@@ -291,7 +291,7 @@ public class CliView extends AViewMaster{
     }
 
     /**
-     * This method add a die from the draft in a specified index.
+     * This method addDie a die from the draft in a specified index.
      * @param info : the containers of the die info.
      */
     @Override
@@ -309,7 +309,7 @@ public class CliView extends AViewMaster{
     }
 
     /**
-     * This method add a die on the round track
+     * This method addDie a die on the round track
      * @param info: The containers of the info.
      */
     @Override
@@ -327,7 +327,7 @@ public class CliView extends AViewMaster{
     }
 
     /**
-     * This method update the number of favor token assigned to a player
+     * This method addDie the number of favor token assigned to a player
      * @param nFavorToken : number of favor token remain.
      */
     @Override
@@ -336,7 +336,7 @@ public class CliView extends AViewMaster{
     }
 
     /**
-     * This method update the cost of use for a specified tool, it is used after the first use of a tool.
+     * This method addDie the cost of use for a specified tool, it is used after the first use of a tool.
      * @param idSlot: It is the id of the tool updated
      * @param cost: The new cost of the tool.
      */
@@ -347,8 +347,8 @@ public class CliView extends AViewMaster{
 
     // DA CANCELLARE
     /**
-     * This method update the wp of a specified player.
-     * @param username: Username of player that need the update.
+     * This method addDie the wp of a specified player.
+     * @param username: Username of player that need the addDie.
      * @param unit: The set of information needed to place a die in the wp.
      */
     @Override

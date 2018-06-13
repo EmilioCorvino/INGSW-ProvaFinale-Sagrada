@@ -31,7 +31,7 @@ public class AdjiacentCellsRestrictionEffect extends PlacementRestrictionEffect 
 
         if(!wp.checkAdjacentCells(desiredCell)) {
             if(wp.checkOwnRuleSet(chosenDie, desiredCell)) {
-                wp.update(chosenDie);
+                wp.addDie(chosenDie);
                 //tell the controller to show results
                 return;
             } else {

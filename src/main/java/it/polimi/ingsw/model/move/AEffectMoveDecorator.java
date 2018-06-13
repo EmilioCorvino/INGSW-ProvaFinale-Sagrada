@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.move;
 
 /**
  * This class is the main class used to decorate the default move with some tool effect. It is possible to
- * add new kind of cards that provide new effects in the future, by extending this class.
+ * addDie new kind of cards that provide new effects in the future, by extending this class.
  */
 public abstract class AEffectMoveDecorator implements IMove {
 

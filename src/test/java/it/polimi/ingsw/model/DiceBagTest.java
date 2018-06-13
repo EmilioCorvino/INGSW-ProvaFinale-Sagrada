@@ -65,7 +65,7 @@ public class DiceBagTest {
     }
 
     /**
-     * This test verify if an update of all the dice, effective remove all the die from the bag.
+     * This test verify if an addDie of all the dice, effective remove all the die from the bag.
      */
     @Test
     public void emptyBag(){

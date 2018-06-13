@@ -100,22 +100,22 @@ public class CommonBoard {
         this.populateToolSlots();
     }
 
-    /*todo This method will update the Window pattern of a specific player.
+    /*todo This method will addDie the Window pattern of a specific player.
     public void triggerNormalPlacement(Player player, Die die){
-        draftPool.update(die);
+        draftPool.addDie(die);
         for(Player p : players)
             if (p.isSamePlayerAs(player)) {
-                p.getWindowPatternCard().update(die);
+                p.getWindowPatternCard().addDie(die);
                 this.notifyController();
             }
     }
     */
 
-    /*todo This method will update the Window pattern of a specific player.
+    /*todo This method will addDie the Window pattern of a specific player.
     public void triggerWpPlacement(Die die, Player player){
         for( Player p : players)
             if (player.getPlayerName() == p.getPlayerName()){
-                p.getWindowPatternCard().update(die);
+                p.getWindowPatternCard().addDie(die);
                 this.notifyController();
             }
 
@@ -123,14 +123,14 @@ public class CommonBoard {
     */
 
     /**
-     * This method make the update of Round Track and trigger the notify to the controller
-     * @param action: Type of modification, (update) if a die want to be added, (remove) if a die want to be removed.
+     * This method make the addDie of Round Track and trigger the notify to the controller
+     * @param action: Type of modification, (addDie) if a die want to be added, (remove) if a die want to be removed.
      * @param die: the die to be added or removed from the round track.
      */
-    /*todo this method will be update the Round Track and trigger the notify to the controller
+    /*todo this method will be addDie the Round Track and trigger the notify to the controller
     public void triggerRoundTrackPlacement(String action, Die die){
-        if (action == "update")
-            roundTrack.update(die);
+        if (action == "addDie")
+            roundTrack.addDie(die);
         if (action == "remove")
             roundTrack.remove(die);
         this.notifyController();
@@ -138,12 +138,12 @@ public class CommonBoard {
     */
 
     /**
-     * This method update the draft pool.
+     * This method addDie the draft pool.
      * @param die: The die to be added.
      */
     /*todo
     public void triggerDiceDraftPlacement(Die die){
-        draftPool.update(die);
+        draftPool.addDie(die);
         this.notifyController();
     }
     */

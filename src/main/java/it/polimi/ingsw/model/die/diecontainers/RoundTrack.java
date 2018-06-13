@@ -13,7 +13,7 @@ public class RoundTrack extends ADieContainer {
     private List<ArrayList<Die>> availableDice;
 
     /**
-     * The index of round where is the die that needs to be update
+     * The index of round where is the die that needs to be addDie
      */
     private int roundToBeUpdated;
 
@@ -24,12 +24,25 @@ public class RoundTrack extends ADieContainer {
     }
 
     /**
-     * This method effective add a die in the round chosen.
+     * This method effective addDie a die in the round chosen.
      * @param die: the die that has to be placed.
      */
     @Override
-    public void update(Die die) {
+    public void addDie(Die die) {
         this.getAvailableDice().get(roundToBeUpdated).add(die);
+    }
+
+    /**
+     * This method remove a die in the selected round in the round track.
+     * @param die the die to remove.
+     */
+    @Override
+    public void removeDie(Die die) {
+        Die dieToBeRemoved = null;
+        for (Die d : this.getAvailableDice().get(roundToBeUpdated))
+            if(die.getDieColor() == d.getDieColor() && die.getActualDieValue() == d.getActualDieValue())
+                dieToBeRemoved = d;
+        this.getAvailableDice().get(roundToBeUpdated).remove(dieToBeRemoved);
     }
 
     @Override
@@ -37,24 +50,6 @@ public class RoundTrack extends ADieContainer {
         return false;
     }
 
-    @Override
-    public void removeDie(Die die) {
-
-    }
-
-    /**
-     * This method remove a die from the round chosen and return the instance of the die removed.
-     * @param die: the die that has to be removed.
-     * @return the die removed.
-     */
-    public Die remove(Die die){
-        Die dieToBeRemoved = null;
-        for (Die d : this.getAvailableDice().get(roundToBeUpdated))
-            if(die.getDieColor() == d.getDieColor() && die.getActualDieValue() == d.getActualDieValue())
-                dieToBeRemoved = d;
-        this.getAvailableDice().get(roundToBeUpdated).remove(dieToBeRemoved);
-        return dieToBeRemoved;
-    }
 
     public void setRoundToBeUpdated(int round) {
         this.roundToBeUpdated = round;

@@ -67,10 +67,19 @@ public class WindowPatternCard extends ADieContainer {
                 glassWindow [c.getRow()] [c.getCol()] = c;
     }
 
-    @Override
-    public void removeDie(Die die) {
-
+    /**
+     * This constructor is used for create window Pattern Card without restriction.
+     * @param idMap: the code that identify a map.
+     * @param difficulty:  Difficulty of the window pattern card. It is equal to the number of favor tokens to assign to each player.
+     */
+    public WindowPatternCard(int idMap, int difficulty){
+        this.idMap = idMap;
+        this.difficulty = difficulty;
+        for (int i = 0; i < MAX_ROW; i++)
+            for(int j = 0; j < MAX_COL; j++)
+                glassWindow[i][j] = new Cell(i,j);
     }
+
 
     /**
      * Constructor that generates a copy of the current class window.
@@ -93,32 +102,6 @@ public class WindowPatternCard extends ADieContainer {
     }
 
     /**
-     * This constructor is used for create window Pattern Card without restriction.
-     * @param idMap: the code that identify a map.
-     * @param difficulty:  Difficulty of the window pattern card. It is equal to the number of favor tokens to assign to each player.
-     */
-    public WindowPatternCard(int idMap, int difficulty){
-        this.idMap = idMap;
-        this.difficulty = difficulty;
-        for (int i = 0; i < MAX_ROW; i++)
-            for(int j = 0; j < MAX_COL; j++)
-                glassWindow[i][j] = new Cell(i,j);
-    }
-
-
-    /**
-     * This method sets the window pattern card with the selected die.
-     * @param die: the die with which the window pattern card has to be updated.
-     */
-    public void update(Die die) {
-        if(this.isGlassWindowModified())
-            restoreGlassWindow();
-        glassWindow[desiredCell.getRow()][desiredCell.getCol()].setContainedDie(die);
-        //TODO
-        setDesiredCell(null);
-    }
-
-    /**
      * This method restore the original glass window.
      */
     private void restoreGlassWindow() {
@@ -136,6 +119,30 @@ public class WindowPatternCard extends ADieContainer {
                 this.glassWindow[i][j].setRuleSetCell(ruleSet);
             }
 
+    }
+
+    /**
+     * This method sets the window pattern card with the selected die.
+     * @param die: the die with which the window pattern card has to be updated.
+     */
+    @Override
+    public void addDie(Die die) {
+        if(this.isGlassWindowModified())
+            restoreGlassWindow();
+        glassWindow[desiredCell.getRow()][desiredCell.getCol()].setContainedDie(die);
+        setDesiredCell(null);
+    }
+
+    /**
+     * This method remove the die in the desired cell only if the die contained is the same.
+     * @param die the die to remove.
+     */
+    @Override
+    public void removeDie(Die die) {
+        Cell cell = glassWindow[desiredCell.getRow()][desiredCell.getCol()];
+
+        if(die.getActualDieValue() == cell.getContainedDie().getActualDieValue() && die.getDieColor().equals(cell.getContainedDie().getDieColor()))
+            cell.removeContainedDie();
     }
 
     /**

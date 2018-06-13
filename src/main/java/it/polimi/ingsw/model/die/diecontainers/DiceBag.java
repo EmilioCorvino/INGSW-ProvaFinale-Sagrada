@@ -56,19 +56,32 @@ public class DiceBag extends ADieContainer {
     public Die extract(){
         if(!availableDice.isEmpty()) {
             Die dieToBeExtracted = availableDice.get((new Random()).nextInt(getAvailableDice().size()));
-            update(dieToBeExtracted);
+            removeDie(dieToBeExtracted);
             return dieToBeExtracted;
         }else
             return null;
     }
 
     /**
-     * This method update the list of available dice.
+     * This method addDie the list of available dice.
      * @param die: the die that has to be placed. (must be a die extracted from the list) (same Object)
      */
     @Override
-    public void update(Die die) {
-        availableDice.remove(die);
+    public void removeDie(Die die) {
+        for(Die d : availableDice)
+            if(d.getDieColor().equals(die.getDieColor()) && d.getActualDieValue() == die.getActualDieValue()) {
+                availableDice.remove(d);
+                return;
+            }
+    }
+
+    /**
+     * This method addDie a die in the bag
+     * @param die: the die that has to be placed.
+     */
+    @Override
+    public void addDie(Die die) {
+        availableDice.add(die);
     }
 
     @Override
@@ -76,9 +89,7 @@ public class DiceBag extends ADieContainer {
         return false;
     }
 
-    @Override
-    public void removeDie(Die die) {
 
-    }
+
 
 }

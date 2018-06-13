@@ -3,17 +3,13 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
-import it.polimi.ingsw.model.die.diecontainers.WindowPatternCardDeck;
 import it.polimi.ingsw.model.restrictions.ColorRestriction;
 import it.polimi.ingsw.model.restrictions.ValueRestriction;
-import it.polimi.ingsw.utils.exceptions.EmptyException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 public class WindowPatternTest {
 
@@ -28,7 +24,7 @@ public class WindowPatternTest {
 
         if(wp.canBePlaced(die,selectedCell)) {
             wp.setDesiredCell(selectedCell);
-            wp.update(die);
+            wp.addDie(die);
         }
 
         assertEquals(wp.getGlassWindow()[selectedCell.getRow()][selectedCell.getCol()].getContainedDie(),die);
@@ -64,7 +60,7 @@ public class WindowPatternTest {
 
         if(wp.canBePlaced(die1, selectedCell)) {
             wp.setDesiredCell(selectedCell);
-            wp.update(die1);
+            wp.addDie(die1);
         }
         assertFalse(wp.canBePlaced(die2,selectedCell));
     }
@@ -84,7 +80,7 @@ public class WindowPatternTest {
 
         if(wp.canBePlaced(die1,selectedCell1)) {
             wp.setDesiredCell(selectedCell1);
-            wp.update(die1);
+            wp.addDie(die1);
         }
         assertTrue(wp.canBePlaced(die2,selectedCell2));
         assertTrue(wp.canBePlaced(die2,selectedCell3));
@@ -132,7 +128,7 @@ public class WindowPatternTest {
 
         if(wp.canBePlaced(die,cell1)){
             wp.setDesiredCell(cell1);
-            wp.update(die);
+            wp.addDie(die);
         }
 
         assertTrue(wp.canBePlaced(correctDie, orizAdjacentCell));
@@ -173,6 +169,31 @@ public class WindowPatternTest {
 
         //Test of no border cell
         assertFalse(wp.canBePlaced(die1, cell4));
+
+
+    }
+
+    @Test
+    public void removeDie(){
+        CommonBoard commonBoard = new CommonBoard();
+        WindowPatternCard wp = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(7);
+
+        Die die = new Die(4, Color.PURPLE);
+        Cell cell = new Cell(0,3);
+
+
+
+        if (wp.canBePlaced(die,cell)) {
+            wp.setDesiredCell(cell);
+            wp.addDie(die);
+        }
+
+        assertEquals(die, wp.getGlassWindow()[cell.getRow()][cell.getCol()].getContainedDie());
+
+        wp.setDesiredCell(cell);
+        wp.removeDie(die);
+
+        assertEquals(null, wp.getGlassWindow()[cell.getRow()][cell.getCol()].getContainedDie());
 
 
     }
