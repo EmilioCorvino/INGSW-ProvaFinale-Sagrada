@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.utils.exceptions.DieNotContainedException;
 
 /**
  *
@@ -31,7 +32,11 @@ public class SwapDieEffect extends AToolCardEffect {
         setUpInfoUnit.setColor(roundDie.getDieColor());
 
         //Check controls
-        manager.getControllerMaster().getCommonBoard().getDraftPool().removeDie(roundDie);
+        try {
+            manager.getControllerMaster().getCommonBoard().getDraftPool().removeDie(roundDie);
+        } catch (DieNotContainedException e) {
+            e.printStackTrace();
+        }
         manager.getControllerMaster().getCommonBoard().getRoundTrack().addDie(chosenDie);
 
     }
