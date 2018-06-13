@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.die.diecontainers;
 
 import it.polimi.ingsw.model.AContainer;
 import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.utils.exceptions.DieNotContainedException;
 
 /**
  * This class manages all types of die containers.
@@ -25,7 +26,7 @@ public abstract class ADieContainer extends AContainer {
      * This method removes a die from a specific container.
      * @param die the die to remove.
      */
-    public abstract void removeDie(Die die);
+    public abstract void removeDie(Die die) throws DieNotContainedException;
 
     //public abstract Die getSpecificDie(Die)
 }

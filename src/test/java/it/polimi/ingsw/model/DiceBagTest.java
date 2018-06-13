@@ -2,7 +2,11 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.DiceBag;
+import it.polimi.ingsw.utils.exceptions.EmptyException;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 import org.junit.Test;
+
+import java.util.logging.Level;
 
 import static org.junit.Assert.*;
 
@@ -50,10 +54,15 @@ public class DiceBagTest {
     @Test
     public void extractDie() {
         DiceBag diceBag = new DiceBag();
-
+        Die die = null;
         int nDiceSameColor = 0;
 
-        Die die = diceBag.extract();
+        try {
+            die = diceBag.extract();
+        }catch (EmptyException e){
+            SagradaLogger.log(Level.SEVERE, e.getMessage(), e);
+        }
+
 
         assertTrue((diceBag.getDieNumberForEachColor()*diceBag.getNumberOfColors() - 1) == diceBag.getAvailableDice().size());
 
@@ -72,7 +81,12 @@ public class DiceBagTest {
         DiceBag diceBag = new DiceBag();
 
         for (int i = 0; i < diceBag.getNumberOfColors() * diceBag.getDieNumberForEachColor(); i++)
-            diceBag.extract();
+            try {
+                diceBag.extract();
+            }catch (EmptyException e){
+                SagradaLogger.log(Level.SEVERE, e.getMessage(), e);
+            }
+
 
         assertTrue(diceBag.getAvailableDice().isEmpty());
     }

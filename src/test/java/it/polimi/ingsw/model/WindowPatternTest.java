@@ -5,11 +5,14 @@ import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.restrictions.ColorRestriction;
 import it.polimi.ingsw.model.restrictions.ValueRestriction;
+import it.polimi.ingsw.utils.exceptions.DieNotContainedException;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public class WindowPatternTest {
 
@@ -191,7 +194,12 @@ public class WindowPatternTest {
         assertEquals(die, wp.getGlassWindow()[cell.getRow()][cell.getCol()].getContainedDie());
 
         wp.setDesiredCell(cell);
-        wp.removeDie(die);
+        try{
+            wp.removeDie(die);
+        } catch (DieNotContainedException e){
+            SagradaLogger.log(Level.SEVERE, e.getMessage(), e);
+        }
+
 
         assertEquals(null, wp.getGlassWindow()[cell.getRow()][cell.getCol()].getContainedDie());
 

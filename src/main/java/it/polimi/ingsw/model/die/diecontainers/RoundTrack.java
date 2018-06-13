@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.die.diecontainers;
 
 import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.utils.exceptions.DieNotContainedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +38,14 @@ public class RoundTrack extends ADieContainer {
      * @param die the die to remove.
      */
     @Override
-    public void removeDie(Die die) {
-        Die dieToBeRemoved = null;
-        for (Die d : this.getAvailableDice().get(roundToBeUpdated))
-            if(die.getDieColor() == d.getDieColor() && die.getActualDieValue() == d.getActualDieValue())
-                dieToBeRemoved = d;
-        this.getAvailableDice().get(roundToBeUpdated).remove(dieToBeRemoved);
+    public void removeDie(Die die) throws DieNotContainedException{
+        for (Die d : this.getAvailableDice().get(roundToBeUpdated)){
+            if (die.getDieColor() == d.getDieColor() && die.getActualDieValue() == d.getActualDieValue()) {
+                this.getAvailableDice().get(roundToBeUpdated).remove(d);
+                return;
+            }
+        }
+        throw new DieNotContainedException("Want to remove a die not contained");
     }
 
     @Override
