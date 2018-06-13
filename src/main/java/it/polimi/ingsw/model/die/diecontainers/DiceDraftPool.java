@@ -1,9 +1,13 @@
 package it.polimi.ingsw.model.die.diecontainers;
 
 import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.utils.exceptions.DieNotContainedException;
+import it.polimi.ingsw.utils.exceptions.EmptyException;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * This class menage the DiceDraftPool
@@ -37,15 +41,15 @@ public class DiceDraftPool extends ADieContainer {
      */
     public void populateDiceDraftPool(int numberOfPlayers){
         int i = 0;
-        boolean empty = false;
-        Die dieExtracted;
+        Die dieExtracted = null;
 
-        while( !empty && i < 2*numberOfPlayers + 1){
-            dieExtracted = diceBag.extract();
-            if (dieExtracted == null)
-                empty = true;
-            else
-                this.getAvailableDice().add(dieExtracted);
+        while(i < 2*numberOfPlayers + 1){
+            try {
+                dieExtracted = diceBag.extract();
+            } catch (EmptyException e){
+                SagradaLogger.log(Level.SEVERE, e.getMessage(), e);
+            }
+            this.getAvailableDice().add(dieExtracted);
             i++;
         }
     }
@@ -67,12 +71,14 @@ public class DiceDraftPool extends ADieContainer {
      * @param die: A copy of the die that has to be removed.
      */
     @Override
-    public void removeDie(Die die) {
-        Die dieToBeDeleted = null;
-        for( Die d : this.getAvailableDice())
-            if(d.getDieColor() == die.getDieColor() && d.getActualDieValue() == die.getActualDieValue())
-                dieToBeDeleted = d;
-        this.getAvailableDice().remove(dieToBeDeleted);
+    public void removeDie(Die die) throws DieNotContainedException {
+        for( Die d : this.getAvailableDice()) {
+            if (d.getDieColor() == die.getDieColor() && d.getActualDieValue() == die.getActualDieValue()) {
+                this.getAvailableDice().remove(d);
+                return;
+            }
+        }
+        throw new DieNotContainedException("Want to remove a die not contained");
     }
 
     /**

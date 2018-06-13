@@ -2,9 +2,12 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.RoundTrack;
+import it.polimi.ingsw.utils.exceptions.DieNotContainedException;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 import org.junit.Test;
 
 import java.util.Random;
+import java.util.logging.Level;
 
 import static org.junit.Assert.*;
 
@@ -30,7 +33,11 @@ public class RoundTrackTest {
 
 
         roundTrack.setRoundToBeUpdated(roundWithRemove);
-        roundTrack.removeDie(roundTrack.getAvailableDice().get(roundWithRemove).get(0));
+        try {
+            roundTrack.removeDie(roundTrack.getAvailableDice().get(roundWithRemove).get(0));
+        } catch (DieNotContainedException e){
+            SagradaLogger.log(Level.SEVERE,e.getMessage(), e);
+        }
         assertEquals(1, roundTrack.getAvailableDice().get(roundWithRemove).size());
     }
 }

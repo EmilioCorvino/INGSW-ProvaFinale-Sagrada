@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.restrictions.ARestriction;
 import it.polimi.ingsw.model.restrictions.ColorRestriction;
 import it.polimi.ingsw.model.restrictions.ValueRestriction;
+import it.polimi.ingsw.utils.exceptions.DieNotContainedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,11 +139,13 @@ public class WindowPatternCard extends ADieContainer {
      * @param die the die to remove.
      */
     @Override
-    public void removeDie(Die die) {
+    public void removeDie(Die die) throws DieNotContainedException{
         Cell cell = glassWindow[desiredCell.getRow()][desiredCell.getCol()];
 
         if(die.getActualDieValue() == cell.getContainedDie().getActualDieValue() && die.getDieColor().equals(cell.getContainedDie().getDieColor()))
             cell.removeContainedDie();
+        else
+            throw new DieNotContainedException("The die is not contained in the cell where you want to remove it.");
     }
 
     /**

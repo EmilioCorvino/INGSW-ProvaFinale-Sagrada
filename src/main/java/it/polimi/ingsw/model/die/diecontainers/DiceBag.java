@@ -2,10 +2,14 @@ package it.polimi.ingsw.model.die.diecontainers;
 
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.utils.exceptions.DieNotContainedException;
+import it.polimi.ingsw.utils.exceptions.EmptyException;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 
 /**
  * This class menage the bag with the dice.
@@ -53,13 +57,18 @@ public class DiceBag extends ADieContainer {
      * This method extract a Die from the List of available Dice, and remove it from there.
      * @return The die random removed from the bag.
      */
-    public Die extract(){
+    public Die extract() throws EmptyException{
         if(!availableDice.isEmpty()) {
             Die dieToBeExtracted = availableDice.get((new Random()).nextInt(getAvailableDice().size()));
-            removeDie(dieToBeExtracted);
+            try {
+                removeDie(dieToBeExtracted);
+            } catch (DieNotContainedException e) {
+                SagradaLogger.log(Level.SEVERE, "Die not contained in the dice bag");
+            }
             return dieToBeExtracted;
-        }else
-            return null;
+        }
+        else
+            throw new EmptyException("The dice bag is empty");
     }
 
     /**
@@ -67,12 +76,14 @@ public class DiceBag extends ADieContainer {
      * @param die: the die that has to be placed. (must be a die extracted from the list) (same Object)
      */
     @Override
-    public void removeDie(Die die) {
-        for(Die d : availableDice)
+    public void removeDie(Die die) throws DieNotContainedException{
+        for(Die d : availableDice){
             if(d.getDieColor().equals(die.getDieColor()) && d.getActualDieValue() == die.getActualDieValue()) {
                 availableDice.remove(d);
                 return;
             }
+        }
+        throw new DieNotContainedException("Want to remove a die not contained");
     }
 
     /**

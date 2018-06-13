@@ -2,9 +2,12 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
+import it.polimi.ingsw.utils.exceptions.DieNotContainedException;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 import org.junit.Test;
 
 import java.util.Random;
+import java.util.logging.Level;
 
 import static org.junit.Assert.*;
 
@@ -34,7 +37,12 @@ public class DiceDraftPoolTest {
         diceDraftPool.populateDiceDraftPool(numberOfPlayer);
         Die die = diceDraftPool.getAvailableDice().get(new Random().nextInt(numberOfPlayer*2 + 1));
 
-        diceDraftPool.removeDie(die);
+        try {
+            diceDraftPool.removeDie(die);
+        } catch (DieNotContainedException e){
+            SagradaLogger.log(Level.SEVERE, e.getMessage(), e);
+        }
+
         assertEquals( numberOfPlayer*2 + 1 - 1 , diceDraftPool.getAvailableDice().size());
 
     }
