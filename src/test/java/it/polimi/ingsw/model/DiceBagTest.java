@@ -90,4 +90,13 @@ public class DiceBagTest {
 
         assertTrue(diceBag.getAvailableDice().isEmpty());
     }
+
+    @Test
+    public void addDice(){
+        DiceBag diceBag = new DiceBag();
+
+        diceBag.addDie(new Die(5, Color.GREEN));
+
+        assertEquals(91, diceBag.getAvailableDice().size());
+    }
 }
