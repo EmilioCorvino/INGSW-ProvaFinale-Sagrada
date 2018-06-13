@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.utils.exceptions.DieNotContainedException;
 
 /**
  * This class manages the
@@ -35,7 +36,11 @@ public class DiePlacementMove implements IMove {
 
         //CAREFUL
         wp.addDie(die);
-        manager.getControllerMaster().getCommonBoard().getDraftPool().removeDie(die);
+        try {
+            manager.getControllerMaster().getCommonBoard().getDraftPool().removeDie(die);
+        } catch (DieNotContainedException e) {
+            e.printStackTrace();
+        }
         manager.showPlacementResult(p, setUpInfoUnit);
     }
 

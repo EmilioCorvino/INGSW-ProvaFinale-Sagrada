@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.move.DiePlacementMove;
+import it.polimi.ingsw.utils.exceptions.DieNotContainedException;
 
 /**
  *
@@ -23,7 +24,11 @@ public class PlacementRestrictionEffect extends AToolCardEffect {
         WindowPatternCard playerWp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
 
         if(checkContainedDie(playerWp, chosenDie, manager)) {
-            playerWp.removeDie(chosenDie);
+            try {
+                playerWp.removeDie(chosenDie);
+            } catch (DieNotContainedException e) {
+                e.printStackTrace();
+            }
             DiePlacementMove move = new DiePlacementMove();
             move.executeMove(manager, setUpInfoUnit);
         }

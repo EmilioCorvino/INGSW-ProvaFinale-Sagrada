@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.restrictions.ARestriction;
 import it.polimi.ingsw.model.restrictions.ColorRestriction;
+import it.polimi.ingsw.utils.exceptions.DieNotContainedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,11 @@ public class ColorRestrictionEffect extends PlacementRestrictionEffect {
                 glassWindow[i][j].setRuleSetCell(ruleSet);
             }
         //ocio alla rimozione del dado.
-        wp.removeDie(chosenDie);
+        try {
+            wp.removeDie(chosenDie);
+        } catch (DieNotContainedException e) {
+            e.printStackTrace();
+        }
         wp.setGlassWindow(glassWindow);
         wp.setGlassWindowModified(true);
         super.executeMove(manager, setUpInfoUnit);
