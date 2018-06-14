@@ -194,14 +194,10 @@ public class WindowPatternTest {
         assertEquals(die, wp.getGlassWindow()[cell.getRow()][cell.getCol()].getContainedDie());
 
         wp.setDesiredCell(cell);
-        try{
-            wp.removeDie(die);
-        } catch (DieNotContainedException e){
-            SagradaLogger.log(Level.SEVERE, e.getMessage(), e);
-        }
+        wp.removeDie(cell.getRow()*WindowPatternCard.MAX_COL+cell.getCol());
 
 
-        assertEquals(null, wp.getGlassWindow()[cell.getRow()][cell.getCol()].getContainedDie());
+        assertNull(wp.getGlassWindow()[cell.getRow()][cell.getCol()].getContainedDie());
 
 
     }

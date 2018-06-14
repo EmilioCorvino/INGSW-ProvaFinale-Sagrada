@@ -33,11 +33,7 @@ public class RoundTrackTest {
 
 
         roundTrack.setRoundToBeUpdated(roundWithRemove);
-        try {
-            roundTrack.removeDie(roundTrack.getAvailableDice().get(roundWithRemove).get(0));
-        } catch (DieNotContainedException e){
-            SagradaLogger.log(Level.SEVERE,e.getMessage(), e);
-        }
+        roundTrack.removeDie(0);
         assertEquals(1, roundTrack.getAvailableDice().get(roundWithRemove).size());
     }
 }

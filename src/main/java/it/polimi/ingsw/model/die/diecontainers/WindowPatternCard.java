@@ -136,17 +136,13 @@ public class WindowPatternCard extends ADieContainer {
 
     /**
      * This method remove the die in the desired cell only if the die contained is the same.
-     * @param die a copy of the die to be removed.
+     * @param index a copy of the die to be removed.
      * @return the die contained, that has been removed.
      */
     @Override
-    public Die removeDie(Die die) throws DieNotContainedException{
-        Cell cell = glassWindow[desiredCell.getRow()][desiredCell.getCol()];
-
-        if(die.getActualDieValue() == cell.getContainedDie().getActualDieValue() && die.getDieColor().equals(cell.getContainedDie().getDieColor()))
-            return cell.removeContainedDie();
-        else
-            throw new DieNotContainedException("The die is not contained in the cell where you want to remove it.");
+    public Die removeDie(int index){
+        Cell cell = glassWindow[ index/WindowPatternCard.MAX_COL ][ index%WindowPatternCard.MAX_COL ];
+        return cell.removeContainedDie();
     }
 
     /**

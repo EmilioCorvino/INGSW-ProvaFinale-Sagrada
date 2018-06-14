@@ -59,13 +59,8 @@ public class DiceBag extends ADieContainer {
      */
     public Die extract() throws EmptyException{
         if(!availableDice.isEmpty()) {
-            Die dieToBeExtracted = availableDice.get((new Random()).nextInt(getAvailableDice().size()));
-            try {
-                removeDie(dieToBeExtracted);
-            } catch (DieNotContainedException e) {
-                SagradaLogger.log(Level.SEVERE, "Die not contained in the dice bag");
-            }
-            return dieToBeExtracted;
+            int indexToBeExtracted = new Random().nextInt(getAvailableDice().size());
+            return removeDie(indexToBeExtracted);
         }
         else
             throw new EmptyException("The dice bag is empty");
@@ -73,18 +68,12 @@ public class DiceBag extends ADieContainer {
 
     /**
      * This method addDie the list of available dice.
-     * @param die a copy of the die to be removed.
+     * @param index a copy of the die to be removed.
      * @return the die contained, that has been removed.
      */
     @Override
-    public Die removeDie(Die die) throws DieNotContainedException{
-        for(Die d : availableDice){
-            if(d.getDieColor().equals(die.getDieColor()) && d.getActualDieValue() == die.getActualDieValue()) {
-                availableDice.remove(d);
-                return d;
-            }
-        }
-        throw new DieNotContainedException("Want to remove a die not contained");
+    public Die removeDie(int index){
+        return this.availableDice.remove(index);
     }
 
     /**

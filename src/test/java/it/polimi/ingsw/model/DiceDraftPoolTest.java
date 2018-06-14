@@ -35,13 +35,9 @@ public class DiceDraftPoolTest {
         int numberOfPlayer = 4;
 
         diceDraftPool.populateDiceDraftPool(numberOfPlayer);
-        Die die = diceDraftPool.getAvailableDice().get(new Random().nextInt(numberOfPlayer*2 + 1));
+        int index = new Random().nextInt(numberOfPlayer*2 + 1);
 
-        try {
-            diceDraftPool.removeDie(die);
-        } catch (DieNotContainedException e){
-            SagradaLogger.log(Level.SEVERE, e.getMessage(), e);
-        }
+        diceDraftPool.removeDie(index);
 
         assertEquals( numberOfPlayer*2 + 1 - 1 , diceDraftPool.getAvailableDice().size());
 

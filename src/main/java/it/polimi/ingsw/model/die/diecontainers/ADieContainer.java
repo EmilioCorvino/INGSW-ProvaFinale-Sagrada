@@ -24,10 +24,10 @@ public abstract class ADieContainer extends AContainer {
 
     /**
      * This method removes a die from a specific container.
-     * @param die a copy of the die to be removed.
+     * @param index a copy of the die to be removed.
      * @return the die contained, that has been removed.
      */
-    public abstract Die removeDie(Die die) throws DieNotContainedException;
+    public abstract Die removeDie(int index);
 
     //public abstract Die getSpecificDie(Die)
 }
