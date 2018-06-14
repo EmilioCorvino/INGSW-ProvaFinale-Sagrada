@@ -68,14 +68,15 @@ public class DiceDraftPool extends ADieContainer {
 
     /**
      * This method addDie the DraftPool list's of dice, removing the die chosen.
-     * @param die: A copy of the die that has to be removed.
+     * @param die a copy of the die to be removed.
+     * @return the die contained, that has been removed.
      */
     @Override
-    public void removeDie(Die die) throws DieNotContainedException {
+    public Die removeDie(Die die) throws DieNotContainedException {
         for( Die d : this.getAvailableDice()) {
             if (d.getDieColor() == die.getDieColor() && d.getActualDieValue() == die.getActualDieValue()) {
                 this.getAvailableDice().remove(d);
-                return;
+                return d;
             }
         }
         throw new DieNotContainedException("Want to remove a die not contained");

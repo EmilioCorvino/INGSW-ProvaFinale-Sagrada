@@ -73,14 +73,15 @@ public class DiceBag extends ADieContainer {
 
     /**
      * This method addDie the list of available dice.
-     * @param die: the die that has to be placed. (must be a die extracted from the list) (same Object)
+     * @param die a copy of the die to be removed.
+     * @return the die contained, that has been removed.
      */
     @Override
-    public void removeDie(Die die) throws DieNotContainedException{
+    public Die removeDie(Die die) throws DieNotContainedException{
         for(Die d : availableDice){
             if(d.getDieColor().equals(die.getDieColor()) && d.getActualDieValue() == die.getActualDieValue()) {
                 availableDice.remove(d);
-                return;
+                return d;
             }
         }
         throw new DieNotContainedException("Want to remove a die not contained");
