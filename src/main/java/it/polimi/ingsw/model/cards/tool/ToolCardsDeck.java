@@ -3,6 +3,12 @@ package it.polimi.ingsw.model.cards.tool;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.controller.Commands;
+import it.polimi.ingsw.model.cards.tool.PlacementEffect.ColorRestrictionEffect;
+import it.polimi.ingsw.model.cards.tool.PlacementEffect.PlacementRestrictionEffect;
+import it.polimi.ingsw.model.cards.tool.PlacementEffect.ValueRestrictionEffect;
+import it.polimi.ingsw.model.cards.tool.SwapEffect.SwapFromDraftpoolToRoundTrack;
+import it.polimi.ingsw.model.cards.tool.ValueEffects.ChooseValueEffect;
+import it.polimi.ingsw.model.cards.tool.ValueEffects.DraftValueEffect;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 
@@ -84,7 +90,7 @@ public class ToolCardsDeck {
                                                           break;
                     case PLACEMENT_RESTRICTION_EFFECT:    card.getCardEffects().add(new PlacementRestrictionEffect());
                                                           break;
-                    case SWAP_DIE_EFFECT:                 card.getCardEffects().add(new SwapDieEffect());
+                    case SWAP_DRAFTPOOL_ROUNDTRACK:       card.getCardEffects().add(new SwapFromDraftpoolToRoundTrack());
                                                           break;
                     case DRAFT_VALUE_EFFECT:              card.getCardEffects().add(new DraftValueEffect(builder.
                                                             getEffectSpecificParameter()));

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.cards.tool;
+package it.polimi.ingsw.model.cards.tool.PlacementEffect;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
@@ -21,7 +21,7 @@ public class ColorPlacementRestrictionEffect extends PlacementRestrictionEffect 
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInformationUnit) {
 
         List<ArrayList<Die>> draftPoolDice = manager.getControllerMaster().getCommonBoard().getRoundTrack().getAvailableDice();
-        Die chosenDie = draftPoolDice.get(setUpInformationUnit.getSourceIndex()).get(setUpInformationUnit.getSourceOffset());
+        Die chosenDie = draftPoolDice.get(setUpInformationUnit.getSourceIndex()).get(setUpInformationUnit.getOffset());
 
         if(setUpInformationUnit.getColor().equals(chosenDie.getDieColor()))
             super.executeMove(manager, setUpInformationUnit);
