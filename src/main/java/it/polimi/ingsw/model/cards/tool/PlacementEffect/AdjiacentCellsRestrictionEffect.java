@@ -24,9 +24,9 @@ public class AdjiacentCellsRestrictionEffect extends PlacementRestrictionEffect 
 
         Player p = manager.getControllerMaster().getGameState().getCurrentPlayer();
         WindowPatternCard wp = p.getWindowPatternCard();
-        Die chosenDie = new Die(info.getValue(), info.getColor());
+        Die chosenDie = wp.removeDie(info.getSourceIndex());
 
-        Cell desiredCell = new Cell(info.getIndex() / WindowPatternCard.getMaxCol(), info.getIndex() % WindowPatternCard.getMaxCol());
+        Cell desiredCell = new Cell(info.getSourceIndex() / WindowPatternCard.getMaxCol(), info.getSourceIndex() % WindowPatternCard.getMaxCol());
         wp.setDesiredCell(desiredCell);
 
         if(!wp.checkAdjacentCells(desiredCell)) {
@@ -36,6 +36,8 @@ public class AdjiacentCellsRestrictionEffect extends PlacementRestrictionEffect 
                 return;
             } else {
                 manager.showNotification("Il dado non rispetta le restrizioni di piazzamento di questa cella.");
+                wp.setDesiredCell(new Cell(info.getSourceIndex() / WindowPatternCard.getMaxCol(), info.getSourceIndex() % WindowPatternCard.getMaxCol()));
+                wp.addDie(chosenDie);
                 return;
             }
         }

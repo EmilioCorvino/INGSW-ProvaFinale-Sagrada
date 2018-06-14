@@ -2,9 +2,11 @@ package it.polimi.ingsw.model.cards.tool.ValueEffects;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.model.move.DiePlacementMove;
+import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -68,10 +70,29 @@ public class DraftValueEffect extends AValueEffect {
             return;
         }
 
-        Die chosenDie = computeRandomDieValue(new Die(setUpInfoUnit.getValue(), setUpInfoUnit.getColor()));
-        setUpInfoUnit.setColor(chosenDie.getDieColor());
-        setUpInfoUnit.setValue(chosenDie.getActualDieValue());
-        DiePlacementMove move = new DiePlacementMove();
-        move.executeMove(manager, setUpInfoUnit);
+        Die chosenDie = computeRandomDieValue(manager.getControllerMaster().getCommonBoard().getDraftPool().removeDie(setUpInfoUnit.getSourceIndex()));
+        WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
+
+        if(!checkExistentCellToUse(wp, chosenDie, manager) ) {
+            manager.showNotification("Non ci sono celle disponibili in cui il dado può essere piazzato");
+            wp.setDesiredCell(new Cell(setUpInfoUnit.getSourceIndex() / WindowPatternCard.MAX_COL, setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL));
+            wp.addDie(chosenDie);
+        }
+
+        wp.setDesiredCell(new Cell(setUpInfoUnit.getDestinationIndex() / WindowPatternCard.MAX_COL, setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL));
+        wp.addDie(chosenDie);
+        //TODO tell the controller to show updates.
+    }
+
+    private boolean checkExistentCellToUse(WindowPatternCard wp, Die chosen,  GamePlayManager manager) {
+        Cell[][] gw = wp.getGlassWindow();
+        List<Cell> cellToUse = new ArrayList<>();
+        for(int i=0; i< WindowPatternCard.getMaxRow(); i++)
+            for (int j = 0; j < WindowPatternCard.getMaxCol(); j++) {
+                wp.setDesiredCell(gw[i][j]);
+                if (wp.canBePlaced(chosenDie, wp.getDesiredCell()))
+                    cellToUse.add(gw[i][j]);
+            }
+        return cellToUse.size() > 0;
     }
 }
