@@ -14,7 +14,7 @@ public class OppositeValueEffectTest {
     @Test
     public void computeOppositeValue() {
         Die die = new Die(5, Color.PURPLE);
-        AValueEffect effect = new OppositeValueEffect(7);
+        AValueEffect effect = new OppositeValueEffect();
         assertEquals(2, ((OppositeValueEffect) effect).computeOppositeValue(die).getActualDieValue());
 
         Die dieOut = new Die(10, Color.PURPLE);

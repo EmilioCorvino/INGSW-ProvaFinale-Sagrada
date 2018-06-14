@@ -266,8 +266,8 @@ public class WindowPatternCard extends ADieContainer {
 
     /**
      * This method checks if a specific die is containet in the window pattern card
-     * @param dieToSearch
-     * @return
+     * @param dieToSearch: die that should be contained.
+     * @return true if is contained else false.
      */
     public boolean isContained(Die dieToSearch) {
         for(int i=0; i<MAX_ROW; i++)

@@ -2,11 +2,13 @@ package it.polimi.ingsw.controller.simplified_view;
 
 import it.polimi.ingsw.model.Color;
 
+import java.io.Serializable;
+
 /**
  * This class manages the information to send to the client for setting up its elements and the information
  * to use to update the view.
  */
-public class SetUpInformationUnit {
+public class SetUpInformationUnit implements Serializable {
 
     /**
      * The color of the die to set.
@@ -37,6 +39,12 @@ public class SetUpInformationUnit {
      * Extra params to set for example for some effects of the tool cards.
      */
     private int extraParam;
+
+    public SetUpInformationUnit(int index, Color color, int value) {
+        setDestinationIndex(index);
+        setColor(color);
+        setValue(value);
+    }
 
     public SetUpInformationUnit() {
         setColor(Color.BLANK);

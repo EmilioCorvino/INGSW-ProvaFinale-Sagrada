@@ -9,9 +9,10 @@ import it.polimi.ingsw.model.die.Die;
  */
 public class OppositeValueEffect extends AValueEffect {
 
-    public OppositeValueEffect(int offset) {
-        super.setOffset(offset);
-    }
+    /**
+     *
+     */
+    public static final int OPPOSITE = 7;
 
     /**
      *
@@ -24,8 +25,15 @@ public class OppositeValueEffect extends AValueEffect {
         return chosenDie;
     }
 
+    /**
+     *
+     * @param manager
+     * @param setUpInfoUnit
+     */
     @Override
-    public void executeMove(GamePlayManager commonBoard, SetUpInformationUnit setUpInfoUnit) {
+    public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
+
+
 
     }
 }

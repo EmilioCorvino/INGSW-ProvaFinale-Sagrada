@@ -73,7 +73,7 @@
     "placement": true,
     "effect": {
       "names": [
-        "SWAP_DIE_EFFECT"
+        "SWAP_DRAFTPOOL_ROUNDTRACK"
       ],
       "source": "DraftPool",
       "destination": "RoundTrack",

@@ -14,7 +14,7 @@ public class RoundTrack extends ADieContainer {
     private List<ArrayList<Die>> availableDice;
 
     /**
-     * The index of round where is the die that needs to be addDie
+     * The index of round where is the die that needs to be updated.
      */
     private int roundToBeUpdated;
 
