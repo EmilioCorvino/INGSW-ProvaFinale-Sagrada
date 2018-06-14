@@ -151,7 +151,7 @@ public class Cell {
      * @return true if the cell doesn't contain a die.
      */
     public boolean isEmpty() {
-        return this.getContainedDie().getActualDieValue() == 0 && this.getContainedDie().getDieColor().equals(Color.BLANK);
+        return (this.getContainedDie() == null || (this.getContainedDie().getActualDieValue() == 0 && this.getContainedDie().getDieColor().equals(Color.BLANK)));
     }
 
     /**
