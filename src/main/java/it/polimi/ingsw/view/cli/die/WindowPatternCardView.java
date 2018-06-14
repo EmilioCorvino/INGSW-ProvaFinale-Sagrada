@@ -67,8 +67,8 @@ public class WindowPatternCardView {
         this.setIdMap(sWP.getIdMap());
         this.setDifficulty(sWP.getDifficulty());
         for (SetUpInformationUnit info : sWP.getInformationUnitList()) {
-            this.glassWindow[info.getIndex() / (WindowPatternCardView.MAX_COL)]
-                    [info.getIndex() % (WindowPatternCardView.MAX_COL)] =
+            this.glassWindow[info.getDestinationIndex() / (WindowPatternCardView.MAX_COL)]
+                    [info.getDestinationIndex() % (WindowPatternCardView.MAX_COL)] =
                     new CellView(info.getColor(), info.getValue());
         }
     }
