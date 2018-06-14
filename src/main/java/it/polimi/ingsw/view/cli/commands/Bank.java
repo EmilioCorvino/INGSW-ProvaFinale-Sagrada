@@ -4,10 +4,7 @@ import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.view.cli.CliView;
 import it.polimi.ingsw.view.cli.generalManagers.CommunicationManager;
 
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class contains the map of all the possible command usable in the game and the method to filter them depending
@@ -75,7 +72,7 @@ public class Bank {
      * @return the new map that contains the methods just of the command available.
      */
     public Map<String, Runnable> getCommandMap(List <Commands> commands){
-        Map<String, Runnable> function = new HashMap<>();
+        Map<String, Runnable> function = new LinkedHashMap<>();
 
         commands.forEach(c -> function.put(commandToStringConverter(c), availableCommands.get(c)));
         function.put(UserCommands.HELP.getDescription(), communicationManager::printCommands);

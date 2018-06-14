@@ -35,17 +35,12 @@ public class RoundTrack extends ADieContainer {
 
     /**
      * This method remove a die in the selected round in the round track.
-     * @param die the die to remove.
+     * @param index a copy of the die to be removed.
+     * @return the die contained, that has been removed.
      */
     @Override
-    public void removeDie(Die die) throws DieNotContainedException{
-        for (Die d : this.getAvailableDice().get(roundToBeUpdated)){
-            if (die.getDieColor() == d.getDieColor() && die.getActualDieValue() == d.getActualDieValue()) {
-                this.getAvailableDice().get(roundToBeUpdated).remove(d);
-                return;
-            }
-        }
-        throw new DieNotContainedException("Want to remove a die not contained");
+    public Die removeDie(int index){
+        return this.getAvailableDice().get(roundToBeUpdated).remove(index);
     }
 
     @Override

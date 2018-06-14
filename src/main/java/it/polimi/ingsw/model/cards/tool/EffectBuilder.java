@@ -2,6 +2,8 @@ package it.polimi.ingsw.model.cards.tool;
 
 import com.google.gson.annotations.SerializedName;
 import it.polimi.ingsw.controller.Commands;
+import it.polimi.ingsw.model.cards.tool.ValueEffects.ChooseValueEffect;
+import it.polimi.ingsw.model.cards.tool.ValueEffects.DraftValueEffect;
 
 /**
  * This class is used to store the parsed information used to build the {@link AToolCardEffect}.

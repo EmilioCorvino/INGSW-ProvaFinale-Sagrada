@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.cards.tool;
+package it.polimi.ingsw.model.cards.tool.PlacementEffect;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
@@ -29,11 +29,7 @@ public class ValueRestrictionEffect extends PlacementRestrictionEffect {
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
 
         Player currPlayer = manager.getControllerMaster().getGameState().getCurrentPlayer();
-        Die chosenDie = new Die(setUpInfoUnit.getValue(), setUpInfoUnit.getColor());
         WindowPatternCard wp = currPlayer.getWindowPatternCard();
-
-        if(!super.checkContainedDie(wp, chosenDie, manager))
-            return;
 
         wp.copyGlassWindow();
         Cell[][] playerGlassWindow = wp.getGlassWindow();
@@ -54,8 +50,6 @@ public class ValueRestrictionEffect extends PlacementRestrictionEffect {
                 glassWindow[i][j].setRuleSetCell(ruleSet);
             }
 
-        //ocio alla rimozione del dado.
-        wp.removeDie(chosenDie);
         wp.setGlassWindow(glassWindow);
         wp.setGlassWindowModified(true);
         super.executeMove(manager, setUpInfoUnit);

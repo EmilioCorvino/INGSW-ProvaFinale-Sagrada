@@ -225,7 +225,7 @@ public class CliView extends AViewMaster{
     @Override
     public void setFavorToken(int nFavTokens){
         this.player.setFavorToken(nFavTokens);
-        inputOutputManager.print("Il numero di segnalini favore e': "+nFavTokens);
+        inputOutputManager.print("\nIl numero di segnalini favore e': "+nFavTokens);
     }
 
 //----------------------------------------------------------
@@ -443,6 +443,7 @@ public class CliView extends AViewMaster{
 
     public void printCommands(){
         inputOutputManager.print("\nCamandi disponibili: ");
-        functions.forEach((k,v) -> inputOutputManager.print("\t- "+k));
+        for (String s : functions.keySet())
+            inputOutputManager.print("\t- "+s);
     }
 }

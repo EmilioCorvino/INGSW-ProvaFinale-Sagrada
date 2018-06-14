@@ -3,9 +3,10 @@ package it.polimi.ingsw.controller.simplified_view;
 import it.polimi.ingsw.model.Color;
 
 /**
- * This class manages the information to send to the client for setting up its elements.
+ * This class manages the information to send to the client for setting up its elements and the information
+ * to use to update the view.
  */
-public class SetUpInformationUnit extends InformationUnit {
+public class SetUpInformationUnit {
 
     /**
      * The color of the die to set.
@@ -18,27 +19,32 @@ public class SetUpInformationUnit extends InformationUnit {
     private int value;
 
     /**
-     *
+     * The index inside the source container.
      */
     private int sourceIndex;
 
     /**
-     *
+     * The offset of the index inside a container.
      */
-    private int sourceOffset;
+    private int offset;
 
     /**
-     * Default constructor.
+     * The index inside the destination container.
      */
+    private int destinationIndex;
+
+    /**
+     * Extra params to set for example for some effects of the tool cards.
+     */
+    private int extraParam;
+
     public SetUpInformationUnit() {
-
-    }
-
-    public SetUpInformationUnit(int index, Color color, int value) {
-        super(index);
-        setColor(color);
-        setValue(value);
+        setColor(Color.BLANK);
+        setValue(0);
         setSourceIndex(0);
+        setDestinationIndex(0);
+        setOffset(0);
+        setExtraParam(0);
     }
 
     public Color getColor() {
@@ -57,14 +63,6 @@ public class SetUpInformationUnit extends InformationUnit {
         this.value = value;
     }
 
-    public void setIndex(int index) {
-        super.setIndex(index);
-    }
-
-    public int getIndex() {
-        return super.getIndex();
-    }
-
     public int getSourceIndex() {
         return sourceIndex;
     }
@@ -73,11 +71,27 @@ public class SetUpInformationUnit extends InformationUnit {
         this.sourceIndex = sourceIndex;
     }
 
-    public int getSourceOffset() {
-        return sourceOffset;
+    public int getOffset() {
+        return offset;
     }
 
-    public void setSourceOffset(int sourceOffset) {
-        this.sourceOffset = sourceOffset;
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
+
+    public int getDestinationIndex() {
+        return destinationIndex;
+    }
+
+    public void setDestinationIndex(int destinationIndex) {
+        this.destinationIndex = destinationIndex;
+    }
+
+    public int getExtraParam() {
+        return extraParam;
+    }
+
+    public void setExtraParam(int extraParam) {
+        this.extraParam = extraParam;
     }
 }
