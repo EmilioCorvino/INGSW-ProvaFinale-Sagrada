@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.cards.tool;
+package it.polimi.ingsw.model.cards.tool.ValueEffects;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;

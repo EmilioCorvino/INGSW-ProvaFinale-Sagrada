@@ -6,18 +6,11 @@ import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.utils.exceptions.DieNotContainedException;
 
 /**
  * This class manages the
  */
 public class DiePlacementMove implements IMove {
-
-    private ChooseDieMove chooseDieMove;
-
-    public DiePlacementMove() {
-
-    }
 
     /**
      * This method performs the placement move in the window pattern card.
@@ -29,23 +22,27 @@ public class DiePlacementMove implements IMove {
 
         Player p = manager.getControllerMaster().getGameState().getCurrentPlayer();
         WindowPatternCard wp = p.getWindowPatternCard();
-        Die die = new Die(setUpInfoUnit.getValue(), setUpInfoUnit.getColor());
+
+        Die die = manager.getControllerMaster().getCommonBoard().getDraftPool().removeDie(setUpInfoUnit.getSourceIndex());
 
         if(!checkPlacement(wp, die, manager, setUpInfoUnit))
             return;
 
         //CAREFUL
         wp.addDie(die);
-        try {
-            manager.getControllerMaster().getCommonBoard().getDraftPool().removeDie(die);
-        } catch (DieNotContainedException e) {
-            e.printStackTrace();
-        }
         manager.showPlacementResult(p, setUpInfoUnit);
     }
 
+    /**
+     *
+     * @param wp
+     * @param chosenDie
+     * @param manager
+     * @param info
+     * @return
+     */
     public boolean checkPlacement(WindowPatternCard wp, Die chosenDie, GamePlayManager manager, SetUpInformationUnit info) {
-        Cell desiredCell = new Cell(info.getIndex() / WindowPatternCard.getMaxCol(), info.getIndex() % WindowPatternCard.getMaxCol());
+        Cell desiredCell = new Cell(info.getDestinationIndex() / WindowPatternCard.getMaxCol(), info.getDestinationIndex() % WindowPatternCard.getMaxCol());
         wp.setDesiredCell(desiredCell);
 
         if (!wp.canBePlaced(chosenDie, desiredCell)) {
@@ -61,4 +58,3 @@ public class DiePlacementMove implements IMove {
         return true;
     }
 }
-

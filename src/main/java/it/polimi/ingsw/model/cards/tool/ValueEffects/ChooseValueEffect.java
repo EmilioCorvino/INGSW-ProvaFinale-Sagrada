@@ -1,13 +1,24 @@
-package it.polimi.ingsw.model.cards.tool;
+package it.polimi.ingsw.model.cards.tool.ValueEffects;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.model.move.DiePlacementMove;
 
 /**
  * This class manages the effect of those tool cards that allow the player to increase the value of a chosen die.
  */
 public class ChooseValueEffect extends AValueEffect {
+
+    /**
+     *
+     */
+    private static final int INCREASE_CODE = 0;
+
+    /**
+     *
+     */
+    private static final int DECREASE_CODE = 1;
 
     /**
      * Constructs this effect with the default value.
@@ -52,8 +63,23 @@ public class ChooseValueEffect extends AValueEffect {
         return chosenDie;
     }
 
+    /**
+     *
+     * @param manager
+     * @param setUpInfoUnit
+     */
     @Override
-    public void executeMove(GamePlayManager commonBoard, SetUpInformationUnit setUpInfoUnit) {
+    public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
+        Die die = manager.getControllerMaster().getCommonBoard().getDraftPool().removeDie(setUpInfoUnit.getSourceIndex());
 
+        if(setUpInfoUnit.getExtraParam() == INCREASE_CODE)
+            die.setActualDieValue(increaseDieValue(die).getActualDieValue());
+
+        if(setUpInfoUnit.getExtraParam() == DECREASE_CODE)
+            die.setActualDieValue(decreaseDieValue(die).getActualDieValue());
+
+        //tell the controller to show the result
+        DiePlacementMove move = new DiePlacementMove();
+        move.executeMove(manager, setUpInfoUnit);
     }
 }

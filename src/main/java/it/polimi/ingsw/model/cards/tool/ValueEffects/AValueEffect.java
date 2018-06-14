@@ -1,6 +1,7 @@
 
-package it.polimi.ingsw.model.cards.tool;
+package it.polimi.ingsw.model.cards.tool.ValueEffects;
 
+import it.polimi.ingsw.model.cards.tool.AToolCardEffect;
 import it.polimi.ingsw.model.die.Die;
 
 /**
