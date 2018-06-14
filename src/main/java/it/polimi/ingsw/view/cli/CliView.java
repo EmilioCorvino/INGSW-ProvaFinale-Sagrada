@@ -10,14 +10,17 @@ import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.AViewMaster;
 import it.polimi.ingsw.view.cli.boardElements.CommonBoardView;
+import it.polimi.ingsw.view.cli.boardElements.PlayerView;
 import it.polimi.ingsw.view.cli.commands.Bank;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
-import it.polimi.ingsw.view.cli.boardElements.PlayerView;
 import it.polimi.ingsw.view.cli.die.DieView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
 import it.polimi.ingsw.view.cli.generalManagers.ScannerThread;
-import it.polimi.ingsw.view.cli.stateManagers.*;
+import it.polimi.ingsw.view.cli.stateManagers.EndGameManager;
+import it.polimi.ingsw.view.cli.stateManagers.GamePlayManager;
+import it.polimi.ingsw.view.cli.stateManagers.LoginManager;
+import it.polimi.ingsw.view.cli.stateManagers.SetUpManager;
 
 import java.util.List;
 import java.util.Map;
@@ -305,7 +308,7 @@ public class CliView extends AViewMaster{
      */
     @Override
     public void removeOnDraft(SetUpInformationUnit info){
-        this.commonBoard.getDraftPool().getDice().remove(info.getIndex());
+        this.commonBoard.getDraftPool().getDice().remove(info.getSourceIndex());
     }
 
     /**

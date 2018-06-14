@@ -1,10 +1,10 @@
 package it.polimi.ingsw.view.cli.stateManagers;
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.die.DieView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
+import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
 
 import java.io.Serializable;
 import java.util.regex.Pattern;
@@ -71,7 +71,7 @@ public class GamePlayManager implements Serializable {
 
         unit.setColor(draft.getDice().get(index).getDieColor());
         unit.setValue(draft.getDice().get(index).getDieValue());
-        unit.setIndex(this.choseCellWp(wp));
+        unit.setSourceIndex(this.choseCellWp(wp));
     }
 
     /**
@@ -97,11 +97,11 @@ public class GamePlayManager implements Serializable {
      * @param unit
      */
     public void addOnWp(WindowPatternCardView wp, SetUpInformationUnit unit){
-        wp.getGlassWindow()[unit.getIndex()/WindowPatternCardView.MAX_COL][unit.getIndex() % WindowPatternCardView.MAX_COL].setDie(new DieView(unit.getColor(), unit.getValue()));
+        wp.getGlassWindow()[unit.getDestinationIndex()/WindowPatternCardView.MAX_COL][unit.getDestinationIndex() % WindowPatternCardView.MAX_COL].setDie(new DieView(unit.getColor(), unit.getValue()));
     }
 
     public void removeOnWp(WindowPatternCardView wp, SetUpInformationUnit unit){
-        wp.getGlassWindow()[unit.getIndex()/WindowPatternCardView.MAX_COL][unit.getIndex() % WindowPatternCardView.MAX_COL].removeDie();
+        wp.getGlassWindow()[unit.getSourceIndex()/WindowPatternCardView.MAX_COL][unit.getSourceIndex() % WindowPatternCardView.MAX_COL].removeDie();
     }
 
     public void addOnDraft(DieDraftPoolView draft, SetUpInformationUnit unit){
