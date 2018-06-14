@@ -1,10 +1,11 @@
 package it.polimi.ingsw.view.cli.stateManagers;
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.view.cli.die.RoundTrackView;
+import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.die.DieView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
-import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
 
 import java.io.Serializable;
 import java.util.regex.Pattern;
@@ -38,8 +39,8 @@ public class GamePlayManager implements Serializable {
 
     /**
      * This method ask to the user the row and the column of the cell where he want to place the die, and verifying if it is an int and if it is in bound.
-     * @param wp
-     * @return
+     * @param wp:
+     * @return the modular conversion of raw and column.
      */
     private int choseCellWp(WindowPatternCardView wp){
         wp.printWp();
@@ -67,11 +68,8 @@ public class GamePlayManager implements Serializable {
      * @param unit: the unit that need to be fill with the placement information and that need to be send to the controller.
      */
     public void getPlacementInfo(DieDraftPoolView draft, WindowPatternCardView wp, SetUpInformationUnit unit){
-        int index = this.choseDraftDie(draft);
-
-        unit.setColor(draft.getDice().get(index).getDieColor());
-        unit.setValue(draft.getDice().get(index).getDieValue());
-        unit.setSourceIndex(this.choseCellWp(wp));
+        unit.setSourceIndex(this.choseDraftDie(draft));
+        unit.setDestinationIndex(this.choseCellWp(wp));
     }
 
     /**
@@ -90,22 +88,28 @@ public class GamePlayManager implements Serializable {
 
         return commandChosen;
     }
-
-    /**
-     *
-     * @param wp
-     * @param unit
-     */
+    
     public void addOnWp(WindowPatternCardView wp, SetUpInformationUnit unit){
         wp.getGlassWindow()[unit.getDestinationIndex()/WindowPatternCardView.MAX_COL][unit.getDestinationIndex() % WindowPatternCardView.MAX_COL].setDie(new DieView(unit.getColor(), unit.getValue()));
     }
 
     public void removeOnWp(WindowPatternCardView wp, SetUpInformationUnit unit){
-        wp.getGlassWindow()[unit.getSourceIndex()/WindowPatternCardView.MAX_COL][unit.getSourceIndex() % WindowPatternCardView.MAX_COL].removeDie();
+        wp.getGlassWindow()[unit.getDestinationIndex()/WindowPatternCardView.MAX_COL][unit.getDestinationIndex() % WindowPatternCardView.MAX_COL].removeDie();
     }
 
     public void addOnDraft(DieDraftPoolView draft, SetUpInformationUnit unit){
         draft.getDice().add(new DieView(unit.getColor(), unit.getValue()));
     }
 
+    public void removeOnDraft(DieDraftPoolView draft, SetUpInformationUnit unit){
+        draft.getDice().remove(unit.getDestinationIndex());
+    }
+
+    public void addOnRoundTrack(RoundTrackView roundTrack, SetUpInformationUnit unit){
+        roundTrack.getAvailableDice().get(unit.getDestinationIndex()).add(new DieView(unit.getColor(), unit.getValue()));
+    }
+
+    public void removeOnRoundTrack(RoundTrackView roundTrack, SetUpInformationUnit unit){
+        roundTrack.getAvailableDice().get(unit.getDestinationIndex()).remove(unit.getOffset());
+    }
 }

@@ -26,7 +26,7 @@ public class CommonBoardView {
 
     public CommonBoardView(){
         this.players = new ArrayList<>();
-        this.roundTrack = new RoundTrackView();
+        this.roundTrack = new RoundTrackView(10);
         this.publicObjectiveCards = new ArrayList<>();
         this.toolCards = new ArrayList<>();
     }
