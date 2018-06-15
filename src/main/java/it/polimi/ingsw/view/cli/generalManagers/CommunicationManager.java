@@ -6,7 +6,6 @@ import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.cli.CliView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
-import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
 
 import java.util.logging.Level;
 
@@ -45,7 +44,7 @@ public class CommunicationManager {
         view.getGamePlayManager().getPlacementInfo(view.getCommonBoard().getDraftPool(),wp, setInfoUnit);
 
         try {
-            server.performMove(setInfoUnit);
+            server.performDefaultMove(setInfoUnit);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during normal placement",e);
         }
@@ -75,8 +74,12 @@ public class CommunicationManager {
         view.printCommands();
     }
 
-    public void endTurn(){
-
+    public void moveToNextTurn(){
+        try {
+            server.moveToNextTurn();
+        } catch (BrokenConnectionException e) {
+            SagradaLogger.log(Level.SEVERE, "Connection broken while moving to next turn", e);
+        }
     }
 
     public void exitGame(){

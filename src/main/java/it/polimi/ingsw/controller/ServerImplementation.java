@@ -35,24 +35,24 @@ public class ServerImplementation implements IFromClientToServer {
     }
 
     /**
-     * This method manages the request of the user to make a default move.
-     * //todo collapse onto performMove
-     */
-    public void defaultMoveRequest() {
-        /*String username = connectionsQueue.poll().getUserName();
-        controller.checkMoveAvailability(username);
-        //checkTurn*/
-
-    }
-
-    /**
      * This method tells the proper game manager of the controller to perform the move request.
      * @param sourceInfo the coordinates of the source container.
      */
-    public void performMove(SetUpInformationUnit sourceInfo) {
+    @Override
+    public void performDefaultMove(SetUpInformationUnit sourceInfo) {
+        String userName = connectionsQueue.poll().getUserName();
         GamePlayManager gamePlayManager = (GamePlayManager)controller.getGamePlayManager();
-        gamePlayManager.performMove(sourceInfo);
+        gamePlayManager.performDefaultMove(sourceInfo, userName);
+    }
 
+    /**
+     * This method tells the proper game manager of the controller to move to the next turn.
+     */
+    @Override
+    public void moveToNextTurn() {
+        String userName = connectionsQueue.poll().getUserName();
+        GamePlayManager gamePlayManager = (GamePlayManager)controller.getGamePlayManager();
+        gamePlayManager.moveToNextTurn(userName);
     }
 
     /**
@@ -62,26 +62,6 @@ public class ServerImplementation implements IFromClientToServer {
     public void toolCardMoveRequest(int toolIndex) {
 
     }
-    
-
-    /**
-     *
-     * @param destination
-     */
-    public void placeDie(InformationUnit destination) {
-
-    }
-
-
-    /**
-     *
-     */
-    public void endTurn() {
-
-    }
-
-
-
 
     /*
     public void register(int gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException {
@@ -93,19 +73,6 @@ public class ServerImplementation implements IFromClientToServer {
             System.out.println("Username already taken");
             throw new UserNameAlreadyTakenException();
         }
-    }
-    */
-
-
-    /*
-     * Lets the player log out from the game.
-     * @param playerName player who wants to log out.
-     * @throws BrokenConnectionException when the connection drops.
-     */
-    /*
-    @Override
-    public void exitGame(String playerName) throws BrokenConnectionException {
-
     }
     */
 
@@ -150,12 +117,11 @@ public class ServerImplementation implements IFromClientToServer {
     }
 
     /**
-     *
+     * Lets the player log out from the game.
      * @param playerName player who wants to log out.
-     * @throws BrokenConnectionException
      */
     @Override
-    public void exitGame(String playerName) throws BrokenConnectionException {
+    public void exitGame(String playerName) {
 
     }
 

@@ -26,9 +26,9 @@ public interface IFromClientToServer {
 
     void windowPatternCardRequest(int idMap) throws BrokenConnectionException;
 
-    void defaultMoveRequest() throws BrokenConnectionException;
+    void performDefaultMove(SetUpInformationUnit info) throws BrokenConnectionException;
 
-    void performMove(SetUpInformationUnit info) throws BrokenConnectionException;
+    void moveToNextTurn() throws BrokenConnectionException;
 
     /**
      * Lets the player log out from the game.

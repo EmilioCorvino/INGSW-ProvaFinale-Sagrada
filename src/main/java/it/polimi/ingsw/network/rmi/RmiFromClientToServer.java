@@ -20,6 +20,9 @@ import java.util.logging.Level;
 /**
  * This class represents the server on the client side. View can call controller's methods
  * through this class using RMI protocol.
+ * For methods documentation:
+ * @see IFromClientToServer
+ * @see it.polimi.ingsw.controller.ServerImplementation
  */
 public class RmiFromClientToServer implements IFromClientToServer {
 
@@ -96,21 +99,21 @@ public class RmiFromClientToServer implements IFromClientToServer {
     }
 
     @Override
-    public void defaultMoveRequest() throws BrokenConnectionException {
+    public void performDefaultMove(SetUpInformationUnit info) throws BrokenConnectionException {
         try {
-            this.rmiServer.defaultMoveRequest(connection);
+            this.rmiServer.performMove(info, connection);
         } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during default move request", e);
+            SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during move execution", e);
             throw new BrokenConnectionException();
         }
     }
 
     @Override
-    public void performMove(SetUpInformationUnit info) throws BrokenConnectionException {
+    public void moveToNextTurn() throws BrokenConnectionException {
         try {
-            this.rmiServer.performMove(info, connection);
+            this.rmiServer.moveToNextTurn(connection);
         } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during move execution", e);
+            SagradaLogger.log(Level.SEVERE, "Connection to server has been lost while moving to the next round", e);
             throw new BrokenConnectionException();
         }
     }

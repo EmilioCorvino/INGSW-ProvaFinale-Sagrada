@@ -28,9 +28,18 @@ public class DiePlacementMove implements IMove {
         if(!checkPlacement(wp, die, manager, setUpInfoUnit))
             return;
 
+        //Generation of SetUpInformationUnits to send to the view.
+        SetUpInformationUnit wpSetUpInfoUnit = new SetUpInformationUnit();
+        wpSetUpInfoUnit.setColor(setUpInfoUnit.getColor());
+        wpSetUpInfoUnit.setValue(setUpInfoUnit.getValue());
+        wpSetUpInfoUnit.setDestinationIndex(setUpInfoUnit.getDestinationIndex());
+
+        SetUpInformationUnit draftSetUpInfoUnit = new SetUpInformationUnit();
+        draftSetUpInfoUnit.setDestinationIndex(setUpInfoUnit.getSourceIndex());
+
         //CAREFUL
         wp.addDie(die);
-        manager.showPlacementResult(p, setUpInfoUnit);
+        manager.showPlacementResult(p, wpSetUpInfoUnit, draftSetUpInfoUnit);
     }
 
     /**

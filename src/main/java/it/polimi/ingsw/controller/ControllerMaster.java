@@ -56,7 +56,8 @@ public class ControllerMaster implements IControllerMaster {
 
 
     public ControllerMaster(Map<String, Connection> connectedPlayers) {
-        commonBoard = new CommonBoard();
+        this.commonBoard = new CommonBoard();
+        this.commonBoard.initializeBoard();
         this.startGameManager = new StartGameManager(this);
         this.gamePlayManager = new GamePlayManager(this);
         this.endGameManager = new EndGameManager(this);

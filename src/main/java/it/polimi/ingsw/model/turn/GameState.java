@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.turn;
 
+import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.model.player.Player;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class GameState {
     /**
      * The number of rounds tha must be played before the end of the game.
      */
-    private static final int NUM_ROUND = 10;
+    public static final int LAST_ROUND = 10;
 
     /**
      * This attribute represents the state of the turn of the current player.
@@ -30,6 +31,11 @@ public class GameState {
      * This attribute represent the initial player of a round.
      */
     private int currentPlayerTurnIndex = 0;
+
+    /**
+     * This attribute indicates if the match is over or not.
+     */
+    private boolean matchOver = false;
 
     public GameState() {
         this.turnOrder = new ArrayList<>();
@@ -58,53 +64,45 @@ public class GameState {
      */
     public void reorderPlayerList(List<Player> players) {
         Collections.rotate(players, players.size() - 1);
-        this.initializePlayerList(players);
     }
 
     public List<Turn> getTurnOrder() {
         return this.turnOrder;
     }
 
-    //Implementare una politica di inserimento dei giocatori
-
-
-    /*/**
-     * This method returns the next player.
-     * @return the next player.
-     *
-    public Turn getNext() {
-        if(currentPlayerIndex < turnOrder.size())
-            return turnOrder.get(currentPlayerIndex + 1);
-
-        return turnOrder.get(currentPlayerIndex);
-    }*/
-
-    public boolean movesTurnState() {
+    public boolean isCurrentTurnOver() {
         return this.turnOrder.get(currentPlayerTurnIndex).isTurnCompleted();
-    }
-
-    public void setNewRound() {
-        this.actualRound++;
-    }
-
-    public static int getNumRound() {
-        return NUM_ROUND;
     }
 
     public int getActualRound() {
         return actualRound;
     }
 
-    public void setActualRound(int actualRound) {
-        this.actualRound = actualRound;
-    }
-
     public int getCurrentPlayerTurnIndex() {
         return currentPlayerTurnIndex;
     }
 
-    public void setCurrentPlayerTurnIndex(int currentPlayerTurnIndex) {
-        this.currentPlayerTurnIndex = currentPlayerTurnIndex;
+    /**
+     * Resets the {@link #currentPlayerTurnIndex}. It's used by {@link GamePlayManager#endTurn()} to start a new round.
+     */
+    public void resetCurrentPlayerTurnIndex() {
+        this.currentPlayerTurnIndex = 0;
+    }
+
+    public void incrementActualRound() {
+        this.actualRound++;
+    }
+
+    public void incrementCurrentPlayerTurnIndex() {
+        this.currentPlayerTurnIndex++;
+    }
+
+    public boolean isMatchOver() {
+        return matchOver;
+    }
+
+    public void setMatchOver(boolean matchOver) {
+        this.matchOver = matchOver;
     }
 
     public Turn getCurrentTurn() {
