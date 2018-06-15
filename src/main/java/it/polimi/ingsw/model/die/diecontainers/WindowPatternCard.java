@@ -242,7 +242,7 @@ public class WindowPatternCard extends ADieContainer {
     }
 
     private boolean isTheCellInTheMatrix(Cell cell){
-        return !(-1 < cell.getRow() && cell.getRow() < MAX_ROW) && !(-1 < cell.getCol() && cell.getCol() < MAX_COL);
+        return (-1 < cell.getRow() && cell.getRow() < MAX_ROW) && (-1 < cell.getCol() && cell.getCol() < MAX_COL);
     }
 
     /**
@@ -253,7 +253,7 @@ public class WindowPatternCard extends ADieContainer {
      */
     public boolean canBePlaced(Die die, Cell selectedCell) {
 
-        if( isTheCellInTheMatrix(selectedCell) )
+        if (!isTheCellInTheMatrix(selectedCell) )
             return false;
         if (!glassWindow[selectedCell.getRow()][selectedCell.getCol()].isEmpty())
             return false;

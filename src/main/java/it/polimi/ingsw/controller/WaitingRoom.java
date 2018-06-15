@@ -52,8 +52,9 @@ public class WaitingRoom {
      * @param username the player who wants to play.
      * @param connection the connection assigned to the player.
      * @param gameMode the type of match the players wants to play.
-     * @throws UserNameAlreadyTakenException
-     * @throws TooManyUsersException
+     * @throws UserNameAlreadyTakenException when an user with the same username is already in the room.
+     * @throws TooManyUsersException when an user tries to connect to an already full {@link WaitingRoom}.
+     * @throws MatchAlreadyStartedException when an user tries to connect to an already started match.
      */
     public void joinRoom(String username, Connection connection, int gameMode) throws UserNameAlreadyTakenException,
             TooManyUsersException, MatchAlreadyStartedException {

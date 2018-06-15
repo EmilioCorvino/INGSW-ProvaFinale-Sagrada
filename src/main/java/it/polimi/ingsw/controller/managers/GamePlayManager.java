@@ -105,6 +105,7 @@ public class GamePlayManager extends AGameManager {
         IFromServerToClient currentPlayerClient =
                 super.getControllerMaster().getConnectedPlayers().get(currentPlayerTurn.getPlayer().getPlayerName()).getClient();
         try {
+            currentPlayerClient.showNotice("\nÈ IL TUO TURNO!\n");
             currentPlayerClient.showCommand(this.currentPlayerCommands);
         } catch (BrokenConnectionException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to show current player commands to the player on duty", e);
@@ -259,7 +260,7 @@ public class GamePlayManager extends AGameManager {
         if(!gameState.isCurrentTurnOver()) {
             try {
                 client.showNotice("Puoi ancora usare una Carta Strumento che non impplichi il piazzamento di un dado.");
-                this.showCommandsWithoutTools(client);
+                this.showCommandsWithoutPlacement(client);
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Impossible to show the player updated commands", e);
                 //todo super.getControllerMaster().suspendPlayer(currentPlayer.getPlayerName());

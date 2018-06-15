@@ -169,7 +169,6 @@ public class StartGameManager extends AGameManager {
                 //broken connection
             }
         });
-      //  super.getControllerMaster().initializeGame();
     }
 
     /**
