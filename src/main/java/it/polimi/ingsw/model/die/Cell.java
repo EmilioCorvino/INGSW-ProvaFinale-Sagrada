@@ -148,7 +148,7 @@ public class Cell {
      * @return true if the cell doesn't contain a die.
      */
     public boolean isEmpty() {
-        return (this.getContainedDie() == null);
+        return (this.containedDie == null);
     }
 
     /**
