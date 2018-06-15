@@ -81,7 +81,6 @@ public class CliView extends AViewMaster{
     private ScannerThread scannerThread;
 
     public CliView(){
-        bank = new Bank(this);
         player = new PlayerView();
         commonBoard = new CommonBoardView();
         inputOutputManager = new InputOutputManager();
@@ -129,6 +128,8 @@ public class CliView extends AViewMaster{
                 inputOutputManager.print("Partita piena, numero massimo di giocatori raggiunto\nArrivederci.");
             }
         }
+
+        bank = new Bank(this);
     }
 
     /**
