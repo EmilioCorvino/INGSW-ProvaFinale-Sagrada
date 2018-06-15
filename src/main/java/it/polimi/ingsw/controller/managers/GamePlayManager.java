@@ -143,6 +143,7 @@ public class GamePlayManager extends AGameManager {
         //Value read from file. If the loading is successful, it overwrites the back up.
         try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_FILE)))) {
             timeOut = Long.parseLong(reader.readLine());
+            SagradaLogger.log(Level.CONFIG, "Timer successfully loaded from file. Its value is: " + timeOut);
         } catch (IOException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
         }
