@@ -30,8 +30,8 @@ public class DiePlacementMove implements IMove {
 
         //Generation of SetUpInformationUnits to send to the view.
         SetUpInformationUnit wpSetUpInfoUnit = new SetUpInformationUnit();
-        wpSetUpInfoUnit.setColor(setUpInfoUnit.getColor());
-        wpSetUpInfoUnit.setValue(setUpInfoUnit.getValue());
+        wpSetUpInfoUnit.setColor(die.getDieColor());
+        wpSetUpInfoUnit.setValue(die.getActualDieValue());
         wpSetUpInfoUnit.setDestinationIndex(setUpInfoUnit.getDestinationIndex());
 
         SetUpInformationUnit draftSetUpInfoUnit = new SetUpInformationUnit();
