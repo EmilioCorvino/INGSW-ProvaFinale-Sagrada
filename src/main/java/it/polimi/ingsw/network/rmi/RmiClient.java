@@ -68,11 +68,6 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
-    public void showUpdatedWp(String username, SetUpInformationUnit info) {
-        this.client.showUpdatedWp(username, info);
-    }
-
-    @Override
     public void addOnOwnWp(SetUpInformationUnit unit) {
         this.client.addOnOwnWp(unit);
     }

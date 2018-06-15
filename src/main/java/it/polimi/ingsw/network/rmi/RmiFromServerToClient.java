@@ -114,16 +114,6 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void showUpdatedWp(String username, SetUpInformationUnit info) throws BrokenConnectionException {
-        try {
-            this.rmiClient.showUpdatedWp(username, info);
-        } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to show to the client the updated wp", e);
-            throw new BrokenConnectionException();
-        }
-    }
-
-    @Override
     public void addOnOwnWp(SetUpInformationUnit unit) throws BrokenConnectionException {
         try {
             this.rmiClient.addOnOwnWp(unit);

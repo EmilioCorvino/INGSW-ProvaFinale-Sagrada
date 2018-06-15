@@ -32,8 +32,6 @@ public interface IRmiClient extends Remote {
 
     void showCommand(List<Commands> commands) throws RemoteException;
 
-    void showUpdatedWp(String username, SetUpInformationUnit info) throws RemoteException;
-
     void addOnOwnWp(SetUpInformationUnit unit)throws RemoteException;
 
     void removeOnOwnWp(SetUpInformationUnit unit) throws RemoteException;

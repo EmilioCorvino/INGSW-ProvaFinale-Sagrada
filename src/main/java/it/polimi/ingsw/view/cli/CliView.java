@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-public class CliView extends AViewMaster{
+public class CliView implements AViewMaster{
 
     /**
      * The object that create the map functions, taking info from a map of possible function.
@@ -124,12 +124,12 @@ public class CliView extends AViewMaster{
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Connection broken during register", e);
             } catch (UserNameAlreadyTakenException e) {
-                inputOutputManager.print("Username già in uso!");
+                inputOutputManager.print("\nUsername già in uso!");
             } catch (TooManyUsersException e) {
-                inputOutputManager.print("Partita piena, numero massimo di giocatori raggiunto!\nArrivederci.");
+                inputOutputManager.print("\nPartita piena, numero massimo di giocatori raggiunto!\nArrivederci.");
                 System.exit(0);
             } catch (MatchAlreadyStartedException e) {
-                inputOutputManager.print("Spiacente la partita e' gia' iniziata!\nArrivederci.");
+                inputOutputManager.print("\nSpiacente la partita e' gia' iniziata!\nArrivederci.");
                 System.exit(0);
             }
         }
@@ -349,26 +349,6 @@ public class CliView extends AViewMaster{
     @Override
     public void updateToolCost(int idSlot, int cost){
         this.commonBoard.getToolCards().get(idSlot).setCost(cost);
-    }
-
-    // DA CANCELLARE
-    /**
-     * This method addDie the wp of a specified player.
-     * @param username: Username of player that need the addDie.
-     * @param unit: The set of information needed to place a die in the wp.
-     */
-    @Override
-    public void showUpdatedWp(String username, SetUpInformationUnit unit) {
-
-        for (PlayerView p : commonBoard.getPlayers())
-            if(p.getUserName().equals(username))
-                gamePlayManager.addOnWp(p.getWp(), unit);
-
-
-        if (player.getUserName().equals(username)) {
-            inputOutputManager.print("Dado piazzato!");
-            this.getPlayer().getWp().printWp();
-        }
     }
 
     /**

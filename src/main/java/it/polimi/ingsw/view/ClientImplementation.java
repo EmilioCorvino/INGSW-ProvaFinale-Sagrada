@@ -64,12 +64,6 @@ public class ClientImplementation implements IFromServerToClient {
     }
 
 
-    // DA CANCELLARE
-    @Override
-    public void showUpdatedWp(String username, SetUpInformationUnit info) {
-        view.showUpdatedWp(username, info);
-    }
-
     @Override
     public void addOnOwnWp(SetUpInformationUnit unit){
         view.addOnOwnWp(unit);

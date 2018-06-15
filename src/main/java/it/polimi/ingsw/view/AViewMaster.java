@@ -8,50 +8,47 @@ import it.polimi.ingsw.network.IFromClientToServer;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AViewMaster {
+public interface AViewMaster {
 
-    public abstract void createConnection(AViewMaster viewMaster);
+    void createConnection(AViewMaster viewMaster);
 
-    public abstract void showRoom(List<String> players);
+    void showRoom(List<String> players);
 
-    public abstract void showPrivateObjective(int idPrivateObj);
+    void showPrivateObjective(int idPrivateObj);
 
-    public abstract void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp);
+    void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp);
 
-    public abstract void choseWpId();
+    void choseWpId();
 
-    public abstract void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool);
+    void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool);
 
-    public abstract void setDraft(List<SetUpInformationUnit> draft);
+    void setDraft(List<SetUpInformationUnit> draft);
 
-    public abstract void setFavorToken(int nFavTokens);
+    void setFavorToken(int nFavTokens);
 
-   public abstract void showCommand(List<Commands> commands);
+   void showCommand(List<Commands> commands);
 
-    // DA CANCELLARE
-    public abstract void showUpdatedWp(String username, SetUpInformationUnit info);
+    void addOnOwnWp(SetUpInformationUnit unit);
 
-    public abstract void addOnOwnWp(SetUpInformationUnit unit);
+    void removeOnOwnWp(SetUpInformationUnit unit);
 
-    public abstract void removeOnOwnWp(SetUpInformationUnit unit);
+    void addOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit);
 
-    public abstract void addOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit);
+    void removeOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit);
 
-    public abstract void removeOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit);
+    void addOnDraft(SetUpInformationUnit info);
 
-    public abstract void addOnDraft(SetUpInformationUnit info);
+    void removeOnDraft(SetUpInformationUnit info);
 
-    public abstract void removeOnDraft(SetUpInformationUnit info);
+    void addOnRoundTrack(SetUpInformationUnit info);
 
-    public abstract void addOnRoundTrack(SetUpInformationUnit info);
+    void removeOnRoundTrack(SetUpInformationUnit info);
 
-    public abstract void removeOnRoundTrack(SetUpInformationUnit info);
+    void updateFavTokenPlayer(int nFavorToken);
 
-    public abstract void updateFavTokenPlayer(int nFavorToken);
+    void showNotice(String notice);
 
-    public abstract void showNotice(String notice);
+    IFromClientToServer getServer();
 
-    public abstract IFromClientToServer getServer();
-
-    public abstract  void updateToolCost(int idSlot, int cost);
+    void updateToolCost(int idSlot, int cost);
 }

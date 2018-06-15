@@ -51,11 +51,6 @@ public class SocketFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void showUpdatedWp(String username, SetUpInformationUnit info) throws BrokenConnectionException {
-
-    }
-
-    @Override
     public void addOnOwnWp(SetUpInformationUnit unit) throws BrokenConnectionException {
 
     }

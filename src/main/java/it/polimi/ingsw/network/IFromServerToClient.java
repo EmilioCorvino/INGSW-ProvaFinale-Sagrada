@@ -65,9 +65,6 @@ public interface IFromServerToClient {
      */
     void showCommand(List<Commands> commands) throws BrokenConnectionException;
 
-    // DA CANCELLARE
-    void showUpdatedWp(String username, SetUpInformationUnit info) throws BrokenConnectionException;
-
     /**
      * This method addDie the wp of the player connected and print it.
      * @param unit : information for the addDie, index of matrix and die that needs to be place.
