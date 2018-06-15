@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.network.Connection;
+import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 
@@ -22,7 +23,7 @@ public interface IRmiServer extends Remote {
      * @param connection established between client and server.
      */
     void login(int gameMode, String playerName, IRmiClient callBack, Connection connection) throws
-            UserNameAlreadyTakenException, TooManyUsersException, RemoteException;
+            UserNameAlreadyTakenException, TooManyUsersException, MatchAlreadyStartedException, RemoteException;
 
     void windowPatternCardRequest(int idMap, Connection connection) throws RemoteException;
 

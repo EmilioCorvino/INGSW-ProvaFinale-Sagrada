@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.managers.StartGameManager;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.Connection;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
+import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
@@ -39,11 +40,11 @@ public class WaitingRoom {
     /**
      * This attribute prevents other players to connect to a already started match if set to true.
      */
-    private boolean running;
+    private boolean matchAlreadyStarted;
 
     public WaitingRoom() {
         playersRoom = new HashMap<>();
-        running = false;
+        matchAlreadyStarted = false;
     }
 
     /**
@@ -55,8 +56,8 @@ public class WaitingRoom {
      * @throws TooManyUsersException
      */
     public void joinRoom(String username, Connection connection, int gameMode) throws UserNameAlreadyTakenException,
-            TooManyUsersException {
-        if(!isRunning()) {
+            TooManyUsersException, MatchAlreadyStartedException {
+        if(!isMatchAlreadyStarted()) {
             if(gameMode == SINGLEPLAYER_MODE)
                 startSingleMatch();
             else if(gameMode == MULTIPLAYER_MODE) {
@@ -67,8 +68,7 @@ public class WaitingRoom {
             notifyWaitingPlayers();
             checkNumberOfPlayers();
         } else {
-            //Show message "match already started"
-            System.out.println("match already started or maximum number of player reached");
+            throw new MatchAlreadyStartedException();
         }
     }
 
@@ -100,7 +100,7 @@ public class WaitingRoom {
                 @Override
                 public void run() {
                     SagradaLogger.log(Level.WARNING, "timer is expired");
-                    setRunning(true);
+                    setMatchAlreadyStarted(true);
                     startMultiPlayerMatch();
                 }
             }, 5 * (long)1000);
@@ -151,12 +151,12 @@ public class WaitingRoom {
         //Implement this to handle single player.
     }
 
-    public boolean isRunning() {
-        return running;
+    public boolean isMatchAlreadyStarted() {
+        return matchAlreadyStarted;
     }
 
-    public void setRunning(boolean running) {
-        this.running = running;
+    public void setMatchAlreadyStarted(boolean matchAlreadyStarted) {
+        this.matchAlreadyStarted = matchAlreadyStarted;
     }
 
     public Map<String, Connection> getPlayersRoom() {

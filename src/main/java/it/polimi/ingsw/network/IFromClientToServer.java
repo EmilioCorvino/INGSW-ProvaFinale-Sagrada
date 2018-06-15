@@ -2,6 +2,7 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
+import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 
@@ -22,7 +23,7 @@ public interface IFromClientToServer {
      * @throws BrokenConnectionException when the connection drops.
      */
     void login(int gameMode, String playerName) throws UserNameAlreadyTakenException,
-            TooManyUsersException, BrokenConnectionException;
+            TooManyUsersException, MatchAlreadyStartedException, BrokenConnectionException;
 
     void windowPatternCardRequest(int idMap) throws BrokenConnectionException;
 

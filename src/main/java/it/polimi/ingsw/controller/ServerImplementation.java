@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.network.Connection;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
+import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 
@@ -100,7 +101,7 @@ public class ServerImplementation implements IFromClientToServer {
      * @throws TooManyUsersException
      */
     public void register(int gameMode, String playerName, WaitingRoom room, Connection connection) throws
-            UserNameAlreadyTakenException, TooManyUsersException {
+            UserNameAlreadyTakenException, TooManyUsersException, MatchAlreadyStartedException {
         room.joinRoom(playerName, connection, gameMode);
         //this.login(gameMode, playerName);
     }
@@ -132,4 +133,6 @@ public class ServerImplementation implements IFromClientToServer {
     public Queue<Connection> getConnectionsQueue() {
         return connectionsQueue;
     }
+
+
 }

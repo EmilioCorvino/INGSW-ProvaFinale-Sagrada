@@ -4,6 +4,7 @@ import it.polimi.ingsw.ServerMain;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.network.Connection;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
+import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
@@ -72,7 +73,7 @@ public class RmiFromClientToServer implements IFromClientToServer {
      */
     @Override
     public void login(int gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException,
-            BrokenConnectionException {
+            MatchAlreadyStartedException, BrokenConnectionException {
         this.connection = new Connection(playerName);
         try {
             this.rmiServer.login(gameMode, playerName, this.callBack, connection);

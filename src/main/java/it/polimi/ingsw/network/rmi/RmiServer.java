@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.WaitingRoom;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.network.Connection;
 import it.polimi.ingsw.network.IFromServerToClient;
+import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 
@@ -52,7 +53,7 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
      */
     @Override
     public void login(int gameMode, String playerName, IRmiClient callBack, Connection connection)
-            throws UserNameAlreadyTakenException, TooManyUsersException {
+            throws UserNameAlreadyTakenException, TooManyUsersException, MatchAlreadyStartedException {
         IFromServerToClient client = new RmiFromServerToClient(callBack);
         connection.setClient(client);
         connection.setServer(this.serverImplementation);
