@@ -49,7 +49,6 @@ public class Cell {
         this.ruleSetCell.add(restriction);
         this.defaultColorRestriction = restriction;
         this.defaultValueRestriction = new ValueRestriction(0);
-        this.containedDie = new Die(0, Color.BLANK);
     }
 
     public Cell(int row, int col, ValueRestriction restriction){
@@ -59,7 +58,6 @@ public class Cell {
         this.ruleSetCell.add(restriction);
         this.defaultColorRestriction = new ColorRestriction(Color.BLANK);
         this.defaultValueRestriction = restriction;
-        this.containedDie = new Die(0, Color.BLANK);
     }
 
     public Cell(int row, int col){
@@ -68,7 +66,6 @@ public class Cell {
         this.ruleSetCell = new ArrayList<>();
         this.defaultColorRestriction = new ColorRestriction(Color.BLANK);
         this.defaultValueRestriction = new ValueRestriction(0);
-        this.containedDie = new Die(0, Color.BLANK);
     }
 
     public int getRow() {
@@ -113,7 +110,7 @@ public class Cell {
      */
     public void setContainedDie(Die die) {
         this.containedDie = die;
-        if( die.getActualDieValue() != 0 && !die.getDieColor().equals(Color.BLANK)) {
+        if(containedDie != null) {
             ColorRestriction color = new ColorRestriction(die.getDieColor());
             ValueRestriction value = new ValueRestriction(die.getActualDieValue());
             ArrayList<ARestriction> dieRules = new ArrayList<>();
@@ -134,7 +131,7 @@ public class Cell {
     public Die removeContainedDie(){
 
         Die die = getContainedDie();
-        setContainedDie(new Die(0, Color.BLANK));
+        setContainedDie(null);
         return die;
     }
 
@@ -151,7 +148,7 @@ public class Cell {
      * @return true if the cell doesn't contain a die.
      */
     public boolean isEmpty() {
-        return (this.getContainedDie() == null || (this.getContainedDie().getActualDieValue() == 0 && this.getContainedDie().getDieColor().equals(Color.BLANK)));
+        return (this.getContainedDie() == null);
     }
 
     /**

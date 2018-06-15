@@ -197,8 +197,7 @@ public class WindowPatternTest {
         wp.removeDie(cell.getRow()*WindowPatternCard.MAX_COL+cell.getCol());
 
 
-        assertEquals(Color.BLANK, wp.getGlassWindow()[cell.getRow()][cell.getCol()].getContainedDie().getDieColor());
-        assertEquals(0, wp.getGlassWindow()[cell.getRow()][cell.getCol()].getContainedDie().getActualDieValue());
+        assertNull(wp.getGlassWindow()[cell.getRow()][cell.getCol()].getContainedDie());
 
     }
 
