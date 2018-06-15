@@ -111,7 +111,7 @@ public class WaitingRoom {
      * This method adds a player to the waiting room.
      * @param username the name of the player to addDie.
      * @param connection the connection of the player to addDie.
-     * @throws UserNameAlreadyTakenException
+     * @throws UserNameAlreadyTakenException when a player with a same username is already present.
      */
     public synchronized void addPlayer(String username, Connection connection) throws UserNameAlreadyTakenException {
         for (String name : playersRoom.keySet())
