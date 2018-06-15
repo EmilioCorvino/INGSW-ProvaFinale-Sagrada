@@ -119,7 +119,7 @@ public class Cell {
             updateRuleSet(dieRules);
         }
         else{
-            updateRuleSet(null);
+            updateRuleSet();
         }
 
     }
@@ -157,16 +157,15 @@ public class Cell {
      */
     public void updateRuleSet(List<ARestriction> rulesToAdd) {
         this.ruleSetCell.clear();
-        if(rulesToAdd != null)
-            this.ruleSetCell.addAll(rulesToAdd);
-        else{
-            if (defaultValueRestriction.getValue() != 0)
-                this.ruleSetCell.add(defaultValueRestriction);
-            else if(!defaultColorRestriction.getColor().equals(Color.BLANK))
-                this.ruleSetCell.add(defaultColorRestriction);
-        }
+        this.ruleSetCell.addAll(rulesToAdd);
     }
 
-
+    private void updateRuleSet(){
+        this.ruleSetCell.clear();
+        if (defaultValueRestriction.getValue() != 0)
+            this.ruleSetCell.add(defaultValueRestriction);
+        else if(!defaultColorRestriction.getColor().equals(Color.BLANK))
+            this.ruleSetCell.add(defaultColorRestriction);
+    }
 
 }
