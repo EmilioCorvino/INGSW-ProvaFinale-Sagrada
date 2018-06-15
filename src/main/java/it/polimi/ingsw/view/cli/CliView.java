@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
+import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
@@ -120,12 +121,16 @@ public class CliView extends AViewMaster{
                 this.player.setUserName(loginManager.getUserName());
                 this.server.login(loginManager.getGameMode(), player.getUserName());
                 userNameOk = true;
-            } catch (UserNameAlreadyTakenException e) {
-                inputOutputManager.print("Username già in uso!");
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Connection broken during register", e);
+            } catch (UserNameAlreadyTakenException e) {
+                inputOutputManager.print("Username già in uso!");
             } catch (TooManyUsersException e) {
-                inputOutputManager.print("Partita piena, numero massimo di giocatori raggiunto\nArrivederci.");
+                inputOutputManager.print("Partita piena, numero massimo di giocatori raggiunto!\nArrivederci.");
+                System.exit(0);
+            } catch (MatchAlreadyStartedException e) {
+                inputOutputManager.print("Spiacente la partita e' gia' iniziata!\nArrivederci.");
+                System.exit(0);
             }
         }
 
