@@ -150,11 +150,14 @@ public class WindowPatternTest {
         Cell cell2 = new Cell(0,1);
         Cell cell3 = new Cell(0,0);
         Cell cell4 = new Cell(1,3);
+        Cell cell5 = new Cell(0,0);
 
         Die die1 = new Die(4, Color.PURPLE);
         Die die2 = new Die(1, Color.GREEN);
+        Die die3 = new Die(5, Color.BLUE);
 
         CommonBoard commonBoard = new CommonBoard();
+        commonBoard.initializeBoard();
 
         wp = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(7);
 
@@ -173,6 +176,11 @@ public class WindowPatternTest {
         //Test of no border cell
         assertFalse(wp.canBePlaced(die1, cell4));
 
+        //Test of consecutive placement
+        wp.setDesiredCell(cell2);
+        wp.addDie(die2);
+        assertEquals(wp.getGlassWindow()[cell2.getRow()][cell2.getCol()].getContainedDie(), die2);
+        assertTrue(wp.canBePlaced(die3, cell5));
 
     }
 
