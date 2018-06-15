@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.turn.Turn;
+
+import java.util.List;
 
 /**
  * This class manages the
@@ -23,7 +26,7 @@ public class DiePlacementMove implements IMove {
         Player p = manager.getControllerMaster().getGameState().getCurrentPlayer();
         WindowPatternCard wp = p.getWindowPatternCard();
 
-        Die die = manager.getControllerMaster().getCommonBoard().getDraftPool().removeDie(setUpInfoUnit.getSourceIndex());
+        Die die = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice().get(setUpInfoUnit.getSourceIndex());
 
         if(!checkPlacement(wp, die, manager, setUpInfoUnit))
             return;
@@ -38,7 +41,8 @@ public class DiePlacementMove implements IMove {
         draftSetUpInfoUnit.setDestinationIndex(setUpInfoUnit.getSourceIndex());
 
         //CAREFUL
-        wp.addDie(die);
+        Die dieToRemove = manager.getControllerMaster().getCommonBoard().getDraftPool().removeDie(setUpInfoUnit.getSourceIndex());
+        wp.addDie(dieToRemove);
         manager.showPlacementResult(p, wpSetUpInfoUnit, draftSetUpInfoUnit);
     }
 
@@ -55,7 +59,9 @@ public class DiePlacementMove implements IMove {
         wp.setDesiredCell(desiredCell);
 
         if (!wp.canBePlaced(chosenDie, desiredCell)) {
-            if(manager.getControllerMaster().getGameState().getActualRound()== 1) {
+            int actualTurn = manager.getControllerMaster().getGameState().getCurrentPlayerTurnIndex();
+            List<Turn> turns = manager.getControllerMaster().getGameState().getTurnOrder();
+            if(manager.getControllerMaster().getGameState().getActualRound()== 1 && actualTurn < turns.size()/2  ) {
                 manager.showNotification("Il dado deve essere piazzato sui bordi o in uno degli angoli");
                 return false;
             }
