@@ -4,7 +4,7 @@ import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.network.rmi.RmiFromClientToServer;
 import it.polimi.ingsw.network.socket.SocketFromClientToServer;
-import it.polimi.ingsw.view.AViewMaster;
+import it.polimi.ingsw.view.IViewMaster;
 import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
 
 import java.util.List;
@@ -75,7 +75,7 @@ public class LoginManager {
      * @param ip : the ip address uses to create the connection.
      * @param view: An instance of view.
      */
-    public IFromClientToServer chooseNetworkInterface(String ip, AViewMaster view) throws BrokenConnectionException {
+    public IFromClientToServer chooseNetworkInterface(String ip, IViewMaster view) throws BrokenConnectionException {
 
         Scanner scan = new Scanner(System.in);
         String networkType;
