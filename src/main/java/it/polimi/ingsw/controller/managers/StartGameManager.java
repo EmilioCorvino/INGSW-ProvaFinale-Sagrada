@@ -121,7 +121,7 @@ public class StartGameManager extends AGameManager {
         this.wpSetCount++;
         if(this.wpSetCount == super.getControllerMaster().getCommonBoard().getPlayers().size()) {
             this.setCommonBoard();
-            ((GamePlayManager) super.getControllerMaster().getGamePlayManager()).startMatch();
+            ((GamePlayManager) super.getControllerMaster().getGamePlayManager()).startRound();
         } else {
             try {
                 super.getControllerMaster().getConnectedPlayers().get(username).getClient().showNotice(
@@ -351,18 +351,3 @@ public class StartGameManager extends AGameManager {
         return 0;
     }
 }
-
-
-
-
-/*
-    public boolean isAlreadyConnected(String namePlayer, List<Player> playersRoom) {
-       boolean[] res = new boolean[1];
-        playersRoom.forEach(player -> {
-            if(namePlayer.equals(player.getPlayerName())) {
-                res[0] = false;
-            }
-        });
-        return res[0];
-    }
-    */

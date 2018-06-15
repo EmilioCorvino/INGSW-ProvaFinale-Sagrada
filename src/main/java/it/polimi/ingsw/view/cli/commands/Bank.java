@@ -47,7 +47,7 @@ public class Bank {
         availableCommands.put(Commands.PUBLIC_OBJ_CARDS, communicationManager::showPublicObj);
         availableCommands.put(Commands.AVAILABLE_TOOL_CARDS, communicationManager::showTool);
         availableCommands.put(Commands.PRIVATE_OBJ_CARD, communicationManager::showPrivateObj);
-        availableCommands.put(Commands.END_TURN, communicationManager::endTurn);
+        availableCommands.put(Commands.END_TURN, communicationManager::moveToNextTurn);
         availableCommands.put(Commands.LOGOUT, communicationManager::exitGame);
     }
 

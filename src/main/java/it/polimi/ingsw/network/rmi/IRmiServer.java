@@ -26,9 +26,9 @@ public interface IRmiServer extends Remote {
 
     void windowPatternCardRequest(int idMap, Connection connection) throws RemoteException;
 
-    void defaultMoveRequest(Connection connection) throws RemoteException;
-
     void performMove(SetUpInformationUnit info, Connection connection) throws RemoteException;
+
+    void moveToNextTurn(Connection connection) throws RemoteException;
 
     /**
      * Lets the player log out from the game.

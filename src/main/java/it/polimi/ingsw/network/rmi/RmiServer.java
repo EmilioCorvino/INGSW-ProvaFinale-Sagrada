@@ -61,20 +61,26 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
 
     @Override
     public void windowPatternCardRequest(int idMap, Connection connection) {
-        this.serverImplementation.getConnectionsQueue().add(connection);
-        this.serverImplementation.windowPatternCardRequest(idMap);
-    }
-
-    @Override
-    public void defaultMoveRequest(Connection connection) {
-        this.serverImplementation.getConnectionsQueue().add(connection);
-        this.serverImplementation.defaultMoveRequest();
+        synchronized(this) {
+            this.serverImplementation.getConnectionsQueue().add(connection);
+            this.serverImplementation.windowPatternCardRequest(idMap);
+        }
     }
 
     @Override
     public void performMove(SetUpInformationUnit info, Connection connection) {
-        this.serverImplementation.getConnectionsQueue().add(connection);
-        this.serverImplementation.performMove(info);
+        synchronized(this) {
+            this.serverImplementation.getConnectionsQueue().add(connection);
+            this.serverImplementation.performDefaultMove(info);
+        }
+    }
+
+    @Override
+    public void moveToNextTurn(Connection connection) {
+        synchronized(this) {
+            this.serverImplementation.getConnectionsQueue().add(connection);
+            this.serverImplementation.moveToNextTurn();
+        }
     }
 
     /**

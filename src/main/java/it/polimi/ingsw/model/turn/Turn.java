@@ -67,4 +67,8 @@ public class Turn {
     public void setToolSlotUsed(int toolSlotUsed) {
         this.toolSlotUsed = toolSlotUsed;
     }
+
+    public void setPassed(boolean passed) {
+        this.passed = passed;
+    }
 }

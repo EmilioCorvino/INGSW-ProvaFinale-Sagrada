@@ -11,4 +11,7 @@ public class EndGameManager extends AGameManager {
         super.setControllerMaster(controllerMaster);
     }
 
+    public void computeRank() {
+
+    }
 }
