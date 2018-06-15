@@ -199,7 +199,6 @@ public class WindowPatternTest {
 
         assertNull(wp.getGlassWindow()[cell.getRow()][cell.getCol()].getContainedDie());
 
-
     }
 
 }
