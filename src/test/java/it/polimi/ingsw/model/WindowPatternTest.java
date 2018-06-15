@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
@@ -187,6 +188,7 @@ public class WindowPatternTest {
     @Test
     public void removeDie(){
         CommonBoard commonBoard = new CommonBoard();
+        commonBoard.initializeBoard();
         WindowPatternCard wp = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(7);
 
         Die die = new Die(4, Color.PURPLE);
