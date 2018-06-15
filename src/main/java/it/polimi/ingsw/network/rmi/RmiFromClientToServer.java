@@ -56,7 +56,6 @@ public class RmiFromClientToServer implements IFromClientToServer {
             this.rmiServer = (IRmiServer) registry.lookup("RmiServer");
             this.callBack = new RmiClient(new ClientImplementation(view));
         } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Cannot connect to server during connection assignment", e);
             throw new BrokenConnectionException();
         } catch (NotBoundException e) {
             SagradaLogger.log(Level.SEVERE, "There is no such interface in the registry", e);
