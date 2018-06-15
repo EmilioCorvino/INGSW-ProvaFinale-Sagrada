@@ -202,6 +202,7 @@ public class CliView extends AViewMaster{
         setUpManager.createToolCards(idTool, commonBoard.getToolCards());
 
         inputOutputManager.print("\nPLANCIA DI GIOCO: ");
+        setUpManager.printPrivateObj(this.getPlayer().getPrivateObjCard());
         setUpManager.printPubObj(commonBoard.getPublicObjectiveCards());
         setUpManager.printTool(commonBoard.getToolCards());
         this.player.getWp().printWp();
