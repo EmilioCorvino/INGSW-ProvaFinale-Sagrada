@@ -90,7 +90,7 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
 
     @Override
     public void addOnDraft(SetUpInformationUnit info) {
-        this.addOnDraft(info);
+        this.client.addOnDraft(info);
     }
 
     @Override
