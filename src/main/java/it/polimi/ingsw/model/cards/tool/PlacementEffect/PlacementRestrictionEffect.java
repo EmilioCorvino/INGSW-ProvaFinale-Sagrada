@@ -25,7 +25,7 @@ public class PlacementRestrictionEffect extends AToolCardEffect {
         Die chosenDie = playerWp.getGlassWindow()[setUpInfoUnit.getSourceIndex()/WindowPatternCard.MAX_COL][setUpInfoUnit.getSourceIndex() % WindowPatternCard.MAX_COL].getContainedDie();
         playerWp.setDesiredCell(new Cell(setUpInfoUnit.getDestinationIndex()/WindowPatternCard.MAX_COL , setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL));
 
-        if(!playerWp.canBePlaced(chosenDie, playerWp.getDesiredCell())) {
+        if(!playerWp.canBePlaced(chosenDie, playerWp.getDesiredCell(), )) {
             manager.showNotification("Il dado non può essere piazzato in questa cella perchè non rispetta le restrizioni.");
             return;
         }

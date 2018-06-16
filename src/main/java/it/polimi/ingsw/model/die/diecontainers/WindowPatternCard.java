@@ -156,13 +156,14 @@ public class WindowPatternCard extends ADieContainer {
     /**
      * This method check if all the cells of the matrix are empty.
      * @return True if is all the cells are empty, otherwise false.
+     * @param glassWindowToConsider
      */
-    private boolean matrixIsEmpty() {
+    private boolean matrixIsEmpty(Cell[][] glassWindowToConsider) {
         boolean matrixEmpty = true;
 
         for (int i = 0; i < MAX_ROW; i++)
             for (int j = 0; j < MAX_COL; j++)
-                if (!(glassWindow[i][j].isEmpty()))
+                if (!(glassWindowToConsider[i][j].isEmpty()))
                     matrixEmpty = false;
 
         return matrixEmpty;
@@ -182,10 +183,11 @@ public class WindowPatternCard extends ADieContainer {
 
     /**
      * Checks if the selected cell is adjacent to other non empty cells.
-     * @param selectedCell: the cell where the player wants to put the die.
+     * @param selectedCell : the cell where the player wants to put the die.
+     * @param glassWindowToConsider : glass window on which the check is done.
      * @return true if the selected cell is adjacent to other non empty cells.
      */
-    public boolean checkAdjacentCells(Cell selectedCell) {
+    public boolean checkAdjacentCells(Cell selectedCell, Cell[][] glassWindowToConsider) {
         int minR = 0;
         int maxR = 3;
         int minC = 0;
@@ -202,7 +204,7 @@ public class WindowPatternCard extends ADieContainer {
 
         for (int i = minR; i < maxR; i++)
             for (int j = minC; j < maxC; j++)
-                if (!(i == 1 && j == i) && (!(glassWindow[selectedCell.getRow()-1 + i][selectedCell.getCol()-1 + j].isEmpty())))
+                if (!(i == 1 && j == i) && (!(glassWindowToConsider[selectedCell.getRow()-1 + i][selectedCell.getCol()-1 + j].isEmpty())))
                     return true;
 
         setErrorMessage("La cella desiderata non e' vicina ad un dado");
@@ -211,14 +213,15 @@ public class WindowPatternCard extends ADieContainer {
 
     /**
      * This method check if the die respects the restriction of the cell where the player wants to place it.
-     * @param die: the die the player wants to place.
-     * @param selectedCell: the cell where the player wants to place the die.
+     * @param die : the die the player wants to place.
+     * @param selectedCell : the cell where the player wants to place the die.
+     * @param glassWindowToConsider : glass window on which the check is done.
      * @return true if the die respects all the restrictions of the selected cell.
      */
-    public boolean checkOwnRuleSet(Die die, Cell selectedCell){
+    public boolean checkOwnRuleSet(Die die, Cell selectedCell, Cell[][] glassWindowToConsider){
         boolean ok = true;
 
-        for (ARestriction restriction : glassWindow[selectedCell.getRow()][selectedCell.getCol()].getRuleSetCell())
+        for (ARestriction restriction : glassWindowToConsider[selectedCell.getRow()][selectedCell.getCol()].getRuleSetCell())
             if (!restriction.isRespected(die)) {
                 ok = false;
                 setErrorMessage("Non sono rispettate le restrizioni della cella desiderata.");
@@ -228,24 +231,25 @@ public class WindowPatternCard extends ADieContainer {
 
     /**
      * This method check if the die respects the restrictions of the adjacent cells.
-     * @param die: Die that needs to be place.
-     * @param selectedCell: the cell where the player wants to place the die.
+     * @param die : Die that needs to be place.
+     * @param selectedCell : the cell where the player wants to place the die.
+     * @param glassWindowToConsider : glass window on which the check is done.
      * @return true if the die respects all the restrictions of the adjacent cells.
      */
-    private boolean checkAdjacentRuleSet(Die die, Cell selectedCell) {
+    private boolean checkAdjacentRuleSet(Die die, Cell selectedCell, Cell[][] glassWindowToConsider) {
 
         List<ARestriction> adjacentRules = new ArrayList<>();
-        if (selectedCell.getRow() != 0 && !glassWindow[selectedCell.getRow()-1][selectedCell.getCol()].isEmpty())
-            adjacentRules.addAll( glassWindow[selectedCell.getRow()-1][selectedCell.getCol()].getRuleSetCell());
+        if (selectedCell.getRow() != 0 && !glassWindowToConsider[selectedCell.getRow()-1][selectedCell.getCol()].isEmpty())
+            adjacentRules.addAll( glassWindowToConsider[selectedCell.getRow()-1][selectedCell.getCol()].getRuleSetCell());
 
-        if (selectedCell.getRow() != MAX_ROW-1 && !glassWindow[selectedCell.getRow()+1][selectedCell.getCol()].isEmpty())
-            adjacentRules.addAll( glassWindow[selectedCell.getRow()+1][selectedCell.getCol()].getRuleSetCell());
+        if (selectedCell.getRow() != MAX_ROW-1 && !glassWindowToConsider[selectedCell.getRow()+1][selectedCell.getCol()].isEmpty())
+            adjacentRules.addAll( glassWindowToConsider[selectedCell.getRow()+1][selectedCell.getCol()].getRuleSetCell());
 
-        if(selectedCell.getCol() != 0 && !glassWindow[selectedCell.getRow()][selectedCell.getCol()-1].isEmpty())
-            adjacentRules.addAll( glassWindow[selectedCell.getRow()][selectedCell.getCol()-1].getRuleSetCell());
+        if(selectedCell.getCol() != 0 && !glassWindowToConsider[selectedCell.getRow()][selectedCell.getCol()-1].isEmpty())
+            adjacentRules.addAll( glassWindowToConsider[selectedCell.getRow()][selectedCell.getCol()-1].getRuleSetCell());
 
-        if(selectedCell.getCol() != MAX_COL-1 && !glassWindow[selectedCell.getRow()][selectedCell.getCol()+1].isEmpty())
-            adjacentRules.addAll( glassWindow[selectedCell.getRow()][selectedCell.getCol()+1].getRuleSetCell());
+        if(selectedCell.getCol() != MAX_COL-1 && !glassWindowToConsider[selectedCell.getRow()][selectedCell.getCol()+1].isEmpty())
+            adjacentRules.addAll( glassWindowToConsider[selectedCell.getRow()][selectedCell.getCol()+1].getRuleSetCell());
 
         for (ARestriction restriction : adjacentRules)
             if(restriction.isRespected(die)) {
@@ -262,29 +266,32 @@ public class WindowPatternCard extends ADieContainer {
 
     /**
      * Checks if the selected die can be placed in a selected cell of the window glass.
-     * @param die: the die the player wants to place.
-     * @param selectedCell: the cell where the player wants to put the die.
+     * @param die : the die the player wants to place.
+     * @param selectedCell : the cell where the player wants to put the die.
+     * @param glassWindowToConsider glass window in which the method is applied.
      * @return true if the die can be placed.
      */
-    public boolean canBePlaced(Die die, Cell selectedCell) {
+    public boolean canBePlaced(Die die, Cell selectedCell, Cell[][] glassWindowToConsider) {
 
         if (!isTheCellInTheMatrix(selectedCell) ){
             setErrorMessage("La cella desiderata non e' contenuta nella matrice");
             return false;
         }
-        if (!glassWindow[selectedCell.getRow()][selectedCell.getCol()].isEmpty()){
+        if (!glassWindowToConsider[selectedCell.getRow()][selectedCell.getCol()].isEmpty()){
             setErrorMessage("La cella desiderata e' gia piena");
             return false;
         }
-        if (matrixIsEmpty()) {
-            return checkBorderCells(selectedCell) && checkOwnRuleSet(die, selectedCell);
+        if (matrixIsEmpty(glassWindowToConsider)) {
+            return checkBorderCells(selectedCell) && checkOwnRuleSet(die, selectedCell, glassWindowToConsider);
         }else {
-            return checkAdjacentCells(selectedCell) && checkOwnRuleSet(die, selectedCell) && checkAdjacentRuleSet(die, selectedCell);
+            return checkAdjacentCells(selectedCell, glassWindowToConsider) &&
+                    checkOwnRuleSet(die, selectedCell, glassWindowToConsider) &&
+                    checkAdjacentRuleSet(die, selectedCell, glassWindowToConsider);
         }
     }
 
     /**
-     * This method checks if a specific die is containet in the window pattern card
+     * This method checks if a specific die is contained in the window pattern card
      * @param dieToSearch: die that should be contained.
      * @return true if is contained else false.
      */

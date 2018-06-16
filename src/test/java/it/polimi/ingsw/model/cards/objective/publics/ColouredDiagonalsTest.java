@@ -46,31 +46,31 @@ public class ColouredDiagonalsTest extends CardTestField {
         Die redDie6 = new Die(1, Color.RED);
         Die redDie7 = new Die(1, Color.RED);
 
-        if(anotherWindow.canBePlaced(redDie1, anotherWindow.getGlassWindow()[0][2])) {
+        if(anotherWindow.canBePlaced(redDie1, anotherWindow.getGlassWindow()[0][2], anotherWindow.getGlassWindow())) {
             anotherWindow.setDesiredCell(anotherWindow.getGlassWindow()[0][2]);
             anotherWindow.addDie(redDie1);
         }
-        if(anotherWindow.canBePlaced(redDie2, anotherWindow.getGlassWindow()[1][3])) {
+        if(anotherWindow.canBePlaced(redDie2, anotherWindow.getGlassWindow()[1][3], anotherWindow.getGlassWindow())) {
             anotherWindow.setDesiredCell(anotherWindow.getGlassWindow()[1][3]);
             anotherWindow.addDie(redDie2);
         }
-        if(anotherWindow.canBePlaced(redDie3, anotherWindow.getGlassWindow()[2][2])) {
+        if(anotherWindow.canBePlaced(redDie3, anotherWindow.getGlassWindow()[2][2], anotherWindow.getGlassWindow())) {
             anotherWindow.setDesiredCell(anotherWindow.getGlassWindow()[2][2]);
             anotherWindow.addDie(redDie3);
         }
-        if(anotherWindow.canBePlaced(redDie4, anotherWindow.getGlassWindow()[2][4])) {
+        if(anotherWindow.canBePlaced(redDie4, anotherWindow.getGlassWindow()[2][4], anotherWindow.getGlassWindow())) {
             anotherWindow.setDesiredCell(anotherWindow.getGlassWindow()[2][4]);
             anotherWindow.addDie(redDie4);
         }
-        if(anotherWindow.canBePlaced(redDie5, anotherWindow.getGlassWindow()[3][3])) {
+        if(anotherWindow.canBePlaced(redDie5, anotherWindow.getGlassWindow()[3][3], anotherWindow.getGlassWindow())) {
             anotherWindow.setDesiredCell(anotherWindow.getGlassWindow()[3][3]);
             anotherWindow.addDie(redDie5);
         }
-        if(anotherWindow.canBePlaced(redDie6, anotherWindow.getGlassWindow()[3][1])) {
+        if(anotherWindow.canBePlaced(redDie6, anotherWindow.getGlassWindow()[3][1], anotherWindow.getGlassWindow())) {
             anotherWindow.setDesiredCell(anotherWindow.getGlassWindow()[3][1]);
             anotherWindow.addDie(redDie6);
         }
-        if(anotherWindow.canBePlaced(redDie7, anotherWindow.getGlassWindow()[2][0])) {
+        if(anotherWindow.canBePlaced(redDie7, anotherWindow.getGlassWindow()[2][0], anotherWindow.getGlassWindow())) {
             anotherWindow.setDesiredCell(anotherWindow.getGlassWindow()[2][0]);
             anotherWindow.addDie(redDie7);
         }

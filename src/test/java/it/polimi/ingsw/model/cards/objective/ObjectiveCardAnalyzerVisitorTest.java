@@ -41,35 +41,35 @@ public class ObjectiveCardAnalyzerVisitorTest {
         Die redDie3 = new Die(2, Color.RED);
         Die blueDie = new Die(1, Color.BLUE);
 
-        if(window.canBePlaced(greenDie1, window.getGlassWindow()[0][3])) {
+        if(window.canBePlaced(greenDie1, window.getGlassWindow()[0][3], window.getGlassWindow())) {
             window.setDesiredCell(window.getGlassWindow()[0][3]);
             window.addDie(greenDie1);
         }
-        if(window.canBePlaced(redDie1, window.getGlassWindow()[1][2])) {
+        if(window.canBePlaced(redDie1, window.getGlassWindow()[1][2], window.getGlassWindow())) {
             window.setDesiredCell(window.getGlassWindow()[1][2]);
             window.addDie(redDie1);
         }
-        if(window.canBePlaced(purpleDie, window.getGlassWindow()[2][2])) {
+        if(window.canBePlaced(purpleDie, window.getGlassWindow()[2][2], window.getGlassWindow())) {
             window.setDesiredCell(window.getGlassWindow()[2][2]);
             window.addDie(purpleDie);
         }
-        if(window.canBePlaced(yellowDie, window.getGlassWindow()[2][3])) {
+        if(window.canBePlaced(yellowDie, window.getGlassWindow()[2][3], window.getGlassWindow())) {
             window.setDesiredCell(window.getGlassWindow()[2][3]);
             window.addDie(yellowDie);
         }
-        if(window.canBePlaced(greenDie2, window.getGlassWindow()[3][1])) {
+        if(window.canBePlaced(greenDie2, window.getGlassWindow()[3][1], window.getGlassWindow())) {
             window.setDesiredCell(window.getGlassWindow()[3][1]);
             window.addDie(greenDie2);
         }
-        if(window.canBePlaced(redDie2, window.getGlassWindow()[3][4])) {
+        if(window.canBePlaced(redDie2, window.getGlassWindow()[3][4], window.getGlassWindow())) {
             window.setDesiredCell(window.getGlassWindow()[3][4]);
             window.addDie(redDie2);
         }
-        if(window.canBePlaced(redDie3, window.getGlassWindow()[3][2])) {
+        if(window.canBePlaced(redDie3, window.getGlassWindow()[3][2], window.getGlassWindow())) {
             window.setDesiredCell(window.getGlassWindow()[3][2]);
             window.addDie(redDie3);
         }
-        if(window.canBePlaced(blueDie, window.getGlassWindow()[2][1])) {
+        if(window.canBePlaced(blueDie, window.getGlassWindow()[2][1], window.getGlassWindow())) {
             window.setDesiredCell(window.getGlassWindow()[2][1]);
             window.addDie(blueDie);
         }

@@ -101,31 +101,31 @@ public class PrivateObjectiveCardTest {
         Die greenDie = new Die(6, Color.GREEN);
         Die blueDie = new Die(4, Color.BLUE);
 
-        if(window.canBePlaced(purpleDie1, window.getGlassWindow()[0][0])) {
+        if(window.canBePlaced(purpleDie1, window.getGlassWindow()[0][0], window.getGlassWindow())) {
             window.setDesiredCell(window.getGlassWindow()[0][0]);
             window.addDie(purpleDie1);
         }
-        if(window.canBePlaced(purpleDie2, window.getGlassWindow()[1][1])) {
+        if(window.canBePlaced(purpleDie2, window.getGlassWindow()[1][1], window.getGlassWindow())) {
             window.setDesiredCell(window.getGlassWindow()[1][1]);
             window.addDie(purpleDie2);
         }
-        if(window.canBePlaced(redDie, window.getGlassWindow()[0][1])) {
+        if(window.canBePlaced(redDie, window.getGlassWindow()[0][1], window.getGlassWindow())) {
             window.setDesiredCell(window.getGlassWindow()[0][1]);
             window.addDie(redDie);
         }
-        if(window.canBePlaced(yellowDie, window.getGlassWindow()[1][0])) {
+        if(window.canBePlaced(yellowDie, window.getGlassWindow()[1][0], window.getGlassWindow())) {
             window.setDesiredCell(window.getGlassWindow()[1][0]);
             window.addDie(yellowDie);
         }
-        if(window.canBePlaced(greenDie, window.getGlassWindow()[2][1])) {
+        if(window.canBePlaced(greenDie, window.getGlassWindow()[2][1], window.getGlassWindow())) {
             window.setDesiredCell(window.getGlassWindow()[2][1]);
             window.addDie(greenDie);
         }
-        if(window.canBePlaced(blueDie, window.getGlassWindow()[3][2])) {
+        if(window.canBePlaced(blueDie, window.getGlassWindow()[3][2], window.getGlassWindow())) {
             window.setDesiredCell(window.getGlassWindow()[3][2]);
             window.addDie(blueDie);
         }
-        if(window.canBePlaced(purpleDie3, window.getGlassWindow()[2][3])) {
+        if(window.canBePlaced(purpleDie3, window.getGlassWindow()[2][3], window.getGlassWindow())) {
             window.setDesiredCell(window.getGlassWindow()[2][3]);
             window.addDie(purpleDie3);
         }
@@ -141,7 +141,7 @@ public class PrivateObjectiveCardTest {
         PrivateObjectiveCard successCard = new PrivateObjectiveCard(102, "Sfumature Verdi", Color.GREEN,
                 "Somma dei valori su tutti i dadi verdi");
         PrivateObjectiveCard failCard = new PrivateObjectiveCard(142, "In realtà non c'è", Color.RED,
-                "Lore ipsum");
+                "Lorem ipsum");
 
         assertTrue(successCard.equals(card2));
         assertFalse(failCard.equals(card0));
