@@ -122,6 +122,14 @@ public class WindowPatternCard extends ADieContainer {
 
     }
 
+    public void createCopy(){
+        this.glassWindowCopy = this.glassWindow;
+    }
+
+    public void overwriteOriginal(){
+        this.glassWindow = this.glassWindowCopy;
+    }
+
     /**
      * This method sets the window pattern card with the selected die.
      * @param die: the die with which the window pattern card has to be updated.

@@ -60,18 +60,6 @@ public class DiceDraftPool extends ADieContainer {
     }
 
     /**
-     * This method returns the die's chosen.
-     * @param die: A copy of die chosen.
-     * @return The reference at the die chosen
-     */
-    public Die chooseDie(Die die){
-        for( Die d : this.getAvailableDice())
-            if(d.getDieColor() == die.getDieColor() && d.getActualDieValue() == die.getActualDieValue())
-                return d;
-        return null;
-    }
-
-    /**
      * This method addDie the DraftPool list's of dice, removing the die chosen.
      * @param index a copy of the die to be removed.
      * @return the die contained, that has been removed.
@@ -99,7 +87,7 @@ public class DiceDraftPool extends ADieContainer {
         this.draftCopy = new ArrayList<>(this.availableDice);
     }
 
-    public void subscribeOriginal(){
+    public void overwriteOriginal(){
         this.availableDice = this.draftCopy;
     }
 
