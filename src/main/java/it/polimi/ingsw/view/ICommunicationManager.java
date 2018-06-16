@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.view.cli.generalManagers.ToolCardManager;
+
 public interface ICommunicationManager {
 
     /**

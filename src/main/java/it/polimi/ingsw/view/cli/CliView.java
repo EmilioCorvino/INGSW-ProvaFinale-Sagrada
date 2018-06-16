@@ -138,7 +138,7 @@ public class CliView implements IViewMaster {
             }
         }
 
-        bank = new Bank(this);
+        bank = new Bank();
         bank.setCommunicationManager(new CliCommunicationManager(this));
     }
 
