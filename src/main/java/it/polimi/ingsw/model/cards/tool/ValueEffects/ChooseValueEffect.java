@@ -64,13 +64,13 @@ public class ChooseValueEffect extends AValueEffect {
     }
 
     /**
-     *
+     * This metho
      * @param manager
      * @param setUpInfoUnit
      */
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
-        Die die = manager.getControllerMaster().getCommonBoard().getDraftPool().removeDie(setUpInfoUnit.getSourceIndex());
+        Die die = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice().get(setUpInfoUnit.getSourceIndex());
 
         if(setUpInfoUnit.getExtraParam() == INCREASE_CODE)
             die.setActualDieValue(increaseDieValue(die).getActualDieValue());
@@ -81,5 +81,13 @@ public class ChooseValueEffect extends AValueEffect {
         //tell the controller to show the result
         DiePlacementMove move = new DiePlacementMove();
         move.executeMove(manager, setUpInfoUnit);
+    }
+
+    public static int getIncreaseCode() {
+        return INCREASE_CODE;
+    }
+
+    public static int getDecreaseCode() {
+        return DECREASE_CODE;
     }
 }

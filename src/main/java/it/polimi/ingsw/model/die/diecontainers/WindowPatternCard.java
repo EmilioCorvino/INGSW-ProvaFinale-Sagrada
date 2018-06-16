@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.restrictions.ARestriction;
 import it.polimi.ingsw.model.restrictions.ColorRestriction;
 import it.polimi.ingsw.model.restrictions.ValueRestriction;
-import it.polimi.ingsw.utils.exceptions.DieNotContainedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +93,7 @@ public class WindowPatternCard extends ADieContainer {
                 if(!gwToCopy[i][j].isEmpty()) {
                     ruleSet.add(new ColorRestriction(gwToCopy[i][j].getContainedDie().getDieColor()));
                     ruleSet.add(new ValueRestriction(gwToCopy[i][j].getContainedDie().getActualDieValue()));
+                    glassWindowCopy[i][j].setContainedDie(gwToCopy[i][j].getContainedDie());
                 } else {
                     ruleSet.add(new ColorRestriction(gwToCopy[i][j].getDefaultColorRestriction().getColor()));
                     ruleSet.add(new ValueRestriction(gwToCopy[i][j].getDefaultValueRestriction().getValue()));

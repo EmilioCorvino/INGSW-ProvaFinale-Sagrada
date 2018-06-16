@@ -1,14 +1,39 @@
 package it.polimi.ingsw.model.cards.tool;
 
+import it.polimi.ingsw.controller.ControllerMaster;
+import it.polimi.ingsw.controller.managers.GamePlayManager;
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.tool.ValueEffects.AValueEffect;
 import it.polimi.ingsw.model.cards.tool.ValueEffects.ChooseValueEffect;
 import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
 import org.junit.Test;
+
+import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 
 public class ChooseValueEffectTest {
+
+    @Test
+    public void executeMove() {
+        ControllerMaster controllerMaster = new ControllerMaster(new HashMap<>());
+        controllerMaster.getCommonBoard().getDraftPool().populateDiceDraftPool(4);
+        ChooseValueEffect chooseValueEffect = new ChooseValueEffect();
+        chooseValueEffect.setOffset(1);
+        SetUpInformationUnit info = new SetUpInformationUnit();
+        info.setSourceIndex(2);
+        info.setExtraParam(0);
+
+        chooseValueEffect.executeMove((GamePlayManager)controllerMaster.getGamePlayManager(), info);
+
+        DiceDraftPool draftPool = controllerMaster.getCommonBoard().getDraftPool();
+        Die die = draftPool.getAvailableDice().get(info.getSourceIndex());
+
+       assertEquals(die.getOriginalDieValue() + 1, die.getActualDieValue());
+
+    }
 
     @Test
     public void increaseDieValue() {
