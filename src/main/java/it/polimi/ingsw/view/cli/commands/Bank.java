@@ -1,8 +1,7 @@
 package it.polimi.ingsw.view.cli.commands;
 
 import it.polimi.ingsw.controller.Commands;
-import it.polimi.ingsw.view.cli.CliView;
-import it.polimi.ingsw.view.cli.generalManagers.CommunicationManager;
+import it.polimi.ingsw.view.ICommunicationManager;
 
 import java.util.*;
 
@@ -26,15 +25,12 @@ public class Bank {
     /**
      * This is the object that contains all the possible function related to the commands.
      */
-    private CommunicationManager communicationManager;
+    private ICommunicationManager communicationManager;
 
 
-    public Bank (CliView view){
-        this.communicationManager = new CommunicationManager(view);
+    public Bank (){
         this.availableCommands = new EnumMap<>(Commands.class);
         this.commandMap = new EnumMap<>(Commands.class);
-        this.populateAvailableCommandMap();
-        this.populateCommandMap();
     }
 
     /**
@@ -87,5 +83,11 @@ public class Bank {
      */
     private String commandToStringConverter(Commands command){
         return commandMap.get(command).getDescription();
+    }
+
+    public void setCommunicationManager(ICommunicationManager communicationManager) {
+        this.communicationManager = communicationManager;
+        this.populateAvailableCommandMap();
+        this.populateCommandMap();
     }
 }

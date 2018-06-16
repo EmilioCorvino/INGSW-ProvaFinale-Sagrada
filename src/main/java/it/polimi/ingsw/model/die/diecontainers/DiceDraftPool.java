@@ -88,7 +88,7 @@ public class DiceDraftPool extends ADieContainer {
     }
 
     public void overwriteOriginal(){
-        this.availableDice = this.draftCopy;
+        this.availableDice = new ArrayList<>(this.draftCopy);
     }
 
     public List<Die> getDraftCopy(){
