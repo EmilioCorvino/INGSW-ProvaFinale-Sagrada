@@ -20,6 +20,11 @@ public class DiceDraftPool extends ADieContainer {
     private List<Die> availableDice;
 
     /**
+     * A copy of the list of dice contained inside the draft.
+     */
+    private List<Die> draftCopy;
+
+    /**
      * The die container where the DiceDraftPool extract dice.
      */
     private DiceBag diceBag;
@@ -90,7 +95,15 @@ public class DiceDraftPool extends ADieContainer {
         return false;
     }
 
+    public void createCopy(){
+        this.draftCopy = new ArrayList<>(this.availableDice);
+    }
+
+    public void subscribeOriginal(){
+        this.availableDice = this.draftCopy;
+    }
+
     public List<Die> getDraftCopy(){
-        return new ArrayList<>(this.availableDice);
+        return this.draftCopy;
     }
 }
