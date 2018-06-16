@@ -12,7 +12,7 @@ import it.polimi.ingsw.model.move.IMove;
  * chosen from the round track container.
  */
 public class SwapFromDraftpoolToRoundTrack extends ASwapDieEffect {
-    
+
     /**
      * This method executes the swap and then, if possible, places the die in the window pattern card according to
      * user's coordinates.
