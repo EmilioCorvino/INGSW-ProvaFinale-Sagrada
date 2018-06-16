@@ -31,8 +31,6 @@ public class Bank {
     public Bank (){
         this.availableCommands = new EnumMap<>(Commands.class);
         this.commandMap = new EnumMap<>(Commands.class);
-        this.populateAvailableCommandMap();
-        this.populateCommandMap();
     }
 
     /**
@@ -89,5 +87,7 @@ public class Bank {
 
     public void setCommunicationManager(ICommunicationManager communicationManager) {
         this.communicationManager = communicationManager;
+        this.populateAvailableCommandMap();
+        this.populateCommandMap();
     }
 }
