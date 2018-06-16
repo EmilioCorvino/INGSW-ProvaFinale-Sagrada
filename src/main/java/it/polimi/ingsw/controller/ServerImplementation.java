@@ -10,9 +10,11 @@ import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.logging.Level;
 
 
 /**
@@ -103,7 +105,7 @@ public class ServerImplementation implements IFromClientToServer {
     public void register(int gameMode, String playerName, WaitingRoom room, Connection connection) throws
             UserNameAlreadyTakenException, TooManyUsersException, MatchAlreadyStartedException {
         room.joinRoom(playerName, connection, gameMode);
-        //this.login(gameMode, playerName);
+        SagradaLogger.log(Level.INFO, "Connection accepted! Player " + playerName + " just joined.");
     }
 
     /**

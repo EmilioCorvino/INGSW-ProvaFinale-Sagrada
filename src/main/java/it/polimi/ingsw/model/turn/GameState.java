@@ -49,6 +49,11 @@ public class GameState {
     public void initializePlayerList(List<Player> players) {
         List<Turn> supportList = new ArrayList<>();
 
+        //Empties the list of the turn order in case it is already been initialized (i.e. from the second round on).
+        if(!this.getTurnOrder().isEmpty()) {
+            this.getTurnOrder().clear();
+        }
+
         for(Player p : players) {
             turnOrder.add(new Turn(p));
             supportList.add(new Turn(p));
@@ -83,7 +88,7 @@ public class GameState {
     }
 
     /**
-     * Resets the {@link #currentPlayerTurnIndex}. It's used by {@link GamePlayManager#endTurn()} to start a new round.
+     * Resets the {@link #currentPlayerTurnIndex}. It's used by {@link GamePlayManager#endTurn(String)} to start a new round.
      */
     public void resetCurrentPlayerTurnIndex() {
         this.currentPlayerTurnIndex = 0;

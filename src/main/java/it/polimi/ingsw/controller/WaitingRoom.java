@@ -80,7 +80,7 @@ public class WaitingRoom {
 
         List<String> listName = new ArrayList<>();
 
-        playersRoom.entrySet().forEach( entry -> listName.add(entry.getKey()));
+        playersRoom.entrySet().forEach(entry -> listName.add(entry.getKey()));
 
         playersRoom.entrySet().forEach(entry -> {
             try {
@@ -126,22 +126,15 @@ public class WaitingRoom {
      * This method starts a multi player match.
      * //TODO testing
      */
-    public void startMultiPlayerMatch() {
-        /*Map<String, IFromServerToClient> connectedPlayers = new HashMap<>();
-        playersRoom.forEach((playerName, connection) -> connectedPlayers.put(playerName, connection.getClient()));*/
+    private void startMultiPlayerMatch() {
         ControllerMaster controllerMaster = new ControllerMaster(this.playersRoom);
-
-        /*controllerMaster.getCommonBoard().getDraftPool().populateDiceDraftPool(
-                controllerMaster.getConnectedPlayers().size());
-        ((GamePlayManager)controllerMaster.getGamePlayManager()).initializePlayerList(); this shouldn't be here*/
 
         for(Map.Entry<String, Connection> entry: controllerMaster.getConnectedPlayers().entrySet()) {
             controllerMaster.getCommonBoard().getPlayers().add(
                     new Player(entry.getKey(), controllerMaster.getCommonBoard()));
             entry.getValue().getServer().setController(controllerMaster);
         }
-        controllerMaster.getCommonBoard().getDraftPool().populateDiceDraftPool(
-                controllerMaster.getCommonBoard().getPlayers().size());
+
         ((StartGameManager)controllerMaster.getStartGameManager()).setUpPrivateObjectiveCardAndWp();
     }
 

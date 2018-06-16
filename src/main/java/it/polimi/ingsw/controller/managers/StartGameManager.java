@@ -178,7 +178,7 @@ public class StartGameManager extends AGameManager {
      * {@link it.polimi.ingsw.model.cards.tool.ToolCard}s drawn.
      */
     private void setCommonBoard() {
-        List<SetUpInformationUnit> draftPool = draftPoolConverter();
+        //List<SetUpInformationUnit> draftPool = draftPoolConverter();
         Map<String, SimplifiedWindowPatternCard> mapOfWp = mapsOfPlayersConverter();
         int [] idPubObj = pubObjConverter();
         int [] idTool = toolConverter();
@@ -187,7 +187,7 @@ public class StartGameManager extends AGameManager {
         super.getControllerMaster().getConnectedPlayers().forEach((playerName, connection) -> {
             try {
                 connection.getClient().setCommonBoard(mapOfWp, idPubObj, idTool);
-                connection.getClient().setDraft(draftPool);
+                //connection.getClient().setDraft(draftPool);
                 connection.getClient().setFavorToken(numberFavTokenConverter(playerName));
             } catch (BrokenConnectionException e) {
                 //todo handle disconnecion
@@ -283,20 +283,6 @@ public class StartGameManager extends AGameManager {
         simpleWp.setDifficulty(wp.getDifficulty());
         simpleWp.setIdMap(chosenMap);
         return simpleWp;
-    }
-
-    /**
-     * Converts the {@link it.polimi.ingsw.model.die.diecontainers.DiceDraftPool} of the model to a simpler
-     * List of {@link SetUpInformationUnit}, to represent it in the view.
-     * @return a list of {@link SetUpInformationUnit} generated from the match
-     * {@link it.polimi.ingsw.model.die.diecontainers.DiceDraftPool}.
-     */
-    private List<SetUpInformationUnit> draftPoolConverter() {
-        List<Die> draftPoolDice = super.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice();
-        List<SetUpInformationUnit> draftPoolInfo = new ArrayList<>();
-        for(Die die : draftPoolDice)
-            draftPoolInfo.add(new SetUpInformationUnit(draftPoolDice.indexOf(die), die.getDieColor(), die.getActualDieValue()));
-        return draftPoolInfo;
     }
 
     /**
