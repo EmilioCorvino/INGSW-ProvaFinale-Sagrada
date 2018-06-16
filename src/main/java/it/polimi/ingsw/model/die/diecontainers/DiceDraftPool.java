@@ -90,6 +90,7 @@ public class DiceDraftPool extends ADieContainer {
         return false;
     }
 
-
-
+    public List<Die> getDraftCopy(){
+        return new ArrayList<>(this.availableDice);
+    }
 }
