@@ -15,6 +15,7 @@ import it.polimi.ingsw.view.cli.commands.Bank;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.boardElements.PlayerView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
+import it.polimi.ingsw.view.cli.generalManagers.CliCommunicationManager;
 import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
 import it.polimi.ingsw.view.cli.generalManagers.ScannerThread;
 import it.polimi.ingsw.view.cli.stateManagers.*;
@@ -135,6 +136,7 @@ public class CliView implements IViewMaster {
         }
 
         bank = new Bank(this);
+        bank.setCommunicationManager(new CliCommunicationManager(this));
     }
 
     /**
@@ -312,6 +314,7 @@ public class CliView implements IViewMaster {
     @Override
     public void removeOnDraft(SetUpInformationUnit info){
         gamePlayManager.removeOnDraft(this.commonBoard.getDraftPool(), info);
+        commonBoard.getDraftPool().printDraftPool();
     }
 
     /**
