@@ -97,7 +97,7 @@ public abstract class AValueEffect extends AToolCardEffect {
         for(int i=0; i< WindowPatternCard.getMaxRow(); i++)
             for (int j = 0; j < WindowPatternCard.getMaxCol(); j++) {
                 wp.setDesiredCell(gw[i][j]);
-                if (wp.canBePlaced(chosenDie, wp.getDesiredCell(), ))
+                if (wp.canBePlaced(chosenDie, wp.getDesiredCell(), wp.getGlassWindow()))
                     cellToUse.add(gw[i][j]);
             }
         return cellToUse.size() > 0;
