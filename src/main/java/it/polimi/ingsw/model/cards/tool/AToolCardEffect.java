@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.cards.tool;
 
-import it.polimi.ingsw.model.die.diecontainers.ADieContainer;
 import it.polimi.ingsw.model.move.AEffectMoveDecorator;
 
 /**
@@ -9,11 +8,9 @@ import it.polimi.ingsw.model.move.AEffectMoveDecorator;
 public abstract class AToolCardEffect extends AEffectMoveDecorator implements IToolCardEffect {
 
 
-
-
-    ADieContainer sourceContainer;
-
-    ADieContainer destinationContainer;
+    public boolean checkPlacement() {
+        return false;
+    }
 
 
 
