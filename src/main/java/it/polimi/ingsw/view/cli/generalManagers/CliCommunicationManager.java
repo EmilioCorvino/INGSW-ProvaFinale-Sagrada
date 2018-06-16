@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
+import it.polimi.ingsw.view.ICommunicationManager;
 import it.polimi.ingsw.view.cli.CliView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 
@@ -12,7 +13,7 @@ import java.util.logging.Level;
 /**
  * This class contains all the methods to run all the possible commands in the game.
  */
-public class CommunicationManager {
+public class CliCommunicationManager implements ICommunicationManager {
 
     /**
      * A reference to the view.
@@ -30,13 +31,13 @@ public class CommunicationManager {
     private IFromClientToServer server;
 
 
-    public CommunicationManager(CliView view){
+    public CliCommunicationManager(CliView view){
         this.view = view;
         this.inputOutputManager = view.getInputOutputManager();
         this.server = view.getServer();
     }
 
-
+    @Override
     public void defaultPlacement(){
         SetUpInformationUnit setInfoUnit = new SetUpInformationUnit();
         WindowPatternCardView wp = this.view.getPlayer().getWp();
@@ -50,30 +51,37 @@ public class CommunicationManager {
         }
     }
 
+    @Override
     public void showAllWp(){
         view.getSetUpManager().printAllWp(view.getCommonBoard().getPlayers());
     }
 
+    @Override
     public void showPublicObj(){
         view.getSetUpManager().printPubObj(view.getCommonBoard().getPublicObjectiveCards());
     }
 
+    @Override
     public void showTool(){
         view.getSetUpManager().printTool(view.getCommonBoard().getToolCards());
     }
 
+    @Override
     public void showPrivateObj(){
         view.getSetUpManager().printPrivateObj(view.getPlayer().getPrivateObjCard());
     }
 
+    @Override
     public void chooseWp() {
         this.view.choseWpId();
     }
 
+    @Override
     public void printCommands(){
         view.printCommands();
     }
 
+    @Override
     public void moveToNextTurn(){
         try {
             server.moveToNextTurn();
@@ -82,6 +90,7 @@ public class CommunicationManager {
         }
     }
 
+    @Override
     public void exitGame(){
         try{
             server.exitGame(view.getPlayer().getUserName());
