@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.die.diecontainers;
 
 import it.polimi.ingsw.model.AContainer;
+import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.utils.exceptions.DieNotContainedException;
 
@@ -8,6 +9,12 @@ import it.polimi.ingsw.utils.exceptions.DieNotContainedException;
  * This class manages all types of die containers.
  */
 public abstract class ADieContainer extends AContainer {
+
+    /**
+     * This is the error message set after any failure.
+     * @see WindowPatternCard#canBePlaced(Die, Cell)
+     */
+    protected String errorMessage;
 
     /**
      * This method updates the die container involved with the die tha player wants to place.
@@ -29,5 +36,11 @@ public abstract class ADieContainer extends AContainer {
      */
     public abstract Die removeDie(int index);
 
-    //public abstract Die getSpecificDie(Die)
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    protected void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
 }

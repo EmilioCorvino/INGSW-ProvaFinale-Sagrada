@@ -166,7 +166,10 @@ public class WindowPatternCard extends ADieContainer {
      * @return true if the selected cell is one of the cells of the border.
      */
     private boolean checkBorderCells(Cell selectedCell) {
-        return selectedCell.getCol() == 0 || selectedCell.getCol() == MAX_COL-1 || selectedCell.getRow() == 0 || selectedCell.getRow() == MAX_ROW-1;
+        if(selectedCell.getCol() == 0 || selectedCell.getCol() == MAX_COL-1 || selectedCell.getRow() == 0 || selectedCell.getRow() == MAX_ROW-1)
+            return true;
+        setErrorMessage("La cella selezionata non e' una cella del bordo");
+        return false;
     }
 
     /**
@@ -175,7 +178,6 @@ public class WindowPatternCard extends ADieContainer {
      * @return true if the selected cell is adjacent to other non empty cells.
      */
     public boolean checkAdjacentCells(Cell selectedCell) {
-        boolean check = false;
         int minR = 0;
         int maxR = 3;
         int minC = 0;
@@ -193,9 +195,10 @@ public class WindowPatternCard extends ADieContainer {
         for (int i = minR; i < maxR; i++)
             for (int j = minC; j < maxC; j++)
                 if (!(i == 1 && j == i) && (!(glassWindow[selectedCell.getRow()-1 + i][selectedCell.getCol()-1 + j].isEmpty())))
-                    check = true;
+                    return true;
 
-        return check;
+        setErrorMessage("La cella desiderata non e' vicina ad un dado");
+        return false;
     }
 
     /**
@@ -208,8 +211,10 @@ public class WindowPatternCard extends ADieContainer {
         boolean ok = true;
 
         for (ARestriction restriction : glassWindow[selectedCell.getRow()][selectedCell.getCol()].getRuleSetCell())
-            if (!restriction.isRespected(die))
+            if (!restriction.isRespected(die)) {
                 ok = false;
+                setErrorMessage("Non sono rispettate le restrizioni della cella desiderata.");
+            }
         return ok;
     }
 
@@ -235,8 +240,10 @@ public class WindowPatternCard extends ADieContainer {
             adjacentRules.addAll( glassWindow[selectedCell.getRow()][selectedCell.getCol()+1].getRuleSetCell());
 
         for (ARestriction restriction : adjacentRules)
-            if(restriction.isRespected(die))
+            if(restriction.isRespected(die)) {
+                setErrorMessage("Non sono rispettate le restrizioni delle celle adiacenti");
                 return false;
+            }
 
         return true;
     }
@@ -253,10 +260,14 @@ public class WindowPatternCard extends ADieContainer {
      */
     public boolean canBePlaced(Die die, Cell selectedCell) {
 
-        if (!isTheCellInTheMatrix(selectedCell) )
+        if (!isTheCellInTheMatrix(selectedCell) ){
+            setErrorMessage("La cella desiderata non e' contenuta nella matrice");
             return false;
-        if (!glassWindow[selectedCell.getRow()][selectedCell.getCol()].isEmpty())
+        }
+        if (!glassWindow[selectedCell.getRow()][selectedCell.getCol()].isEmpty()){
+            setErrorMessage("La cella desiderata e' gia piena");
             return false;
+        }
         if (matrixIsEmpty()) {
             return checkBorderCells(selectedCell) && checkOwnRuleSet(die, selectedCell);
         }else {

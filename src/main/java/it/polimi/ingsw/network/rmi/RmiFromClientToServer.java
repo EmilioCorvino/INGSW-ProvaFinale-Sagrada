@@ -10,7 +10,7 @@ import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.ClientImplementation;
 import it.polimi.ingsw.network.IFromClientToServer;
-import it.polimi.ingsw.view.AViewMaster;
+import it.polimi.ingsw.view.IViewMaster;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -50,7 +50,7 @@ public class RmiFromClientToServer implements IFromClientToServer {
      * @throws BrokenConnectionException when the connection drops.
      * @see RmiClient
      */
-    public RmiFromClientToServer(String ip, AViewMaster view) throws BrokenConnectionException {
+    public RmiFromClientToServer(String ip, IViewMaster view) throws BrokenConnectionException {
         int port = ServerMain.loadPort(ServerMain.RMI_PORT_PATH);
         try {
             Registry registry = LocateRegistry.getRegistry(ip, port);

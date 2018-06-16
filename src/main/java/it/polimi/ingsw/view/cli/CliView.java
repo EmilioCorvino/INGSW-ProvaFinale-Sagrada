@@ -9,7 +9,7 @@ import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
-import it.polimi.ingsw.view.AViewMaster;
+import it.polimi.ingsw.view.IViewMaster;
 import it.polimi.ingsw.view.cli.boardElements.CommonBoardView;
 import it.polimi.ingsw.view.cli.commands.Bank;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-public class CliView implements AViewMaster{
+public class CliView implements IViewMaster {
 
     /**
      * The object that create the map functions, taking info from a map of possible function.
@@ -100,7 +100,7 @@ public class CliView implements AViewMaster{
      * @param viewMaster Is the view connected to the net.
      */
     @Override
-    public void createConnection(AViewMaster viewMaster) {
+    public void createConnection(IViewMaster viewMaster) {
         boolean userNameOk = false;
         boolean ipOk = false;
 

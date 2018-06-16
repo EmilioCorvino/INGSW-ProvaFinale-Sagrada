@@ -9,16 +9,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class handles messages arriving from the server, calling methods from {@link AViewMaster}.
+ * This class handles messages arriving from the server, calling methods from {@link IViewMaster}.
  */
 public class ClientImplementation implements IFromServerToClient {
 
     /**
      * View chosen by the user.
      */
-    private AViewMaster view;
+    private IViewMaster view;
 
-    public ClientImplementation(AViewMaster view) {
+    public ClientImplementation(IViewMaster view) {
         this.view = view;
     }
 

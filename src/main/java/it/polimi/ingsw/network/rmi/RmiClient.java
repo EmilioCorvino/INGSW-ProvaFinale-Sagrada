@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.view.ClientImplementation;
+import it.polimi.ingsw.view.IViewMaster;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -19,7 +20,7 @@ import java.util.Map;
 public class RmiClient extends UnicastRemoteObject implements IRmiClient {
 
     /**
-     * Effective instance of the client. It can call methods from {@link it.polimi.ingsw.view.AViewMaster}.
+     * Effective instance of the client. It can call methods from {@link IViewMaster}.
      */
     private transient ClientImplementation client;
 

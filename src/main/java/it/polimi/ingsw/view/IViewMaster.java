@@ -8,9 +8,9 @@ import it.polimi.ingsw.network.IFromClientToServer;
 import java.util.List;
 import java.util.Map;
 
-public interface AViewMaster {
+public interface IViewMaster {
 
-    void createConnection(AViewMaster viewMaster);
+    void createConnection(IViewMaster viewMaster);
 
     void showRoom(List<String> players);
 

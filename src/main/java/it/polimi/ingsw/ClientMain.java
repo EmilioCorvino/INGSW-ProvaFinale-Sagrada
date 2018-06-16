@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.view.AViewMaster;
+import it.polimi.ingsw.view.IViewMaster;
 import it.polimi.ingsw.view.cli.CliView;
 
 /**
@@ -10,7 +10,7 @@ import it.polimi.ingsw.view.cli.CliView;
 public class ClientMain {
 
     public static void main(String[] args) {
-        AViewMaster viewMaster = new CliView();
+        IViewMaster viewMaster = new CliView();
         viewMaster.createConnection(viewMaster);
     }
 }
