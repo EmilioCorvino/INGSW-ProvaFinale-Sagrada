@@ -2,7 +2,12 @@
 package it.polimi.ingsw.model.cards.tool.ValueEffects;
 
 import it.polimi.ingsw.model.cards.tool.AToolCardEffect;
+import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class manages the effects of the tool cards related to a change of the value of one or more dice.
@@ -84,5 +89,17 @@ public abstract class AValueEffect extends AToolCardEffect {
         if(this.offset != 0)
             return newValue >= originalValue - this.offset && newValue <= originalValue + this.offset;
         return true;
+    }
+
+    protected boolean checkExistingCellsToUse(WindowPatternCard wp, Die chosenDie) {
+        Cell[][] gw = wp.getGlassWindow();
+        List<Cell> cellToUse = new ArrayList<>();
+        for(int i=0; i< WindowPatternCard.getMaxRow(); i++)
+            for (int j = 0; j < WindowPatternCard.getMaxCol(); j++) {
+                wp.setDesiredCell(gw[i][j]);
+                if (wp.canBePlaced(chosenDie, wp.getDesiredCell()))
+                    cellToUse.add(gw[i][j]);
+            }
+        return cellToUse.size() > 0;
     }
 }

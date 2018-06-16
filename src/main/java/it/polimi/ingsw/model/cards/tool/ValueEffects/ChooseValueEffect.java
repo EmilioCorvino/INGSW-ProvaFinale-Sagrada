@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.move.DiePlacementMove;
+import it.polimi.ingsw.model.move.IMove;
 
 /**
  * This class manages the effect of those tool cards that allow the player to increase the value of a chosen die.
@@ -79,7 +80,7 @@ public class ChooseValueEffect extends AValueEffect {
             die.setActualDieValue(decreaseDieValue(die).getActualDieValue());
 
         //tell the controller to show the result
-        DiePlacementMove move = new DiePlacementMove();
+        IMove move = new DiePlacementMove();
         move.executeMove(manager, setUpInfoUnit);
     }
 

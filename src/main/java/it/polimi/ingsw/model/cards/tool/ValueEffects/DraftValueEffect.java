@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -70,29 +69,16 @@ public class DraftValueEffect extends AValueEffect {
             return;
         }
 
-        Die chosenDie = computeRandomDieValue(manager.getControllerMaster().getCommonBoard().getDraftPool().removeDie(setUpInfoUnit.getSourceIndex()));
+        Die chosenDie = computeRandomDieValue(manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice().get(setUpInfoUnit.getSourceIndex()));
         WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
 
-        if(!checkExistentCellToUse(wp, chosenDie, manager) ) {
+        if(!super.checkExistingCellsToUse(wp, chosenDie)) {
             manager.showNotification("Non ci sono celle disponibili in cui il dado può essere piazzato");
-            wp.setDesiredCell(new Cell(setUpInfoUnit.getSourceIndex() / WindowPatternCard.MAX_COL, setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL));
-            wp.addDie(chosenDie);
+            return;
         }
 
         wp.setDesiredCell(new Cell(setUpInfoUnit.getDestinationIndex() / WindowPatternCard.MAX_COL, setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL));
         wp.addDie(chosenDie);
         //TODO tell the controller to show updates.
-    }
-
-    private boolean checkExistentCellToUse(WindowPatternCard wp, Die chosen,  GamePlayManager manager) {
-        Cell[][] gw = wp.getGlassWindow();
-        List<Cell> cellToUse = new ArrayList<>();
-        for(int i=0; i< WindowPatternCard.getMaxRow(); i++)
-            for (int j = 0; j < WindowPatternCard.getMaxCol(); j++) {
-                wp.setDesiredCell(gw[i][j]);
-                if (wp.canBePlaced(chosenDie, wp.getDesiredCell()))
-                    cellToUse.add(gw[i][j]);
-            }
-        return cellToUse.size() > 0;
     }
 }
