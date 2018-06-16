@@ -26,11 +26,11 @@ public class PlacementRestrictionEffect extends AToolCardEffect {
         playerWp.setDesiredCell(new Cell(setUpInfoUnit.getDestinationIndex()/WindowPatternCard.MAX_COL , setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL));
 
         if(!playerWp.canBePlaced(chosenDie, playerWp.getDesiredCell(), )) {
-            manager.showNotification("Il dado non può essere piazzato in questa cella perchè non rispetta le restrizioni.");
+            manager.showNotification(playerWp.getErrorMessage());
             return;
         }
 
-         playerWp.removeDie(setUpInfoUnit.getSourceIndex());
-         playerWp.addDie(chosenDie);
+        playerWp.removeDie(setUpInfoUnit.getSourceIndex());
+        playerWp.addDie(chosenDie);
     }
 }
