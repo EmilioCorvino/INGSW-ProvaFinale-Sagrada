@@ -217,6 +217,16 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
+    public void showRank(String[] playerNames, int[] scores) throws BrokenConnectionException {
+        try {
+            this.rmiClient.showRank(playerNames, scores);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to show the rank", e);
+            throw new BrokenConnectionException();
+        }
+    }
+
+    @Override
     public void showNotice(String notice) throws BrokenConnectionException {
         try {
             this.rmiClient.showNotice(notice);

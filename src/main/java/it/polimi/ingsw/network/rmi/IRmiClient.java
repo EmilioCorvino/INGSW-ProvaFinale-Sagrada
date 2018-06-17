@@ -52,5 +52,7 @@ public interface IRmiClient extends Remote {
 
     void updateToolCost(int idSlot, int cost) throws RemoteException;
 
+    void showRank(String[] playerNames, int[] scores) throws RemoteException;
+
     void showNotice(String notice) throws RemoteException;
 }

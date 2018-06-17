@@ -51,4 +51,6 @@ public interface IViewMaster {
     IFromClientToServer getServer();
 
     void updateToolCost(int idSlot, int cost);
+
+    void showRank(String[] playerNames, int[] scores);
 }
