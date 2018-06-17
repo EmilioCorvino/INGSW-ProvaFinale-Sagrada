@@ -78,12 +78,51 @@ public class WindowPatternCard extends ADieContainer {
                 glassWindow[i][j] = new Cell(i,j);
     }
 
+
+
+    /**
+     * This method sets the window pattern card with the selected die.
+     * @param die: the die with which the window pattern card has to be updated.
+     */
+    @Override
+    public void addDie(Die die) {
+        glassWindowCopy[desiredCell.getRow()][desiredCell.getCol()].setContainedDie(die);
+        setDesiredCell(null);
+    }
+
+    /**
+     * This method remove the die in the desired cell only if the die contained is the same.
+     * @param index a copy of the die to be removed.
+     * @return the die contained, that has been removed.
+     */
+    @Override
+    public Die removeDie(int index){
+        Cell cell = glassWindowCopy[ index/WindowPatternCard.MAX_COL ][ index%WindowPatternCard.MAX_COL ];
+        return cell.removeContainedDie();
+    }
+
+    /**
+     * This method copy the original to a copy.
+     */
+    @Override
+    public void createCopy(){
+        copyGlassWindow(glassWindowCopy, glassWindow);
+    }
+
+    /**
+     * This method restore the original glass window.
+     */
+    @Override
+    public void overwriteOriginal() {
+        copyGlassWindow(glassWindow, glassWindowCopy);
+    }
+
     /**
      * Copies the glass window from destination to source.
      * @param destination new glass window, copy of the original.
      * @param source glass window to copy.
      */
-    public void copyGlassWindow(Cell[][] destination, Cell[][] source) {
+     private void copyGlassWindow(Cell[][] destination, Cell[][] source) {
         for(int i = 0; i < WindowPatternCard.getMaxRow(); i++) {
             for (int j = 0; i < WindowPatternCard.getMaxCol(); j++) {
                 destination[i][j] = new Cell(i, j);
@@ -96,40 +135,9 @@ public class WindowPatternCard extends ADieContainer {
     }
 
     /**
-     * This method restore the original glass window.
-     */
-    private void overwriteOriginal() {
-        copyGlassWindow(glassWindow, glassWindowCopy);
-    }
-
-
-    /**
-     * This method sets the window pattern card with the selected die.
-     * @param die: the die with which the window pattern card has to be updated.
-     */
-    @Override
-    public void addDie(Die die) {
-        if(this.isGlassWindowModified())
-            overwriteOriginal();
-        glassWindow[desiredCell.getRow()][desiredCell.getCol()].setContainedDie(die);
-        setDesiredCell(null);
-    }
-
-    /**
-     * This method remove the die in the desired cell only if the die contained is the same.
-     * @param index a copy of the die to be removed.
-     * @return the die contained, that has been removed.
-     */
-    @Override
-    public Die removeDie(int index){
-        Cell cell = glassWindow[ index/WindowPatternCard.MAX_COL ][ index%WindowPatternCard.MAX_COL ];
-        return cell.removeContainedDie();
-    }
-
-    /**
      * This method check if all the cells of the matrix are empty.
      * @return True if is all the cells are empty, otherwise false.
-     * @param glassWindowToConsider
+     * @param glassWindowToConsider: The glass window to analyze.
      */
     private boolean matrixIsEmpty(Cell[][] glassWindowToConsider) {
         boolean matrixEmpty = true;

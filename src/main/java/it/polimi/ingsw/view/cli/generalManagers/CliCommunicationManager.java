@@ -63,7 +63,7 @@ public class CliCommunicationManager implements ICommunicationManager {
 
     @Override
     public void showTool(){
-        view.getSetUpManager().printTool(view.getCommonBoard().getToolCards());
+        view.getSetUpManager().printTool(view.getCommonBoard().getToolCardViews());
     }
 
     @Override

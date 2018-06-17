@@ -2,7 +2,7 @@ package it.polimi.ingsw.view.cli.stateManagers;
 
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
-import it.polimi.ingsw.view.cli.boardElements.ToolCard;
+import it.polimi.ingsw.view.cli.boardElements.ToolCardView;
 import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
 import it.polimi.ingsw.view.cli.boardElements.PlayerView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
@@ -80,13 +79,13 @@ public class SetUpManager {
         }
     }
 
-    public void createToolCards(int[] id, List<ToolCard> cards){
+    public void createToolCards(int[] id, List<ToolCardView> cards){
 
         for (int i : id){
             try (Reader file = new FileReader("./src/main/resources/cards/toolCardsText/toolCard" + i)){
                 BufferedReader b = new BufferedReader(file);
                 String s = b.readLine();
-                cards.add(new ToolCard(s,1));
+                cards.add(new ToolCardView(s,1));
             } catch (IOException e) {
                 SagradaLogger.log(Level.WARNING, "Tool Card txt file can't be read!", e);
             }
@@ -123,10 +122,10 @@ public class SetUpManager {
      * This method print all the tool cards.
      * @param cards: The list of Tool Cards.
      */
-    public void printTool(List<ToolCard> cards){
+    public void printTool(List<ToolCardView> cards){
 
         inputOutputManager.print("\nCarte strumento: ");
-        for (ToolCard c : cards){
+        for (ToolCardView c : cards){
             inputOutputManager.print("\t - " + cards.indexOf(c) + ": "+ c.getDescription() + " | Segnalini favore da usare: " + c.getCost());
         }
     }

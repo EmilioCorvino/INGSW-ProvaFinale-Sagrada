@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 public class EndGameManager implements Serializable {
 
-    private static final String BOLD_PREFIX = "\033[0m;1m";
+    private static final String BOLD_PREFIX = "\033[0;1m";
 
     private static final String BOLD_SUFFIX = "\033[0m";
 
