@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.cards.objective.publics;
 
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
+import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

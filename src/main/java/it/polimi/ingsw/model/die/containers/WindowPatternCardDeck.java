@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.die.diecontainers;
+package it.polimi.ingsw.model.die.containers;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

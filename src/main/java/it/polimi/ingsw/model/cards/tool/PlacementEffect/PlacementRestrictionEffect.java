@@ -5,7 +5,7 @@ import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.model.cards.tool.AToolCardEffect;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
+import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 
 /**
  * This class manges the tool effect that enables to move a die from a cell of the personal window pattern card

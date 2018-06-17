@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.cards.tool.SwapEffect;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
+import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 
 
 public class SwapFromDraftPoolToDicebag extends ASwapDieEffect {

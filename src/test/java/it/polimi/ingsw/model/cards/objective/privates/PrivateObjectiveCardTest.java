@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.cards.objective.privates;
 
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
+import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 import it.polimi.ingsw.model.cards.objective.AObjectiveCardsDeck;
 import org.junit.After;
 import org.junit.Before;

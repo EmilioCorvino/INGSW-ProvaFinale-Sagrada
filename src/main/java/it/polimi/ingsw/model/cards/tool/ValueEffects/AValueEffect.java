@@ -4,7 +4,7 @@ package it.polimi.ingsw.model.cards.tool.ValueEffects;
 import it.polimi.ingsw.model.cards.tool.AToolCardEffect;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
+import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 
 import java.util.ArrayList;
 import java.util.List;

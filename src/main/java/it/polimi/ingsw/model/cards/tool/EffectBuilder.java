@@ -16,13 +16,13 @@ public class EffectBuilder {
     private String[] effects;
 
     /**
-     * {@link it.polimi.ingsw.model.die.diecontainers.ADieContainer} acting as the source of the move.
+     * {@link it.polimi.ingsw.model.die.containers.ADieContainer} acting as the source of the move.
      */
     @SerializedName("source")
     private String sourceContainer;
 
     /**
-     * {@link it.polimi.ingsw.model.die.diecontainers.ADieContainer} acting as the destination of the move.
+     * {@link it.polimi.ingsw.model.die.containers.ADieContainer} acting as the destination of the move.
      */
     @SerializedName("destination")
     private String destinationContainer;

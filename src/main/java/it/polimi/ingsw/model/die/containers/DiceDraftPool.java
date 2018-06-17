@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.die.diecontainers;
+package it.polimi.ingsw.model.die.containers;
 
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.utils.exceptions.EmptyException;

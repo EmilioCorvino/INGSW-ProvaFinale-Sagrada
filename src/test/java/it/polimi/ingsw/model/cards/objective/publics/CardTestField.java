@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.cards.objective.AObjectiveCardsDeck;
 import it.polimi.ingsw.model.cards.objective.ObjectiveCardAnalyzerVisitor;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
+import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 
 /**
  * The tests on cards are made assuming the cards are in the deck always in the same order (which is always the case,

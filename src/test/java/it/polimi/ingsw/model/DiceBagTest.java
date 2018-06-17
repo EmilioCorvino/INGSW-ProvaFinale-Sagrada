@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.model.die.diecontainers.DiceBag;
+import it.polimi.ingsw.model.die.containers.DiceBag;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 import org.junit.Test;

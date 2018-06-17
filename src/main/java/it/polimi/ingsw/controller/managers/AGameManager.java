@@ -53,10 +53,10 @@ public abstract class AGameManager {
     }
 
     /**
-     * Converts the {@link it.polimi.ingsw.model.die.diecontainers.DiceDraftPool} of the model to a simpler
+     * Converts the {@link it.polimi.ingsw.model.die.containers.DiceDraftPool} of the model to a simpler
      * List of {@link SetUpInformationUnit}, to represent it in the view.
      * @return a list of {@link SetUpInformationUnit} generated from the match
-     * {@link it.polimi.ingsw.model.die.diecontainers.DiceDraftPool}.
+     * {@link it.polimi.ingsw.model.die.containers.DiceDraftPool}.
      */
     List<SetUpInformationUnit> draftPoolConverter() {
         List<Die> draftPoolDice = this.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice();

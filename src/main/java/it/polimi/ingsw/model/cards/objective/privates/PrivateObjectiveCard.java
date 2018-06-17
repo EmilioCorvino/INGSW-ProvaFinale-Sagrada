@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.cards.objective.privates;
 
 import com.google.gson.annotations.SerializedName;
 import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
+import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 import it.polimi.ingsw.model.cards.objective.AObjectiveCard;
 import it.polimi.ingsw.model.cards.objective.IObjectiveCardVisitor;
 

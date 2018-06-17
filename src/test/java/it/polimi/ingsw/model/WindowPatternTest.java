@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
+import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 import it.polimi.ingsw.model.restrictions.ColorRestriction;
 import it.polimi.ingsw.model.restrictions.ValueRestriction;
 import org.junit.Test;

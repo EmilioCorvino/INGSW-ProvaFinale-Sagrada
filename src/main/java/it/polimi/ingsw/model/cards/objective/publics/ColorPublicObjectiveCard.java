@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.cards.objective.publics;
 
-import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
+import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 import it.polimi.ingsw.model.cards.objective.IObjectiveCardVisitor;
 import it.polimi.ingsw.model.cards.objective.publics.strategies.IScoreComputationStrategy;
 import it.polimi.ingsw.model.Color;
