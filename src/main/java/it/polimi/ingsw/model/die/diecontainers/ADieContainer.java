@@ -1,13 +1,12 @@
 package it.polimi.ingsw.model.die.diecontainers;
 
-import it.polimi.ingsw.model.AContainer;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 
 /**
  * This class manages all types of die containers.
  */
-public abstract class ADieContainer extends AContainer {
+public abstract class ADieContainer {
 
     /**
      * This is the error message set after any failure.

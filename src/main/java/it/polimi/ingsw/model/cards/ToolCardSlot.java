@@ -1,13 +1,12 @@
 package it.polimi.ingsw.model.cards;
 
-import it.polimi.ingsw.model.AContainer;
 import it.polimi.ingsw.model.cards.tool.ToolCard;
 
 /**
  * A class that contains a {@link it.polimi.ingsw.model.cards.tool.IToolCard}.
  * Card slots are fetched instead of the card itself, to be sure the card is available in the specific match.
  */
-public class ToolCardSlot extends AContainer {
+public class ToolCardSlot {
 
     /**
      * {@link ToolCard} contained in the slot.
@@ -37,11 +36,10 @@ public class ToolCardSlot extends AContainer {
     }
 
     /**
-     * TODO
      * This method checks if the tool card contained inside implies a die placement.
      * @return true if it implies a die placement, false otherwise.
      */
-    public boolean checkImpliesPlacement() {
+    public boolean checkIfCardImpliesPlacement() {
         return this.toolCard.impliesPlacement();
     }
 
