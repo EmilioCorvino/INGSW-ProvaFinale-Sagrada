@@ -5,13 +5,12 @@ import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.ControllerMaster;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.model.CommonBoard;
-import it.polimi.ingsw.model.cards.tool.ToolCard;
-import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.model.turn.GameState;
 import it.polimi.ingsw.model.cards.ToolCardSlot;
+import it.polimi.ingsw.model.cards.tool.ToolCard;
 import it.polimi.ingsw.model.move.DiePlacementMove;
 import it.polimi.ingsw.model.move.IMove;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.turn.GameState;
 import it.polimi.ingsw.model.turn.Turn;
 import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
@@ -43,6 +42,11 @@ public class GamePlayManager extends AGameManager {
      * Timer representing how much time each player has to complete his turn.
      */
     private Timer timer;
+
+    /**
+     * Says if the move done is legal or not. It's set by executeMove methods.
+     */
+    private boolean moveLegal = true;
 
     /**
      * Path of the file containing the amount of time to wait.
@@ -343,7 +347,7 @@ public class GamePlayManager extends AGameManager {
         for(ToolCardSlot slot: super.getControllerMaster().getCommonBoard().getToolCardSlots()) {
             ToolCard toolCard = slot.getToolCard();
             if(toolCard.impliesPlacement()) {
-                for (Commands command : toolCard.getEffectBuilder().getEffects()) {
+                for (String command : toolCard.getEffectBuilder().getEffects()) {
                     modifiedCurrentPlayerList.remove(command);
                 }
             }
@@ -367,7 +371,7 @@ public class GamePlayManager extends AGameManager {
         //Remove tool cards commands
         for(ToolCardSlot slot: super.getControllerMaster().getCommonBoard().getToolCardSlots()) {
             ToolCard toolCard = slot.getToolCard();
-            for(Commands command: toolCard.getEffectBuilder().getEffects()) {
+            for(String command: toolCard.getEffectBuilder().getEffects()) {
                 modifiedCurrentPlayerList.remove(command);
             }
         }
@@ -421,5 +425,13 @@ public class GamePlayManager extends AGameManager {
                 board.getRoundTrack().addDie(board.getDraftPool().removeDie(0));
             }
         }
+    }
+
+    public boolean isMoveLegal() {
+        return moveLegal;
+    }
+
+    public void setMoveLegal(boolean moveLegal) {
+        this.moveLegal = moveLegal;
     }
 }

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.cards.tool;
 
 import com.google.gson.annotations.SerializedName;
-import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.model.cards.tool.ValueEffects.ChooseValueEffect;
 import it.polimi.ingsw.model.cards.tool.ValueEffects.DraftValueEffect;
 
@@ -14,7 +13,7 @@ public class EffectBuilder {
      * Name of the effects to create.
      */
     @SerializedName("names")
-    private Commands[] effects;
+    private String[] effects;
 
     /**
      * {@link it.polimi.ingsw.model.die.diecontainers.ADieContainer} acting as the source of the move.
@@ -37,7 +36,7 @@ public class EffectBuilder {
     private int effectSpecificParameter;
 
 
-    public Commands[] getEffects() {
+    public String[] getEffects() {
         return effects;
     }
 
@@ -52,4 +51,8 @@ public class EffectBuilder {
     public int getEffectSpecificParameter() {
         return effectSpecificParameter;
     }
+
+    //public AToolCardEffect getNewEffectToAdd(String effectName) {
+
+    //}
 }
