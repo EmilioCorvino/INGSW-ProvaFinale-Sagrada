@@ -94,7 +94,7 @@ public class GamePlayManager implements Serializable {
     }
 
     public void removeOnWp(WindowPatternCardView wp, SetUpInformationUnit unit){
-        wp.getGlassWindow()[unit.getDestinationIndex()/WindowPatternCardView.MAX_COL][unit.getDestinationIndex() % WindowPatternCardView.MAX_COL].removeDie();
+        wp.getGlassWindow()[unit.getSourceIndex()/WindowPatternCardView.MAX_COL][unit.getSourceIndex() % WindowPatternCardView.MAX_COL].removeDie();
     }
 
     public void addOnDraft(DieDraftPoolView draft, SetUpInformationUnit unit){
@@ -102,7 +102,7 @@ public class GamePlayManager implements Serializable {
     }
 
     public void removeOnDraft(DieDraftPoolView draft, SetUpInformationUnit unit){
-        draft.getDice().remove(unit.getDestinationIndex());
+        draft.getDice().remove(unit.getSourceIndex());
     }
 
     public void addOnRoundTrack(RoundTrackView roundTrack, SetUpInformationUnit unit){
@@ -110,6 +110,6 @@ public class GamePlayManager implements Serializable {
     }
 
     public void removeOnRoundTrack(RoundTrackView roundTrack, SetUpInformationUnit unit){
-        roundTrack.getAvailableDice().get(unit.getDestinationIndex()).remove(unit.getOffset());
+        roundTrack.getAvailableDice().get(unit.getSourceIndex()).remove(unit.getOffset());
     }
 }

@@ -140,7 +140,7 @@ public class Cell {
     }
 
     public void setRuleSetCell(List<ARestriction> ruleSetCell) {
-        this.ruleSetCell = ruleSetCell;
+        this.ruleSetCell = new ArrayList<>(ruleSetCell);
     }
 
     /**

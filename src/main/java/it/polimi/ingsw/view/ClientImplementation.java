@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.network.IFromServerToClient;
+import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 
 import java.util.List;
 import java.util.Map;
@@ -63,7 +64,6 @@ public class ClientImplementation implements IFromServerToClient {
         view.showCommand(commands);
     }
 
-
     @Override
     public void addOnOwnWp(SetUpInformationUnit unit){
         view.addOnOwnWp(unit);
@@ -111,6 +111,11 @@ public class ClientImplementation implements IFromServerToClient {
 
     @Override
     public void updateToolCost(int idSlot, int cost){ view.updateToolCost(idSlot,cost);}
+
+    @Override
+    public void showRank(String[] playerNames, int[] scores) {
+        view.showRank(playerNames, scores);
+    }
 
     @Override
     public void showNotice(String notice){ view.showNotice(notice);}

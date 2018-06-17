@@ -3,8 +3,6 @@ package it.polimi.ingsw.model.die.diecontainers;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.restrictions.ARestriction;
-import it.polimi.ingsw.model.restrictions.ColorRestriction;
-import it.polimi.ingsw.model.restrictions.ValueRestriction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,51 +82,33 @@ public class WindowPatternCard extends ADieContainer {
     /**
      * Constructor that generates a copy of the current class window.
      */
-    public void copyGlassWindow() {
-        Cell[][] gwToCopy = this.getGlassWindow();
-        List<ARestriction> ruleSet;
-        for(int i=0; i<WindowPatternCard.getMaxRow(); i++)
-            for(int j=0; j<WindowPatternCard.getMaxCol(); j++) {
-                ruleSet = new ArrayList<>();
-                if(!gwToCopy[i][j].isEmpty()) {
-                    ruleSet.add(new ColorRestriction(gwToCopy[i][j].getContainedDie().getDieColor()));
-                    ruleSet.add(new ValueRestriction(gwToCopy[i][j].getContainedDie().getActualDieValue()));
-                    glassWindowCopy[i][j].setContainedDie(gwToCopy[i][j].getContainedDie());
-                } else {
-                    ruleSet.add(new ColorRestriction(gwToCopy[i][j].getDefaultColorRestriction().getColor()));
-                    ruleSet.add(new ValueRestriction(gwToCopy[i][j].getDefaultValueRestriction().getValue()));
-                }
-                this.glassWindowCopy[i][j].setRuleSetCell(ruleSet);
+    public void createCopy() {
+        for(int i = 0; i < WindowPatternCard.getMaxRow(); i++) {
+            for (int j = 0; i < WindowPatternCard.getMaxCol(); j++) {
+                glassWindowCopy[i][j] = new Cell(i, j);
+                if (!glassWindow[i][j].isEmpty())
+                    glassWindowCopy[i][j].setContainedDie(new Die(glassWindow[i][j].getContainedDie().getActualDieValue(), glassWindow[i][j].getContainedDie().getDieColor()));
+                else
+                    glassWindowCopy[i][j].setRuleSetCell(glassWindow[i][j].getRuleSetCell());
             }
+        }
     }
 
     /**
      * This method restore the original glass window.
      */
-    private void restoreGlassWindow() {
-        List<ARestriction> ruleSet;
-        for(int i=0; i<WindowPatternCard.getMaxRow(); i++)
-            for(int j=0; j<WindowPatternCard.getMaxCol(); j++) {
-                ruleSet = new ArrayList<>();
-                if(!glassWindowCopy[i][j].isEmpty()) {
-                    ruleSet.add(new ColorRestriction(glassWindowCopy[i][j].getContainedDie().getDieColor()));
-                    ruleSet.add(new ValueRestriction(glassWindowCopy[i][j].getContainedDie().getActualDieValue()));
-                } else {
-                    ruleSet.add(new ColorRestriction(glassWindowCopy[i][j].getDefaultColorRestriction().getColor()));
-                    ruleSet.add(new ValueRestriction(glassWindowCopy[i][j].getDefaultValueRestriction().getValue()));
-                }
-                this.glassWindow[i][j].setRuleSetCell(ruleSet);
+    private void overwriteOriginal() {
+        for(int i = 0; i < WindowPatternCard.getMaxRow(); i++) {
+            for (int j = 0; i < WindowPatternCard.getMaxCol(); j++) {
+                glassWindow[i][j] = new Cell(i, j);
+                if (!glassWindowCopy[i][j].isEmpty())
+                    glassWindow[i][j].setContainedDie(new Die(glassWindowCopy[i][j].getContainedDie().getActualDieValue(), glassWindowCopy[i][j].getContainedDie().getDieColor()));
+                else
+                    glassWindow[i][j].setRuleSetCell(glassWindowCopy[i][j].getRuleSetCell());
             }
-
+        }
     }
 
-    public void createCopy(){
-        this.glassWindowCopy = this.glassWindow;
-    }
-
-    public void overwriteOriginal(){
-        this.glassWindow = this.glassWindowCopy;
-    }
 
     /**
      * This method sets the window pattern card with the selected die.
@@ -137,7 +117,7 @@ public class WindowPatternCard extends ADieContainer {
     @Override
     public void addDie(Die die) {
         if(this.isGlassWindowModified())
-            restoreGlassWindow();
+            overwriteOriginal();
         glassWindow[desiredCell.getRow()][desiredCell.getCol()].setContainedDie(die);
         setDesiredCell(null);
     }

@@ -93,7 +93,7 @@ public class CliCommunicationManager implements ICommunicationManager {
     @Override
     public void exitGame(){
         try{
-            server.exitGame(view.getPlayer().getUserName());
+            server.exitGame();
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during log out", e);
         }
