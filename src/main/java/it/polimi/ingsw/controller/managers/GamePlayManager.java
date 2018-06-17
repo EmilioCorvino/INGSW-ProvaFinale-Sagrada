@@ -44,7 +44,7 @@ public class GamePlayManager extends AGameManager {
     private Timer timer;
 
     /**
-     * Says if the move done is legal or not. It's set by executeMove methods.
+     * Says if the move done is legal or not. It's set by executeMove methods and at the start of each turn.
      */
     private boolean moveLegal = true;
 
@@ -124,6 +124,7 @@ public class GamePlayManager extends AGameManager {
      * @param currentPlayerTurn the turn of the current player.
      */
     private void startTurn(Turn currentPlayerTurn) {
+        this.setMoveLegal(true);
 
         //Shows the commands to the player on duty.
         IFromServerToClient currentPlayerClient =
@@ -196,7 +197,7 @@ public class GamePlayManager extends AGameManager {
     /**
      * Ends the turn, incrementing the index of the current player in the turn order list at {@link GameState}.
      * Then starts a new turn.
-     * @param message
+     * @param message communication to send to the player, informing him why is his turn over.
      */
     private void endTurn(String message) {
         GameState gameState = super.getControllerMaster().getGameState();
@@ -221,6 +222,11 @@ public class GamePlayManager extends AGameManager {
         }
     }
 
+    /**
+     * Starts a new round, by resetting the turn index and incrementing the round count. If the match is over, it
+     * signals it.
+     * @param gameState object containing the overall state of the match.
+     */
     private void endRound(GameState gameState) {
         gameState.resetCurrentPlayerTurnIndex();
         this.moveRemainingDiceFromDraftPoolToRoundTrack(gameState, super.getControllerMaster().getCommonBoard());
@@ -266,7 +272,8 @@ public class GamePlayManager extends AGameManager {
                 List<Commands> filteredCommands = this.filterPlacement(this.currentPlayerCommands);
                 try {
                     currentPlayerClient.showNotice("\nHai già effettuato un piazzamento in questo turno! Puoi ancora " +
-                            "usare una Carta Strumento che non lo implichi, oppure passare.\n");
+                            "usare una Carta Strumento che non lo implichi, visualizzare informazioni della plancia" +
+                            " oppure passare.\n");
                     currentPlayerClient.showCommand(filteredCommands);
                 } catch (BrokenConnectionException e) {
                     SagradaLogger.log(Level.SEVERE, "Connection with the client crashed while performing a " +
@@ -276,6 +283,13 @@ public class GamePlayManager extends AGameManager {
             } else {
                 IMove move = new DiePlacementMove();
                 move.executeMove(this, info);
+
+                //Checks if the executeMove has been successful or not, and modifies the state of the turn accordingly.
+                if(this.isMoveLegal()) {
+                    gameState.getCurrentTurn().setDiePlaced(true);
+                } else {
+                    gameState.getCurrentTurn().setDiePlaced(false);
+                }
             }
         } else {
             this.endTurn("\nHai già effettuato tutte le operazioni possibili in un turno, " +
@@ -291,14 +305,13 @@ public class GamePlayManager extends AGameManager {
      */
     public void showPlacementResult(Player currentPlayer, SetUpInformationUnit setUpInfoUnit) {
         GameState gameState = super.getControllerMaster().getGameState();
-        gameState.getCurrentTurn().setDiePlaced(true);
 
         //Update the board of the player on duty.
-        IFromServerToClient client = super.getControllerMaster().getConnectedPlayers().get(
+        IFromServerToClient currentPlayerClient = super.getControllerMaster().getConnectedPlayers().get(
                 currentPlayer.getPlayerName()).getClient();
         try {
-            client.addOnOwnWp(setUpInfoUnit);
-            client.removeOnDraft(draftSetUpInformationUnit);
+            currentPlayerClient.addOnOwnWp(setUpInfoUnit);
+            currentPlayerClient.removeOnDraft(setUpInfoUnit);
         } catch (BrokenConnectionException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to update current player wp and draft pool", e);
             //todo super.getControllerMaster().suspendPlayer(currentPlayer.getPlayerName());
@@ -307,11 +320,15 @@ public class GamePlayManager extends AGameManager {
         //Checks if the player has done everything he could. If he did, ends his turn; if not, shows him the commands.
         //The commands shown are relative to what the player can still do.
         if(!gameState.isCurrentTurnOver()) {
+            List<Commands> filteredCommands = this.filterPlacement(this.currentPlayerCommands);
             try {
-                this.filterPlacement(, );
+                currentPlayerClient.showNotice("\nPiazzamento effettuato! Puoi ancora usare una Carta Strumento che" +
+                        " non implichi un piazzamento, visualizzare informazioni della plancia oppure passare.\n");
+                currentPlayerClient.showCommand(filteredCommands);
             } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.SEVERE, "Impossible to show the player updated commands", e);
-                //todo super.getControllerMaster().suspendPlayer(currentPlayer.getPlayerName());
+                SagradaLogger.log(Level.SEVERE, "Connection with the client crashed while " +
+                        "updating his commands", e);
+                //todo super.getControllerMaster().suspendPlayer(playerName);
             }
         } else {
             this.endTurn("Hai effettuato tutte le operazioni possibili in un turno, " +
@@ -326,7 +343,7 @@ public class GamePlayManager extends AGameManager {
                         super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient();
                 try {
                     waitingPlayerClient.addOnOtherPlayerWp(currentPlayer.getPlayerName(), setUpInfoUnit);
-                    waitingPlayerClient.removeOnDraft(draftSetUpInformationUnit);
+                    waitingPlayerClient.removeOnDraft(setUpInfoUnit);
                 } catch (BrokenConnectionException e) {
                     SagradaLogger.log(Level.SEVERE, "Impossible to update waiting players wp and draft pool", e);
                     //todo super.getControllerMaster().suspendPlayer(p.getPlayerName);
