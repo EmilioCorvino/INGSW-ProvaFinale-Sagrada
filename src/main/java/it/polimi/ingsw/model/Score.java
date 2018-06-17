@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.cards.PublicObjectiveCardSlot;
 import it.polimi.ingsw.model.cards.objective.ObjectiveCardAnalyzerVisitor;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
+import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 
 /**
  * An implementation of {@link IScore}, this class contains scores computed from

@@ -1,15 +1,12 @@
-package it.polimi.ingsw.model.die.diecontainers;
+package it.polimi.ingsw.model.die.containers;
 
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.utils.exceptions.DieNotContainedException;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
 
 /**
  * This class menage the bag with the dice.
@@ -20,6 +17,11 @@ public class DiceBag extends ADieContainer {
      * List of Dice in the bag.
      */
     private List<Die> availableDice;
+
+    /**
+     * A copy of the dice contained.
+     */
+    private List<Die> availableDiceCopy;
 
     /**
      * Number of dice for color.
@@ -60,10 +62,19 @@ public class DiceBag extends ADieContainer {
     public Die extract() throws EmptyException{
         if(!availableDice.isEmpty()) {
             int indexToBeExtracted = new Random().nextInt(getAvailableDice().size());
-            return removeDie(indexToBeExtracted);
+            return this.availableDice.remove(indexToBeExtracted);
         }
         else
             throw new EmptyException("The dice bag is empty");
+    }
+
+    /**
+     * This method addDie a die in the bag
+     * @param die: the die that has to be placed.
+     */
+    @Override
+    public void addDie(Die die) {
+        availableDiceCopy.add(die);
     }
 
     /**
@@ -73,22 +84,25 @@ public class DiceBag extends ADieContainer {
      */
     @Override
     public Die removeDie(int index){
-        return this.availableDice.remove(index);
-    }
-
-    /**
-     * This method addDie a die in the bag
-     * @param die: the die that has to be placed.
-     */
-    @Override
-    public void addDie(Die die) {
-        availableDice.add(die);
+        return this.availableDiceCopy.remove(index);
     }
 
     @Override
     public boolean isContained(Die die) {
         return false;
     }
+
+    @Override
+    public void createCopy() {
+        this.availableDiceCopy = new ArrayList<>(this.availableDice);
+    }
+
+    @Override
+    public void overwriteOriginal() {
+        this.availableDice = new ArrayList<>(this.availableDiceCopy);
+    }
+
+
 
 
 

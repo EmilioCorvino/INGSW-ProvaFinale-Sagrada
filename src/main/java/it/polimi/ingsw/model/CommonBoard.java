@@ -7,9 +7,9 @@ import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCardsDeck;
 import it.polimi.ingsw.model.cards.objective.publics.APublicObjectiveCard;
 import it.polimi.ingsw.model.cards.objective.publics.PublicObjectiveCardsDeck;
 import it.polimi.ingsw.model.cards.tool.ToolCardsDeck;
-import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
-import it.polimi.ingsw.model.die.diecontainers.RoundTrack;
-import it.polimi.ingsw.model.die.diecontainers.WindowPatternCardDeck;
+import it.polimi.ingsw.model.die.containers.DiceDraftPool;
+import it.polimi.ingsw.model.die.containers.RoundTrack;
+import it.polimi.ingsw.model.die.containers.WindowPatternCardDeck;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
@@ -36,12 +36,12 @@ public class CommonBoard {
 
 
     /**
-     * {@link it.polimi.ingsw.model.die.diecontainers.DiceDraftPool} of the match.
+     * {@link it.polimi.ingsw.model.die.containers.DiceDraftPool} of the match.
      */
     private final DiceDraftPool draftPool;
 
     /**
-     * {@link it.polimi.ingsw.model.die.diecontainers.RoundTrack} of the match.
+     * {@link it.polimi.ingsw.model.die.containers.RoundTrack} of the match.
      */
     private final RoundTrack roundTrack;
 
@@ -70,7 +70,7 @@ public class CommonBoard {
     private final PublicObjectiveCardsDeck publicObjectiveCardsDeck;
 
     /**
-     * Deck composed by {@link it.polimi.ingsw.model.die.diecontainers.WindowPatternCard}.
+     * Deck composed by {@link it.polimi.ingsw.model.die.containers.WindowPatternCard}.
      */
     private final WindowPatternCardDeck windowPatternCardDeck;
 

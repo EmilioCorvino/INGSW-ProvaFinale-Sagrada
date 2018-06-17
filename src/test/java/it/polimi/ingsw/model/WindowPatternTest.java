@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
+import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 import it.polimi.ingsw.model.restrictions.ColorRestriction;
 import it.polimi.ingsw.model.restrictions.ValueRestriction;
 import org.junit.Test;
@@ -22,12 +22,16 @@ public class WindowPatternTest {
         Die die = new Die(1, Color.RED);
         Cell selectedCell = new Cell(0,0);
 
+        wp.createCopy();
+
         if(wp.canBePlaced(die,selectedCell, wp.getGlassWindow())) {
             wp.setDesiredCell(selectedCell);
             wp.addDie(die);
         }
 
-        assertEquals(wp.getGlassWindow()[selectedCell.getRow()][selectedCell.getCol()].getContainedDie(),die);
+        wp.overwriteOriginal();
+        assertEquals(wp.getGlassWindow()[selectedCell.getRow()][selectedCell.getCol()].getContainedDie().getActualDieValue(),die.getActualDieValue());
+        assertEquals(wp.getGlassWindow()[selectedCell.getRow()][selectedCell.getCol()].getContainedDie().getDieColor(),die.getDieColor());
     }
 
     /**
@@ -58,10 +62,14 @@ public class WindowPatternTest {
         Die die1 = new Die(2, Color.RED);
         Die die2 = new Die(3, Color.BLUE);
 
+        wp.createCopy();
+
         if(wp.canBePlaced(die1, selectedCell, wp.getGlassWindow())) {
             wp.setDesiredCell(selectedCell);
             wp.addDie(die1);
         }
+
+        wp.overwriteOriginal();
         assertFalse(wp.canBePlaced(die2,selectedCell, wp.getGlassWindow()));
     }
 
@@ -78,10 +86,14 @@ public class WindowPatternTest {
         Die die1 = new Die(2, Color.RED);
         Die die2 = new Die(3,Color.BLUE);
 
+        wp.createCopy();
+
         if(wp.canBePlaced(die1,selectedCell1, wp.getGlassWindow())) {
             wp.setDesiredCell(selectedCell1);
             wp.addDie(die1);
         }
+
+        wp.overwriteOriginal();
         assertTrue(wp.canBePlaced(die2,selectedCell2, wp.getGlassWindow()));
         assertTrue(wp.canBePlaced(die2,selectedCell3, wp.getGlassWindow()));
         assertFalse(wp.canBePlaced(die2,selectedCell4, wp.getGlassWindow()));
@@ -126,11 +138,14 @@ public class WindowPatternTest {
         Die incorrectValueDie  = new Die(1,Color.BLUE);
         Die incorrectColorDie = new Die(3, Color.RED);
 
+        wp.createCopy();
+
         if(wp.canBePlaced(die,cell1, wp.getGlassWindow())){
             wp.setDesiredCell(cell1);
             wp.addDie(die);
         }
 
+        wp.overwriteOriginal();
         assertTrue(wp.canBePlaced(correctDie, orizAdjacentCell, wp.getGlassWindow()));
         assertFalse(wp.canBePlaced(incorrectColorDie, orizAdjacentCell, wp.getGlassWindow()));
         assertFalse(wp.canBePlaced(incorrectValueDie,orizAdjacentCell, wp.getGlassWindow()));
@@ -157,6 +172,7 @@ public class WindowPatternTest {
         commonBoard.initializeBoard();
 
         wp = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(7);
+        wp.createCopy();
 
         // Test of color restricted cell.
         assertTrue(wp.canBePlaced(die1,cell1, wp.getGlassWindow()));
@@ -176,7 +192,9 @@ public class WindowPatternTest {
         //Test of consecutive placement
         wp.setDesiredCell(cell2);
         wp.addDie(die2);
-        assertEquals(wp.getGlassWindow()[cell2.getRow()][cell2.getCol()].getContainedDie(), die2);
+        wp.overwriteOriginal();
+        assertEquals(wp.getGlassWindow()[cell2.getRow()][cell2.getCol()].getContainedDie().getDieColor(), die2.getDieColor());
+        assertEquals(wp.getGlassWindow()[cell2.getRow()][cell2.getCol()].getContainedDie().getActualDieValue(), die2.getActualDieValue());
         assertTrue(wp.canBePlaced(die3, cell5, wp.getGlassWindow()));
 
     }
@@ -186,6 +204,7 @@ public class WindowPatternTest {
         CommonBoard commonBoard = new CommonBoard();
         commonBoard.initializeBoard();
         WindowPatternCard wp = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(7);
+        wp.createCopy();
 
         Die die = new Die(4, Color.PURPLE);
         Cell cell = new Cell(0,3);
@@ -197,12 +216,14 @@ public class WindowPatternTest {
             wp.addDie(die);
         }
 
-        assertEquals(die, wp.getGlassWindow()[cell.getRow()][cell.getCol()].getContainedDie());
+        wp.overwriteOriginal();
+        assertEquals(die.getActualDieValue(), wp.getGlassWindow()[cell.getRow()][cell.getCol()].getContainedDie().getActualDieValue());
+        assertEquals(die.getDieColor(), wp.getGlassWindow()[cell.getRow()][cell.getCol()].getContainedDie().getDieColor());
 
         wp.setDesiredCell(cell);
         wp.removeDie(cell.getRow()*WindowPatternCard.MAX_COL+cell.getCol());
 
-
+        wp.overwriteOriginal();
         assertNull(wp.getGlassWindow()[cell.getRow()][cell.getCol()].getContainedDie());
 
     }

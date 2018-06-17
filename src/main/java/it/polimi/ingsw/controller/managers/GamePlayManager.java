@@ -44,7 +44,7 @@ public class GamePlayManager extends AGameManager {
     private Timer timer;
 
     /**
-     * Says if the move done is legal or not. It's set by executeMove methods.
+     * Says if the move done is legal or not. It's set by executeMove methods and at the start of each turn.
      */
     private boolean moveLegal = true;
 
@@ -74,10 +74,11 @@ public class GamePlayManager extends AGameManager {
 
         this.currentPlayerCommands.addAll(Arrays.asList(Commands.PLACEMENT, Commands.OTHER_PLAYERS_MAPS,
                 Commands.PUBLIC_OBJ_CARDS, Commands.PRIVATE_OBJ_CARD, Commands.AVAILABLE_TOOL_CARDS,
-                Commands.END_TURN, Commands.LOGOUT));
+                Commands.ROUND_TRACK, Commands.END_TURN, Commands.LOGOUT));
 
         this.waitingPlayersCommands = new ArrayList<>(Arrays.asList(Commands.OTHER_PLAYERS_MAPS,
-                Commands.PUBLIC_OBJ_CARDS, Commands.PRIVATE_OBJ_CARD, Commands.AVAILABLE_TOOL_CARDS, Commands.LOGOUT));
+                Commands.PUBLIC_OBJ_CARDS, Commands.PRIVATE_OBJ_CARD, Commands.AVAILABLE_TOOL_CARDS,
+                Commands.ROUND_TRACK, Commands.LOGOUT));
     }
 
     /**
@@ -123,6 +124,7 @@ public class GamePlayManager extends AGameManager {
      * @param currentPlayerTurn the turn of the current player.
      */
     private void startTurn(Turn currentPlayerTurn) {
+        this.setMoveLegal(true);
 
         //Shows the commands to the player on duty.
         IFromServerToClient currentPlayerClient =
@@ -195,7 +197,7 @@ public class GamePlayManager extends AGameManager {
     /**
      * Ends the turn, incrementing the index of the current player in the turn order list at {@link GameState}.
      * Then starts a new turn.
-     * @param message
+     * @param message communication to send to the player, informing him why is his turn over.
      */
     private void endTurn(String message) {
         GameState gameState = super.getControllerMaster().getGameState();
@@ -220,6 +222,11 @@ public class GamePlayManager extends AGameManager {
         }
     }
 
+    /**
+     * Starts a new round, by resetting the turn index and incrementing the round count. If the match is over, it
+     * signals it.
+     * @param gameState object containing the overall state of the match.
+     */
     private void endRound(GameState gameState) {
         gameState.resetCurrentPlayerTurnIndex();
         this.moveRemainingDiceFromDraftPoolToRoundTrack(gameState, super.getControllerMaster().getCommonBoard());
@@ -242,8 +249,12 @@ public class GamePlayManager extends AGameManager {
     }
 
     /**
-     * @param info
-     * @param playerName
+     * This method is used to perform a standard {@link DiePlacementMove}. It can handle weird situations in which a
+     * player tries to perform moves not in his turn.
+     * It also checks if a placement has already been done and in that case it shows to the player new suitable
+     * {@link Commands}.
+     * @param info object containing the information needed to update the model.
+     * @param playerName name of the player trying to perform the move.
      */
     public void performDefaultMove(SetUpInformationUnit info, String playerName) {
         GameState gameState = super.getControllerMaster().getGameState();
@@ -258,8 +269,12 @@ public class GamePlayManager extends AGameManager {
 
             //If the player has already placed a die, tells him and shows him a new appropriate list of commands.
             if (gameState.getCurrentTurn().isDiePlaced()) {
+                List<Commands> filteredCommands = this.filterPlacement(this.currentPlayerCommands);
                 try {
-                    this.showCommandsWithoutPlacement(currentPlayerClient);
+                    currentPlayerClient.showNotice("\nHai già effettuato un piazzamento in questo turno! Puoi ancora " +
+                            "usare una Carta Strumento che non lo implichi, visualizzare informazioni della plancia" +
+                            " oppure passare.\n");
+                    currentPlayerClient.showCommand(filteredCommands);
                 } catch (BrokenConnectionException e) {
                     SagradaLogger.log(Level.SEVERE, "Connection with the client crashed while performing a " +
                             "default move", e);
@@ -268,6 +283,13 @@ public class GamePlayManager extends AGameManager {
             } else {
                 IMove move = new DiePlacementMove();
                 move.executeMove(this, info);
+
+                //Checks if the executeMove has been successful or not, and modifies the state of the turn accordingly.
+                if(this.isMoveLegal()) {
+                    gameState.getCurrentTurn().setDiePlaced(true);
+                } else {
+                    gameState.getCurrentTurn().setDiePlaced(false);
+                }
             }
         } else {
             this.endTurn("\nHai già effettuato tutte le operazioni possibili in un turno, " +
@@ -277,23 +299,19 @@ public class GamePlayManager extends AGameManager {
 
     /**
      * Shows the result of the default placement move to the player on duty and the waiting players.
-     * @param currentPlayer player on duty
-     * @param wpSetUpInformationUnit information used by the view to update
-     *                               the {@link it.polimi.ingsw.model.die.diecontainers.WindowPatternCard}
-     * @param draftSetUpInformationUnit information used by the view to update
-     *                                  the {@link it.polimi.ingsw.model.die.diecontainers.DiceDraftPool}
+     * @param currentPlayer player on duty.
+     * @param setUpInfoUnit information used by the view to update
+     *                               the {@link it.polimi.ingsw.model.die.containers.WindowPatternCard}.
      */
-    public void showPlacementResult(Player currentPlayer, SetUpInformationUnit wpSetUpInformationUnit,
-                                    SetUpInformationUnit draftSetUpInformationUnit) {
+    public void showPlacementResult(Player currentPlayer, SetUpInformationUnit setUpInfoUnit) {
         GameState gameState = super.getControllerMaster().getGameState();
-        gameState.getCurrentTurn().setDiePlaced(true);
 
         //Update the board of the player on duty.
-        IFromServerToClient client = super.getControllerMaster().getConnectedPlayers().get(
+        IFromServerToClient currentPlayerClient = super.getControllerMaster().getConnectedPlayers().get(
                 currentPlayer.getPlayerName()).getClient();
         try {
-            client.addOnOwnWp(wpSetUpInformationUnit);
-            client.removeOnDraft(draftSetUpInformationUnit);
+            currentPlayerClient.addOnOwnWp(setUpInfoUnit);
+            currentPlayerClient.removeOnDraft(setUpInfoUnit);
         } catch (BrokenConnectionException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to update current player wp and draft pool", e);
             //todo super.getControllerMaster().suspendPlayer(currentPlayer.getPlayerName());
@@ -302,11 +320,15 @@ public class GamePlayManager extends AGameManager {
         //Checks if the player has done everything he could. If he did, ends his turn; if not, shows him the commands.
         //The commands shown are relative to what the player can still do.
         if(!gameState.isCurrentTurnOver()) {
+            List<Commands> filteredCommands = this.filterPlacement(this.currentPlayerCommands);
             try {
-                this.showCommandsWithoutPlacement(client);
+                currentPlayerClient.showNotice("\nPiazzamento effettuato! Puoi ancora usare una Carta Strumento che" +
+                        " non implichi un piazzamento, visualizzare informazioni della plancia oppure passare.\n");
+                currentPlayerClient.showCommand(filteredCommands);
             } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.SEVERE, "Impossible to show the player updated commands", e);
-                //todo super.getControllerMaster().suspendPlayer(currentPlayer.getPlayerName());
+                SagradaLogger.log(Level.SEVERE, "Connection with the client crashed while " +
+                        "updating his commands", e);
+                //todo super.getControllerMaster().suspendPlayer(playerName);
             }
         } else {
             this.endTurn("Hai effettuato tutte le operazioni possibili in un turno, " +
@@ -320,8 +342,8 @@ public class GamePlayManager extends AGameManager {
                 IFromServerToClient waitingPlayerClient =
                         super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient();
                 try {
-                    waitingPlayerClient.addOnOtherPlayerWp(currentPlayer.getPlayerName(), wpSetUpInformationUnit);
-                    waitingPlayerClient.removeOnDraft(draftSetUpInformationUnit);
+                    waitingPlayerClient.addOnOtherPlayerWp(currentPlayer.getPlayerName(), setUpInfoUnit);
+                    waitingPlayerClient.removeOnDraft(setUpInfoUnit);
                 } catch (BrokenConnectionException e) {
                     SagradaLogger.log(Level.SEVERE, "Impossible to update waiting players wp and draft pool", e);
                     //todo super.getControllerMaster().suspendPlayer(p.getPlayerName);
@@ -331,53 +353,39 @@ public class GamePlayManager extends AGameManager {
     }
 
     /**
-     * This methods uses the {@link IFromServerToClient#showCommand} method to show the commands still available to the
-     * player on duty. In this case, the command {@link Commands#PLACEMENT} and the ones relative
-     * to {@link ToolCard}s that imply a placement are removed from the list sent.
-     * @param client client receiving the {@link Commands}.
+     * This method filters the list of {@link Commands} in input, removing all the ones related to the placement,
+     * including {@link ToolCard}s.
+     * @param listToFilter list needing to be filtered.
      */
-    private void showCommandsWithoutPlacement(IFromServerToClient client) throws BrokenConnectionException {
-        client.showNotice("\nPuoi ancora usare una Carta Strumento che non implichi il piazzamento di un dado, o passare il turno.");
-        List<Commands> modifiedCurrentPlayerList = new ArrayList<>(this.currentPlayerCommands);
+    private List<Commands> filterPlacement(List<Commands> listToFilter) {
+        List<Commands> modifiedCurrentPlayerList = new ArrayList<>(listToFilter);
 
         //Remove the placement command.
         modifiedCurrentPlayerList.remove(Commands.PLACEMENT);
 
         //Remove the commands of each tool card drafted that implies a placement.
         for(ToolCardSlot slot: super.getControllerMaster().getCommonBoard().getToolCardSlots()) {
-            ToolCard toolCard = slot.getToolCard();
-            if(toolCard.impliesPlacement()) {
-                for (String command : toolCard.getEffectBuilder().getEffects()) {
-                    modifiedCurrentPlayerList.remove(command);
-                }
+            if(slot.checkIfCardImpliesPlacement()) {
+                modifiedCurrentPlayerList.remove(slot.getToolCard().getCommandName());
             }
         }
 
-        //Show to the client the updated list of commands.
-        client.showCommand(modifiedCurrentPlayerList);
+        return modifiedCurrentPlayerList;
     }
 
     /**
-     * This methods uses the {@link IFromServerToClient#showCommand} method to show the commands still available to the
-     * player on duty. In this case, all the commands relative to the {@link it.polimi.ingsw.model.cards.tool.ToolCard}s
-     * are removed from the list sent.
-     * @param client client receiving the {@link Commands}.
+     * This method filters the list of {@link Commands} in input, removing all the ones related to {@link ToolCard}s.
+     * @param listToFilter list needing to be filtered.
      */
-    private void showCommandsWithoutTools(IFromServerToClient client) throws BrokenConnectionException {
-        client.showNotice("\nHai già usato una Carta Strumento in questo turno! Puoi ancora fare un piazzamento semplice," +
-                " o passare il turno.\n");
-        List<Commands> modifiedCurrentPlayerList = new ArrayList<>(this.currentPlayerCommands);
+    private List<Commands> filterTools(List<Commands> listToFilter) {
+        List<Commands> modifiedCurrentPlayerList = new ArrayList<>(listToFilter);
 
         //Remove tool cards commands
         for(ToolCardSlot slot: super.getControllerMaster().getCommonBoard().getToolCardSlots()) {
-            ToolCard toolCard = slot.getToolCard();
-            for(String command: toolCard.getEffectBuilder().getEffects()) {
-                modifiedCurrentPlayerList.remove(command);
-            }
+            modifiedCurrentPlayerList.remove(slot.getToolCard().getCommandName());
         }
 
-        //Show to the client the updated list of commands.
-        client.showCommand(modifiedCurrentPlayerList);
+        return modifiedCurrentPlayerList;
     }
 
     /**
@@ -414,8 +422,8 @@ public class GamePlayManager extends AGameManager {
 
     /**
      * This method is used at the start of each round to move all remaining dice in the
-     * {@link it.polimi.ingsw.model.die.diecontainers.DiceDraftPool} to the space on the
-     * {@link it.polimi.ingsw.model.die.diecontainers.RoundTrack} corresponding to the current round.
+     * {@link it.polimi.ingsw.model.die.containers.DiceDraftPool} to the space on the
+     * {@link it.polimi.ingsw.model.die.containers.RoundTrack} corresponding to the current round.
      */
     private void moveRemainingDiceFromDraftPoolToRoundTrack(GameState gameState, CommonBoard board) {
         if(!board.getDraftPool().getAvailableDice().isEmpty()) {

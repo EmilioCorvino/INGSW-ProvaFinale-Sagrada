@@ -2,10 +2,9 @@ package it.polimi.ingsw.model.cards.tool.ValueEffects;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
-import it.polimi.ingsw.model.move.DiePlacementMove;
-import it.polimi.ingsw.model.move.IMove;
+import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 
 import java.util.List;
 import java.util.Random;
@@ -78,7 +77,8 @@ public class DraftValueEffect extends AValueEffect {
             return;
         }
 
-        IMove move = new DiePlacementMove();
-        move.executeMove(manager, setUpInfoUnit);
+        wp.setDesiredCell(new Cell(setUpInfoUnit.getDestinationIndex() / WindowPatternCard.MAX_COL, setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL));
+        wp.addDie(chosenDie);
+        //TODO tell the controller to show updates.
     }
 }

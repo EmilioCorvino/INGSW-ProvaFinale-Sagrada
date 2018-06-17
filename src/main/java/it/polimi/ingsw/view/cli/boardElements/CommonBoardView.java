@@ -4,9 +4,7 @@ import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.die.RoundTrackView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class contains all the view object common for each player.
@@ -21,14 +19,14 @@ public class CommonBoardView {
 
     private List<String> publicObjectiveCards;
 
-    private List<ToolCard> toolCards;
+    private List<ToolCardView> toolCardViews;
 
 
     public CommonBoardView(){
         this.players = new ArrayList<>();
         this.roundTrack = new RoundTrackView(10);
         this.publicObjectiveCards = new ArrayList<>();
-        this.toolCards = new ArrayList<>();
+        this.toolCardViews = new ArrayList<>();
     }
 
     public List<PlayerView> getPlayers() {
@@ -47,8 +45,8 @@ public class CommonBoardView {
         return publicObjectiveCards;
     }
 
-    public List<ToolCard> getToolCards() {
-        return toolCards;
+    public List<ToolCardView> getToolCardViews() {
+        return toolCardViews;
     }
 
     public void setDraftPool(DieDraftPoolView draftPool) {

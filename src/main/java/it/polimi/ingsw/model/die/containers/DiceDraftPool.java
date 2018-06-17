@@ -1,7 +1,6 @@
-package it.polimi.ingsw.model.die.diecontainers;
+package it.polimi.ingsw.model.die.containers;
 
 import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.utils.exceptions.DieNotContainedException;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 
@@ -22,7 +21,7 @@ public class DiceDraftPool extends ADieContainer {
     /**
      * A copy of the list of dice contained inside the draft.
      */
-    private List<Die> draftCopy;
+    private List<Die> availableDiceCopy;
 
     /**
      * The die container where the DiceDraftPool extract dice.
@@ -60,22 +59,22 @@ public class DiceDraftPool extends ADieContainer {
     }
 
     /**
+     * This method addDie a die in the draft.
+     * @param die: the die that has to be placed.
+     */
+    @Override
+    public void addDie(Die die) {
+        this.availableDiceCopy.add(die);
+    }
+
+    /**
      * This method addDie the DraftPool list's of dice, removing the die chosen.
      * @param index a copy of the die to be removed.
      * @return the die contained, that has been removed.
      */
     @Override
     public Die removeDie(int index){
-        return this.getAvailableDice().remove(index);
-    }
-
-    /**
-     * This method addDie a die in the draft.
-     * @param die: the die that has to be placed.
-     */
-    @Override
-    public void addDie(Die die) {
-        this.getAvailableDice().add(die);
+        return this.availableDiceCopy.remove(index);
     }
 
     @Override
@@ -83,15 +82,17 @@ public class DiceDraftPool extends ADieContainer {
         return false;
     }
 
+    @Override
     public void createCopy(){
-        this.draftCopy = new ArrayList<>(this.availableDice);
+        this.availableDiceCopy = new ArrayList<>(this.availableDice);
     }
 
+    @Override
     public void overwriteOriginal(){
-        this.availableDice = new ArrayList<>(this.draftCopy);
+        this.availableDice = new ArrayList<>(this.availableDiceCopy);
     }
 
-    public List<Die> getDraftCopy(){
-        return this.draftCopy;
+    public List<Die> getAvailableDiceCopy(){
+        return this.availableDiceCopy;
     }
 }

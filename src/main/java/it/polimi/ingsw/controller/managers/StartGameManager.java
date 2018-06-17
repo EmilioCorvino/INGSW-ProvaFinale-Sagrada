@@ -8,9 +8,8 @@ import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.cards.PublicObjectiveCardSlot;
 import it.polimi.ingsw.model.cards.ToolCardSlot;
 import it.polimi.ingsw.model.die.Cell;
-import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
-import it.polimi.ingsw.model.die.diecontainers.WindowPatternCardDeck;
+import it.polimi.ingsw.model.die.containers.WindowPatternCard;
+import it.polimi.ingsw.model.die.containers.WindowPatternCardDeck;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
@@ -173,7 +172,7 @@ public class StartGameManager extends AGameManager {
 
     /**
      * This method is used to set the rest of the {@link CommonBoard} with a populated
-     * {@link it.polimi.ingsw.model.die.diecontainers.DiceDraftPool}, other players' {@link WindowPatternCard}s,
+     * {@link it.polimi.ingsw.model.die.containers.DiceDraftPool}, other players' {@link WindowPatternCard}s,
      * {@link it.polimi.ingsw.model.cards.objective.publics.APublicObjectiveCard}s and
      * {@link it.polimi.ingsw.model.cards.tool.ToolCard}s drawn.
      */

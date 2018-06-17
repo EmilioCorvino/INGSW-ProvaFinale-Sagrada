@@ -1,13 +1,10 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.model.die.diecontainers.DiceDraftPool;
-import it.polimi.ingsw.utils.exceptions.DieNotContainedException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
+import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 import org.junit.Test;
 
 import java.util.Random;
-import java.util.logging.Level;
 
 import static org.junit.Assert.*;
 
@@ -35,9 +32,12 @@ public class DiceDraftPoolTest {
         int numberOfPlayer = 4;
 
         diceDraftPool.populateDiceDraftPool(numberOfPlayer);
+        diceDraftPool.createCopy();
+
         int index = new Random().nextInt(numberOfPlayer*2 + 1);
 
         diceDraftPool.removeDie(index);
+        diceDraftPool.overwriteOriginal();
 
         assertEquals( numberOfPlayer*2 + 1 - 1 , diceDraftPool.getAvailableDice().size());
 
@@ -50,8 +50,10 @@ public class DiceDraftPoolTest {
         Die die = new Die(2, Color.RED);
 
         diceDraftPool.populateDiceDraftPool(numberOfPlayer);
+        diceDraftPool.createCopy();
 
         diceDraftPool.addDie(die);
+        diceDraftPool.overwriteOriginal();
 
         assertEquals(numberOfPlayer*2 + 1 +1, diceDraftPool.getAvailableDice().size());
         assertEquals(die.getDieColor(), diceDraftPool.getAvailableDice().get(diceDraftPool.getAvailableDice().size()-1).getDieColor());

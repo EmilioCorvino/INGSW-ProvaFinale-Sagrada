@@ -25,6 +25,7 @@ public enum Commands {
     PUBLIC_OBJ_CARDS,
     PRIVATE_OBJ_CARD,
     AVAILABLE_TOOL_CARDS,
+    ROUND_TRACK,
     END_TURN,
     START_ANOTHER_GAME,
     LOGOUT

@@ -23,7 +23,6 @@ import it.polimi.ingsw.view.cli.stateManagers.GamePlayManager;
 import it.polimi.ingsw.view.cli.stateManagers.LoginManager;
 import it.polimi.ingsw.view.cli.stateManagers.SetUpManager;
 
-import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -212,12 +211,12 @@ public class CliView implements IViewMaster {
         }
 
         setUpManager.createPubObjCards(idPubObj, commonBoard.getPublicObjectiveCards());
-        setUpManager.createToolCards(idTool, commonBoard.getToolCards());
+        setUpManager.createToolCards(idTool, commonBoard.getToolCardViews());
 
         inputOutputManager.print("\nPLANCIA DI GIOCO: ");
         setUpManager.printPrivateObj(this.getPlayer().getPrivateObjCard());
         setUpManager.printPubObj(commonBoard.getPublicObjectiveCards());
-        setUpManager.printTool(commonBoard.getToolCards());
+        setUpManager.printTool(commonBoard.getToolCardViews());
         this.player.getWp().printWp();
     }
 
@@ -251,6 +250,7 @@ public class CliView implements IViewMaster {
      */
     @Override
     public void showCommand(List<Commands> commands) {
+        //todo populate command in tool card view of commonBoard.
         functions = bank.getCommandMap(commands);
         printCommands();
     }
@@ -288,8 +288,11 @@ public class CliView implements IViewMaster {
     @Override
     public void addOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit){
         for (PlayerView ply : this.commonBoard.getPlayers())
+            if(ply.getUserName().equals(userName)) {
                 gamePlayManager.addOnWp(ply.getWp(), infoUnit);
-
+                inputOutputManager.print("\nE' stata mofificata una mappa: ");
+                ply.getWp().printWp();
+            }
     }
 
     /**
@@ -300,7 +303,8 @@ public class CliView implements IViewMaster {
     @Override
     public void removeOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit){
         for (PlayerView ply : this.commonBoard.getPlayers())
-            gamePlayManager.removeOnWp(ply.getWp(), infoUnit);
+            if(ply.getUserName().equals(userName))
+                gamePlayManager.removeOnWp(ply.getWp(), infoUnit);
     }
 
     /**
@@ -356,7 +360,7 @@ public class CliView implements IViewMaster {
      */
     @Override
     public void updateToolCost(int idSlot, int cost){
-        this.commonBoard.getToolCards().get(idSlot).setCost(cost);
+        this.commonBoard.getToolCardViews().get(idSlot).setCost(cost);
     }
 
     /**
@@ -374,7 +378,7 @@ public class CliView implements IViewMaster {
 
     @Override
     public void showRank(String[] players, int[] score){
-        endGameManager.showRank(players, score);
+        endGameManager.showRank(players, score, this.player);
     }
 
 //----------------------------------------------------------
