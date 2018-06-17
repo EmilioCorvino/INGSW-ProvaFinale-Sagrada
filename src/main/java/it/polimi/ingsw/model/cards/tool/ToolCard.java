@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.cards.tool;
 
 import com.google.gson.annotations.SerializedName;
 import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.move.IMove;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,7 @@ public class ToolCard implements IToolCard {
     /**
      * Effects possessed by the card.
      */
-    private transient List<AToolCardEffect> cardEffects;
+    private transient List<IMove> cardEffects;
 
     /**
      * Checks if the available turn in which the tool card can be used corresponds to the current turn.
@@ -88,7 +89,7 @@ public class ToolCard implements IToolCard {
         return effectBuilder;
     }
 
-    public List<AToolCardEffect> getCardEffects() {
+    public List<IMove> getCardEffects() {
         return cardEffects;
     }
 

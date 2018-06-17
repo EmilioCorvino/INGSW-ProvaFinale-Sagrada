@@ -2,13 +2,13 @@ package it.polimi.ingsw.model.cards.tool;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.model.cards.tool.PlacementEffect.*;
 import it.polimi.ingsw.model.cards.tool.SwapEffect.SwapFromDraftPoolToDicebag;
 import it.polimi.ingsw.model.cards.tool.SwapEffect.SwapFromDraftpoolToRoundTrack;
 import it.polimi.ingsw.model.cards.tool.ValueEffects.ChooseValueEffect;
 import it.polimi.ingsw.model.cards.tool.ValueEffects.DraftValueEffect;
 import it.polimi.ingsw.model.cards.tool.ValueEffects.OppositeValueEffect;
+import it.polimi.ingsw.model.move.DiePlacementMove;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 
@@ -79,28 +79,30 @@ public class ToolCardsDeck {
         for(ToolCard card: this.getDeck()) {
             card.initializeCardEffects();
             EffectBuilder builder = card.getEffectBuilder();
-            for(Commands effectName: builder.getEffects()) {
+            for(String effectName: builder.getEffects()) {
                 switch (effectName) {
-                    case CHOOSE_VALUE_EFFECT:             card.getCardEffects().add(new ChooseValueEffect(builder.
+                    case "chooseValueEffect":             card.getCardEffects().add(new ChooseValueEffect(builder.
                                                             getEffectSpecificParameter()));
                                                           break;
-                    case ADJIACENT_RESTRICTION_EFFECT:    card.getCardEffects().add(new AdjiacentCellsRestrictionEffect());
+                    case "adjiacentRestrictionEffect":    card.getCardEffects().add(new AdjiacentCellsRestrictionEffect());
                                                           break;
-                    case OPPOSITE_VALUE_EFFECT:           card.getCardEffects().add(new OppositeValueEffect());
+                    case "oppositeValueEffect":           card.getCardEffects().add(new OppositeValueEffect());
                                                           break;
-                    case SWAP_DRAFTPOOL_DICEBAG:          card.getCardEffects().add(new SwapFromDraftPoolToDicebag());
+                    case "swapDraftPoolDiceBag":          card.getCardEffects().add(new SwapFromDraftPoolToDicebag());
                                                           break;
-                    case COLOR_PLACEMENT_RESTRICTION_EFFECT: card.getCardEffects().add(new ColorPlacementRestrictionEffect());
+                    case "colorPlacementRestrictionEffect": card.getCardEffects().add(new ColorPlacementRestrictionEffect());
                                                           break;
-                    case VALUE_RESTRICTION_EFFECT:        card.getCardEffects().add(new ValueRestrictionEffect());
+                    case "valueRestrictionEffect":        card.getCardEffects().add(new ValueRestrictionEffect());
                                                           break;
-                    case COLOR_RESTRICTION_EFFECT:        card.getCardEffects().add(new ColorRestrictionEffect());
+                    case "colorRestrictionEffect":        card.getCardEffects().add(new ColorRestrictionEffect());
                                                           break;
-                    case PLACEMENT_RESTRICTION_EFFECT:    card.getCardEffects().add(new PlacementRestrictionEffect());
+                    case "placementRestrictionEffect":    card.getCardEffects().add(new PlacementRestrictionEffect());
                                                           break;
-                    case SWAP_DRAFTPOOL_ROUNDTRACK:       card.getCardEffects().add(new SwapFromDraftpoolToRoundTrack());
+                    case "swapDraftpoolRoundtrack":       card.getCardEffects().add(new SwapFromDraftpoolToRoundTrack());
                                                           break;
-                    case DRAFT_VALUE_EFFECT:              card.getCardEffects().add(new DraftValueEffect(builder.
+                    case "placement":                     card.getCardEffects().add(new DiePlacementMove());
+                                                          break;
+                    case "draftValueEffect":              card.getCardEffects().add(new DraftValueEffect(builder.
                                                             getEffectSpecificParameter()));
                                                           break;
                     default:                              throw new IOException("Illegal effect found on file.");
