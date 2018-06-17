@@ -3,12 +3,12 @@ package it.polimi.ingsw.model.cards.tool;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.controller.Commands;
-import it.polimi.ingsw.model.cards.tool.PlacementEffect.ColorRestrictionEffect;
-import it.polimi.ingsw.model.cards.tool.PlacementEffect.PlacementRestrictionEffect;
-import it.polimi.ingsw.model.cards.tool.PlacementEffect.ValueRestrictionEffect;
+import it.polimi.ingsw.model.cards.tool.PlacementEffect.*;
+import it.polimi.ingsw.model.cards.tool.SwapEffect.SwapFromDraftPoolToDicebag;
 import it.polimi.ingsw.model.cards.tool.SwapEffect.SwapFromDraftpoolToRoundTrack;
 import it.polimi.ingsw.model.cards.tool.ValueEffects.ChooseValueEffect;
 import it.polimi.ingsw.model.cards.tool.ValueEffects.DraftValueEffect;
+import it.polimi.ingsw.model.cards.tool.ValueEffects.OppositeValueEffect;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 
@@ -83,6 +83,14 @@ public class ToolCardsDeck {
                 switch (effectName) {
                     case CHOOSE_VALUE_EFFECT:             card.getCardEffects().add(new ChooseValueEffect(builder.
                                                             getEffectSpecificParameter()));
+                                                          break;
+                    case ADJIACENT_RESTRICTION_EFFECT:    card.getCardEffects().add(new AdjiacentCellsRestrictionEffect());
+                                                          break;
+                    case OPPOSITE_VALUE_EFFECT:           card.getCardEffects().add(new OppositeValueEffect());
+                                                          break;
+                    case SWAP_DRAFTPOOL_DICEBAG:          card.getCardEffects().add(new SwapFromDraftPoolToDicebag());
+                                                          break;
+                    case COLOR_PLACEMENT_RESTRICTION_EFFECT: card.getCardEffects().add(new ColorPlacementRestrictionEffect());
                                                           break;
                     case VALUE_RESTRICTION_EFFECT:        card.getCardEffects().add(new ValueRestrictionEffect());
                                                           break;
