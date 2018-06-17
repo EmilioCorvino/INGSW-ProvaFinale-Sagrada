@@ -26,12 +26,15 @@ public class DiePlacementMove implements IMove {
         Player p = manager.getControllerMaster().getGameState().getCurrentPlayer();
         WindowPatternCard wp = p.getWindowPatternCard();
 
+        wp.copyGlassWindow(wp.getGlassWindowCopy(), wp.getGlassWindow());
+
         Die die = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice().get(setUpInfoUnit.getSourceIndex());
 
         if(!checkPlacement(wp, die, manager, setUpInfoUnit))
             return;
 
         //Generation of SetUpInformationUnits to send to the view.
+        //this goes in a proper method and show placement result takes one parameter as input.
         SetUpInformationUnit wpSetUpInfoUnit = new SetUpInformationUnit();
         wpSetUpInfoUnit.setColor(die.getDieColor());
         wpSetUpInfoUnit.setValue(die.getActualDieValue());
@@ -40,6 +43,8 @@ public class DiePlacementMove implements IMove {
         SetUpInformationUnit draftSetUpInfoUnit = new SetUpInformationUnit();
         draftSetUpInfoUnit.setDestinationIndex(setUpInfoUnit.getSourceIndex());
 
+        manager.setMoveLegal(true);
+
         //CAREFUL
         Die dieToRemove = manager.getControllerMaster().getCommonBoard().getDraftPool().removeDie(setUpInfoUnit.getSourceIndex());
         wp.addDie(dieToRemove);
@@ -47,12 +52,12 @@ public class DiePlacementMove implements IMove {
     }
 
     /**
-     *
-     * @param wp
-     * @param chosenDie
-     * @param manager
-     * @param info
-     * @return
+     * This method checks if a placement of a die can be made.
+     * @param wp the window pattern card to consider.
+     * @param chosenDie the die to check.
+     * @param manager the controller.
+     * @param info the info to use.
+     * @return true if a placement can be made, false other wise.
      */
     public boolean checkPlacement(WindowPatternCard wp, Die chosenDie, GamePlayManager manager, SetUpInformationUnit info) {
         Cell desiredCell = new Cell(info.getDestinationIndex() / WindowPatternCard.getMaxCol(), info.getDestinationIndex() % WindowPatternCard.getMaxCol());

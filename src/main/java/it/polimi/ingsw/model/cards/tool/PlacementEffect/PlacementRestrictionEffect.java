@@ -27,10 +27,16 @@ public class PlacementRestrictionEffect extends AToolCardEffect {
 
         if(!playerWp.canBePlaced(chosenDie, playerWp.getDesiredCell(), playerWp.getGlassWindow())) {
             manager.showNotification(playerWp.getErrorMessage());
+            manager.setMoveLegal(false);
             return;
         }
 
-        playerWp.removeDie(setUpInfoUnit.getSourceIndex());
-        playerWp.addDie(chosenDie);
+       updateContainer(playerWp, setUpInfoUnit);
     }
+
+    public void updateContainer(WindowPatternCard playerWp, SetUpInformationUnit setUpInfoUnit) {
+        playerWp.setDesiredCell(new Cell(setUpInfoUnit.getDestinationIndex()/WindowPatternCard.MAX_COL, setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL));
+        playerWp.addDie(playerWp.removeDie(setUpInfoUnit.getSourceIndex()));
+    }
+
 }

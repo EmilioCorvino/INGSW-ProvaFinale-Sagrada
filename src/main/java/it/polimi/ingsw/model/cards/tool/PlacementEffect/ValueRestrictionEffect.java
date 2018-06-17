@@ -30,27 +30,62 @@ public class ValueRestrictionEffect extends PlacementRestrictionEffect {
 
         Player currPlayer = manager.getControllerMaster().getGameState().getCurrentPlayer();
         WindowPatternCard wp = currPlayer.getWindowPatternCard();
+        wp.copyGlassWindow(wp.getGlassWindowCopy(), wp.getGlassWindow());
+        Die chosenDie = wp.getGlassWindowCopy()[setUpInfoUnit.getSourceIndex()/WindowPatternCard.MAX_COL][setUpInfoUnit.getSourceIndex() % WindowPatternCard.MAX_COL].getContainedDie();
+        Cell[][] gwCopy = wp.getGlassWindowCopy();
+        deleteColorRestriction(gwCopy);
 
-        Cell[][] playerGlassWindow = wp.getGlassWindow();
+        wp.setDesiredCell(new Cell(setUpInfoUnit.getDestinationIndex()/WindowPatternCard.MAX_COL , setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL));
 
-        Cell[][] glassWindow = new Cell[WindowPatternCard.getMaxRow()][WindowPatternCard.getMaxCol()];
-        List<ARestriction> ruleSet;
+        if(!wp.canBePlaced(chosenDie, wp.getDesiredCell(), gwCopy)) {
+            manager.showNotification(wp.getErrorMessage());
+            manager.setMoveLegal(false);
+            return;
+        }
 
-        //creates a copy of the original glass window
-        for(int i=0; i<WindowPatternCard.getMaxRow(); i++)
-            for(int j=0; j<WindowPatternCard.getMaxCol(); j++) {
-                ruleSet = new ArrayList<>();
-                if(!playerGlassWindow[i][j].isEmpty()) {
-                    Die die = playerGlassWindow[i][j].getContainedDie();
-                    ruleSet.add(new ValueRestriction(die.getActualDieValue()));
-                } else {
-                    ruleSet.add(new ValueRestriction(playerGlassWindow[i][j].getDefaultValueRestriction().getValue()));
-                }
-                glassWindow[i][j].setRuleSetCell(ruleSet);
-            }
-
-        wp.setGlassWindow(glassWindow);
-        wp.setGlassWindowModified(true);
-        super.executeMove(manager, setUpInfoUnit);
+        //restoreGlassWindow(wp, setUpInfoUnit.getDestinationIndex());
+        wp.copyGlassWindow(gwCopy, wp.getGlassWindow());
+       super.updateContainer(wp, setUpInfoUnit);
     }
+
+    /**
+     * This method deletes all the color restriction in the copy of the original glass window.
+     * @param gwCopy the glass window to modify.
+     */
+    public void deleteColorRestriction(Cell[][] gwCopy) {
+        List<ARestriction> list;
+        for(int i=0; i<WindowPatternCard.MAX_ROW; i++)
+            for(int j=0; j<WindowPatternCard.MAX_COL; j++) {
+                if(!gwCopy[i][j].isEmpty()) {
+                    list = new ArrayList<>();
+                    ARestriction value = new ValueRestriction(gwCopy[i][j].getContainedDie().getActualDieValue());
+                    list.add(value);
+                    gwCopy[i][j].updateRuleSet(list);
+                } else {
+                    list = new ArrayList<>();
+                    if(gwCopy[i][j].getDefaultValueRestriction() != null) {
+                        int val = gwCopy[i][j].getDefaultValueRestriction().getValue();
+                        ARestriction value = new ValueRestriction(val);
+                        list.add(value);
+                        gwCopy[i][j].updateRuleSet(list);
+                    }
+                }
+            }
+    }
+
+    /*
+    public void restoreGlassWindow(WindowPatternCard wp, int index) {
+
+        Cell[][] gwCopy = wp.getGlassWindowCopy();
+        Cell[][] gw = wp.getGlassWindow();
+
+        for(int i=0; i<WindowPatternCard.MAX_COL; i++)
+            for(int j=0; j<WindowPatternCard.MAX_COL; j++)
+                if(i == index/WindowPatternCard.MAX_COL && j == index % WindowPatternCard.MAX_COL)
+
+
+
+
+    }
+    */
 }
