@@ -5,7 +5,6 @@ import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.WindowPatternCard;
-import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.restrictions.ARestriction;
 import it.polimi.ingsw.model.restrictions.ValueRestriction;
 
@@ -13,12 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 /**
  * This class manages the tool effect that allows the user to place a die ignoring the color restriction but
  * respecting only the value restriction of the personal window pattern card.
  */
 public class ValueRestrictionEffect extends PlacementRestrictionEffect {
+
+    private List<ARestriction> listToRestore = new ArrayList<>();
 
     /**
      *
@@ -28,9 +28,8 @@ public class ValueRestrictionEffect extends PlacementRestrictionEffect {
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
 
-        Player currPlayer = manager.getControllerMaster().getGameState().getCurrentPlayer();
-        WindowPatternCard wp = currPlayer.getWindowPatternCard();
-        wp.copyGlassWindow(wp.getGlassWindowCopy(), wp.getGlassWindow());
+        WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
+
         Die chosenDie = wp.getGlassWindowCopy()[setUpInfoUnit.getSourceIndex()/WindowPatternCard.MAX_COL][setUpInfoUnit.getSourceIndex() % WindowPatternCard.MAX_COL].getContainedDie();
         Cell[][] gwCopy = wp.getGlassWindowCopy();
         deleteColorRestriction(gwCopy);
@@ -38,13 +37,13 @@ public class ValueRestrictionEffect extends PlacementRestrictionEffect {
         wp.setDesiredCell(new Cell(setUpInfoUnit.getDestinationIndex()/WindowPatternCard.MAX_COL , setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL));
 
         if(!wp.canBePlaced(chosenDie, wp.getDesiredCell(), gwCopy)) {
-            manager.showNotification(wp.getErrorMessage());
+            manager.showNotification(wp.getErrorMessage() + " usa aiuto per ulteriori informazioni.");
             manager.setMoveLegal(false);
             return;
         }
 
         //restoreGlassWindow(wp, setUpInfoUnit.getDestinationIndex());
-        wp.copyGlassWindow(gwCopy, wp.getGlassWindow());
+        restoreGlassWindow(wp);
        super.updateContainer(wp, setUpInfoUnit);
     }
 
@@ -60,6 +59,7 @@ public class ValueRestrictionEffect extends PlacementRestrictionEffect {
                     list = new ArrayList<>();
                     ARestriction value = new ValueRestriction(gwCopy[i][j].getContainedDie().getActualDieValue());
                     list.add(value);
+                    listToRestore.add(value);
                     gwCopy[i][j].updateRuleSet(list);
                 } else {
                     list = new ArrayList<>();
@@ -67,25 +67,26 @@ public class ValueRestrictionEffect extends PlacementRestrictionEffect {
                         int val = gwCopy[i][j].getDefaultValueRestriction().getValue();
                         ARestriction value = new ValueRestriction(val);
                         list.add(value);
+                        listToRestore.add(value);
                         gwCopy[i][j].updateRuleSet(list);
                     }
                 }
             }
     }
 
-    /*
-    public void restoreGlassWindow(WindowPatternCard wp, int index) {
+
+    /**
+     *
+     * @param wp
+     */
+    public void restoreGlassWindow(WindowPatternCard wp) {
 
         Cell[][] gwCopy = wp.getGlassWindowCopy();
-        Cell[][] gw = wp.getGlassWindow();
 
         for(int i=0; i<WindowPatternCard.MAX_COL; i++)
             for(int j=0; j<WindowPatternCard.MAX_COL; j++)
-                if(i == index/WindowPatternCard.MAX_COL && j == index % WindowPatternCard.MAX_COL)
-
-
-
+                gwCopy[i][j].getRuleSetCell().add(listToRestore.get(j));
 
     }
-    */
+
 }
