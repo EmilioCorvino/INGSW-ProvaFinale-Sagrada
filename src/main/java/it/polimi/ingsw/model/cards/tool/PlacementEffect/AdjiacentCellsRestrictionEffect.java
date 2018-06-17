@@ -28,7 +28,7 @@ public class AdjiacentCellsRestrictionEffect extends PlacementRestrictionEffect 
 
         Cell desiredCell = new Cell(info.getSourceIndex() / WindowPatternCard.getMaxCol(), info.getSourceIndex() % WindowPatternCard.getMaxCol());
         wp.setDesiredCell(desiredCell);
-        wp.copyGlassWindow();
+        wp.createCopy();
         Cell[][] gwCopy = wp.getGlassWindowCopy();
 
         if(!wp.checkAdjacentCells(desiredCell, gwCopy)) {
