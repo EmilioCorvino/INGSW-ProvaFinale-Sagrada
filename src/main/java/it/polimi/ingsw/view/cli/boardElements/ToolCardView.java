@@ -1,12 +1,16 @@
 package it.polimi.ingsw.view.cli.boardElements;
 
-public class ToolCard {
+import it.polimi.ingsw.controller.Commands;
+
+public class ToolCardView {
 
     private String description;
 
     private int cost;
 
-    public ToolCard(String description, int cost){
+    private Commands command;
+
+    public ToolCardView(String description, int cost){
         this.description = description;
         this.cost = cost;
     }
@@ -21,5 +25,9 @@ public class ToolCard {
 
     public void setCost(int cost) {
         this.cost = cost;
+    }
+
+    public void setCommand(Commands command) {
+        this.command = command;
     }
 }

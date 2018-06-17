@@ -78,29 +78,6 @@ public class WindowPatternCard extends ADieContainer {
                 glassWindow[i][j] = new Cell(i,j);
     }
 
-    /**
-     * Copies the glass window from destination to source.
-     * @param destination new glass window, copy of the original.
-     * @param source glass window to copy.
-     */
-    public void copyGlassWindow(Cell[][] destination, Cell[][] source) {
-        for(int i = 0; i < WindowPatternCard.getMaxRow(); i++) {
-            for (int j = 0; i < WindowPatternCard.getMaxCol(); j++) {
-                destination[i][j] = new Cell(i, j);
-                if (!source[i][j].isEmpty())
-                    destination[i][j].setContainedDie(new Die(source[i][j].getContainedDie().getActualDieValue(), source[i][j].getContainedDie().getDieColor()));
-                else
-                    destination[i][j].setRuleSetCell(source[i][j].getRuleSetCell());
-            }
-        }
-    }
-
-    /**
-     * This method restore the original glass window.
-     */
-    private void overwriteOriginal() {
-        copyGlassWindow(glassWindow, glassWindowCopy);
-    }
 
 
     /**
@@ -109,9 +86,7 @@ public class WindowPatternCard extends ADieContainer {
      */
     @Override
     public void addDie(Die die) {
-        if(this.isGlassWindowModified())
-            overwriteOriginal();
-        glassWindow[desiredCell.getRow()][desiredCell.getCol()].setContainedDie(die);
+        glassWindowCopy[desiredCell.getRow()][desiredCell.getCol()].setContainedDie(die);
         setDesiredCell(null);
     }
 
@@ -122,14 +97,47 @@ public class WindowPatternCard extends ADieContainer {
      */
     @Override
     public Die removeDie(int index){
-        Cell cell = glassWindow[ index/WindowPatternCard.MAX_COL ][ index%WindowPatternCard.MAX_COL ];
+        Cell cell = glassWindowCopy[ index/WindowPatternCard.MAX_COL ][ index%WindowPatternCard.MAX_COL ];
         return cell.removeContainedDie();
+    }
+
+    /**
+     * This method copy the original to a copy.
+     */
+    @Override
+    public void createCopy(){
+        copyGlassWindow(glassWindowCopy, glassWindow);
+    }
+
+    /**
+     * This method restore the original glass window.
+     */
+    @Override
+    public void overwriteOriginal() {
+        copyGlassWindow(glassWindow, glassWindowCopy);
+    }
+
+    /**
+     * Copies the glass window from destination to source.
+     * @param destination new glass window, copy of the original.
+     * @param source glass window to copy.
+     */
+     private void copyGlassWindow(Cell[][] destination, Cell[][] source) {
+        for(int i = 0; i < WindowPatternCard.getMaxRow(); i++) {
+            for (int j = 0; j < WindowPatternCard.getMaxCol(); j++) {
+                destination[i][j] = new Cell(i, j);
+                if (!source[i][j].isEmpty())
+                    destination[i][j].setContainedDie(new Die(source[i][j].getContainedDie().getActualDieValue(), source[i][j].getContainedDie().getDieColor()));
+                else
+                    destination[i][j].setRuleSetCell(source[i][j].getRuleSetCell());
+            }
+        }
     }
 
     /**
      * This method check if all the cells of the matrix are empty.
      * @return True if is all the cells are empty, otherwise false.
-     * @param glassWindowToConsider
+     * @param glassWindowToConsider: The glass window to analyze.
      */
     private boolean matrixIsEmpty(Cell[][] glassWindowToConsider) {
         boolean matrixEmpty = true;
