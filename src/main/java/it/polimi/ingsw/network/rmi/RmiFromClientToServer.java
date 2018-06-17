@@ -120,11 +120,10 @@ public class RmiFromClientToServer implements IFromClientToServer {
 
     /**
      * Lets the player log out from the game.
-     * @param playerName player who wants to log out.
      * @throws BrokenConnectionException when the connection drops.
      */
     @Override
-    public void exitGame(String playerName) throws BrokenConnectionException {
+    public void exitGame() throws BrokenConnectionException {
         //todo implement this.
     }
 

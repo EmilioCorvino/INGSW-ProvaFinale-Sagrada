@@ -78,18 +78,19 @@ public class WindowPatternCard extends ADieContainer {
                 glassWindow[i][j] = new Cell(i,j);
     }
 
-
     /**
-     * Constructor that generates a copy of the current class window.
+     * Copies the glass window from destination to source.
+     * @param destination new glass window, copy of the original.
+     * @param source glass window to copy.
      */
-    public void createCopy() {
+    public void copyGlassWindow(Cell[][] destination, Cell[][] source) {
         for(int i = 0; i < WindowPatternCard.getMaxRow(); i++) {
             for (int j = 0; i < WindowPatternCard.getMaxCol(); j++) {
-                glassWindowCopy[i][j] = new Cell(i, j);
-                if (!glassWindow[i][j].isEmpty())
-                    glassWindowCopy[i][j].setContainedDie(new Die(glassWindow[i][j].getContainedDie().getActualDieValue(), glassWindow[i][j].getContainedDie().getDieColor()));
+                destination[i][j] = new Cell(i, j);
+                if (!source[i][j].isEmpty())
+                    destination[i][j].setContainedDie(new Die(source[i][j].getContainedDie().getActualDieValue(), source[i][j].getContainedDie().getDieColor()));
                 else
-                    glassWindowCopy[i][j].setRuleSetCell(glassWindow[i][j].getRuleSetCell());
+                    destination[i][j].setRuleSetCell(source[i][j].getRuleSetCell());
             }
         }
     }
@@ -98,15 +99,7 @@ public class WindowPatternCard extends ADieContainer {
      * This method restore the original glass window.
      */
     private void overwriteOriginal() {
-        for(int i = 0; i < WindowPatternCard.getMaxRow(); i++) {
-            for (int j = 0; i < WindowPatternCard.getMaxCol(); j++) {
-                glassWindow[i][j] = new Cell(i, j);
-                if (!glassWindowCopy[i][j].isEmpty())
-                    glassWindow[i][j].setContainedDie(new Die(glassWindowCopy[i][j].getContainedDie().getActualDieValue(), glassWindowCopy[i][j].getContainedDie().getDieColor()));
-                else
-                    glassWindow[i][j].setRuleSetCell(glassWindowCopy[i][j].getRuleSetCell());
-            }
-        }
+        copyGlassWindow(glassWindow, glassWindowCopy);
     }
 
 
