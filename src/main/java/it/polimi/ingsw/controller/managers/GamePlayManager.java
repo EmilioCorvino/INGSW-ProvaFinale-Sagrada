@@ -44,6 +44,11 @@ public class GamePlayManager extends AGameManager {
     private Timer timer;
 
     /**
+     * Says if the move done is legal or not. It's set by executeMove methods.
+     */
+    private boolean moveLegal = true;
+
+    /**
      * Path of the file containing the amount of time to wait.
      */
     private static final String TIMER_FILE = "./src/main/java/it/polimi/ingsw/utils/config/turnTimer";
@@ -420,5 +425,13 @@ public class GamePlayManager extends AGameManager {
                 board.getRoundTrack().addDie(board.getDraftPool().removeDie(0));
             }
         }
+    }
+
+    public boolean isMoveLegal() {
+        return moveLegal;
+    }
+
+    public void setMoveLegal(boolean moveLegal) {
+        this.moveLegal = moveLegal;
     }
 }
