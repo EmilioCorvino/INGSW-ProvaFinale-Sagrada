@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.die.diecontainers;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.restrictions.ARestriction;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
@@ -42,7 +43,7 @@ public class WindowPatternCardDeck {
         } catch (IOException e) {
             SagradaLogger.log(Level.SEVERE, "Error during parsing, file not read", e);
         }
-        this.populateCellsRuleSet();
+        this.populateCellsRuleSetAndInitializeCopy();
         this.associateFrontAndBack();
     }
 
@@ -61,7 +62,7 @@ public class WindowPatternCardDeck {
     /**
      * This method will populate the role set of all cells with the color and value default restriction.
      */
-    private void populateCellsRuleSet(){
+    private void populateCellsRuleSetAndInitializeCopy(){
         for(WindowPatternCard wp : availableWP) {
             for (int i = 0; i < WindowPatternCard.MAX_ROW; i++) {
                 for (int j = 0; j < WindowPatternCard.MAX_COL; j++) {
@@ -74,6 +75,7 @@ public class WindowPatternCardDeck {
                     wp.getGlassWindow()[i][j].updateRuleSet(rules);
                 }
             }
+            wp.setGlassWindowCopy(new Cell[WindowPatternCard.MAX_ROW][WindowPatternCard.MAX_COL]);
         }
     }
 

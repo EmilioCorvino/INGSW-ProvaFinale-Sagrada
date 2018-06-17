@@ -94,8 +94,10 @@ public class DiceBagTest {
     @Test
     public void addDice(){
         DiceBag diceBag = new DiceBag();
+        diceBag.createCopy();
 
         diceBag.addDie(new Die(5, Color.GREEN));
+        diceBag.overwriteOriginal();
 
         assertEquals(91, diceBag.getAvailableDice().size());
     }

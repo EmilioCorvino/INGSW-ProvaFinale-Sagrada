@@ -288,8 +288,11 @@ public class CliView implements IViewMaster {
     @Override
     public void addOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit){
         for (PlayerView ply : this.commonBoard.getPlayers())
+            if(ply.getUserName().equals(userName)) {
                 gamePlayManager.addOnWp(ply.getWp(), infoUnit);
-
+                inputOutputManager.print("\nE' stata mofificata una mappa: ");
+                ply.getWp().printWp();
+            }
     }
 
     /**
@@ -300,7 +303,8 @@ public class CliView implements IViewMaster {
     @Override
     public void removeOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit){
         for (PlayerView ply : this.commonBoard.getPlayers())
-            gamePlayManager.removeOnWp(ply.getWp(), infoUnit);
+            if(ply.getUserName().equals(userName))
+                gamePlayManager.removeOnWp(ply.getWp(), infoUnit);
     }
 
     /**
