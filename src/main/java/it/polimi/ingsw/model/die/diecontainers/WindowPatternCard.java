@@ -123,11 +123,27 @@ public class WindowPatternCard extends ADieContainer {
     }
 
     public void createCopy(){
-        this.glassWindowCopy = this.glassWindow;
+        for(int i = 0; i < WindowPatternCard.getMaxRow(); i++) {
+            for (int j = 0; i < WindowPatternCard.getMaxCol(); j++) {
+                glassWindowCopy[i][j] = new Cell(i, j);
+                if (!glassWindow[i][j].isEmpty())
+                    glassWindowCopy[i][j].setContainedDie(new Die(glassWindow[i][j].getContainedDie().getActualDieValue(), glassWindow[i][j].getContainedDie().getDieColor()));
+                else
+                    glassWindowCopy[i][j].setRuleSetCell(glassWindow[i][j].getRuleSetCell());
+            }
+        }
     }
 
     public void overwriteOriginal(){
-        this.glassWindow = this.glassWindowCopy;
+        for(int i = 0; i < WindowPatternCard.getMaxRow(); i++) {
+            for (int j = 0; i < WindowPatternCard.getMaxCol(); j++) {
+                glassWindow[i][j] = new Cell(i, j);
+                if (!glassWindowCopy[i][j].isEmpty())
+                    glassWindow[i][j].setContainedDie(new Die(glassWindowCopy[i][j].getContainedDie().getActualDieValue(), glassWindowCopy[i][j].getContainedDie().getDieColor()));
+                else
+                    glassWindow[i][j].setRuleSetCell(glassWindowCopy[i][j].getRuleSetCell());
+            }
+        }
     }
 
     /**

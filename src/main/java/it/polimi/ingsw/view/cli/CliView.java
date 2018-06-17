@@ -23,6 +23,7 @@ import it.polimi.ingsw.view.cli.stateManagers.GamePlayManager;
 import it.polimi.ingsw.view.cli.stateManagers.LoginManager;
 import it.polimi.ingsw.view.cli.stateManagers.SetUpManager;
 
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -118,6 +119,9 @@ public class CliView implements IViewMaster {
             }
         }
 
+        bank = new Bank();
+        bank.setCommunicationManager(new CliCommunicationManager(this));
+
         inputOutputManager.print("\nConnessione stabilita.\nProcedere con la registrazione.");
 
         while(!userNameOk){
@@ -138,8 +142,6 @@ public class CliView implements IViewMaster {
             }
         }
 
-        bank = new Bank();
-        bank.setCommunicationManager(new CliCommunicationManager(this));
     }
 
     /**
@@ -370,6 +372,10 @@ public class CliView implements IViewMaster {
 //                  END GAME STATE
 //----------------------------------------------------------
 
+    @Override
+    public void showRank(String[] players, int[] score){
+        endGameManager.showRank(players, score);
+    }
 
 //----------------------------------------------------------
 //                  GENERAL METHODS

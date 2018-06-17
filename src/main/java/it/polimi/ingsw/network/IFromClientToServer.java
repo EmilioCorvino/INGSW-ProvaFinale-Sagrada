@@ -33,9 +33,8 @@ public interface IFromClientToServer {
 
     /**
      * Lets the player log out from the game.
-     * @param playerName player who wants to log out.
      * @throws BrokenConnectionException when the connection drops.
      */
-    void exitGame(String playerName) throws BrokenConnectionException;
+    void exitGame() throws BrokenConnectionException;
 
 }
