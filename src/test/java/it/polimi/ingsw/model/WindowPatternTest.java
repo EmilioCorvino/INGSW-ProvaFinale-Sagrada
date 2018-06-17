@@ -6,10 +6,11 @@ import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 import it.polimi.ingsw.model.restrictions.ColorRestriction;
 import it.polimi.ingsw.model.restrictions.ValueRestriction;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class WindowPatternTest {
 

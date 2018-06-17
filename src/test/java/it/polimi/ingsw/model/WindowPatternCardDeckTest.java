@@ -5,10 +5,12 @@ import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 import it.polimi.ingsw.model.die.containers.WindowPatternCardDeck;
 import it.polimi.ingsw.model.restrictions.ColorRestriction;
 import it.polimi.ingsw.model.restrictions.ValueRestriction;
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 public class WindowPatternCardDeckTest {
 
