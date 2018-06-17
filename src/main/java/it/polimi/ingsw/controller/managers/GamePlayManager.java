@@ -32,12 +32,12 @@ public class GamePlayManager extends AGameManager {
     /**
      * List of commands that the player on duty can preform.
      */
-    private List<Commands> currentPlayerCommands;
+    private final List<Commands> currentPlayerCommands;
 
     /**
      * List of commands that the waiting players can perform.
      */
-    private List<Commands> waitingPlayersCommands;
+    private final List<Commands> waitingPlayersCommands;
 
     /**
      * Timer representing how much time each player has to complete his turn.

@@ -33,10 +33,9 @@ public interface IRmiServer extends Remote {
 
     /**
      * Lets the player log out from the game.
-     * @param playerName player who wants to log out.
-     * @param connection established between the client and the server. {@link Connection}.
-     *
+     * @param connection established between the client and the server.
+     * @see Connection
      */
-    void exitGame(String playerName, Connection connection) throws RemoteException;
+    void exitGame(Connection connection) throws RemoteException;
 
 }

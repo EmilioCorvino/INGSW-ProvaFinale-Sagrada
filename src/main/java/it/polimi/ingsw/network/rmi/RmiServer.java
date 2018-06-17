@@ -86,13 +86,12 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
 
     /**
      * Lets the player log out from the game.
-     * @param playerName player who wants to log out.
      * @param connection
      *
      */
     @Override
-    public void exitGame(String playerName, Connection connection) {
-
+    public void exitGame(Connection connection) {
+        //todo implement this
     }
 
 }

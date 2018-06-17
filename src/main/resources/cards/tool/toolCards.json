@@ -95,5 +95,102 @@
       "destination": "None",
       "parameter": 1
     }
+  },
+  {
+    "id": 306,
+    "name": "Martelletto",
+    "description": "Tira nuovamente tutti i dadi della riserva. Questa carta può essere usata solo durante il tuo secondo turno, prima di scegliere il secondo dado.",
+    "color": "BLUE",
+    "turn": 1,
+    "placement": false,
+    "effect": {
+      "names": [
+        "DRAFT_VALUE_EFFECT"
+      ],
+      "source": "DraftPool",
+      "destination": "None",
+      "parameter": 0
+    }
+  },
+  {
+    "id": 307,
+    "name": "Tenaglia a rotelle",
+    "description": "Dopo il tuo primo turno scegli immediatamente un altro dado. Salta il tuo secondo turno in questo round.",
+    "color": "RED",
+    "turn": 0,
+    "placement": true,
+    "effect": {
+      "names": [
+        "PLACEMENT",
+        "PLACEMENT"
+      ],
+      "source": "DraftPool",
+      "destination": "None",
+      "parameter": 0
+    }
+  },
+  {
+    "id": 308,
+    "name": "Riga in sughero",
+    "description": "Dopo aver scelto un dado, piazzalo in una casella che non sia adiacente ad un altro dado. Devi rispettare tutte le restrizioni di piazzamento.",
+    "color": "YELLOW",
+    "turn": 2,
+    "placement": true,
+    "effect": {
+      "names": [
+        "ADJIACENT_RESTRICTION_EFFECT"
+      ],
+      "source": "DraftPool",
+      "destination": "None",
+      "parameter": 0
+    }
+  },
+  {
+    "id": 309,
+    "name": "Tampone diamantato",
+    "description": "Dopo aver scelto un dado, giralo sulla faccia opposta.",
+    "color": "GREEN",
+    "turn": 2,
+    "placement": true,
+    "effect": {
+      "names": [
+        "OPPOSITE_VALUE_EFFECT"
+      ],
+      "source": "DraftPool",
+      "destination": "None",
+      "parameter": 0
+    }
+  },
+  {
+    "id": 310,
+    "name": "Diluente per pasta salda",
+    "description": "Dopo aver scelto un dado, riponilo nel Sacchetto, poi pescane un altro dal Sacchetto. Scegli il valore del nuovo dado e piazzalo, rispettando tutte le restrizioni di piazzamento.",
+    "color": "PURPLE",
+    "turn": 2,
+    "placement": true,
+    "effect": {
+      "names": [
+        "SWAP_DRAFTPOOL_DICEBAG"
+      ],
+      "source": "DraftPool",
+      "destination": "None",
+      "parameter": 0
+    }
+  },
+  {
+    "id": 311,
+    "name": "Taglierina manuale",
+    "description": "Muovi fino a due dadi dello stesso colore di un solo dado sul tracciato dei round. Devi rispettare tutte le restrizioni di piazzamento.",
+    "color": "BLUE",
+    "turn": 2,
+    "placement": true,
+    "effect": {
+      "names": [
+        "COLOR_PLACEMENT_RESTRICTION_EFFECT"
+      ],
+      "source": "Window pattern card",
+      "destination": "None",
+      "parameter": 0
+    }
   }
 ]

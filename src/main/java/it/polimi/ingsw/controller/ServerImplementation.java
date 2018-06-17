@@ -121,10 +121,9 @@ public class ServerImplementation implements IFromClientToServer {
 
     /**
      * Lets the player log out from the game.
-     * @param playerName player who wants to log out.
      */
     @Override
-    public void exitGame(String playerName) {
+    public void exitGame() {
 
     }
 
