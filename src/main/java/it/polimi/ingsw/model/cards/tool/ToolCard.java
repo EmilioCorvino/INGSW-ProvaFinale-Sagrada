@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards.tool;
 
 import com.google.gson.annotations.SerializedName;
+import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.move.IMove;
 
@@ -13,6 +14,12 @@ public class ToolCard implements IToolCard {
      * ID that identifies a card.
      */
     private int id;
+
+    /**
+     *
+     */
+    @SerializedName("command")
+    private Commands commandName;
 
     /**
      * Name of the card.
@@ -38,6 +45,9 @@ public class ToolCard implements IToolCard {
      */
     @SerializedName("turn")
     private int availableTurn;
+
+
+
 
     /**
      * This boolean is used to understand whether hte card implies a die placement or not.
@@ -107,5 +117,9 @@ public class ToolCard implements IToolCard {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Commands getCommandName() {
+        return commandName;
     }
 }

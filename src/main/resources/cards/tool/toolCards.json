@@ -1,6 +1,7 @@
 [
   {
     "id": 300,
+    "command": "TOOL1",
     "name": "Pinza Sgrossatrice",
     "description": "Dopo aver scelto un dado, aumenta o diminuisci il valore del dado scelto di 1. Non puoi cambiare un 6 in 1 o un 1 in 6.",
     "color": "PURPLE",
@@ -17,6 +18,7 @@
   },
   {
     "id": 301,
+    "command": "TOOL2",
     "name": "Pennello per Eglomise",
     "description": "Muovi un qualsiasi dado nella tua vetrata IGNORANDO LE RESTRIZIONI DI COLORE. Devi rispettare tutte le altre restrizioni di piazzamento.",
     "color": "BLUE",
@@ -33,6 +35,7 @@
   },
   {
     "id": 302,
+    "command": "TOOL3",
     "name": "Alesatore per lamina di rame",
     "description": "Muovi un qualsiasi dado nella tua vetrata IGNORANDO LE RESTRIZIONI DI VALORE. Devi rispettare tutte le altre restrizioni di piazzamento.",
     "color": "RED",
@@ -49,6 +52,7 @@
   },
   {
     "id": 303,
+    "command": "TOOL4",
     "name": "Lathekin",
     "description": "Muovi esattamente due dadi, rispettando tutte le restrizioni di piazzamento.",
     "color": "YELLOW",
@@ -66,6 +70,7 @@
   },
   {
     "id": 304,
+    "command": "TOOL5",
     "name": "Taglierina circolare",
     "description": "Dopo aver scelto un dado, scambia quel dado con una dado sul Tracciato dei Round.",
     "color": "GREEN",
@@ -82,6 +87,7 @@
   },
   {
     "id": 305,
+    "command": "TOOL6",
     "name": "Pennello per Pasta Salda",
     "description": "Dopo aver scelto un dado, tira nuovamente quel dado. Se non puoi piazzarlo, riponilo nella Riserva.",
     "color": "PURPLE",
@@ -98,6 +104,7 @@
   },
   {
     "id": 306,
+    "command": "TOOL7",
     "name": "Martelletto",
     "description": "Tira nuovamente tutti i dadi della riserva. Questa carta può essere usata solo durante il tuo secondo turno, prima di scegliere il secondo dado.",
     "color": "BLUE",
@@ -114,6 +121,7 @@
   },
   {
     "id": 307,
+    "command": "TOOL8",
     "name": "Tenaglia a rotelle",
     "description": "Dopo il tuo primo turno scegli immediatamente un altro dado. Salta il tuo secondo turno in questo round.",
     "color": "RED",
@@ -131,6 +139,7 @@
   },
   {
     "id": 308,
+    "command": "TOOL9",
     "name": "Riga in sughero",
     "description": "Dopo aver scelto un dado, piazzalo in una casella che non sia adiacente ad un altro dado. Devi rispettare tutte le restrizioni di piazzamento.",
     "color": "YELLOW",
@@ -147,6 +156,7 @@
   },
   {
     "id": 309,
+    "command": "TOOL10",
     "name": "Tampone diamantato",
     "description": "Dopo aver scelto un dado, giralo sulla faccia opposta.",
     "color": "GREEN",
@@ -163,6 +173,7 @@
   },
   {
     "id": 310,
+    "command": "TOOL11",
     "name": "Diluente per pasta salda",
     "description": "Dopo aver scelto un dado, riponilo nel Sacchetto, poi pescane un altro dal Sacchetto. Scegli il valore del nuovo dado e piazzalo, rispettando tutte le restrizioni di piazzamento.",
     "color": "PURPLE",
@@ -180,6 +191,7 @@
   },
   {
     "id": 311,
+    "command": "TOOL12",
     "name": "Taglierina manuale",
     "description": "Muovi fino a due dadi dello stesso colore di un solo dado sul tracciato dei round. Devi rispettare tutte le restrizioni di piazzamento.",
     "color": "BLUE",
