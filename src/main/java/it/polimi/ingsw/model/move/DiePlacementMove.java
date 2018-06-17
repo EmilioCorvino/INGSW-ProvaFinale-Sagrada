@@ -26,7 +26,7 @@ public class DiePlacementMove implements IMove {
         Player p = manager.getControllerMaster().getGameState().getCurrentPlayer();
         WindowPatternCard wp = p.getWindowPatternCard();
 
-        wp.copyGlassWindow(wp.getGlassWindowCopy(), wp.getGlassWindow());
+        wp.createCopy();
 
         Die die = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice().get(setUpInfoUnit.getSourceIndex());
 
