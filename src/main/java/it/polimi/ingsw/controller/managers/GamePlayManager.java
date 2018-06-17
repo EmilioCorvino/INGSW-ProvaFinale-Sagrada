@@ -169,7 +169,7 @@ public class GamePlayManager extends AGameManager {
         //Value read from file. If the loading is successful, it overwrites the back up.
         try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_FILE)))) {
             timeOut = Long.parseLong(reader.readLine());
-            SagradaLogger.log(Level.CONFIG, "Timer successfully loaded from file. Its value is: " + timeOut);
+            SagradaLogger.log(Level.CONFIG, "Timer successfully loaded from file. Its value is: " + timeOut/1000 + "s");
         } catch (IOException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
         }
@@ -415,37 +415,11 @@ public class GamePlayManager extends AGameManager {
      */
     private void moveRemainingDiceFromDraftPoolToRoundTrack(GameState gameState, CommonBoard board) {
         if(!board.getDraftPool().getAvailableDice().isEmpty()) {
-            board.getRoundTrack().setRoundToBeUpdated(gameState.getActualRound());
-            for(int i = 0; i < board.getDraftPool().getAvailableDice().size(); i++) {
-                board.getRoundTrack().addDie(board.getDraftPool().removeDie(i));
+            board.getRoundTrack().setRoundToBeUpdated(gameState.getActualRound() - 1);
+            int actualDraftSize = board.getDraftPool().getAvailableDice().size();
+            for(int i = 0; i < actualDraftSize; i++) {
+                board.getRoundTrack().addDie(board.getDraftPool().removeDie(0));
             }
         }
     }
-
-    /**
-     * This method checks if the right conditions to move to the next player are satisfied.
-     * @return {@code true} if the end-turn conditions are satisfied, {@code false} otherwise.
-     */
-    /*private boolean isTurnOver(Turn turn) {
-        //Checks if all possible moves have already been done.
-        if (this.getControllerMaster().getGameState().isCurrentTurnOver())
-            return true;
-
-        List<ToolCardSlot> toolCardSlots = super.getControllerMaster().getCommonBoard().getToolCardSlots();
-        int slotUsed = super.getControllerMaster().getGameState().getCurrentTurn().getToolSlotUsed();
-        int playerTokens = super.getControllerMaster().getGameState().getCurrentPlayer().getFavorTokens();
-
-        //Checks if the tool card didn't imply a placement and if the player has enough favor tokens to pay for it.
-        if (this.getControllerMaster().getGameState().getTurnOrder().isDiePlaced())
-            for (ToolCardSlot slot : toolCardSlots)
-                if (slot.checkTokens(playerTokens) && !slot.checkImpliesPlacement())
-                    return true;
-
-        //Checks if the tool card implied a placement.
-        if (this.getControllerMaster().getGameState().getCurrentTurn().isToolCardUsed())
-            return (toolCardSlots.get(slotUsed).checkImpliesPlacement());
-
-        //If none of the conditions ahead are verified.
-        return false;
-    }*/
 }

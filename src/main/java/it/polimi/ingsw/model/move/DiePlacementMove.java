@@ -58,7 +58,7 @@ public class DiePlacementMove implements IMove {
         Cell desiredCell = new Cell(info.getDestinationIndex() / WindowPatternCard.getMaxCol(), info.getDestinationIndex() % WindowPatternCard.getMaxCol());
         wp.setDesiredCell(desiredCell);
 
-        if (!wp.canBePlaced(chosenDie, desiredCell)) {
+        if (!wp.canBePlaced(chosenDie, desiredCell, wp.getGlassWindow())) {
             int actualTurn = manager.getControllerMaster().getGameState().getCurrentPlayerTurnIndex();
             List<Turn> turns = manager.getControllerMaster().getGameState().getTurnOrder();
             if(manager.getControllerMaster().getGameState().getActualRound()== 1 && actualTurn < turns.size()/2  ) {

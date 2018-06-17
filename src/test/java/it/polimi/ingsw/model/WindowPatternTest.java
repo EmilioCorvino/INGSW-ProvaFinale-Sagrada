@@ -1,19 +1,15 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.diecontainers.WindowPatternCard;
 import it.polimi.ingsw.model.restrictions.ColorRestriction;
 import it.polimi.ingsw.model.restrictions.ValueRestriction;
-import it.polimi.ingsw.utils.exceptions.DieNotContainedException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 public class WindowPatternTest {
 
@@ -26,7 +22,7 @@ public class WindowPatternTest {
         Die die = new Die(1, Color.RED);
         Cell selectedCell = new Cell(0,0);
 
-        if(wp.canBePlaced(die,selectedCell)) {
+        if(wp.canBePlaced(die,selectedCell, wp.getGlassWindow())) {
             wp.setDesiredCell(selectedCell);
             wp.addDie(die);
         }
@@ -43,13 +39,13 @@ public class WindowPatternTest {
         Die die = new Die(1, Color.RED);
 
         Cell selectedCell1 = new Cell(0,0);
-        assertTrue(wp.canBePlaced(die,selectedCell1));
+        assertTrue(wp.canBePlaced(die,selectedCell1, wp.getGlassWindow()));
 
         Cell selectedCell2 = new Cell(3,4);
-        assertTrue(wp.canBePlaced(die,selectedCell2));
+        assertTrue(wp.canBePlaced(die,selectedCell2, wp.getGlassWindow()));
 
         Cell selectedCell3 = new Cell(1,1);
-        assertFalse(wp.canBePlaced(die,selectedCell3));
+        assertFalse(wp.canBePlaced(die,selectedCell3, wp.getGlassWindow()));
     }
 
     /**
@@ -62,11 +58,11 @@ public class WindowPatternTest {
         Die die1 = new Die(2, Color.RED);
         Die die2 = new Die(3, Color.BLUE);
 
-        if(wp.canBePlaced(die1, selectedCell)) {
+        if(wp.canBePlaced(die1, selectedCell, wp.getGlassWindow())) {
             wp.setDesiredCell(selectedCell);
             wp.addDie(die1);
         }
-        assertFalse(wp.canBePlaced(die2,selectedCell));
+        assertFalse(wp.canBePlaced(die2,selectedCell, wp.getGlassWindow()));
     }
 
     /**
@@ -82,13 +78,13 @@ public class WindowPatternTest {
         Die die1 = new Die(2, Color.RED);
         Die die2 = new Die(3,Color.BLUE);
 
-        if(wp.canBePlaced(die1,selectedCell1)) {
+        if(wp.canBePlaced(die1,selectedCell1, wp.getGlassWindow())) {
             wp.setDesiredCell(selectedCell1);
             wp.addDie(die1);
         }
-        assertTrue(wp.canBePlaced(die2,selectedCell2));
-        assertTrue(wp.canBePlaced(die2,selectedCell3));
-        assertFalse(wp.canBePlaced(die2,selectedCell4));
+        assertTrue(wp.canBePlaced(die2,selectedCell2, wp.getGlassWindow()));
+        assertTrue(wp.canBePlaced(die2,selectedCell3, wp.getGlassWindow()));
+        assertFalse(wp.canBePlaced(die2,selectedCell4, wp.getGlassWindow()));
     }
 
     /**
@@ -108,11 +104,11 @@ public class WindowPatternTest {
         Die die1 = new Die(1,Color.BLUE);
         Die die2 = new Die(5, Color.RED);
 
-        assertTrue(wp.canBePlaced(die1,cell1));
-        assertFalse(wp.canBePlaced(die2,cell1));
+        assertTrue(wp.canBePlaced(die1,cell1, wp.getGlassWindow()));
+        assertFalse(wp.canBePlaced(die2,cell1, wp.getGlassWindow()));
 
-        assertTrue(wp.canBePlaced(die2,cell2));
-        assertFalse(wp.canBePlaced(die1,cell2));
+        assertTrue(wp.canBePlaced(die2,cell2, wp.getGlassWindow()));
+        assertFalse(wp.canBePlaced(die1,cell2, wp.getGlassWindow()));
 
     }
 
@@ -130,18 +126,18 @@ public class WindowPatternTest {
         Die incorrectValueDie  = new Die(1,Color.BLUE);
         Die incorrectColorDie = new Die(3, Color.RED);
 
-        if(wp.canBePlaced(die,cell1)){
+        if(wp.canBePlaced(die,cell1, wp.getGlassWindow())){
             wp.setDesiredCell(cell1);
             wp.addDie(die);
         }
 
-        assertTrue(wp.canBePlaced(correctDie, orizAdjacentCell));
-        assertFalse(wp.canBePlaced(incorrectColorDie, orizAdjacentCell));
-        assertFalse(wp.canBePlaced(incorrectValueDie,orizAdjacentCell));
+        assertTrue(wp.canBePlaced(correctDie, orizAdjacentCell, wp.getGlassWindow()));
+        assertFalse(wp.canBePlaced(incorrectColorDie, orizAdjacentCell, wp.getGlassWindow()));
+        assertFalse(wp.canBePlaced(incorrectValueDie,orizAdjacentCell, wp.getGlassWindow()));
 
          //This assertion verify that is possible to place a die with the same color or value, in a position diagonal adjacent.
 
-        assertTrue(wp.canBePlaced(incorrectColorDie,diagAdjacentCell));
+        assertTrue(wp.canBePlaced(incorrectColorDie,diagAdjacentCell, wp.getGlassWindow()));
     }
 
     @Test
@@ -163,25 +159,25 @@ public class WindowPatternTest {
         wp = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(7);
 
         // Test of color restricted cell.
-        assertTrue(wp.canBePlaced(die1,cell1));
-        assertFalse(wp.canBePlaced(die2,cell1));
+        assertTrue(wp.canBePlaced(die1,cell1, wp.getGlassWindow()));
+        assertFalse(wp.canBePlaced(die2,cell1, wp.getGlassWindow()));
 
         // Test of value restricted cell.
-        assertTrue(wp.canBePlaced(die2, cell2));
-        assertFalse(wp.canBePlaced(die1, cell2));
+        assertTrue(wp.canBePlaced(die2, cell2, wp.getGlassWindow()));
+        assertFalse(wp.canBePlaced(die1, cell2, wp.getGlassWindow()));
 
         // Test of no restricted cell.
-        assertTrue(wp.canBePlaced(die1, cell3));
-        assertTrue(wp.canBePlaced(die2, cell3));
+        assertTrue(wp.canBePlaced(die1, cell3, wp.getGlassWindow()));
+        assertTrue(wp.canBePlaced(die2, cell3, wp.getGlassWindow()));
 
         //Test of no border cell
-        assertFalse(wp.canBePlaced(die1, cell4));
+        assertFalse(wp.canBePlaced(die1, cell4, wp.getGlassWindow()));
 
         //Test of consecutive placement
         wp.setDesiredCell(cell2);
         wp.addDie(die2);
         assertEquals(wp.getGlassWindow()[cell2.getRow()][cell2.getCol()].getContainedDie(), die2);
-        assertTrue(wp.canBePlaced(die3, cell5));
+        assertTrue(wp.canBePlaced(die3, cell5, wp.getGlassWindow()));
 
     }
 
@@ -196,7 +192,7 @@ public class WindowPatternTest {
 
 
 
-        if (wp.canBePlaced(die,cell)) {
+        if (wp.canBePlaced(die,cell, wp.getGlassWindow())) {
             wp.setDesiredCell(cell);
             wp.addDie(die);
         }

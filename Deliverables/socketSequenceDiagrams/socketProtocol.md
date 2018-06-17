@@ -52,7 +52,7 @@
 
   _Client can now exit the game..._
 
-  * Client: exitGameRequest(playerName: String) ---> Server
+  * Client: exitGame() ---> Server
 
   _...or start a new game_
 
