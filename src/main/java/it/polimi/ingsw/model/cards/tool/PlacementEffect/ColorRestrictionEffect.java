@@ -29,7 +29,7 @@ public class ColorRestrictionEffect extends PlacementRestrictionEffect {
         Player currPlayer = manager.getControllerMaster().getGameState().getCurrentPlayer();
         WindowPatternCard wp = currPlayer.getWindowPatternCard();
 
-        wp.copyGlassWindow();
+        wp.createCopy();
         Cell[][] playerGlassWindow = wp.getGlassWindow();
 
         Cell[][] glassWindow = new Cell[WindowPatternCard.getMaxRow()][WindowPatternCard.getMaxCol()];

@@ -374,7 +374,7 @@ public class CliView implements IViewMaster {
 
     @Override
     public void showRank(String[] players, int[] score){
-        endGameManager.showRank(players, score);
+        endGameManager.showRank(players, score, this.player);
     }
 
 //----------------------------------------------------------
