@@ -101,34 +101,36 @@ public class PrivateObjectiveCardTest {
         Die greenDie = new Die(6, Color.GREEN);
         Die blueDie = new Die(4, Color.BLUE);
 
-        if(window.canBePlaced(purpleDie1, window.getGlassWindow()[0][0], window.getGlassWindow())) {
+        window.createCopy();
+        if(window.canBePlaced(purpleDie1, window.getGlassWindow()[0][0], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[0][0]);
             window.addDie(purpleDie1);
         }
-        if(window.canBePlaced(purpleDie2, window.getGlassWindow()[1][1], window.getGlassWindow())) {
+        if(window.canBePlaced(purpleDie2, window.getGlassWindow()[1][1], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[1][1]);
             window.addDie(purpleDie2);
         }
-        if(window.canBePlaced(redDie, window.getGlassWindow()[0][1], window.getGlassWindow())) {
+        if(window.canBePlaced(redDie, window.getGlassWindow()[0][1], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[0][1]);
             window.addDie(redDie);
         }
-        if(window.canBePlaced(yellowDie, window.getGlassWindow()[1][0], window.getGlassWindow())) {
+        if(window.canBePlaced(yellowDie, window.getGlassWindow()[1][0], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[1][0]);
             window.addDie(yellowDie);
         }
-        if(window.canBePlaced(greenDie, window.getGlassWindow()[2][1], window.getGlassWindow())) {
+        if(window.canBePlaced(greenDie, window.getGlassWindow()[2][1], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[2][1]);
             window.addDie(greenDie);
         }
-        if(window.canBePlaced(blueDie, window.getGlassWindow()[3][2], window.getGlassWindow())) {
+        if(window.canBePlaced(blueDie, window.getGlassWindow()[3][2], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[3][2]);
             window.addDie(blueDie);
         }
-        if(window.canBePlaced(purpleDie3, window.getGlassWindow()[2][3], window.getGlassWindow())) {
+        if(window.canBePlaced(purpleDie3, window.getGlassWindow()[2][3], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[2][3]);
             window.addDie(purpleDie3);
         }
+        window.overwriteOriginal();
 
         assertEquals(13, card4.analyzeWindowPatternCard(window)); //4+3+6=13
     }

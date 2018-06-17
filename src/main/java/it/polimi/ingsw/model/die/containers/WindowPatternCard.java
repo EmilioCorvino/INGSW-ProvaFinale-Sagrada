@@ -123,8 +123,8 @@ public class WindowPatternCard extends ADieContainer {
      * @param source glass window to copy.
      */
      private void copyGlassWindow(Cell[][] destination, Cell[][] source) {
-        for(int i = 0; i < WindowPatternCard.getMaxRow(); i++) {
-            for (int j = 0; j < WindowPatternCard.getMaxCol(); j++) {
+        for(int i = 0; i < MAX_ROW; i++) {
+            for (int j = 0; j < MAX_COL; j++) {
                 destination[i][j] = new Cell(i, j);
                 if (!source[i][j].isEmpty())
                     destination[i][j].setContainedDie(new Die(source[i][j].getContainedDie().getActualDieValue(), source[i][j].getContainedDie().getDieColor()));

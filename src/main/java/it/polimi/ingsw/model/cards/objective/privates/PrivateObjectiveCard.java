@@ -44,7 +44,7 @@ public class PrivateObjectiveCard extends AObjectiveCard {
         return name;
     }
 
-    public Color getCardColor() {
+    Color getCardColor() {
         return cardColor;
     }
 

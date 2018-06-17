@@ -25,6 +25,10 @@ public class EndGameManager extends AGameManager {
         this.endGameCommands = new ArrayList<>(Arrays.asList(Commands.START_ANOTHER_GAME, Commands.LOGOUT));
     }
 
+    /**
+     * This method computes the scores and sends to all the players the final rank.
+     * It also shows them the last {@link Commands} available.
+     */
     void computeRank() {
         List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
 
@@ -90,5 +94,9 @@ public class EndGameManager extends AGameManager {
             playerScores[i] = tempScores.get(i);
         }
         return playerScores;
+    }
+
+    public void exitGame() {
+        
     }
 }
