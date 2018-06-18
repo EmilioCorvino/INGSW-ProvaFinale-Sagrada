@@ -51,7 +51,7 @@ public class GameHome extends BorderPane {
             loginFormGUI.showAlertMessage("error");
             return;
         }
-        
+
         ((Label)loginFormGUI.getGridPane().getChildren().get(0)).setText("Inserire lo username:");
         HBox box = loginFormGUI.getButtonContainer();
         ((Button)box.getChildren().get(0)).setText("Giocatore singolo");
