@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 //import it.polimi.ingsw.view.GUI.GUIMain;
+import it.polimi.ingsw.view.GUI.GUIMain;
 import it.polimi.ingsw.view.IViewMaster;
 import it.polimi.ingsw.view.cli.CliView;
 import javafx.application.Application;
@@ -24,16 +25,17 @@ public class ClientMain {
             code = scan.next();
         }
 
+        scan.close();
+
         if(code.equalsIgnoreCase("cli")) {
             IViewMaster viewMaster = new CliView();
             viewMaster.createConnection(viewMaster);
         }
 
-        /*if(code.equalsIgnoreCase("gui")) {
-            GUIMain gui = new GUIMain();
-            Application.launch(gui.getClass(), args);
+        if(code.equalsIgnoreCase("gui")) {
+            Application.launch(GUIMain.class, args);
 
-        }*/
+        }
 
     }
 }
