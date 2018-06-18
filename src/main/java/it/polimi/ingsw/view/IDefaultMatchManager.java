@@ -1,8 +1,6 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.view.cli.generalManagers.ToolCardManager;
-
-public interface ICommunicationManager {
+public interface IDefaultMatchManager {
 
     /**
      * This method is used to chose the wp during the game set up.
@@ -33,6 +31,11 @@ public interface ICommunicationManager {
      * This method show the private objective of the player connected.
      */
     void showPrivateObj();
+
+    /**
+     * This method show the round track to the user.
+     */
+    void showRoundTrack();
 
     /**
      * This method show the command available

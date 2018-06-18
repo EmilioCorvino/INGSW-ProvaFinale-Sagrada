@@ -36,7 +36,7 @@ public class SetUpManager {
         List<WindowPatternCardView> cards = new ArrayList<>();
 
         for (SimplifiedWindowPatternCard swp : listWp)
-            cards.add(new WindowPatternCardView(swp));
+            cards.add(new WindowPatternCardView(swp, inputOutputManager));
 
 
         inputOutputManager.print(   "\n--------------------------------" +

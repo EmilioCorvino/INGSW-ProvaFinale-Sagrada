@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.cli.boardElements;
 
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.die.RoundTrackView;
+import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +23,9 @@ public class CommonBoardView {
     private List<ToolCardView> toolCardViews;
 
 
-    public CommonBoardView(){
+    public CommonBoardView(InputOutputManager inputOutputManager){
         this.players = new ArrayList<>();
-        this.roundTrack = new RoundTrackView(10);
+        this.roundTrack = new RoundTrackView(10, inputOutputManager);
         this.publicObjectiveCards = new ArrayList<>();
         this.toolCardViews = new ArrayList<>();
     }

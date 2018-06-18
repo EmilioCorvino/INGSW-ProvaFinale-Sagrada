@@ -12,10 +12,11 @@ import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.IViewMaster;
 import it.polimi.ingsw.view.cli.boardElements.CommonBoardView;
 import it.polimi.ingsw.view.cli.boardElements.PlayerView;
-import it.polimi.ingsw.view.cli.commands.Bank;
+import it.polimi.ingsw.view.Bank;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
-import it.polimi.ingsw.view.cli.generalManagers.CliCommunicationManager;
+import it.polimi.ingsw.view.cli.generalManagers.CliDefaultMatchManager;
+import it.polimi.ingsw.view.cli.generalManagers.CliToolCardCardManager;
 import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
 import it.polimi.ingsw.view.cli.generalManagers.ScannerThread;
 import it.polimi.ingsw.view.cli.stateManagers.EndGameManager;
@@ -87,8 +88,8 @@ public class CliView implements IViewMaster {
 
     public CliView() {
         player = new PlayerView();
-        commonBoard = new CommonBoardView();
         inputOutputManager = new InputOutputManager();
+        commonBoard = new CommonBoardView(inputOutputManager);
         loginManager = new LoginManager(inputOutputManager);
         setUpManager = new SetUpManager(inputOutputManager);
         gamePlayManager = new GamePlayManager(inputOutputManager);
@@ -118,8 +119,7 @@ public class CliView implements IViewMaster {
             }
         }
 
-        bank = new Bank();
-        bank.setCommunicationManager(new CliCommunicationManager(this));
+        this.setBank();
 
         inputOutputManager.print("\nConnessione stabilita.\nProcedere con la registrazione.");
 
@@ -203,17 +203,18 @@ public class CliView implements IViewMaster {
             if(!ply.getKey().equals(this.player.getUserName())) {
                 PlayerView p = new PlayerView();
                 p.setUserName(ply.getKey());
-                p.setWp(new WindowPatternCardView(ply.getValue()));
+                p.setWp(new WindowPatternCardView(ply.getValue(), inputOutputManager));
                 this.commonBoard.getPlayers().add(p);
             }
             else
-                this.player.setWp(new WindowPatternCardView(ply.getValue()));
+                this.player.setWp(new WindowPatternCardView(ply.getValue(), inputOutputManager));
         }
 
         setUpManager.createPubObjCards(idPubObj, commonBoard.getPublicObjectiveCards());
         setUpManager.createToolCards(idTool, commonBoard.getToolCardViews());
 
-        inputOutputManager.print("\nPLANCIA DI GIOCO: ");
+        inputOutputManager.print("\n------------------------------" +
+                                 "\n      PLANCIA DI GIOCO: ");
         setUpManager.printPrivateObj(this.getPlayer().getPrivateObjCard());
         setUpManager.printPubObj(commonBoard.getPublicObjectiveCards());
         setUpManager.printTool(commonBoard.getToolCardViews());
@@ -226,7 +227,7 @@ public class CliView implements IViewMaster {
      */
     @Override
     public void setDraft(List<SetUpInformationUnit> draft){
-        this.commonBoard.setDraftPool(new DieDraftPoolView(draft));
+        this.commonBoard.setDraftPool(new DieDraftPoolView(draft, inputOutputManager));
         this.commonBoard.getDraftPool().printDraftPool();
     }
 
@@ -447,5 +448,12 @@ public class CliView implements IViewMaster {
         inputOutputManager.print("\nCamandi disponibili: ");
         for (String s : functions.keySet())
             inputOutputManager.print("\t- "+s);
+    }
+
+    private void setBank(){
+        bank = new Bank();
+        bank.setDefaultMatchManager(new CliDefaultMatchManager(this));
+        bank.setToolCardManager(new CliToolCardCardManager(this));
+        bank.populateBank();
     }
 }

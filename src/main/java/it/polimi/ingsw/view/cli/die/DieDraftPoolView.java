@@ -22,8 +22,8 @@ public class DieDraftPoolView {
     private List<DieView> dice;
 
 
-    public DieDraftPoolView(List<SetUpInformationUnit> draft){
-        this.inputOutputManager = new InputOutputManager();
+    public DieDraftPoolView(List<SetUpInformationUnit> draft, InputOutputManager inputOutputManager){
+        this.inputOutputManager = inputOutputManager;
         this.dice = new ArrayList<>();
 
         for(SetUpInformationUnit die: draft)

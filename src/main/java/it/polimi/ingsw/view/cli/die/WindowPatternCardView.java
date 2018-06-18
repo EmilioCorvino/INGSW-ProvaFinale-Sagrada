@@ -26,8 +26,8 @@ public class WindowPatternCardView {
      * This constructor build a window pattern card from the information given from the controller.
      * @param sWP: The set of useful information to identify a window pattern card.
      */
-    public WindowPatternCardView(SimplifiedWindowPatternCard sWP){
-        this.inputOutputManager = new InputOutputManager();
+    public WindowPatternCardView(SimplifiedWindowPatternCard sWP, InputOutputManager inputOutputManager){
+        this.inputOutputManager = inputOutputManager;
         this.glassWindow = new CellView[MAX_ROW][MAX_COL];
         this.populateViewWP(sWP);
     }
