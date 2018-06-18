@@ -89,4 +89,19 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
         System.exit(0);
     }
 
+    @Override
+    public void newGame(){
+        this.resetClient();
+        try {
+            this.getServer().startNewGameRequest();
+        } catch (BrokenConnectionException e){
+            SagradaLogger.log(Level.SEVERE, "Connection broken during new game request.");
+        }
+    }
+
+    private void resetClient(){
+        this.getView().getPlayer().resetPlayer();
+        this.getView().getCommonBoard().resetCommonBoard(this.getView().getInputOutputManager());
+    }
+
 }

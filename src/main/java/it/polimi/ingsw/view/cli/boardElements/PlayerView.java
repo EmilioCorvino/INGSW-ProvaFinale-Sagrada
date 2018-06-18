@@ -51,8 +51,12 @@ public class PlayerView {
         this.favorToken = favorToken;
     }
 
-
-    public boolean isSamePlayerAs(Player player) {
-        return this.getUserName().equals(player.getPlayerName());
+    /**
+     * This method reset all the attribute of the player except the user name, it is used after a new game request.
+     */
+    public void resetPlayer(){
+        this.privateObjCard = null;
+        this.favorToken = 0;
+        this.wp = null;
     }
 }

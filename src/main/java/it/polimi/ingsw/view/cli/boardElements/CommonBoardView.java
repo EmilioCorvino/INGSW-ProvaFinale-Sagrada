@@ -54,4 +54,14 @@ public class CommonBoardView {
         this.draftPool = draftPool;
     }
 
+    /**
+     * This method is used to reset all the attribute of the common board, it is used instead the constructor after a new game request.
+     * @param inputOutputManager: The manager for the scan and the print to the user.
+     */
+    public void resetCommonBoard(InputOutputManager inputOutputManager){
+        this.players = new ArrayList<>();
+        this.roundTrack = new RoundTrackView(10, inputOutputManager);
+        this.publicObjectiveCards = new ArrayList<>();
+        this.toolCardViews = new ArrayList<>();
+    }
 }
