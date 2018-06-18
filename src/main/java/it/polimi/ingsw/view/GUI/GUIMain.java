@@ -17,7 +17,7 @@ public class GUIMain extends Application {
     public void start(Stage primaryStage) {
 
 
-        Parent root = new GameHome();
+        Parent root = new GameHome("Indirizzo ip del server", "RMI", "Socket");
 
         scene = new Scene(root, 900, 700);
         root.setStyle("-fx-background-color : #001a4d");
