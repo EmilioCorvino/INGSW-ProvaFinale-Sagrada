@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.GUI;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -18,12 +19,20 @@ public class LoginFormGUI extends VBox {
 
     private HBox buttonContainer;
 
+    private String wordTextField;
+
+    private String wordButton;
+
+    private Button goAhead;
+
+
 
 
     public LoginFormGUI() {
         setvBox(new VBox());
         this.gridPane = new GridPane();
         this.buttonContainer = new HBox();
+        this.goAhead = new Button("Gioca");
     }
 
     public void formatvBox(String label, String button1, String button2) {
@@ -38,7 +47,8 @@ public class LoginFormGUI extends VBox {
         formatGridpane(label);
         formatButtonContainer(button1, button2);
 
-
+        vBox.getChildren().add(goAhead);
+        goAhead.setVisible(false);
     }
 
     public void formatGridpane(String nameLabel) {
@@ -50,6 +60,7 @@ public class LoginFormGUI extends VBox {
         gridPane.setMaxWidth(Double.MAX_VALUE);
 
         TextField text = new TextField();
+
         Label label = new Label(nameLabel);
 
         this.gridPane.add(label, 0, 0);
@@ -69,15 +80,24 @@ public class LoginFormGUI extends VBox {
         buttonContainer.setAlignment(Pos.CENTER);
         buttonContainer.setSpacing(20);
 
-        //btn1.setMaxWidth(75);
-        //btn2.setMaxWidth(75);
-
         btn1.setMaxWidth(Double.MAX_VALUE);
         btn2.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(btn1, Priority.ALWAYS);
         HBox.setHgrow(btn2, Priority.ALWAYS);
-
     }
+
+
+    public void showAlertMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+
+
+
+
 
     public VBox getvBox() {
         return vBox;
@@ -101,5 +121,29 @@ public class LoginFormGUI extends VBox {
 
     public void setGridPane(GridPane gridPane) {
         this.gridPane = gridPane;
+    }
+
+    public String getWordTextField() {
+        return wordTextField;
+    }
+
+    public void setWordTextField(String wordTextField) {
+        this.wordTextField = wordTextField;
+    }
+
+    public String getWordButton() {
+        return wordButton;
+    }
+
+    public void setWordButton(String wordButton) {
+        this.wordButton = wordButton;
+    }
+
+    public Button getGoAhead() {
+        return goAhead;
+    }
+
+    public void setGoAhead(Button goAhead) {
+        this.goAhead = goAhead;
     }
 }

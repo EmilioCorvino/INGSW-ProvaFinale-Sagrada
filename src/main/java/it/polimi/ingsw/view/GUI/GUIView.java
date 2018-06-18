@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.network.IFromClientToServer;
+import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.view.IViewMaster;
 
 import java.util.List;
@@ -14,7 +15,14 @@ public class GUIView implements IViewMaster {
     /**
      * The network interface for the connection.
      */
-    IFromClientToServer fromClientToServer;
+    IFromClientToServer server;
+
+    private GameHome loginManager;
+
+
+    public GUIView() {
+
+    }
 
 
 
@@ -25,6 +33,19 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void createConnection(IViewMaster viewMaster) {
+
+        boolean userNameOk = false;
+        boolean ipOk = false;
+
+        while(!ipOk){
+            try{
+                String ipAddress = loginManager.getIp();
+                this.server = loginManager.chooseNetworkInterface(ipAddress, viewMaster);
+                ipOk = true;
+            }catch (BrokenConnectionException e){
+                ((GameHome)GUIMain.getScene().getRoot()).getLoginFormGUI().showAlertMessage("indirizzo ip non corretto");
+            }
+        }
 
     }
 
@@ -131,5 +152,13 @@ public class GUIView implements IViewMaster {
     @Override
     public void showRank(String[] playerNames, int[] scores) {
 
+    }
+
+    public GameHome getLoginManager() {
+        return loginManager;
+    }
+
+    public void setLoginManager(GameHome loginManager) {
+        this.loginManager = loginManager;
     }
 }
