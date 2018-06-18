@@ -104,7 +104,6 @@ public class Score implements IScore {
             pointsFromPublicObjectiveCards += visitor.getScoreFromCard();
         }
         this.setPublicObjectivePoints(pointsFromPublicObjectiveCards);
-
     }
 
     /**
