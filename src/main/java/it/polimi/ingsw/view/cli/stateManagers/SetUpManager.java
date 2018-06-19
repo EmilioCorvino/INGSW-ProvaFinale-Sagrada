@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.cli.stateManagers;
 
+import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.cli.boardElements.ToolCardView;
@@ -85,7 +86,7 @@ public class SetUpManager {
             try (Reader file = new FileReader("./src/main/resources/cards/toolCardsText/toolCard" + i)){
                 BufferedReader b = new BufferedReader(file);
                 String s = b.readLine();
-                cards.add(new ToolCardView(s,1));
+                cards.add(new ToolCardView(s,1, Commands.values()[i-300+2]));
             } catch (IOException e) {
                 SagradaLogger.log(Level.WARNING, "Tool Card txt file can't be read!", e);
             }

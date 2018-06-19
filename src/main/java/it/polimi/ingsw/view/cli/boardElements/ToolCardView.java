@@ -10,9 +10,10 @@ public class ToolCardView {
 
     private Commands command;
 
-    public ToolCardView(String description, int cost){
+    public ToolCardView(String description, int cost, Commands command){
         this.description = description;
         this.cost = cost;
+        this.command = command;
     }
 
     public String getDescription() {
@@ -21,6 +22,10 @@ public class ToolCardView {
 
     public int getCost() {
         return cost;
+    }
+
+    public Commands getCommand() {
+        return command;
     }
 
     public void setCost(int cost) {

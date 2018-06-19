@@ -25,10 +25,9 @@ public class GamePlayManager{
      * @param draftPoolView: The draft Pool
      * @return: the index chosen.
      */
-    private int choseDraftDie(DieDraftPoolView draftPoolView){
-        inputOutputManager.print(draftPoolView.diceDraftToString());
+    public int choseDraftDie(DieDraftPoolView draftPoolView){
 
-        String index = inputOutputManager.askInformation("Inserisci l'indice del dado che vuoi piazzare (da 0 a "+(draftPoolView.getDice().size()-1)+"): ");
+        String index = inputOutputManager.askInformation("Inserisci l'indice del dado desiderato (da 0 a "+(draftPoolView.getDice().size()-1)+"): ");
         boolean validInput = Pattern.matches("\\d*", index);
 
         while(!validInput || Integer.parseInt(index) < 0 || Integer.parseInt(index) > draftPoolView.getDice().size()-1)
@@ -41,9 +40,8 @@ public class GamePlayManager{
      * @param wp:
      * @return the modular conversion of raw and column.
      */
-    private int choseCellWp(WindowPatternCardView wp){
-        inputOutputManager.print(wp.wpToString());
-        inputOutputManager.print("Inserisci le coordinate della cella in cui vuoi inserire il dado.");
+    public int choseCellWp(WindowPatternCardView wp){
+        inputOutputManager.print("Inserisci le coordinate della cella desiderata.");
 
         String row = inputOutputManager.askInformation("Riga: ");
         boolean validRow = Pattern.matches("\\d*", row);
@@ -67,6 +65,8 @@ public class GamePlayManager{
      * @param unit: the unit that need to be fill with the placement information and that need to be send to the controller.
      */
     public void getPlacementInfo(DieDraftPoolView draft, WindowPatternCardView wp, SetUpInformationUnit unit){
+        inputOutputManager.print(draft.diceDraftToString());
+        inputOutputManager.print(wp.wpToString());
         unit.setSourceIndex(this.choseDraftDie(draft));
         unit.setDestinationIndex(this.choseCellWp(wp));
     }

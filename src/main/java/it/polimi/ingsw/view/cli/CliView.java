@@ -251,7 +251,6 @@ public class CliView implements IViewMaster {
      */
     @Override
     public void showCommand(List<Commands> commands) {
-        //todo populate command in tool card view of commonBoard.
         functions = bank.getCommandMap(commands);
         printCommands();
     }
@@ -291,7 +290,7 @@ public class CliView implements IViewMaster {
         for (PlayerView ply : this.commonBoard.getPlayers())
             if(ply.getUserName().equals(userName)) {
                 gamePlayManager.addOnWp(ply.getWp(), infoUnit);
-                inputOutputManager.print("\nE' stata mofificata una mappa: ");
+                inputOutputManager.print("\nE' stata mofificata la mappa di " + userName + " :");
                 inputOutputManager.print(ply.getWp().wpToString());
             }
     }
