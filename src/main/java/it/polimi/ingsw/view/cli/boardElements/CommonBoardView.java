@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.cli.boardElements;
 
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.die.RoundTrackView;
-import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +22,9 @@ public class CommonBoardView {
     private List<ToolCardView> toolCardViews;
 
 
-    public CommonBoardView(InputOutputManager inputOutputManager){
+    public CommonBoardView(){
         this.players = new ArrayList<>();
-        this.roundTrack = new RoundTrackView(10, inputOutputManager);
+        this.roundTrack = new RoundTrackView(10);
         this.publicObjectiveCards = new ArrayList<>();
         this.toolCardViews = new ArrayList<>();
     }
@@ -56,12 +55,40 @@ public class CommonBoardView {
 
     /**
      * This method is used to reset all the attribute of the common board, it is used instead the constructor after a new game request.
-     * @param inputOutputManager: The manager for the scan and the print to the user.
      */
-    public void resetCommonBoard(InputOutputManager inputOutputManager){
+    public void resetCommonBoard(){
         this.players = new ArrayList<>();
-        this.roundTrack = new RoundTrackView(10, inputOutputManager);
+        this.roundTrack = new RoundTrackView(10);
         this.publicObjectiveCards = new ArrayList<>();
         this.toolCardViews = new ArrayList<>();
     }
+
+    public String toolCardToString(){
+        StringBuilder tool = new StringBuilder("\nCarte strumento: ");
+        for (ToolCardView c : toolCardViews) {
+            tool.append("\n\t - ").append(toolCardViews.indexOf(c)).append(": ").append(c.getDescription()).append(" | Segnalini favore da usare: ").append(c.getCost());
+        }
+        return tool.toString();
+    }
+
+    public String pubObjToString(){
+        StringBuilder pubObj = new StringBuilder("\nCarte obiettivo pubblico: ");
+
+        for (int i = 0; i < publicObjectiveCards.size(); i++)
+            pubObj.append("\n\t - " ).append(i+1).append(": ").append(publicObjectiveCards.get(i));
+
+        return pubObj.toString();
+    }
+
+    public String allWpToString(){
+        StringBuilder allWp = new StringBuilder("\nMappe altri giocatori:\n");
+
+        for (PlayerView p: players) {
+            allWp.append("\n- Mappa di ").append(p.getUserName());
+            allWp.append(p.getWp().wpToString());
+        }
+
+        return allWp.toString();
+    }
+
 }

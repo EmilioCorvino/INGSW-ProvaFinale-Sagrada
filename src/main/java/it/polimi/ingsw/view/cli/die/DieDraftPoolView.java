@@ -11,10 +11,6 @@ import java.util.List;
  */
 public class DieDraftPoolView {
 
-    /**
-     * This object manage the input output communication with the user.
-     */
-    private InputOutputManager inputOutputManager;
 
     /**
      * The list of dice contained.
@@ -22,8 +18,7 @@ public class DieDraftPoolView {
     private List<DieView> dice;
 
 
-    public DieDraftPoolView(List<SetUpInformationUnit> draft, InputOutputManager inputOutputManager){
-        this.inputOutputManager = inputOutputManager;
+    public DieDraftPoolView(List<SetUpInformationUnit> draft){
         this.dice = new ArrayList<>();
 
         for(SetUpInformationUnit die: draft)
@@ -31,19 +26,11 @@ public class DieDraftPoolView {
     }
 
     /**
-     * This method print the draft pool
-     */
-    public void printDraftPool(){
-        inputOutputManager.print("\nRISERVA:");
-        inputOutputManager.print(diceDraftToString());
-    }
-
-    /**
      * This method create a draft pool in a string format with: DIE (number colored)
      * @return The draft pool in string format.
      */
-    private String diceDraftToString(){
-        StringBuilder diceDraft = new StringBuilder(100);
+    public String diceDraftToString(){
+        StringBuilder diceDraft = new StringBuilder("\nRISERVA:");
         diceDraft.append("|");
 
         for(DieView d : this.dice)

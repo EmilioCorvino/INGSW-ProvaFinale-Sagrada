@@ -7,15 +7,14 @@ import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.die.DieView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 
-import java.io.Serializable;
 import java.util.regex.Pattern;
 
 /**
  * This class manages all the interaction during the game play state.
  */
-public class GamePlayManager implements Serializable {
+public class GamePlayManager{
 
-    private transient InputOutputManager inputOutputManager;
+    private InputOutputManager inputOutputManager;
 
     public GamePlayManager(InputOutputManager inputOutputManager){
         this.inputOutputManager = inputOutputManager;
@@ -27,7 +26,7 @@ public class GamePlayManager implements Serializable {
      * @return: the index chosen.
      */
     private int choseDraftDie(DieDraftPoolView draftPoolView){
-        draftPoolView.printDraftPool();
+        inputOutputManager.print(draftPoolView.diceDraftToString());
 
         String index = inputOutputManager.askInformation("Inserisci l'indice del dado che vuoi piazzare (da 0 a "+(draftPoolView.getDice().size()-1)+"): ");
         boolean validInput = Pattern.matches("\\d*", index);
@@ -43,7 +42,7 @@ public class GamePlayManager implements Serializable {
      * @return the modular conversion of raw and column.
      */
     private int choseCellWp(WindowPatternCardView wp){
-        wp.printWp();
+        inputOutputManager.print(wp.wpToString());
         inputOutputManager.print("Inserisci le coordinate della cella in cui vuoi inserire il dado.");
 
         String row = inputOutputManager.askInformation("Riga: ");
@@ -112,4 +111,5 @@ public class GamePlayManager implements Serializable {
     public void removeOnRoundTrack(RoundTrackView roundTrack, SetUpInformationUnit unit){
         roundTrack.getAvailableDice().get(unit.getSourceIndex()).remove(unit.getOffset());
     }
+
 }

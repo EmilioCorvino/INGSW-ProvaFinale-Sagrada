@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.cli.boardElements;
 
-import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 
 /**
@@ -58,5 +57,16 @@ public class PlayerView {
         this.privateObjCard = null;
         this.favorToken = 0;
         this.wp = null;
+    }
+
+    public String privateObjToString(){
+        String privateObj = "\nIl tuo obiettivo privato e': ";
+
+        return  privateObj.concat(this.privateObjCard);
+    }
+
+    public String favTokensToString(){
+        String favTokens = "\nIl numero di segnalini favore e': ";
+        return favTokens + this.favorToken;
     }
 }

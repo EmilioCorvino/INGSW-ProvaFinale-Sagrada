@@ -89,7 +89,7 @@ public class CliView implements IViewMaster {
     public CliView() {
         player = new PlayerView();
         inputOutputManager = new InputOutputManager();
-        commonBoard = new CommonBoardView(inputOutputManager);
+        commonBoard = new CommonBoardView();
         loginManager = new LoginManager(inputOutputManager);
         setUpManager = new SetUpManager(inputOutputManager);
         gamePlayManager = new GamePlayManager(inputOutputManager);
@@ -164,7 +164,7 @@ public class CliView implements IViewMaster {
     @Override
     public void showPrivateObjective(int idPrivateObj){
         this.setUpManager.createPrivateObjCard(idPrivateObj, this.player);
-        inputOutputManager.print("Il tuo obiettivo privato e': " + this.player.getPrivateObjCard());
+        inputOutputManager.print(this.player.privateObjToString());
         scannerThread.start();
     }
 
@@ -203,11 +203,11 @@ public class CliView implements IViewMaster {
             if(!ply.getKey().equals(this.player.getUserName())) {
                 PlayerView p = new PlayerView();
                 p.setUserName(ply.getKey());
-                p.setWp(new WindowPatternCardView(ply.getValue(), inputOutputManager));
+                p.setWp(new WindowPatternCardView(ply.getValue()));
                 this.commonBoard.getPlayers().add(p);
             }
             else
-                this.player.setWp(new WindowPatternCardView(ply.getValue(), inputOutputManager));
+                this.player.setWp(new WindowPatternCardView(ply.getValue()));
         }
 
         setUpManager.createPubObjCards(idPubObj, commonBoard.getPublicObjectiveCards());
@@ -215,10 +215,10 @@ public class CliView implements IViewMaster {
 
         inputOutputManager.print("\n------------------------------" +
                                  "\n      PLANCIA DI GIOCO: ");
-        setUpManager.printPrivateObj(this.getPlayer().getPrivateObjCard());
-        setUpManager.printPubObj(commonBoard.getPublicObjectiveCards());
-        setUpManager.printTool(commonBoard.getToolCardViews());
-        this.player.getWp().printWp();
+        inputOutputManager.print(this.getPlayer().privateObjToString());
+        inputOutputManager.print(commonBoard.pubObjToString());
+        inputOutputManager.print(commonBoard.toolCardToString());
+        inputOutputManager.print(this.player.getWp().wpToString());
     }
 
     /**
@@ -227,8 +227,8 @@ public class CliView implements IViewMaster {
      */
     @Override
     public void setDraft(List<SetUpInformationUnit> draft){
-        this.commonBoard.setDraftPool(new DieDraftPoolView(draft, inputOutputManager));
-        this.commonBoard.getDraftPool().printDraftPool();
+        this.commonBoard.setDraftPool(new DieDraftPoolView(draft));
+        inputOutputManager.print(commonBoard.getDraftPool().diceDraftToString());
     }
 
     /**
@@ -238,7 +238,7 @@ public class CliView implements IViewMaster {
     @Override
     public void setFavorToken(int nFavTokens){
         this.player.setFavorToken(nFavTokens);
-        inputOutputManager.print("\nIl numero di segnalini favore e': "+nFavTokens);
+        inputOutputManager.print(this.player.favTokensToString());
     }
 
 //----------------------------------------------------------
@@ -265,7 +265,7 @@ public class CliView implements IViewMaster {
         WindowPatternCardView wp = this.player.getWp();
 
         gamePlayManager.addOnWp(wp, unit);
-        wp.printWp();
+        inputOutputManager.print(wp.wpToString());
 
     }
 
@@ -278,7 +278,7 @@ public class CliView implements IViewMaster {
         WindowPatternCardView wp = this.player.getWp();
 
         gamePlayManager.removeOnWp(wp, unit);
-        wp.printWp();
+        inputOutputManager.print(wp.wpToString());
     }
 
     /**
@@ -292,7 +292,7 @@ public class CliView implements IViewMaster {
             if(ply.getUserName().equals(userName)) {
                 gamePlayManager.addOnWp(ply.getWp(), infoUnit);
                 inputOutputManager.print("\nE' stata mofificata una mappa: ");
-                ply.getWp().printWp();
+                inputOutputManager.print(ply.getWp().wpToString());
             }
     }
 
@@ -324,7 +324,7 @@ public class CliView implements IViewMaster {
     @Override
     public void removeOnDraft(SetUpInformationUnit info){
         gamePlayManager.removeOnDraft(this.commonBoard.getDraftPool(), info);
-        commonBoard.getDraftPool().printDraftPool();
+        inputOutputManager.print(this.commonBoard.getDraftPool().diceDraftToString());
     }
 
     /**

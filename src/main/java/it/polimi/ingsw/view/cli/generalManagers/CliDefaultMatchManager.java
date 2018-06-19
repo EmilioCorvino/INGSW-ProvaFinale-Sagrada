@@ -35,27 +35,27 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
 
     @Override
     public void showAllWp(){
-        this.getView().getSetUpManager().printAllWp(this.getView().getCommonBoard().getPlayers());
+        this.getInputOutputManager().print(this.getView().getCommonBoard().allWpToString());
     }
 
     @Override
     public void showPublicObj(){
-        this.getView().getSetUpManager().printPubObj(this.getView().getCommonBoard().getPublicObjectiveCards());
+        this.getInputOutputManager().print(this.getView().getCommonBoard().pubObjToString());
     }
 
     @Override
     public void showTool(){
-        this.getView().getSetUpManager().printTool(this.getView().getCommonBoard().getToolCardViews());
+        this.getInputOutputManager().print(this.getView().getCommonBoard().toolCardToString());
     }
 
     @Override
     public void showPrivateObj(){
-        this.getView().getSetUpManager().printPrivateObj(this.getView().getPlayer().getPrivateObjCard());
+        this.getInputOutputManager().print(this.getView().getPlayer().privateObjToString());
     }
 
     @Override
     public void showRoundTrack(){
-        this.getView().getCommonBoard().getRoundTrack().printRoundTrack();
+        this.getInputOutputManager().print(this.getView().getCommonBoard().getRoundTrack().roundTrackToString());
     }
 
     @Override
@@ -92,16 +92,18 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
     @Override
     public void newGame(){
         this.resetClient();
+        /*
         try {
             this.getServer().startNewGameRequest();
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during new game request.");
         }
+        */
     }
 
     private void resetClient(){
         this.getView().getPlayer().resetPlayer();
-        this.getView().getCommonBoard().resetCommonBoard(this.getView().getInputOutputManager());
+        this.getView().getCommonBoard().resetCommonBoard();
     }
 
 }

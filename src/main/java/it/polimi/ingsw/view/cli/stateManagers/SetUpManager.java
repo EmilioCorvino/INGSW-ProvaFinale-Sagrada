@@ -36,14 +36,14 @@ public class SetUpManager {
         List<WindowPatternCardView> cards = new ArrayList<>();
 
         for (SimplifiedWindowPatternCard swp : listWp)
-            cards.add(new WindowPatternCardView(swp, inputOutputManager));
+            cards.add(new WindowPatternCardView(swp));
 
 
         inputOutputManager.print(   "\n--------------------------------" +
                                     "\n Scegli la WP desiderata tra: ");
 
         for (WindowPatternCardView wp : cards)
-            wp.printWp();
+            inputOutputManager.print(wp.wpToString());
     }
 
     /**
@@ -102,48 +102,6 @@ public class SetUpManager {
             SagradaLogger.log(Level.WARNING, "Private Objective Card txt file can't be read!", e);
         }
 
-    }
-
-    /**
-     * This method print all the public objective.
-     * @param cards: The list public objective card.
-     */
-    public void printPubObj(List<String> cards){
-        int index = 1;
-
-        inputOutputManager.print("\nCarte obiettivo pubblico: ");
-        for (String s : cards){
-            inputOutputManager.print("\t - " + index + ": " + s);
-            index ++;
-        }
-    }
-
-    /**
-     * This method print all the tool cards.
-     * @param cards: The list of Tool Cards.
-     */
-    public void printTool(List<ToolCardView> cards){
-
-        inputOutputManager.print("\nCarte strumento: ");
-        for (ToolCardView c : cards){
-            inputOutputManager.print("\t - " + cards.indexOf(c) + ": "+ c.getDescription() + " | Segnalini favore da usare: " + c.getCost());
-        }
-    }
-
-    /**
-     * This method print the private objective.
-     * @param card: The private objective card.
-     */
-    public void printPrivateObj(String card){
-        inputOutputManager.print("\nIl tuo obiettivo privato e': "+ card);
-    }
-
-    /**
-     * This method print all the wp of the other player in the game.
-     * @param players: all the players in the match
-     */
-    public void printAllWp(List<PlayerView> players){
-        players.forEach(p -> p.getWp().printWp());
     }
 
 }

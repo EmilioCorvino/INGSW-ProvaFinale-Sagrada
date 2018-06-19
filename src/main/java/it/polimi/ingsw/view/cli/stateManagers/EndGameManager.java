@@ -4,18 +4,17 @@ package it.polimi.ingsw.view.cli.stateManagers;
 import it.polimi.ingsw.view.cli.boardElements.PlayerView;
 import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
 
-import java.io.Serializable;
 
 /**
  * This class control the end game state and all the respective interaction with the user.
  */
-public class EndGameManager implements Serializable {
+public class EndGameManager{
 
     private static final String BOLD_PREFIX = "\033[0;1m";
 
     private static final String BOLD_SUFFIX = "\033[0m";
 
-    private transient InputOutputManager inputOutputManager;
+    private InputOutputManager inputOutputManager;
 
     public EndGameManager(InputOutputManager inputOutputManager){
         this.inputOutputManager = inputOutputManager;
