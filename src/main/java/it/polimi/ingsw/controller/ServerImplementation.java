@@ -1,12 +1,11 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.controller.managers.EndGameManager;
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.managers.StartGameManager;
-import it.polimi.ingsw.controller.simplified_view.InformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.network.Connection;
 import it.polimi.ingsw.network.IFromClientToServer;
-import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
@@ -37,50 +36,16 @@ public class ServerImplementation implements IFromClientToServer {
         this.connectionsQueue = new ConcurrentLinkedQueue<>();
     }
 
-    /**
-     * This method tells the proper game manager of the controller to perform the move request.
-     * @param sourceInfo the coordinates of the source container.
-     */
-    @Override
-    public void performDefaultMove(SetUpInformationUnit sourceInfo) {
-        String userName = connectionsQueue.poll().getUserName();
-        GamePlayManager gamePlayManager = (GamePlayManager)controller.getGamePlayManager();
-        gamePlayManager.performDefaultMove(sourceInfo, userName);
-    }
-
-    /**
-     * This method tells the proper game manager of the controller to move to the next turn.
-     */
-    @Override
-    public void moveToNextTurn() {
-        String userName = connectionsQueue.poll().getUserName();
-        GamePlayManager gamePlayManager = (GamePlayManager)controller.getGamePlayManager();
-        gamePlayManager.moveToNextTurn(userName);
-    }
-
-    /**
-     * //todo not needed anymore
-     * @param toolIndex
-     */
-    public void toolCardMoveRequest(int toolIndex) {
-
-    }
-
-    /*
-    public void register(int gameMode, String playerName) throws UserNameAlreadyTakenException, TooManyUsersException {
-        if(((StartGameManager)this.controller.getStartGameManager()).isFull()) {
-            System.out.println("The server reached the maximum number of players!");
-            throw new TooManyUsersException();
-        }
-        if(!((StartGameManager)this.controller.getStartGameManager()).checkLogin(playerName)) {
-            System.out.println("Username already taken");
-            throw new UserNameAlreadyTakenException();
-        }
-    }
-    */
-
-    public IControllerMaster getController() {
+    public ControllerMaster getController() {
         return controller;
+    }
+
+    public void setController(ControllerMaster controller) {
+        this.controller = controller;
+    }
+
+    public Queue<Connection> getConnectionsQueue() {
+        return connectionsQueue;
     }
 
     /**
@@ -99,8 +64,8 @@ public class ServerImplementation implements IFromClientToServer {
      * @param playerName name chosen by the player.
      * @param room waiting room where players waiting for the match to start are gathered.
      * @param connection established between client and server.
-     * @throws UserNameAlreadyTakenException
-     * @throws TooManyUsersException
+     * @throws UserNameAlreadyTakenException when the player tries to register with a username already taken.
+     * @throws TooManyUsersException when the player tries to connect when the {@link WaitingRoom} is full.
      */
     public void register(int gameMode, String playerName, WaitingRoom room, Connection connection) throws
             UserNameAlreadyTakenException, TooManyUsersException, MatchAlreadyStartedException {
@@ -114,9 +79,37 @@ public class ServerImplementation implements IFromClientToServer {
      */
     @Override
     public void windowPatternCardRequest(int idMap) {
-        String username = connectionsQueue.poll().getUserName();
+        String username = connectionsQueue.remove().getUserName();
         StartGameManager startGameManager = (StartGameManager)controller.getStartGameManager();
         startGameManager.wpToSet(username, idMap);
+    }
+
+    /**
+     * This method tells the proper game manager of the controller to perform the move request.
+     * @param sourceInfo the coordinates of the source container.
+     */
+    @Override
+    public void performDefaultMove(SetUpInformationUnit sourceInfo) {
+        String userName = connectionsQueue.remove().getUserName();
+        GamePlayManager gamePlayManager = (GamePlayManager)controller.getGamePlayManager();
+        gamePlayManager.performDefaultMove(sourceInfo, userName);
+    }
+
+    /**
+     * This method tells the proper game manager of the controller to move to the next turn.
+     */
+    @Override
+    public void moveToNextTurn() {
+        String userName = connectionsQueue.remove().getUserName();
+        GamePlayManager gamePlayManager = (GamePlayManager)controller.getGamePlayManager();
+        gamePlayManager.moveToNextTurn(userName);
+    }
+
+    @Override
+    public void startNewGameRequest() {
+        connectionsQueue.poll();
+        EndGameManager endGameManager = (EndGameManager)controller.getEndGameManager();
+        endGameManager.newGame();
     }
 
     /**
@@ -124,16 +117,15 @@ public class ServerImplementation implements IFromClientToServer {
      */
     @Override
     public void exitGame() {
-
+        String userName = connectionsQueue.remove().getUserName();
+        if(this.getController().getGameState().isMatchOver()) {
+            EndGameManager endGameManager = (EndGameManager)controller.getEndGameManager();
+            endGameManager.exitGame(userName);
+        } else {
+            //todo suspend player
+        }
     }
 
-    public void setController(ControllerMaster controller) {
-        this.controller = controller;
-    }
-
-    public Queue<Connection> getConnectionsQueue() {
-        return connectionsQueue;
-    }
 
 
 }

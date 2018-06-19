@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * This class represents the part of the controller that manages all its other components and the possible flow of the game.
  */
-public class ControllerMaster implements IControllerMaster {
+public class ControllerMaster {
 
     /**
      * This is the reference to the common board of the game.
@@ -54,8 +54,14 @@ public class ControllerMaster implements IControllerMaster {
      */
     private List<Player> suspendedPlayers;
 
+    /**
+     * Room where player wait for a match to start.
+     */
+    private WaitingRoom waitingRoom;
 
-    public ControllerMaster(Map<String, Connection> connectedPlayers) {
+
+    public ControllerMaster(Map<String, Connection> connectedPlayers, WaitingRoom waitingRoom) {
+        this.waitingRoom = waitingRoom;
         this.commonBoard = new CommonBoard();
         this.commonBoard.initializeBoard();
         this.startGameManager = new StartGameManager(this);
@@ -92,6 +98,10 @@ public class ControllerMaster implements IControllerMaster {
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
+    }
+
+    public WaitingRoom getWaitingRoom() {
+        return waitingRoom;
     }
 
     /**

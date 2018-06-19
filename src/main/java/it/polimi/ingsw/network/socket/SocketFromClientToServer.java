@@ -26,6 +26,11 @@ public class SocketFromClientToServer implements IFromClientToServer {
     }
 
     @Override
+    public void startNewGameRequest() throws BrokenConnectionException {
+
+    }
+
+    @Override
     public void exitGame() {
 
     }

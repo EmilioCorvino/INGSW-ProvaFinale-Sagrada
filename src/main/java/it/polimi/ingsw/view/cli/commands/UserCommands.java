@@ -26,7 +26,8 @@ public enum UserCommands {
     ROUND_TRACK("Tracciato round"),
     PASSA("Passa"),
     HELP("Aiuto"),
-    LOGOUT("Logout");
+    LOGOUT("Logout"),
+    NUOVA_PARTITA("Nuova Partita");
 
     /**
      * This is the italian description that will be print and digit by the user, during command choosing.

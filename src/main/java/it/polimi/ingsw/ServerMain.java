@@ -63,8 +63,6 @@ public class ServerMain {
        int port = 0;
        try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)))) {
            port = Integer.parseInt(reader.readLine());
-       } catch (FileAlreadyExistsException e) {
-           SagradaLogger.log(Level.SEVERE, "Impossible to find the file in which the port is stored.", e);
        } catch (IOException e) {
            SagradaLogger.log(Level.SEVERE, "Impossible to load the port from file.", e);
        }

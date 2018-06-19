@@ -52,4 +52,9 @@ public interface IDefaultMatchManager {
      */
     void exitGame();
 
+    /**
+     * This method is used to start a new game after an other one.
+     */
+    void newGame();
+
 }

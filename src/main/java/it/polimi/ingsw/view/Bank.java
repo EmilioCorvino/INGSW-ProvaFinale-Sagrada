@@ -1,8 +1,6 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.Commands;
-import it.polimi.ingsw.view.IDefaultMatchManager;
-import it.polimi.ingsw.view.IToolCardManager;
 import it.polimi.ingsw.view.cli.commands.UserCommands;
 
 import java.util.*;
@@ -65,6 +63,7 @@ public class Bank {
         availableCommands.put(Commands.ROUND_TRACK, defaultMatchManager::showRoundTrack);
         availableCommands.put(Commands.END_TURN, defaultMatchManager::moveToNextTurn);
         availableCommands.put(Commands.LOGOUT, defaultMatchManager::exitGame);
+        availableCommands.put(Commands.NEW_GAME, defaultMatchManager::newGame);
     }
 
     /**
@@ -92,6 +91,7 @@ public class Bank {
         commandMap.put(Commands.ROUND_TRACK, UserCommands.ROUND_TRACK);
         commandMap.put(Commands.END_TURN, UserCommands.PASSA);
         commandMap.put(Commands.LOGOUT, UserCommands.LOGOUT);
+        commandMap.put(Commands.NEW_GAME, UserCommands.NUOVA_PARTITA);
     }
 
 

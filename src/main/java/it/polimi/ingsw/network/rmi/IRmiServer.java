@@ -12,6 +12,7 @@ import java.rmi.RemoteException;
 /**
  * This interface presents the same methods as {@link it.polimi.ingsw.network.IFromClientToServer}, but suited for a RMI
  * connection: in fact it extends remote and its methods throw {@link RemoteException}.
+ * Moreover, each of these methods takes also a Connection in input, to identify the player, for security reasons.
  */
 public interface IRmiServer extends Remote {
 
@@ -31,11 +32,8 @@ public interface IRmiServer extends Remote {
 
     void moveToNextTurn(Connection connection) throws RemoteException;
 
-    /**
-     * Lets the player log out from the game.
-     * @param connection established between the client and the server.
-     * @see Connection
-     */
+    void startNewGameRequest(Connection connection) throws RemoteException;
+
     void exitGame(Connection connection) throws RemoteException;
 
 }
