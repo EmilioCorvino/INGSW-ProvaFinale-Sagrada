@@ -19,10 +19,6 @@ public class LoginFormGUI extends VBox {
 
     private HBox buttonContainer;
 
-    private String wordTextField;
-
-    private String wordButton;
-
     private Button goAhead;
 
 
@@ -33,6 +29,8 @@ public class LoginFormGUI extends VBox {
         this.gridPane = new GridPane();
         this.buttonContainer = new HBox();
         this.goAhead = new Button("Gioca");
+
+
     }
 
     public void formatvBox(String label, String button1, String button2) {
@@ -75,6 +73,9 @@ public class LoginFormGUI extends VBox {
         Button btn1 = new Button(nameButton1);
         Button btn2 = new Button(nameButton2);
 
+        btn1.setId("1");
+        btn1.setId("2");
+
         buttonContainer.getChildren().add(btn1);
         buttonContainer.getChildren().add(btn2);
         buttonContainer.setAlignment(Pos.CENTER);
@@ -92,8 +93,23 @@ public class LoginFormGUI extends VBox {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+        alert.setOnCloseRequest(event -> alert.hide());
     }
 
+    public void changeParmeters(String name1, String name2, String name3) {
+        ((Label)this.getGridPane().getChildren().get(0)).setText(name1);
+        ((Button)this.buttonContainer.getChildren().get(0)).setText(name2);
+        ((Button)this.buttonContainer.getChildren().get(1)).setText(name3);
+        (this.buttonContainer.getChildren().get(0)).setId("2");
+        (this.buttonContainer.getChildren().get(1)).setId("1");
+    }
+
+    public void restoreFirstWindow() {
+        Label text = ((Label)this.gridPane.getChildren().get(0));
+        text.setText("Indirizzo ip del server: ");
+        ((Button)this.buttonContainer.getChildren().get(0)).setText("  RMI  ");
+        ((Button)this.buttonContainer.getChildren().get(1)).setText("Socket ");
+    }
 
 
 
@@ -123,22 +139,6 @@ public class LoginFormGUI extends VBox {
         this.gridPane = gridPane;
     }
 
-    public String getWordTextField() {
-        return wordTextField;
-    }
-
-    public void setWordTextField(String wordTextField) {
-        this.wordTextField = wordTextField;
-    }
-
-    public String getWordButton() {
-        return wordButton;
-    }
-
-    public void setWordButton(String wordButton) {
-        this.wordButton = wordButton;
-    }
-
     public Button getGoAhead() {
         return goAhead;
     }
@@ -146,4 +146,7 @@ public class LoginFormGUI extends VBox {
     public void setGoAhead(Button goAhead) {
         this.goAhead = goAhead;
     }
+
+
+
 }

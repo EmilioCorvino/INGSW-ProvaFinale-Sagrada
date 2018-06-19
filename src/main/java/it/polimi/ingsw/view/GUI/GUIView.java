@@ -4,50 +4,89 @@ import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.network.IFromClientToServer;
+import it.polimi.ingsw.network.rmi.RmiFromClientToServer;
+import it.polimi.ingsw.network.socket.SocketFromClientToServer;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
+import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
+import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
+import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.IViewMaster;
+import javafx.scene.Parent;
 
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class GUIView implements IViewMaster {
 
     /**
      * The network interface for the connection.
      */
-    IFromClientToServer server;
+    private IFromClientToServer server;
 
-    private GameHome loginManager;
+    private LoginIpAddrTypeConnGUI loginManager;
 
 
     public GUIView() {
 
     }
 
-
-
-
-
-
-
-
+    /**
+     * This method create the connection and logs the player
+     * @param viewMaster Is the view connected to the net.
+     */
     @Override
     public void createConnection(IViewMaster viewMaster) {
 
-        boolean userNameOk = false;
-        boolean ipOk = false;
+        if(loginManager.isFinished()) {
+            try {
+                String ipAddress = loginManager.getInfoLogin().getIpAddress();
+                if (Integer.parseInt(loginManager.getInfoLogin().getTypeConn()) == 2)
+                    this.server = new RmiFromClientToServer(ipAddress, this);
 
-        while(!ipOk){
-            try{
-                String ipAddress = loginManager.getIp();
-                this.server = loginManager.chooseNetworkInterface(ipAddress, viewMaster);
-                ipOk = true;
-            }catch (BrokenConnectionException e){
-                ((GameHome)GUIMain.getScene().getRoot()).getLoginFormGUI().showAlertMessage("indirizzo ip non corretto");
+                if (Integer.parseInt(loginManager.getInfoLogin().getTypeConn()) == 1)
+                    this.server = new SocketFromClientToServer();
+
+            } catch (BrokenConnectionException e) {
+                loginManager.setProceed(false);
+                this.loginManager.getLoginFormGUI().showAlertMessage("Indirizzo ip non valido.");
+                Parent root = new LoginIpAddrTypeConnGUI();
+                this.setLoginManager((LoginIpAddrTypeConnGUI)root);
+                GUIMain.getScene().setRoot(root);
             }
         }
+            if(loginManager.isProceed()) {
+                try {
+                    String username = this.loginManager.getInfoLogin().getUsername();
+                    String gameMode = this.loginManager.getInfoLogin().getGameMode();
 
+                    this.server.login(Integer.parseInt(gameMode), username);
+
+                } catch (BrokenConnectionException e) {
+                    SagradaLogger.log(Level.SEVERE, "Connection broken during register", e);
+                    loginManager.setProceed(false);
+                    this.loginManager.getLoginFormGUI().showAlertMessage("Indirizzo ip non valido.");
+                    Parent root = new LoginIpAddrTypeConnGUI();
+                    this.setLoginManager((LoginIpAddrTypeConnGUI)root);
+                    GUIMain.getScene().setRoot(root);
+                } catch (UserNameAlreadyTakenException e) {
+                    this.loginManager.getLoginFormGUI().showAlertMessage("Username già in uso!");
+                    Parent root = new LoginUsernameGameModeGUI();
+                    ((LoginUsernameGameModeGUI) root).setInfo(loginManager.getInfoLogin());
+                    GUIMain.getScene().setRoot(root);
+
+                } catch (TooManyUsersException e) {
+                    this.loginManager.getLoginFormGUI().showAlertMessage("\nPartita piena, numero massimo di giocatori raggiunto!\nArrivederci.");
+                    System.exit(0);
+                } catch (MatchAlreadyStartedException e) {
+                    this.loginManager.getLoginFormGUI().showAlertMessage("\nSpiacente la partita e' gia' iniziata!\nArrivederci.");
+                    System.exit(0);
+                }
+            }
+        System.out.println("connection ok");
     }
+
 
     @Override
     public void showRoom(List<String> players) {
@@ -154,11 +193,11 @@ public class GUIView implements IViewMaster {
 
     }
 
-    public GameHome getLoginManager() {
+    public LoginIpAddrTypeConnGUI getLoginManager() {
         return loginManager;
     }
 
-    public void setLoginManager(GameHome loginManager) {
+    public void setLoginManager(LoginIpAddrTypeConnGUI loginManager) {
         this.loginManager = loginManager;
     }
 }

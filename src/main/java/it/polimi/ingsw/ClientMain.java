@@ -25,7 +25,7 @@ public class ClientMain {
             code = scan.next();
         }
 
-        scan.close();
+        //scan.close();
 
         if(code.equalsIgnoreCase("cli")) {
             IViewMaster viewMaster = new CliView();
