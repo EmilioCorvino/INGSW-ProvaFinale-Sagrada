@@ -42,6 +42,9 @@ public class WaitingRoom {
      */
     private boolean matchAlreadyStarted;
 
+    /**
+     * This constructor is used in all new games starting without any player already in.
+     */
     public WaitingRoom() {
         playersRoom = new HashMap<>();
         matchAlreadyStarted = false;
@@ -56,7 +59,7 @@ public class WaitingRoom {
      * @throws TooManyUsersException when an user tries to connect to an already full {@link WaitingRoom}.
      * @throws MatchAlreadyStartedException when an user tries to connect to an already started match.
      */
-    public void joinRoom(String username, Connection connection, int gameMode) throws UserNameAlreadyTakenException,
+    void joinRoom(String username, Connection connection, int gameMode) throws UserNameAlreadyTakenException,
             TooManyUsersException, MatchAlreadyStartedException {
         if(!isMatchAlreadyStarted()) {
             if(gameMode == SINGLEPLAYER_MODE)
@@ -76,15 +79,12 @@ public class WaitingRoom {
     /**
      * This method allows the connected clients of a multi player match to see other connecting players.
      */
-    private void notifyWaitingPlayers() {
-
+    public void notifyWaitingPlayers() {
         List<String> listName = new ArrayList<>();
-
-        playersRoom.entrySet().forEach(entry -> listName.add(entry.getKey()));
-
-        playersRoom.entrySet().forEach(entry -> {
+        playersRoom.forEach((key, value) -> listName.add(key));
+        playersRoom.forEach((key, value) -> {
             try {
-                entry.getValue().getClient().showRoom(listName);
+                value.getClient().showRoom(listName);
             } catch (BrokenConnectionException e) {
                 e.printStackTrace();
             }
@@ -119,7 +119,6 @@ public class WaitingRoom {
             if (username.equals(name))
                 throw new UserNameAlreadyTakenException();
         playersRoom.put(username, connection);
-
     }
 
     /**
@@ -127,7 +126,7 @@ public class WaitingRoom {
      * //TODO testing
      */
     private void startMultiPlayerMatch() {
-        ControllerMaster controllerMaster = new ControllerMaster(this.playersRoom);
+        ControllerMaster controllerMaster = new ControllerMaster(this.playersRoom, this);
 
         for(Map.Entry<String, Connection> entry: controllerMaster.getConnectedPlayers().entrySet()) {
             controllerMaster.getCommonBoard().getPlayers().add(

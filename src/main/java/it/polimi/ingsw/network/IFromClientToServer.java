@@ -25,11 +25,31 @@ public interface IFromClientToServer {
     void login(int gameMode, String playerName) throws UserNameAlreadyTakenException,
             TooManyUsersException, MatchAlreadyStartedException, BrokenConnectionException;
 
+    /**
+     * Lets the player choose of the {@link it.polimi.ingsw.model.die.containers.WindowPatternCard}.
+     * @param idMap id of the chosen window.
+     * @throws BrokenConnectionException when the connection drops.
+     */
     void windowPatternCardRequest(int idMap) throws BrokenConnectionException;
 
+    /**
+     * Lets the player perform a standard die placement.
+     * @param info object containing all the needed information to make the move.
+     * @throws BrokenConnectionException when the connection drops.
+     */
     void performDefaultMove(SetUpInformationUnit info) throws BrokenConnectionException;
 
+    /**
+     * Lets the player end his turn.
+     * @throws BrokenConnectionException when the connection drops.
+     */
     void moveToNextTurn() throws BrokenConnectionException;
+
+    /**
+     * Lets the player start a new match after the one he was in just finished.
+     * @throws BrokenConnectionException when the connection drops.
+     */
+    void startNewGameRequest() throws BrokenConnectionException;
 
     /**
      * Lets the player log out from the game.

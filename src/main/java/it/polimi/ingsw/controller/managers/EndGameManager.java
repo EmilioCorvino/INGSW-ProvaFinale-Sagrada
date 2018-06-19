@@ -2,8 +2,10 @@ package it.polimi.ingsw.controller.managers;
 
 import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.ControllerMaster;
+import it.polimi.ingsw.controller.WaitingRoom;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.turn.Turn;
+import it.polimi.ingsw.network.Connection;
 import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
@@ -21,10 +23,19 @@ public class EndGameManager extends AGameManager {
      */
     private final List<Commands> endGameCommands;
 
+    /**
+     * Number of request that came from players. It's used to understand when to
+     */
+    private int requestCount = 0;
+
     public EndGameManager(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
         this.endGameCommands = new ArrayList<>(Arrays.asList(Commands.START_ANOTHER_GAME, Commands.LOGOUT));
     }
+
+//----------------------------------------------------------
+//                    END GAME FLOW METHODS
+//----------------------------------------------------------
 
     /**
      * This method computes the scores and sends to all the players the winner and the final rank, eventually
@@ -75,12 +86,100 @@ public class EndGameManager extends AGameManager {
             IFromServerToClient client = super.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
             try {
                 client.showRank(this.extractNamesToSend(rank), this.extractScoresToSend(rank));
+                super.broadcastNotification("\nGrazie per aver giocato!\n");
                 client.showCommand(endGameCommands);
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while showing the rank");
             }
         }
     }
+
+    /**
+     * This methods is triggered by players who want to log out. It increments the number of players that have made a
+     * choice and then, if each of them did, quits the game or initialized a new
+     * {@link it.polimi.ingsw.controller.WaitingRoom} whether there is at least one player willing to play again.
+     * @param playerName name of the player sending the request.
+     */
+    public void exitGame(String playerName) {
+        requestCount++;
+        Map<String, Connection> connectedPlayers = super.getControllerMaster().getConnectedPlayers();
+        connectedPlayers.remove(playerName);
+        if(requestCount == super.getControllerMaster().getCommonBoard().getPlayers().size()) {
+            if(connectedPlayers.isEmpty()) {
+                this.quitGame();
+            } else {
+                this.initializeNewWaitingRoom(connectedPlayers);
+            }
+        }
+    }
+
+    /**
+     * This methods is triggered by players who want to play again. It increments the number of players that have made a
+     * choice and then, if each of them did, quits the game or initialized a new
+     * {@link it.polimi.ingsw.controller.WaitingRoom} whether there is at least one player willing to play again.
+     * This method is robust towards multiple disconnections: it will call {@link #quitGame()} if all players'
+     * connections drop.
+     */
+    public void newGame() {
+        requestCount++;
+        if(requestCount == super.getControllerMaster().getCommonBoard().getPlayers().size()) {
+            Map<String, Connection> connectedPlayers = super.getControllerMaster().getConnectedPlayers();
+            for(Map.Entry<String, Connection> remainingPlayer: connectedPlayers.entrySet()) {
+                try {
+                    remainingPlayer.getValue().getClient().showNotice("\nVerrai inserito in una nuova stanza d'attesa.\n");
+                } catch (BrokenConnectionException e) {
+                    SagradaLogger.log(Level.WARNING, "Connection lost with " + remainingPlayer.getKey() +
+                        " while inserting him in a new room. He will be removed.");
+                    connectedPlayers.remove(remainingPlayer.getKey());
+                }
+            }
+            //Checks this in case all players disconnected.
+            if(!connectedPlayers.isEmpty()) {
+                this.initializeNewWaitingRoom(connectedPlayers);
+            } else {
+                this.quitGame();
+            }
+        }
+    }
+
+    /**
+     * Asks the server owner whether he wants to close the server or not. If he doesn't, it prepares the
+     * {@link it.polimi.ingsw.controller.WaitingRoom} for a new game.
+     */
+    private void quitGame() {
+        System.out.println("Do you want the server to close? (yes/no)");
+        Scanner scanner = new Scanner(System.in);
+        String choice = scanner.nextLine();
+        while(!(choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("no"))) {
+            System.out.println("You have to type 'yes' or 'no'.");
+            choice = scanner.nextLine();
+        }
+        if(choice.equalsIgnoreCase("yes")) {
+            //todo close socket server here?
+            System.exit(0);
+        } else {
+            super.getControllerMaster().getWaitingRoom().getPlayersRoom().clear();
+            System.out.println("Server ready for a new match.");
+        }
+    }
+
+    /**
+     * Replaces the players that were in the map {@link WaitingRoom#playersRoom} with the one in input, then notifies
+     * them.
+     * @param playersWillingToGoAgain player that want to start another game.
+     */
+    private void initializeNewWaitingRoom(Map<String, Connection> playersWillingToGoAgain) {
+        synchronized(super.getControllerMaster().getWaitingRoom()) {
+            WaitingRoom waitingRoom = super.getControllerMaster().getWaitingRoom();
+            waitingRoom.getPlayersRoom().clear();
+            waitingRoom.getPlayersRoom().putAll(playersWillingToGoAgain);
+            waitingRoom.notifyWaitingPlayers();
+        }
+    }
+
+//----------------------------------------------------------
+//                    UTILITY METHODS
+//----------------------------------------------------------
 
     /**
      * This methods communicates the winner to all players in the match.
@@ -129,6 +228,44 @@ public class EndGameManager extends AGameManager {
     }
 
     /**
+     * This method gathers in a {@link List} all the player having the same winning score, allowing for a tie-breaker.
+     * @param completeRank rank of the players in the match.
+     * @param filteredRank rank that is filtered for the tie-break.
+     * @return list with player names who have the same score.
+     */
+    private List<String> identifyPlayersWithMaxScore(Map<String, Integer> completeRank, Map<String, Integer> filteredRank) {
+        List<String> playersWithMaxScore = new ArrayList<>();
+        int maxScore = this.maxScore((Set<Integer>) completeRank.values());
+        for(Map.Entry<String, Integer> entry: completeRank.entrySet()) {
+            if(entry.getValue().equals(maxScore)) {
+                playersWithMaxScore.add(entry.getKey());
+            } else {
+                filteredRank.remove(entry.getKey());
+            }
+        }
+        return playersWithMaxScore;
+    }
+
+    /**
+     * This method computes the maximum score inside a set.
+     * @param scores scores achieved in the match.
+     * @return maximum score achieved.
+     */
+    private int maxScore(Set<Integer> scores) {
+        int max = 0;
+        for(Integer score: scores) {
+            if(score > max) {
+                max = score;
+            }
+        }
+        return max;
+    }
+
+//----------------------------------------------------------
+//                    VIEW CONVERTERS
+//----------------------------------------------------------
+
+    /**
      * Populates an array (ordered by score in descending order) containing the names of the players in the match.
      * @param rankToSend rank to display to players.
      * @return array containing the name of the players in the game.
@@ -156,39 +293,9 @@ public class EndGameManager extends AGameManager {
         return playerScores;
     }
 
-    /**
-     * This method computes the maximum score inside a set.
-     * @param scores scores achieved in the match.
-     * @return maximum score achieved.
-     */
-    private int maxScore(Set<Integer> scores) {
-        int max = 0;
-        for(Integer score: scores) {
-            if(score > max) {
-                max = score;
-            }
-        }
-        return max;
-    }
-
-    /**
-     * This method gathers in a {@link List} all the player having the same winning score, allowing for a tie-breaker.
-     * @param completeRank rank of the players in the match.
-     * @param filteredRank rank that is filtered for the tie-break.
-     * @return list with player names who have the same score.
-     */
-    private List<String> identifyPlayersWithMaxScore(Map<String, Integer> completeRank, Map<String, Integer> filteredRank) {
-        List<String> playersWithMaxScore = new ArrayList<>();
-        int maxScore = this.maxScore((Set<Integer>) completeRank.values());
-        for(Map.Entry<String, Integer> entry: completeRank.entrySet()) {
-            if(entry.getValue().equals(maxScore)) {
-                playersWithMaxScore.add(entry.getKey());
-            } else {
-                filteredRank.remove(entry.getKey());
-            }
-        }
-        return playersWithMaxScore;
-    }
+//----------------------------------------------------------
+//                    TIE-BREAKERS
+//----------------------------------------------------------
 
     /**
      * This methods performs a tie-break between players with same points, based on
@@ -324,9 +431,5 @@ public class EndGameManager extends AGameManager {
         }
 
         return lastPlayer;
-    }
-
-    public void exitGame() {
-
     }
 }

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.GUI;
 
-
 import it.polimi.ingsw.view.IViewMaster;
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -10,25 +9,19 @@ import javafx.stage.Stage;
 
 public class GUIMain extends Application {
 
-
     private static Scene scene;
 
+    private static IViewMaster guiView;
 
     @Override
     public void start(Stage primaryStage) {
-
-
-        IViewMaster guiView = new GUIView();
-
-        Parent root = new GameHome("Indirizzo ip del server", "RMI", "Socket");
-
+        guiView = new GUIView();
+        Parent root = new LoginIpAddrTypeConnGUI();
         scene = new Scene(root, 900, 700);
-        root.setStyle("-fx-background-color : #001a4d");
+
         primaryStage.setScene(scene);
         primaryStage.show();
-
-        ((GUIView) guiView).setLoginManager((GameHome)root);
-        guiView.createConnection(guiView);
+        ((GUIView) guiView).setLoginManager((LoginIpAddrTypeConnGUI)root);
     }
 
 
@@ -38,5 +31,13 @@ public class GUIMain extends Application {
 
     public static void setScene(Scene scene) {
         GUIMain.scene = scene;
+    }
+
+    public static IViewMaster getGuiView() {
+        return guiView;
+    }
+
+    public static void setGuiView(IViewMaster guiView) {
+        GUIMain.guiView = guiView;
     }
 }
