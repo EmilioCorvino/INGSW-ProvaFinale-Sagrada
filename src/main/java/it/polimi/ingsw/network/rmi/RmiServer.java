@@ -84,14 +84,29 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
         }
     }
 
-    /**
-     * Lets the player log out from the game.
-     * @param connection
-     *
-     */
     @Override
-    public void exitGame(Connection connection) {
-        //todo implement this
+    public void startNewGameRequest(Connection connection) {
+        synchronized(this) {
+            this.serverImplementation.getConnectionsQueue().add(connection);
+            this.serverImplementation.startNewGameRequest();
+        }
     }
 
+    @Override
+    public void exitGame(Connection connection) {
+        synchronized(this) {
+            this.serverImplementation.getConnectionsQueue().add(connection);
+            this.serverImplementation.exitGame();
+        }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

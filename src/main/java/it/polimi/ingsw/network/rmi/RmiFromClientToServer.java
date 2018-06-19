@@ -118,13 +118,29 @@ public class RmiFromClientToServer implements IFromClientToServer {
         }
     }
 
+    @Override
+    public void startNewGameRequest() throws BrokenConnectionException {
+        try {
+            this.rmiServer.startNewGameRequest(connection);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Connection to the server has been lost while starting over a new" +
+                    " match.");
+            throw new BrokenConnectionException();
+        }
+    }
+
     /**
      * Lets the player log out from the game.
      * @throws BrokenConnectionException when the connection drops.
      */
     @Override
     public void exitGame() throws BrokenConnectionException {
-        //todo implement this.
+        try {
+            this.rmiServer.exitGame(connection);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Connection to the serve has been lsot while logging out.");
+            throw new BrokenConnectionException();
+        }
     }
 
 }
