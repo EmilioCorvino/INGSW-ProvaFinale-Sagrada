@@ -38,6 +38,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
             infoUnit.setExtraParam(0);
         else
             infoUnit.setExtraParam(1);
+        this.getInputOutputManager().print(this.getView().getPlayer().getWp().wpToString());
         infoUnit.setDestinationIndex(this.getView().getGamePlayManager().choseCellWp(this.getView().getPlayer().getWp()));
 
         /*
