@@ -71,7 +71,7 @@ public class EndGameManager extends AGameManager {
                 if(playersWithMaxFavorTokensPoints.size() == 1) {
                     this.declareWinner(playersWithMaxFavorTokensPoints.get(0));
                     super.broadcastNotification("\nÈ stato effettuato uno spareggio basato sul maggior numero di punti" +
-                            " acquisiti dall'obiettivo privato, e in seguito dai Segnalini Favore.");
+                            " acquisiti dall'Obiettivo Privato, e in seguito sui Segnalini Favore.");
                 } else {    //Tie-break Turn Order.
                     this.declareWinner(this.performTurnOrderTieBreak(rankToFilter));
                     super.broadcastNotification("\nÈ stato effettuato uno spareggio basato sul maggior numero di punti " +
@@ -235,7 +235,9 @@ public class EndGameManager extends AGameManager {
      */
     private List<String> identifyPlayersWithMaxScore(Map<String, Integer> completeRank, Map<String, Integer> filteredRank) {
         List<String> playersWithMaxScore = new ArrayList<>();
-        int maxScore = this.maxScore((Set<Integer>) completeRank.values());
+        Set<Integer> scores = new HashSet<>();
+        completeRank.forEach((playerName, score) -> scores.add(score));
+        int maxScore = this.maxScore(scores);
         for(Map.Entry<String, Integer> entry: completeRank.entrySet()) {
             if(entry.getValue().equals(maxScore)) {
                 playersWithMaxScore.add(entry.getKey());
