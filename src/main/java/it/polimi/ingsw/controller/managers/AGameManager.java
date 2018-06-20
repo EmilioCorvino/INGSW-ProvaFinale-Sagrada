@@ -12,6 +12,16 @@ import java.util.List;
 
 public abstract class AGameManager {
 
+    /**
+     * Timer to use in case the loading from file fails. Value is in milliseconds.
+     */
+    public static final long BACK_UP_TIMER = 90000;
+
+    /**
+     * Path of the file containing the maximum amount of time available for players to make a choice.
+     */
+    static final String TIMER_FILE = "./src/main/java/it/polimi/ingsw/utils/config/turnTimer";
+
     private ControllerMaster controllerMaster;
 
     public ControllerMaster getControllerMaster() {

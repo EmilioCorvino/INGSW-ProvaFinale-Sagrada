@@ -235,4 +235,14 @@ public class RmiFromServerToClient implements IFromServerToClient {
             throw new BrokenConnectionException();
         }
     }
+
+    @Override
+    public void forceLogOut() throws BrokenConnectionException {
+        try {
+            this.rmiClient.forceLogOut();
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to force the client to log out");
+            throw new BrokenConnectionException();
+        }
+    }
 }

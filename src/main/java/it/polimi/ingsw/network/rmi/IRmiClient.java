@@ -55,4 +55,6 @@ public interface IRmiClient extends Remote {
     void showRank(String[] playerNames, int[] scores) throws RemoteException;
 
     void showNotice(String notice) throws RemoteException;
+
+    void forceLogOut() throws RemoteException;
 }

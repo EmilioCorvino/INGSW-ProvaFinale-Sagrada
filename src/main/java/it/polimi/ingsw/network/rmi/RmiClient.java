@@ -129,6 +129,11 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
+    public void forceLogOut() {
+        this.client.forceLogOut();
+    }
+
+    @Override
     public boolean equals(Object obj) {
         return super.equals(obj);
     }

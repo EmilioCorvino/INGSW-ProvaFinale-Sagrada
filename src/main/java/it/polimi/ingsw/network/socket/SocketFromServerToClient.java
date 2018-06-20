@@ -110,4 +110,9 @@ public class SocketFromServerToClient implements IFromServerToClient {
 
     }
 
+    @Override
+    public void forceLogOut() throws BrokenConnectionException {
+
+    }
+
 }

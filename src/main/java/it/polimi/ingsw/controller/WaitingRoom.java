@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.controller.managers.AGameManager;
 import it.polimi.ingsw.controller.managers.StartGameManager;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.Connection;
@@ -9,6 +10,10 @@ import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -31,6 +36,12 @@ public class WaitingRoom {
      * Code for single player match mode.
      */
     private static final int SINGLEPLAYER_MODE = 2;
+
+    /**
+     * Path of the file containing the maximum amount of time spent between the connection of the second player and
+     * the start of the match.
+     */
+    private static final String WAITING_ROOM_TIMER_FILE = "./src/main/java/it/polimi/ingsw/utils/config/roomTimer";
 
     /**
      * The map for keeping in memory the player with its connection object.
@@ -97,14 +108,34 @@ public class WaitingRoom {
     private void checkNumberOfPlayers() {
         if(playersRoom.size() == 2) {
             Timer timer = new Timer();
+
+            //Back up value.
+            long timeOut = AGameManager.BACK_UP_TIMER;
+
+            //Value read from file. If the loading is successful, it overwrites the back up.
+            try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(WAITING_ROOM_TIMER_FILE)))) {
+                timeOut = Long.parseLong(reader.readLine());
+                SagradaLogger.log(Level.CONFIG, "Waiting Room timer successfully loaded from file. " +
+                        "Its value is: " + timeOut/1000 + "s");
+            } catch (IOException e) {
+                SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
+            }
+            SagradaLogger.log(Level.INFO, "Waiting Room timer is started.");
+
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    SagradaLogger.log(Level.WARNING, "timer is expired");
-                    setMatchAlreadyStarted(true);
-                    startMultiPlayerMatch();
+                    if(!isMatchAlreadyStarted()) {
+                        SagradaLogger.log(Level.WARNING, "timer is expired");
+                        setMatchAlreadyStarted(true);
+                        startMultiPlayerMatch();
+                    }
                 }
-            }, 5 * (long)1000);
+            }, timeOut);
+        } else if(playersRoom.size() == MAX_PLAYERS) {
+            SagradaLogger.log(Level.WARNING, "Maximum number of players reached, starting match...");
+            setMatchAlreadyStarted(true);
+            startMultiPlayerMatch();
         }
     }
 
@@ -126,7 +157,7 @@ public class WaitingRoom {
      * //TODO testing
      */
     private void startMultiPlayerMatch() {
-        ControllerMaster controllerMaster = new ControllerMaster(this.playersRoom, this);
+        ControllerMaster controllerMaster = new ControllerMaster(new HashMap<>(this.playersRoom), this);
 
         for(Map.Entry<String, Connection> entry: controllerMaster.getConnectedPlayers().entrySet()) {
             controllerMaster.getCommonBoard().getPlayers().add(

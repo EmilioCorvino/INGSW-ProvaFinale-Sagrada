@@ -49,16 +49,6 @@ public class GamePlayManager extends AGameManager {
     private boolean moveLegal = true;
 
     /**
-     * Path of the file containing the amount of time to wait.
-     */
-    private static final String TIMER_FILE = "./src/main/java/it/polimi/ingsw/utils/config/turnTimer";
-
-    /**
-     * Timer to use in case the loading from file fails. Value is in milliseconds.
-     */
-    private static final long BACK_UP_TIMER = 90000;
-
-    /**
      * This constructor, other than setting the controller master, also initializes the lists of commands to be shown
      * both to the player on duty ({@link #currentPlayerCommands}) and to the others ({@link #waitingPlayersCommands}).
      * @param controllerMaster main controller class.

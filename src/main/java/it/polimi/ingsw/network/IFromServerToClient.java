@@ -142,4 +142,9 @@ public interface IFromServerToClient {
      */
     void showNotice(String notice) throws BrokenConnectionException;
 
+    /**
+     * Forces the client to log out.
+     */
+    void forceLogOut() throws BrokenConnectionException;
+
 }

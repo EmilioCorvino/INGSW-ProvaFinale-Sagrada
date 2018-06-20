@@ -10,6 +10,10 @@ import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -24,13 +28,14 @@ public class EndGameManager extends AGameManager {
     private final List<Commands> endGameCommands;
 
     /**
-     * Number of request that came from players. It's used to understand when to
+     * Name of players that made a choice between starting a new game or logging out.
      */
-    private int requestCount = 0;
+    private List<String> playersThatAnswered;
 
     public EndGameManager(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
         this.endGameCommands = new ArrayList<>(Arrays.asList(Commands.START_ANOTHER_GAME, Commands.LOGOUT));
+        this.playersThatAnswered = new ArrayList<>();
     }
 
 //----------------------------------------------------------
@@ -87,10 +92,13 @@ public class EndGameManager extends AGameManager {
             try {
                 client.showRank(this.extractNamesToSend(rank), this.extractScoresToSend(rank));
                 client.showNotice("\nGrazie per aver giocato!\n");
-                client.showCommand(endGameCommands);
+                client.showCommand(this.endGameCommands);
+                this.startTimer(playerName);
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while showing the rank");
+                this.exitGame(playerName);
             }
+
         }
     }
 
@@ -101,10 +109,13 @@ public class EndGameManager extends AGameManager {
      * @param playerName name of the player sending the request.
      */
     public void exitGame(String playerName) {
-        requestCount++;
+        this.playersThatAnswered.add(playerName);
         Map<String, Connection> connectedPlayers = super.getControllerMaster().getConnectedPlayers();
         connectedPlayers.remove(playerName);
-        if(requestCount == super.getControllerMaster().getCommonBoard().getPlayers().size()) {
+
+        SagradaLogger.log(Level.WARNING, playerName + " logged out.");
+
+        if(playersThatAnswered.size() == super.getControllerMaster().getCommonBoard().getPlayers().size()) {
             if(connectedPlayers.isEmpty()) {
                 this.quitGame();
             } else {
@@ -122,7 +133,7 @@ public class EndGameManager extends AGameManager {
      * @param playerName player sending the request.
      */
     public void newGame(String playerName) {
-        requestCount++;
+        this.playersThatAnswered.add(playerName);
         IFromServerToClient client =
                 super.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
         try {
@@ -132,7 +143,10 @@ public class EndGameManager extends AGameManager {
                     "new room. He will be removed.");
             super.getControllerMaster().getConnectedPlayers().remove(playerName);
         }
-        if(requestCount == super.getControllerMaster().getCommonBoard().getPlayers().size()) {
+
+        SagradaLogger.log(Level.WARNING, playerName + " wishes to play again.");
+
+        if(playersThatAnswered.size() == super.getControllerMaster().getCommonBoard().getPlayers().size()) {
             Map<String, Connection> connectedPlayers = super.getControllerMaster().getConnectedPlayers();
             for(Map.Entry<String, Connection> remainingPlayer: connectedPlayers.entrySet()) {
                 try {
@@ -198,7 +212,6 @@ public class EndGameManager extends AGameManager {
     /**
      * This methods communicates the winner to all players in the match.
      * @param winnerName name of the winner.
-     *
      */
     private void declareWinner(String winnerName) {
 
@@ -209,6 +222,7 @@ public class EndGameManager extends AGameManager {
             winnerClient.showNotice("\nCongratulazioni, hai vinto!");
         } catch (BrokenConnectionException e) {
             SagradaLogger.log(Level.SEVERE, "Connection lost with " + winnerName + " while showing the winner");
+            this.exitGame(winnerName);
         }
 
         //Tells the other players who is the winner.
@@ -221,6 +235,7 @@ public class EndGameManager extends AGameManager {
                 } catch (BrokenConnectionException e) {
                     SagradaLogger.log(Level.SEVERE, "Connection lost with " + player.getPlayerName() +
                             " while showing the winner");
+                    this.exitGame(player.getPlayerName());
                 }
             }
         }
@@ -275,6 +290,46 @@ public class EndGameManager extends AGameManager {
             }
         }
         return max;
+    }
+
+    /**
+     * Starts the timer of the turn. If it can't be loaded from file, a back up value is used.
+     * @param playerName turn of the player to suspend in case his turn isn't over when the timer expires. It has a reference
+     *             to said {@link Player}.
+     */
+    private void startTimer(String playerName) {
+        Timer timer = new Timer();
+
+        //Back up value.
+        long timeOut = BACK_UP_TIMER;
+
+        //Value read from file. If the loading is successful, it overwrites the back up.
+        try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_FILE)))) {
+            timeOut = Long.parseLong(reader.readLine());
+            SagradaLogger.log(Level.CONFIG, "Timer successfully loaded from file. Its value is: " + timeOut/1000 + "s");
+        } catch (IOException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
+        }
+        SagradaLogger.log(Level.INFO, playerName + " end choice timer is started");
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                SagradaLogger.log(Level.WARNING, playerName + " end choice turn timer is expired");
+                if(!playersThatAnswered.contains(playerName)) {
+                    IFromServerToClient client =
+                            getControllerMaster().getConnectedPlayers().get(playerName).getClient();
+                    try {
+                        client.showNotice("Hai impiegato troppo tempo a rispondere, verrai disconnesso");
+                        client.forceLogOut();
+                    } catch (BrokenConnectionException e) {
+                        SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while forcing" +
+                                " him to log out.");
+                        exitGame(playerName);
+                    }
+                }
+            }
+        }, timeOut);
     }
 
 //----------------------------------------------------------
