@@ -142,6 +142,8 @@ public class Score implements IScore {
 
     /**
      * Adds up the scores from the various sources, produces the final score and sets it.
+     * If the score computed is less than 0 (which means that the lost points are more than the ones gained)
+     * this methods sets the score to 0, preventing any weird behaviour.
      */
     @Override
     public void computeTotalScore() {
@@ -150,7 +152,13 @@ public class Score implements IScore {
         this.computeFavorTokensPoints();
         this.computeLostPoints();
 
-        this.setTotalScore(this.getPrivateObjectivePoints() + this.getPublicObjectivePoints() +
-            this.getFavorTokensPoints() - this.getLostPoints());
+        int totalComputedScore = this.getPrivateObjectivePoints() + this.getPublicObjectivePoints() +
+            this.getFavorTokensPoints() - this.getLostPoints();
+
+        if(totalComputedScore < 0) {
+            this.setTotalScore(0);
+        } else {
+            this.setTotalScore(totalComputedScore);
+        }
     }
 }

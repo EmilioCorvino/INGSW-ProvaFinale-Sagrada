@@ -31,7 +31,7 @@ public class DiePlacementMove implements IMove {
 
         if(!wp.canBePlaced(die, desiredCell, wp.getGlassWindowCopy())) {
             manager.setMoveLegal(false);
-            manager.showNotification(wp.getErrorMessage() + "\nDigita aiuto per ulteriori informazioni");
+            manager.showNotification(wp.getErrorMessage() + "\nDigita aiuto per rivedere i tuoi comandi.");
             return;
         }
 

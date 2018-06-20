@@ -135,7 +135,7 @@ public class GamePlayManager extends AGameManager {
             String turnNumber =
                     gameState.getCurrentPlayerTurnIndex() < (gameState.getTurnOrder().size()/2) ? "PRIMO" : "SECONDO";
 
-            currentPlayerClient.showNotice("\nÈ IL TUO " + turnNumber + " TURNO!\n");
+            currentPlayerClient.showNotice("\nÈ IL TUO " + turnNumber + " TURNO DEL ROUND!\n");
             currentPlayerClient.showCommand(this.currentPlayerCommands);
         } catch (BrokenConnectionException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to show current player commands to the player on duty", e);
@@ -179,17 +179,16 @@ public class GamePlayManager extends AGameManager {
         } catch (IOException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
         }
-        SagradaLogger.log(Level.INFO, "Turn timer is started");
+        SagradaLogger.log(Level.INFO, turn.getPlayer().getPlayerName() + " turn timer is started");
 
         this.timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                SagradaLogger.log(Level.WARNING, "Turn timer is expired");
+                SagradaLogger.log(Level.WARNING, turn.getPlayer().getPlayerName() + " turn timer is expired");
                 if(!turn.isTurnCompleted()) {
                     getControllerMaster().suspendPlayer(turn.getPlayer().getPlayerName());
                     endTurn("\nIl tempo a tua disposizione è terminato. Sei stato sospeso per inattività.\n");
                 }
-                timer.cancel();
             }
         }, timeOut);
     }
@@ -305,6 +304,10 @@ public class GamePlayManager extends AGameManager {
      */
     public void showPlacementResult(Player currentPlayer, SetUpInformationUnit setUpInfoUnit) {
         GameState gameState = super.getControllerMaster().getGameState();
+
+        //Copies back the updated wp and draft to the original ones.
+        currentPlayer.getWindowPatternCard().overwriteOriginal();
+        super.getControllerMaster().getCommonBoard().getDraftPool().overwriteOriginal();
 
         //Update the board of the player on duty.
         IFromServerToClient currentPlayerClient = super.getControllerMaster().getConnectedPlayers().get(
@@ -428,10 +431,12 @@ public class GamePlayManager extends AGameManager {
     private void moveRemainingDiceFromDraftPoolToRoundTrack(GameState gameState, CommonBoard board) {
         if(!board.getDraftPool().getAvailableDice().isEmpty()) {
             board.getRoundTrack().setRoundToBeUpdated(gameState.getActualRound() - 1);
+            board.getRoundTrack().createCopy();
             int actualDraftSize = board.getDraftPool().getAvailableDice().size();
             for(int i = 0; i < actualDraftSize; i++) {
-                board.getRoundTrack().addDie(board.getDraftPool().removeDie(0));
+                board.getRoundTrack().addDie(board.getDraftPool().getAvailableDice().remove(0));
             }
+            board.getRoundTrack().overwriteOriginal();
         }
     }
 
