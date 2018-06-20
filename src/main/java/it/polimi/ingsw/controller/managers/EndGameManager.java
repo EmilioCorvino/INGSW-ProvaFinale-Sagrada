@@ -86,7 +86,7 @@ public class EndGameManager extends AGameManager {
             IFromServerToClient client = super.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
             try {
                 client.showRank(this.extractNamesToSend(rank), this.extractScoresToSend(rank));
-                super.broadcastNotification("\nGrazie per aver giocato!\n");
+                client.showNotice("\nGrazie per aver giocato!\n");
                 client.showCommand(endGameCommands);
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while showing the rank");
@@ -119,9 +119,19 @@ public class EndGameManager extends AGameManager {
      * {@link it.polimi.ingsw.controller.WaitingRoom} whether there is at least one player willing to play again.
      * This method is robust towards multiple disconnections: it will call {@link #quitGame()} if all players'
      * connections drop.
+     * @param playerName player sending the request.
      */
-    public void newGame() {
+    public void newGame(String playerName) {
         requestCount++;
+        IFromServerToClient client =
+                super.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
+        try {
+            client.showNotice("Attendi la scelta degli altri giocatori...");
+        } catch (BrokenConnectionException e) {
+            SagradaLogger.log(Level.WARNING, "Connection lost with " + playerName + "while inserting him in a " +
+                    "new room. He will be removed.");
+            super.getControllerMaster().getConnectedPlayers().remove(playerName);
+        }
         if(requestCount == super.getControllerMaster().getCommonBoard().getPlayers().size()) {
             Map<String, Connection> connectedPlayers = super.getControllerMaster().getConnectedPlayers();
             for(Map.Entry<String, Connection> remainingPlayer: connectedPlayers.entrySet()) {
@@ -147,7 +157,7 @@ public class EndGameManager extends AGameManager {
      * {@link it.polimi.ingsw.controller.WaitingRoom} for a new game.
      */
     private void quitGame() {
-        System.out.println("Do you want the server to close? (yes/no)");
+        /*System.out.println("Do you want the server to close? (yes/no)");
         Scanner scanner = new Scanner(System.in);
         String choice = scanner.nextLine();
         while(!(choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("no"))) {
@@ -157,10 +167,13 @@ public class EndGameManager extends AGameManager {
         if(choice.equalsIgnoreCase("yes")) {
             //todo close socket server here?
             System.exit(0);
-        } else {
-            super.getControllerMaster().getWaitingRoom().getPlayersRoom().clear();
-            System.out.println("Server ready for a new match.");
+        } else {*/
+        synchronized(super.getControllerMaster().getWaitingRoom()) {
+            WaitingRoom waitingRoom = super.getControllerMaster().getWaitingRoom();
+            waitingRoom.getPlayersRoom().clear();
+            waitingRoom.setMatchAlreadyStarted(false);
         }
+        System.out.println("Server ready for a new match.");
     }
 
     /**
@@ -172,6 +185,7 @@ public class EndGameManager extends AGameManager {
         synchronized(super.getControllerMaster().getWaitingRoom()) {
             WaitingRoom waitingRoom = super.getControllerMaster().getWaitingRoom();
             waitingRoom.getPlayersRoom().clear();
+            waitingRoom.setMatchAlreadyStarted(false);
             waitingRoom.getPlayersRoom().putAll(playersWillingToGoAgain);
             waitingRoom.notifyWaitingPlayers();
         }

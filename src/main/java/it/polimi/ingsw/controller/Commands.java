@@ -28,6 +28,5 @@ public enum Commands {
     ROUND_TRACK,
     END_TURN,
     START_ANOTHER_GAME,
-    LOGOUT,
-    NEW_GAME
+    LOGOUT
 }
