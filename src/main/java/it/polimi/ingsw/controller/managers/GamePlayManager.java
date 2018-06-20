@@ -103,7 +103,6 @@ public class GamePlayManager extends AGameManager {
 
             this.startTurn(gameState.getCurrentTurn());
         } else {
-            //todo fix this.
             ((EndGameManager)super.getControllerMaster().getEndGameManager()).computeRank();
         }
     }

@@ -467,10 +467,10 @@ public class EndGameManager extends AGameManager {
      */
     private String performTurnOrderTieBreak(Map<String, Integer> filteredRank) {
         List<Turn> turnOrder = super.getControllerMaster().getGameState().getTurnOrder();
-        List<Turn> turnOrderSubList = turnOrder.subList(0, (turnOrder.size()/2) - 1);
+        List<Turn> turnOrderSubList = turnOrder.subList(0, (turnOrder.size()/2));
         List<String> orderedPlayerNames = new ArrayList<>();
         for(int i = 0; i < turnOrderSubList.size(); i++) {
-            orderedPlayerNames.add(turnOrderSubList.get(0).getPlayer().getPlayerName());
+            orderedPlayerNames.add(turnOrderSubList.get(i).getPlayer().getPlayerName());
         }
 
         //Gather all the turn indexes and puts them in a set.

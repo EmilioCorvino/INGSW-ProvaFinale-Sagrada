@@ -124,7 +124,7 @@ public class StartGameManager extends AGameManager {
         } else {
             try {
                 super.getControllerMaster().getConnectedPlayers().get(username).getClient().showNotice(
-                        "Alcuni giocatori (n: " + (super.getControllerMaster().getCommonBoard().getPlayers().size() - 1) +
+                        "Alcuni giocatori (n: " + (super.getControllerMaster().getCommonBoard().getPlayers().size() - wpSetCount) +
                                 ") devono ancora scegliere la vetrata, attendi...");
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Impossible to send a notice to the client", e);
