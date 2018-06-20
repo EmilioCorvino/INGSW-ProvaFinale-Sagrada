@@ -36,8 +36,11 @@ public class EndGameManager{
 
         for(int i = 0; i < players.length; i++) {
             if (players[i].equals(player.getUserName()))
-                rank.append(BOLD_PREFIX).append(i + 1).append(": ").append(players[i]).append(" ").append(score[i]).append(BOLD_SUFFIX);
-            rank.append(i + 1).append(": ").append(players[i]).append(" ").append(score[i]);
+                rank.append(BOLD_PREFIX).append(i + 1).append(": ").append(players[i]).append(" ").append(score[i])
+                        .append(BOLD_SUFFIX).append("\n");
+            else {
+                rank.append(i + 1).append(": ").append(players[i]).append(" ").append(score[i]).append("\n");
+            }
         }
 
         return rank.toString();

@@ -107,9 +107,9 @@ public class ServerImplementation implements IFromClientToServer {
 
     @Override
     public void startNewGameRequest() {
-        connectionsQueue.poll();
+        String userName = connectionsQueue.remove().getUserName();
         EndGameManager endGameManager = (EndGameManager)controller.getEndGameManager();
-        endGameManager.newGame();
+        endGameManager.newGame(userName);
     }
 
     /**
