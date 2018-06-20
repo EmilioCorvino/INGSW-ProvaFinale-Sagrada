@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.network.IFromClientToServer;
-import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
+import it.polimi.ingsw.view.cli.generalmanagers.InputOutputManager;
 
 public class CliCommunicationManager {
     /**

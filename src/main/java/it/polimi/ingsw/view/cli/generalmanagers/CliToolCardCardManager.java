@@ -1,17 +1,15 @@
-package it.polimi.ingsw.view.cli.generalManagers;
+package it.polimi.ingsw.view.cli.generalmanagers;
 
 import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.cli.CliCommunicationManager;
 import it.polimi.ingsw.view.IToolCardManager;
 import it.polimi.ingsw.view.cli.CliView;
 import it.polimi.ingsw.view.cli.boardElements.CommonBoardView;
 import it.polimi.ingsw.view.cli.boardElements.ToolCardView;
+import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 
 import java.util.List;
-import java.util.logging.Level;
 
 public class CliToolCardCardManager extends CliCommunicationManager implements IToolCardManager {
 
@@ -20,16 +18,29 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
      */
     private CommonBoardView commonBoard;
 
+    /**
+     * An instance of the wp of the player connected.
+     */
+    private WindowPatternCardView wpPlayer;
+
     public CliToolCardCardManager(CliView view){
         super(view);
         this.commonBoard = this.getView().getCommonBoard();
+        this.wpPlayer = this.getView().getPlayer().getWp();
     }
 
     @Override
     public void tool1(){
         SetUpInformationUnit infoUnit = new SetUpInformationUnit();
 
+        int toolSlot = this.getSlotId(Commands.TOOL1);
+        this.printToolDescription(toolSlot);
+
+        this.getInputOutputManager().print(this.commonBoard.getDraftPool().diceDraftToString());
+        this.getInputOutputManager().print(this.wpPlayer.wpToString());
+
         infoUnit.setSourceIndex(this.getView().getGamePlayManager().choseDraftDie(commonBoard.getDraftPool()));
+
         String option = this.getInputOutputManager().askInformation("Inserire l'operazione desiderata:\n" +
                 "\t- Incrementa di 1\n\t- Decrementa di 1");
         while (!(option.equalsIgnoreCase("incrementa") || option.equalsIgnoreCase("decrementa")))
@@ -38,12 +49,12 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
             infoUnit.setExtraParam(0);
         else
             infoUnit.setExtraParam(1);
-        this.getInputOutputManager().print(this.getView().getPlayer().getWp().wpToString());
-        infoUnit.setDestinationIndex(this.getView().getGamePlayManager().choseCellWp(this.getView().getPlayer().getWp()));
+
+        infoUnit.setDestinationIndex(this.getView().getGamePlayManager().choseCellWp());
 
         /*
         try{
-            this.getServer().performToolCardMove(infoUnit, this.getSlotId(Commands.TOOL1));
+            this.getServer().performToolCardMove(infoUnit, toolSlot);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 1");
         }
@@ -53,6 +64,12 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
     @Override
     public void tool2(){
         SetUpInformationUnit infoUnit = new SetUpInformationUnit();
+
+        int toolSlot = this.getSlotId(Commands.TOOL2);
+        this.printToolDescription(toolSlot);
+
+        this.fromWptoWp(infoUnit);
+
         /*
         try{
             this.getServer().performToolCardMove(infoUnit, this.getSlotId(Commands.TOOL2));
@@ -65,6 +82,11 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
     @Override
     public void tool3(){
         SetUpInformationUnit infoUnit = new SetUpInformationUnit();
+
+        int toolSlot = this.getSlotId(Commands.TOOL3);
+        this.printToolDescription(toolSlot);
+
+        this.fromWptoWp(infoUnit);
         /*
         try{
             this.getServer().performToolCardMove(infoUnit, this.getSlotId(Commands.TOOL3));
@@ -182,7 +204,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         */
     }
 
-    public int getSlotId(Commands command){
+    private int getSlotId(Commands command){
         int idSlot = -1;
         List<ToolCardView> cards = this.getView().getCommonBoard().getToolCardViews();
 
@@ -190,5 +212,20 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
             if (tool.getCommand().equals(command))
                 return cards.indexOf(tool);
         return idSlot;
+    }
+
+    private void printToolDescription(int id){
+        if (id > 0 && id < 3)
+            this.getInputOutputManager().print("Descrizione tool:\n\t"+this.commonBoard.getToolCardViews().get(id).getDescription());
+    }
+
+    private void fromWptoWp(SetUpInformationUnit infoUnit){
+        this.getInputOutputManager().print(this.wpPlayer.wpToString());
+
+        this.getInputOutputManager().print("Da:");
+        infoUnit.setSourceIndex(this.getView().getGamePlayManager().choseCellWp());
+
+        this.getInputOutputManager().print("A:");
+        infoUnit.setDestinationIndex(this.getView().getGamePlayManager().choseCellWp());
     }
 }

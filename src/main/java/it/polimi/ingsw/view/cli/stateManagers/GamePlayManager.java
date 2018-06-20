@@ -2,7 +2,7 @@ package it.polimi.ingsw.view.cli.stateManagers;
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.view.cli.die.RoundTrackView;
-import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
+import it.polimi.ingsw.view.cli.generalmanagers.InputOutputManager;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.die.DieView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
@@ -37,10 +37,9 @@ public class GamePlayManager{
 
     /**
      * This method ask to the user the row and the column of the cell where he want to place the die, and verifying if it is an int and if it is in bound.
-     * @param wp:
      * @return the modular conversion of raw and column.
      */
-    public int choseCellWp(WindowPatternCardView wp){
+    public int choseCellWp(){
         inputOutputManager.print("Inserisci le coordinate della cella desiderata.");
 
         String row = inputOutputManager.askInformation("Riga: ");
@@ -68,7 +67,7 @@ public class GamePlayManager{
         inputOutputManager.print(draft.diceDraftToString());
         inputOutputManager.print(wp.wpToString());
         unit.setSourceIndex(this.choseDraftDie(draft));
-        unit.setDestinationIndex(this.choseCellWp(wp));
+        unit.setDestinationIndex(this.choseCellWp());
     }
 
     /**

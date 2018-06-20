@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.cli.generalManagers;
+package it.polimi.ingsw.view.cli.generalmanagers;
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
@@ -92,13 +92,11 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
     @Override
     public void newGame(){
         this.resetClient();
-        /*
         try {
             this.getServer().startNewGameRequest();
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during new game request.");
         }
-        */
     }
 
     private void resetClient(){

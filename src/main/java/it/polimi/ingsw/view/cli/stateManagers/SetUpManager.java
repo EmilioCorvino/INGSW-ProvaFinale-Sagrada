@@ -4,7 +4,7 @@ import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.cli.boardElements.ToolCardView;
-import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
+import it.polimi.ingsw.view.cli.generalmanagers.InputOutputManager;
 import it.polimi.ingsw.view.cli.boardElements.PlayerView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 

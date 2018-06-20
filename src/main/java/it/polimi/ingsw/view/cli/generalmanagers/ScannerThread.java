@@ -1,6 +1,4 @@
-package it.polimi.ingsw.view.cli.generalManagers;
-
-import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
+package it.polimi.ingsw.view.cli.generalmanagers;
 
 import java.util.function.Consumer;
 

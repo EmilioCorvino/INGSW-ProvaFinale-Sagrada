@@ -2,7 +2,7 @@ package it.polimi.ingsw.view.cli.stateManagers;
 
 
 import it.polimi.ingsw.view.cli.boardElements.PlayerView;
-import it.polimi.ingsw.view.cli.generalManagers.InputOutputManager;
+import it.polimi.ingsw.view.cli.generalmanagers.InputOutputManager;
 
 
 /**
