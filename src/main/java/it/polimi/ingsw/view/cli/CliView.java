@@ -381,6 +381,13 @@ public class CliView implements IViewMaster {
         endGameManager.showRank(players, score, this.player);
     }
 
+    @Override
+    public void forceLogOut(){
+        this.scannerThread.stopExecution();
+        this.inputOutputManager.print("IL SERVER TI HA DISCONNESSO");
+        System.exit(0);
+    }
+
 //----------------------------------------------------------
 //                  GENERAL METHODS
 //----------------------------------------------------------

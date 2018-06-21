@@ -111,6 +111,19 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
     @Override
     public void tool5(){
         SetUpInformationUnit infoUnit = new SetUpInformationUnit();
+        int roundChosen;
+
+        int toolSlot = this.getSlotId(Commands.TOOL5);
+        this.printToolDescription(toolSlot);
+
+        this.getInputOutputManager().print(commonBoard.getDraftPool().diceDraftToString());
+        infoUnit.setSourceIndex(this.getView().getGamePlayManager().choseDraftDie(commonBoard.getDraftPool()));
+
+        this.getInputOutputManager().print(commonBoard.getRoundTrack().roundTrackToString());
+        roundChosen = this.getView().getGamePlayManager().choseRound();
+        infoUnit.setExtraParam(roundChosen);
+        infoUnit.setOffset(this.getView().getGamePlayManager().choseRoundDie(commonBoard.getRoundTrack(), roundChosen));
+
         /*
         try{
             this.getServer().performToolCardMove(infoUnit, this.getSlotId(Commands.TOOL5));
@@ -135,6 +148,9 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
     @Override
     public void tool7(){
         SetUpInformationUnit infoUnit = new SetUpInformationUnit();
+
+        int toolSlot = this.getSlotId(Commands.TOOL7);
+        this.printToolDescription(toolSlot);
         /*
         try{
             this.getServer().performToolCardMove(infoUnit, this.getSlotId(Commands.TOOL7));
@@ -159,6 +175,11 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
     @Override
     public void tool9(){
         SetUpInformationUnit infoUnit = new SetUpInformationUnit();
+
+        int toolSlot = this.getSlotId(Commands.TOOL9);
+        this.printToolDescription(toolSlot);
+
+        this.getView().getGamePlayManager().getPlacementInfo(this.commonBoard.getDraftPool(), wpPlayer, infoUnit);
         /*
         try{
             this.getServer().performToolCardMove(infoUnit, this.getSlotId(Commands.TOOL9));
@@ -171,6 +192,11 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
     @Override
     public void tool10(){
         SetUpInformationUnit infoUnit = new SetUpInformationUnit();
+
+        int toolSlot = this.getSlotId(Commands.TOOL10);
+        this.printToolDescription(toolSlot);
+
+        this.getView().getGamePlayManager().getPlacementInfo(this.commonBoard.getDraftPool(), wpPlayer, infoUnit);
         /*
         try{
             this.getServer().performToolCardMove(infoUnit, this.getSlotId(Commands.TOOL10));
