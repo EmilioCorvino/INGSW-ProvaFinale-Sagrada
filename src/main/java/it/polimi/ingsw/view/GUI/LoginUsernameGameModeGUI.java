@@ -1,17 +1,14 @@
 package it.polimi.ingsw.view.GUI;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 /**
  * This class manages the inputs from user which are: username and type game desired.
  */
-public class LoginUsernameGameModeGUI extends BorderPane {
+public class LoginUsernameGameModeGUI extends RootLoginGui {
 
     /**
      * This is the attribute where all the necessary information to validate the connection is saved.
@@ -30,35 +27,32 @@ public class LoginUsernameGameModeGUI extends BorderPane {
 
     public LoginUsernameGameModeGUI() {
 
+        //super();
+
+        this.getStylesheets().add("style/backgrounds.css");
+        this.getStyleClass().add("background");
+        
         info = new InfoLogin();
 
         loginFormGUI = new LoginFormGUI();
         loginFormGUI.formatvBox("Inserire lo username: ", "Giocatore singolo", " Multigiocatore  ");
-        customForm(loginFormGUI);
+        super.customForm(loginFormGUI);
         loginFormGUI.getGoAhead().setVisible(true);
-
-        this.setStyle("-fx-background-color : #001a4d");
 
         HBox buttons = loginFormGUI.getButtonContainer();
 
         buttons.getChildren().get(0).setId("2");
         buttons.getChildren().get(1).setId("1");
         buttons.getChildren().forEach(button -> button.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-            handleTypeConnection((Button)button);
+            handleTypeConnection((ToggleButton)button);
         }));
 
         loginFormGUI.getGoAhead().addEventHandler(MouseEvent.MOUSE_CLICKED, e -> handleGoAhead());
-    }
 
-    /**
-     * This method customs the form for this particular window.
-     * @param loginFormGUI the form to custom.
-     */
-    public void customForm(LoginFormGUI loginFormGUI) {
-        BorderPane.setMargin(loginFormGUI.getvBox(), new Insets(10, 250, 10, 250));
-        loginFormGUI.getvBox().setAlignment(Pos.CENTER);
-        this.setCenter(loginFormGUI.getvBox());
-        this.autosize();
+        this.addEventHandler(MouseEvent.MOUSE_PRESSED, e ->  super.pressedWindow(e));
+        this.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> super.draggedWindow(e));
+
+
     }
 
     /**
@@ -66,13 +60,23 @@ public class LoginUsernameGameModeGUI extends BorderPane {
      * login form structure.
      * @param button the button to handle.
      */
-    public void handleTypeConnection(Button button) {
+    public void handleTypeConnection(ToggleButton button) {
+
+        loginFormGUI.getButtonContainer().getChildren().forEach(but -> {
+            if(((ToggleButton)but).isSelected())
+                ((ToggleButton)but).setSelected(false);
+        });
         String text = ((TextField)loginFormGUI.getGridPane().getChildren().get(1)).getText();
 
         if(text.isEmpty()) {
+            button.setSelected(false);
             loginFormGUI.showAlertMessage("Questo campo non può essere lasciato vuoto");
             return;
         }
+
+        button.setSelected(true);
+
+
         this.info.setUsername(text);
         System.out.println(button.getId() + "");
         this.info.setGameMode(button.getId());
@@ -83,16 +87,13 @@ public class LoginUsernameGameModeGUI extends BorderPane {
      */
     public void handleGoAhead() {
         String text = ((TextField)loginFormGUI.getGridPane().getChildren().get(1)).getText();
-        System.out.println(text);
+
         if(text.isEmpty()) {
             loginFormGUI.showAlertMessage("Devi inserire lo username");
             return;
         }
-
-        System.out.println(this.info + "");
-        System.out.println(this.info.getUsername());
-        System.out.println(this.info.getGameMode());
         if( this.info.getGameMode() == null) {
+            loginFormGUI.getButtonContainer().getChildren().forEach(button -> ((ToggleButton)button).setSelected(false));
             loginFormGUI.showAlertMessage("Devi scegliere una modalità di gioco");
             return;
         }

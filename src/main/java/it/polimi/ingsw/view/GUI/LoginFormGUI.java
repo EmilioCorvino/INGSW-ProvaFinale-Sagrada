@@ -2,43 +2,63 @@ package it.polimi.ingsw.view.GUI;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
+/**
+ * This class manages the form style used in the login.
+ */
 public class LoginFormGUI extends VBox {
 
+    HBox header;
+    /**
+     * The main container for the fields of the form.
+     */
     private VBox vBox;
 
+    /**
+     * The grid that will contains the input parameter of the user.
+     */
     private GridPane gridPane;
 
+    /**
+     * The container that the user will use for specific choices of the game.
+     */
     private HBox buttonContainer;
 
+    /**
+     * The button to start the game.
+     */
     private Button goAhead;
-
-
 
 
     public LoginFormGUI() {
         setvBox(new VBox());
+
         this.gridPane = new GridPane();
         this.buttonContainer = new HBox();
         this.goAhead = new Button("Gioca");
-
-
+        this.getStylesheets().add("style/backgrounds.css");
+        this.goAhead.getStyleClass().add("button-style");
     }
 
+    /**
+     *
+     * @param label
+     * @param button1
+     * @param button2
+     */
     public void formatvBox(String label, String button1, String button2) {
+        this.vBox.getStyleClass().add("VBox");
         vBox.getChildren().add(gridPane);
         vBox.getChildren().add(buttonContainer);
-        vBox.setMaxWidth(400);
-        vBox.setMaxHeight(300);
-        vBox.setStyle("-fx-background-color: #ccddff;");
+
+        vBox.setMaxWidth(550);
+        vBox.setMaxHeight(400);
+        //vBox.setStyle("-fx-background-color: #ccddff;");
         vBox.setPadding(new Insets(10, 50, 10, 50));
         vBox.setSpacing(20);
 
@@ -49,29 +69,41 @@ public class LoginFormGUI extends VBox {
         goAhead.setVisible(false);
     }
 
+    /**
+     *
+     * @param nameLabel
+     */
     public void formatGridpane(String nameLabel) {
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setVgap(20);
         gridPane.setPadding(new Insets(25, 0, 25, 0));
-        gridPane.setStyle("-fx-background-color : #ffffcc");
 
         gridPane.setMaxWidth(Double.MAX_VALUE);
 
         TextField text = new TextField();
+        text.getStyleClass().add("text-field");
+        text.setAlignment(Pos.CENTER);
 
         Label label = new Label(nameLabel);
+        label.setAlignment(Pos.CENTER);
+        label.getStyleClass().add("text-label");
+
 
         this.gridPane.add(label, 0, 0);
         this.gridPane.add(text, 0, 1);
 
         text.setMaxWidth(Double.MAX_VALUE);
         label.setMaxWidth(Double.MAX_VALUE);
-
     }
 
+    /**
+     *
+     * @param nameButton1
+     * @param nameButton2
+     */
     public void formatButtonContainer(String nameButton1, String nameButton2) {
-        Button btn1 = new Button(nameButton1);
-        Button btn2 = new Button(nameButton2);
+        ToggleButton btn1 = new ToggleButton(nameButton1);
+        ToggleButton btn2 = new ToggleButton(nameButton2);
 
         btn1.setId("1");
         btn1.setId("2");
@@ -81,13 +113,20 @@ public class LoginFormGUI extends VBox {
         buttonContainer.setAlignment(Pos.CENTER);
         buttonContainer.setSpacing(20);
 
-        btn1.setMaxWidth(Double.MAX_VALUE);
-        btn2.setMaxWidth(Double.MAX_VALUE);
+        btn1.setMaxWidth(150);
+        btn2.setMaxWidth(150);
+
+        btn1.getStyleClass().add("button-style");
+        btn2.getStyleClass().add("button-style");
+
         HBox.setHgrow(btn1, Priority.ALWAYS);
         HBox.setHgrow(btn2, Priority.ALWAYS);
     }
 
-
+    /**
+     *
+     * @param message
+     */
     public void showAlertMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(null);
@@ -95,25 +134,6 @@ public class LoginFormGUI extends VBox {
         alert.showAndWait();
         alert.setOnCloseRequest(event -> alert.hide());
     }
-
-    public void changeParmeters(String name1, String name2, String name3) {
-        ((Label)this.getGridPane().getChildren().get(0)).setText(name1);
-        ((Button)this.buttonContainer.getChildren().get(0)).setText(name2);
-        ((Button)this.buttonContainer.getChildren().get(1)).setText(name3);
-        (this.buttonContainer.getChildren().get(0)).setId("2");
-        (this.buttonContainer.getChildren().get(1)).setId("1");
-    }
-
-    public void restoreFirstWindow() {
-        Label text = ((Label)this.gridPane.getChildren().get(0));
-        text.setText("Indirizzo ip del server: ");
-        ((Button)this.buttonContainer.getChildren().get(0)).setText("  RMI  ");
-        ((Button)this.buttonContainer.getChildren().get(1)).setText("Socket ");
-    }
-
-
-
-
 
     public VBox getvBox() {
         return vBox;
@@ -146,7 +166,4 @@ public class LoginFormGUI extends VBox {
     public void setGoAhead(Button goAhead) {
         this.goAhead = goAhead;
     }
-
-
-
 }
