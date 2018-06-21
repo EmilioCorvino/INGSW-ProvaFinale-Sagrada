@@ -38,6 +38,7 @@ public class LoginUsernameGameModeGUI extends RootLoginGui {
         loginFormGUI.formatvBox("Inserire lo username: ", "Giocatore singolo", " Multigiocatore  ");
         super.customForm(loginFormGUI);
         loginFormGUI.getGoAhead().setVisible(true);
+        loginFormGUI.getExit().setVisible(true);
 
         HBox buttons = loginFormGUI.getButtonContainer();
 

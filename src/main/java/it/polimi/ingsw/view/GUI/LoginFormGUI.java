@@ -34,6 +34,8 @@ public class LoginFormGUI extends VBox {
      */
     private Button goAhead;
 
+    private Button exit;
+
 
     public LoginFormGUI() {
         setvBox(new VBox());
@@ -41,8 +43,10 @@ public class LoginFormGUI extends VBox {
         this.gridPane = new GridPane();
         this.buttonContainer = new HBox();
         this.goAhead = new Button("Gioca");
+        this.exit = new Button("Esci");
         this.getStylesheets().add("style/backgrounds.css");
         this.goAhead.getStyleClass().add("button-style");
+        this.exit.getStyleClass().add("button-style");
     }
 
     /**
@@ -53,20 +57,31 @@ public class LoginFormGUI extends VBox {
      */
     public void formatvBox(String label, String button1, String button2) {
         this.vBox.getStyleClass().add("VBox");
+        HBox controls = new HBox();
+        controls.setSpacing(30);
+        controls.setAlignment(Pos.CENTER);
         vBox.getChildren().add(gridPane);
         vBox.getChildren().add(buttonContainer);
+
+
 
         vBox.setMaxWidth(550);
         vBox.setMaxHeight(400);
         //vBox.setStyle("-fx-background-color: #ccddff;");
         vBox.setPadding(new Insets(10, 50, 10, 50));
-        vBox.setSpacing(20);
+        vBox.setSpacing(40);
 
         formatGridpane(label);
         formatButtonContainer(button1, button2);
 
-        vBox.getChildren().add(goAhead);
+        this.exit.setMaxWidth(120);
+        this.goAhead.setMaxWidth(120);
+
+        controls.getChildren().add(this.goAhead);
+        controls.getChildren().add(this.exit);
+        vBox.getChildren().add(controls);
         goAhead.setVisible(false);
+        exit.setVisible(false);
     }
 
     /**
@@ -165,5 +180,13 @@ public class LoginFormGUI extends VBox {
 
     public void setGoAhead(Button goAhead) {
         this.goAhead = goAhead;
+    }
+
+    public Button getExit() {
+        return exit;
+    }
+
+    public void setExit(Button exit) {
+        this.exit = exit;
     }
 }

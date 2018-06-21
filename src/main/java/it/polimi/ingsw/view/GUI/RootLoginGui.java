@@ -16,9 +16,6 @@ public class RootLoginGui extends BorderPane {
 
     }
 
-    protected void closeOnRequest() {
-
-    }
 
     protected void pressedWindow(MouseEvent event) {
         xOffset = event.getSceneX();
