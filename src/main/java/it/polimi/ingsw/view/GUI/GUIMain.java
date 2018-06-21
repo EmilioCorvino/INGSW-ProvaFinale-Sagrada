@@ -21,7 +21,7 @@ public class GUIMain extends Application {
         setStage(primaryStage);
         guiView = new GUIView();
         RootLoginGui root = new LoginIpAddrTypeConnGUI();
-        scene = new Scene(root, 1400, 730);
+        scene = new Scene(root);
 
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         scene.setFill(Color.TRANSPARENT);

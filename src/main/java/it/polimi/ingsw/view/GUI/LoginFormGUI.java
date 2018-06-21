@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.GUI;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -47,6 +48,12 @@ public class LoginFormGUI extends VBox {
         this.getStylesheets().add("style/backgrounds.css");
         this.goAhead.getStyleClass().add("button-style");
         this.exit.getStyleClass().add("button-style");
+
+        this.exit.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> handleClose());
+    }
+
+    public void handleClose() {
+        System.exit(0);
     }
 
     /**
@@ -64,10 +71,11 @@ public class LoginFormGUI extends VBox {
         vBox.getChildren().add(buttonContainer);
 
 
-
         vBox.setMaxWidth(550);
         vBox.setMaxHeight(400);
-        //vBox.setStyle("-fx-background-color: #ccddff;");
+        vBox.setMinWidth(550);
+        vBox.setMinHeight(400);
+
         vBox.setPadding(new Insets(10, 50, 10, 50));
         vBox.setSpacing(40);
 

@@ -12,6 +12,7 @@ import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.IViewMaster;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 
 import java.util.List;
@@ -27,8 +28,11 @@ public class GUIView implements IViewMaster {
 
     private LoginIpAddrTypeConnGUI loginManager;
 
+    private Parent listPlayers;
+
 
     public GUIView() {
+        listPlayers = new ShowPlayersGUI();
 
     }
 
@@ -85,12 +89,13 @@ public class GUIView implements IViewMaster {
                 }
             }
         System.out.println("connection ok");
+        GUIMain.getScene().setRoot(this.listPlayers);
     }
 
 
     @Override
     public void showRoom(List<String> players) {
-
+        Platform.runLater(() -> ((ShowPlayersGUI) this.listPlayers).showPlayers(players));
     }
 
     @Override
@@ -199,5 +204,13 @@ public class GUIView implements IViewMaster {
 
     public void setLoginManager(LoginIpAddrTypeConnGUI loginManager) {
         this.loginManager = loginManager;
+    }
+
+    public Parent getListPlayers() {
+        return listPlayers;
+    }
+
+    public void setListPlayers(Parent listPlayers) {
+        this.listPlayers = listPlayers;
     }
 }
