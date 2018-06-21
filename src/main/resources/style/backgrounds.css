@@ -1,0 +1,55 @@
+.background {
+   /* -fx-background-image: url("images/background.jpg");*/
+    -fx-background-color: transparent;
+}
+
+.VBox {
+   -fx-background-color: linear-gradient(to top left, rgb(0, 179, 143, 0.6), rgb(0, 51, 102, 0.7) );
+   -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 10, 10);
+   -fx-background-radius: 10;
+}
+
+.shadow {
+/*-fx-effect: dropshadow(three-pass-box, grey, 10, 0, 10, 10);*/
+}
+
+.text-field {
+    -fx-background-color: transparent ;
+    -fx-border-color: rgba(102, 255, 224, 0.5) ;
+    -fx-border-width: 0px 0px 1px 0px ;
+    -fx-text-fill: white;
+    -fx-font: 13px Verdana;
+}
+
+.text-label {
+    -fx-text-fill: white;
+    -fx-font: 14px Verdana;
+}
+
+.button-style {
+    -fx-background-color: rgba(0, 153, 204, 0.3) ;
+     -fx-text-fill: white;
+     -fx-border-width: 1px 1px 1px 1px ;
+     -fx-border-color: rgba(102, 255, 224, 0.5) ;
+     -fx-font: 13px Verdana;
+     -fx-border-radius: 10;
+     -fx-background-radius: 10;
+}
+
+.button-style:hover {
+    -fx-background-color: rgba(102, 217, 255, 0.4) ;
+}
+
+.button-style:selected {
+    -fx-background-color: rgba(102, 217, 255, 0.3) ;
+    -fx-text-fill: white;
+    -fx-border-width: 1px 1px 1px 1px ;
+    -fx-border-color: rgba(102, 255, 224, 0.5) ;
+    -fx-font: 13px Verdana;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.button-close:hover {
+    -fx-background-color: rgba(102, 217, 255, 0.4) ;
+}
