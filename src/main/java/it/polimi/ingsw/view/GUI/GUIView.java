@@ -200,7 +200,7 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void forceLogOut() {
-        
+
     }
 
     public LoginIpAddrTypeConnGUI getLoginManager() {

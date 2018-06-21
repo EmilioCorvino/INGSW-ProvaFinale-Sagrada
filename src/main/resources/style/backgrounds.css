@@ -9,8 +9,10 @@
    -fx-background-radius: 10;
 }
 
-.shadow {
+.title {
 /*-fx-effect: dropshadow(three-pass-box, grey, 10, 0, 10, 10);*/
+    -fx-text-fill: rgba(204, 255, 245, 0.8);
+    -fx-font: 14px Verdana;
 }
 
 .text-field {

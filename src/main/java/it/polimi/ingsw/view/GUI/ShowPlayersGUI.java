@@ -22,7 +22,7 @@ public class ShowPlayersGUI extends BorderPane {
 
         mainContainer = new VBox();
         Label names = new Label("Giocatori momentaneamente connessi:");
-        names.getStyleClass().add("text-label");
+        names.getStyleClass().add("title");
         playersList = new VBox();
 
         mainContainer.getChildren().addAll(names, playersList);
@@ -65,16 +65,15 @@ public class ShowPlayersGUI extends BorderPane {
         for(int i=0; i<players.size(); i++) {
             if(!(playersList.getChildren().isEmpty())) {
                 if( i>0 && !((Label)this.playersList.getChildren().get(i-1)).getText().equals(players.get(i))) {
-                    Label name = new Label("- " + players.get(i));
+                    Label name = new Label( players.get(i));
                     name.getStyleClass().add("text-label");
                     playersList.getChildren().add(name);
                 }
             } else {
-                Label name = new Label("- " + players.get(i));
+                Label name = new Label( players.get(i));
                 name.getStyleClass().add("text-label");
                 playersList.getChildren().add(name);
             }
-
         }
     }
 
