@@ -20,7 +20,7 @@ public class ScannerThread extends Thread {
         }
     }
 
-    void stopExecution(){
+    public void stopExecution(){
         isOnGame = false;
     }
 }

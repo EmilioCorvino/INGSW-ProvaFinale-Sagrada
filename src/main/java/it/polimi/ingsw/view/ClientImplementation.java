@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.network.IFromServerToClient;
-import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 
 import java.util.List;
 import java.util.Map;
@@ -124,7 +123,7 @@ public class ClientImplementation implements IFromServerToClient {
 
     @Override
     public void forceLogOut() {
-        //Gian, implementalo! :D
+        view.forceLogOut();
     }
 
 }
