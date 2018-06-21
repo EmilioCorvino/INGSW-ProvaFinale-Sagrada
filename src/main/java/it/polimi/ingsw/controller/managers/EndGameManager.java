@@ -64,21 +64,21 @@ public class EndGameManager extends AGameManager {
         List<String> playersWithMaxScore = this.identifyPlayersWithMaxScore(rank, rankToFilter);
         super.broadcastNotification("\nLA PARTITA È FINITA!");
         if(playersWithMaxScore.size() == 1) {
-            this.declareWinner(playersWithMaxScore.get(0));
+            this.declareWinner(playersWithMaxScore.get(0), rank);
         } else {    //Tie-break Private Objective.
             List<String> playersWithMaxPrivateObjectivePoints = this.performPrivateObjectiveTieBreak(rankToFilter);
             if(playersWithMaxPrivateObjectivePoints.size() == 1) {
-                this.declareWinner(playersWithMaxPrivateObjectivePoints.get(0));
+                this.declareWinner(playersWithMaxPrivateObjectivePoints.get(0), rank);
                 super.broadcastNotification("\nÈ stato effettuato uno spareggio basato sul maggior numero di punti" +
                         " acquisiti dall'Obiettivo Privato.");
             } else {    //Tie-break Favor Tokens.
                 List<String> playersWithMaxFavorTokensPoints = this.performFavorTokensTieBreak(rankToFilter);
                 if(playersWithMaxFavorTokensPoints.size() == 1) {
-                    this.declareWinner(playersWithMaxFavorTokensPoints.get(0));
+                    this.declareWinner(playersWithMaxFavorTokensPoints.get(0), rank);
                     super.broadcastNotification("\nÈ stato effettuato uno spareggio basato sul maggior numero di punti" +
                             " acquisiti dall'Obiettivo Privato, e in seguito sui Segnalini Favore.");
                 } else {    //Tie-break Turn Order.
-                    this.declareWinner(this.performTurnOrderTieBreak(rankToFilter));
+                    this.declareWinner(this.performTurnOrderTieBreak(rankToFilter), rank);
                     super.broadcastNotification("\nÈ stato effettuato uno spareggio basato sul maggior numero di punti " +
                             "acquisiti dall'Obiettivo Privato,\nquindi dai Segnalini Favore ed infine sull'ordine di turno" +
                             " (ha vinto l'ultimo giocatore in ordine di turno partecipante allo spareggio).");
@@ -212,8 +212,16 @@ public class EndGameManager extends AGameManager {
     /**
      * This methods communicates the winner to all players in the match.
      * @param winnerName name of the winner.
+     * @param reorderedRank rank that will be sent to the players.
      */
-    private void declareWinner(String winnerName) {
+    private void declareWinner(String winnerName, Map<String, Integer> reorderedRank) {
+
+        //These lines are used to move the winning player to the top of the rank.
+        Map<String, Integer> supportMap = new LinkedHashMap<>();
+        supportMap.put(winnerName, reorderedRank.remove(winnerName));
+        supportMap.putAll(reorderedRank);
+        reorderedRank.clear();
+        reorderedRank.putAll(supportMap);
 
         //Tells the winning player that he won.
         IFromServerToClient winnerClient =
