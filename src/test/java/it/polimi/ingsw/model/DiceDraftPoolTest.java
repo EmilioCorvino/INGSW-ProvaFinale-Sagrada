@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class DiceDraftPoolTest {
 
@@ -58,5 +58,20 @@ public class DiceDraftPoolTest {
         assertEquals(numberOfPlayer*2 + 1 +1, diceDraftPool.getAvailableDice().size());
         assertEquals(die.getDieColor(), diceDraftPool.getAvailableDice().get(diceDraftPool.getAvailableDice().size()-1).getDieColor());
         assertEquals(die.getActualDieValue(), diceDraftPool.getAvailableDice().get(diceDraftPool.getAvailableDice().size()-1).getActualDieValue());
+    }
+
+    @Test
+    public void testCopy(){
+        DiceDraftPool diceDraftPool = new DiceDraftPool();
+        int numberOfPlayer = 4;
+        int dieIndex = 1;
+
+        diceDraftPool.populateDiceDraftPool(numberOfPlayer);
+        diceDraftPool.createCopy();
+        diceDraftPool.getAvailableDiceCopy().get(dieIndex).setActualDieValue(diceDraftPool.getAvailableDice().get(dieIndex).getActualDieValue()+1);
+
+        assertNotSame(diceDraftPool.getAvailableDice().get(dieIndex), diceDraftPool.getAvailableDiceCopy().get(dieIndex));
+
+        assertNotSame(diceDraftPool.getAvailableDice().get(dieIndex).getActualDieValue(), diceDraftPool.getAvailableDiceCopy().get(dieIndex).getActualDieValue());
     }
 }
