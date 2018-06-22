@@ -8,6 +8,7 @@ import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  * This interface presents the same methods as {@link it.polimi.ingsw.network.IFromClientToServer}, but suited for a RMI
@@ -28,7 +29,9 @@ public interface IRmiServer extends Remote {
 
     void windowPatternCardRequest(int idMap, Connection connection) throws RemoteException;
 
-    void performMove(SetUpInformationUnit info, Connection connection) throws RemoteException;
+    void performDefaultMove(SetUpInformationUnit info, Connection connection) throws RemoteException;
+
+    void performToolCardMove(int slotID, List<SetUpInformationUnit> infoUnits, Connection connection) throws RemoteException;
 
     void moveToNextTurn(Connection connection) throws RemoteException;
 

@@ -13,10 +13,8 @@ import java.util.List;
 public class ColorPlacementRestrictionEffect extends PlacementRestrictionEffect {
 
     /**
-     *
-     * @param manager the controller.
-     * @param setUpInformationUnit
-     */
+     *  @param manager the controller.
+     * @param setUpInformationUnit*/
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInformationUnit) {
 

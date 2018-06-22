@@ -21,10 +21,8 @@ public class ValueRestrictionEffect extends PlacementRestrictionEffect {
     private List<ARestriction> listToRestore = new ArrayList<>();
 
     /**
-     *
-     * @param manager
-     * @param setUpInfoUnit
-     */
+     *  @param manager
+     * @param setUpInfoUnit*/
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
 

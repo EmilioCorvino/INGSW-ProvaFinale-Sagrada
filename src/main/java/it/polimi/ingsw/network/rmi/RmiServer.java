@@ -11,6 +11,7 @@ import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 
 /**
  * This class is the implementation of the remote interface {@link IRmiServer} and it's published in the RMI registry by
@@ -69,10 +70,18 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
     }
 
     @Override
-    public void performMove(SetUpInformationUnit info, Connection connection) {
+    public void performDefaultMove(SetUpInformationUnit info, Connection connection) {
         synchronized(this) {
             this.serverImplementation.getConnectionsQueue().add(connection);
             this.serverImplementation.performDefaultMove(info);
+        }
+    }
+
+    @Override
+    public void performToolCardMove(int slotID, List<SetUpInformationUnit> infoUnits, Connection connection) throws RemoteException {
+        synchronized (this) {
+            this.serverImplementation.getConnectionsQueue().add(connection);
+            this.serverImplementation.performToolCardMove(slotID, infoUnits);
         }
     }
 

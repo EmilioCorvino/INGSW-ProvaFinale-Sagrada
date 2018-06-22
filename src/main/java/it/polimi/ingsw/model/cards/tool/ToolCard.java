@@ -16,7 +16,7 @@ public class ToolCard implements IToolCard {
     private int id;
 
     /**
-     *
+     * Name of the command related to the Tool Card.
      */
     @SerializedName("command")
     private Commands commandName;

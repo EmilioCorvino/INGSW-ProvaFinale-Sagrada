@@ -8,7 +8,6 @@ import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 public class SwapFromDraftPoolToDicebag extends ASwapDieEffect {
 
     /**
-     *
      * @param manager
      * @param setUpInfoUnit
      */

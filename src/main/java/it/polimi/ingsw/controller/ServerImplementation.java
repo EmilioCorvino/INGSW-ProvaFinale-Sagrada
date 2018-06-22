@@ -6,11 +6,13 @@ import it.polimi.ingsw.controller.managers.StartGameManager;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.network.Connection;
 import it.polimi.ingsw.network.IFromClientToServer;
+import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
@@ -86,13 +88,20 @@ public class ServerImplementation implements IFromClientToServer {
 
     /**
      * This method tells the proper game manager of the controller to perform the move request.
-     * @param sourceInfo the coordinates of the source container.
+     * @param infoUnit the coordinates of the source container.
      */
     @Override
-    public void performDefaultMove(SetUpInformationUnit sourceInfo) {
+    public void performDefaultMove(SetUpInformationUnit infoUnit) {
         String userName = connectionsQueue.remove().getUserName();
         GamePlayManager gamePlayManager = (GamePlayManager)controller.getGamePlayManager();
-        gamePlayManager.performDefaultMove(sourceInfo, userName);
+        gamePlayManager.performDefaultMove(infoUnit, userName);
+    }
+
+    @Override
+    public void performToolCardMove(int slotID, List<SetUpInformationUnit> infoUnits) {
+        String userName = connectionsQueue.remove().getUserName();
+        GamePlayManager gamePlayManager = (GamePlayManager)controller.getGamePlayManager();
+        gamePlayManager.performToolCardMove(slotID, infoUnits, userName);
     }
 
     /**

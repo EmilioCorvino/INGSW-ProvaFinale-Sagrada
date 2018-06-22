@@ -16,6 +16,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
 import java.util.logging.Level;
 
 /**
@@ -99,11 +100,21 @@ public class RmiFromClientToServer implements IFromClientToServer {
     }
 
     @Override
-    public void performDefaultMove(SetUpInformationUnit info) throws BrokenConnectionException {
+    public void performDefaultMove(SetUpInformationUnit infoUnit) throws BrokenConnectionException {
         try {
-            this.rmiServer.performMove(info, connection);
+            this.rmiServer.performDefaultMove(infoUnit, connection);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during move execution", e);
+            throw new BrokenConnectionException();
+        }
+    }
+
+    @Override
+    public void performToolCardMove(int slotID, List<SetUpInformationUnit> infoUnits) throws BrokenConnectionException {
+        try {
+            this.rmiServer.performToolCardMove(slotID, infoUnits, connection);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during tool card move execution", e);
             throw new BrokenConnectionException();
         }
     }
