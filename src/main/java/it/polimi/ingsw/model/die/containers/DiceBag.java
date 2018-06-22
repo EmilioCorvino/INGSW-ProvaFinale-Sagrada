@@ -93,13 +93,19 @@ public class DiceBag extends ADieContainer {
     }
 
     @Override
-    public void createCopy() {
-        this.availableDiceCopy = new ArrayList<>(this.availableDice);
+    public void createCopy(){
+        this.availableDiceCopy = new ArrayList<>();
+        diceBagCopy(this.availableDice, this.availableDiceCopy);
     }
 
     @Override
-    public void overwriteOriginal() {
-        this.availableDice = new ArrayList<>(this.availableDiceCopy);
+    public void overwriteOriginal(){
+        diceBagCopy(this.availableDiceCopy, this.availableDice);
+    }
+
+    private void diceBagCopy(List<Die> source, List<Die> destination){
+        for (Die d : source)
+            destination.add(new Die(d.getActualDieValue(),d.getDieColor()));
     }
 
 

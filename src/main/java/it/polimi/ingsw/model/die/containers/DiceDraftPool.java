@@ -84,12 +84,18 @@ public class DiceDraftPool extends ADieContainer {
 
     @Override
     public void createCopy(){
-        this.availableDiceCopy = new ArrayList<>(this.availableDice);
+        this.availableDiceCopy = new ArrayList<>();
+        draftCopy(this.availableDice, this.availableDiceCopy);
     }
 
     @Override
     public void overwriteOriginal(){
-        this.availableDice = new ArrayList<>(this.availableDiceCopy);
+        draftCopy(this.availableDiceCopy, this.availableDice);
+    }
+
+    private void draftCopy(List<Die> source, List<Die> destination){
+        for (Die d : source)
+            destination.add(new Die(d.getActualDieValue(),d.getDieColor()));
     }
 
     public List<Die> getAvailableDiceCopy(){

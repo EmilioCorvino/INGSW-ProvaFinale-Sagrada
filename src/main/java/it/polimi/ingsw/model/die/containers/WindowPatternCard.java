@@ -1,8 +1,11 @@
 package it.polimi.ingsw.model.die.containers;
 
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.restrictions.ARestriction;
+import it.polimi.ingsw.model.restrictions.ColorRestriction;
+import it.polimi.ingsw.model.restrictions.ValueRestriction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,8 +131,14 @@ public class WindowPatternCard extends ADieContainer {
                 destination[i][j] = new Cell(i, j);
                 if (!source[i][j].isEmpty())
                     destination[i][j].setContainedDie(new Die(source[i][j].getContainedDie().getActualDieValue(), source[i][j].getContainedDie().getDieColor()));
-                else
-                    destination[i][j].setRuleSetCell(source[i][j].getRuleSetCell());
+                else{
+                    List<ARestriction> rules = new ArrayList<>();
+                    if(source[i][j].getDefaultValueRestriction().getValue() != 0)
+                        rules.add(new ValueRestriction(source[i][j].getDefaultValueRestriction().getValue()));
+                    if(!(source[i][j].getDefaultColorRestriction().getColor().equals(Color.BLANK)))
+                        rules.add(new ColorRestriction(source[i][j].getDefaultColorRestriction().getColor()));
+                    destination[i][j].setRuleSetCell(rules);
+                }
             }
         }
     }
