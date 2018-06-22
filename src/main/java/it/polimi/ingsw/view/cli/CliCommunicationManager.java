@@ -7,17 +7,17 @@ public class CliCommunicationManager {
     /**
      * A reference to the view.
      */
-    private CliView view;
+    protected CliView view;
 
     /**
      * A reference to the inputOutputManager of the view
      */
-    private InputOutputManager inputOutputManager;
+    protected InputOutputManager inputOutputManager;
 
     /**
      * The network interface for the connection
      */
-    private IFromClientToServer server;
+    protected IFromClientToServer server;
 
     public CliCommunicationManager(CliView view){
         this.view = view;
@@ -25,24 +25,8 @@ public class CliCommunicationManager {
         this.server = view.getServer();
     }
 
-    public CliView getView() {
-        return view;
-    }
-
-    public void setView(CliView view) {
-        this.view = view;
-    }
-
-    public InputOutputManager getInputOutputManager() {
-        return inputOutputManager;
-    }
-
     public void setInputOutputManager(InputOutputManager inputOutputManager) {
         this.inputOutputManager = inputOutputManager;
-    }
-
-    public IFromClientToServer getServer() {
-        return server;
     }
 
     public void setServer(IFromClientToServer server) {
