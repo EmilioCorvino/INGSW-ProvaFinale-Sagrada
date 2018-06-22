@@ -4,9 +4,10 @@ import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class DiceDraftPoolTest {
 
@@ -58,5 +59,39 @@ public class DiceDraftPoolTest {
         assertEquals(numberOfPlayer*2 + 1 +1, diceDraftPool.getAvailableDice().size());
         assertEquals(die.getDieColor(), diceDraftPool.getAvailableDice().get(diceDraftPool.getAvailableDice().size()-1).getDieColor());
         assertEquals(die.getActualDieValue(), diceDraftPool.getAvailableDice().get(diceDraftPool.getAvailableDice().size()-1).getActualDieValue());
+    }
+
+    @Test
+    public void checkCopy() {
+        DiceDraftPool draft = new DiceDraftPool();
+        int player = 2;
+        draft.populateDiceDraftPool(player);
+
+        draft.createCopy();
+
+        List<Die> draftCopy = draft.getAvailableDiceCopy();
+
+        Die dieToAdd = new Die(5, Color.PURPLE);
+        draftCopy.add(dieToAdd);
+
+        assertFalse(draft.getAvailableDice().size() == draftCopy.size());
+
+
+
+        DiceDraftPool draft1 = new DiceDraftPool();
+        draft1.populateDiceDraftPool(player);
+
+        draft1.createCopy();
+
+        List<Die> draft1Copy = draft1.getAvailableDiceCopy();
+
+        draft1.getAvailableDice().remove(1);
+
+        assertFalse(draft1.getAvailableDice().size() == draft1Copy.size());
+        assertTrue(draft1.getAvailableDice().size() < draft1Copy.size());
+
+
+
+
     }
 }

@@ -34,12 +34,14 @@ public class AdjiacentCellsRestrictionEffect extends PlacementRestrictionEffect 
         if(!wp.checkAdjacentCells(desiredCell, gwCopy)) {
             if(wp.checkOwnRuleSet(chosenDie, desiredCell, gwCopy)) {
                 wp.addDie(chosenDie);
+
                 //tell the controller to show results
                 return;
             } else {
-                manager.showNotification("Il dado non rispetta le restrizioni di piazzamento di questa cella.");
+                manager.showNotification(wp.getErrorMessage() + "digita aiuto per vedere i tuoi comandi");
                 wp.setDesiredCell(new Cell(info.getSourceIndex() / WindowPatternCard.getMaxCol(), info.getSourceIndex() % WindowPatternCard.getMaxCol()));
                 wp.addDie(chosenDie);
+                wp.removeDie(info.getSourceIndex());
                 return;
             }
         }
