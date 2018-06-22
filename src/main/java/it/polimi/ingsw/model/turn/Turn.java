@@ -18,6 +18,11 @@ public class Turn {
     private boolean diePlaced;
 
     /**
+     * This attribute is the counter of how many dice have been placed within the turn.
+     */
+    private int dieCount;
+
+    /**
      * This attribute indicates if the current player has used a tool card.
      */
     private boolean toolCardUsed;
@@ -50,6 +55,14 @@ public class Turn {
 
     public void setDiePlaced(boolean diePlaced) {
         this.diePlaced = diePlaced;
+    }
+
+    public int getDieCount() {
+        return this.dieCount;
+    }
+
+    public void incrementDieCount() {
+        this.dieCount++;
     }
 
     public boolean isToolCardUsed() {

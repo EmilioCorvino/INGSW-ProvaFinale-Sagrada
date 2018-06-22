@@ -84,7 +84,7 @@ public class ToolCardsDeck {
                     case "chooseValueEffect":             card.getCardEffects().add(new ChooseValueEffect(builder.
                                                             getEffectSpecificParameter()));
                                                           break;
-                    case "adjiacentRestrictionEffect":    card.getCardEffects().add(new AdjiacentCellsRestrictionEffect());
+                    case "adjacentRestrictionEffect":    card.getCardEffects().add(new AdjacentCellsRestrictionEffect());
                                                           break;
                     case "oppositeValueEffect":           card.getCardEffects().add(new OppositeValueEffect());
                                                           break;

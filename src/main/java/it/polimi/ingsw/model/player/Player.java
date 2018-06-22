@@ -100,9 +100,10 @@ public class Player implements IPlayer {
     /**
      * It is used by setWindowPatternCard to set the number of favor tokens available to the window pattern card
      * difficulty.
-     * @param favorTokens number of favor tokens available to the player. It's equal to the WindowPatternCard difficulty.
+     * @param favorTokens number of favor tokens available to the player. It's initially equal to the WindowPatternCard
+     *                    difficulty.
      */
-    private void setFavorTokens(int favorTokens) {
+     public void setFavorTokens(int favorTokens) {
         this.favorTokens = favorTokens;
     }
 

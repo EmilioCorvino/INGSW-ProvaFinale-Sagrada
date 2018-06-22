@@ -12,7 +12,7 @@ import it.polimi.ingsw.model.player.Player;
  * to a non empty cell. If the desired cell is adjacent to a non empty cell the placement has to respect all the
  * default restriction.
  */
-public class AdjiacentCellsRestrictionEffect extends PlacementRestrictionEffect {
+public class AdjacentCellsRestrictionEffect extends PlacementRestrictionEffect {
 
     /**
      * This method manages the particular placement ignoring the adjacent cells restriction.

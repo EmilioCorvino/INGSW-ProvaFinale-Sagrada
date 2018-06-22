@@ -6,7 +6,6 @@ import it.polimi.ingsw.controller.ControllerMaster;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.cards.ToolCardSlot;
-import it.polimi.ingsw.model.cards.tool.AToolCardEffect;
 import it.polimi.ingsw.model.cards.tool.ToolCard;
 import it.polimi.ingsw.model.move.DiePlacementMove;
 import it.polimi.ingsw.model.move.IMove;
@@ -285,6 +284,32 @@ public class GamePlayManager extends AGameManager {
                 //Checks if the executeMove has been successful or not, and modifies the state of the turn accordingly.
                 if(this.isMoveLegal()) {
                     gameState.getCurrentTurn().setDiePlaced(true);
+                    gameState.getCurrentTurn().incrementDieCount();
+                    try {
+                        currentPlayerClient.showNotice("\nPiazzamento effettuato!");
+                    } catch (BrokenConnectionException e) {
+                        SagradaLogger.log(Level.SEVERE, "Connection with the client crashed while " +
+                                "updating his commands", e);
+                        //todo super.getControllerMaster().suspendPlayer(playerName);
+                    }
+
+                    //Checks if the player has done everything he could. If he did, ends his turn; if not, shows him the commands.
+                    //The commands shown are relative to what the player can still do.
+                    if(!gameState.isCurrentTurnOver()) {
+                        List<Commands> filteredCommands = this.filterPlacement(this.currentPlayerCommands);
+                        try {
+                            currentPlayerClient.showNotice("\nPuoi ancora usare una Carta Strumento che" +
+                                    " non implichi un piazzamento, visualizzare informazioni della plancia oppure passare.\n");
+                            currentPlayerClient.showCommand(filteredCommands);
+                        } catch (BrokenConnectionException e) {
+                            SagradaLogger.log(Level.SEVERE, "Connection with the client crashed while " +
+                                    "updating his commands", e);
+                            //todo super.getControllerMaster().suspendPlayer(playerName);
+                        }
+                    } else {
+                        this.endTurn("\nHai già effettuato tutte le operazioni possibili in un turno, " +
+                                "passaggio al giocatore successivo...\n");
+                    }
                 } else {
                     gameState.getCurrentTurn().setDiePlaced(false);
                 }
@@ -319,14 +344,14 @@ public class GamePlayManager extends AGameManager {
                 }
             } else {
                 ToolCard card = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).getToolCard();
-                for(int i = 0; i < card.getCardEffects().size(); i++) {
+                for(int i = 0; i < infoUnits.size(); i++) {
                     if(this.isMoveLegal()) {
                         card.getCardEffects().get(i).executeMove(this, infoUnits.get(i));
                     }
                 }
 
                 //Checks if the executeMove has been successful or not, and modifies the state of the turn accordingly.
-                this.checkAndResolveToolMoveLegality(gameState, currentPlayerClient, slotID);
+                this.checkAndResolveToolMoveLegality(gameState, slotID, card);
             }
         } else {
             this.endTurn("\nHai già effettuato tutte le operazioni possibili in un turno, " +
@@ -357,7 +382,9 @@ public class GamePlayManager extends AGameManager {
      *                               the {@link it.polimi.ingsw.model.die.containers.WindowPatternCard}.
      */
     public void showPlacementResult(Player currentPlayer, SetUpInformationUnit setUpInfoUnit) {
-        GameState gameState = super.getControllerMaster().getGameState();
+        if(!this.isMoveLegal()) {
+            return;
+        }
 
         //Copies back the updated wp and draft to the original ones.
         currentPlayer.getWindowPatternCard().overwriteOriginal();
@@ -372,24 +399,6 @@ public class GamePlayManager extends AGameManager {
         } catch (BrokenConnectionException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to update current player wp and draft pool", e);
             //todo super.getControllerMaster().suspendPlayer(currentPlayer.getPlayerName());
-        }
-
-        //Checks if the player has done everything he could. If he did, ends his turn; if not, shows him the commands.
-        //The commands shown are relative to what the player can still do.
-        if(!gameState.isCurrentTurnOver()) {
-            List<Commands> filteredCommands = this.filterPlacement(this.currentPlayerCommands);
-            try {
-                currentPlayerClient.showNotice("\nPiazzamento effettuato! Puoi ancora usare una Carta Strumento che" +
-                        " non implichi un piazzamento, visualizzare informazioni della plancia oppure passare.\n");
-                currentPlayerClient.showCommand(filteredCommands);
-            } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.SEVERE, "Connection with the client crashed while " +
-                        "updating his commands", e);
-                //todo super.getControllerMaster().suspendPlayer(playerName);
-            }
-        } else {
-            this.endTurn("Hai effettuato tutte le operazioni possibili in un turno, " +
-                    "passaggio al giocatore successivo...");
         }
 
         //Update the board of the waiting players.
@@ -407,6 +416,7 @@ public class GamePlayManager extends AGameManager {
                 }
             }
         }
+
     }
 
 //----------------------------------------------------------
@@ -487,20 +497,41 @@ public class GamePlayManager extends AGameManager {
         }
     }
 
-    private void checkAndResolveToolMoveLegality(GameState gameState, IFromServerToClient currentPlayerClient, int slotID) {
+    /**
+     *
+     * @param gameState
+     * @param slotID
+     * @param toolCard
+     */
+    private void checkAndResolveToolMoveLegality(GameState gameState, int slotID, ToolCard toolCard) {
         if(this.isMoveLegal()) {
             gameState.getCurrentTurn().setToolCardUsed(true);
             gameState.getCurrentTurn().setToolSlotUsed(slotID);
+            int toolCost = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).getCost();
+            int oldPlayerFavorTokens = gameState.getCurrentPlayer().getFavorTokens();
+            gameState.getCurrentPlayer().setFavorTokens(oldPlayerFavorTokens - toolCost);
+            if(toolCard.impliesPlacement()) {
+                gameState.getCurrentTurn().setDiePlaced(true);
+                gameState.getCurrentTurn().incrementDieCount();
+            }
+            if(gameState.getCurrentTurn().getDieCount() >= 2) {
+                //Considers the second turn of the same player in the round.
+                Turn turn = gameState.getTurnOrder().get(gameState.getTurnOrder().size() - gameState.getCurrentPlayerTurnIndex() - 1);
+                turn.setPassed(true);
+            }
+            if(super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).getCost() == 1) {
+                super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).setCost(2);
+            }
         } else {
             gameState.getCurrentTurn().setToolCardUsed(false);
-            try {
+            /*try {
                 currentPlayerClient.showNotice("\nLa mossa non è andata a buon fine, digita 'aiuto' per " +
                         "visualizzare nuovamente i comandi a te disponibili.");
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Connection with the client crashed while using a " +
                         "Tool Card", e);
                 //todo super.getControllerMaster().suspendPlayer(playerName);
-            }
+            }*/
         }
     }
 }
