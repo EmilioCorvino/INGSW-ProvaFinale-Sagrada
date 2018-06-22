@@ -4,6 +4,8 @@ import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.network.IFromClientToServer;
 
+import java.util.List;
+
 public class SocketFromClientToServer implements IFromClientToServer {
     @Override
     public void login(int gameMode, String playerName) {
@@ -16,7 +18,12 @@ public class SocketFromClientToServer implements IFromClientToServer {
     }
 
     @Override
-    public void performDefaultMove(SetUpInformationUnit info) throws BrokenConnectionException {
+    public void performDefaultMove(SetUpInformationUnit infoUnit) throws BrokenConnectionException {
+
+    }
+
+    @Override
+    public void performToolCardMove(int slotID, List<SetUpInformationUnit> infoUnits) throws BrokenConnectionException {
 
     }
 

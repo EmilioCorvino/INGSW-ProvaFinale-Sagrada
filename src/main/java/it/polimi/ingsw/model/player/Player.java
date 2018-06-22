@@ -53,25 +53,11 @@ public class Player implements IPlayer {
      */
     private List<IMove> playerMoves;
 
-    /**
-     * This attribute is used to mark a player as suspended: his score will be computed but he won't be able to make any
-     * move while suspended.
-     */
-    private boolean suspended;
-
     public Player(String playerName, CommonBoard board) {
         this.playerName = playerName;
         this.board = board;
         this.score = new Score(this);
         this.playerMoves = new ArrayList<>();
-    }
-
-    public boolean isSuspended() {
-        return suspended;
-    }
-
-    public void setSuspended(boolean suspended) {
-        this.suspended = suspended;
     }
 
     public WindowPatternCard getWindowPatternCard() {

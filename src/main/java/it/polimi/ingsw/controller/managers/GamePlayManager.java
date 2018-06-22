@@ -6,6 +6,7 @@ import it.polimi.ingsw.controller.ControllerMaster;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.cards.ToolCardSlot;
+import it.polimi.ingsw.model.cards.tool.AToolCardEffect;
 import it.polimi.ingsw.model.cards.tool.ToolCard;
 import it.polimi.ingsw.model.move.DiePlacementMove;
 import it.polimi.ingsw.model.move.IMove;
@@ -39,11 +40,6 @@ public class GamePlayManager extends AGameManager {
     private final List<Commands> waitingPlayersCommands;
 
     /**
-     * Timer representing how much time each player has to complete his turn.
-     */
-    private Timer timer;
-
-    /**
      * Says if the move done is legal or not. It's set by executeMove methods and at the start of each turn.
      */
     private boolean moveLegal = true;
@@ -58,9 +54,9 @@ public class GamePlayManager extends AGameManager {
         this.currentPlayerCommands = new ArrayList<>();
 
         //Gets the tool cards commands from the model.
-        /*for(ToolCardSlot slot: controllerMaster.getCommonBoard().getToolCardSlots()) {
-            this.currentPlayerCommands.addAll(Arrays.asList(slot.getToolCard().getEffectBuilder().getEffects()));
-        }*/
+        for(ToolCardSlot slot: controllerMaster.getCommonBoard().getToolCardSlots()) {
+            this.currentPlayerCommands.add(slot.getToolCard().getCommandName());
+        }
 
         this.currentPlayerCommands.addAll(Arrays.asList(Commands.PLACEMENT, Commands.OTHER_PLAYERS_MAPS,
                 Commands.PUBLIC_OBJ_CARDS, Commands.PRIVATE_OBJ_CARD, Commands.AVAILABLE_TOOL_CARDS,
@@ -70,6 +66,10 @@ public class GamePlayManager extends AGameManager {
                 Commands.PUBLIC_OBJ_CARDS, Commands.PRIVATE_OBJ_CARD, Commands.AVAILABLE_TOOL_CARDS,
                 Commands.ROUND_TRACK, Commands.LOGOUT));
     }
+
+//----------------------------------------------------------
+//                    GAME-PLAY FLOW METHODS
+//----------------------------------------------------------
 
     /**
      * Starts a round, preparing the turn order.
@@ -108,8 +108,7 @@ public class GamePlayManager extends AGameManager {
     }
 
     /**
-     * This method manages the turn of the current player.
-     *
+     * This method starts the turn of a player, sending the correct {@link Commands} to him and the waiting players.
      * @param currentPlayerTurn the turn of the current player.
      */
     private void startTurn(Turn currentPlayerTurn) {
@@ -156,7 +155,7 @@ public class GamePlayManager extends AGameManager {
      *             to said {@link Player}.
      */
     private void startTimer(Turn turn) {
-        this.timer = new Timer();
+        Timer timer = new Timer();
 
         //Back up value.
         long timeOut = BACK_UP_TIMER;
@@ -170,7 +169,7 @@ public class GamePlayManager extends AGameManager {
         }
         SagradaLogger.log(Level.INFO, turn.getPlayer().getPlayerName() + " turn timer is started");
 
-        this.timer.schedule(new TimerTask() {
+        timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 SagradaLogger.log(Level.WARNING, turn.getPlayer().getPlayerName() + " turn timer is expired");
@@ -227,14 +226,25 @@ public class GamePlayManager extends AGameManager {
     }
 
     /**
-     * This method checks if the current player is the same one as the one making the request.
-     * @param username the color of the current player.
-     * @return true if the given color matches the color of the current player.
+     * This method is used at the start of each round to move all remaining dice in the
+     * {@link it.polimi.ingsw.model.die.containers.DiceDraftPool} to the space on the
+     * {@link it.polimi.ingsw.model.die.containers.RoundTrack} corresponding to the current round.
      */
-    private boolean isRequestFromCurrentPlayer(String username) {
-        Player player = super.getControllerMaster().getGameState().getCurrentPlayer();
-        return username.equals(player.getPlayerName());
+    private void moveRemainingDiceFromDraftPoolToRoundTrack(GameState gameState, CommonBoard board) {
+        if(!board.getDraftPool().getAvailableDice().isEmpty()) {
+            board.getRoundTrack().setRoundToBeUpdated(gameState.getActualRound() - 1);
+            board.getRoundTrack().createCopy();
+            int actualDraftSize = board.getDraftPool().getAvailableDice().size();
+            for(int i = 0; i < actualDraftSize; i++) {
+                board.getRoundTrack().addDie(board.getDraftPool().getAvailableDice().remove(0));
+            }
+            board.getRoundTrack().overwriteOriginal();
+        }
     }
+
+//----------------------------------------------------------
+//                    CLIENT REQUESTS METHODS
+//----------------------------------------------------------
 
     /**
      * This method is used to perform a standard {@link DiePlacementMove}. It can handle weird situations in which a
@@ -284,6 +294,61 @@ public class GamePlayManager extends AGameManager {
                     "passaggio al giocatore successivo...\n");
         }
     }
+
+    public void performToolCardMove(int slotID, List<SetUpInformationUnit> infoUnits, String playerName) {
+        GameState gameState = super.getControllerMaster().getGameState();
+        IFromServerToClient currentPlayerClient =
+                super.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
+
+        //Checks if the request comes from the current player. If not, shows the player the commands of a waiting player.
+        //This is just a security measure, it should not be possible to be in this situation.
+        this.handleIllegalStateRequests(playerName);
+
+        if(!gameState.getCurrentTurn().isTurnCompleted()) {
+
+            //If the player has already used a Tool Card, tells him and shows him a new appropriate list of commands.
+            if(gameState.getCurrentTurn().isToolCardUsed()) {
+                List<Commands> filteredCommands = this.filterTools(this.currentPlayerCommands);
+                try {
+                    currentPlayerClient.showNotice("\nHai già usato una Carta Strumento in questo turno! Puoi ancora " +
+                            "piazzare un dado, visualizzare informazioni della plancia, oppure passare.\n");
+                    currentPlayerClient.showCommand(filteredCommands);
+                } catch (BrokenConnectionException e) {
+                    SagradaLogger.log(Level.SEVERE, "Connection with the client crashed while using a Tool Card", e);
+                    //todo super.getControllerMaster().suspendPlayer(playerName);
+                }
+            } else {
+                ToolCard card = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).getToolCard();
+                for(int i = 0; i < card.getCardEffects().size(); i++) {
+                    if(this.isMoveLegal()) {
+                        card.getCardEffects().get(i).executeMove(this, infoUnits.get(i));
+                    }
+                }
+
+                //Checks if the executeMove has been successful or not, and modifies the state of the turn accordingly.
+                this.checkAndResolveToolMoveLegality(gameState, currentPlayerClient, slotID);
+            }
+        } else {
+            this.endTurn("\nHai già effettuato tutte le operazioni possibili in un turno, " +
+                    "passaggio al giocatore successivo...\n");
+        }
+    }
+
+    /**
+     * Lets the player on duty pass his turn, then starts the next one.
+     * @param playerName player wanting to end his turn.
+     */
+    public void moveToNextTurn(String playerName) {
+        this.handleIllegalStateRequests(playerName);
+
+        GameState gameState = super.getControllerMaster().getGameState();
+        gameState.getCurrentTurn().setPassed(true);
+        this.endTurn("\nHai scelto di passare il turno.\n");
+    }
+
+//----------------------------------------------------------
+//                    SERVER RESPONSE METHODS
+//----------------------------------------------------------
 
     /**
      * Shows the result of the default placement move to the player on duty and the waiting players.
@@ -344,6 +409,28 @@ public class GamePlayManager extends AGameManager {
         }
     }
 
+//----------------------------------------------------------
+//                    UTILITY METHODS
+//----------------------------------------------------------
+
+    public boolean isMoveLegal() {
+        return moveLegal;
+    }
+
+    public void setMoveLegal(boolean moveLegal) {
+        this.moveLegal = moveLegal;
+    }
+
+    /**
+     * This method checks if the current player is the same one as the one making the request.
+     * @param username the color of the current player.
+     * @return true if the given color matches the color of the current player.
+     */
+    private boolean isRequestFromCurrentPlayer(String username) {
+        Player player = super.getControllerMaster().getGameState().getCurrentPlayer();
+        return username.equals(player.getPlayerName());
+    }
+
     /**
      * This method filters the list of {@link Commands} in input, removing all the ones related to the placement,
      * including {@link ToolCard}s.
@@ -381,18 +468,6 @@ public class GamePlayManager extends AGameManager {
     }
 
     /**
-     * Lets the player on duty pass his turn, then starts the next one.
-     * @param playerName player wanting to end his turn.
-     */
-    public void moveToNextTurn(String playerName) {
-        this.handleIllegalStateRequests(playerName);
-
-        GameState gameState = super.getControllerMaster().getGameState();
-        gameState.getCurrentTurn().setPassed(true);
-        this.endTurn("\nHai scelto di passare il turno.\n");
-    }
-
-    /**
      * This method is a security measure: if a request which doesn't come from the player on duty arrives, it handles it
      * by showing the player sending it the commands he is allowed to use.
      * If the request arrive regularly, this method does nothing.
@@ -412,28 +487,20 @@ public class GamePlayManager extends AGameManager {
         }
     }
 
-    /**
-     * This method is used at the start of each round to move all remaining dice in the
-     * {@link it.polimi.ingsw.model.die.containers.DiceDraftPool} to the space on the
-     * {@link it.polimi.ingsw.model.die.containers.RoundTrack} corresponding to the current round.
-     */
-    private void moveRemainingDiceFromDraftPoolToRoundTrack(GameState gameState, CommonBoard board) {
-        if(!board.getDraftPool().getAvailableDice().isEmpty()) {
-            board.getRoundTrack().setRoundToBeUpdated(gameState.getActualRound() - 1);
-            board.getRoundTrack().createCopy();
-            int actualDraftSize = board.getDraftPool().getAvailableDice().size();
-            for(int i = 0; i < actualDraftSize; i++) {
-                board.getRoundTrack().addDie(board.getDraftPool().getAvailableDice().remove(0));
+    private void checkAndResolveToolMoveLegality(GameState gameState, IFromServerToClient currentPlayerClient, int slotID) {
+        if(this.isMoveLegal()) {
+            gameState.getCurrentTurn().setToolCardUsed(true);
+            gameState.getCurrentTurn().setToolSlotUsed(slotID);
+        } else {
+            gameState.getCurrentTurn().setToolCardUsed(false);
+            try {
+                currentPlayerClient.showNotice("\nLa mossa non è andata a buon fine, digita 'aiuto' per " +
+                        "visualizzare nuovamente i comandi a te disponibili.");
+            } catch (BrokenConnectionException e) {
+                SagradaLogger.log(Level.SEVERE, "Connection with the client crashed while using a " +
+                        "Tool Card", e);
+                //todo super.getControllerMaster().suspendPlayer(playerName);
             }
-            board.getRoundTrack().overwriteOriginal();
         }
-    }
-
-    public boolean isMoveLegal() {
-        return moveLegal;
-    }
-
-    public void setMoveLegal(boolean moveLegal) {
-        this.moveLegal = moveLegal;
     }
 }
