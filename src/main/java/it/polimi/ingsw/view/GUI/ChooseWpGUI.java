@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.GUI;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -198,13 +199,15 @@ public class ChooseWpGUI extends VBox {
     }
 
 
-
-
     public void formatMapsContainer() {
 
         VBox cell0 = new VBox();
         cell0.setSpacing(20);
         cell0.setPadding(new Insets(5, 30, 5, 30));
+        cell0.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> handleOnMapSelection(cell0));
+        cell0.addEventHandler(MouseEvent.MOUSE_EXITED, e -> cell0.setStyle("-fx-background-color: transparent"));
+        cell0.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> handleChosenMap(cell0));
+
         WpGui wp0 = this.maps.get(0);
 
         cell0.getChildren().addAll(wp0.getIdMap(), wp0.getGlassWindow(), wp0.getDifficulty());
@@ -216,12 +219,20 @@ public class ChooseWpGUI extends VBox {
         WpGui wp1 = this.maps.get(1);
         cell1.setSpacing(20);
 
+        cell1.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> handleOnMapSelection(cell1));
+        cell1.addEventHandler(MouseEvent.MOUSE_EXITED, e -> cell1.setStyle("-fx-background-color: transparent"));
+        cell1.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> handleChosenMap(cell1));
+
         cell1.getChildren().addAll(wp1.getIdMap(), wp1.getGlassWindow(), wp1.getDifficulty());
         this.gridMaps.add(cell1, 1, 0);
 
         VBox cell2 = new VBox();
         WpGui wp2 = this.maps.get(2);
         cell2.setSpacing(20);
+
+        cell2.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> handleOnMapSelection(cell2));
+        cell2.addEventHandler(MouseEvent.MOUSE_EXITED, e -> cell2.setStyle("-fx-background-color: transparent"));
+        cell2.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> handleChosenMap(cell2));
 
         cell2.getChildren().addAll(wp2.getIdMap(), wp2.getGlassWindow(), wp2.getDifficulty());
         cell2.setPadding(new Insets(5, 30, 5, 30));
@@ -231,9 +242,36 @@ public class ChooseWpGUI extends VBox {
         WpGui wp3 = this.maps.get(3);
         cell3.setSpacing(20);
 
+        cell3.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> handleOnMapSelection(cell3));
+        cell3.addEventHandler(MouseEvent.MOUSE_EXITED, e -> cell3.setStyle("-fx-background-color: transparent"));
+        cell3.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> handleChosenMap(cell3));
+
         cell3.getChildren().addAll(wp3.getIdMap(), wp3.getGlassWindow(), wp3.getDifficulty());
         cell3.setPadding(new Insets(5, 30, 5, 30));
         this.gridMaps.add(cell3, 1, 1);
+    }
+
+    public void handleOnMapSelection(VBox chosenMap) {
+        chosenMap.setMinWidth(240);
+        chosenMap.setMinHeight(240);
+        chosenMap.setStyle("-fx-background-color: rgba(102, 217, 255, 0.3)");
+    }
+
+    public void handleChosenMap(VBox map) {
+
+        WpGui chosen = new WpGui();
+        chosen.setIdMap((Label)map.getChildren().get(0));
+        chosen.setGlassWindow((GridPane)map.getChildren().get(1));
+        chosen.setDifficulty((Label)map.getChildren().get(2));
+        this.setChosenWp(chosen);
+
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setContentText("hai scelto la mappa! Attendi che anche gli altri giocatori lo facciano.");
+        alert.showAndWait();
+        alert.setOnCloseRequest(event -> alert.hide());
+
     }
 
 
