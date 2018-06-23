@@ -43,6 +43,9 @@ public class GamePlayManager extends AGameManager {
      */
     private boolean moveLegal = true;
 
+    private static final String EVERYTHING_DONE = "\nHai già effettuato tutte le operazioni possibili in un turno, " +
+            "passaggio al giocatore successivo...\n";
+
     /**
      * This constructor, other than setting the controller master, also initializes the lists of commands to be shown
      * both to the player on duty ({@link #currentPlayerCommands}) and to the others ({@link #waitingPlayersCommands}).
@@ -255,75 +258,42 @@ public class GamePlayManager extends AGameManager {
      */
     public void performDefaultMove(SetUpInformationUnit info, String playerName) {
         GameState gameState = super.getControllerMaster().getGameState();
-        IFromServerToClient currentPlayerClient =
-                super.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
 
         //Checks if the request comes from the current player. If not, shows the player the commands of a waiting player.
         //This is just a security measure, it should not be possible to be in this situation.
-        this.handleIllegalStateRequests(playerName);
+        if(this.handleIllegalStateRequests(playerName)) {
+            return;
+        }
 
         if(!gameState.getCurrentTurn().isTurnCompleted()) {
 
             //If the player has already placed a die, tells him and shows him a new appropriate list of commands.
             if (gameState.getCurrentTurn().isDiePlaced()) {
                 List<Commands> filteredCommands = this.filterPlacement(this.currentPlayerCommands);
-                try {
-                    currentPlayerClient.showNotice("\nHai già effettuato un piazzamento in questo turno! Puoi ancora " +
-                            "usare una Carta Strumento che non lo implichi, visualizzare informazioni della plancia" +
-                            " oppure passare.\n");
-                    currentPlayerClient.showCommand(filteredCommands);
-                } catch (BrokenConnectionException e) {
-                    SagradaLogger.log(Level.SEVERE, "Connection with the client crashed while performing a " +
-                            "default move", e);
-                    //todo super.getControllerMaster().suspendPlayer(playerName);
-                }
+                super.sendNotification("\nHai già effettuato un piazzamento in questo turno! Puoi ancora " +
+                        "usare una Carta Strumento che non lo implichi, visualizzare informazioni della plancia" +
+                        " oppure passare.\n");
+                super.sendCommands(filteredCommands);
             } else {
                 IMove move = new DiePlacementMove();
                 move.executeMove(this, info);
-
-                //Checks if the executeMove has been successful or not, and modifies the state of the turn accordingly.
-                if(this.isMoveLegal()) {
-                    gameState.getCurrentTurn().setDiePlaced(true);
-                    gameState.getCurrentTurn().incrementDieCount();
-                    try {
-                        currentPlayerClient.showNotice("\nPiazzamento effettuato!");
-                    } catch (BrokenConnectionException e) {
-                        SagradaLogger.log(Level.SEVERE, "Connection with the client crashed while " +
-                                "updating his commands", e);
-                        //todo super.getControllerMaster().suspendPlayer(playerName);
-                    }
-
-                    //Checks if the player has done everything he could. If he did, ends his turn; if not, shows him the commands.
-                    //The commands shown are relative to what the player can still do.
-                    if(!gameState.isCurrentTurnOver()) {
-                        List<Commands> filteredCommands = this.filterPlacement(this.currentPlayerCommands);
-                        try {
-                            currentPlayerClient.showNotice("\nPuoi ancora usare una Carta Strumento che" +
-                                    " non implichi un piazzamento, visualizzare informazioni della plancia oppure passare.\n");
-                            currentPlayerClient.showCommand(filteredCommands);
-                        } catch (BrokenConnectionException e) {
-                            SagradaLogger.log(Level.SEVERE, "Connection with the client crashed while " +
-                                    "updating his commands", e);
-                            //todo super.getControllerMaster().suspendPlayer(playerName);
-                        }
-                    } else {
-                        this.endTurn("\nHai già effettuato tutte le operazioni possibili in un turno, " +
-                                "passaggio al giocatore successivo...\n");
-                    }
-                } else {
-                    gameState.getCurrentTurn().setDiePlaced(false);
-                }
+                this.checkAndResolveDefaultMoveLegality(gameState);
             }
         } else {
-            this.endTurn("\nHai già effettuato tutte le operazioni possibili in un turno, " +
-                    "passaggio al giocatore successivo...\n");
+            this.endTurn(EVERYTHING_DONE);
         }
     }
 
+    /**
+     * This method is used to use a {@link ToolCard}. It can handle weird situations in which a player tries to perform
+     * moves not in his turn.
+     * It also checks if a Tool Card has already been used and in that case it shows to the player new suitable
+     * {@link Commands}.
+     * @param infoUnits list of objects containing the information needed to update the model.
+     * @param playerName name of the player trying to perform the move.
+     */
     public void performToolCardMove(int slotID, List<SetUpInformationUnit> infoUnits, String playerName) {
         GameState gameState = super.getControllerMaster().getGameState();
-        IFromServerToClient currentPlayerClient =
-                super.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
 
         //Checks if the request comes from the current player. If not, shows the player the commands of a waiting player.
         //This is just a security measure, it should not be possible to be in this situation.
@@ -333,17 +303,14 @@ public class GamePlayManager extends AGameManager {
 
             //If the player has already used a Tool Card, tells him and shows him a new appropriate list of commands.
             if(gameState.getCurrentTurn().isToolCardUsed()) {
-                List<Commands> filteredCommands = this.filterTools(this.currentPlayerCommands);
-                try {
-                    currentPlayerClient.showNotice("\nHai già usato una Carta Strumento in questo turno! Puoi ancora " +
-                            "piazzare un dado, visualizzare informazioni della plancia, oppure passare.\n");
-                    currentPlayerClient.showCommand(filteredCommands);
-                } catch (BrokenConnectionException e) {
-                    SagradaLogger.log(Level.SEVERE, "Connection with the client crashed while using a Tool Card", e);
-                    //todo super.getControllerMaster().suspendPlayer(playerName);
-                }
+                List<Commands> filteredCommands = this.filterTools(this.currentPlayerCommands, gameState);
+                super.sendNotification("\nHai già usato una Carta Strumento in questo turno! Puoi ancora " +
+                        "piazzare un dado (se la carta usata non implicava un piazzamento), visualizzare informazioni " +
+                        "della plancia, oppure passare.\n");
+                super.sendCommands(filteredCommands);
             } else {
                 ToolCard card = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).getToolCard();
+                this.setMoveLegal(true);
                 for(int i = 0; i < infoUnits.size(); i++) {
                     if(this.isMoveLegal()) {
                         card.getCardEffects().get(i).executeMove(this, infoUnits.get(i));
@@ -423,7 +390,7 @@ public class GamePlayManager extends AGameManager {
 //                    UTILITY METHODS
 //----------------------------------------------------------
 
-    public boolean isMoveLegal() {
+    private boolean isMoveLegal() {
         return moveLegal;
     }
 
@@ -454,7 +421,7 @@ public class GamePlayManager extends AGameManager {
 
         //Remove the commands of each tool card drafted that implies a placement.
         for(ToolCardSlot slot: super.getControllerMaster().getCommonBoard().getToolCardSlots()) {
-            if(slot.checkIfCardImpliesPlacement()) {
+            if(slot.doesCardImplyPlacement()) {
                 modifiedCurrentPlayerList.remove(slot.getToolCard().getCommandName());
             }
         }
@@ -465,13 +432,22 @@ public class GamePlayManager extends AGameManager {
     /**
      * This method filters the list of {@link Commands} in input, removing all the ones related to {@link ToolCard}s.
      * @param listToFilter list needing to be filtered.
+     * @param gameState
+     *
      */
-    private List<Commands> filterTools(List<Commands> listToFilter) {
+    private List<Commands> filterTools(List<Commands> listToFilter, GameState gameState) {
         List<Commands> modifiedCurrentPlayerList = new ArrayList<>(listToFilter);
+        int slotID = gameState.getCurrentTurn().getToolSlotUsed();
+        ToolCardSlot slotUsed = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID);
 
         //Remove tool cards commands
         for(ToolCardSlot slot: super.getControllerMaster().getCommonBoard().getToolCardSlots()) {
             modifiedCurrentPlayerList.remove(slot.getToolCard().getCommandName());
+        }
+
+        //Removes the placement command if the card already used implied it.
+        if(gameState.getCurrentTurn().isToolCardUsed() && slotUsed.doesCardImplyPlacement()) {
+            modifiedCurrentPlayerList.remove(Commands.PLACEMENT);
         }
 
         return modifiedCurrentPlayerList;
@@ -482,8 +458,9 @@ public class GamePlayManager extends AGameManager {
      * by showing the player sending it the commands he is allowed to use.
      * If the request arrive regularly, this method does nothing.
      * @param playerName name of the player sending the request.
+     * @return {@code true} if the request is illegal, {@code false} otherwise.
      */
-    private void handleIllegalStateRequests(String playerName) {
+    private boolean handleIllegalStateRequests(String playerName) {
         IFromServerToClient client = super.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
         if(!isRequestFromCurrentPlayer(playerName)) {
             try {
@@ -494,14 +471,44 @@ public class GamePlayManager extends AGameManager {
                         "default move", e);
                 //todo super.getControllerMaster().suspendPlayer(playerName);
             }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * This methods is used to check if the placement should be made effective or not and, if so, updates all the values
+     * related to the move.
+     * @param gameState object representing the state of the game.
+     */
+    private void checkAndResolveDefaultMoveLegality(GameState gameState) {
+        //Checks if the executeMove has been successful or not, and modifies the state of the turn accordingly.
+        if(this.isMoveLegal()) {
+            gameState.getCurrentTurn().setDiePlaced(true);
+            gameState.getCurrentTurn().incrementDieCount();
+            super.sendNotification("\nPiazzamento effettuato!\n");
+
+            //Checks if the player has done everything he could. If he did, ends his turn; if not, shows him the commands.
+            //The commands shown are relative to what the player can still do.
+            if(!gameState.isCurrentTurnOver()) {
+                List<Commands> filteredCommands = this.filterPlacement(this.currentPlayerCommands);
+                super.sendNotification("\nPuoi ancora usare una Carta Strumento che" +
+                        " non implichi un piazzamento, visualizzare informazioni della plancia oppure passare.\n");
+                super.sendCommands(filteredCommands);
+            } else {
+                this.endTurn(EVERYTHING_DONE);
+            }
+        } else {
+            gameState.getCurrentTurn().setDiePlaced(false);
         }
     }
 
     /**
-     *
-     * @param gameState
-     * @param slotID
-     * @param toolCard
+     * This methods is used to check if the tool card should be made effective or not and, if so, updates all the values
+     * related to the move.
+     * @param gameState object representing the state of the game.
+     * @param slotID ID of the slot where the {@link ToolCard} is in.
+     * @param toolCard {@link ToolCard} that has been used.
      */
     private void checkAndResolveToolMoveLegality(GameState gameState, int slotID, ToolCard toolCard) {
         if(this.isMoveLegal()) {
@@ -510,17 +517,36 @@ public class GamePlayManager extends AGameManager {
             int toolCost = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).getCost();
             int oldPlayerFavorTokens = gameState.getCurrentPlayer().getFavorTokens();
             gameState.getCurrentPlayer().setFavorTokens(oldPlayerFavorTokens - toolCost);
-            if(toolCard.impliesPlacement()) {
-                gameState.getCurrentTurn().setDiePlaced(true);
-                gameState.getCurrentTurn().incrementDieCount();
+
+            if(super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).getCost() == 1) {
+                super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).setCost(2);
+                super.broadcastNotification("\nIl costo della Carta Strumento " + toolCard.getName() + " è aumentato a "
+                        + super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).getCost() +
+                        " Segnalini Favore.\n");
             }
+
             if(gameState.getCurrentTurn().getDieCount() >= 2) {
                 //Considers the second turn of the same player in the round.
                 Turn turn = gameState.getTurnOrder().get(gameState.getTurnOrder().size() - gameState.getCurrentPlayerTurnIndex() - 1);
                 turn.setPassed(true);
+                super.sendNotification("\nRicorda che salterai il tuo prossimo turno in questo round!\n");
             }
-            if(super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).getCost() == 1) {
-                super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).setCost(2);
+
+            if(toolCard.impliesPlacement()) {
+                gameState.getCurrentTurn().setDiePlaced(true);
+                gameState.getCurrentTurn().incrementDieCount();
+                super.sendNotification("\nLa Carta Strumento che hai usato implicava un piazzamento");
+            }
+
+            //Checks if the player has done everything he could. If he did, ends his turn; if not, shows him the
+            //commands still available to him.
+            if(!gameState.isCurrentTurnOver()) {
+                List<Commands> filteredCommands = this.filterTools(this.currentPlayerCommands, gameState);
+                super.sendNotification("\nPuoi ancora effettuare un piazzamento, visualizzare informazioni della " +
+                        "plancia oppure passare.\n");
+                super.sendCommands(filteredCommands);
+            } else {
+                this.endTurn(EVERYTHING_DONE);
             }
         } else {
             gameState.getCurrentTurn().setToolCardUsed(false);

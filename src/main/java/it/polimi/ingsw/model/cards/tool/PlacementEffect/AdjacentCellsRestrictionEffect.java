@@ -37,7 +37,7 @@ public class AdjacentCellsRestrictionEffect extends PlacementRestrictionEffect {
                 //tell the controller to show results
                 return;
             } else {
-                manager.showNotification("Il dado non rispetta le restrizioni di piazzamento di questa cella.");
+                manager.sendNotification("Il dado non rispetta le restrizioni di piazzamento di questa cella.");
                 wp.setDesiredCell(new Cell(info.getSourceIndex() / WindowPatternCard.getMaxCol(), info.getSourceIndex() % WindowPatternCard.getMaxCol()));
                 wp.addDie(chosenDie);
                 return;

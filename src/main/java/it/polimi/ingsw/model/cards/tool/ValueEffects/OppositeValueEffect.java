@@ -40,7 +40,7 @@ public class OppositeValueEffect extends AValueEffect {
         computeOppositeValue(die);
 
         if(!super.checkExistingCellsToUse(manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard(), die)) {
-            manager.showNotification("Non ci sono celle disponibili in cui il dado può essere piazzato");
+            manager.sendNotification("Non ci sono celle disponibili in cui il dado può essere piazzato");
             return;
         }
 
