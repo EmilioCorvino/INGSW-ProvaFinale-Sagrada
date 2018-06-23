@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.model.Color;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -96,7 +95,7 @@ public class WpGui extends Pane {
                     }
                         //restriction of value
                         if(info.getColor().equals(Color.BLANK) && info.getValue() !=0) {
-                            TextField number = new TextField(info.getValue() + "");
+                            Label number = new Label(info.getValue() + "");
                             //number.getStyleClass().add("text-label");
                             pane.getChildren().add(number);
                             number.getStyleClass().add("-fx-background-color: rgba(0, 0, 51, 0.3)");
