@@ -13,8 +13,9 @@ import java.util.List;
 public class ColorPlacementRestrictionEffect extends PlacementRestrictionEffect {
 
     /**
-     *  @param manager the controller.
-     * @param setUpInformationUnit*/
+     * @param manager the controller.
+     * @param setUpInformationUnit
+     */
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInformationUnit) {
 
@@ -24,7 +25,7 @@ public class ColorPlacementRestrictionEffect extends PlacementRestrictionEffect 
         if(setUpInformationUnit.getColor().equals(chosenDie.getDieColor()))
             super.executeMove(manager, setUpInformationUnit);
         else {
-            manager.showNotification("Il dado della mappa scelto deve essere dello stesso colore del dado scelto dalla round track");
+            manager.sendNotification("Il dado della mappa scelto deve essere dello stesso colore del dado scelto dalla round track");
         }
 
     }

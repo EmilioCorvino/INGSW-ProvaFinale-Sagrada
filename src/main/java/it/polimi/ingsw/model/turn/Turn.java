@@ -18,6 +18,11 @@ public class Turn {
     private boolean diePlaced;
 
     /**
+     * This attribute is the counter of how many dice have been placed within the turn.
+     */
+    private int dieCount;
+
+    /**
      * This attribute indicates if the current player has used a tool card.
      */
     private boolean toolCardUsed;
@@ -29,8 +34,9 @@ public class Turn {
 
     /**
      * This attribute indicates the id of the slot containing the tool card the player has used.
+     * -1 is flag value: the indexes should go from 0 to 3.
      */
-    private int toolSlotUsed;
+    private int toolSlotUsed = -1;
 
     Turn(Player player) {
         this.player = player;
@@ -50,6 +56,14 @@ public class Turn {
 
     public void setDiePlaced(boolean diePlaced) {
         this.diePlaced = diePlaced;
+    }
+
+    public int getDieCount() {
+        return this.dieCount;
+    }
+
+    public void incrementDieCount() {
+        this.dieCount++;
     }
 
     public boolean isToolCardUsed() {

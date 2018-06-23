@@ -46,9 +46,6 @@ public class ToolCard implements IToolCard {
     @SerializedName("turn")
     private int availableTurn;
 
-
-
-
     /**
      * This boolean is used to understand whether hte card implies a die placement or not.
      */

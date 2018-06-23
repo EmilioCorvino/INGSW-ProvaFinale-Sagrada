@@ -8,7 +8,7 @@ import javafx.scene.layout.HBox;
 /**
  * This class manages the inputs from user which are: username and type game desired.
  */
-public class LoginUsernameGameModeGUI extends RootLoginGui {
+public class LoginUsernameGameModeGUI extends LoginRootGUI {
 
     /**
      * This is the attribute where all the necessary information to validate the connection is saved.
@@ -50,8 +50,8 @@ public class LoginUsernameGameModeGUI extends RootLoginGui {
 
         loginFormGUI.getGoAhead().addEventHandler(MouseEvent.MOUSE_CLICKED, e -> handleGoAhead());
 
-        this.addEventHandler(MouseEvent.MOUSE_PRESSED, e ->  super.pressedWindow(e));
-        this.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> super.draggedWindow(e));
+        this.addEventHandler(MouseEvent.MOUSE_PRESSED, this::pressedWindow);
+        this.addEventHandler(MouseEvent.MOUSE_DRAGGED, this ::draggedWindow);
 
 
     }

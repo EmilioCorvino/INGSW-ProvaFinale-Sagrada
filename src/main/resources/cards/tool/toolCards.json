@@ -126,10 +126,9 @@
     "description": "Dopo il tuo primo turno scegli immediatamente un altro dado. Salta il tuo secondo turno in questo round.",
     "color": "RED",
     "turn": 0,
-    "placement": true,
+    "placement": false,
     "effect": {
       "names": [
-        "placement",
         "placement"
       ],
       "source": "DraftPool",
@@ -147,7 +146,7 @@
     "placement": true,
     "effect": {
       "names": [
-        "adjiacentRestrictionEffect"
+        "adjacentRestrictionEffect"
       ],
       "source": "DraftPool",
       "destination": "None",
@@ -181,8 +180,7 @@
     "placement": true,
     "effect": {
       "names": [
-        "swapDraftPoolDiceBag",
-        "chooseValueEffect"
+        "swapDraftPoolDiceBag"
       ],
       "source": "DraftPool",
       "destination": "None",
@@ -196,9 +194,10 @@
     "description": "Muovi fino a due dadi dello stesso colore di un solo dado sul tracciato dei round. Devi rispettare tutte le restrizioni di piazzamento.",
     "color": "BLUE",
     "turn": 2,
-    "placement": true,
+    "placement": false,
     "effect": {
       "names": [
+        "colorPlacementRestrictionEffect",
         "colorPlacementRestrictionEffect"
       ],
       "source": "Window pattern card",

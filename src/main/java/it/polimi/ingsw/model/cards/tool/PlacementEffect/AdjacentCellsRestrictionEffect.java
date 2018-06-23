@@ -12,7 +12,7 @@ import it.polimi.ingsw.model.player.Player;
  * to a non empty cell. If the desired cell is adjacent to a non empty cell the placement has to respect all the
  * default restriction.
  */
-public class AdjiacentCellsRestrictionEffect extends PlacementRestrictionEffect {
+public class AdjacentCellsRestrictionEffect extends PlacementRestrictionEffect {
 
     /**
      * This method manages the particular placement ignoring the adjacent cells restriction.
@@ -34,12 +34,14 @@ public class AdjiacentCellsRestrictionEffect extends PlacementRestrictionEffect 
         if(!wp.checkAdjacentCells(desiredCell, gwCopy)) {
             if(wp.checkOwnRuleSet(chosenDie, desiredCell, gwCopy)) {
                 wp.addDie(chosenDie);
+
                 //tell the controller to show results
                 return;
             } else {
-                manager.showNotification("Il dado non rispetta le restrizioni di piazzamento di questa cella.");
+                manager.sendNotification(wp.getErrorMessage() + "digita aiuto per vedere i tuoi comandi");
                 wp.setDesiredCell(new Cell(info.getSourceIndex() / WindowPatternCard.getMaxCol(), info.getSourceIndex() % WindowPatternCard.getMaxCol()));
                 wp.addDie(chosenDie);
+                wp.removeDie(info.getSourceIndex());
                 return;
             }
         }

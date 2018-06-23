@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.managers;
 
+import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.ControllerMaster;
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Die;
@@ -36,9 +37,10 @@ public abstract class AGameManager {
      * This method notifies the client any type of issue may occur in each request.
      * @param message the message to tell.
      */
-    public void showNotification(String message) {
-        Player player = this.getControllerMaster().getGameState().getCurrentPlayer();
-        IFromServerToClient iFromServerToClient = this.getControllerMaster().getConnectedPlayers().get(player.getPlayerName()).getClient();
+    public void sendNotification(String message) {
+        String playerName = this.getControllerMaster().getGameState().getCurrentPlayer().getPlayerName();
+        IFromServerToClient iFromServerToClient =
+                this.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
         try {
             iFromServerToClient.showNotice(message);
         } catch (BrokenConnectionException br) {
@@ -59,6 +61,21 @@ public abstract class AGameManager {
             } catch (BrokenConnectionException e) {
                 //todo super.getControllerMaster().suspendPlayer(player.getPlayerName);
             }
+        }
+    }
+
+    /**
+     * This method sends to the client the commands available.
+     * @param commands {@link Commands} to send.
+     */
+    void sendCommands(List<Commands> commands) {
+        String playerName = this.getControllerMaster().getGameState().getCurrentPlayer().getPlayerName();
+        IFromServerToClient iFromServerToClient =
+                this.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
+        try {
+            iFromServerToClient.showCommand(commands);
+        } catch (BrokenConnectionException br) {
+            //todo super.getControllerMaster().suspendPlayer(player.getPlayerName());
         }
     }
 

@@ -20,8 +20,8 @@ public class GUIMain extends Application {
     public void start(Stage primaryStage) {
         setStage(primaryStage);
         guiView = new GUIView();
-        RootLoginGui root = new LoginIpAddrTypeConnGUI();
-        scene = new Scene(root);
+        LoginRootGUI root = new LoginIpAddrTypeConnGUI();
+        scene = new Scene(root, 1200, 710);
 
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         scene.setFill(Color.TRANSPARENT);

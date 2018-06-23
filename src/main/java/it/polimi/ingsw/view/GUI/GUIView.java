@@ -30,9 +30,13 @@ public class GUIView implements IViewMaster {
 
     private Parent listPlayers;
 
+    private ChooseWpGUI chooseWpGUI;
+
+
 
     public GUIView() {
         listPlayers = new ShowPlayersGUI();
+        chooseWpGUI = new ChooseWpGUI();
 
     }
 
@@ -89,22 +93,39 @@ public class GUIView implements IViewMaster {
                 }
             }
         System.out.println("connection ok");
-        GUIMain.getScene().setRoot(this.listPlayers);
+
     }
 
 
     @Override
     public void showRoom(List<String> players) {
-        Platform.runLater(() -> ((ShowPlayersGUI) this.listPlayers).showPlayers(players));
+        GUIMain.getScene().setRoot(this.listPlayers);
+        Platform.runLater(() ->
+            ((ShowPlayersGUI) this.listPlayers).showPlayers(players));
     }
 
     @Override
     public void showPrivateObjective(int idPrivateObj) {
 
+        Platform.runLater(() -> {
+            GUIMain.getScene().setRoot(this.chooseWpGUI);
+            this.chooseWpGUI.assignPrivateObjectiveCard(idPrivateObj);
+        });
+
     }
 
     @Override
     public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) {
+       Platform.runLater(() -> {
+           for(int i=0; i<listWp.size();i++) {
+               WpGui wp = new WpGui();
+               wp.constructMap(listWp.get(i));
+               this.chooseWpGUI.getMaps().add(wp);
+               System.out.println("mappa " +i+ " added");
+           }
+
+           this.chooseWpGUI.formatMapsContainer();
+       });
 
     }
 

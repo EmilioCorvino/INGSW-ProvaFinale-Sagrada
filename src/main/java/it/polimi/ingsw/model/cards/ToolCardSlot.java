@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.model.cards.tool.ToolCard;
 
 /**
- * A class that contains a {@link it.polimi.ingsw.model.cards.tool.IToolCard}.
+ * A class that contains a {@link it.polimi.ingsw.model.cards.tool.ToolCard}.
  * Card slots are fetched instead of the card itself, to be sure the card is available in the specific match.
  */
 public class ToolCardSlot {
@@ -19,19 +19,16 @@ public class ToolCardSlot {
      */
     private int cost;
 
-    private int slotId;
-
-    public ToolCardSlot(ToolCard card, int slotId) {
+    public ToolCardSlot(ToolCard card) {
         this.toolCard = card;
-        this.slotId = slotId;
     }
 
     /**
      * This method checks if a player has enough favor tokens to use the tool card contained in this slot.
      * @param playerTokens the favor tokens to check.
-     * @return true if the condition is satisfied, false otherwise.
+     * @return {@code true} if the condition is satisfied, {@code false} otherwise.
      */
-    public boolean checkTokens(int playerTokens) {
+    public boolean canCardBePaid(int playerTokens) {
         return playerTokens >= this.cost;
     }
 
@@ -39,7 +36,7 @@ public class ToolCardSlot {
      * This method checks if the tool card contained inside implies a die placement.
      * @return true if it implies a die placement, false otherwise.
      */
-    public boolean checkIfCardImpliesPlacement() {
+    public boolean doesCardImplyPlacement() {
         return this.toolCard.impliesPlacement();
     }
 
@@ -49,10 +46,6 @@ public class ToolCardSlot {
 
     public int getCost() {
         return cost;
-    }
-
-    public int getSlotId() {
-        return slotId;
     }
 
     public void setCost(int cost) {
