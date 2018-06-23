@@ -34,8 +34,9 @@ public class Turn {
 
     /**
      * This attribute indicates the id of the slot containing the tool card the player has used.
+     * -1 is flag value: the indexes should go from 0 to 3.
      */
-    private int toolSlotUsed;
+    private int toolSlotUsed = -1;
 
     Turn(Player player) {
         this.player = player;

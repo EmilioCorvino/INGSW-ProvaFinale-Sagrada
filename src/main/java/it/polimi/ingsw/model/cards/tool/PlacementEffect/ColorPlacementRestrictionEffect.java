@@ -14,7 +14,8 @@ public class ColorPlacementRestrictionEffect extends PlacementRestrictionEffect 
 
     /**
      * @param manager the controller.
-     * @param setUpInformationUnit*/
+     * @param setUpInformationUnit
+     */
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInformationUnit) {
 

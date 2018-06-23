@@ -19,19 +19,16 @@ public class ToolCardSlot {
      */
     private int cost;
 
-    private int slotId;
-
-    public ToolCardSlot(ToolCard card, int slotId) {
+    public ToolCardSlot(ToolCard card) {
         this.toolCard = card;
-        this.slotId = slotId;
     }
 
     /**
      * This method checks if a player has enough favor tokens to use the tool card contained in this slot.
      * @param playerTokens the favor tokens to check.
-     * @return true if the condition is satisfied, false otherwise.
+     * @return {@code true} if the condition is satisfied, {@code false} otherwise.
      */
-    public boolean checkTokens(int playerTokens) {
+    public boolean canCardBePaid(int playerTokens) {
         return playerTokens >= this.cost;
     }
 
@@ -49,10 +46,6 @@ public class ToolCardSlot {
 
     public int getCost() {
         return cost;
-    }
-
-    public int getSlotId() {
-        return slotId;
     }
 
     public void setCost(int cost) {
