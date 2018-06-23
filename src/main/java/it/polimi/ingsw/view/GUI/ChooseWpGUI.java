@@ -47,18 +47,18 @@ public class ChooseWpGUI extends VBox {
 
     private List<WpGui> maps;
 
-    private WpGui prova;
+    private WpGui chosenWp;
 
-    public WpGui getProva() {
-        return prova;
+    public WpGui getChosenWp() {
+        return chosenWp;
     }
 
-    public void setProva(WpGui prova) {
-        this.prova = prova;
+    public void setChosenWp(WpGui chosenWp) {
+        this.chosenWp = chosenWp;
     }
 
     public ChooseWpGUI() {
-        prova = new WpGui();
+        chosenWp = new WpGui();
         mainContainer = new VBox();
         secondContainer = new HBox();
 
@@ -90,6 +90,7 @@ public class ChooseWpGUI extends VBox {
         this.getChildren().add(mainContainer);
 
         formatWindow();
+
 
 
         this.addEventHandler(MouseEvent.MOUSE_PRESSED, e ->  pressedWindow(e));
@@ -209,14 +210,14 @@ public class ChooseWpGUI extends VBox {
         cell0.getChildren().addAll(wp0.getIdMap(), wp0.getGlassWindow(), wp0.getDifficulty());
         this.gridMaps.add(cell0, 0, 0);
 
+
         VBox cell1 = new VBox();
         cell1.setPadding(new Insets(5, 30, 5, 30));
         WpGui wp1 = this.maps.get(1);
         cell1.setSpacing(20);
 
         cell1.getChildren().addAll(wp1.getIdMap(), wp1.getGlassWindow(), wp1.getDifficulty());
-        this.gridMaps.add(cell1, 1, 0);
-
+        this.gridMaps.add(new Pane(), 1, 0);
 
         VBox cell2 = new VBox();
         WpGui wp2 = this.maps.get(2);
@@ -234,6 +235,26 @@ public class ChooseWpGUI extends VBox {
         cell3.setPadding(new Insets(5, 30, 5, 30));
         this.gridMaps.add(cell3, 1, 1);
     }
+
+
+    public void chooseWpHandler() {
+
+        for(int i=0; i< 2; i++)
+            for(int j=0; j<2; j++) {
+                this.gridMaps.add(new Pane(), j, i);
+                Pane pane = (Pane)this.gridMaps.getChildren().get(3 * i + j);
+                pane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> pane.setStyle("-fx-background-color: rgba(102, 217, 255, 0.4)"));
+                pane.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+                    pane.setStyle("-fx-background-color: rgba(102, 217, 255, 0.4)");
+                    //WpGui wp = this.
+
+
+                });
+            }
+    }
+
+    //public void chosenWpHandler(int )
+
 
 
 
