@@ -66,7 +66,7 @@ public class ChooseWpGUI extends VBox {
 
 
         this.setPrefSize(1200, 650);
-       // this.mainContainer.setPrefSize(700, 500);
+        // this.mainContainer.setPrefSize(700, 500);
 
 
 
@@ -93,8 +93,8 @@ public class ChooseWpGUI extends VBox {
 
 
 
-        this.addEventHandler(MouseEvent.MOUSE_PRESSED, e ->  pressedWindow(e));
-        this.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> draggedWindow(e));
+        this.addEventHandler(MouseEvent.MOUSE_PRESSED, this:: pressedWindow);
+        this.addEventHandler(MouseEvent.MOUSE_DRAGGED, this :: draggedWindow);
     }
 
     protected void pressedWindow(MouseEvent event) {
@@ -204,7 +204,7 @@ public class ChooseWpGUI extends VBox {
 
         VBox cell0 = new VBox();
         cell0.setSpacing(20);
-        cell0.setPadding(new Insets(5, 20, 5, 30));
+        cell0.setPadding(new Insets(5, 30, 5, 30));
         WpGui wp0 = this.maps.get(0);
 
         cell0.getChildren().addAll(wp0.getIdMap(), wp0.getGlassWindow(), wp0.getDifficulty());
@@ -217,7 +217,7 @@ public class ChooseWpGUI extends VBox {
         cell1.setSpacing(20);
 
         cell1.getChildren().addAll(wp1.getIdMap(), wp1.getGlassWindow(), wp1.getDifficulty());
-        this.gridMaps.add(new Pane(), 1, 0);
+        this.gridMaps.add(cell1, 1, 0);
 
         VBox cell2 = new VBox();
         WpGui wp2 = this.maps.get(2);
@@ -235,28 +235,6 @@ public class ChooseWpGUI extends VBox {
         cell3.setPadding(new Insets(5, 30, 5, 30));
         this.gridMaps.add(cell3, 1, 1);
     }
-
-
-    public void chooseWpHandler() {
-
-        for(int i=0; i< 2; i++)
-            for(int j=0; j<2; j++) {
-                this.gridMaps.add(new Pane(), j, i);
-                Pane pane = (Pane)this.gridMaps.getChildren().get(3 * i + j);
-                pane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> pane.setStyle("-fx-background-color: rgba(102, 217, 255, 0.4)"));
-                pane.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-                    pane.setStyle("-fx-background-color: rgba(102, 217, 255, 0.4)");
-                    //WpGui wp = this.
-
-
-                });
-            }
-    }
-
-    //public void chosenWpHandler(int )
-
-
-
 
 
 

@@ -121,6 +121,7 @@ public class GUIView implements IViewMaster {
                WpGui wp = new WpGui();
                wp.constructMap(listWp.get(i));
                this.chooseWpGUI.getMaps().add(wp);
+               System.out.println("mappa " +i+ " added");
            }
 
            this.chooseWpGUI.formatMapsContainer();
