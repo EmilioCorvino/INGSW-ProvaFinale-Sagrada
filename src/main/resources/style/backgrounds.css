@@ -46,7 +46,7 @@
     -fx-background-color: rgba(102, 217, 255, 0.3) ;
     -fx-text-fill: white;
     -fx-border-width: 1px 1px 1px 1px ;
-    -fx-border-color: rgba(102, 255, 224, 0.5) ;
+    -fx-border-color: rgba(102, 255, 224, 0.5);
     -fx-font: 13px Verdana;
     -fx-border-radius: 10;
     -fx-background-radius: 10;
@@ -55,3 +55,24 @@
 .button-close:hover {
     -fx-background-color: rgba(102, 217, 255, 0.4) ;
 }
+
+.panel-glass {
+    -fx-background-color: linear-gradient(to top left, rgba(230, 242, 255, 0.2), rgba(230, 255, 255, 0.2) );
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 10, 10);
+    -fx-background-radius: 10;
+
+}
+
+.map-background {
+    -fx-background-color: rgba(0, 0, 51, 0.3);
+    -fx-border-width: 1px 1px 1px 1px ;
+    -fx-border-color: rgba(0, 0, 51, 0.5);
+}
+
+
+
+
+
+
+
+

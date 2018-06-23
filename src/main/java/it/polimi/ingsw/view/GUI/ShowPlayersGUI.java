@@ -63,6 +63,11 @@ public class ShowPlayersGUI extends BorderPane {
     public void showPlayers(List<String> players) {
 
         for(int i=0; i<players.size(); i++) {
+
+            Label name = new Label( players.get(i));
+            name.getStyleClass().add("text-label");
+            playersList.getChildren().add(name);
+            /*
             if(!(playersList.getChildren().isEmpty())) {
                 if( i>0 && !((Label)this.playersList.getChildren().get(i-1)).getText().equals(players.get(i))) {
                     Label name = new Label( players.get(i));
@@ -74,6 +79,7 @@ public class ShowPlayersGUI extends BorderPane {
                 name.getStyleClass().add("text-label");
                 playersList.getChildren().add(name);
             }
+            */
         }
     }
 
