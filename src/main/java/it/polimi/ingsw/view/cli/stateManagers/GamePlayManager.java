@@ -62,7 +62,13 @@ public class GamePlayManager{
         return Integer.parseInt(row) * WindowPatternCardView.MAX_COL + Integer.parseInt(col);
     }
 
-    public int choseRound(){
+    /**
+     * This method fill a set up info unit with the information of the position of the die chosen in the round track
+     * @param roundTrack: an instance of the round track
+     * @param informationUnit: the information unit to fill.
+     */
+    public void choseRoundDie(RoundTrackView roundTrack, SetUpInformationUnit informationUnit){
+
         String idRound = inputOutputManager.askInformation("Inserisci il numero del round in cui c'e' il dado desiderato: ");
         boolean validRound = Pattern.matches("\\d*", idRound);
 
@@ -71,10 +77,9 @@ public class GamePlayManager{
             validRound = Pattern.matches("\\d*", idRound);
         }
 
-        return Integer.parseInt(idRound)-1;
-    }
+        int roundChosen = Integer.parseInt(idRound);
+        informationUnit.setExtraParam(roundChosen);
 
-    public int choseRoundDie(RoundTrackView roundTrack, int roundChosen){
         String idDie = inputOutputManager.askInformation("Inserisci la posizione del dado desiderato (0-"+ roundTrack.getAvailableDice().get(roundChosen).size()+"): ");
         boolean validId = Pattern.matches("\\d*", idDie);
 
@@ -83,7 +88,9 @@ public class GamePlayManager{
             validId = Pattern.matches("\\d*", idDie);
         }
 
-        return Integer.parseInt(idDie);
+        int dieChosen = Integer.parseInt(idDie);
+        informationUnit.setOffset(dieChosen);
+
     }
 
     /**
