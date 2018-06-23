@@ -9,7 +9,7 @@ import javafx.scene.layout.HBox;
 /**
  * This class manages the inputs from user which are: ip address and type connection desired.
  */
-public class LoginIpAddrTypeConnGUI extends RootLoginGui {
+public class LoginIpAddrTypeConnGUI extends LoginRootGUI {
 
     /**
      * This attribute is the container to take and display inputs tu the users.

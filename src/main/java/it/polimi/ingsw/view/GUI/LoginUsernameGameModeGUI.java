@@ -8,7 +8,7 @@ import javafx.scene.layout.HBox;
 /**
  * This class manages the inputs from user which are: username and type game desired.
  */
-public class LoginUsernameGameModeGUI extends RootLoginGui {
+public class LoginUsernameGameModeGUI extends LoginRootGUI {
 
     /**
      * This is the attribute where all the necessary information to validate the connection is saved.

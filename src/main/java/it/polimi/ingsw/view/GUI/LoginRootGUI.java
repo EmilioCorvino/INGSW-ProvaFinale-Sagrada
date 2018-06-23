@@ -6,12 +6,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 
 
-public class RootLoginGui extends BorderPane {
+public class LoginRootGUI extends BorderPane {
 
     private double xOffset = 0;
     private double yOffset = 0;
 
-    public RootLoginGui() {
+    public LoginRootGUI() {
 
 
     }
