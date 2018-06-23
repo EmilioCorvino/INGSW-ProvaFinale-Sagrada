@@ -22,12 +22,12 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
     @Override
     public void defaultPlacement(){
         SetUpInformationUnit setInfoUnit = new SetUpInformationUnit();
-        WindowPatternCardView wp = this.getView().getPlayer().getWp();
+        WindowPatternCardView wp = super.view.getPlayer().getWp();
 
-        this.getView().getGamePlayManager().getPlacementInfo(getView().getCommonBoard().getDraftPool(),wp, setInfoUnit);
+        super.view.getGamePlayManager().getPlacementInfo(super.view.getCommonBoard().getDraftPool(),wp, setInfoUnit);
 
         try {
-            this.getServer().performDefaultMove(setInfoUnit);
+            super.server.performDefaultMove(setInfoUnit);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during normal placement",e);
         }
@@ -35,43 +35,43 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
 
     @Override
     public void showAllWp(){
-        this.getInputOutputManager().print(this.getView().getCommonBoard().allWpToString());
+        super.inputOutputManager.print(super.view.getCommonBoard().allWpToString());
     }
 
     @Override
     public void showPublicObj(){
-        this.getInputOutputManager().print(this.getView().getCommonBoard().pubObjToString());
+        super.inputOutputManager.print(super.view.getCommonBoard().pubObjToString());
     }
 
     @Override
     public void showTool(){
-        this.getInputOutputManager().print(this.getView().getCommonBoard().toolCardToString());
+        super.inputOutputManager.print(super.view.getCommonBoard().toolCardToString());
     }
 
     @Override
     public void showPrivateObj(){
-        this.getInputOutputManager().print(this.getView().getPlayer().privateObjToString());
+        super.inputOutputManager.print(super.view.getPlayer().privateObjToString());
     }
 
     @Override
     public void showRoundTrack(){
-        this.getInputOutputManager().print(this.getView().getCommonBoard().getRoundTrack().roundTrackToString());
+        super.inputOutputManager.print(super.view.getCommonBoard().getRoundTrack().roundTrackToString());
     }
 
     @Override
     public void chooseWp() {
-        this.getView().choseWpId();
+        super.view.choseWpId();
     }
 
     @Override
     public void printCommands(){
-        getView().printCommands();
+        super.view.printCommands();
     }
 
     @Override
     public void moveToNextTurn(){
         try {
-            this.getServer().moveToNextTurn();
+            super.server.moveToNextTurn();
         } catch (BrokenConnectionException e) {
             SagradaLogger.log(Level.SEVERE, "Connection broken while moving to next turn", e);
         }
@@ -80,12 +80,12 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
     @Override
     public void exitGame(){
         try{
-            this.getServer().exitGame();
+            super.server.exitGame();
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during log out", e);
         }
-        this.getView().getScannerThread().stopExecution();
-        this.getInputOutputManager().print("\nDISCONNESSIONE AVVENUTA CON SUCCESSO");
+        super.view.getScannerThread().stopExecution();
+        super.inputOutputManager.print("\nDISCONNESSIONE AVVENUTA CON SUCCESSO");
         System.exit(0);
     }
 
@@ -93,15 +93,15 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
     public void newGame(){
         this.resetClient();
         try {
-            this.getServer().startNewGameRequest();
+            super.server.startNewGameRequest();
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during new game request.");
         }
     }
 
     private void resetClient(){
-        this.getView().getPlayer().resetPlayer();
-        this.getView().getCommonBoard().resetCommonBoard();
+        super.view.getPlayer().resetPlayer();
+        super.view.getCommonBoard().resetCommonBoard();
     }
 
 }
