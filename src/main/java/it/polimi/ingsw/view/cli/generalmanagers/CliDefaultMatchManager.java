@@ -1,10 +1,11 @@
+
 package it.polimi.ingsw.view.cli.generalmanagers;
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
-import it.polimi.ingsw.view.cli.CliCommunicationManager;
 import it.polimi.ingsw.view.IDefaultMatchManager;
+import it.polimi.ingsw.view.cli.CliCommunicationManager;
 import it.polimi.ingsw.view.cli.CliView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 
@@ -13,6 +14,7 @@ import java.util.logging.Level;
 /**
  * This class contains all the methods to run all the possible commands in the game.
  */
+
 public class CliDefaultMatchManager extends CliCommunicationManager implements IDefaultMatchManager {
 
     public CliDefaultMatchManager(CliView view){
@@ -105,3 +107,4 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
     }
 
 }
+

@@ -50,8 +50,8 @@ public class LoginUsernameGameModeGUI extends LoginRootGUI {
 
         loginFormGUI.getGoAhead().addEventHandler(MouseEvent.MOUSE_CLICKED, e -> handleGoAhead());
 
-        this.addEventHandler(MouseEvent.MOUSE_PRESSED, e ->  super.pressedWindow(e));
-        this.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> super.draggedWindow(e));
+        this.addEventHandler(MouseEvent.MOUSE_PRESSED, this::pressedWindow);
+        this.addEventHandler(MouseEvent.MOUSE_DRAGGED, this ::draggedWindow);
 
 
     }

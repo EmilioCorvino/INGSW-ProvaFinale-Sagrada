@@ -7,6 +7,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShowPlayersGUI extends BorderPane {
@@ -17,6 +18,8 @@ public class ShowPlayersGUI extends BorderPane {
     private VBox mainContainer;
 
     private VBox playersList;
+
+    private List<String> knownPlayer;
 
     public ShowPlayersGUI() {
 
@@ -32,8 +35,10 @@ public class ShowPlayersGUI extends BorderPane {
         customMainContainer();
         customPlayersList();
 
-        this.addEventHandler(MouseEvent.MOUSE_PRESSED, e ->  pressedWindow(e));
-        this.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> draggedWindow(e));
+        this.addEventHandler(MouseEvent.MOUSE_PRESSED, this:: pressedWindow);
+        this.addEventHandler(MouseEvent.MOUSE_DRAGGED, this:: draggedWindow);
+
+        this.knownPlayer = new ArrayList<>();
     }
 
     public void customMainContainer() {
@@ -61,26 +66,18 @@ public class ShowPlayersGUI extends BorderPane {
 
 
     public void showPlayers(List<String> players) {
-
-        for(int i=0; i<players.size(); i++) {
-
-            Label name = new Label( players.get(i));
-            name.getStyleClass().add("text-label");
-            playersList.getChildren().add(name);
-            /*
-            if(!(playersList.getChildren().isEmpty())) {
-                if( i>0 && !((Label)this.playersList.getChildren().get(i-1)).getText().equals(players.get(i))) {
-                    Label name = new Label( players.get(i));
-                    name.getStyleClass().add("text-label");
-                    playersList.getChildren().add(name);
-                }
-            } else {
-                Label name = new Label( players.get(i));
-                name.getStyleClass().add("text-label");
-                playersList.getChildren().add(name);
+        players.forEach(name -> {
+            if(!knownPlayer.contains(name)){
+                putLabel(name);
+                knownPlayer.add(name);
             }
-            */
-        }
+        });
+    }
+
+    private void putLabel(String username){
+        Label name = new Label(username);
+        name.getStyleClass().add("text-label");
+        playersList.getChildren().add(name);
     }
 
     protected void pressedWindow(MouseEvent event) {

@@ -32,11 +32,9 @@ public class GUIView implements IViewMaster {
 
     private ChooseWpGUI chooseWpGUI;
 
-    private ChangeSceneManager changeSceneManager;
 
 
     public GUIView() {
-        changeSceneManager = new ChangeSceneManager();
         listPlayers = new ShowPlayersGUI();
         chooseWpGUI = new ChooseWpGUI();
 

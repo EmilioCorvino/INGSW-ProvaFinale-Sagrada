@@ -155,7 +155,6 @@ public class ChooseWpGUI extends VBox {
         this.header.setSpacing(900);
         this.header.getChildren().get(0).getStyleClass().add("title");
         this.header.getChildren().get(1).getStyleClass().add("button-style");
-        //this.header.setPadding(new Insets(20, 50, 0, 50));
 
         this.mainContainer.setPadding(new Insets(20, 25, 20, 25));
         this.mainContainer.getStyleClass().add("VBox");
@@ -184,9 +183,7 @@ public class ChooseWpGUI extends VBox {
         this.mapsContainer.setMinHeight(250);
         this.mapsContainer.setMinWidth(750);
 
-        //this.gridMaps.setAlignment(Pos.CENTER);
         this.gridMaps.setPadding(new Insets(0, 0, 0 , 600));
-
     }
 
     public void wpToShow(List<SimplifiedWindowPatternCard> listToFlow) {
