@@ -363,13 +363,11 @@ public class CliView implements IViewMaster {
         this.commonBoard.getToolCardViews().get(idSlot).setCost(cost);
     }
 
-    /**
-     * This method notice a message to the user.
-     * @param notice: the message that need to be printed.
-     */
+
     @Override
-    public void showNotice(String notice){
-        inputOutputManager.print(notice);
+    public void showDie(SetUpInformationUnit informationUnit){
+        this.gamePlayManager.showDie(informationUnit);
+
     }
 
 //----------------------------------------------------------
@@ -391,16 +389,21 @@ public class CliView implements IViewMaster {
 //----------------------------------------------------------
 //                  GENERAL METHODS
 //----------------------------------------------------------
+    /**
+     * This method notice a message to the user.
+     * @param notice: the message that need to be printed.
+     */
+    @Override
+    public void showNotice(String notice){
+        inputOutputManager.print(notice);
+    }
+
     public IFromClientToServer getServer() {
         return server;
     }
 
     public void setServer(IFromClientToServer server) {
         this.server = server;
-    }
-
-    public SetUpManager getSetUpManager() {
-        return setUpManager;
     }
 
     public GamePlayManager getGamePlayManager() {
@@ -415,7 +418,7 @@ public class CliView implements IViewMaster {
         return player;
     }
 
-    public InputOutputManager getInputOutputManager() {
+    InputOutputManager getInputOutputManager() {
         return inputOutputManager;
     }
 

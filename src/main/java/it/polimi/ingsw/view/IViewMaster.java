@@ -46,13 +46,15 @@ public interface IViewMaster {
 
     void updateFavTokenPlayer(int nFavorToken);
 
-    void showNotice(String notice);
+    void updateToolCost(int idSlot, int cost);
+
+    void showDie(SetUpInformationUnit informationUnit);
 
     IFromClientToServer getServer();
-
-    void updateToolCost(int idSlot, int cost);
 
     void showRank(String[] playerNames, int[] scores);
 
     void forceLogOut();
+
+    void showNotice(String notice);
 }

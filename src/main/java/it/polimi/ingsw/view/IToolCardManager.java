@@ -14,6 +14,8 @@ public interface IToolCardManager {
 
     void tool6();
 
+    void tool6Extra();
+
     void tool7();
 
     void tool8();
@@ -23,6 +25,8 @@ public interface IToolCardManager {
     void tool10();
 
     void tool11();
+
+    void tool11Extra();
 
     void tool12();
 

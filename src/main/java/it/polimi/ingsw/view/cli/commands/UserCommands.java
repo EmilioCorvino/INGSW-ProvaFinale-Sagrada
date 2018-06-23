@@ -19,6 +19,8 @@ public enum UserCommands {
     TOOL10("Tampone diamantato"),
     TOOL11("Diluente per pasta salda"),
     TOOL12("Taglierina manuale"),
+    EXTRA_TOOL6("Piazza su mappa"),
+    EXTRA_TOOL11("Scegli valore"),
     MAPPE_ALTRI_GIOCATORI("Mappe altri giocatori"),
     OBBIETTIVI_PUBBLICI("Obiettivi pubblici"),
     OBIETTIVO_PRIVATO("Obiettivo Privato"),

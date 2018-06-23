@@ -130,6 +130,12 @@ public interface IFromServerToClient {
     void updateToolCost(int idSlot, int cost) throws BrokenConnectionException;
 
     /**
+     * This method show die information sent by the server after a die extraction.
+     * @param informationUnit: the container of the info of the die.
+     */
+    void showDie(SetUpInformationUnit informationUnit) throws BrokenConnectionException;
+
+    /**
      * This method shows to each player the rank of the match.
      * @param playerNames names of the players in the match.
      * @param scores scores achieved by each player in the match.
@@ -137,14 +143,14 @@ public interface IFromServerToClient {
     void showRank(String[] playerNames, int[] scores) throws BrokenConnectionException;
 
     /**
+     * Forces the client to log out.
+     */
+    void forceLogOut() throws BrokenConnectionException;
+
+    /**
      * This method sends a message to the user.
      * @param notice: the message that need to be printed.
      */
     void showNotice(String notice) throws BrokenConnectionException;
-
-    /**
-     * Forces the client to log out.
-     */
-    void forceLogOut() throws BrokenConnectionException;
 
 }

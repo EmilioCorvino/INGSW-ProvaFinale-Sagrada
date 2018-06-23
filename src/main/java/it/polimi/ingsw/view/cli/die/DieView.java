@@ -27,7 +27,7 @@ public class DieView {
         return dieValue;
     }
 
-    String toStringDie(){
+    public String toStringDie(){
         return "\033["+this.dieColor.getColorNumber()+";1m"+dieValue+"\033[0m";
         /*
         return ansi().fg(Ansi.Color.valueOf(dieColor.toString())) + "" + dieValue + ansi().fg(Ansi.Color.DEFAULT);

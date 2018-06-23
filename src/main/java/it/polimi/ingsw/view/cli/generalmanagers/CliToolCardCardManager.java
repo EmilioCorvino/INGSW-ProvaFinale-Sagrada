@@ -14,6 +14,7 @@ import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.regex.Pattern;
 
 public class CliToolCardCardManager extends CliCommunicationManager implements IToolCardManager {
 
@@ -177,8 +178,22 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
 
     }
 
-    //todo
-    public void tool6Extra(){}
+
+    @Override
+    public void tool6Extra(){
+        SetUpInformationUnit infoUnit = super.view.getGamePlayManager().getExtraInfo();
+
+        super.inputOutputManager.print("ATTENZIONE: Se non puoi piazzarlo in nessun cella, scegline una errata.");
+        super.inputOutputManager.print(this.wpPlayer.wpToString());
+        infoUnit.setDestinationIndex(super.view.getGamePlayManager().choseCellWp());
+
+        /*todo, server method missing
+        try{
+        } catch (BrokenConnectionException e){
+            SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 6");
+        }
+        */
+    }
 
     @Override
     public void tool7(){
@@ -278,9 +293,31 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         }
 
     }
+    
 
-    //todo
-    public void tool11Extra(){}
+    @Override
+    public void tool11Extra(){
+        SetUpInformationUnit infoUnit = super.view.getGamePlayManager().getExtraInfo();
+
+        String value = super.inputOutputManager.askInformation("Scegli valore tra (1-6): ");
+        boolean validValue = Pattern.matches("\\d*", value);
+
+        while(!validValue || Integer.parseInt(value) < 1 || Integer.parseInt(value) >6){
+            value = super.inputOutputManager.askInformation("Errore: inserire numero tra (1-6): ");
+            validValue = Pattern.matches("\\d*", value);
+        }
+
+        super.inputOutputManager.print("ATTENZIONE: Se non puoi piazzarlo in nessun cella, scegline una errata.");
+        super.inputOutputManager.print(this.wpPlayer.wpToString());
+        infoUnit.setDestinationIndex(super.view.getGamePlayManager().choseCellWp());
+
+        /*todo, server method missing
+        try{
+        } catch (BrokenConnectionException e){
+            SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 11");
+        }
+        */
+    }
 
     @Override
     public void tool12() {

@@ -16,6 +16,8 @@ public class GamePlayManager{
 
     private InputOutputManager inputOutputManager;
 
+    private SetUpInformationUnit extraInfo;
+
     public GamePlayManager(InputOutputManager inputOutputManager){
         this.inputOutputManager = inputOutputManager;
     }
@@ -106,10 +108,12 @@ public class GamePlayManager{
         unit.setDestinationIndex(this.choseCellWp());
     }
 
+    // DA CANCELLARE
     /**
      * This method allow the player to choose the command.
      * @return the command chosen.
      */
+    /*
     public int showCommand(){
         inputOutputManager.print("\nE' il tuo turno!");
 
@@ -122,6 +126,7 @@ public class GamePlayManager{
 
         return commandChosen;
     }
+    */
     
     public void addOnWp(WindowPatternCardView wp, SetUpInformationUnit unit){
         wp.getGlassWindow()[unit.getDestinationIndex()/WindowPatternCardView.MAX_COL][unit.getDestinationIndex() % WindowPatternCardView.MAX_COL].setDie(new DieView(unit.getColor(), unit.getValue()));
@@ -145,6 +150,18 @@ public class GamePlayManager{
 
     public void removeOnRoundTrack(RoundTrackView roundTrack, SetUpInformationUnit unit){
         roundTrack.getAvailableDice().get(unit.getSourceIndex()).remove(unit.getOffset());
+    }
+
+    public void showDie(SetUpInformationUnit infoUnit){
+        this.extraInfo = infoUnit;
+        if (infoUnit.getValue() != 0)
+            inputOutputManager.print("Il dado rilanciato e': " + (new DieView(infoUnit.getColor(), infoUnit.getValue())).toStringDie());
+        else
+            inputOutputManager.print("Il dado estratto e' di colore: \033[" + infoUnit.getColor().getColorNumber() + "m" + infoUnit.getColor().getId() + "\033[0m");
+    }
+
+    public SetUpInformationUnit getExtraInfo() {
+        return extraInfo;
     }
 
 }

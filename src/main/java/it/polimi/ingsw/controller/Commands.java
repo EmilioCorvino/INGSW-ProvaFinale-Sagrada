@@ -21,6 +21,8 @@ public enum Commands {
     TOOL10,
     TOOL11,
     TOOL12,
+    EXTRA_TOOL6,
+    EXTRA_TOOL11,
     OTHER_PLAYERS_MAPS,
     PUBLIC_OBJ_CARDS,
     PRIVATE_OBJ_CARD,

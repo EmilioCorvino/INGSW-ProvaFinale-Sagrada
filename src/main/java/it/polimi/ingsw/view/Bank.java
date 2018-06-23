@@ -56,6 +56,8 @@ public class Bank {
         availableCommands.put(Commands.TOOL10, toolCardManager::tool10);
         availableCommands.put(Commands.TOOL11, toolCardManager::tool11);
         availableCommands.put(Commands.TOOL12, toolCardManager::tool12);
+        availableCommands.put(Commands.EXTRA_TOOL6, toolCardManager::tool6Extra);
+        availableCommands.put(Commands.EXTRA_TOOL11, toolCardManager::tool11Extra);
         availableCommands.put(Commands.OTHER_PLAYERS_MAPS, defaultMatchManager::showAllWp);
         availableCommands.put(Commands.PUBLIC_OBJ_CARDS, defaultMatchManager::showPublicObj);
         availableCommands.put(Commands.PRIVATE_OBJ_CARD, defaultMatchManager::showPrivateObj);
@@ -84,6 +86,8 @@ public class Bank {
         commandMap.put(Commands.TOOL10, UserCommands.TOOL10);
         commandMap.put(Commands.TOOL11, UserCommands.TOOL11);
         commandMap.put(Commands.TOOL12, UserCommands.TOOL12);
+        commandMap.put(Commands.EXTRA_TOOL6, UserCommands.EXTRA_TOOL6);
+        commandMap.put(Commands.EXTRA_TOOL11, UserCommands.EXTRA_TOOL11);
         commandMap.put(Commands.OTHER_PLAYERS_MAPS, UserCommands.MAPPE_ALTRI_GIOCATORI);
         commandMap.put(Commands.PUBLIC_OBJ_CARDS, UserCommands.OBBIETTIVI_PUBBLICI);
         commandMap.put(Commands.PRIVATE_OBJ_CARD, UserCommands.OBIETTIVO_PRIVATO);

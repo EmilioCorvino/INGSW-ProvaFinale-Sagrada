@@ -100,7 +100,7 @@ public class ClientImplementation implements IFromServerToClient {
 
     @Override
     public void removeOnRoundTrack(SetUpInformationUnit info){
-        view.removeOnDraft(info);
+        view.removeOnRoundTrack(info);
     }
 
     @Override
@@ -112,8 +112,16 @@ public class ClientImplementation implements IFromServerToClient {
     public void updateToolCost(int idSlot, int cost){ view.updateToolCost(idSlot,cost);}
 
     @Override
+    public void showDie(SetUpInformationUnit informationUnit){ view.showDie(informationUnit);}
+
+    @Override
     public void showRank(String[] playerNames, int[] scores) {
         view.showRank(playerNames, scores);
+    }
+
+    @Override
+    public void forceLogOut() {
+        view.forceLogOut();
     }
 
     @Override
@@ -121,9 +129,5 @@ public class ClientImplementation implements IFromServerToClient {
         view.showNotice(notice);
     }
 
-    @Override
-    public void forceLogOut() {
-        view.forceLogOut();
-    }
 
 }
