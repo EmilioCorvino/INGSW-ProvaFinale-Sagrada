@@ -141,11 +141,15 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         int toolSlot = this.getSlotId(Commands.TOOL5);
         this.printToolDescription(toolSlot);
 
+        super.inputOutputManager.print(this.wpPlayer.wpToString());
+
         super.inputOutputManager.print(commonBoard.getDraftPool().diceDraftToString());
         infoUnit.setSourceIndex(super.view.getGamePlayManager().choseDraftDie(commonBoard.getDraftPool()));
 
         super.inputOutputManager.print(commonBoard.getRoundTrack().roundTrackToString());
         super.view.getGamePlayManager().choseRoundDie(this.commonBoard.getRoundTrack(), infoUnit);
+
+        infoUnit.setDestinationIndex(super.view.getGamePlayManager().choseCellWp());
 
         units.add(infoUnit);
 
@@ -189,6 +193,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
 
         /*todo, server method missing
         try{
+            performRestrictedPlacement(SetUpInformationUnit infoUnit);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 6");
         }
@@ -307,12 +312,15 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
             validValue = Pattern.matches("\\d+", value);
         }
 
+        infoUnit.setValue(Integer.parseInt(value));
+
         super.inputOutputManager.print("ATTENZIONE: Se non puoi piazzarlo in nessun cella, scegline una errata.");
         super.inputOutputManager.print(this.wpPlayer.wpToString());
         infoUnit.setDestinationIndex(super.view.getGamePlayManager().choseCellWp());
 
-        /*todo, server method missing
+        /*
         try{
+            performRestrictedPlacement(SetUpInformationUnit infoUnit);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 11");
         }

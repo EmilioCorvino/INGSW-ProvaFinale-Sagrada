@@ -36,7 +36,7 @@ public class CliView implements IViewMaster {
     private Bank bank;
 
     /**
-     * The map populate a ran time, with all the possible command usable in a stage of the game.
+     * The map populate a run time, with all the possible command usable in a stage of the game.
      */
     private Map<String, Runnable> functions;
 
