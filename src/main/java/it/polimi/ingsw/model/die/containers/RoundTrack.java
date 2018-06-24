@@ -46,17 +46,28 @@ public class RoundTrack extends ADieContainer {
         return this.availableDiceCopy.get(roundToBeUpdated).remove(index);
     }
 
+    /**
+     * This method create a copy of the objects contained.
+     */
     @Override
     public void createCopy() {
         this.availableDiceCopy = new ArrayList<>();
         roundTrackCopy(this.availableDice, this.availableDiceCopy);
     }
 
+    /**
+     * This method move the copy of the objects contained to the original.
+     */
     @Override
     public void overwriteOriginal() {
         roundTrackCopy(this.availableDiceCopy, this.availableDice);
     }
 
+    /**
+     * This method copy the source in the destination.
+     * @param source: the original component.
+     * @param destination: the final component
+     */
     private void roundTrackCopy(List<ArrayList<Die>> source, List<ArrayList<Die>> destination){
         destination.clear();
         for( int i = 0; i< 10; i++)

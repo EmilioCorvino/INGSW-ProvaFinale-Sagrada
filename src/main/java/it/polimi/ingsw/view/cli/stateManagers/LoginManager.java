@@ -53,7 +53,10 @@ public class LoginManager {
      * @return the username.
      */
     public String getUserName(){
-        return inputOutputManager.askInformation("\nInserire l'username: ");
+        String userName = inputOutputManager.askInformation("\nInserire l'username: ");
+        while(userName.equals(""))
+            userName = inputOutputManager.askInformation("Errore: Devi inserire per forza almeno un carattere, inserisci nuovamente: ");
+        return userName;
     }
 
     /**

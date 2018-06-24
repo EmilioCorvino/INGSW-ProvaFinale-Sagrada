@@ -363,7 +363,10 @@ public class CliView implements IViewMaster {
         this.commonBoard.getToolCardViews().get(idSlot).setCost(cost);
     }
 
-
+    /**
+     * This method is used in particular tool (6, 11) to show the new die after the extraction.
+     * @param informationUnit: the container of all the info of the new die extracted.
+     */
     @Override
     public void showDie(SetUpInformationUnit informationUnit){
         this.gamePlayManager.showDie(informationUnit);
@@ -374,11 +377,19 @@ public class CliView implements IViewMaster {
 //                  END GAME STATE
 //----------------------------------------------------------
 
+    /**
+     * This method print the rank of the match.
+     * @param players: the players that played the match.
+     * @param score: the score of each ( the order of both list is the same, first element of score is associated to first element of the list of player).
+     */
     @Override
     public void showRank(String[] players, int[] score){
         endGameManager.showRank(players, score, this.player);
     }
 
+    /**
+     * This method is user by the server to force the logout in case of the user doesn't choose an option after the end of the game.
+     */
     @Override
     public void forceLogOut(){
         this.scannerThread.stopExecution();
@@ -452,13 +463,18 @@ public class CliView implements IViewMaster {
         return s;
     }
 
-
+    /**
+     * This method print all the command contained in the function map.
+     */
     public void printCommands(){
         inputOutputManager.print("\nCamandi disponibili: ");
         for (String s : functions.keySet())
             inputOutputManager.print("\t- "+s);
     }
 
+    /**
+     * This method create the bank, create the default manager and the tool card manager and populate its maps.
+     */
     private void setBank(){
         bank = new Bank();
         bank.setDefaultMatchManager(new CliDefaultMatchManager(this));

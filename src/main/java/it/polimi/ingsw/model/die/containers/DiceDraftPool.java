@@ -82,17 +82,28 @@ public class DiceDraftPool extends ADieContainer {
         return false;
     }
 
+    /**
+     * This method create a copy of the objects contained.
+     */
     @Override
     public void createCopy(){
         this.availableDiceCopy = new ArrayList<>();
         draftCopy(this.availableDice, this.availableDiceCopy);
     }
 
+    /**
+     * This method move the copy of the objects contained to the original.
+     */
     @Override
     public void overwriteOriginal(){
         draftCopy(this.availableDiceCopy, this.availableDice);
     }
 
+    /**
+     * This method copy the source in the destination.
+     * @param source: the original component.
+     * @param destination: the final component
+     */
     private void draftCopy(List<Die> source, List<Die> destination){
         destination.clear();
         for (Die d : source)

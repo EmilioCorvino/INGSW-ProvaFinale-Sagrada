@@ -57,7 +57,7 @@ public class SetUpManager {
 
         while(!validInput) {
             idChosen = inputOutputManager.askInformation("\nInserire l'id della mappa scelta: ");
-            validInput = Pattern.matches("\\d*", idChosen);
+            validInput = Pattern.matches("\\d+", idChosen);
         }
         return Integer.parseInt(idChosen);
     }
