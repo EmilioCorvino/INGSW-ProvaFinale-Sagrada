@@ -20,8 +20,6 @@ public interface IRmiClient extends Remote {
 
     void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) throws RemoteException;
 
-    void choseWpId() throws RemoteException;
-
     void showPrivateObjective(int privateObjCardId) throws RemoteException;
 
     void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool) throws RemoteException;
@@ -51,6 +49,8 @@ public interface IRmiClient extends Remote {
     void updateFavTokenPlayer(int nFavorToken) throws RemoteException;
 
     void updateToolCost(int idSlot, int cost) throws RemoteException;
+
+    void showDie(SetUpInformationUnit informationUnit) throws RemoteException;
 
     void showRank(String[] playerNames, int[] scores) throws RemoteException;
 

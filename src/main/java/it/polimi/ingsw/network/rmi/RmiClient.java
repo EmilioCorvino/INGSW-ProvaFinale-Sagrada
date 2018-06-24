@@ -38,10 +38,6 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
         this.client.showMapsToChoose(listWp);
     }
 
-    @Override
-    public void choseWpId() {
-        this.client.choseWpId();
-    }
 
     @Override
     public void showPrivateObjective(int privateObjCardId) {
@@ -116,6 +112,11 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     @Override
     public void updateToolCost(int idSlot, int cost) {
         this.client.updateToolCost(idSlot, cost);
+    }
+
+    @Override
+    public void showDie(SetUpInformationUnit informationUnit) {
+        this.client.showDie(informationUnit);
     }
 
     @Override

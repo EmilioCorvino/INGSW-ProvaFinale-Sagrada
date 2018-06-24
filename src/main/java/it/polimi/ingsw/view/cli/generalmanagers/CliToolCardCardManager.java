@@ -293,18 +293,18 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         }
 
     }
-    
+
 
     @Override
     public void tool11Extra(){
         SetUpInformationUnit infoUnit = super.view.getGamePlayManager().getExtraInfo();
 
         String value = super.inputOutputManager.askInformation("Scegli valore tra (1-6): ");
-        boolean validValue = Pattern.matches("\\d*", value);
+        boolean validValue = Pattern.matches("\\d+", value);
 
         while(!validValue || Integer.parseInt(value) < 1 || Integer.parseInt(value) >6){
             value = super.inputOutputManager.askInformation("Errore: inserire numero tra (1-6): ");
-            validValue = Pattern.matches("\\d*", value);
+            validValue = Pattern.matches("\\d+", value);
         }
 
         super.inputOutputManager.print("ATTENZIONE: Se non puoi piazzarlo in nessun cella, scegline una errata.");

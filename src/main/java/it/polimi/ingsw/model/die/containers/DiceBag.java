@@ -92,18 +92,30 @@ public class DiceBag extends ADieContainer {
         return false;
     }
 
+    /**
+     * This method create a copy of the objects contained.
+     */
     @Override
     public void createCopy(){
         this.availableDiceCopy = new ArrayList<>();
         diceBagCopy(this.availableDice, this.availableDiceCopy);
     }
 
+    /**
+     * This method move the copy of the objects contained to the original.
+     */
     @Override
     public void overwriteOriginal(){
         diceBagCopy(this.availableDiceCopy, this.availableDice);
     }
 
+    /**
+     * This method copy the source in the destination.
+     * @param source: the original component.
+     * @param destination: the final component
+     */
     private void diceBagCopy(List<Die> source, List<Die> destination){
+        destination.clear();
         for (Die d : source)
             destination.add(new Die(d.getActualDieValue(),d.getDieColor()));
     }

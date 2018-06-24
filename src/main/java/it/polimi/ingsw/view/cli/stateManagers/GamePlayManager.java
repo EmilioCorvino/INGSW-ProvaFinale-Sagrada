@@ -30,11 +30,13 @@ public class GamePlayManager{
     public int choseDraftDie(DieDraftPoolView draftPoolView){
 
         String index = inputOutputManager.askInformation("Inserisci l'indice del dado desiderato (da 0 a "+(draftPoolView.getDice().size()-1)+"): ");
-        boolean validInput = Pattern.matches("\\d*", index);
+
+        //The pattern verify if the input is correct with regular expression (\\d+ means that the user must insert a string of at least one number)
+        boolean validInput = Pattern.matches("\\d+", index);
 
         while(!validInput || Integer.parseInt(index) < 0 || Integer.parseInt(index) > draftPoolView.getDice().size()-1) {
             index = inputOutputManager.askInformation("Errore: inserire un valore tra (0-" + (draftPoolView.getDice().size() - 1) + "): ");
-            validInput = Pattern.matches("\\d*", index);
+            validInput = Pattern.matches("\\d+", index);
         }
         return Integer.parseInt(index);
     }
@@ -47,19 +49,19 @@ public class GamePlayManager{
         inputOutputManager.print("Inserisci le coordinate della cella desiderata.");
 
         String row = inputOutputManager.askInformation("Riga: ");
-        boolean validRow = Pattern.matches("\\d*", row);
+        boolean validRow = Pattern.matches("\\d+", row);
 
         while (!validRow || Integer.parseInt(row) < 0 || Integer.parseInt(row) > WindowPatternCardView.MAX_ROW - 1) {
             row = inputOutputManager.askInformation("Errore: Valore non supportato, inserire un valore tra (0-" + (WindowPatternCardView.MAX_ROW - 1) + "): ");
-            validRow = Pattern.matches("\\d*", row);
+            validRow = Pattern.matches("\\d+", row);
         }
 
         String col = inputOutputManager.askInformation("Colonna: ");
-        boolean validCol = Pattern.matches("\\d*", col);
+        boolean validCol = Pattern.matches("\\d+", col);
 
         while (!validCol || Integer.parseInt(col) < 0 || Integer.parseInt(col) > WindowPatternCardView.MAX_COL - 1) {
             col = inputOutputManager.askInformation("Errore: Valore non supportato, inserire un valore tra (0-" + (WindowPatternCardView.MAX_COL - 1) + "): ");
-            validCol = Pattern.matches("\\d*", col);
+            validCol = Pattern.matches("\\d+", col);
         }
         return Integer.parseInt(row) * WindowPatternCardView.MAX_COL + Integer.parseInt(col);
     }
@@ -72,22 +74,22 @@ public class GamePlayManager{
     public void choseRoundDie(RoundTrackView roundTrack, SetUpInformationUnit informationUnit){
 
         String idRound = inputOutputManager.askInformation("Inserisci il numero del round in cui c'e' il dado desiderato: ");
-        boolean validRound = Pattern.matches("\\d*", idRound);
+        boolean validRound = Pattern.matches("\\d+", idRound);
 
         while(!validRound || Integer.parseInt(idRound) < 0 || Integer.parseInt(idRound) > 10) {
             idRound = inputOutputManager.askInformation("Errore: Round non presente, inserire valore tra (1-10) ");
-            validRound = Pattern.matches("\\d*", idRound);
+            validRound = Pattern.matches("\\d+", idRound);
         }
 
         int roundChosen = Integer.parseInt(idRound);
         informationUnit.setExtraParam(roundChosen);
 
         String idDie = inputOutputManager.askInformation("Inserisci la posizione del dado desiderato (0-"+ roundTrack.getAvailableDice().get(roundChosen).size()+"): ");
-        boolean validId = Pattern.matches("\\d*", idDie);
+        boolean validId = Pattern.matches("\\d+", idDie);
 
         while(!validId || Integer.parseInt(idDie) < 0 || Integer.parseInt(idDie) > roundTrack.getAvailableDice().get(roundChosen).size()) {
             idDie = inputOutputManager.askInformation("Errore: indice errato, inserire indice tra (0-" + roundTrack.getAvailableDice().get(roundChosen).size() + "): ");
-            validId = Pattern.matches("\\d*", idDie);
+            validId = Pattern.matches("\\d+", idDie);
         }
 
         int dieChosen = Integer.parseInt(idDie);
@@ -152,6 +154,10 @@ public class GamePlayManager{
         roundTrack.getAvailableDice().get(unit.getSourceIndex()).remove(unit.getOffset());
     }
 
+    /**
+     * This method is used in particular tool (6, 11) to show the new die after the extraction.
+     * @param infoUnit: the container of all the info of the new die extracted.
+     */
     public void showDie(SetUpInformationUnit infoUnit){
         this.extraInfo = infoUnit;
         if (infoUnit.getValue() != 0)

@@ -7,6 +7,7 @@ import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.IDefaultMatchManager;
 import it.polimi.ingsw.view.cli.CliCommunicationManager;
 import it.polimi.ingsw.view.cli.CliView;
+import it.polimi.ingsw.view.cli.commands.UserCommands;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 
 import java.util.logging.Level;
@@ -62,7 +63,12 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
 
     @Override
     public void chooseWp() {
-        super.view.choseWpId();
+        try {
+            server.windowPatternCardRequest(super.view.getSetUpManager().getIdChosen());
+        } catch (BrokenConnectionException e){
+            SagradaLogger.log(Level.SEVERE, "Connection broken during map id choose.");
+        }
+        super.view.getFunctions().remove(UserCommands.SCELTA_WP.getDescription());
     }
 
     @Override

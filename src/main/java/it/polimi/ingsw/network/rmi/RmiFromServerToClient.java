@@ -54,16 +54,6 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void choseWpId() throws BrokenConnectionException {
-        try {
-            this.rmiClient.choseWpId();
-        } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to show make the client choose the wp id", e);
-            throw new BrokenConnectionException();
-        }
-    }
-
-    @Override
     public void showPrivateObjective(int idPrivateObjCard) throws BrokenConnectionException {
         try {
             this.rmiClient.showPrivateObjective(idPrivateObjCard);

@@ -20,10 +20,6 @@ public class SocketFromServerToClient implements IFromServerToClient {
 
     }
 
-    @Override
-    public void choseWpId() throws BrokenConnectionException {
-
-    }
 
     @Override
     public void showPrivateObjective(int privateObjCardId) throws BrokenConnectionException {

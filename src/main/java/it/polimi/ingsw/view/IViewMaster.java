@@ -18,8 +18,6 @@ public interface IViewMaster {
 
     void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp);
 
-    void choseWpId();
-
     void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool);
 
     void setDraft(List<SetUpInformationUnit> draft);
