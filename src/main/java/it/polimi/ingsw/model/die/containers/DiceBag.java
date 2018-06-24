@@ -104,6 +104,7 @@ public class DiceBag extends ADieContainer {
     }
 
     private void diceBagCopy(List<Die> source, List<Die> destination){
+        destination.clear();
         for (Die d : source)
             destination.add(new Die(d.getActualDieValue(),d.getDieColor()));
     }

@@ -293,7 +293,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         }
 
     }
-    
+
 
     @Override
     public void tool11Extra(){
