@@ -7,9 +7,7 @@ import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.cli.CliCommunicationManager;
 import it.polimi.ingsw.view.IToolCardManager;
 import it.polimi.ingsw.view.cli.CliView;
-import it.polimi.ingsw.view.cli.boardElements.CommonBoardView;
 import it.polimi.ingsw.view.cli.boardElements.ToolCardView;
-import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,20 +16,8 @@ import java.util.regex.Pattern;
 
 public class CliToolCardCardManager extends CliCommunicationManager implements IToolCardManager {
 
-    /**
-     * An instance of the common board.
-     */
-    private CommonBoardView commonBoard;
-
-    /**
-     * An instance of the wp of the player connected.
-     */
-    private WindowPatternCardView wpPlayer;
-
     public CliToolCardCardManager(CliView view){
         super(view);
-        this.commonBoard = super.view.getCommonBoard();
-        this.wpPlayer = super.view.getPlayer().getWp();
     }
 
     @Override
@@ -42,10 +28,10 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         int toolSlot = this.getSlotId(Commands.TOOL1);
         this.printToolDescription(toolSlot);
 
-        super.inputOutputManager.print(this.commonBoard.getDraftPool().diceDraftToString());
-        super.inputOutputManager.print(this.wpPlayer.wpToString());
+        super.inputOutputManager.print(super.view.getCommonBoard().getDraftPool().diceDraftToString());
+        super.inputOutputManager.print(super.view.getPlayer().getWp().wpToString());
 
-        infoUnit.setSourceIndex(super.view.getGamePlayManager().choseDraftDie(commonBoard.getDraftPool()));
+        infoUnit.setSourceIndex(super.view.getGamePlayManager().choseDraftDie(super.view.getCommonBoard().getDraftPool()));
 
         String option = super.inputOutputManager.askInformation("Inserire l'operazione desiderata:\n" +
                 "\t- Incrementa di 1\n\t- Decrementa di 1");
@@ -141,13 +127,13 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         int toolSlot = this.getSlotId(Commands.TOOL5);
         this.printToolDescription(toolSlot);
 
-        super.inputOutputManager.print(this.wpPlayer.wpToString());
+        super.inputOutputManager.print(super.view.getPlayer().getWp().wpToString());
 
-        super.inputOutputManager.print(commonBoard.getDraftPool().diceDraftToString());
-        infoUnit.setSourceIndex(super.view.getGamePlayManager().choseDraftDie(commonBoard.getDraftPool()));
+        super.inputOutputManager.print(super.view.getCommonBoard().getDraftPool().diceDraftToString());
+        infoUnit.setSourceIndex(super.view.getGamePlayManager().choseDraftDie(super.view.getCommonBoard().getDraftPool()));
 
-        super.inputOutputManager.print(commonBoard.getRoundTrack().roundTrackToString());
-        super.view.getGamePlayManager().choseRoundDie(this.commonBoard.getRoundTrack(), infoUnit);
+        super.inputOutputManager.print(super.view.getCommonBoard().getRoundTrack().roundTrackToString());
+        super.view.getGamePlayManager().choseRoundDie(super.view.getCommonBoard().getRoundTrack(), infoUnit);
 
         infoUnit.setDestinationIndex(super.view.getGamePlayManager().choseCellWp());
 
@@ -169,8 +155,8 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         int toolSlot = this.getSlotId(Commands.TOOL6);
         this.printToolDescription(toolSlot);
 
-        super.inputOutputManager.print(this.commonBoard.getDraftPool().diceDraftToString());
-        infoUnit.setSourceIndex(super.view.getGamePlayManager().choseDraftDie(commonBoard.getDraftPool()));
+        super.inputOutputManager.print(super.view.getCommonBoard().getDraftPool().diceDraftToString());
+        infoUnit.setSourceIndex(super.view.getGamePlayManager().choseDraftDie(super.view.getCommonBoard().getDraftPool()));
 
         units.add(infoUnit);
 
@@ -188,7 +174,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         SetUpInformationUnit infoUnit = super.view.getGamePlayManager().getExtraInfo();
 
         super.inputOutputManager.print("ATTENZIONE: Se non puoi piazzarlo in nessun cella, scegline una errata.");
-        super.inputOutputManager.print(this.wpPlayer.wpToString());
+        super.inputOutputManager.print(super.view.getPlayer().getWp().wpToString());
         infoUnit.setDestinationIndex(super.view.getGamePlayManager().choseCellWp());
 
         /*todo, server method missing
@@ -226,7 +212,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         int toolSlot = this.getSlotId(Commands.TOOL8);
         this.printToolDescription(toolSlot);
 
-        super.view.getGamePlayManager().getPlacementInfo(this.commonBoard.getDraftPool(), wpPlayer, infoUnit);
+        super.view.getGamePlayManager().getPlacementInfo(super.view.getCommonBoard().getDraftPool(), super.view.getPlayer().getWp(), infoUnit);
 
         units.add(infoUnit);
 
@@ -246,7 +232,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         int toolSlot = this.getSlotId(Commands.TOOL9);
         this.printToolDescription(toolSlot);
 
-        super.view.getGamePlayManager().getPlacementInfo(this.commonBoard.getDraftPool(), wpPlayer, infoUnit);
+        super.view.getGamePlayManager().getPlacementInfo(super.view.getCommonBoard().getDraftPool(), super.view.getPlayer().getWp(), infoUnit);
 
         units.add(infoUnit);
 
@@ -266,7 +252,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         int toolSlot = this.getSlotId(Commands.TOOL10);
         this.printToolDescription(toolSlot);
 
-        super.view.getGamePlayManager().getPlacementInfo(this.commonBoard.getDraftPool(), wpPlayer, infoUnit);
+        super.view.getGamePlayManager().getPlacementInfo(super.view.getCommonBoard().getDraftPool(), super.view.getPlayer().getWp(), infoUnit);
 
         units.add(infoUnit);
 
@@ -286,8 +272,8 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         int toolSlot = this.getSlotId(Commands.TOOL11);
         this.printToolDescription(toolSlot);
 
-        super.inputOutputManager.print(this.commonBoard.getDraftPool().diceDraftToString());
-        infoUnit.setSourceIndex(super.view.getGamePlayManager().choseDraftDie(commonBoard.getDraftPool()));
+        super.inputOutputManager.print(super.view.getCommonBoard().getDraftPool().diceDraftToString());
+        infoUnit.setSourceIndex(super.view.getGamePlayManager().choseDraftDie(super.view.getCommonBoard().getDraftPool()));
 
         units.add(infoUnit);
 
@@ -315,7 +301,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         infoUnit.setValue(Integer.parseInt(value));
 
         super.inputOutputManager.print("ATTENZIONE: Se non puoi piazzarlo in nessun cella, scegline una errata.");
-        super.inputOutputManager.print(this.wpPlayer.wpToString());
+        super.inputOutputManager.print(super.view.getPlayer().getWp().wpToString());
         infoUnit.setDestinationIndex(super.view.getGamePlayManager().choseCellWp());
 
         /*
@@ -341,8 +327,8 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         int toolSlot = this.getSlotId(Commands.TOOL12);
         this.printToolDescription(toolSlot);
 
-        super.inputOutputManager.print(commonBoard.getRoundTrack().roundTrackToString());
-        super.view.getGamePlayManager().choseRoundDie(this.commonBoard.getRoundTrack(), infoUnit1);
+        super.inputOutputManager.print(super.view.getCommonBoard().getRoundTrack().roundTrackToString());
+        super.view.getGamePlayManager().choseRoundDie(super.view.getCommonBoard().getRoundTrack(), infoUnit1);
 
         this.fromWpToWp(infoUnit1);
         units.add(infoUnit1);
@@ -374,13 +360,13 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
 
     private void printToolDescription(int id){
         if (id > 0 && id < 3)
-            super.inputOutputManager.print("Descrizione tool:\n\t"+this.commonBoard.getToolCardViews().get(id).getDescription());
+            super.inputOutputManager.print("Descrizione tool:\n\t"+super.view.getCommonBoard().getToolCardViews().get(id).getDescription());
     }
 
 
 
     private void fromWpToWp(SetUpInformationUnit infoUnit){
-        super.inputOutputManager.print(this.wpPlayer.wpToString());
+        super.inputOutputManager.print(super.view.getPlayer().getWp().wpToString());
 
         super.inputOutputManager.print("Da:");
         infoUnit.setSourceIndex(super.view.getGamePlayManager().choseCellWp());
