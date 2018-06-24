@@ -91,9 +91,9 @@ public class CliView implements IViewMaster {
      */
     private boolean isNotTheFirstTime;
 
-    public CliView() {
+    public CliView(InputOutputManager inputOutputManager) {
         player = new PlayerView();
-        inputOutputManager = new InputOutputManager();
+        this.inputOutputManager = inputOutputManager;
         commonBoard = new CommonBoardView();
         loginManager = new LoginManager(inputOutputManager);
         setUpManager = new SetUpManager(inputOutputManager);
