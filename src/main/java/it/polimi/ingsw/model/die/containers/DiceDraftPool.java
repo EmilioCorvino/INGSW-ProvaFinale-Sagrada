@@ -94,6 +94,7 @@ public class DiceDraftPool extends ADieContainer {
     }
 
     private void draftCopy(List<Die> source, List<Die> destination){
+        destination.clear();
         for (Die d : source)
             destination.add(new Die(d.getActualDieValue(),d.getDieColor()));
     }
