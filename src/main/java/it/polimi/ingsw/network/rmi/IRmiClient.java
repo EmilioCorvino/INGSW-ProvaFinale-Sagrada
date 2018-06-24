@@ -20,8 +20,6 @@ public interface IRmiClient extends Remote {
 
     void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) throws RemoteException;
 
-    void choseWpId() throws RemoteException;
-
     void showPrivateObjective(int privateObjCardId) throws RemoteException;
 
     void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool) throws RemoteException;

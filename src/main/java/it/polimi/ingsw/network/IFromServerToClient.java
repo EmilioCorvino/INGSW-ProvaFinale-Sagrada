@@ -36,11 +36,6 @@ public interface IFromServerToClient {
     void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) throws BrokenConnectionException;
 
     /**
-     * This method send to the server the id of the wp chosen.
-     */
-    void choseWpId() throws BrokenConnectionException;
-
-    /**
      * This method will set the common board with all the common information for each player.
      * @param players: A map witch contains a simplified wp for each userName that identify a player.
      * @param idPubObj: The ids of all the public objective cards drown by the controller.

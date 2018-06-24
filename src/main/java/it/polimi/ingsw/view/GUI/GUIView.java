@@ -129,10 +129,6 @@ public class GUIView implements IViewMaster {
 
     }
 
-    @Override
-    public void choseWpId() {
-
-    }
 
     @Override
     public void setCommonBoard(Map<String, SimplifiedWindowPatternCard> players, int[] idPubObj, int[] idTool) {

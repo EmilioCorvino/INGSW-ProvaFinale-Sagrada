@@ -40,10 +40,6 @@ public class ClientImplementation implements IFromServerToClient {
     }
 
     @Override
-    public void choseWpId(){
-        view.choseWpId();}
-
-    @Override
     public void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool){
         view.setCommonBoard(players,idPubObj, idTool);
     }

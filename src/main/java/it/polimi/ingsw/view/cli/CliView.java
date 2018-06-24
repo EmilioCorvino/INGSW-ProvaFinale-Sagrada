@@ -86,6 +86,11 @@ public class CliView implements IViewMaster {
      */
     private ScannerThread scannerThread;
 
+    /**
+     * The attribute used to start the scanner thread after the first showCommand.
+     */
+    private boolean isNotTheFirstTime;
+
     public CliView() {
         player = new PlayerView();
         inputOutputManager = new InputOutputManager();
@@ -165,7 +170,6 @@ public class CliView implements IViewMaster {
     public void showPrivateObjective(int idPrivateObj){
         this.setUpManager.createPrivateObjCard(idPrivateObj, this.player);
         inputOutputManager.print(this.player.privateObjToString());
-        scannerThread.start();
     }
 
     /**
@@ -175,19 +179,6 @@ public class CliView implements IViewMaster {
     @Override
     public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) {
         this.setUpManager.showMapsToChoose(listWp);
-    }
-
-    /**
-     * This method send to the server the id of the wp chosen.
-     */
-    @Override
-    public void choseWpId() {
-        try {
-            server.windowPatternCardRequest(setUpManager.getIdChosen());
-        } catch (BrokenConnectionException e){
-            SagradaLogger.log(Level.SEVERE, "Connection broken during map id choose.");
-        }
-
     }
 
     /**
@@ -253,6 +244,10 @@ public class CliView implements IViewMaster {
     public void showCommand(List<Commands> commands) {
         functions = bank.getCommandMap(commands);
         printCommands();
+        if (!isNotTheFirstTime) {
+            isNotTheFirstTime = true;
+            scannerThread.start();
+        }
     }
 
     /**
@@ -421,6 +416,14 @@ public class CliView implements IViewMaster {
         return gamePlayManager;
     }
 
+    public SetUpManager getSetUpManager() {
+        return setUpManager;
+    }
+
+    public Map<String, Runnable> getFunctions() {
+        return functions;
+    }
+
     public CommonBoardView getCommonBoard() {
         return commonBoard;
     }
@@ -467,9 +470,12 @@ public class CliView implements IViewMaster {
      * This method print all the command contained in the function map.
      */
     public void printCommands(){
-        inputOutputManager.print("\nCamandi disponibili: ");
-        for (String s : functions.keySet())
-            inputOutputManager.print("\t- "+s);
+        if(functions.keySet().size() > 1) {
+            inputOutputManager.print("\nCamandi disponibili: ");
+            for (String s : functions.keySet())
+                inputOutputManager.print("\t- " + s);
+        }else
+            inputOutputManager.print("Nessun comando disponibile, attendi.");
     }
 
     /**

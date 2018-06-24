@@ -30,6 +30,7 @@ public class ScannerThread extends Thread {
     @Override
     public void run() {
         while (isOnGame){
+            inputOutputManager.printCommandQuestion("> ");
             String stuff = inputOutputManager.read();
             functionToInvoke.accept(stuff);
         }
@@ -38,8 +39,8 @@ public class ScannerThread extends Thread {
     /**
      * This method close the thread and the scanner of the input output manager.
      */
-    public void stopExecution(){
-        inputOutputManager.closeScanner();
+    public void stopExecution() {
         isOnGame = false;
+        inputOutputManager.closeScanner();
     }
 }

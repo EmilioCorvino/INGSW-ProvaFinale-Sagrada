@@ -9,11 +9,19 @@ public class InputOutputManager {
 
     private Scanner scan = new Scanner (System.in);
 
+    /**
+     * This method print a string to the user and get the input
+     * @param input: the string to print
+     * @return: the string read.
+     */
     public String askInformation(String input){
         this.print(input);
         return this.read();
     }
 
+    void printCommandQuestion(String s){
+        System.out.print(s);
+    }
     /**
      * This method take an input from the user.
      * @return: the string read.
