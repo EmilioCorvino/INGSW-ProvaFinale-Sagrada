@@ -101,6 +101,11 @@ public class SocketFromServerToClient implements IFromServerToClient {
     }
 
     @Override
+    public void showDie(SetUpInformationUnit informationUnit) throws BrokenConnectionException {
+
+    }
+
+    @Override
     public void showRank(String[] playerNames, int[] scores) throws BrokenConnectionException {
 
     }
