@@ -1,5 +1,6 @@
-package it.polimi.ingsw.view.GUI;
+package it.polimi.ingsw.view.GUI.loginWindows;
 
+import it.polimi.ingsw.view.GUI.GUIMain;
 import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
@@ -51,8 +52,8 @@ public class LoginIpAddrTypeConnGUI extends LoginRootGUI {
             handleTypeGameMode((ToggleButton)button);
         }));
 
-        this.addEventHandler(MouseEvent.MOUSE_PRESSED, e ->  super.pressedWindow(e));
-        this.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> super.draggedWindow(e));
+        this.addEventHandler(MouseEvent.MOUSE_PRESSED, this:: pressedWindow);
+        this.addEventHandler(MouseEvent.MOUSE_DRAGGED, this:: draggedWindow);
     }
 
 
@@ -79,7 +80,7 @@ public class LoginIpAddrTypeConnGUI extends LoginRootGUI {
         this.proceed = true;
         Parent root = new LoginUsernameGameModeGUI();
         ((LoginUsernameGameModeGUI) root).setInfo(this.infoLogin);
-        GUIMain.getScene().setRoot(root);
+        GUIMain.setRoot(root);
     }
 
     public LoginFormGUI getLoginFormGUI() {

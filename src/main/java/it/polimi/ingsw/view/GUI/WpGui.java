@@ -38,6 +38,8 @@ public class WpGui extends Pane {
         colorMap.put(Color.GREEN, "#2E8B57");
         colorMap.put(Color.BLUE, "#1E90FF");
         colorMap.put(Color.PURPLE, "#800080");
+
+
     }
 
     public void constructMap(SimplifiedWindowPatternCard map) {

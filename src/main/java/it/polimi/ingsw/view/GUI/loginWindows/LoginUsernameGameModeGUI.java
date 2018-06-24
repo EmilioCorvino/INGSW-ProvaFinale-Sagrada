@@ -1,5 +1,6 @@
-package it.polimi.ingsw.view.GUI;
+package it.polimi.ingsw.view.GUI.loginWindows;
 
+import it.polimi.ingsw.view.GUI.GUIMain;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;

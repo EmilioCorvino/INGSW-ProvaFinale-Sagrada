@@ -1,7 +1,10 @@
 package it.polimi.ingsw.view.GUI;
 
+import it.polimi.ingsw.view.GUI.loginWindows.LoginIpAddrTypeConnGUI;
+import it.polimi.ingsw.view.GUI.loginWindows.LoginRootGUI;
 import it.polimi.ingsw.view.IViewMaster;
 import javafx.application.Application;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -21,22 +24,24 @@ public class GUIMain extends Application {
         setStage(primaryStage);
         guiView = new GUIView();
         LoginRootGUI root = new LoginIpAddrTypeConnGUI();
-        scene = new Scene(root, 1200, 710);
+        scene = new Scene(root);
 
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         scene.setFill(Color.TRANSPARENT);
 
 
-
+        primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
         ((GUIView) guiView).setLoginManager((LoginIpAddrTypeConnGUI)root);
     }
 
-
+/*
     public static Scene getScene() {
         return scene;
     }
+
+    */
 
     public static void setScene(Scene scene) {
         GUIMain.scene = scene;
@@ -57,4 +62,22 @@ public class GUIMain extends Application {
     public static void setStage(Stage stage) {
         GUIMain.stage = stage;
     }
+
+    /**
+     * This method is used to change the shown screen.
+     * @param root the screen to show
+     */
+    public static void setRoot(Parent root) {
+        scene.setRoot(root);
+        stage.sizeToScene();
+    }
+
+    /**
+     * This method is used to center the new window in the monitor.
+     */
+    public static void centerScreen() {
+        stage.centerOnScreen();
+    }
+
+
 }

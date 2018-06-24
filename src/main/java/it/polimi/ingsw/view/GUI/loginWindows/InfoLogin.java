@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.GUI;
+package it.polimi.ingsw.view.GUI.loginWindows;
 
 public class InfoLogin {
 

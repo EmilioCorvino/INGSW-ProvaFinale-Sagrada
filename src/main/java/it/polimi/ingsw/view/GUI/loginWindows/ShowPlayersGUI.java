@@ -1,6 +1,6 @@
-package it.polimi.ingsw.view.GUI;
+package it.polimi.ingsw.view.GUI.loginWindows;
 
-import javafx.geometry.Insets;
+import it.polimi.ingsw.view.GUI.GUIMain;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -48,7 +48,7 @@ public class ShowPlayersGUI extends BorderPane {
         this.mainContainer.setMinWidth(550);
         this.mainContainer.setMinHeight(400);
         this.mainContainer.getStyleClass().add("VBox");
-        BorderPane.setMargin(this.mainContainer, new Insets(10, 250, 10, 250));
+        //BorderPane.setMargin(this.mainContainer, new Insets(10, 250, 10, 250));
         this.mainContainer.setAlignment(Pos.CENTER);
         this.autosize();
     }
@@ -57,7 +57,7 @@ public class ShowPlayersGUI extends BorderPane {
      * This method customs the form for this particular window.
      */
     public void customPlayersList() {
-        BorderPane.setMargin(this.mainContainer, new Insets(10, 250, 10, 250));
+        //BorderPane.setMargin(this.mainContainer, new Insets(10, 250, 10, 250));
         this.setCenter(this.mainContainer);
         this.playersList.setAlignment(Pos.CENTER);
         this.playersList.setSpacing(20);

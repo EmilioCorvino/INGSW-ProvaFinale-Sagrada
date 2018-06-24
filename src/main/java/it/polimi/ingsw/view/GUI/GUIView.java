@@ -11,6 +11,10 @@ import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
+import it.polimi.ingsw.view.GUI.loginWindows.LoginIpAddrTypeConnGUI;
+import it.polimi.ingsw.view.GUI.loginWindows.LoginUsernameGameModeGUI;
+import it.polimi.ingsw.view.GUI.loginWindows.ShowPlayersGUI;
+import it.polimi.ingsw.view.GUI.setupWindows.ChooseWpGUI;
 import it.polimi.ingsw.view.IViewMaster;
 import javafx.application.Platform;
 import javafx.scene.Parent;
@@ -32,11 +36,14 @@ public class GUIView implements IViewMaster {
 
     private ChooseWpGUI chooseWpGUI;
 
+    private PlayersData playersData;
+
 
 
     public GUIView() {
         listPlayers = new ShowPlayersGUI();
         chooseWpGUI = new ChooseWpGUI();
+        playersData = new PlayersData();
 
     }
 
@@ -61,7 +68,7 @@ public class GUIView implements IViewMaster {
                 this.loginManager.getLoginFormGUI().showAlertMessage("Indirizzo ip non valido.");
                 Parent root = new LoginIpAddrTypeConnGUI();
                 this.setLoginManager((LoginIpAddrTypeConnGUI)root);
-                GUIMain.getScene().setRoot(root);
+                GUIMain.setRoot(root);
             }
         }
             if(loginManager.isProceed()) {
@@ -70,6 +77,7 @@ public class GUIView implements IViewMaster {
                     String gameMode = this.loginManager.getInfoLogin().getGameMode();
 
                     this.server.login(Integer.parseInt(gameMode), username);
+                    this.playersData.setUsername(username);
 
                 } catch (BrokenConnectionException e) {
                     SagradaLogger.log(Level.SEVERE, "Connection broken during register", e);
@@ -77,12 +85,12 @@ public class GUIView implements IViewMaster {
                     this.loginManager.getLoginFormGUI().showAlertMessage("Indirizzo ip non valido.");
                     Parent root = new LoginIpAddrTypeConnGUI();
                     this.setLoginManager((LoginIpAddrTypeConnGUI)root);
-                    GUIMain.getScene().setRoot(root);
+                    GUIMain.setRoot(root);
                 } catch (UserNameAlreadyTakenException e) {
                     this.loginManager.getLoginFormGUI().showAlertMessage("Username già in uso!");
                     Parent root = new LoginUsernameGameModeGUI();
                     ((LoginUsernameGameModeGUI) root).setInfo(loginManager.getInfoLogin());
-                    GUIMain.getScene().setRoot(root);
+                    GUIMain.setRoot(root);
 
                 } catch (TooManyUsersException e) {
                     this.loginManager.getLoginFormGUI().showAlertMessage("\nPartita piena, numero massimo di giocatori raggiunto!\nArrivederci.");
@@ -99,16 +107,20 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void showRoom(List<String> players) {
-        GUIMain.getScene().setRoot(this.listPlayers);
-        Platform.runLater(() ->
-            ((ShowPlayersGUI) this.listPlayers).showPlayers(players));
+       Platform.runLater(() -> {
+           GUIMain.setRoot(this.listPlayers);
+           ((ShowPlayersGUI) this.listPlayers).showPlayers(players);
+       });
+
+
+
     }
 
     @Override
     public void showPrivateObjective(int idPrivateObj) {
 
         Platform.runLater(() -> {
-            GUIMain.getScene().setRoot(this.chooseWpGUI);
+            GUIMain.setRoot(this.chooseWpGUI);
             this.chooseWpGUI.assignPrivateObjectiveCard(idPrivateObj);
         });
 
@@ -129,8 +141,20 @@ public class GUIView implements IViewMaster {
 
     }
 
+    /**
+     * This method sends to the server the id of the wp chosen.
+     */
     @Override
     public void choseWpId() {
+
+        Platform.runLater(() -> {
+            try {
+                String idMap = this.chooseWpGUI.getChosenWp().getIdMap().getText();
+                server.windowPatternCardRequest(Integer.parseInt(idMap));
+            } catch (BrokenConnectionException e){
+                SagradaLogger.log(Level.SEVERE, "Connection broken during map id choose.");
+            }
+        });
 
     }
 

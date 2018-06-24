@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.GUI;
+package it.polimi.ingsw.view.GUI.loginWindows;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -105,6 +105,7 @@ public class LoginFormGUI extends VBox {
 
         TextField text = new TextField();
         text.getStyleClass().add("text-field");
+        text.setText("localhost");
         text.setAlignment(Pos.CENTER);
 
         Label label = new Label(nameLabel);

@@ -1,6 +1,8 @@
-package it.polimi.ingsw.view.GUI;
+package it.polimi.ingsw.view.GUI.setupWindows;
 
 import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
+import it.polimi.ingsw.view.GUI.GUIMain;
+import it.polimi.ingsw.view.GUI.WpGui;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -65,9 +67,22 @@ public class ChooseWpGUI extends VBox {
 
         maps = new ArrayList<>();
 
+        /*
 
-        this.setPrefSize(1200, 650);
-        // this.mainContainer.setPrefSize(700, 500);
+        this.mainContainer.setMinHeight(700);
+        this.mainContainer.setMinWidth(1200);
+        this.mainContainer.setMaxHeight(700);
+        this.mainContainer.setMaxWidth(1200);
+        */
+
+        this.setMinHeight(700);
+        this.setMinWidth(1200);
+        this.setMaxHeight(700);
+        this.setMaxWidth(1200);
+        GUIMain.centerScreen();
+
+
+
 
 
 
@@ -263,6 +278,7 @@ public class ChooseWpGUI extends VBox {
         chosen.setIdMap((Label)map.getChildren().get(0));
         chosen.setGlassWindow((GridPane)map.getChildren().get(1));
         chosen.setDifficulty((Label)map.getChildren().get(2));
+       // chosen.setStyle("-fx-background-color: rgba(102, 217, 255, 0.3)");
         this.setChosenWp(chosen);
 
 

@@ -1,6 +1,6 @@
-package it.polimi.ingsw.view.GUI;
+package it.polimi.ingsw.view.GUI.loginWindows;
 
-import javafx.geometry.Insets;
+import it.polimi.ingsw.view.GUI.GUIMain;
 import javafx.geometry.Pos;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -32,7 +32,7 @@ public class LoginRootGUI extends BorderPane {
      * @param loginFormGUI the form to custom.
      */
     public void customForm(LoginFormGUI loginFormGUI) {
-        BorderPane.setMargin(loginFormGUI.getvBox(), new Insets(10, 250, 10, 250));
+        //BorderPane.setMargin(loginFormGUI.getvBox(), new Insets(10, 250, 10, 250));
         loginFormGUI.getvBox().setAlignment(Pos.CENTER);
         this.setCenter(loginFormGUI.getvBox());
         this.autosize();
