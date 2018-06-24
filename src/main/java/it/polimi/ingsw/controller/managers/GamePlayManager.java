@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.cards.ToolCardSlot;
 import it.polimi.ingsw.model.cards.tool.ToolCard;
+import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 import it.polimi.ingsw.model.move.DiePlacementMove;
 import it.polimi.ingsw.model.move.IMove;
 import it.polimi.ingsw.model.player.Player;
@@ -418,7 +419,7 @@ public class GamePlayManager extends AGameManager {
      * @see it.polimi.ingsw.model.cards.tool.PlacementEffect.ColorPlacementRestrictionEffect
      */
     public void showRearrangementResult(Player currentPlayer, SetUpInformationUnit setUpInfoUnit) {
-        if (!this.isMoveLegal()) {
+        if(!this.isMoveLegal()) {
             return;
         }
 
@@ -450,6 +451,34 @@ public class GamePlayManager extends AGameManager {
                     //todo super.getControllerMaster().suspendPlayer(p.getPlayerName);
                 }
             }
+        }
+    }
+
+    /**
+     * Shows the result of the rolling of all dices of the {@link DiceDraftPool}.
+     * @param rolledDice list of information needed to update the view with the newly rolled dice.
+     * @see it.polimi.ingsw.model.cards.tool.ValueEffects.DraftValueEffect
+     */
+    public void showUpdatedDraft(List<SetUpInformationUnit> rolledDice) {
+        if(!this.isMoveLegal()) {
+            return;
+        }
+
+        //Copies back the updated draft.
+        super.getControllerMaster().getCommonBoard().getDraftPool().overwriteOriginal();
+
+        //Updates the draft pool for each player.
+        List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
+        for(Player p: players) {
+            IFromServerToClient playerClient =
+                    super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient();
+            try {
+                playerClient.setDraft(rolledDice);
+            } catch (BrokenConnectionException e) {
+                SagradaLogger.log(Level.SEVERE, "Impossible to update " + p.getPlayerName() + " draft pool", e);
+                //todo super.getControllerMaster().suspendPlayer(p.getPlayerName);
+            }
+
         }
     }
 
