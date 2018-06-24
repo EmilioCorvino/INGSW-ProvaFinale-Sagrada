@@ -215,6 +215,11 @@ public class GUIView implements IViewMaster {
     }
 
     @Override
+    public void showDie(SetUpInformationUnit informationUnit) {
+
+    }
+
+    @Override
     public void showRank(String[] playerNames, int[] scores) {
 
     }
