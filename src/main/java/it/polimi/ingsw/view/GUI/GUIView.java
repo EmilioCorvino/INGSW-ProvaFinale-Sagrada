@@ -212,7 +212,7 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void showDie(SetUpInformationUnit informationUnit) {
-        
+
     }
 
     @Override

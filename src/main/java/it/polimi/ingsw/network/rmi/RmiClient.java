@@ -115,6 +115,11 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
+    public void showDie(SetUpInformationUnit informationUnit) {
+        this.client.showDie(informationUnit);
+    }
+
+    @Override
     public void showRank(String[] playerNames, int[] scores) {
         this.client.showRank(playerNames, scores);
     }

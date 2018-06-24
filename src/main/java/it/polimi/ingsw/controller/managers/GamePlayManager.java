@@ -364,7 +364,8 @@ public class GamePlayManager extends AGameManager {
      *
      * @param currentPlayer player on duty.
      * @param setUpInfoUnit information used by the view to update
-     *                      the {@link it.polimi.ingsw.model.die.containers.WindowPatternCard}.
+     *                      the {@link it.polimi.ingsw.view.cli.die.WindowPatternCardView} and the
+     *                      {@link it.polimi.ingsw.view.cli.die.DieDraftPoolView}.
      * @see DiePlacementMove
      * @see it.polimi.ingsw.model.cards.tool.ValueEffects.ChooseValueEffect
      * @see it.polimi.ingsw.model.cards.tool.ValueEffects.OppositeValueEffect
@@ -412,7 +413,7 @@ public class GamePlayManager extends AGameManager {
      * This method is used by various {@link ToolCard}s.
      * @param currentPlayer player on duty.
      * @param setUpInfoUnit information used by the view to update
-     *                      the {@link it.polimi.ingsw.model.die.containers.WindowPatternCard}.
+     *                      the {@link it.polimi.ingsw.view.cli.die.WindowPatternCardView}.
      * @see it.polimi.ingsw.model.cards.tool.PlacementEffect.PlacementRestrictionEffect
      * @see it.polimi.ingsw.model.cards.tool.PlacementEffect.ColorRestrictionEffect
      * @see it.polimi.ingsw.model.cards.tool.PlacementEffect.ValueRestrictionEffect
@@ -455,7 +456,42 @@ public class GamePlayManager extends AGameManager {
     }
 
     /**
-     * Shows the result of the rolling of all dices of the {@link DiceDraftPool}.
+     * Shows the result of the swapping of a die between {@link DiceDraftPool} and
+     * {@link it.polimi.ingsw.model.die.containers.RoundTrack}.
+     * @param infoUnitDraft contains the information to update the {@link it.polimi.ingsw.view.cli.die.DieDraftPoolView}.
+     * @param infoUnitRoundTrack contains the information to update the {@link it.polimi.ingsw.view.cli.die.RoundTrackView}.
+     * @see it.polimi.ingsw.model.cards.tool.SwapEffect.SwapFromDraftpoolToRoundTrack
+     */
+    public void showDraftPoolRoundTrackSwap(SetUpInformationUnit infoUnitDraft, SetUpInformationUnit infoUnitRoundTrack) {
+        if(!this.isMoveLegal()) {
+            return;
+        }
+
+        //Copies bck the updated draft pool and round track.
+        super.getControllerMaster().getCommonBoard().getDraftPool().overwriteOriginal();
+        super.getControllerMaster().getCommonBoard().getRoundTrack().overwriteOriginal();
+
+        //Updates the draft pool and the round track for each player.
+        List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
+        for(Player p: players) {
+            IFromServerToClient playerClient =
+                    super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient();
+            try {
+                playerClient.removeOnDraft(infoUnitDraft);
+                playerClient.addOnDraft(infoUnitDraft);
+                playerClient.removeOnRoundTrack(infoUnitRoundTrack);
+                playerClient.addOnRoundTrack(infoUnitRoundTrack);
+            } catch (BrokenConnectionException e) {
+                SagradaLogger.log(Level.SEVERE, "Impossible to update " + p.getPlayerName() + " draft pool " +
+                        "and round track", e);
+                //todo super.getControllerMaster().suspendPlayer(p.getPlayerName);
+            }
+        }
+    }
+
+    /**
+     * Shows the result of the rolling of all dices of the {@link DiceDraftPool} to the
+     * {@link it.polimi.ingsw.view.cli.die.DieDraftPoolView}.
      * @param rolledDice list of information needed to update the view with the newly rolled dice.
      * @see it.polimi.ingsw.model.cards.tool.ValueEffects.DraftValueEffect
      */
@@ -464,7 +500,7 @@ public class GamePlayManager extends AGameManager {
             return;
         }
 
-        //Copies back the updated draft.
+        //Copies back the updated draft pool.
         super.getControllerMaster().getCommonBoard().getDraftPool().overwriteOriginal();
 
         //Updates the draft pool for each player.
@@ -478,7 +514,6 @@ public class GamePlayManager extends AGameManager {
                 SagradaLogger.log(Level.SEVERE, "Impossible to update " + p.getPlayerName() + " draft pool", e);
                 //todo super.getControllerMaster().suspendPlayer(p.getPlayerName);
             }
-
         }
     }
 
