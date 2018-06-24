@@ -109,10 +109,12 @@ public class ClientImplementation implements IFromServerToClient {
     }
 
     @Override
-    public void updateToolCost(int idSlot, int cost){ view.updateToolCost(idSlot,cost);}
+    public void updateToolCost(int idSlot, int cost){
+        view.updateToolCost(idSlot,cost);}
 
     @Override
-    public void showDie(SetUpInformationUnit informationUnit){ view.showDie(informationUnit);}
+    public void showDie(SetUpInformationUnit informationUnit){
+        view.showDie(informationUnit);}
 
     @Override
     public void showRank(String[] playerNames, int[] scores) {
