@@ -1,9 +1,9 @@
-package it.polimi.ingsw.view.GUI.setupWindows;
+package it.polimi.ingsw.view.gui.setupwindows;
 
 import it.polimi.ingsw.controller.Commands;
-import it.polimi.ingsw.view.GUI.GUICommunicationManager;
-import it.polimi.ingsw.view.GUI.GUIMain;
-import it.polimi.ingsw.view.GUI.WpGui;
+import it.polimi.ingsw.view.gui.GUICommunicationManager;
+import it.polimi.ingsw.view.gui.GUIMain;
+import it.polimi.ingsw.view.gui.WpGui;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -15,6 +15,7 @@ import javafx.scene.layout.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class ChooseWpGUI extends VBox {
 
@@ -50,6 +51,7 @@ public class ChooseWpGUI extends VBox {
     private GridPane gridMaps;
 
     private List<WpGui> maps;
+
 
     private WpGui chosenWp;
 

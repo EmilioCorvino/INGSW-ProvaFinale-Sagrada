@@ -1,11 +1,11 @@
-package it.polimi.ingsw.view.GUI.gameWindows;
+package it.polimi.ingsw.view.gui.gameWindows;
 
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
-import it.polimi.ingsw.view.GUI.GUIView;
-import it.polimi.ingsw.view.GUI.PlayersData;
 import it.polimi.ingsw.view.IDefaultMatchManager;
+import it.polimi.ingsw.view.gui.GUIView;
+import it.polimi.ingsw.view.gui.PlayersData;
 
 import java.util.logging.Level;
 

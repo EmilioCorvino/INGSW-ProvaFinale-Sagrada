@@ -1,8 +1,8 @@
-package it.polimi.ingsw.view.GUI;
+package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.controller.Commands;
-import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
+import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
+import it.polimi.ingsw.controller.simplifiedview.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.network.rmi.RmiFromClientToServer;
 import it.polimi.ingsw.network.socket.SocketFromClientToServer;
@@ -12,12 +12,12 @@ import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.Bank;
-import it.polimi.ingsw.view.GUI.gameWindows.GUIDefaultMatchManager;
-import it.polimi.ingsw.view.GUI.loginWindows.LoginIpAddrTypeConnGUI;
-import it.polimi.ingsw.view.GUI.loginWindows.LoginUsernameGameModeGUI;
-import it.polimi.ingsw.view.GUI.loginWindows.ShowPlayersGUI;
-import it.polimi.ingsw.view.GUI.setupWindows.ChooseWpGUI;
 import it.polimi.ingsw.view.IViewMaster;
+import it.polimi.ingsw.view.gui.gameWindows.GUIDefaultMatchManager;
+import it.polimi.ingsw.view.gui.loginwindows.LoginIpAddrTypeConnGUI;
+import it.polimi.ingsw.view.gui.loginwindows.LoginUsernameGameModeGUI;
+import it.polimi.ingsw.view.gui.loginwindows.ShowPlayersGUI;
+import it.polimi.ingsw.view.gui.setupwindows.ChooseWpGUI;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 
@@ -40,33 +40,32 @@ public class GUIView implements IViewMaster {
 
     private PlayersData playersData;
 
+    private GUICommunicationManager manager;
+
     private Bank bank;
 
-    private GUICommunicationManager commManager;
+
 
 
 
     public GUIView() {
-        this.setBank();
-        commManager = new GUICommunicationManager();
+        bank = new Bank();
+        manager = new GUICommunicationManager();
         listPlayers = new ShowPlayersGUI();
-        chooseWpGUI = new ChooseWpGUI(this.commManager);
+        chooseWpGUI = new ChooseWpGUI(manager);
         playersData = new PlayersData();
 
     }
 
-        /**
-         * This method create the bank, create the default manager and the tool card manager and populate its maps.
-         */
-        private void setBank(){
-            bank = new Bank();
-            GUIDefaultMatchManager guiDefaultMatchManager = new GUIDefaultMatchManager(this);
-            bank.setDefaultMatchManager(guiDefaultMatchManager);
-            guiDefaultMatchManager.setServer(this.server);
-            //bank.setToolCardManager(new CliToolCardCardManager(this));
-            bank.populateBank();
-        }
-
+    /**
+     * This method create the bank, create the default manager and the tool card manager and populate its maps.
+     */
+    private void setBank(){
+        bank = new Bank();
+        bank.setDefaultMatchManager(new GUIDefaultMatchManager(this));
+        //bank.setToolCardManager(new CliToolCardCardManager(this));
+        bank.populateBank();
+    }
 
     /**
      * This method create the connection and logs the player
@@ -130,7 +129,6 @@ public class GUIView implements IViewMaster {
     public void showRoom(List<String> players) {
        Platform.runLater(() -> {
            GUIMain.setRoot(this.listPlayers);
-
            ((ShowPlayersGUI) this.listPlayers).showPlayers(players);
        });
 
@@ -143,7 +141,6 @@ public class GUIView implements IViewMaster {
 
         Platform.runLater(() -> {
             GUIMain.setRoot(this.chooseWpGUI);
-            GUIMain.centerScreen();
             this.chooseWpGUI.assignPrivateObjectiveCard(idPrivateObj);
         });
 
@@ -183,15 +180,13 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void showCommand(List<Commands> commands) {
-
         Platform.runLater(() -> {
-            Map<Commands, Runnable> map = this.bank.getAvailableCommands(commands);
-            this.commManager.setFunctions(map);
-            System.out.println("settata la mappa");
-            for(Commands c : this.commManager.getFunctions().keySet())
-                System.out.println(c + "");
+            Map<Commands, Runnable> functions = this.bank.getAvailableCommands(commands);
+            this.manager.setFunctions(functions);
             this.chooseWpGUI.addHandlers();
+
         });
+
 
     }
 
@@ -242,7 +237,7 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void showNotice(String notice) {
-        System.out.println("aspetta gli altri");
+
     }
 
     @Override
@@ -284,21 +279,5 @@ public class GUIView implements IViewMaster {
 
     public void setListPlayers(Parent listPlayers) {
         this.listPlayers = listPlayers;
-    }
-
-    public Bank getBank() {
-        return bank;
-    }
-
-    public void setBank(Bank bank) {
-        this.bank = bank;
-    }
-
-    public GUICommunicationManager getCommManager() {
-        return commManager;
-    }
-
-    public void setCommManager(GUICommunicationManager commManager) {
-        this.commManager = commManager;
     }
 }
