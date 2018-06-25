@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.move;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
-import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.WindowPatternCard;

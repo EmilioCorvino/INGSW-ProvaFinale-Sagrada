@@ -1,8 +1,8 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.Commands;
-import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
-import it.polimi.ingsw.controller.simplifiedview.SimplifiedWindowPatternCard;
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 
 import java.util.List;

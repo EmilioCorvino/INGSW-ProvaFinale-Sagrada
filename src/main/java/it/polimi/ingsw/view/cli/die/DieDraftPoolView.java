@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.cli.die;
 
-import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 
 import java.util.ArrayList;
 import java.util.List;

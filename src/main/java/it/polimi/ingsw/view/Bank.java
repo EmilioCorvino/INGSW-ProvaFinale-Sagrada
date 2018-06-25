@@ -3,7 +3,10 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.view.cli.commands.UserCommands;
 
-import java.util.*;
+import java.util.EnumMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class contains the map of all the possible command usable in the game and the method to filter them depending
@@ -44,6 +47,7 @@ public class Bank {
     private void populateAvailableCommandMap(){
         availableCommands.put(Commands.CHOOSE_WP, defaultMatchManager::chooseWp);
         availableCommands.put(Commands.PLACEMENT, defaultMatchManager::defaultPlacement);
+        /*
         availableCommands.put(Commands.TOOL1, toolCardManager::tool1);
         availableCommands.put(Commands.TOOL2, toolCardManager::tool2);
         availableCommands.put(Commands.TOOL3, toolCardManager::tool3);
@@ -58,6 +62,7 @@ public class Bank {
         availableCommands.put(Commands.TOOL12, toolCardManager::tool12);
         availableCommands.put(Commands.EXTRA_TOOL6, toolCardManager::tool6Extra);
         availableCommands.put(Commands.EXTRA_TOOL11, toolCardManager::tool11Extra);
+        */
         availableCommands.put(Commands.OTHER_PLAYERS_MAPS, defaultMatchManager::showAllWp);
         availableCommands.put(Commands.PUBLIC_OBJ_CARDS, defaultMatchManager::showPublicObj);
         availableCommands.put(Commands.PRIVATE_OBJ_CARD, defaultMatchManager::showPrivateObj);
@@ -111,6 +116,14 @@ public class Bank {
         function.put(UserCommands.HELP.getDescription(), defaultMatchManager::printCommands);
 
         return function;
+    }
+
+    public Map<Commands, Runnable> getAvailableCommands(List<Commands> commands) {
+        Map<Commands, Runnable> map = new LinkedHashMap<>();
+
+        commands.forEach(c -> map.put(c, availableCommands.get(c)));
+
+        return map;
     }
 
     /**

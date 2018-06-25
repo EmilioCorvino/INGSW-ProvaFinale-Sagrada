@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.cli.die;
 
-import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
-import it.polimi.ingsw.controller.simplifiedview.SimplifiedWindowPatternCard;
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
 
 /**
  * This class identify the window pattern card in the view.

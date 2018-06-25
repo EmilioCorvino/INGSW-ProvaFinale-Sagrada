@@ -2,7 +2,7 @@ package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.controller.ServerImplementation;
 import it.polimi.ingsw.controller.WaitingRoom;
-import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
+import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
 import it.polimi.ingsw.network.Connection;
 import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;

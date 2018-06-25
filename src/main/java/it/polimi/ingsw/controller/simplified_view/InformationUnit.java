@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.simplifiedview;
+package it.polimi.ingsw.controller.simplified_view;
 
 import java.io.Serializable;
 

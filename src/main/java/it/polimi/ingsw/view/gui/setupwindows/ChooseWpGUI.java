@@ -1,11 +1,11 @@
 package it.polimi.ingsw.view.gui.setupwindows;
 
-import it.polimi.ingsw.controller.simplifiedview.SimplifiedWindowPatternCard;
+import it.polimi.ingsw.controller.Commands;
+import it.polimi.ingsw.view.gui.GUICommunicationManager;
 import it.polimi.ingsw.view.gui.GUIMain;
 import it.polimi.ingsw.view.gui.WpGui;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -15,6 +15,7 @@ import javafx.scene.layout.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class ChooseWpGUI extends VBox {
 
@@ -29,6 +30,7 @@ public class ChooseWpGUI extends VBox {
 
 
     private VBox privateCardContainer;
+
 
     /**
      * This containes the private objective card and the map of window pattern card among which to choose
@@ -50,82 +52,64 @@ public class ChooseWpGUI extends VBox {
 
     private List<WpGui> maps;
 
+
     private WpGui chosenWp;
 
     public WpGui getChosenWp() {
         return chosenWp;
     }
 
+    private final GUICommunicationManager communicator;
+
     public void setChosenWp(WpGui chosenWp) {
         this.chosenWp = chosenWp;
     }
 
-    public ChooseWpGUI() {
+    public ChooseWpGUI(GUICommunicationManager manager) {
+        this.communicator = manager;
         chosenWp = new WpGui();
         mainContainer = new VBox();
         secondContainer = new HBox();
-
         maps = new ArrayList<>();
-
-        /*
-
-        this.mainContainer.setMinHeight(700);
-        this.mainContainer.setMinWidth(1200);
-        this.mainContainer.setMaxHeight(700);
-        this.mainContainer.setMaxWidth(1200);
-        */
 
         this.setMinHeight(700);
         this.setMinWidth(1200);
         this.setMaxHeight(700);
         this.setMaxWidth(1200);
-        GUIMain.centerScreen();
-
-
-
-
-
 
         header = new HBox();
-
         initializeHeader();
 
-
         privateCardContainer = new VBox();
-
         initializeCardContainer();
 
         mapsContainer = new VBox();
-
         initializeMapContainer();
 
         secondContainer.getChildren().addAll(privateCardContainer, mapsContainer);
-
         this.mainContainer.getChildren().addAll(header, secondContainer);
-
         this.getChildren().add(mainContainer);
-
         formatWindow();
-
-
 
         this.addEventHandler(MouseEvent.MOUSE_PRESSED, this:: pressedWindow);
         this.addEventHandler(MouseEvent.MOUSE_DRAGGED, this :: draggedWindow);
     }
 
-    protected void pressedWindow(MouseEvent event) {
+    private void pressedWindow(MouseEvent event) {
         xOffset = event.getSceneX();
         yOffset = event.getSceneY();
     }
 
-    protected void draggedWindow(MouseEvent event) {
+    private void draggedWindow(MouseEvent event) {
         GUIMain.getStage().setX(event.getScreenX() - xOffset);
         GUIMain.getStage().setY(event.getScreenY() - yOffset);
     }
 
+    /**
+     * This method constructs the container for the four maps among which to choose.
+     */
     public void initializeMapContainer() {
-        Label title = new Label("Scegli una mappa:");
-
+        Label title = new Label("");
         gridMaps = new GridPane();
 
         for(int i=0; i<2; i++) {
@@ -134,27 +118,45 @@ public class ChooseWpGUI extends VBox {
             for(int j=0; j<2; j++) {
                 ColumnConstraints cc = new ColumnConstraints(280);
                 this.gridMaps.getColumnConstraints().add(cc);
-
             }
         }
-
         this.mapsContainer.getChildren().addAll(title, gridMaps);
     }
 
+    /**
+     * This method constructs the container for the private objective card assigned by the server.
+     */
     public void initializeCardContainer() {
         Label titleimg = new Label("La tua carta obiettivo privato:");
         this.privateCardContainer.getChildren().add(titleimg);
     }
 
+    /**
+     * This method constructs the header of the window, with proper title and commands.
+     */
     public void initializeHeader() {
         Label titleHeader = new Label("Sagrada - set up del gioco");
         titleHeader.setPadding(new Insets(3, 0, 0, 0));
+        HBox buttonBox = new HBox();
         Button exit = new Button("X");
-        this.header.getChildren().addAll(titleHeader, exit);
+        Button help = new Button(("?"));
+        Button minimize = new Button("_");
+        buttonBox.getChildren().addAll(minimize, help, exit);
+        buttonBox.getChildren().get(0).getStyleClass().add("button-style");
+        buttonBox.getChildren().get(1).getStyleClass().add("button-style");
+        buttonBox.getChildren().get(2).getStyleClass().add("button-style");
+        buttonBox.setSpacing(7);
+        this.header.getChildren().addAll(titleHeader, buttonBox);
 
         exit.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> System.exit(0));
+        help.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> this.communicator.communicateMessage("Seleziona una sola delle 4 mappe presentate"));
+        minimize.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> GUIMain.getStage().setIconified(true));
     }
 
+    /**
+     * This method sets the private objective card assigned by the server.
+     * @param id the id of the card assigned.
+     */
     public void assignPrivateObjectiveCard(int id) {
         Image card = new Image("/cards/privateImages/private_" + id + ".png");
         ImageView view = new ImageView(card);
@@ -164,14 +166,15 @@ public class ChooseWpGUI extends VBox {
         view.setPreserveRatio(true);
     }
 
+    /**
+     * This method styles the window for the private objective card and the four maps among which to choose.
+     */
     public void formatWindow() {
-
         this.getStylesheets().add("style/backgrounds.css");
         this.getStyleClass().add("background");
 
-        this.header.setSpacing(900);
+        this.header.setSpacing(860);
         this.header.getChildren().get(0).getStyleClass().add("title");
-        this.header.getChildren().get(1).getStyleClass().add("button-style");
 
         this.mainContainer.setPadding(new Insets(20, 25, 20, 25));
         this.mainContainer.getStyleClass().add("VBox");
@@ -182,7 +185,6 @@ public class ChooseWpGUI extends VBox {
 
         this.secondContainer.setSpacing(100);
         this.secondContainer.setPadding(new Insets(10, 0, 20, 0));
-
 
         this.privateCardContainer.setSpacing(70);
         this.privateCardContainer.setAlignment(Pos.CENTER);
@@ -203,28 +205,15 @@ public class ChooseWpGUI extends VBox {
         this.gridMaps.setPadding(new Insets(0, 0, 0 , 600));
     }
 
-    public void wpToShow(List<SimplifiedWindowPatternCard> listToFlow) {
-        listToFlow.forEach(map -> {
-            WpGui wp = new WpGui();
-            wp.constructMap(map);
-            maps.add(wp);
-        });
-
-        formatMapsContainer();
-    }
-
-
+    /**
+     * This method puts the four maps among which to choose in the container to be shown.
+     */
     public void formatMapsContainer() {
 
         VBox cell0 = new VBox();
         cell0.setSpacing(20);
         cell0.setPadding(new Insets(5, 30, 5, 30));
-        cell0.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> handleOnMapSelection(cell0));
-        cell0.addEventHandler(MouseEvent.MOUSE_EXITED, e -> cell0.setStyle("-fx-background-color: transparent"));
-        cell0.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> handleChosenMap(cell0));
-
         WpGui wp0 = this.maps.get(0);
-
         cell0.getChildren().addAll(wp0.getIdMap(), wp0.getGlassWindow(), wp0.getDifficulty());
         this.gridMaps.add(cell0, 0, 0);
 
@@ -233,22 +222,12 @@ public class ChooseWpGUI extends VBox {
         cell1.setPadding(new Insets(5, 30, 5, 30));
         WpGui wp1 = this.maps.get(1);
         cell1.setSpacing(20);
-
-        cell1.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> handleOnMapSelection(cell1));
-        cell1.addEventHandler(MouseEvent.MOUSE_EXITED, e -> cell1.setStyle("-fx-background-color: transparent"));
-        cell1.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> handleChosenMap(cell1));
-
         cell1.getChildren().addAll(wp1.getIdMap(), wp1.getGlassWindow(), wp1.getDifficulty());
         this.gridMaps.add(cell1, 1, 0);
 
         VBox cell2 = new VBox();
         WpGui wp2 = this.maps.get(2);
         cell2.setSpacing(20);
-
-        cell2.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> handleOnMapSelection(cell2));
-        cell2.addEventHandler(MouseEvent.MOUSE_EXITED, e -> cell2.setStyle("-fx-background-color: transparent"));
-        cell2.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> handleChosenMap(cell2));
-
         cell2.getChildren().addAll(wp2.getIdMap(), wp2.getGlassWindow(), wp2.getDifficulty());
         cell2.setPadding(new Insets(5, 30, 5, 30));
         this.gridMaps.add(cell2, 0, 1);
@@ -256,41 +235,50 @@ public class ChooseWpGUI extends VBox {
         VBox cell3 = new VBox();
         WpGui wp3 = this.maps.get(3);
         cell3.setSpacing(20);
-
-        cell3.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> handleOnMapSelection(cell3));
-        cell3.addEventHandler(MouseEvent.MOUSE_EXITED, e -> cell3.setStyle("-fx-background-color: transparent"));
-        cell3.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> handleChosenMap(cell3));
-
         cell3.getChildren().addAll(wp3.getIdMap(), wp3.getGlassWindow(), wp3.getDifficulty());
         cell3.setPadding(new Insets(5, 30, 5, 30));
         this.gridMaps.add(cell3, 1, 1);
     }
 
+    /**
+     * This method handles the hover action on a specific map.
+     * @param chosenMap the hovered map.
+     */
     public void handleOnMapSelection(VBox chosenMap) {
         chosenMap.setMinWidth(240);
         chosenMap.setMinHeight(240);
         chosenMap.setStyle("-fx-background-color: rgba(102, 217, 255, 0.3)");
     }
 
+    /**
+     * This method handles the selection of a map and keeps in mwemory the choice.
+     * @param map the chosen map.
+     */
     public void handleChosenMap(VBox map) {
-
-        WpGui chosen = new WpGui();
-        chosen.setIdMap((Label)map.getChildren().get(0));
-        chosen.setGlassWindow((GridPane)map.getChildren().get(1));
-        chosen.setDifficulty((Label)map.getChildren().get(2));
-       // chosen.setStyle("-fx-background-color: rgba(102, 217, 255, 0.3)");
-        this.setChosenWp(chosen);
-
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(null);
-        alert.setContentText("hai scelto la mappa! Attendi che anche gli altri giocatori lo facciano.");
-        alert.showAndWait();
-        alert.setOnCloseRequest(event -> alert.hide());
-
+        if(this.communicator.isCommandContained(Commands.CHOOSE_WP)) {
+            WpGui chosen = new WpGui();
+            chosen.setIdMap((Label)map.getChildren().get(0));
+            chosen.setGlassWindow((GridPane)map.getChildren().get(1));
+            chosen.setDifficulty((Label)map.getChildren().get(2));
+            map.setStyle("-fx-background-color: rgba(102, 217, 255, 0.3)");
+            this.setChosenWp(chosen);
+        } else {
+            this.communicator.communicateMessage("Hai già scelto una mappa.");
+        }
     }
 
-
+    /**
+     * This method adds the handlers to the maps.
+     */
+    public void addHandlers() {
+        for(int i=0; i<2; i++)
+            for(int j=0; j<2; j++) {
+                VBox cell = (VBox)this.gridMaps.getChildren().get(2*i + j);
+                cell.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> handleOnMapSelection(cell));
+                cell.addEventHandler(MouseEvent.MOUSE_EXITED, e -> cell.setStyle("-fx-background-color: transparent"));
+                cell.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> handleChosenMap(cell));
+            }
+        }
 
     public VBox getMainContainer() {
         return mainContainer;
@@ -341,5 +329,9 @@ public class ChooseWpGUI extends VBox {
 
     public void setMaps(List<WpGui> maps) {
         this.maps = maps;
+    }
+
+    public GUICommunicationManager getCommunicator() {
+        return communicator;
     }
 }

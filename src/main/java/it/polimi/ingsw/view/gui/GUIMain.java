@@ -1,8 +1,8 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.view.IViewMaster;
 import it.polimi.ingsw.view.gui.loginwindows.LoginIpAddrTypeConnGUI;
 import it.polimi.ingsw.view.gui.loginwindows.LoginRootGUI;
-import it.polimi.ingsw.view.IViewMaster;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,6 +23,7 @@ public class GUIMain extends Application {
     public void start(Stage primaryStage) {
         setStage(primaryStage);
         guiView = new GUIView();
+
         LoginRootGUI root = new LoginIpAddrTypeConnGUI();
         scene = new Scene(root);
 

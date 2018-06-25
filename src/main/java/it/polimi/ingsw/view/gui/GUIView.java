@@ -11,11 +11,13 @@ import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
+import it.polimi.ingsw.view.Bank;
+import it.polimi.ingsw.view.IViewMaster;
+import it.polimi.ingsw.view.gui.gameWindows.GUIDefaultMatchManager;
 import it.polimi.ingsw.view.gui.loginwindows.LoginIpAddrTypeConnGUI;
 import it.polimi.ingsw.view.gui.loginwindows.LoginUsernameGameModeGUI;
 import it.polimi.ingsw.view.gui.loginwindows.ShowPlayersGUI;
 import it.polimi.ingsw.view.gui.setupwindows.ChooseWpGUI;
-import it.polimi.ingsw.view.IViewMaster;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 
@@ -38,13 +40,31 @@ public class GUIView implements IViewMaster {
 
     private PlayersData playersData;
 
+    private GUICommunicationManager manager;
+
+    private Bank bank;
+
+
+
 
 
     public GUIView() {
+        bank = new Bank();
+        manager = new GUICommunicationManager();
         listPlayers = new ShowPlayersGUI();
-        chooseWpGUI = new ChooseWpGUI();
+        chooseWpGUI = new ChooseWpGUI(manager);
         playersData = new PlayersData();
 
+    }
+
+    /**
+     * This method create the bank, create the default manager and the tool card manager and populate its maps.
+     */
+    private void setBank(){
+        bank = new Bank();
+        bank.setDefaultMatchManager(new GUIDefaultMatchManager(this));
+        //bank.setToolCardManager(new CliToolCardCardManager(this));
+        bank.populateBank();
     }
 
     /**
@@ -160,6 +180,13 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void showCommand(List<Commands> commands) {
+        Platform.runLater(() -> {
+            Map<Commands, Runnable> functions = this.bank.getAvailableCommands(commands);
+            this.manager.setFunctions(functions);
+            this.chooseWpGUI.addHandlers();
+
+        });
+
 
     }
 
