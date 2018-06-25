@@ -63,12 +63,12 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
 
     @Override
     public void chooseWp() {
+        super.view.getFunctions().remove(UserCommands.SCELTA_WP.getDescription());
         try {
             server.windowPatternCardRequest(super.view.getSetUpManager().getIdChosen());
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during map id choose.");
         }
-        super.view.getFunctions().remove(UserCommands.SCELTA_WP.getDescription());
     }
 
     @Override
