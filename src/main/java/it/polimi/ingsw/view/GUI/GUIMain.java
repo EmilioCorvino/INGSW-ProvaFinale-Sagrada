@@ -23,6 +23,7 @@ public class GUIMain extends Application {
     public void start(Stage primaryStage) {
         setStage(primaryStage);
         guiView = new GUIView();
+
         LoginRootGUI root = new LoginIpAddrTypeConnGUI();
         scene = new Scene(root);
 
