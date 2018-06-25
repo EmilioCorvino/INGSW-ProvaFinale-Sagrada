@@ -3,7 +3,7 @@ package it.polimi.ingsw.controller.managers;
 
 import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.ControllerMaster;
-import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.cards.ToolCardSlot;
 import it.polimi.ingsw.model.cards.tool.ToolCard;
@@ -130,6 +130,12 @@ public class GamePlayManager extends AGameManager {
         IFromServerToClient currentPlayerClient =
                 super.getControllerMaster().getConnectedPlayers().get(currentPlayerTurn.getPlayer().getPlayerName()).getClient();
         GameState gameState = super.getControllerMaster().getGameState();
+
+        if(gameState.isCurrentTurnOver()) {
+            this.endTurn("\nDevi saltare questo turno!\n");
+            return;
+        }
+
         try {
             //Check whether this is the first or the second turn of this player in this round.
             String turnNumber =
@@ -336,7 +342,7 @@ public class GamePlayManager extends AGameManager {
                 }
 
                 //Checks if the executeMove has been successful or not, and modifies the state of the turn accordingly.
-                this.checkAndResolveToolMoveLegality(gameState, slotID, slot.getToolCard());
+                this.checkAndResolveToolMoveLegality(gameState, slotID, slot.getToolCard(), false);
             }
         } else {
             this.endTurn("\nHai già effettuato tutte le operazioni possibili in un turno, " +
@@ -360,6 +366,16 @@ public class GamePlayManager extends AGameManager {
 
         IMove restrictedPlacement = new RestrictedDiePlacementMove();
         restrictedPlacement.executeMove(this, infoUnit);
+
+        if(!this.isMoveLegal()) {
+            super.sendNotification(gameState.getCurrentPlayer().getWindowPatternCard().getErrorMessage() +
+                    " Prova a piazzare il dado in un'altra posizione.");
+            //Only the extra command for tool 6 is sent because even in the case of tool 11, at this point, the value
+            //of the die has already been chosen.
+            super.sendCommands(Collections.singletonList(Commands.EXTRA_TOOL6));
+        } else {
+            //this.checkAndResolveToolMoveLegality(gameState, );
+        }
     }
 
     /**
@@ -694,8 +710,10 @@ public class GamePlayManager extends AGameManager {
      * @param gameState object representing the state of the game.
      * @param slotID    ID of the slot where the {@link ToolCard} is in.
      * @param toolCard  {@link ToolCard} that has been used.
+     * @param requiresMultipleInteractions a flag that signals whether the card requires more than one interaction with
+     *                                     the player or not.
      */
-    private void checkAndResolveToolMoveLegality(GameState gameState, int slotID, ToolCard toolCard) {
+    private void checkAndResolveToolMoveLegality(GameState gameState, int slotID, ToolCard toolCard, boolean requiresMultipleInteractions) {
         if (this.isMoveLegal()) {
             gameState.getCurrentTurn().setToolCardUsed(true);
             int toolCost = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).getCost();
@@ -724,12 +742,13 @@ public class GamePlayManager extends AGameManager {
 
             //Checks if the player has done everything he could. If he did, ends his turn; if not, shows him the
             //commands still available to him.
-            if (!gameState.isCurrentTurnOver()) {
+            ToolCard card = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).getToolCard();
+            if (!gameState.isCurrentTurnOver() && !requiresMultipleInteractions) {
                 List<Commands> filteredCommands = this.filterTools(this.currentPlayerCommands, gameState);
                 super.sendNotification("\nPuoi ancora effettuare un piazzamento, visualizzare informazioni della " +
                         "plancia oppure passare.\n");
                 super.sendCommands(filteredCommands);
-            } else {
+            } else if (gameState.isCurrentTurnOver() && !requiresMultipleInteractions) {
                 this.endTurn(EVERYTHING_DONE);
             }
         } else {

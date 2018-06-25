@@ -1,6 +1,6 @@
-package it.polimi.ingsw.view.GUI.loginWindows;
+package it.polimi.ingsw.view.gui.loginwindows;
 
-import it.polimi.ingsw.view.GUI.GUIMain;
+import it.polimi.ingsw.view.gui.GUIMain;
 import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;

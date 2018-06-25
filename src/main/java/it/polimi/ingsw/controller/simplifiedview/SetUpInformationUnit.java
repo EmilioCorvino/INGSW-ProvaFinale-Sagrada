@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.simplified_view;
+package it.polimi.ingsw.controller.simplifiedview;
 
 import it.polimi.ingsw.model.Color;
 

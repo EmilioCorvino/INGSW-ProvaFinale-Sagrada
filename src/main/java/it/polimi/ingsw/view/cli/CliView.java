@@ -1,8 +1,8 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.Commands;
-import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
+import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
+import it.polimi.ingsw.controller.simplifiedview.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
@@ -10,8 +10,8 @@ import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.IViewMaster;
-import it.polimi.ingsw.view.cli.boardElements.CommonBoardView;
-import it.polimi.ingsw.view.cli.boardElements.PlayerView;
+import it.polimi.ingsw.view.cli.boardelements.CommonBoardView;
+import it.polimi.ingsw.view.cli.boardelements.PlayerView;
 import it.polimi.ingsw.view.Bank;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
@@ -19,10 +19,10 @@ import it.polimi.ingsw.view.cli.generalmanagers.CliDefaultMatchManager;
 import it.polimi.ingsw.view.cli.generalmanagers.CliToolCardCardManager;
 import it.polimi.ingsw.view.cli.generalmanagers.InputOutputManager;
 import it.polimi.ingsw.view.cli.generalmanagers.ScannerThread;
-import it.polimi.ingsw.view.cli.stateManagers.EndGameManager;
-import it.polimi.ingsw.view.cli.stateManagers.GamePlayManager;
-import it.polimi.ingsw.view.cli.stateManagers.LoginManager;
-import it.polimi.ingsw.view.cli.stateManagers.SetUpManager;
+import it.polimi.ingsw.view.cli.statemanagers.EndGameManager;
+import it.polimi.ingsw.view.cli.statemanagers.GamePlayManager;
+import it.polimi.ingsw.view.cli.statemanagers.LoginManager;
+import it.polimi.ingsw.view.cli.statemanagers.SetUpManager;
 
 import java.util.List;
 import java.util.Map;
@@ -91,9 +91,9 @@ public class CliView implements IViewMaster {
      */
     private boolean isNotTheFirstTime;
 
-    public CliView() {
+    public CliView(InputOutputManager inputOutputManager) {
         player = new PlayerView();
-        inputOutputManager = new InputOutputManager();
+        this.inputOutputManager = inputOutputManager;
         commonBoard = new CommonBoardView();
         loginManager = new LoginManager(inputOutputManager);
         setUpManager = new SetUpManager(inputOutputManager);

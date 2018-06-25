@@ -1,8 +1,8 @@
-package it.polimi.ingsw.view.GUI;
+package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.controller.Commands;
-import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
-import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
+import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
+import it.polimi.ingsw.controller.simplifiedview.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.network.rmi.RmiFromClientToServer;
 import it.polimi.ingsw.network.socket.SocketFromClientToServer;
@@ -11,10 +11,10 @@ import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
-import it.polimi.ingsw.view.GUI.loginWindows.LoginIpAddrTypeConnGUI;
-import it.polimi.ingsw.view.GUI.loginWindows.LoginUsernameGameModeGUI;
-import it.polimi.ingsw.view.GUI.loginWindows.ShowPlayersGUI;
-import it.polimi.ingsw.view.GUI.setupWindows.ChooseWpGUI;
+import it.polimi.ingsw.view.gui.loginwindows.LoginIpAddrTypeConnGUI;
+import it.polimi.ingsw.view.gui.loginwindows.LoginUsernameGameModeGUI;
+import it.polimi.ingsw.view.gui.loginwindows.ShowPlayersGUI;
+import it.polimi.ingsw.view.gui.setupwindows.ChooseWpGUI;
 import it.polimi.ingsw.view.IViewMaster;
 import javafx.application.Platform;
 import javafx.scene.Parent;

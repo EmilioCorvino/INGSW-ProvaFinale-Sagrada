@@ -1,8 +1,8 @@
-package it.polimi.ingsw.view.GUI.setupWindows;
+package it.polimi.ingsw.view.gui.setupwindows;
 
-import it.polimi.ingsw.controller.simplified_view.SimplifiedWindowPatternCard;
-import it.polimi.ingsw.view.GUI.GUIMain;
-import it.polimi.ingsw.view.GUI.WpGui;
+import it.polimi.ingsw.controller.simplifiedview.SimplifiedWindowPatternCard;
+import it.polimi.ingsw.view.gui.GUIMain;
+import it.polimi.ingsw.view.gui.WpGui;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
