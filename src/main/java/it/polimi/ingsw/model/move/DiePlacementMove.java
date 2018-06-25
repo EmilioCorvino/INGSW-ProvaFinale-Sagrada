@@ -31,11 +31,12 @@ public class DiePlacementMove implements IMove {
 
         if(!wp.canBePlaced(die, desiredCell, wp.getGlassWindowCopy())) {
             manager.setMoveLegal(false);
-            manager.sendNotification(wp.getErrorMessage() + "\nDigita aiuto per rivedere i tuoi comandi.");
+            manager.sendNotification(wp.getErrorMessage() + "\nDigita aiuto per visualizzare nuovamente i tuoi comandi.");
             return;
         }
 
         manager.setMoveLegal(true);
+
         //Generation of SetUpInformationUnits to send to the view.
         //this goes in a proper method and show placement result takes one parameter as input.
         SetUpInformationUnit wpSetUpInfoUnit = new SetUpInformationUnit();

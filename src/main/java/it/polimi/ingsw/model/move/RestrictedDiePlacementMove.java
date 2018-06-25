@@ -39,6 +39,7 @@ public class RestrictedDiePlacementMove implements IMove {
             if(!checkExistingCellsToUse(wp, dieToCheck)) {
                 manager.setMoveLegal(true);
                 manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDiceCopy().add(dieToCheck);
+                manager.getControllerMaster().getGameState().getCurrentTurn().setDiePlaced(false);
                 manager.showUpdatedDraft(packMultipleInformation(manager));
             } else {
                 manager.setMoveLegal(false);
