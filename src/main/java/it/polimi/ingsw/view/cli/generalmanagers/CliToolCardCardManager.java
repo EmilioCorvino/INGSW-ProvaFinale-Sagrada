@@ -35,9 +35,9 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
 
         String option = super.inputOutputManager.askInformation("Inserire l'operazione desiderata:\n" +
                 "\t- Incrementa di 1\n\t- Decrementa di 1");
-        while (!(option.equalsIgnoreCase("incrementa") || option.equalsIgnoreCase("decrementa")))
+        while (!("incrementa".equalsIgnoreCase(option) || "decrementa".equalsIgnoreCase(option)))
             option = super.inputOutputManager.askInformation("Errore: scelta non supportata, inserire (Decrementa/Incrementa): ");
-        if (option.equalsIgnoreCase("incrementa"))
+        if ("incrementa".equalsIgnoreCase(option))
             infoUnit.setExtraParam(0);
         else
             infoUnit.setExtraParam(1);
@@ -320,7 +320,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         SetUpInformationUnit infoUnit2 = new SetUpInformationUnit();
         String nDice = "0";
 
-        while (!nDice.equals("1") || !nDice.equals("2"))
+        while (!"1".equals(nDice) || !"2".equals(nDice))
             nDice = super.inputOutputManager.askInformation("Inserisci quanti dadi vuoi piazzare(1-2): ");
 
 
@@ -333,7 +333,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         this.fromWpToWp(infoUnit1);
         units.add(infoUnit1);
 
-        if(nDice.equals("2")) {
+        if("2".equals(nDice)) {
             infoUnit2.setExtraParam(infoUnit1.getExtraParam());
             infoUnit2.setOffset(infoUnit1.getOffset());
             this.fromWpToWp(infoUnit2);
