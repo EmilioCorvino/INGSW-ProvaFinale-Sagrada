@@ -86,6 +86,11 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
     }
 
     @Override
+    public void performRestrictedPlacement(SetUpInformationUnit infoUnit, Connection connection) throws RemoteException {
+
+    }
+
+    @Override
     public void moveToNextTurn(Connection connection) {
         synchronized(this) {
             this.serverImplementation.getConnectionsQueue().add(connection);

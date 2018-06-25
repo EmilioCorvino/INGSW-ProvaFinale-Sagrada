@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.cards.tool.ToolCard;
 import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 import it.polimi.ingsw.model.move.DiePlacementMove;
 import it.polimi.ingsw.model.move.IMove;
+import it.polimi.ingsw.model.move.RestrictedDiePlacementMove;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.turn.GameState;
 import it.polimi.ingsw.model.turn.Turn;
@@ -311,7 +312,9 @@ public class GamePlayManager extends AGameManager {
 
         //Checks if the request comes from the current player. If not, shows the player the commands of a waiting player.
         //This is just a security measure, it should not be possible to be in this situation.
-        this.handleIllegalStateRequests(playerName);
+        if(this.handleIllegalStateRequests(playerName)) {
+            return;
+        }
 
         if (!gameState.getCurrentTurn().isTurnCompleted()) {
 
@@ -324,7 +327,7 @@ public class GamePlayManager extends AGameManager {
                 super.sendCommands(filteredCommands);
             } else {
                 ToolCardSlot slot = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID);
-                this.checkToolCardAvailability(gameState, slot);
+                this.checkToolCardAvailability(gameState, slotID);
                 this.setMoveLegal(true);
                 for (int i = 0; i < infoUnits.size(); i++) {
                     if (this.isMoveLegal()) {
@@ -339,6 +342,24 @@ public class GamePlayManager extends AGameManager {
             this.endTurn("\nHai già effettuato tutte le operazioni possibili in un turno, " +
                     "passaggio al giocatore successivo...\n");
         }
+    }
+
+    /**
+     *
+     * @param infoUnit
+     * @param playerName
+     */
+    public void performRestrictedPlacement(SetUpInformationUnit infoUnit, String playerName) {
+        GameState gameState = super.getControllerMaster().getGameState();
+
+        //Checks if the request comes from the current player. If not, shows the player the commands of a waiting player.
+        //This is just a security measure, it should not be possible to be in this situation.
+        if(this.handleIllegalStateRequests(playerName)) {
+            return;
+        }
+
+        IMove restrictedPlacement = new RestrictedDiePlacementMove();
+        restrictedPlacement.executeMove(this, infoUnit);
     }
 
     /**
@@ -517,6 +538,34 @@ public class GamePlayManager extends AGameManager {
         }
     }
 
+    /**
+     * Shows the new die drafted after the player has chosen a die from the {@link DiceDraftPool}. It also sends the
+     * new command available.
+     * @param currentPlayer player on duty.
+     * @param infoUnit contains the information needed to show the new {@link it.polimi.ingsw.model.die.Die}
+     *                 (in the form of a {@link it.polimi.ingsw.view.cli.die.DieView}).
+     * @see it.polimi.ingsw.model.cards.tool.ValueEffects.DraftValueEffect
+     * @see it.polimi.ingsw.model.cards.tool.SwapEffect.SwapFromDraftPoolToDicebag
+     */
+    public void showDraftedDie(Player currentPlayer, SetUpInformationUnit infoUnit) {
+        if(!isMoveLegal()) {
+           return;
+        }
+
+        //Shows the newly drafted die to the player on duty.
+        GameState gameState = super.getControllerMaster().getGameState();
+        ToolCard card = super.getControllerMaster().getCommonBoard().getToolCardSlots()
+                .get(gameState.getCurrentTurn().getToolSlotUsed()).getToolCard();
+        IFromServerToClient currentPlayerClient =
+                super.getControllerMaster().getConnectedPlayers().get(currentPlayer.getPlayerName()).getClient();
+        try {
+            currentPlayerClient.showDie(infoUnit);
+            Commands commandToSend = card.getCommandName().equals(Commands.TOOL6) ? Commands.EXTRA_TOOL6 : Commands.EXTRA_TOOL11;
+            currentPlayerClient.showCommand(Collections.singletonList(commandToSend));
+        } catch (BrokenConnectionException e) {
+            //todo
+        }
+    }
 
 //----------------------------------------------------------
 //                    UTILITY METHODS
@@ -567,7 +616,7 @@ public class GamePlayManager extends AGameManager {
      * This method filters the list of {@link Commands} in input, removing all the ones related to {@link ToolCard}s.
      *
      * @param listToFilter list needing to be filtered.
-     * @param gameState
+     * @param gameState object representing the state of the game.
      */
     private List<Commands> filterTools(List<Commands> listToFilter, GameState gameState) {
         List<Commands> modifiedCurrentPlayerList = new ArrayList<>(listToFilter);
@@ -642,7 +691,6 @@ public class GamePlayManager extends AGameManager {
     /**
      * This methods is used to check if the tool card should be made effective or not and, if so, updates all the values
      * related to the move.
-     *
      * @param gameState object representing the state of the game.
      * @param slotID    ID of the slot where the {@link ToolCard} is in.
      * @param toolCard  {@link ToolCard} that has been used.
@@ -650,7 +698,6 @@ public class GamePlayManager extends AGameManager {
     private void checkAndResolveToolMoveLegality(GameState gameState, int slotID, ToolCard toolCard) {
         if (this.isMoveLegal()) {
             gameState.getCurrentTurn().setToolCardUsed(true);
-            gameState.getCurrentTurn().setToolSlotUsed(slotID);
             int toolCost = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).getCost();
             int oldPlayerFavorTokens = gameState.getCurrentPlayer().getFavorTokens();
             gameState.getCurrentPlayer().setFavorTokens(oldPlayerFavorTokens - toolCost);
@@ -687,14 +734,6 @@ public class GamePlayManager extends AGameManager {
             }
         } else {
             gameState.getCurrentTurn().setToolCardUsed(false);
-            /*try {
-                currentPlayerClient.showNotice("\nLa mossa non è andata a buon fine, digita 'aiuto' per " +
-                        "visualizzare nuovamente i comandi a te disponibili.");
-            } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.SEVERE, "Connection with the client crashed while using a " +
-                        "Tool Card", e);
-                //todo super.getControllerMaster().suspendPlayer(playerName);
-            }*/
         }
     }
 
@@ -703,7 +742,8 @@ public class GamePlayManager extends AGameManager {
      * Favor Tokens to spend.
      * In case the card cannot be used, a new suitable set of {@link Commands} is sent to the player.
      */
-    private void checkToolCardAvailability(GameState gameState, ToolCardSlot slot) {
+    private void checkToolCardAvailability(GameState gameState, int slotID) {
+        ToolCardSlot slot = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID);
         int playerFavorTokens = gameState.getCurrentPlayer().getFavorTokens();
         int turnNumber = gameState.getCurrentPlayerTurnIndex() < (gameState.getTurnOrder().size() / 2) ? FIRST_TURN : SECOND_TURN;
 
@@ -717,6 +757,8 @@ public class GamePlayManager extends AGameManager {
             List<Commands> updatedCommands = new ArrayList<>(this.currentPlayerCommands);
             updatedCommands.remove(slot.getToolCard().getCommandName());
             super.sendCommands(updatedCommands);
+        } else {
+            gameState.getCurrentTurn().setToolSlotUsed(slotID);
         }
     }
 }

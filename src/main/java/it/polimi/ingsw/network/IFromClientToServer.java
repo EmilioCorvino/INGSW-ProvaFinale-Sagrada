@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
@@ -42,12 +43,21 @@ public interface IFromClientToServer {
     void performDefaultMove(SetUpInformationUnit infoUnit) throws BrokenConnectionException;
 
     /**
-     * lets the player perform a move related to a particular {@link it.polimi.ingsw.model.cards.tool.ToolCard}.
+     * Lets the player perform a move related to a particular {@link it.polimi.ingsw.model.cards.tool.ToolCard}.
      * @param slotID ID of the slot the Tool Card is in.
      * @param infoUnits list of {@link SetUpInformationUnit}s needed to perform the move.
      * @throws BrokenConnectionException when the connection drops.
      */
     void performToolCardMove(int slotID, List<SetUpInformationUnit> infoUnits) throws BrokenConnectionException;
+
+    /**
+     * Lets the player place a specific die (the one shown with
+     * {@link it.polimi.ingsw.controller.managers.GamePlayManager#showDraftedDie(Player, SetUpInformationUnit)}) onto
+     * his {@link it.polimi.ingsw.model.die.containers.WindowPatternCard}.
+     * @param infoUnit object containing all the needed information to perform the placement.
+     * @throws BrokenConnectionException when the connection drops.
+     */
+    void performRestrictedPlacement(SetUpInformationUnit infoUnit) throws BrokenConnectionException;
 
     /**
      * Lets the player end his turn.

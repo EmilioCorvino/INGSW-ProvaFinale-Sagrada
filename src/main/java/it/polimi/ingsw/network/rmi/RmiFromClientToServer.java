@@ -120,6 +120,11 @@ public class RmiFromClientToServer implements IFromClientToServer {
     }
 
     @Override
+    public void performRestrictedPlacement(SetUpInformationUnit infoUnit) throws BrokenConnectionException {
+
+    }
+
+    @Override
     public void moveToNextTurn() throws BrokenConnectionException {
         try {
             this.rmiServer.moveToNextTurn(connection);

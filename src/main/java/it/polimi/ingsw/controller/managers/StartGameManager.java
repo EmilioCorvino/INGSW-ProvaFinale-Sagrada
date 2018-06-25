@@ -34,9 +34,15 @@ public class StartGameManager extends AGameManager {
      */
     private Map<String, List<Integer>> listOfSentWpID;
 
+    /**
+     * List containing all the players that logged out or disconnected before choosing the {@link WindowPatternCard}.
+     */
+    private List<String> playersDisconnectedBeforeChoosingWP;
+
     public StartGameManager(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
         this.listOfSentWpID = new HashMap<>();
+        this.playersDisconnectedBeforeChoosingWP = new ArrayList<>();
     }
 
 //----------------------------------------------------------

@@ -16,9 +16,8 @@ import java.util.List;
  */
 public class RestrictedDiePlacementMove implements IMove {
 
-
     /**
-     * This method executed the move considering some specific contitions.
+     * This method executed the move considering some specific conditions.
      * @param manager the controller.
      * @param setUpInfoUnit the info to consider.
      */
@@ -43,13 +42,12 @@ public class RestrictedDiePlacementMove implements IMove {
                 manager.showUpdatedDraft(packMultipleInformation(manager));
             } else {
                 manager.setMoveLegal(false);
-                //throw new IllegalPlacementExceptions("Questa mossa non è valida: Scegli delle nuove coordinate in cui inserire il dado");
             }
         }
     }
 
     /**
-     * This method checks in exists at least one cell in which the user can place a die.
+     * This method checks if exists at least one cell in which the user can place a die.
      * @param wp the window pattern of the player.
      * @param chosenDie the die to place.
      * @return true if exists at least one cell, false otherwise.

@@ -104,6 +104,11 @@ public class ServerImplementation implements IFromClientToServer {
         gamePlayManager.performToolCardMove(slotID, infoUnits, userName);
     }
 
+    @Override
+    public void performRestrictedPlacement(SetUpInformationUnit infoUnit) throws BrokenConnectionException {
+
+    }
+
     /**
      * This method tells the proper game manager of the controller to move to the next turn.
      */

@@ -33,6 +33,8 @@ public interface IRmiServer extends Remote {
 
     void performToolCardMove(int slotID, List<SetUpInformationUnit> infoUnits, Connection connection) throws RemoteException;
 
+    void performRestrictedPlacement(SetUpInformationUnit infoUnit, Connection connection) throws RemoteException;
+
     void moveToNextTurn(Connection connection) throws RemoteException;
 
     void startNewGameRequest(Connection connection) throws RemoteException;
