@@ -25,6 +25,7 @@ public class GUICommunicationManager {
 
    public boolean isCommandContained(Commands command) {
       if(functions.containsKey(command)) {
+         functions.get(command).run();
          this.functions.remove(command);
          return true;
       }

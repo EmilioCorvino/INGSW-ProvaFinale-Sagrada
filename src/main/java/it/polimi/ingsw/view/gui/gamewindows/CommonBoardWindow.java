@@ -19,6 +19,14 @@ public class CommonBoardWindow extends ParentWindow {
         header = new HBox();
         secondContainer = new HBox();
         gameData = new HBox();
+
+        this.setMinHeight(750);
+        this.setMinWidth(1200);
+        this.setMaxHeight(750);
+        this.setMaxWidth(1200);
+
+        this.getStylesheets().add("style/backgrounds.css");
+        this.getStyleClass().add("background");
     }
 
 

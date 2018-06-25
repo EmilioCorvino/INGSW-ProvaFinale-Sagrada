@@ -26,6 +26,7 @@ public class PlayersData {
     }
 
     public void setPersonalWp(WpGui personalWp) {
+        System.out.println("settata la mappa personale");
         this.personalWp = personalWp;
     }
 

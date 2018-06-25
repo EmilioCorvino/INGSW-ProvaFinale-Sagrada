@@ -55,11 +55,14 @@ public class GUIView implements IViewMaster {
 
     public GUIView() {
         bank = new Bank();
+        setBank();
         manager = new GUICommunicationManager();
         listPlayers = new ShowPlayersGUI();
         chooseWpGUI = new ChooseWpGUI(manager);
         playersData = new PlayersData();
         commonWindow = new CommonBoardWindow();
+
+        chooseWpGUI.setPlayersData(this.playersData);
 
 
     }
@@ -69,7 +72,10 @@ public class GUIView implements IViewMaster {
      */
     private void setBank(){
         bank = new Bank();
-        bank.setDefaultMatchManager(new GUIDefaultMatchManager(this));
+        GUIDefaultMatchManager matchManager = new GUIDefaultMatchManager(this);
+        bank.setDefaultMatchManager(matchManager);
+        matchManager.setServer(this.server);
+        matchManager.setPlayersData(this.playersData);
         //bank.setToolCardManager(new CliToolCardCardManager(this));
         bank.populateBank();
     }
@@ -143,6 +149,7 @@ public class GUIView implements IViewMaster {
     @Override
     public void showPrivateObjective(int idPrivateObj) {
         Platform.runLater(() -> {
+            this.current = chooseWpGUI;
             this.playersData.setIdPrivateCard(idPrivateObj);
             GUIMain.setRoot(this.chooseWpGUI);
             this.chooseWpGUI.assignPrivateObjectiveCard(idPrivateObj);
@@ -156,9 +163,7 @@ public class GUIView implements IViewMaster {
                WpGui wp = new WpGui();
                wp.constructMap(listWp.get(i));
                this.chooseWpGUI.getMaps().add(wp);
-               System.out.println("mappa " +i+ " added");
            }
-
            this.chooseWpGUI.formatMapsContainer();
        });
 
@@ -168,6 +173,11 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void setCommonBoard(Map<String, SimplifiedWindowPatternCard> players, int[] idPubObj, int[] idTool) {
+        Platform.runLater(() -> {
+            System.out.println("non cambia??");
+            this.current = commonWindow;
+            GUIMain.setRoot(current);
+        });
 
     }
 
@@ -186,7 +196,6 @@ public class GUIView implements IViewMaster {
         Platform.runLater(() -> {
             Map<Commands, Runnable> functions = this.bank.getAvailableCommands(commands);
             this.manager.setFunctions(functions);
-            this.current = chooseWpGUI;
             this.current.addHandlers();
         });
 
@@ -283,4 +292,6 @@ public class GUIView implements IViewMaster {
     public void setListPlayers(Parent listPlayers) {
         this.listPlayers = listPlayers;
     }
+
+
 }
