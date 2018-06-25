@@ -13,7 +13,7 @@ import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.Bank;
 import it.polimi.ingsw.view.IViewMaster;
-import it.polimi.ingsw.view.gui.gameWindows.GUIDefaultMatchManager;
+import it.polimi.ingsw.view.gui.gamewindows.GUIDefaultMatchManager;
 import it.polimi.ingsw.view.gui.loginwindows.LoginIpAddrTypeConnGUI;
 import it.polimi.ingsw.view.gui.loginwindows.LoginUsernameGameModeGUI;
 import it.polimi.ingsw.view.gui.loginwindows.ShowPlayersGUI;

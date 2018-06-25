@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.gui.gameWindows;
+package it.polimi.ingsw.view.gui.gamewindows;
 
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
