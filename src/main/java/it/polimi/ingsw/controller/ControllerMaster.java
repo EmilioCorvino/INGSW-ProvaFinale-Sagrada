@@ -52,7 +52,7 @@ public class ControllerMaster {
     /**
      * List of the suspended player after a problem of connection.
      */
-    private List<Player> suspendedPlayers;
+    private List<String> suspendedPlayers;
 
     /**
      * Room where player wait for a match to start.
@@ -102,6 +102,10 @@ public class ControllerMaster {
 
     public WaitingRoom getWaitingRoom() {
         return waitingRoom;
+    }
+
+    public List<String> getSuspendedPlayers() {
+        return suspendedPlayers;
     }
 
     /**

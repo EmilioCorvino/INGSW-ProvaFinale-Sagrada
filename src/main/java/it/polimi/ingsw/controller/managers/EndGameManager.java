@@ -25,7 +25,7 @@ public class EndGameManager extends AGameManager {
     /**
      * List containing the {@link Commands} the player can require during the end game phase.
      */
-    private final List<Commands> endGameCommands;
+    final List<Commands> endGameCommands;
 
     /**
      * Name of players that made a choice between starting a new game or logging out.
@@ -115,7 +115,12 @@ public class EndGameManager extends AGameManager {
 
         SagradaLogger.log(Level.WARNING, playerName + " logged out.");
 
-        if(playersThatAnswered.size() == super.getControllerMaster().getCommonBoard().getPlayers().size()) {
+        if(playersThatAnswered.size() == super.getControllerMaster().getCommonBoard().getPlayers().size() -
+                super.getControllerMaster().getSuspendedPlayers().size()) {
+
+            //Remove the suspended players from the connected ones
+            super.getControllerMaster().getSuspendedPlayers().forEach(getControllerMaster().getConnectedPlayers()::remove);
+
             if(connectedPlayers.isEmpty()) {
                 this.quitGame();
             } else {
@@ -146,8 +151,13 @@ public class EndGameManager extends AGameManager {
 
         SagradaLogger.log(Level.WARNING, playerName + " wishes to play again.");
 
-        if(playersThatAnswered.size() == super.getControllerMaster().getCommonBoard().getPlayers().size()) {
+        if(playersThatAnswered.size() == super.getControllerMaster().getCommonBoard().getPlayers().size() -
+                super.getControllerMaster().getSuspendedPlayers().size()) {
             Map<String, Connection> connectedPlayers = super.getControllerMaster().getConnectedPlayers();
+
+            //Remove the suspended players from the connected ones
+            super.getControllerMaster().getSuspendedPlayers().forEach(connectedPlayers::remove);
+
             for(Map.Entry<String, Connection> remainingPlayer: connectedPlayers.entrySet()) {
                 try {
                     remainingPlayer.getValue().getClient().showNotice("\nVerrai inserito in una nuova stanza d'attesa.\n");
@@ -170,7 +180,7 @@ public class EndGameManager extends AGameManager {
      * Asks the server owner whether he wants to close the server or not. If he doesn't, it prepares the
      * {@link it.polimi.ingsw.controller.WaitingRoom} for a new game.
      */
-    private void quitGame() {
+    void quitGame() {
         /*System.out.println("Do you want the server to close? (yes/no)");
         Scanner scanner = new Scanner(System.in);
         String choice = scanner.nextLine();

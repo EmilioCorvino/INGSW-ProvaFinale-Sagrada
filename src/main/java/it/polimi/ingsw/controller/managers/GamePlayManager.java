@@ -218,6 +218,23 @@ public class GamePlayManager extends AGameManager {
             this.startTurn(gameState.getCurrentTurn());
         }
 
+        //Checks if there is only one (or less) player left playing. In that case, ends the match.
+        if (super.getControllerMaster().getSuspendedPlayers().size() >= (super.getControllerMaster().getConnectedPlayers().size() - 1)) {
+            for(String playerName: super.getControllerMaster().getConnectedPlayers().keySet()) {
+                if(!super.getControllerMaster().getSuspendedPlayers().contains(playerName)) {
+                    IFromServerToClient client = super.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
+                    EndGameManager endGameManager = (EndGameManager) super.getControllerMaster().getEndGameManager();
+                    try {
+                        client.showNotice("\nSei l'ultimo giocatore rimasto, HAI VINTO PER ABBANDONO!\n");
+                        client.showCommand(endGameManager.endGameCommands);
+                    } catch (BrokenConnectionException e) {
+                        SagradaLogger.log(Level.SEVERE, playerName + " disconnected. Preparing a new room...");
+                        endGameManager.quitGame();
+                    }
+                }
+            }
+        }
+
         //If the round is over, start a new one, unless it was the last one. In that case, report that the match is over.
         else {
             this.endRound(gameState);
