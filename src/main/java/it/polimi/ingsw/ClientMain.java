@@ -1,5 +1,5 @@
 package it.polimi.ingsw;
-import it.polimi.ingsw.view.GUI.GUIMain;
+import it.polimi.ingsw.view.gui.GUIMain;
 import it.polimi.ingsw.view.IViewMaster;
 import it.polimi.ingsw.view.cli.CliView;
 import it.polimi.ingsw.view.cli.generalmanagers.InputOutputManager;

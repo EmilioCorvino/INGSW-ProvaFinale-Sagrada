@@ -1,7 +1,7 @@
-package it.polimi.ingsw.view.GUI;
+package it.polimi.ingsw.view.gui;
 
-import it.polimi.ingsw.view.GUI.loginWindows.LoginIpAddrTypeConnGUI;
-import it.polimi.ingsw.view.GUI.loginWindows.LoginRootGUI;
+import it.polimi.ingsw.view.gui.loginwindows.LoginIpAddrTypeConnGUI;
+import it.polimi.ingsw.view.gui.loginwindows.LoginRootGUI;
 import it.polimi.ingsw.view.IViewMaster;
 import javafx.application.Application;
 import javafx.scene.Parent;

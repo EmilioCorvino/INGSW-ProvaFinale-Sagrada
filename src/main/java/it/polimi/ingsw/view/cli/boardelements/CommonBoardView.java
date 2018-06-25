@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.cli.boardElements;
+package it.polimi.ingsw.view.cli.boardelements;
 
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.die.RoundTrackView;

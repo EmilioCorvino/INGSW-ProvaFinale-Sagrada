@@ -1,13 +1,13 @@
 package it.polimi.ingsw.view.cli.generalmanagers;
 
 import it.polimi.ingsw.controller.Commands;
-import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.cli.CliCommunicationManager;
 import it.polimi.ingsw.view.IToolCardManager;
 import it.polimi.ingsw.view.cli.CliView;
-import it.polimi.ingsw.view.cli.boardElements.ToolCardView;
+import it.polimi.ingsw.view.cli.boardelements.ToolCardView;
 
 import java.util.ArrayList;
 import java.util.List;

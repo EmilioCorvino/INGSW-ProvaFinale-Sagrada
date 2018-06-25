@@ -1,6 +1,6 @@
-package it.polimi.ingsw.view.cli.stateManagers;
+package it.polimi.ingsw.view.cli.statemanagers;
 
-import it.polimi.ingsw.controller.simplified_view.SetUpInformationUnit;
+import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.view.cli.die.RoundTrackView;
 import it.polimi.ingsw.view.cli.generalmanagers.InputOutputManager;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
@@ -109,26 +109,6 @@ public class GamePlayManager{
         unit.setSourceIndex(this.choseDraftDie(draft));
         unit.setDestinationIndex(this.choseCellWp());
     }
-
-    // DA CANCELLARE
-    /**
-     * This method allow the player to choose the command.
-     * @return the command chosen.
-     */
-    /*
-    public int showCommand(){
-        inputOutputManager.print("\nE' il tuo turno!");
-
-        int commandChosen = Integer.parseInt(inputOutputManager.askInformation("Scegli il comando:" +
-                "\n\t 1 - Piazzamento\n\t 2 - Uso Tool\n\t 3 - Visualizza mappe altri giocatori" +
-                "\n\t 4 - Visualizza obiettivi pubblici\n\t 5 - Visualizza carte strumento\n\t 6 - Visualizza obiettivo privato\n\t 7 - Passa"));
-
-        while(commandChosen < 0 || commandChosen > 7)
-            commandChosen = Integer.parseInt(inputOutputManager.askInformation("Errore: Scelta non supportata, inserisci un valore tra (0-5)"));
-
-        return commandChosen;
-    }
-    */
     
     public void addOnWp(WindowPatternCardView wp, SetUpInformationUnit unit){
         wp.getGlassWindow()[unit.getDestinationIndex()/WindowPatternCardView.MAX_COL][unit.getDestinationIndex() % WindowPatternCardView.MAX_COL].setDie(new DieView(unit.getColor(), unit.getValue()));
