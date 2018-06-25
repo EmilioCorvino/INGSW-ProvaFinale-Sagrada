@@ -13,6 +13,7 @@ import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.Bank;
 import it.polimi.ingsw.view.IViewMaster;
+import it.polimi.ingsw.view.gui.gamewindows.CommonBoardWindow;
 import it.polimi.ingsw.view.gui.gamewindows.GUIDefaultMatchManager;
 import it.polimi.ingsw.view.gui.loginwindows.LoginIpAddrTypeConnGUI;
 import it.polimi.ingsw.view.gui.loginwindows.LoginUsernameGameModeGUI;
@@ -44,6 +45,10 @@ public class GUIView implements IViewMaster {
 
     private Bank bank;
 
+    private CommonBoardWindow commonWindow;
+
+    private ParentWindow current;
+
 
 
 
@@ -54,6 +59,8 @@ public class GUIView implements IViewMaster {
         listPlayers = new ShowPlayersGUI();
         chooseWpGUI = new ChooseWpGUI(manager);
         playersData = new PlayersData();
+        commonWindow = new CommonBoardWindow();
+
 
     }
 
@@ -131,19 +138,15 @@ public class GUIView implements IViewMaster {
            GUIMain.setRoot(this.listPlayers);
            ((ShowPlayersGUI) this.listPlayers).showPlayers(players);
        });
-
-
-
     }
 
     @Override
     public void showPrivateObjective(int idPrivateObj) {
-
         Platform.runLater(() -> {
+            this.playersData.setIdPrivateCard(idPrivateObj);
             GUIMain.setRoot(this.chooseWpGUI);
             this.chooseWpGUI.assignPrivateObjectiveCard(idPrivateObj);
         });
-
     }
 
     @Override
@@ -183,8 +186,8 @@ public class GUIView implements IViewMaster {
         Platform.runLater(() -> {
             Map<Commands, Runnable> functions = this.bank.getAvailableCommands(commands);
             this.manager.setFunctions(functions);
-            this.chooseWpGUI.addHandlers();
-
+            this.current = chooseWpGUI;
+            this.current.addHandlers();
         });
 
 

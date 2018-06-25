@@ -1,14 +1,13 @@
 package it.polimi.ingsw.view.gui;
 
-import javax.swing.text.html.ImageView;
-
 public class PlayersData {
 
     private String username;
 
     private WpGui personalWp;
 
-    private ImageView privateCard;
+    private int idPrivateCard;
+
 
     public PlayersData() {
 
@@ -30,11 +29,11 @@ public class PlayersData {
         this.personalWp = personalWp;
     }
 
-    public ImageView getPrivateCard() {
-        return privateCard;
+    public int getIdPrivateCard() {
+        return idPrivateCard;
     }
 
-    public void setPrivateCard(ImageView privateCard) {
-        this.privateCard = privateCard;
+    public void setIdPrivateCard(int idPrivateCard) {
+        this.idPrivateCard = idPrivateCard;
     }
 }

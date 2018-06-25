@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui.setupwindows;
 import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.view.gui.GUICommunicationManager;
 import it.polimi.ingsw.view.gui.GUIMain;
+import it.polimi.ingsw.view.gui.ParentWindow;
 import it.polimi.ingsw.view.gui.WpGui;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ChooseWpGUI extends VBox {
+public class ChooseWpGUI extends ParentWindow {
 
     private double xOffset = 0;
     private double yOffset = 0;
