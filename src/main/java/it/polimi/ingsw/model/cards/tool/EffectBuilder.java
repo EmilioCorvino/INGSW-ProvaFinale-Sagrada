@@ -35,6 +35,11 @@ public class EffectBuilder {
     @SerializedName("parameter")
     private int effectSpecificParameter;
 
+    /**
+     * Signals if the card requires more than one interaction with the player.
+     */
+    private boolean multipleInteractions;
+
 
     public String[] getEffects() {
         return effects;
@@ -50,6 +55,10 @@ public class EffectBuilder {
 
     public int getEffectSpecificParameter() {
         return effectSpecificParameter;
+    }
+
+    public boolean requiresMultipleInteractions() {
+        return multipleInteractions;
     }
 
     //public AToolCardEffect getNewEffectToAdd(String effectName) {
