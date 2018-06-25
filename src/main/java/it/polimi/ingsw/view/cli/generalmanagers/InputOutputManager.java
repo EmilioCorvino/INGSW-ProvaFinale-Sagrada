@@ -46,7 +46,7 @@ public class InputOutputManager {
     /**
      * This method close the scanner in this class, that is the unique scanner in the entire application.
      */
-    void closeScanner(){
+    public void closeScanner(){
         scan.close();
     }
 

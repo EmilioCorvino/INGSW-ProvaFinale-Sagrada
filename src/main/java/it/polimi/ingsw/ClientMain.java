@@ -1,11 +1,11 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.view.cli.generalmanagers.InputOutputManager;
 import it.polimi.ingsw.view.gui.GUIMain;
 import it.polimi.ingsw.view.IViewMaster;
 import it.polimi.ingsw.view.cli.CliView;
 import javafx.application.Application;
 
-import java.util.Scanner;
 
 /**
  * This class is used to launch a client that uses the command line interface.
@@ -14,26 +14,20 @@ import java.util.Scanner;
 public class ClientMain {
 
     public static void main(String[] args) {
+        InputOutputManager inputOutputManager = new InputOutputManager();
 
-        System.out.println("Scegli il tipo di view: \033[0;1mcli\033[0m o \033[0;1mgui\033[0m");
-        Scanner scan = new Scanner(System.in);
-        String code = scan.next();
+        String code = inputOutputManager.askInformation("Scegli il tipo di view: \033[0;1mcli\033[0m o \033[0;1mgui\033[0m");
 
-        while(!(code.equalsIgnoreCase("cli") || code.equals("gui"))) {
-            System.out.println("Scegli il tipo di view: -cli-  o -gui-");
-            code = scan.next();
+        while(!("cli".equalsIgnoreCase(code) || "gui".equals(code))) {
+            code = inputOutputManager.askInformation("Scegli il tipo di view: -cli-  o -gui-");
         }
 
-
-        if(code.equalsIgnoreCase("cli")) {
-            IViewMaster viewMaster = new CliView();
+        if("cli".equalsIgnoreCase(code)) {
+            IViewMaster viewMaster = new CliView(inputOutputManager);
             viewMaster.createConnection(viewMaster);
-        }
-
-        if(code.equalsIgnoreCase("gui")) {
+        }else{
+            inputOutputManager.closeScanner();
             Application.launch(GUIMain.class, args);
-
         }
-
     }
 }
