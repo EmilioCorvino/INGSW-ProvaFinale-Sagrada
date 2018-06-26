@@ -24,6 +24,7 @@ public class AdjacentCellsRestrictionEffect extends PlacementRestrictionEffect {
 
         Player p = manager.getControllerMaster().getGameState().getCurrentPlayer();
         WindowPatternCard wp = p.getWindowPatternCard();
+        wp.createCopy();
         Die chosenDie = wp.removeDie(info.getSourceIndex());
 
         Cell desiredCell = new Cell(info.getSourceIndex() / WindowPatternCard.getMaxCol(), info.getSourceIndex() % WindowPatternCard.getMaxCol());
@@ -34,18 +35,18 @@ public class AdjacentCellsRestrictionEffect extends PlacementRestrictionEffect {
         if(!wp.checkAdjacentCells(desiredCell, gwCopy)) {
             if(wp.checkOwnRuleSet(chosenDie, desiredCell, gwCopy)) {
                 wp.addDie(chosenDie);
-
-                //tell the controller to show results
+                wp.removeDie(info.getSourceIndex());
+                manager.setMoveLegal(true);
+                info.setColor(chosenDie.getDieColor());
+                info.setValue(chosenDie.getActualDieValue());
+                manager.showRearrangementResult(p, info);
                 return;
             } else {
                 manager.sendNotification(wp.getErrorMessage() + "digita aiuto per vedere i tuoi comandi");
-                wp.setDesiredCell(new Cell(info.getSourceIndex() / WindowPatternCard.getMaxCol(), info.getSourceIndex() % WindowPatternCard.getMaxCol()));
-                wp.addDie(chosenDie);
-                wp.removeDie(info.getSourceIndex());
+                manager.setMoveLegal(false);
                 return;
             }
         }
-
         super.executeMove(manager, info);
     }
 }
