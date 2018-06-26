@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.cli.generalmanagers;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -17,6 +18,23 @@ public class InputOutputManager {
     public String askInformation(String input){
         this.print(input);
         return this.read();
+    }
+
+
+    public int askInt(String input){
+        boolean validInput;
+        int in = 0;
+        do{
+            try {
+                this.print(input);
+                validInput = true;
+                in = Integer.parseInt(this.read());
+            }catch (NumberFormatException e){
+                this.print("Errore, devi inserire un numero!");
+                validInput = false;
+            }
+        }while (!validInput);
+        return in;
     }
 
     void printCommandQuestion(String s){

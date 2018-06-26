@@ -7,8 +7,6 @@ import it.polimi.ingsw.view.cli.die.RoundTrackView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 import it.polimi.ingsw.view.cli.generalmanagers.InputOutputManager;
 
-import java.util.regex.Pattern;
-
 /**
  * This class manages all the interaction during the game play state.
  */
@@ -29,16 +27,12 @@ public class GamePlayManager{
      */
     public int choseDraftDie(DieDraftPoolView draftPoolView){
 
-        String index = inputOutputManager.askInformation("Inserisci l'indice del dado desiderato (da 0 a "+(draftPoolView.getDice().size()-1)+"): ");
+        int index = inputOutputManager.askInt("Inserisci l'indice del dado desiderato (da 0 a "+(draftPoolView.getDice().size()-1)+"): ");
 
-        //The pattern verify if the input is correct with regular expression (\\d+ means that the user must insert a string of at least one number)
-        boolean validInput = Pattern.matches("\\d+", index);
-
-        while(!validInput || Integer.parseInt(index) < 0 || Integer.parseInt(index) > draftPoolView.getDice().size()-1) {
-            index = inputOutputManager.askInformation("Errore: inserire un valore tra (0-" + (draftPoolView.getDice().size() - 1) + "): ");
-            validInput = Pattern.matches("\\d+", index);
+        while(index < 0 || index> draftPoolView.getDice().size()-1) {
+            index = inputOutputManager.askInt("Errore: inserire un valore tra (0-" + (draftPoolView.getDice().size() - 1) + "): ");
         }
-        return Integer.parseInt(index);
+        return index;
     }
 
     /**
@@ -48,22 +42,19 @@ public class GamePlayManager{
     public int choseCellWp(){
         inputOutputManager.print("Inserisci le coordinate della cella desiderata.");
 
-        String row = inputOutputManager.askInformation("Riga: ");
-        boolean validRow = Pattern.matches("\\d+", row);
+        int row = inputOutputManager.askInt("Riga: ");
 
-        while (!validRow || Integer.parseInt(row) < 0 || Integer.parseInt(row) > WindowPatternCardView.MAX_ROW - 1) {
-            row = inputOutputManager.askInformation("Errore: Valore non supportato, inserire un valore tra (0-" + (WindowPatternCardView.MAX_ROW - 1) + "): ");
-            validRow = Pattern.matches("\\d+", row);
+        while (row < 0 || row > WindowPatternCardView.MAX_ROW - 1) {
+            row = inputOutputManager.askInt("Errore: Valore non supportato, inserire un valore tra (0-" + (WindowPatternCardView.MAX_ROW - 1) + "): ");
         }
 
-        String col = inputOutputManager.askInformation("Colonna: ");
-        boolean validCol = Pattern.matches("\\d+", col);
+        int col = inputOutputManager.askInt("Colonna: ");
 
-        while (!validCol || Integer.parseInt(col) < 0 || Integer.parseInt(col) > WindowPatternCardView.MAX_COL - 1) {
-            col = inputOutputManager.askInformation("Errore: Valore non supportato, inserire un valore tra (0-" + (WindowPatternCardView.MAX_COL - 1) + "): ");
-            validCol = Pattern.matches("\\d+", col);
+        while (col < 0 || col > WindowPatternCardView.MAX_COL - 1) {
+            col = inputOutputManager.askInt("Errore: Valore non supportato, inserire un valore tra (0-" + (WindowPatternCardView.MAX_COL - 1) + "): ");
+
         }
-        return Integer.parseInt(row) * WindowPatternCardView.MAX_COL + Integer.parseInt(col);
+        return row * WindowPatternCardView.MAX_COL + col;
     }
 
     /**
@@ -73,27 +64,21 @@ public class GamePlayManager{
      */
     public void choseRoundDie(RoundTrackView roundTrack, SetUpInformationUnit informationUnit){
 
-        String idRound = inputOutputManager.askInformation("Inserisci il numero del round in cui c'e' il dado desiderato: ");
-        boolean validRound = Pattern.matches("\\d+", idRound);
+        int idRound = inputOutputManager.askInt("Inserisci il numero del round in cui c'e' il dado desiderato: ");
 
-        while(!validRound || Integer.parseInt(idRound) < 0 || Integer.parseInt(idRound) > 10) {
-            idRound = inputOutputManager.askInformation("Errore: Round non presente, inserire valore tra (1-10) ");
-            validRound = Pattern.matches("\\d+", idRound);
+        while(idRound < 0 || idRound > 10) {
+            idRound = inputOutputManager.askInt("Errore: Round non presente, inserire valore tra (1-10) ");
         }
 
-        int roundChosen = Integer.parseInt(idRound);
-        informationUnit.setExtraParam(roundChosen);
+        informationUnit.setExtraParam(idRound);
 
-        String idDie = inputOutputManager.askInformation("Inserisci la posizione del dado desiderato (0-"+ roundTrack.getAvailableDice().get(roundChosen).size()+"): ");
-        boolean validId = Pattern.matches("\\d+", idDie);
+        int idDie = inputOutputManager.askInt("Inserisci la posizione del dado desiderato (0-"+ roundTrack.getAvailableDice().get(idRound).size()+"): ");
 
-        while(!validId || Integer.parseInt(idDie) < 0 || Integer.parseInt(idDie) > roundTrack.getAvailableDice().get(roundChosen).size()) {
-            idDie = inputOutputManager.askInformation("Errore: indice errato, inserire indice tra (0-" + roundTrack.getAvailableDice().get(roundChosen).size() + "): ");
-            validId = Pattern.matches("\\d+", idDie);
+        while(idDie < 0 || idDie > roundTrack.getAvailableDice().get(idRound).size()) {
+            idDie = inputOutputManager.askInt("Errore: indice errato, inserire indice tra (0-" + roundTrack.getAvailableDice().get(idRound).size() + "): ");
         }
 
-        int dieChosen = Integer.parseInt(idDie);
-        informationUnit.setOffset(dieChosen);
+        informationUnit.setOffset(idDie);
 
     }
 
