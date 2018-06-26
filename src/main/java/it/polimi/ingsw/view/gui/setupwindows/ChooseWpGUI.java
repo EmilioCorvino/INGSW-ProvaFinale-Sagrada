@@ -1,9 +1,7 @@
 package it.polimi.ingsw.view.gui.setupwindows;
 
 import it.polimi.ingsw.controller.Commands;
-import it.polimi.ingsw.view.gui.GUICommunicationManager;
-import it.polimi.ingsw.view.gui.GUIMain;
-import it.polimi.ingsw.view.gui.WpGui;
+import it.polimi.ingsw.view.gui.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -17,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ChooseWpGUI extends VBox {
+public class ChooseWpGUI extends ParentWindow {
 
     private double xOffset = 0;
     private double yOffset = 0;
@@ -55,6 +53,16 @@ public class ChooseWpGUI extends VBox {
 
     private WpGui chosenWp;
 
+    private PlayersData playersData;
+
+    public PlayersData getPlayersData() {
+        return playersData;
+    }
+
+    public void setPlayersData(PlayersData playersData) {
+        this.playersData = playersData;
+    }
+
     public WpGui getChosenWp() {
         return chosenWp;
     }
@@ -72,9 +80,9 @@ public class ChooseWpGUI extends VBox {
         secondContainer = new HBox();
         maps = new ArrayList<>();
 
-        this.setMinHeight(700);
+        this.setMinHeight(720);
         this.setMinWidth(1200);
-        this.setMaxHeight(700);
+        this.setMaxHeight(720);
         this.setMaxWidth(1200);
 
         header = new HBox();
@@ -113,10 +121,10 @@ public class ChooseWpGUI extends VBox {
         gridMaps = new GridPane();
 
         for(int i=0; i<2; i++) {
-            RowConstraints rc = new RowConstraints(260);
+            RowConstraints rc = new RowConstraints(270);
             this.gridMaps.getRowConstraints().add(rc);
             for(int j=0; j<2; j++) {
-                ColumnConstraints cc = new ColumnConstraints(280);
+                ColumnConstraints cc = new ColumnConstraints(290);
                 this.gridMaps.getColumnConstraints().add(cc);
             }
         }
@@ -211,7 +219,7 @@ public class ChooseWpGUI extends VBox {
     public void formatMapsContainer() {
 
         VBox cell0 = new VBox();
-        cell0.setSpacing(20);
+        cell0.setSpacing(15);
         cell0.setPadding(new Insets(5, 30, 5, 30));
         WpGui wp0 = this.maps.get(0);
         cell0.getChildren().addAll(wp0.getIdMap(), wp0.getGlassWindow(), wp0.getDifficulty());
@@ -221,20 +229,20 @@ public class ChooseWpGUI extends VBox {
         VBox cell1 = new VBox();
         cell1.setPadding(new Insets(5, 30, 5, 30));
         WpGui wp1 = this.maps.get(1);
-        cell1.setSpacing(20);
+        cell1.setSpacing(15);
         cell1.getChildren().addAll(wp1.getIdMap(), wp1.getGlassWindow(), wp1.getDifficulty());
         this.gridMaps.add(cell1, 1, 0);
 
         VBox cell2 = new VBox();
         WpGui wp2 = this.maps.get(2);
-        cell2.setSpacing(20);
+        cell2.setSpacing(15);
         cell2.getChildren().addAll(wp2.getIdMap(), wp2.getGlassWindow(), wp2.getDifficulty());
         cell2.setPadding(new Insets(5, 30, 5, 30));
         this.gridMaps.add(cell2, 0, 1);
 
         VBox cell3 = new VBox();
         WpGui wp3 = this.maps.get(3);
-        cell3.setSpacing(20);
+        cell3.setSpacing(15);
         cell3.getChildren().addAll(wp3.getIdMap(), wp3.getGlassWindow(), wp3.getDifficulty());
         cell3.setPadding(new Insets(5, 30, 5, 30));
         this.gridMaps.add(cell3, 1, 1);
@@ -261,7 +269,9 @@ public class ChooseWpGUI extends VBox {
             chosen.setGlassWindow((GridPane)map.getChildren().get(1));
             chosen.setDifficulty((Label)map.getChildren().get(2));
             map.setStyle("-fx-background-color: rgba(102, 217, 255, 0.3)");
-            this.setChosenWp(chosen);
+            this.playersData.setPersonalWp(chosen);
+            this.communicator.executeCommandIfPresent(Commands.CHOOSE_WP);
+            //this.setChosenWp(chosen);
         } else {
             this.communicator.communicateMessage("Hai già scelto una mappa.");
         }

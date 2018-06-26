@@ -23,12 +23,15 @@ public class GUICommunicationManager {
       this.functions = functions;
    }
 
-   public boolean isCommandContained(Commands command) {
+   public boolean isCommandContained(Commands commands){
+      return functions.containsKey(commands);
+   }
+
+   public void executeCommandIfPresent(Commands command) {// EXECUTE COMMAND IF PRESENT
       if(functions.containsKey(command)) {
+         functions.get(command).run();
          this.functions.remove(command);
-         return true;
       }
-      return false;
    }
 
    public void communicateMessage(String message) {

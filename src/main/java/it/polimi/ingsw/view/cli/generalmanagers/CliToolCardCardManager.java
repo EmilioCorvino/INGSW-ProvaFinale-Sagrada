@@ -35,9 +35,9 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
 
         String option = super.inputOutputManager.askInformation("Inserire l'operazione desiderata:\n" +
                 "\t- Incrementa di 1\n\t- Decrementa di 1");
-        while (!(option.equalsIgnoreCase("incrementa") || option.equalsIgnoreCase("decrementa")))
+        while (!("incrementa".equalsIgnoreCase(option) || "decrementa".equalsIgnoreCase(option)))
             option = super.inputOutputManager.askInformation("Errore: scelta non supportata, inserire (Decrementa/Incrementa): ");
-        if (option.equalsIgnoreCase("incrementa"))
+        if ("incrementa".equalsIgnoreCase(option))
             infoUnit.setExtraParam(0);
         else
             infoUnit.setExtraParam(1);
@@ -290,15 +290,13 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
     public void tool11Extra(){
         SetUpInformationUnit infoUnit = super.view.getGamePlayManager().getExtraInfo();
 
-        String value = super.inputOutputManager.askInformation("Scegli valore tra (1-6): ");
-        boolean validValue = Pattern.matches("\\d+", value);
+        int value = super.inputOutputManager.askInt("Scegli valore tra (1-6): ");
 
-        while(!validValue || Integer.parseInt(value) < 1 || Integer.parseInt(value) >6){
-            value = super.inputOutputManager.askInformation("Errore: inserire numero tra (1-6): ");
-            validValue = Pattern.matches("\\d+", value);
+        while(value < 1 || value >6){
+            value = super.inputOutputManager.askInt("Errore: inserire numero tra (1-6): ");
         }
 
-        infoUnit.setValue(Integer.parseInt(value));
+        infoUnit.setValue(value);
 
         super.inputOutputManager.print("ATTENZIONE: Se non puoi piazzarlo in nessun cella, scegline una errata.");
         super.inputOutputManager.print(super.view.getPlayer().getWp().wpToString());
@@ -320,7 +318,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         SetUpInformationUnit infoUnit2 = new SetUpInformationUnit();
         String nDice = "0";
 
-        while (!nDice.equals("1") || !nDice.equals("2"))
+        while (!"1".equals(nDice) || !"2".equals(nDice))
             nDice = super.inputOutputManager.askInformation("Inserisci quanti dadi vuoi piazzare(1-2): ");
 
 
@@ -333,7 +331,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         this.fromWpToWp(infoUnit1);
         units.add(infoUnit1);
 
-        if(nDice.equals("2")) {
+        if("2".equals(nDice)) {
             infoUnit2.setExtraParam(infoUnit1.getExtraParam());
             infoUnit2.setOffset(infoUnit1.getOffset());
             this.fromWpToWp(infoUnit2);

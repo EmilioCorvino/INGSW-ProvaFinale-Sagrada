@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.gui.gameWindows;
+package it.polimi.ingsw.view.gui.gamewindows;
 
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
@@ -24,7 +24,8 @@ public class GUIDefaultMatchManager implements IDefaultMatchManager {
     @Override
     public void chooseWp() {
         try {
-            this.server.windowPatternCardRequest(Integer.parseInt(playersData.getPersonalWp().getIdMap().getText()));
+            System.out.println("lo mandi al server?");
+            this.server.windowPatternCardRequest(Integer.parseInt(playersData.getPersonalWp().getIdMap().getText().split(" ")[1]));
         } catch (BrokenConnectionException br) {
             SagradaLogger.log(Level.SEVERE, "Connection broken during map id choose.");
         }

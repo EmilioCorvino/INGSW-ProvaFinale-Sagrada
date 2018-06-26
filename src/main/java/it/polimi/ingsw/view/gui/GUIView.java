@@ -13,7 +13,8 @@ import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.Bank;
 import it.polimi.ingsw.view.IViewMaster;
-import it.polimi.ingsw.view.gui.gameWindows.GUIDefaultMatchManager;
+import it.polimi.ingsw.view.gui.gamewindows.CommonBoardWindow;
+import it.polimi.ingsw.view.gui.gamewindows.GUIDefaultMatchManager;
 import it.polimi.ingsw.view.gui.loginwindows.LoginIpAddrTypeConnGUI;
 import it.polimi.ingsw.view.gui.loginwindows.LoginUsernameGameModeGUI;
 import it.polimi.ingsw.view.gui.loginwindows.ShowPlayersGUI;
@@ -44,6 +45,10 @@ public class GUIView implements IViewMaster {
 
     private Bank bank;
 
+    private CommonBoardWindow commonWindow;
+
+    private ParentWindow current;
+
 
 
 
@@ -54,15 +59,20 @@ public class GUIView implements IViewMaster {
         listPlayers = new ShowPlayersGUI();
         chooseWpGUI = new ChooseWpGUI(manager);
         playersData = new PlayersData();
+        commonWindow = new CommonBoardWindow(manager);
 
+        chooseWpGUI.setPlayersData(this.playersData);
+        commonWindow.setData(this.playersData);
     }
 
     /**
      * This method create the bank, create the default manager and the tool card manager and populate its maps.
      */
-    private void setBank(){
-        bank = new Bank();
-        bank.setDefaultMatchManager(new GUIDefaultMatchManager(this));
+    private void configureBank (){
+        GUIDefaultMatchManager matchManager = new GUIDefaultMatchManager(this);
+        bank.setDefaultMatchManager(matchManager);
+        matchManager.setServer(this.server);
+        matchManager.setPlayersData(this.playersData);
         //bank.setToolCardManager(new CliToolCardCardManager(this));
         bank.populateBank();
     }
@@ -82,6 +92,8 @@ public class GUIView implements IViewMaster {
 
                 if (Integer.parseInt(loginManager.getInfoLogin().getTypeConn()) == 1)
                     this.server = new SocketFromClientToServer();
+
+                configureBank();
 
             } catch (BrokenConnectionException e) {
                 loginManager.setProceed(false);
@@ -131,19 +143,17 @@ public class GUIView implements IViewMaster {
            GUIMain.setRoot(this.listPlayers);
            ((ShowPlayersGUI) this.listPlayers).showPlayers(players);
        });
-
-
-
     }
 
     @Override
     public void showPrivateObjective(int idPrivateObj) {
-
         Platform.runLater(() -> {
+            this.current = chooseWpGUI;
+            this.playersData.setIdPrivateCard(idPrivateObj);
             GUIMain.setRoot(this.chooseWpGUI);
             this.chooseWpGUI.assignPrivateObjectiveCard(idPrivateObj);
+            GUIMain.centerScreen();
         });
-
     }
 
     @Override
@@ -153,9 +163,7 @@ public class GUIView implements IViewMaster {
                WpGui wp = new WpGui();
                wp.constructMap(listWp.get(i));
                this.chooseWpGUI.getMaps().add(wp);
-               System.out.println("mappa " +i+ " added");
            }
-
            this.chooseWpGUI.formatMapsContainer();
        });
 
@@ -165,6 +173,12 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void setCommonBoard(Map<String, SimplifiedWindowPatternCard> players, int[] idPubObj, int[] idTool) {
+        Platform.runLater(() -> {
+            commonWindow.formatSecondContainer();
+            this.current = commonWindow;
+            GUIMain.setRoot(current);
+            GUIMain.centerScreen();
+        });
 
     }
 
@@ -175,6 +189,11 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void setFavorToken(int nFavTokens) {
+        Platform.runLater(() -> {
+            this.playersData.setNumFavTok(nFavTokens);
+            this.commonWindow.setFavorTokens();
+
+        });
 
     }
 
@@ -183,8 +202,7 @@ public class GUIView implements IViewMaster {
         Platform.runLater(() -> {
             Map<Commands, Runnable> functions = this.bank.getAvailableCommands(commands);
             this.manager.setFunctions(functions);
-            this.chooseWpGUI.addHandlers();
-
+            this.current.addHandlers();
         });
 
 
@@ -280,4 +298,6 @@ public class GUIView implements IViewMaster {
     public void setListPlayers(Parent listPlayers) {
         this.listPlayers = listPlayers;
     }
+
+
 }

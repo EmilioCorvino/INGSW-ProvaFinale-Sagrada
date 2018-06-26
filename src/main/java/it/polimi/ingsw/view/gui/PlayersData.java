@@ -6,6 +6,12 @@ public class PlayersData {
 
     private WpGui personalWp;
 
+    private int idPrivateCard;
+
+    private int numFavTok;
+
+
+
     public PlayersData() {
 
     }
@@ -23,6 +29,23 @@ public class PlayersData {
     }
 
     public void setPersonalWp(WpGui personalWp) {
+        System.out.println("settata la mappa personale");
         this.personalWp = personalWp;
+    }
+
+    public int getIdPrivateCard() {
+        return idPrivateCard;
+    }
+
+    public void setIdPrivateCard(int idPrivateCard) {
+        this.idPrivateCard = idPrivateCard;
+    }
+
+    public int getNumFavTok() {
+        return numFavTok;
+    }
+
+    public void setNumFavTok(int numFavTok) {
+        this.numFavTok = numFavTok;
     }
 }
