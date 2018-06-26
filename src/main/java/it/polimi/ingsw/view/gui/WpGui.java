@@ -14,8 +14,8 @@ import java.util.Map;
 
 public class WpGui extends Pane {
 
-    private static final int MAX_ROW = 4;
-    private static final int MAX_COL = 5;
+    public static final int MAX_ROW = 4;
+    public static final int MAX_COL = 5;
 
     private GridPane glassWindow;
 
@@ -54,10 +54,12 @@ public class WpGui extends Pane {
 
             int k = 0;
             for(int i=0; i<WpGui.MAX_ROW; i++) {
-                RowConstraints rc = new RowConstraints(40);
+                RowConstraints rc = new RowConstraints(45);
                 this.glassWindow.getRowConstraints().add(rc);
+                rc.setVgrow(Priority.ALWAYS);
                 for(int j=0; j<WpGui.MAX_COL; j++, k++) {
-                    ColumnConstraints cc = new ColumnConstraints(40);
+                    ColumnConstraints cc = new ColumnConstraints(45);
+                    cc.setHgrow(Priority.ALWAYS);
                     this.glassWindow.getColumnConstraints().add(cc);
                     SetUpInformationUnit info = list.get(k);
                     Pane pane = new Pane();

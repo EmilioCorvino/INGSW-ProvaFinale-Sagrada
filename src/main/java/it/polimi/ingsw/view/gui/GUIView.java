@@ -174,10 +174,10 @@ public class GUIView implements IViewMaster {
     @Override
     public void setCommonBoard(Map<String, SimplifiedWindowPatternCard> players, int[] idPubObj, int[] idTool) {
         Platform.runLater(() -> {
-            System.out.println("non cambia??");
             commonWindow.formatSecondContainer();
             this.current = commonWindow;
             GUIMain.setRoot(current);
+            GUIMain.centerScreen();
         });
 
     }
@@ -189,6 +189,11 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void setFavorToken(int nFavTokens) {
+        Platform.runLater(() -> {
+            this.playersData.setNumFavTok(nFavTokens);
+            this.commonWindow.setFavorTokens();
+
+        });
 
     }
 
