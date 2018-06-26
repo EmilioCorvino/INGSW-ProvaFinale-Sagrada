@@ -14,7 +14,7 @@ public class OppositeValueEffect extends AValueEffect {
     /**
      * This is the value used to compute the opposite value of the chosen die.
      */
-    public static final int OPPOSITE = 7;
+    private static final int OPPOSITE = 7;
 
     /**
      * This method computes the opposite value of the chosen die.
