@@ -35,7 +35,7 @@ public class ValueRestrictionEffect extends PlacementRestrictionEffect {
         wp.setDesiredCell(new Cell(setUpInfoUnit.getDestinationIndex()/WindowPatternCard.MAX_COL , setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL));
 
         if(!wp.canBePlaced(chosenDie, wp.getDesiredCell(), gwCopy)) {
-            manager.sendNotification(wp.getErrorMessage() + " usa aiuto per ulteriori informazioni.");
+            manager.sendNotificationToCurrentPlayer(wp.getErrorMessage() + " usa aiuto per ulteriori informazioni.");
             manager.setMoveLegal(false);
             return;
         }

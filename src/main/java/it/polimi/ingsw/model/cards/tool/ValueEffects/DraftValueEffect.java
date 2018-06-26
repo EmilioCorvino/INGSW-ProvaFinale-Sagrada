@@ -73,7 +73,7 @@ public class DraftValueEffect extends AValueEffect {
         WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
 
         if(!super.checkExistingCellsToUse(wp, chosenDie)) {
-            manager.sendNotification("Non ci sono celle disponibili in cui il dado può essere piazzato");
+            manager.sendNotificationToCurrentPlayer("Non ci sono celle disponibili in cui il dado può essere piazzato");
             return;
         }
 

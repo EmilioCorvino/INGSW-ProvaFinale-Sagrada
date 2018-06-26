@@ -27,7 +27,7 @@ public class PlacementRestrictionEffect extends AToolCardEffect {
         playerWp.createCopy();
 
         if(!playerWp.canBePlaced(chosenDie, playerWp.getDesiredCell(), playerWp.getGlassWindow())) {
-            manager.sendNotification(playerWp.getErrorMessage());
+            manager.sendNotificationToCurrentPlayer(playerWp.getErrorMessage());
             manager.setMoveLegal(false);
             return;
         }

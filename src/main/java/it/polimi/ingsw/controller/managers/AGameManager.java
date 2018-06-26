@@ -7,9 +7,11 @@ import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public abstract class AGameManager {
 
@@ -34,17 +36,19 @@ public abstract class AGameManager {
     }
 
     /**
-     * This method notifies the client any type of issue may occur in each request.
+     * This method notifies the current client any type of issue may occur in each request.
+     * It's used in the {@link GamePlayManager}.
      * @param message the message to tell.
      */
-    public void sendNotification(String message) {
+    public void sendNotificationToCurrentPlayer(String message) {
         String playerName = this.getControllerMaster().getGameState().getCurrentPlayer().getPlayerName();
         IFromServerToClient iFromServerToClient =
                 this.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
         try {
             iFromServerToClient.showNotice(message);
-        } catch (BrokenConnectionException br) {
-            //todo super.getControllerMaster().suspendPlayer(player.getPlayerName());
+        } catch (BrokenConnectionException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to send notification to " + playerName, e);
+            this.getControllerMaster().suspendPlayer(playerName);
         }
     }
 
@@ -59,7 +63,8 @@ public abstract class AGameManager {
                 try {
                     client.showNotice(message);
                 } catch (BrokenConnectionException e) {
-                    //todo super.getControllerMaster().suspendPlayer(player.getPlayerName);
+                    SagradaLogger.log(Level.SEVERE, "Impossible to send notification to " + player.getPlayerName(), e);
+                    this.getControllerMaster().suspendPlayer(player.getPlayerName());
                 }
             }
         }
@@ -69,14 +74,15 @@ public abstract class AGameManager {
      * This method sends to the client the commands available.
      * @param commands {@link Commands} to send.
      */
-    void sendCommands(List<Commands> commands) {
+    void sendCommandsToCurrentPlayer(List<Commands> commands) {
         String playerName = this.getControllerMaster().getGameState().getCurrentPlayer().getPlayerName();
         IFromServerToClient iFromServerToClient =
                 this.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
         try {
             iFromServerToClient.showCommand(commands);
-        } catch (BrokenConnectionException br) {
-            //todo super.getControllerMaster().suspendPlayer(player.getPlayerName());
+        } catch (BrokenConnectionException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to send commands to " + playerName, e);
+            this.getControllerMaster().suspendPlayer(playerName);
         }
     }
 

@@ -32,6 +32,8 @@ public class EndGameManager extends AGameManager {
      */
     private List<String> playersThatAnswered;
 
+    private static final String CONNECTION_LOST_WITH = "Connection lost with ";
+
     public EndGameManager(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
         this.endGameCommands = new ArrayList<>(Arrays.asList(Commands.START_ANOTHER_GAME, Commands.LOGOUT));
@@ -95,7 +97,7 @@ public class EndGameManager extends AGameManager {
                 client.showCommand(this.endGameCommands);
                 this.startTimer(playerName);
             } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while showing the rank");
+                SagradaLogger.log(Level.SEVERE, CONNECTION_LOST_WITH + playerName + " while showing the rank");
                 this.exitGame(playerName);
             }
 
@@ -109,19 +111,21 @@ public class EndGameManager extends AGameManager {
      * @param playerName name of the player sending the request.
      */
     public void exitGame(String playerName) {
-        this.playersThatAnswered.add(playerName);
+        if (!playersThatAnswered.contains(playerName)) {
+            this.playersThatAnswered.add(playerName);
+        }
         Map<String, Connection> connectedPlayers = super.getControllerMaster().getConnectedPlayers();
         connectedPlayers.remove(playerName);
 
         SagradaLogger.log(Level.WARNING, playerName + " logged out.");
 
-        if(playersThatAnswered.size() == super.getControllerMaster().getCommonBoard().getPlayers().size() -
+        if (playersThatAnswered.size() == super.getControllerMaster().getCommonBoard().getPlayers().size() -
                 super.getControllerMaster().getSuspendedPlayers().size()) {
 
             //Remove the suspended players from the connected ones
             super.getControllerMaster().getSuspendedPlayers().forEach(getControllerMaster().getConnectedPlayers()::remove);
 
-            if(connectedPlayers.isEmpty()) {
+            if (connectedPlayers.isEmpty()) {
                 this.quitGame();
             } else {
                 this.initializeNewWaitingRoom(connectedPlayers);
@@ -138,13 +142,15 @@ public class EndGameManager extends AGameManager {
      * @param playerName player sending the request.
      */
     public void newGame(String playerName) {
-        this.playersThatAnswered.add(playerName);
+        if (!playersThatAnswered.contains(playerName)) {
+            this.playersThatAnswered.add(playerName);
+        }
         IFromServerToClient client =
                 super.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
         try {
             client.showNotice("Attendi la scelta degli altri giocatori...");
         } catch (BrokenConnectionException e) {
-            SagradaLogger.log(Level.WARNING, "Connection lost with " + playerName + "while inserting him in a " +
+            SagradaLogger.log(Level.WARNING, CONNECTION_LOST_WITH + playerName + "while inserting him in a " +
                     "new room. He will be removed.");
             super.getControllerMaster().getConnectedPlayers().remove(playerName);
         }
@@ -162,7 +168,7 @@ public class EndGameManager extends AGameManager {
                 try {
                     remainingPlayer.getValue().getClient().showNotice("\nVerrai inserito in una nuova stanza d'attesa.\n");
                 } catch (BrokenConnectionException e) {
-                    SagradaLogger.log(Level.WARNING, "Connection lost with " + remainingPlayer.getKey() +
+                    SagradaLogger.log(Level.WARNING, CONNECTION_LOST_WITH + remainingPlayer.getKey() +
                         " while inserting him in a new room. He will be removed.");
                     connectedPlayers.remove(remainingPlayer.getKey());
                 }
@@ -238,7 +244,7 @@ public class EndGameManager extends AGameManager {
         try {
             winnerClient.showNotice("\nCongratulazioni, hai vinto!");
         } catch (BrokenConnectionException e) {
-            SagradaLogger.log(Level.SEVERE, "Connection lost with " + winnerName + " while showing the winner");
+            SagradaLogger.log(Level.SEVERE, CONNECTION_LOST_WITH + winnerName + " while showing the winner");
             this.exitGame(winnerName);
         }
 
@@ -249,7 +255,7 @@ public class EndGameManager extends AGameManager {
                 try {
                     loserClient.showNotice("\nIl vincitore è: " + winnerName);
                 } catch (BrokenConnectionException e) {
-                    SagradaLogger.log(Level.SEVERE, "Connection lost with " + player.getPlayerName() +
+                    SagradaLogger.log(Level.SEVERE, CONNECTION_LOST_WITH + player.getPlayerName() +
                             " while showing the winner");
                     this.exitGame(player.getPlayerName());
                 }
@@ -337,8 +343,9 @@ public class EndGameManager extends AGameManager {
                     try {
                         client.showNotice("Hai impiegato troppo tempo a rispondere, verrai disconnesso");
                         client.forceLogOut();
+                        exitGame(playerName);
                     } catch (BrokenConnectionException e) {
-                        SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while forcing" +
+                        SagradaLogger.log(Level.SEVERE, CONNECTION_LOST_WITH + playerName + " while forcing" +
                                 " him to log out.");
                         exitGame(playerName);
                     }
@@ -484,8 +491,8 @@ public class EndGameManager extends AGameManager {
         List<Turn> turnOrder = super.getControllerMaster().getGameState().getTurnOrder();
         List<Turn> turnOrderSubList = turnOrder.subList(0, (turnOrder.size()/2));
         List<String> orderedPlayerNames = new ArrayList<>();
-        for(int i = 0; i < turnOrderSubList.size(); i++) {
-            orderedPlayerNames.add(turnOrderSubList.get(i).getPlayer().getPlayerName());
+        for (Turn turn: turnOrderSubList) {
+            orderedPlayerNames.add(turn.getPlayer().getPlayerName());
         }
 
         //Gather all the turn indexes and puts them in a set.
