@@ -52,14 +52,7 @@ public class SetUpManager {
      * @return: the id of the map chosen.
      */
     public int getIdChosen(){
-        boolean validInput = false;
-        String idChosen = null;
-
-        while(!validInput) {
-            idChosen = inputOutputManager.askInformation("\nInserire l'id della mappa scelta: ");
-            validInput = Pattern.matches("\\d+", idChosen);
-        }
-        return Integer.parseInt(idChosen);
+        return inputOutputManager.askInt("\nInserire l'id della mappa scelta: ");
     }
 
     /**

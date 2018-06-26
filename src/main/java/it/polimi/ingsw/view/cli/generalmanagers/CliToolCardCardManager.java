@@ -290,15 +290,13 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
     public void tool11Extra(){
         SetUpInformationUnit infoUnit = super.view.getGamePlayManager().getExtraInfo();
 
-        String value = super.inputOutputManager.askInformation("Scegli valore tra (1-6): ");
-        boolean validValue = Pattern.matches("\\d+", value);
+        int value = super.inputOutputManager.askInt("Scegli valore tra (1-6): ");
 
-        while(!validValue || Integer.parseInt(value) < 1 || Integer.parseInt(value) >6){
-            value = super.inputOutputManager.askInformation("Errore: inserire numero tra (1-6): ");
-            validValue = Pattern.matches("\\d+", value);
+        while(value < 1 || value >6){
+            value = super.inputOutputManager.askInt("Errore: inserire numero tra (1-6): ");
         }
 
-        infoUnit.setValue(Integer.parseInt(value));
+        infoUnit.setValue(value);
 
         super.inputOutputManager.print("ATTENZIONE: Se non puoi piazzarlo in nessun cella, scegline una errata.");
         super.inputOutputManager.print(super.view.getPlayer().getWp().wpToString());
