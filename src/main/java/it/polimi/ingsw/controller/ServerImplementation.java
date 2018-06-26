@@ -105,7 +105,9 @@ public class ServerImplementation implements IFromClientToServer {
 
     @Override
     public void performRestrictedPlacement(SetUpInformationUnit infoUnit) {
-
+        String userName = connectionsQueue.remove().getUserName();
+        GamePlayManager gamePlayManager = (GamePlayManager)controller.getGamePlayManager();
+        gamePlayManager.performRestrictedPlacement(infoUnit, userName);
     }
 
     /**

@@ -84,11 +84,6 @@ public class RmiFromClientToServer implements IFromClientToServer {
         }
     }
 
-    /**
-     *
-     * @param idMap
-     * @throws BrokenConnectionException
-     */
     @Override
     public void windowPatternCardRequest(int idMap) throws BrokenConnectionException {
         try {
@@ -121,7 +116,12 @@ public class RmiFromClientToServer implements IFromClientToServer {
 
     @Override
     public void performRestrictedPlacement(SetUpInformationUnit infoUnit) throws BrokenConnectionException {
-
+        try {
+            this.rmiServer.performRestrictedPlacement(infoUnit, connection);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Connection to the server has been lost during restricted placement execution", e);
+            throw new BrokenConnectionException();
+        }
     }
 
     @Override
@@ -145,10 +145,6 @@ public class RmiFromClientToServer implements IFromClientToServer {
         }
     }
 
-    /**
-     * Lets the player log out from the game.
-     * @throws BrokenConnectionException when the connection drops.
-     */
     @Override
     public void exitGame() throws BrokenConnectionException {
         try {

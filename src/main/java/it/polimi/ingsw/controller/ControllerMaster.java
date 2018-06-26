@@ -60,7 +60,7 @@ public class ControllerMaster {
     private WaitingRoom waitingRoom;
 
 
-    public ControllerMaster(Map<String, Connection> connectedPlayers, WaitingRoom waitingRoom) {
+    ControllerMaster(Map<String, Connection> connectedPlayers, WaitingRoom waitingRoom) {
         this.waitingRoom = waitingRoom;
         this.commonBoard = new CommonBoard();
         this.commonBoard.initializeBoard();
@@ -80,7 +80,7 @@ public class ControllerMaster {
         return connectedPlayers;
     }
 
-    public AGameManager getStartGameManager() {
+    AGameManager getStartGameManager() {
         return startGameManager;
     }
 
@@ -96,10 +96,6 @@ public class ControllerMaster {
         return gameState;
     }
 
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
-    }
-
     public WaitingRoom getWaitingRoom() {
         return waitingRoom;
     }
@@ -110,12 +106,13 @@ public class ControllerMaster {
 
     /**
      * This method is used when a player disconnects or takes too much time to complete his turn. It adds the player to
-     * the {@link ControllerMaster}'s suspended players list and allows to skip his turns, considering him in the
+     * the {@link ControllerMaster#suspendedPlayers} list and allows to skip his turns, considering him in the
      * final score anyway.
      * @param playerName player to suspend.
      */
     public void suspendPlayer(String playerName) {
-
+        this.suspendedPlayers.add(playerName);
+        gamePlayManager.broadcastNotification("\n" + playerName + " è stato sospeso.\n");
     }
 
     //todo handle reconnection

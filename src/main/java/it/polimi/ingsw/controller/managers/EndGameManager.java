@@ -234,8 +234,7 @@ public class EndGameManager extends AGameManager {
         reorderedRank.putAll(supportMap);
 
         //Tells the winning player that he won.
-        IFromServerToClient winnerClient =
-                super.getControllerMaster().getConnectedPlayers().get(winnerName).getClient();
+        IFromServerToClient winnerClient = super.getPlayerClient(winnerName);
         try {
             winnerClient.showNotice("\nCongratulazioni, hai vinto!");
         } catch (BrokenConnectionException e) {
@@ -246,8 +245,7 @@ public class EndGameManager extends AGameManager {
         //Tells the other players who is the winner.
         for(Player player: super.getControllerMaster().getCommonBoard().getPlayers()) {
             if(!player.getPlayerName().equals(winnerName)) {
-                IFromServerToClient loserClient =
-                        super.getControllerMaster().getConnectedPlayers().get(player.getPlayerName()).getClient();
+                IFromServerToClient loserClient = super.getPlayerClient(player.getPlayerName());
                 try {
                     loserClient.showNotice("\nIl vincitore è: " + winnerName);
                 } catch (BrokenConnectionException e) {
@@ -335,8 +333,7 @@ public class EndGameManager extends AGameManager {
             public void run() {
                 SagradaLogger.log(Level.WARNING, playerName + " end choice turn timer is expired");
                 if(!playersThatAnswered.contains(playerName)) {
-                    IFromServerToClient client =
-                            getControllerMaster().getConnectedPlayers().get(playerName).getClient();
+                    IFromServerToClient client = getPlayerClient(playerName);
                     try {
                         client.showNotice("Hai impiegato troppo tempo a rispondere, verrai disconnesso");
                         client.forceLogOut();

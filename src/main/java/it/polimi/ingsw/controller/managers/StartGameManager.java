@@ -46,8 +46,17 @@ public class StartGameManager extends AGameManager {
     public StartGameManager(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
         this.listOfSentWpID = new HashMap<>();
+        this.playersWhoChose = new ArrayList<>();
         this.playersDisconnectedBeforeChoosingWP = new ArrayList<>();
     }
+
+//----------------------------------------------------------
+//                    START GAME FLOW METHODS
+//----------------------------------------------------------
+
+
+
+
 
 //----------------------------------------------------------
 //                    SET UP METHODS
@@ -154,7 +163,7 @@ public class StartGameManager extends AGameManager {
         List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
 
         players.forEach(player -> {
-            IFromServerToClient iFromServerToClient = super.getControllerMaster().getConnectedPlayers().get(player.getPlayerName()).getClient();
+            IFromServerToClient iFromServerToClient = super.getPlayerClient(player.getPlayerName());
             List<SimplifiedWindowPatternCard> listOfSentWp = chooseWindowPatternCard();
 
             //This list is useful to check the ids of the window pattern cards sent.
@@ -172,7 +181,7 @@ public class StartGameManager extends AGameManager {
 
         //Allows the players to choose a Window Pattern Card among the ones drawn.
         players.forEach(player -> {
-            IFromServerToClient iFromServerToClient = super.getControllerMaster().getConnectedPlayers().get(player.getPlayerName()).getClient();
+            IFromServerToClient iFromServerToClient = super.getPlayerClient(player.getPlayerName());
             try {
                 iFromServerToClient.showCommand(Collections.singletonList(Commands.CHOOSE_WP));
             } catch (BrokenConnectionException br) {
@@ -188,7 +197,6 @@ public class StartGameManager extends AGameManager {
      * {@link it.polimi.ingsw.model.cards.tool.ToolCard}s drawn.
      */
     private void setCommonBoard() {
-        //List<SetUpInformationUnit> draftPool = draftPoolConverter();
         Map<String, SimplifiedWindowPatternCard> mapOfWp = mapsOfPlayersConverter();
         int[] idPubObj = pubObjConverter();
         int[] idTool = toolConverter();
@@ -197,7 +205,6 @@ public class StartGameManager extends AGameManager {
         super.getControllerMaster().getConnectedPlayers().forEach((playerName, connection) -> {
             try {
                 connection.getClient().setCommonBoard(mapOfWp, idPubObj, idTool);
-                //connection.getClient().setDraft(draftPool);
                 connection.getClient().setFavorToken(numberFavTokenConverter(playerName));
             } catch (BrokenConnectionException e) {
                 //todo handle disconnecion

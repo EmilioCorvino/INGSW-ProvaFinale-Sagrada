@@ -99,8 +99,7 @@ public class GamePlayManager extends AGameManager {
             this.broadcastNotification("\nÈ INIZIATO IL ROUND N° " + gameState.getActualRound() + "\n" +
                     "La riserva è stata aggiornata:");
             for (Player player : players) {
-                IFromServerToClient client =
-                        super.getControllerMaster().getConnectedPlayers().get(player.getPlayerName()).getClient();
+                IFromServerToClient client = super.getPlayerClient(player.getPlayerName());
                 try {
                     client.setDraft(super.draftPoolConverter());
                 } catch (BrokenConnectionException e) {
@@ -124,8 +123,7 @@ public class GamePlayManager extends AGameManager {
         this.setMoveLegal(true);
 
         //Shows the commands to the player on duty.
-        IFromServerToClient currentPlayerClient =
-                super.getControllerMaster().getConnectedPlayers().get(currentPlayerTurn.getPlayer().getPlayerName()).getClient();
+        IFromServerToClient currentPlayerClient = super.getPlayerClient(currentPlayerTurn.getPlayer().getPlayerName());
         GameState gameState = super.getControllerMaster().getGameState();
 
         if(gameState.isCurrentTurnOver()) {
@@ -150,8 +148,7 @@ public class GamePlayManager extends AGameManager {
         List<Player> waitingPlayers = super.getControllerMaster().getCommonBoard().getPlayers();
         for (Player player : waitingPlayers) {
             if (!player.isSamePlayerAs(currentPlayerTurn.getPlayer())) {
-                IFromServerToClient waitingPlayerClient =
-                        super.getControllerMaster().getConnectedPlayers().get(player.getPlayerName()).getClient();
+                IFromServerToClient waitingPlayerClient = super.getPlayerClient(player.getPlayerName());
                 try {
                     waitingPlayerClient.showNotice("\nÈ il turno di " + gameState.getCurrentPlayer().getPlayerName() + "\n");
                     waitingPlayerClient.showCommand(this.waitingPlayersCommands);
@@ -203,8 +200,7 @@ public class GamePlayManager extends AGameManager {
      */
     private void endTurn(String message) {
         GameState gameState = super.getControllerMaster().getGameState();
-        IFromServerToClient currentPlayerClient =
-                super.getControllerMaster().getConnectedPlayers().get(gameState.getCurrentPlayer().getPlayerName()).getClient();
+        IFromServerToClient currentPlayerClient = super.getPlayerClient(gameState.getCurrentPlayer().getPlayerName());
         try {
             currentPlayerClient.showNotice(message);
         } catch (BrokenConnectionException e) {
@@ -222,7 +218,7 @@ public class GamePlayManager extends AGameManager {
         if (super.getControllerMaster().getSuspendedPlayers().size() >= (super.getControllerMaster().getConnectedPlayers().size() - 1)) {
             for(String playerName: super.getControllerMaster().getConnectedPlayers().keySet()) {
                 if(!super.getControllerMaster().getSuspendedPlayers().contains(playerName)) {
-                    IFromServerToClient client = super.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
+                    IFromServerToClient client = super.getPlayerClient(playerName);
                     EndGameManager endGameManager = (EndGameManager) super.getControllerMaster().getEndGameManager();
                     try {
                         client.showNotice("\nSei l'ultimo giocatore rimasto, HAI VINTO PER ABBANDONO!\n");
@@ -439,8 +435,7 @@ public class GamePlayManager extends AGameManager {
         super.getControllerMaster().getCommonBoard().getDraftPool().overwriteOriginal();
 
         //Updates the board of the player on duty.
-        IFromServerToClient currentPlayerClient =
-                super.getControllerMaster().getConnectedPlayers().get(currentPlayer.getPlayerName()).getClient();
+        IFromServerToClient currentPlayerClient = super.getPlayerClient(currentPlayer.getPlayerName());
         super.sendNotification("\nPiazzamento effettuato correttamente.\n");
         try {
             currentPlayerClient.addOnOwnWp(setUpInfoUnit);
@@ -454,8 +449,7 @@ public class GamePlayManager extends AGameManager {
         List<Player> waitingPlayers = super.getControllerMaster().getCommonBoard().getPlayers();
         for (Player p : waitingPlayers) {
             if (!p.isSamePlayerAs(currentPlayer)) {
-                IFromServerToClient waitingPlayerClient =
-                        super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient();
+                IFromServerToClient waitingPlayerClient = super.getPlayerClient(p.getPlayerName());
                 try {
                     waitingPlayerClient.showNotice("\n" + currentPlayer.getPlayerName() + " ha effettuato un piazzamento.\n");
                     waitingPlayerClient.addOnOtherPlayerWp(currentPlayer.getPlayerName(), setUpInfoUnit);
@@ -488,8 +482,7 @@ public class GamePlayManager extends AGameManager {
         currentPlayer.getWindowPatternCard().overwriteOriginal();
 
         //Updates the board of the player on duty.
-        IFromServerToClient currentPlayerClient =
-                super.getControllerMaster().getConnectedPlayers().get(currentPlayer.getPlayerName()).getClient();
+        IFromServerToClient currentPlayerClient = super.getPlayerClient(currentPlayer.getPlayerName());
         super.sendNotification("\nSpostamento effettuato correttamente.\n");
         try {
             currentPlayerClient.removeOnOwnWp(setUpInfoUnit);
@@ -503,8 +496,7 @@ public class GamePlayManager extends AGameManager {
         List<Player> waitingPlayers = super.getControllerMaster().getCommonBoard().getPlayers();
         for (Player p : waitingPlayers) {
             if (!p.isSamePlayerAs(currentPlayer)) {
-                IFromServerToClient waitingPlayerClient =
-                        super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient();
+                IFromServerToClient waitingPlayerClient = super.getPlayerClient(p.getPlayerName());
                 try {
                     waitingPlayerClient.showNotice("\n" + currentPlayer.getPlayerName() + " ha spostato un dado nella" +
                             " sua vetrata.\n");
@@ -571,8 +563,7 @@ public class GamePlayManager extends AGameManager {
         //Updates the draft pool for each player.
         List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
         for(Player p: players) {
-            IFromServerToClient playerClient =
-                    super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient();
+            IFromServerToClient playerClient = super.getPlayerClient(p.getPlayerName());
             try {
                 playerClient.showNotice("\nLa Riserva è stata aggiornata.\n");
                 playerClient.setDraft(rolledDice);
@@ -601,8 +592,7 @@ public class GamePlayManager extends AGameManager {
         GameState gameState = super.getControllerMaster().getGameState();
         ToolCard card = super.getControllerMaster().getCommonBoard().getToolCardSlots()
                 .get(gameState.getCurrentTurn().getToolSlotUsed()).getToolCard();
-        IFromServerToClient currentPlayerClient =
-                super.getControllerMaster().getConnectedPlayers().get(currentPlayer.getPlayerName()).getClient();
+        IFromServerToClient currentPlayerClient = super.getPlayerClient(currentPlayer.getPlayerName());
         super.sendNotification("\nÈ stato estratto il seguente dado:\n");
         try {
             currentPlayerClient.showDie(infoUnit);
@@ -688,7 +678,7 @@ public class GamePlayManager extends AGameManager {
      * @return {@code true} if the request is illegal, {@code false} otherwise.
      */
     private boolean handleIllegalStateRequests(String playerName) {
-        IFromServerToClient client = super.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
+        IFromServerToClient client = super.getPlayerClient(playerName);
         if (!isRequestFromCurrentPlayer(playerName)) {
             try {
                 client.showNotice("Non puoi effettuare questa mossa durante il turno degli altri!");
@@ -743,12 +733,28 @@ public class GamePlayManager extends AGameManager {
             int toolCost = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).getCost();
             int oldPlayerFavorTokens = gameState.getCurrentPlayer().getFavorTokens();
             gameState.getCurrentPlayer().setFavorTokens(oldPlayerFavorTokens - toolCost);
+            IFromServerToClient currentPlayerClient = super.getPlayerClient(gameState.getCurrentPlayer().getPlayerName());
+            try {
+                currentPlayerClient.updateFavTokenPlayer(oldPlayerFavorTokens - toolCost);
+            } catch (BrokenConnectionException e) {
+                super.getControllerMaster().suspendPlayer(gameState.getCurrentPlayer().getPlayerName());
+                super.broadcastNotification("\n" + gameState.getCurrentPlayer().getPlayerName() + " è stato sospeso.\n");
+            }
+
 
             if (super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).getCost() == 1) {
                 super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).setCost(2);
                 super.broadcastNotification("\nIl costo della Carta Strumento " + toolCard.getName() + " è aumentato a "
                         + super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).getCost() +
                         " Segnalini Favore.\n");
+                for(String playerName: super.getControllerMaster().getConnectedPlayers().keySet()) {
+                    IFromServerToClient playerClient = super.getPlayerClient(playerName);
+                    try {
+                        playerClient.updateToolCost(slotID, 2);
+                    } catch (BrokenConnectionException e) {
+                        super.getControllerMaster().suspendPlayer(playerName);
+                    }
+                }
             }
 
             if (gameState.getCurrentTurn().getDieCount() >= 2) {

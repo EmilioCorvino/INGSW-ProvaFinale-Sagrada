@@ -52,14 +52,15 @@ public abstract class AGameManager {
      * This method sends to all the player the message parameter.
      * @param message message to send to all clients.
      */
-    void broadcastNotification(String message) {
+    public void broadcastNotification(String message) {
         for(Player player: this.getControllerMaster().getCommonBoard().getPlayers()) {
-            IFromServerToClient client =
-                    this.getControllerMaster().getConnectedPlayers().get(player.getPlayerName()).getClient();
-            try {
-                client.showNotice(message);
-            } catch (BrokenConnectionException e) {
-                //todo super.getControllerMaster().suspendPlayer(player.getPlayerName);
+            if(!this.controllerMaster.getSuspendedPlayers().contains(player.getPlayerName())) {
+                IFromServerToClient client = this.getPlayerClient(player.getPlayerName());
+                try {
+                    client.showNotice(message);
+                } catch (BrokenConnectionException e) {
+                    //todo super.getControllerMaster().suspendPlayer(player.getPlayerName);
+                }
             }
         }
     }
@@ -77,6 +78,15 @@ public abstract class AGameManager {
         } catch (BrokenConnectionException br) {
             //todo super.getControllerMaster().suspendPlayer(player.getPlayerName());
         }
+    }
+
+    /**
+     * This method is used to retrieve the client of the player in input.
+     * @param playerName name of the player.
+     * @return the client of the player.
+     */
+    IFromServerToClient getPlayerClient(String playerName) {
+        return this.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
     }
 
     /**
