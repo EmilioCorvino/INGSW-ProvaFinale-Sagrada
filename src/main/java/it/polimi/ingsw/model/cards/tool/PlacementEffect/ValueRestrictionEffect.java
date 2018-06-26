@@ -39,10 +39,13 @@ public class ValueRestrictionEffect extends PlacementRestrictionEffect {
             manager.setMoveLegal(false);
             return;
         }
-
-        //restoreGlassWindow(wp, setUpInfoUnit.getDestinationIndex());
         restoreGlassWindow(wp);
-       super.updateContainer(wp, setUpInfoUnit);
+        Die removedDie = wp.removeDie(setUpInfoUnit.getSourceIndex());
+        setUpInfoUnit.setValue(removedDie.getActualDieValue());
+        setUpInfoUnit.setColor(removedDie.getDieColor());
+        wp.addDie(removedDie);
+        manager.setMoveLegal(true);
+        manager.showRearrangementResult(manager.getControllerMaster().getGameState().getCurrentPlayer(), setUpInfoUnit);
     }
 
     /**
@@ -84,7 +87,6 @@ public class ValueRestrictionEffect extends PlacementRestrictionEffect {
         for(int i=0; i<WindowPatternCard.MAX_COL; i++)
             for(int j=0; j<WindowPatternCard.MAX_COL; j++)
                 gwCopy[i][j].getRuleSetCell().add(listToRestore.get(j));
-
     }
 
 }

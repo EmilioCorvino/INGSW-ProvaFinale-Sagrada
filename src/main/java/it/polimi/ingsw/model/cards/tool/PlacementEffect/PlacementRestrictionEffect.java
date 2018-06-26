@@ -32,12 +32,14 @@ public class PlacementRestrictionEffect extends AToolCardEffect {
             return;
         }
 
-       updateContainer(playerWp, setUpInfoUnit);
+
+        playerWp.addDie(playerWp.removeDie(setUpInfoUnit.getSourceIndex()));
+        setUpInfoUnit.setValue(chosenDie.getActualDieValue());
+        setUpInfoUnit.setColor(chosenDie.getDieColor());
+        manager.setMoveLegal(true);
+        manager.showRearrangementResult(manager.getControllerMaster().getGameState().getCurrentPlayer(), setUpInfoUnit);
     }
 
-    public void updateContainer(WindowPatternCard playerWp, SetUpInformationUnit setUpInfoUnit) {
-        playerWp.setDesiredCell(new Cell(setUpInfoUnit.getDestinationIndex()/WindowPatternCard.MAX_COL, setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL));
-        playerWp.addDie(playerWp.removeDie(setUpInfoUnit.getSourceIndex()));
-    }
+    
 
 }
