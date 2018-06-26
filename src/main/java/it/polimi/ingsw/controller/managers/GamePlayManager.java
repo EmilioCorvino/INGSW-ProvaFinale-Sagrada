@@ -26,7 +26,7 @@ import java.util.*;
 import java.util.logging.Level;
 
 /**
- *
+ * This class handles everything that concerns the match from the start of the first round to the end of the last one.
  */
 public class GamePlayManager extends AGameManager {
 
@@ -45,14 +45,12 @@ public class GamePlayManager extends AGameManager {
      */
     private boolean moveLegal = true;
 
-    private static final String EVERYTHING_DONE = "\nHai già effettuato tutte le operazioni possibili in un turno, " +
+    private static final String EVERYTHING_DONE = "\nHai effettuato tutte le operazioni possibili in un turno, " +
             "passaggio al giocatore successivo...\n";
 
     private static final int FIRST_TURN = 0;
 
     private static final int SECOND_TURN = 1;
-
-    private static final int BOTH_TURNS = 2;
 
     /**
      * This constructor, other than setting the controller master, also initializes the lists of commands to be shown
@@ -120,7 +118,6 @@ public class GamePlayManager extends AGameManager {
 
     /**
      * This method starts the turn of a player, sending the correct {@link Commands} to him and the waiting players.
-     *
      * @param currentPlayerTurn the turn of the current player.
      */
     private void startTurn(Turn currentPlayerTurn) {
@@ -169,7 +166,6 @@ public class GamePlayManager extends AGameManager {
 
     /**
      * Starts the timer of the turn. If it can't be loaded from file, a back up value is used.
-     *
      * @param turn turn of the player to suspend in case his turn isn't over when the timer expires. It has a reference
      *             to said {@link Player}.
      */
@@ -203,7 +199,6 @@ public class GamePlayManager extends AGameManager {
     /**
      * Ends the turn, incrementing the index of the current player in the turn order list at {@link GameState}.
      * Then starts a new turn.
-     *
      * @param message communication to send to the player, informing him why is his turn over.
      */
     private void endTurn(String message) {
@@ -232,7 +227,6 @@ public class GamePlayManager extends AGameManager {
     /**
      * Starts a new round, by resetting the turn index and incrementing the round count. If the match is over, it
      * signals it.
-     *
      * @param gameState object containing the overall state of the match.
      */
     private void endRound(GameState gameState) {
@@ -272,9 +266,9 @@ public class GamePlayManager extends AGameManager {
      * player tries to perform moves not in his turn.
      * It also checks if a placement has already been done and in that case it shows to the player new suitable
      * {@link Commands}.
-     *
      * @param info       object containing the information needed to update the model.
      * @param playerName name of the player trying to perform the move.
+     * @see DiePlacementMove
      */
     public void performDefaultMove(SetUpInformationUnit info, String playerName) {
         GameState gameState = super.getControllerMaster().getGameState();
@@ -305,11 +299,10 @@ public class GamePlayManager extends AGameManager {
     }
 
     /**
-     * This method is used to use a {@link ToolCard}. It can handle weird situations in which a player tries to perform
+     * This method is called to use a {@link ToolCard}. It can handle weird situations in which a player tries to perform
      * moves not in his turn.
      * It also checks if a Tool Card has already been used and in that case it shows to the player new suitable
      * {@link Commands}.
-     *
      * @param infoUnits  list of objects containing the information needed to update the model.
      * @param playerName name of the player trying to perform the move.
      */
@@ -322,7 +315,7 @@ public class GamePlayManager extends AGameManager {
             return;
         }
 
-        if (!gameState.getCurrentTurn().isTurnCompleted()) {
+        if (!gameState.isCurrentTurnOver()) {
 
             //If the player has already used a Tool Card, tells him and shows him a new appropriate list of commands.
             if (gameState.getCurrentTurn().isToolCardUsed()) {
@@ -342,7 +335,7 @@ public class GamePlayManager extends AGameManager {
                 }
 
                 //Checks if the executeMove has been successful or not, and modifies the state of the turn accordingly.
-                this.checkAndResolveToolMoveLegality(gameState, slotID, slot.getToolCard(), false);
+                this.checkAndResolveToolMoveLegality(gameState, slotID, slot.getToolCard());
             }
         } else {
             this.endTurn("\nHai già effettuato tutte le operazioni possibili in un turno, " +
@@ -351,9 +344,13 @@ public class GamePlayManager extends AGameManager {
     }
 
     /**
-     *
-     * @param infoUnit
-     * @param playerName
+     * This method is called to perform a placement where the player has to put a specific die into his
+     * {@link it.polimi.ingsw.model.die.containers.WindowPatternCard}. It is reached through the usage of some
+     * {@link ToolCard}.
+     * @param infoUnit object containing the information needed to update the model.
+     * @param playerName name of the player trying to perform the move.
+     * @see it.polimi.ingsw.model.cards.tool.ValueEffects.DraftValueEffect
+     * @see it.polimi.ingsw.model.cards.tool.SwapEffect.SwapFromDraftPoolToDicebag
      */
     public void performRestrictedPlacement(SetUpInformationUnit infoUnit, String playerName) {
         GameState gameState = super.getControllerMaster().getGameState();
@@ -369,18 +366,26 @@ public class GamePlayManager extends AGameManager {
 
         if(!this.isMoveLegal()) {
             super.sendNotification(gameState.getCurrentPlayer().getWindowPatternCard().getErrorMessage() +
-                    " Prova a piazzare il dado in un'altra posizione.");
+                    " Prova a piazzare il dado in un'altra posizione.\n");
+
             //Only the extra command for tool 6 is sent because even in the case of tool 11, at this point, the value
             //of the die has already been chosen.
             super.sendCommands(Collections.singletonList(Commands.EXTRA_TOOL6));
         } else {
-            //this.checkAndResolveToolMoveLegality(gameState, );
+            if(gameState.isCurrentTurnOver()) {
+                this.endTurn(EVERYTHING_DONE);
+            } else {
+                super.sendNotification("\nNon è possibile piazzare il dado in alcuna posizione. Verrà aggiunto alla" +
+                        " riserva. Puoi ancora effettuare un piazzamento standard.\n");
+                List<Commands> updatedCommands = this.filterTools(this.currentPlayerCommands, gameState);
+                updatedCommands.add(0, Commands.PLACEMENT);
+                super.sendCommands(updatedCommands);
+            }
         }
     }
 
     /**
      * Lets the player on duty pass his turn, then starts the next one.
-     *
      * @param playerName player wanting to end his turn.
      */
     public void moveToNextTurn(String playerName) {
@@ -398,7 +403,6 @@ public class GamePlayManager extends AGameManager {
     /**
      * Shows the result of the default placement move to the player on duty and the waiting players.
      * Note that this method can be also called to communicate the result of some of the {@link ToolCard}s.
-     *
      * @param currentPlayer player on duty.
      * @param setUpInfoUnit information used by the view to update
      *                      the {@link it.polimi.ingsw.view.cli.die.WindowPatternCardView} and the
@@ -420,6 +424,7 @@ public class GamePlayManager extends AGameManager {
         //Updates the board of the player on duty.
         IFromServerToClient currentPlayerClient =
                 super.getControllerMaster().getConnectedPlayers().get(currentPlayer.getPlayerName()).getClient();
+        super.sendNotification("\nPiazzamento effettuato correttamente.\n");
         try {
             currentPlayerClient.addOnOwnWp(setUpInfoUnit);
             currentPlayerClient.removeOnDraft(setUpInfoUnit);
@@ -435,6 +440,7 @@ public class GamePlayManager extends AGameManager {
                 IFromServerToClient waitingPlayerClient =
                         super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient();
                 try {
+                    waitingPlayerClient.showNotice("\n" + currentPlayer.getPlayerName() + " ha effettuato un piazzamento.\n");
                     waitingPlayerClient.addOnOtherPlayerWp(currentPlayer.getPlayerName(), setUpInfoUnit);
                     waitingPlayerClient.removeOnDraft(setUpInfoUnit);
                 } catch (BrokenConnectionException e) {
@@ -467,6 +473,7 @@ public class GamePlayManager extends AGameManager {
         //Updates the board of the player on duty.
         IFromServerToClient currentPlayerClient =
                 super.getControllerMaster().getConnectedPlayers().get(currentPlayer.getPlayerName()).getClient();
+        super.sendNotification("\nSpostamento effettuato correttamente.\n");
         try {
             currentPlayerClient.removeOnOwnWp(setUpInfoUnit);
             currentPlayerClient.addOnOwnWp(setUpInfoUnit);
@@ -482,6 +489,8 @@ public class GamePlayManager extends AGameManager {
                 IFromServerToClient waitingPlayerClient =
                         super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient();
                 try {
+                    waitingPlayerClient.showNotice("\n" + currentPlayer.getPlayerName() + " ha spostato un dado nella" +
+                            " sua vetrata.\n");
                     waitingPlayerClient.removeOnOtherPlayerWp(currentPlayer.getPlayerName(), setUpInfoUnit);
                     waitingPlayerClient.addOnOtherPlayerWp(currentPlayer.getPlayerName(), setUpInfoUnit);
                 } catch (BrokenConnectionException e) {
@@ -514,6 +523,7 @@ public class GamePlayManager extends AGameManager {
             IFromServerToClient playerClient =
                     super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient();
             try {
+                playerClient.showNotice("\nÈ stato scambiato un dado tra il Tracciato dei Round e la Riserva.\n");
                 playerClient.removeOnDraft(infoUnitDraft);
                 playerClient.addOnDraft(infoUnitDraft);
                 playerClient.removeOnRoundTrack(infoUnitRoundTrack);
@@ -531,6 +541,7 @@ public class GamePlayManager extends AGameManager {
      * {@link it.polimi.ingsw.view.cli.die.DieDraftPoolView}.
      * @param rolledDice list of information needed to update the view with the newly rolled dice.
      * @see it.polimi.ingsw.model.cards.tool.ValueEffects.DraftValueEffect
+     * @see RestrictedDiePlacementMove
      */
     public void showUpdatedDraft(List<SetUpInformationUnit> rolledDice) {
         if(!this.isMoveLegal()) {
@@ -546,6 +557,7 @@ public class GamePlayManager extends AGameManager {
             IFromServerToClient playerClient =
                     super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient();
             try {
+                playerClient.showNotice("\nLa Riserva è stata aggiornata.\n");
                 playerClient.setDraft(rolledDice);
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Impossible to update " + p.getPlayerName() + " draft pool", e);
@@ -574,6 +586,7 @@ public class GamePlayManager extends AGameManager {
                 .get(gameState.getCurrentTurn().getToolSlotUsed()).getToolCard();
         IFromServerToClient currentPlayerClient =
                 super.getControllerMaster().getConnectedPlayers().get(currentPlayer.getPlayerName()).getClient();
+        super.sendNotification("\nÈ stato estratto il seguente dado:\n");
         try {
             currentPlayerClient.showDie(infoUnit);
             Commands commandToSend = card.getCommandName().equals(Commands.TOOL6) ? Commands.EXTRA_TOOL6 : Commands.EXTRA_TOOL11;
@@ -597,7 +610,6 @@ public class GamePlayManager extends AGameManager {
 
     /**
      * This method checks if the current player is the same one as the one making the request.
-     *
      * @param username the color of the current player.
      * @return true if the given color matches the color of the current player.
      */
@@ -630,7 +642,6 @@ public class GamePlayManager extends AGameManager {
 
     /**
      * This method filters the list of {@link Commands} in input, removing all the ones related to {@link ToolCard}s.
-     *
      * @param listToFilter list needing to be filtered.
      * @param gameState object representing the state of the game.
      */
@@ -656,7 +667,6 @@ public class GamePlayManager extends AGameManager {
      * This method is a security measure: if a request which doesn't come from the player on duty arrives, it handles it
      * by showing the player sending it the commands he is allowed to use.
      * If the request arrive regularly, this method does nothing.
-     *
      * @param playerName name of the player sending the request.
      * @return {@code true} if the request is illegal, {@code false} otherwise.
      */
@@ -679,7 +689,6 @@ public class GamePlayManager extends AGameManager {
     /**
      * This methods is used to check if the placement should be made effective or not and, if so, updates all the values
      * related to the move.
-     *
      * @param gameState object representing the state of the game.
      */
     private void checkAndResolveDefaultMoveLegality(GameState gameState) {
@@ -710,10 +719,8 @@ public class GamePlayManager extends AGameManager {
      * @param gameState object representing the state of the game.
      * @param slotID    ID of the slot where the {@link ToolCard} is in.
      * @param toolCard  {@link ToolCard} that has been used.
-     * @param requiresMultipleInteractions a flag that signals whether the card requires more than one interaction with
-     *                                     the player or not.
      */
-    private void checkAndResolveToolMoveLegality(GameState gameState, int slotID, ToolCard toolCard, boolean requiresMultipleInteractions) {
+    private void checkAndResolveToolMoveLegality(GameState gameState, int slotID, ToolCard toolCard) {
         if (this.isMoveLegal()) {
             gameState.getCurrentTurn().setToolCardUsed(true);
             int toolCost = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).getCost();
@@ -742,13 +749,12 @@ public class GamePlayManager extends AGameManager {
 
             //Checks if the player has done everything he could. If he did, ends his turn; if not, shows him the
             //commands still available to him.
-            ToolCard card = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).getToolCard();
-            if (!gameState.isCurrentTurnOver() && !requiresMultipleInteractions) {
+            if (!gameState.isCurrentTurnOver() && !toolCard.getEffectBuilder().requiresMultipleInteractions()) {
                 List<Commands> filteredCommands = this.filterTools(this.currentPlayerCommands, gameState);
                 super.sendNotification("\nPuoi ancora effettuare un piazzamento, visualizzare informazioni della " +
                         "plancia oppure passare.\n");
                 super.sendCommands(filteredCommands);
-            } else if (gameState.isCurrentTurnOver() && !requiresMultipleInteractions) {
+            } else if (gameState.isCurrentTurnOver() && !toolCard.getEffectBuilder().requiresMultipleInteractions()) {
                 this.endTurn(EVERYTHING_DONE);
             }
         } else {
