@@ -270,7 +270,7 @@ public class ChooseWpGUI extends ParentWindow {
             chosen.setDifficulty((Label)map.getChildren().get(2));
             map.setStyle("-fx-background-color: rgba(102, 217, 255, 0.3)");
             this.playersData.setPersonalWp(chosen);
-
+            this.communicator.executeCommandIfPresent(Commands.CHOOSE_WP);
             //this.setChosenWp(chosen);
         } else {
             this.communicator.communicateMessage("Hai già scelto una mappa.");

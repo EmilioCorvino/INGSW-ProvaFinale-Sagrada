@@ -55,7 +55,7 @@ public class GUIView implements IViewMaster {
 
     public GUIView() {
         bank = new Bank();
-        setBank();
+        //setBank();
         manager = new GUICommunicationManager();
         listPlayers = new ShowPlayersGUI();
         chooseWpGUI = new ChooseWpGUI(manager);
@@ -70,8 +70,7 @@ public class GUIView implements IViewMaster {
     /**
      * This method create the bank, create the default manager and the tool card manager and populate its maps.
      */
-    private void setBank(){
-        bank = new Bank();
+    private void configureBank (){
         GUIDefaultMatchManager matchManager = new GUIDefaultMatchManager(this);
         bank.setDefaultMatchManager(matchManager);
         matchManager.setServer(this.server);
@@ -95,6 +94,8 @@ public class GUIView implements IViewMaster {
 
                 if (Integer.parseInt(loginManager.getInfoLogin().getTypeConn()) == 1)
                     this.server = new SocketFromClientToServer();
+
+                configureBank();
 
             } catch (BrokenConnectionException e) {
                 loginManager.setProceed(false);
@@ -153,6 +154,7 @@ public class GUIView implements IViewMaster {
             this.playersData.setIdPrivateCard(idPrivateObj);
             GUIMain.setRoot(this.chooseWpGUI);
             this.chooseWpGUI.assignPrivateObjectiveCard(idPrivateObj);
+            GUIMain.centerScreen();
         });
     }
 

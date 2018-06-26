@@ -27,6 +27,7 @@ public class CommonBoardWindow extends ParentWindow {
 
         this.getStylesheets().add("style/backgrounds.css");
         this.getStyleClass().add("background");
+        this.getStyleClass().add("VBox");
     }
 
 
