@@ -6,12 +6,17 @@ import it.polimi.ingsw.view.gui.loginwindows.LoginRootGUI;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 
 public class GUIMain extends Application {
+
+    private static double xOffset = 0;
+    private static double yOffset = 0;
 
     private static Scene scene;
 
@@ -35,6 +40,25 @@ public class GUIMain extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         ((GUIView) guiView).setLoginManager((LoginIpAddrTypeConnGUI)root);
+    }
+
+    public static void dragWindow(VBox window) {
+        window.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
+            xOffset = e.getSceneX();
+            yOffset = e.getSceneY();
+        });
+        window.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
+            GUIMain.getStage().setX(e.getScreenX() - xOffset);
+            GUIMain.getStage().setY(e.getScreenY() - yOffset);
+        });
+    }
+
+    private static void pressedWindow(MouseEvent event) {
+
+    }
+
+    private static void draggedWindow(MouseEvent event) {
+
     }
 
 /*

@@ -55,16 +55,14 @@ public class GUIView implements IViewMaster {
 
     public GUIView() {
         bank = new Bank();
-        //setBank();
         manager = new GUICommunicationManager();
         listPlayers = new ShowPlayersGUI();
         chooseWpGUI = new ChooseWpGUI(manager);
         playersData = new PlayersData();
-        commonWindow = new CommonBoardWindow();
+        commonWindow = new CommonBoardWindow(manager);
 
         chooseWpGUI.setPlayersData(this.playersData);
-
-
+        commonWindow.setData(this.playersData);
     }
 
     /**
@@ -177,6 +175,7 @@ public class GUIView implements IViewMaster {
     public void setCommonBoard(Map<String, SimplifiedWindowPatternCard> players, int[] idPubObj, int[] idTool) {
         Platform.runLater(() -> {
             System.out.println("non cambia??");
+            commonWindow.formatSecondContainer();
             this.current = commonWindow;
             GUIMain.setRoot(current);
         });
