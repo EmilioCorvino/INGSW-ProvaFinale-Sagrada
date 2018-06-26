@@ -27,6 +27,8 @@ public class CommonBoardWindow extends ParentWindow {
 
     private HBox gameData;
 
+    private VBox box = new VBox();
+
     private GUICommunicationManager manager;
 
     public PlayersData getData() {
@@ -107,7 +109,6 @@ public class CommonBoardWindow extends ParentWindow {
         StackPane base = new StackPane();
         VBox cardFavorCont = new VBox();
         GridPane map = this.data.getPersonalWp().getGlassWindow();
-        VBox box = new VBox();
 
         Image card = new Image("/cards/privateImages/private_" + this.data.getIdPrivateCard() + ".png");
         ImageView view = new ImageView(card);
@@ -122,27 +123,40 @@ public class CommonBoardWindow extends ParentWindow {
         view1.setPreserveRatio(true);
         view.setFitHeight(240);
         view.setPreserveRatio(true);
-        cardFavorCont.setPadding(new Insets(0, 0, 0, 10));
+        cardFavorCont.setPadding(new Insets(0, 0, 0, 25));
 
         base.setMinWidth(200);
         base.setMaxWidth(300);
-        box.setMinWidth(200);
-        box.setMaxWidth(200);
-        box.setPadding(new Insets(80, 0, 0, 0));
+        box.setMinWidth(280);
+        box.setMaxWidth(280);
+        box.setPadding(new Insets(80, 0, 0, 28));
 
         //base.setStyle("-fx-background-color: rgba(0, 153, 204, 0.3)");
         //box.setStyle("-fx-background-color: yellow");
-        box.setSpacing(120);
+        box.setSpacing(53);
 
-        box.getChildren().addAll(cardFavorCont, map);
+        HBox favorTok = new HBox();
+        Label titleFav = new Label("Favor tokens: ");
+        favorTok.setPadding(new Insets(0, 0, 0, 45));
+        titleFav.getStyleClass().add("text-label-bold");
+        Label numFav = new Label("");
+        numFav.getStyleClass().add("text-label-bold");
+
+
+        favorTok.getChildren().addAll(titleFav, numFav);
+        box.getChildren().addAll(cardFavorCont, favorTok, map);
         base.getChildren().addAll(view1, box);
 
         this.secondContainer.getChildren().add(base);
     }
 
-    public void updateFavorTokens() {
-
+    public void setFavorTokens() {
+        ((Label)((HBox)box.getChildren().get(1)).getChildren().get(1)).setText(this.data.getNumFavTok() + "");
     }
+
+
+
+
 
     @Override
     public void addHandlers() {

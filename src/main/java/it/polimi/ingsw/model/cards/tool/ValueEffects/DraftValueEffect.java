@@ -2,10 +2,10 @@ package it.polimi.ingsw.model.cards.tool.ValueEffects;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
-import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.model.die.containers.WindowPatternCard;
+import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -62,23 +62,51 @@ public class DraftValueEffect extends AValueEffect {
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
 
+        manager.setMoveLegal(true);
+
         if(this.limit == 0) {
             List<Die> diceToDraft = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice();
             diceToDraft.forEach(die -> die.setActualDieValue(computeRandomDieValue(die).getActualDieValue()));
-            //TODO tell the manager to show updates.
+            manager.showUpdatedDraft(packMultipleInformation(manager));
             return;
         }
 
-        Die chosenDie = computeRandomDieValue(manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice().get(setUpInfoUnit.getSourceIndex()));
-        WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
 
-        if(!super.checkExistingCellsToUse(wp, chosenDie)) {
-            manager.sendNotification("Non ci sono celle disponibili in cui il dado può essere piazzato");
-            return;
-        }
+        // = computeRandomDieValue(manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice().get(setUpInfoUnit.getSourceIndex()));
+        // WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
 
+        DiceDraftPool draft = manager.getControllerMaster().getCommonBoard().getDraftPool();
+        draft.createCopy();
+        Die chosenDie = draft.removeDie(setUpInfoUnit.getSourceIndex());
+        chosenDie = computeRandomDieValue(chosenDie);
+        draft.addDie(chosenDie);
+        setUpInfoUnit.setValue(chosenDie.getActualDieValue());
+        manager.showDraftedDie(manager.getControllerMaster().getGameState().getCurrentPlayer(), setUpInfoUnit);
+
+
+        /*
         wp.setDesiredCell(new Cell(setUpInfoUnit.getDestinationIndex() / WindowPatternCard.MAX_COL, setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL));
         wp.addDie(chosenDie);
         //TODO tell the controller to show updates.
+        */
+
+    }
+
+    /**
+     * This method packs multiple information - results to send to the controller.
+     * @param manager the controller.
+     * @return a list of results.
+     */
+    private List<SetUpInformationUnit> packMultipleInformation(GamePlayManager manager) {
+        List<Die> list = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDiceCopy();
+        List<SetUpInformationUnit> listToSend = new ArrayList<>();
+        for (Die d : list) {
+            SetUpInformationUnit setup = new SetUpInformationUnit();
+            setup.setSourceIndex(list.indexOf(d));
+            setup.setValue(d.getActualDieValue());
+            setup.setColor(d.getDieColor());
+            listToSend.add(setup);
+        }
+        return listToSend;
     }
 }

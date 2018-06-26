@@ -74,14 +74,10 @@ public class ServerImplementation implements IFromClientToServer {
         SagradaLogger.log(Level.INFO, "Connection accepted! Player " + playerName + " just joined.");
     }
 
-    /**
-     *
-     * @param idMap
-     */
     @Override
     public void windowPatternCardRequest(int idMap) {
         String username = connectionsQueue.remove().getUserName();
-        StartGameManager startGameManager = (StartGameManager)controller.getStartGameManager();
+        StartGameManager startGameManager = controller.getStartGameManager();
         startGameManager.wpToSet(username, idMap);
     }
 
@@ -92,20 +88,22 @@ public class ServerImplementation implements IFromClientToServer {
     @Override
     public void performDefaultMove(SetUpInformationUnit infoUnit) {
         String userName = connectionsQueue.remove().getUserName();
-        GamePlayManager gamePlayManager = (GamePlayManager)controller.getGamePlayManager();
+        GamePlayManager gamePlayManager = controller.getGamePlayManager();
         gamePlayManager.performDefaultMove(infoUnit, userName);
     }
 
     @Override
     public void performToolCardMove(int slotID, List<SetUpInformationUnit> infoUnits) {
         String userName = connectionsQueue.remove().getUserName();
-        GamePlayManager gamePlayManager = (GamePlayManager)controller.getGamePlayManager();
+        GamePlayManager gamePlayManager = controller.getGamePlayManager();
         gamePlayManager.performToolCardMove(slotID, infoUnits, userName);
     }
 
     @Override
     public void performRestrictedPlacement(SetUpInformationUnit infoUnit) {
-
+        String userName = connectionsQueue.remove().getUserName();
+        GamePlayManager gamePlayManager = controller.getGamePlayManager();
+        gamePlayManager.performRestrictedPlacement(infoUnit, userName);
     }
 
     /**
@@ -114,29 +112,40 @@ public class ServerImplementation implements IFromClientToServer {
     @Override
     public void moveToNextTurn() {
         String userName = connectionsQueue.remove().getUserName();
-        GamePlayManager gamePlayManager = (GamePlayManager)controller.getGamePlayManager();
+        GamePlayManager gamePlayManager = controller.getGamePlayManager();
         gamePlayManager.moveToNextTurn(userName);
     }
 
     @Override
     public void startNewGameRequest() {
         String userName = connectionsQueue.remove().getUserName();
-        EndGameManager endGameManager = (EndGameManager)controller.getEndGameManager();
+        EndGameManager endGameManager = controller.getEndGameManager();
         endGameManager.newGame(userName);
     }
 
     /**
-     * Lets the player log out from the game.
+     * Lets the player log out from the game. This method has different effects depending on the game phase.
      */
     @Override
     public void exitGame() {
         String userName = connectionsQueue.remove().getUserName();
-        if(this.getController().getGameState().isMatchOver()) {
-            EndGameManager endGameManager = (EndGameManager)controller.getEndGameManager();
+
+        //End Game.
+        if (this.getController().getGameState().isMatchOver()) {
+            EndGameManager endGameManager = this.controller.getEndGameManager();
             endGameManager.exitGame(userName);
-        } else {
-            //todo suspend player
+            return;
         }
+
+        //Game Play.
+        if (this.getController().getStartGameManager().isMatchSetUp()) {
+            this.controller.suspendPlayer(userName);
+            return;
+        }
+
+        //Start Game
+        StartGameManager startGameManager = this.controller.getStartGameManager();
+        startGameManager.exitGame(userName);
     }
 
 

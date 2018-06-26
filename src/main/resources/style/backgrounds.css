@@ -28,6 +28,12 @@
     -fx-font: 14px Verdana;
 }
 
+.text-label-bold {
+    -fx-text-fill: white;
+    -fx-font: 14px Verdana;
+    -fx-font-weight: bold;
+}
+
 .button-style {
     -fx-background-color: rgba(0, 153, 204, 0.3) ;
      -fx-text-fill: white;

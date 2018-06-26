@@ -39,7 +39,7 @@ public class ColorRestrictionEffect extends PlacementRestrictionEffect {
         wp.setDesiredCell(new Cell(setUpInfoUnit.getDestinationIndex()/WindowPatternCard.MAX_COL , setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL));
 
         if(!wp.canBePlaced(chosenDie, wp.getDesiredCell(), gwCopy)) {
-            manager.sendNotification(wp.getErrorMessage());
+            manager.sendNotificationToCurrentPlayer(wp.getErrorMessage());
             manager.setMoveLegal(false);
             return;
         }

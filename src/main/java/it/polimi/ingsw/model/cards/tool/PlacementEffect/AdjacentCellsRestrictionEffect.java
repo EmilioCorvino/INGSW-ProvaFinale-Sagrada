@@ -38,7 +38,7 @@ public class AdjacentCellsRestrictionEffect extends PlacementRestrictionEffect {
                 //tell the controller to show results
                 return;
             } else {
-                manager.sendNotification(wp.getErrorMessage() + "digita aiuto per vedere i tuoi comandi");
+                manager.sendNotificationToCurrentPlayer(wp.getErrorMessage() + "digita aiuto per vedere i tuoi comandi");
                 wp.setDesiredCell(new Cell(info.getSourceIndex() / WindowPatternCard.getMaxCol(), info.getSourceIndex() % WindowPatternCard.getMaxCol()));
                 wp.addDie(chosenDie);
                 wp.removeDie(info.getSourceIndex());

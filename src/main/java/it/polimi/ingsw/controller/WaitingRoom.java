@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.managers.AGameManager;
-import it.polimi.ingsw.controller.managers.StartGameManager;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.Connection;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
@@ -72,7 +71,7 @@ public class WaitingRoom {
      */
     void joinRoom(String username, Connection connection, int gameMode) throws UserNameAlreadyTakenException,
             TooManyUsersException, MatchAlreadyStartedException {
-        if(!isMatchAlreadyStarted()) {
+        if(isMatchStillWaitingToStart()) {
             if(gameMode == SINGLEPLAYER_MODE)
                 startSingleMatch();
             else if(gameMode == MULTIPLAYER_MODE) {
@@ -89,15 +88,17 @@ public class WaitingRoom {
 
     /**
      * This method allows the connected clients of a multi player match to see other connecting players.
+     * If a player disconnects in this phase, he just gets removed from the room.
      */
     public void notifyWaitingPlayers() {
         List<String> listName = new ArrayList<>();
-        playersRoom.forEach((key, value) -> listName.add(key));
-        playersRoom.forEach((key, value) -> {
+        playersRoom.forEach((playerName, connection) -> listName.add(playerName));
+        playersRoom.forEach((playerName, connection) -> {
             try {
-                value.getClient().showRoom(listName);
+                connection.getClient().showRoom(listName);
             } catch (BrokenConnectionException e) {
-                e.printStackTrace();
+                this.playersRoom.remove(playerName);
+                notifyWaitingPlayers();
             }
         });
     }
@@ -106,36 +107,42 @@ public class WaitingRoom {
      * This method checks if the minimum player for a multi-player match is reached, then starts the timer.
      */
     private void checkNumberOfPlayers() {
-        if(playersRoom.size() == 2) {
+        if (playersRoom.size() == 2) {
             Timer timer = new Timer();
 
             //Back up value.
             long timeOut = AGameManager.BACK_UP_TIMER;
 
             //Value read from file. If the loading is successful, it overwrites the back up.
-            try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(WAITING_ROOM_TIMER_FILE)))) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(WAITING_ROOM_TIMER_FILE)))) {
                 timeOut = Long.parseLong(reader.readLine());
                 SagradaLogger.log(Level.CONFIG, "Waiting Room timer successfully loaded from file. " +
                         "Its value is: " + timeOut/1000 + "s");
             } catch (IOException e) {
-                SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
+                SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file. Using default value.", e);
             }
             SagradaLogger.log(Level.INFO, "Waiting Room timer is started.");
 
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    if(!isMatchAlreadyStarted()) {
+                    if (isMatchStillWaitingToStart()) {
                         SagradaLogger.log(Level.WARNING, "timer is expired");
-                        setMatchAlreadyStarted(true);
-                        startMultiPlayerMatch();
+                        reportStartMatch();
+                        if (playersRoom.size()>= 2) {
+                            setMatchAlreadyStarted(true);
+                            startMultiPlayerMatch();
+                        }
                     }
                 }
             }, timeOut);
-        } else if(playersRoom.size() == MAX_PLAYERS) {
+        } else if (playersRoom.size() == MAX_PLAYERS) {
             SagradaLogger.log(Level.WARNING, "Maximum number of players reached, starting match...");
-            setMatchAlreadyStarted(true);
-            startMultiPlayerMatch();
+            reportStartMatch();
+            if(playersRoom.size() >= 2) {
+                setMatchAlreadyStarted(true);
+                startMultiPlayerMatch();
+            }
         }
     }
 
@@ -145,7 +152,7 @@ public class WaitingRoom {
      * @param connection the connection of the player to addDie.
      * @throws UserNameAlreadyTakenException when a player with a same username is already present.
      */
-    public synchronized void addPlayer(String username, Connection connection) throws UserNameAlreadyTakenException {
+    private synchronized void addPlayer(String username, Connection connection) throws UserNameAlreadyTakenException {
         for (String name : playersRoom.keySet())
             if (username.equals(name))
                 throw new UserNameAlreadyTakenException();
@@ -154,7 +161,6 @@ public class WaitingRoom {
 
     /**
      * This method starts a multi player match.
-     * //TODO testing
      */
     private void startMultiPlayerMatch() {
         ControllerMaster controllerMaster = new ControllerMaster(new HashMap<>(this.playersRoom), this);
@@ -165,18 +171,30 @@ public class WaitingRoom {
             entry.getValue().getServer().setController(controllerMaster);
         }
 
-        ((StartGameManager)controllerMaster.getStartGameManager()).setUpPrivateObjectiveCardAndWp();
+        controllerMaster.getStartGameManager().setUpPrivateObjectiveCardAndWp();
     }
 
     /**
-     *
+     * This method signals that the match is about to start to each player. If any of them has disconnected,
+     * it will remove them from the room and notify the others.
      */
+    private void reportStartMatch() {
+        playersRoom.forEach((playerName, connection) -> {
+            try {
+                connection.getClient().showNotice("\nLa partita sta per iniziare.\n");
+            } catch (BrokenConnectionException e) {
+                playersRoom.remove(playerName);
+                notifyWaitingPlayers();
+            }
+        });
+    }
+
     private void startSingleMatch() {
         //Implement this to handle single player.
     }
 
-    public boolean isMatchAlreadyStarted() {
-        return matchAlreadyStarted;
+    private boolean isMatchStillWaitingToStart() {
+        return !matchAlreadyStarted;
     }
 
     public void setMatchAlreadyStarted(boolean matchAlreadyStarted) {
@@ -185,9 +203,5 @@ public class WaitingRoom {
 
     public Map<String, Connection> getPlayersRoom() {
         return playersRoom;
-    }
-
-    public void setPlayersRoom(Map<String, Connection> playersRoom) {
-        this.playersRoom = playersRoom;
     }
 }

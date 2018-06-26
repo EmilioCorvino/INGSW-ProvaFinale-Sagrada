@@ -8,6 +8,9 @@ public class PlayersData {
 
     private int idPrivateCard;
 
+    private int numFavTok;
+
+
 
     public PlayersData() {
 
@@ -36,5 +39,13 @@ public class PlayersData {
 
     public void setIdPrivateCard(int idPrivateCard) {
         this.idPrivateCard = idPrivateCard;
+    }
+
+    public int getNumFavTok() {
+        return numFavTok;
+    }
+
+    public void setNumFavTok(int numFavTok) {
+        this.numFavTok = numFavTok;
     }
 }
