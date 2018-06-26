@@ -141,7 +141,7 @@ public class CommonBoardWindow extends ParentWindow {
     }
 
     public void updateFavorTokens() {
-        
+
     }
 
     @Override
