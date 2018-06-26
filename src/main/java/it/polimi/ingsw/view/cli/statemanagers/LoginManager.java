@@ -64,9 +64,9 @@ public class LoginManager {
      * @return The identifier of the game mode.
      */
     public int getGameMode(){
-        String gameMode = inputOutputManager.askInformation("\nInserire la modalità di partita:\n\t 1 - Multigiocatore\n\t 2 - Giocatore Singolo");
+        String gameMode = inputOutputManager.askInformation("\nInserire il numero della modalità di partita desiderata:\n\t 1 - Multigiocatore\n\t 2 - Giocatore Singolo");
         while (!("1".equals(gameMode) || "2".equals(gameMode))) {
-            inputOutputManager.print("ERRORE: Scelta non supportata, inserire GiocatoreSingolo o Multigiocatore: ");
+            inputOutputManager.print("ERRORE: Scelta non supportata, inserire 1 (GiocatoreSingolo) o 2 (Multigiocatore): ");
             gameMode = inputOutputManager.read();
         }
         return Integer.parseInt(gameMode);
