@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.gamewindows;
 
 import it.polimi.ingsw.view.gui.*;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -31,6 +32,8 @@ public class CommonBoardWindow extends ParentWindow {
     private DraftPoolGUI draftPoolGUI;
     private VBox secondSecCont;
 
+    private RoundTrackGUI roundTrack;
+
     public DraftPoolGUI getDraftPoolGUI() {
         return draftPoolGUI;
     }
@@ -52,8 +55,10 @@ public class CommonBoardWindow extends ParentWindow {
     private PlayersData data;
 
     public CommonBoardWindow(GUICommunicationManager manager) {
+        roundTrack = new RoundTrackGUI();
         draftPoolGUI = new DraftPoolGUI();
         secondSecCont = new VBox();
+        this.secondSecCont.setSpacing(45);
         this.manager = manager;
         mainContainer = new VBox();
         header = new HBox();
@@ -111,9 +116,24 @@ public class CommonBoardWindow extends ParentWindow {
 
     public void formatSecondContainer() {
         formatPlayersDataContainer();
-        this.secondContainer.setSpacing(60);
-        this.publToolDraftCont.setSpacing(35);
+        this.secondContainer.setSpacing(50);
+        this.publToolDraftCont.setSpacing(30);
         this.secondContainer.getChildren().add(this.secondSecCont);
+
+        VBox imgViewCont = new VBox();
+        Image card = new Image("/cards/privateImages/private_" + this.data.getIdPrivateCard() + ".png");
+        ImageView view = new ImageView(card);
+        imgViewCont.getStyleClass().add("map-background");
+        imgViewCont.setPadding(new Insets(20));
+        view.setFitHeight(240);
+        view.setPreserveRatio(true);
+        imgViewCont.setMinHeight(260);
+        imgViewCont.getChildren().add(view);
+
+        this.secondSecCont.getChildren().add(imgViewCont);
+
+
+
         formatDraftCommands();
         this.secondSecCont.getChildren().add(this.draftPoolGUI);
         //secondSecCont.setStyle("-fx-background-color: white");
@@ -124,6 +144,8 @@ public class CommonBoardWindow extends ParentWindow {
 
     public void formatDraftCommands() {
         VBox commandsDraft = new VBox();
+        commandsDraft.setSpacing(20);
+        commandsDraft.setAlignment(Pos.CENTER);
         //secondSecCont.setStyle("-fx-background-color: purple");
 
         Button draft = new Button("lancia");
@@ -144,8 +166,8 @@ public class CommonBoardWindow extends ParentWindow {
         VBox cardFavorCont = new VBox();
         GridPane map = this.data.getPersonalWp().getGlassWindow();
 
-        Image card = new Image("/cards/privateImages/private_" + this.data.getIdPrivateCard() + ".png");
-        ImageView view = new ImageView(card);
+        //Image card = new Image("/cards/privateImages/private_" + this.data.getIdPrivateCard() + ".png");
+        ImageView view = new ImageView();
         cardFavorCont.getChildren().add(view);
 
         Random random = new Random();
@@ -155,7 +177,7 @@ public class CommonBoardWindow extends ParentWindow {
 
         view1.setFitHeight(650);
         view1.setPreserveRatio(true);
-        view.setFitHeight(240);
+        view.setFitHeight(230);
         view.setPreserveRatio(true);
         cardFavorCont.setPadding(new Insets(0, 0, 0, 25));
 
@@ -164,7 +186,7 @@ public class CommonBoardWindow extends ParentWindow {
         box.setMinWidth(280);
         box.setMaxWidth(280);
         box.setPadding(new Insets(80, 0, 0, 28));
-        box.setSpacing(53);
+        box.setSpacing(62);
 
         HBox favorTok = new HBox();
         Label titleFav = new Label("Favor tokens: ");
@@ -186,6 +208,8 @@ public class CommonBoardWindow extends ParentWindow {
 
     public void setPublicImages(int[] idPublObj) {
         HBox publObjCont = new HBox();
+        publObjCont.getStyleClass().add("map-background");
+        publObjCont.setPadding(new Insets(20));
         publObjCont.setSpacing(25);
         this.publToolDraftCont.getChildren().add(publObjCont);
         //publObjCont.setMinHeight(240);
@@ -201,6 +225,8 @@ public class CommonBoardWindow extends ParentWindow {
 
     public void setToolImages(int[] idTools) {
         HBox toolCont = new HBox();
+        toolCont.getStyleClass().add("map-background");
+        toolCont.setPadding(new Insets(20));
         toolCont.setSpacing(25);
         this.publToolDraftCont.getChildren().add(toolCont);
 
@@ -211,8 +237,10 @@ public class CommonBoardWindow extends ParentWindow {
             view.setPreserveRatio(true);
             toolCont.getChildren().add(view);
         }
+    }
 
-
+    public void setRoundTrack() {
+        this.secondContainer.getChildren().add(this.roundTrack);
     }
 
     public VBox getPublToolDraftCont() {

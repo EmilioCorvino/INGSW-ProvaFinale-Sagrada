@@ -1,6 +1,7 @@
 .background {
    /* -fx-background-image: url("images/background.jpg");*/
     -fx-background-color: transparent;
+    -fx-background-radius: 10;
 }
 
 .VBox {
@@ -70,7 +71,7 @@
 }
 
 .map-background {
-    -fx-background-color: linear-gradient(to top left, rgba(230, 242, 255, 0.3), rgba(230, 255, 255, 0.3) );
+    -fx-background-color: linear-gradient(to top left, rgba(230, 242, 255, 0.2), rgba(230, 255, 255, 0.2) );
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 10, 10);
     -fx-border-radius: 5 5 5 5;
     -fx-background-radius: 5 5 5 5;

@@ -177,6 +177,7 @@ public class GUIView implements IViewMaster {
             commonWindow.formatSecondContainer();
             commonWindow.setPublicImages(idPubObj);
             commonWindow.setToolImages(idTool);
+            commonWindow.setRoundTrack();
             this.current = commonWindow;
             GUIMain.setRoot(current);
             GUIMain.centerScreen();
