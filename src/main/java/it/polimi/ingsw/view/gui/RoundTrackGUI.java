@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -16,6 +17,7 @@ public class RoundTrackGUI extends VBox {
     private List<String> colorRound;
 
     private StackPane diceRound;
+    private HBox allDiceRound;
 
     public RoundTrackGUI() {
 

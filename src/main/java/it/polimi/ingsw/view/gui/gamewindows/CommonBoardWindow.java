@@ -17,41 +17,69 @@ import java.util.Random;
 
 public class CommonBoardWindow extends ParentWindow {
 
+    /**
+     * This is the main container of the common board gui window.
+     */
     private VBox mainContainer;
 
+    /**
+     * This is the attribute that represents the header with title and buttons of this window.
+     */
     private HBox header;
 
+    /**
+     * This is the container of the window containing the player's map, the drsft, the public and the tool cards,
+     * the round track and the player's private objective card.
+     */
     private HBox secondContainer;
 
+    /**
+     *
+     */
     private HBox gameData;
 
+    /**
+     * This id the vbox contanining the hboxes for the public and tool cards.
+     */
     private VBox publToolDraftCont;
 
+    /**
+     * This contains the map chosen by the user in the set up phase o the game.
+     */
     private VBox box = new VBox();
 
+    /**
+     * This attribute represents the draft pool of the game.
+     */
     private DraftPoolGUI draftPoolGUI;
+
+    /**
+     * This is the container for the private objective card of the player, the number o favor tokens of the player
+     * and the draft pool of the game.
+     */
     private VBox secondSecCont;
 
+    /**
+     * This is the round track of the game, updated at each round.
+     */
     private RoundTrackGUI roundTrack;
 
-    public DraftPoolGUI getDraftPoolGUI() {
-        return draftPoolGUI;
-    }
 
-    public void setDraftPoolGUI(DraftPoolGUI draftPoolGUI) {
-        this.draftPoolGUI = draftPoolGUI;
-    }
+    /**
+     * This is the container for the commands during a turn of the player, such as the "pass turn" command.
+     */
+    private VBox commandsDraft = new VBox();
 
+    /**
+     * This is the communication manager used to check the commands associated to the buttons and the map on the
+     * common board window.
+     */
     private GUICommunicationManager manager;
 
-    public PlayersData getData() {
-        return data;
-    }
-
-    public void setData(PlayersData data) {
-        this.data = data;
-    }
-
+    /**
+     * This attribute repesents the container for the player's data, such us the favor tokens
+     * and the personal window pattern card.
+     */
     private PlayersData data;
 
     public CommonBoardWindow(GUICommunicationManager manager) {
@@ -85,6 +113,9 @@ public class CommonBoardWindow extends ParentWindow {
     }
 
 
+    /**
+     * This method constructs the header of the window with appropriate button and setting the proper spaces.
+     */
     @Override
     public void initializeHeader() {
         Label titleHeader = new Label("Sagrada - fase di gioco");
@@ -101,7 +132,6 @@ public class CommonBoardWindow extends ParentWindow {
         this.header.getChildren().addAll(titleHeader, buttonBox);
         this.header.getChildren().get(0).getStyleClass().add("title");
 
-
         this.header.setSpacing(1070);
 
         exit.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> System.exit(0));
@@ -109,11 +139,18 @@ public class CommonBoardWindow extends ParentWindow {
         minimize.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> GUIMain.getStage().setIconified(true));
     }
 
+    /**
+     * This method formats the window in general.
+     */
     public void formatWindow() {
         this.mainContainer.setPadding(new Insets(20, 25, 20,25));
         this.mainContainer.setSpacing(20);
     }
 
+    /**
+     * This method formats the container of the window where the maps and other commands for the
+     * game are contained.
+     */
     public void formatSecondContainer() {
         formatPlayersDataContainer();
         this.secondContainer.setSpacing(50);
@@ -132,41 +169,46 @@ public class CommonBoardWindow extends ParentWindow {
 
         this.secondSecCont.getChildren().add(imgViewCont);
 
-
-
         formatDraftCommands();
         this.secondSecCont.getChildren().add(this.draftPoolGUI);
-        //secondSecCont.setStyle("-fx-background-color: white");
         secondSecCont.setMinWidth(200);
         secondSecCont.setMaxWidth(200);
         this.secondContainer.getChildren().add(publToolDraftCont);
     }
 
+    /**
+     * This method formats the proper commands useful during the game, such as the "pass turn" command.
+     */
     public void formatDraftCommands() {
-        VBox commandsDraft = new VBox();
+
         commandsDraft.setSpacing(20);
         commandsDraft.setAlignment(Pos.CENTER);
-        //secondSecCont.setStyle("-fx-background-color: purple");
 
-        Button draft = new Button("lancia");
-        Button pass = new Button("passa");
+        HBox favorTok = new HBox();
+        Label titleFav = new Label("Segnalini favore: ");
+        favorTok.setPadding(new Insets(0, 0, 0, 45));
+        titleFav.getStyleClass().add("text-label-bold");
+        Label numFav = new Label("");
+        numFav.getStyleClass().add("text-label-bold");
+        favorTok.getChildren().addAll(titleFav, numFav);
 
-        draft.getStyleClass().add("button-style");
+        Button pass = new Button("Passa il turno");
         pass.getStyleClass().add("button-style");
 
-        commandsDraft.getChildren().addAll(draft, pass);
+        commandsDraft.getChildren().addAll(favorTok, pass);
         this.secondSecCont.getChildren().add(commandsDraft);
-
-
     }
 
+    /**
+     * This method formats all that is relative to the player, such as its personal map and
+     * its personal board card.
+     */
     public void formatPlayersDataContainer() {
 
         StackPane base = new StackPane();
         VBox cardFavorCont = new VBox();
         GridPane map = this.data.getPersonalWp().getGlassWindow();
 
-        //Image card = new Image("/cards/privateImages/private_" + this.data.getIdPrivateCard() + ".png");
         ImageView view = new ImageView();
         cardFavorCont.getChildren().add(view);
 
@@ -189,7 +231,7 @@ public class CommonBoardWindow extends ParentWindow {
         box.setSpacing(62);
 
         HBox favorTok = new HBox();
-        Label titleFav = new Label("Favor tokens: ");
+        Label titleFav = new Label(" ");
         favorTok.setPadding(new Insets(0, 0, 0, 45));
         titleFav.getStyleClass().add("text-label-bold");
         Label numFav = new Label("");
@@ -202,17 +244,24 @@ public class CommonBoardWindow extends ParentWindow {
         this.secondContainer.getChildren().add(base);
     }
 
+    /**
+     * This method is responsible for updating the number of favor tokens each time a
+     * tool card is used.
+     */
     public void setFavorTokens() {
-        ((Label)((HBox)box.getChildren().get(1)).getChildren().get(1)).setText(this.data.getNumFavTok() + "");
+        ((Label)((HBox)commandsDraft.getChildren().get(0)).getChildren().get(1)).setText(this.data.getNumFavTok() + "");
     }
 
+    /**
+     * This method sets the public objective cards images sent by the server.
+     * @param idPublObj the id of the cards to set.
+     */
     public void setPublicImages(int[] idPublObj) {
         HBox publObjCont = new HBox();
         publObjCont.getStyleClass().add("map-background");
         publObjCont.setPadding(new Insets(20));
         publObjCont.setSpacing(25);
         this.publToolDraftCont.getChildren().add(publObjCont);
-        //publObjCont.setMinHeight(240);
 
         for(int i=0; i<idPublObj.length; i++) {
             Image publCard = new Image("/cards/publicImages/publObj" + idPublObj[i] + ".png");
@@ -223,6 +272,10 @@ public class CommonBoardWindow extends ParentWindow {
         }
     }
 
+    /**
+     * This method sets the tool card images sent by the server.
+     * @param idTools the id of the tool cards to set.
+     */
     public void setToolImages(int[] idTools) {
         HBox toolCont = new HBox();
         toolCont.getStyleClass().add("map-background");
@@ -249,6 +302,22 @@ public class CommonBoardWindow extends ParentWindow {
 
     public void setPublToolDraftCont(VBox publToolDraftCont) {
         this.publToolDraftCont = publToolDraftCont;
+    }
+
+    public void setDraftPoolGUI(DraftPoolGUI draftPoolGUI) {
+        this.draftPoolGUI = draftPoolGUI;
+    }
+
+    public PlayersData getData() {
+        return data;
+    }
+
+    public void setData(PlayersData data) {
+        this.data = data;
+    }
+
+    public DraftPoolGUI getDraftPoolGUI() {
+        return draftPoolGUI;
     }
 
     @Override
