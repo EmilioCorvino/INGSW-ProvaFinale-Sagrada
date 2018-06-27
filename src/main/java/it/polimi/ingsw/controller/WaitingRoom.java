@@ -53,6 +53,11 @@ public class WaitingRoom {
     private boolean matchAlreadyStarted;
 
     /**
+     * The main controller class.
+     */
+    private ControllerMaster controllerMaster;
+
+    /**
      * This constructor is used in all new games starting without any player already in.
      */
     public WaitingRoom() {
@@ -61,7 +66,8 @@ public class WaitingRoom {
     }
 
     /**
-     * This method is responsible for the register of a player.
+     * This method is responsible for the registration of a player. It can also make a player reconnect, if the match
+     * is started and the username is the same as one of the players that have been suspended.
      * @param username the player who wants to play.
      * @param connection the connection assigned to the player.
      * @param gameMode the type of match the players wants to play.
@@ -75,14 +81,20 @@ public class WaitingRoom {
             if(gameMode == SINGLEPLAYER_MODE)
                 startSingleMatch();
             else if(gameMode == MULTIPLAYER_MODE) {
-                if (playersRoom.size() == MAX_PLAYERS)
+                if (playersRoom.size() == MAX_PLAYERS) {
                     throw new TooManyUsersException();
+                }
                 addPlayer(username, connection);
             }
             notifyWaitingPlayers();
             checkNumberOfPlayers();
         } else {
-            throw new MatchAlreadyStartedException();
+            if (this.playersRoom.containsKey(username) && this.controllerMaster.getSuspendedPlayers().contains(username)) {
+                this.playersRoom.replace(username, connection);
+                this.controllerMaster.reconnectPlayer(username);
+            } else {
+                throw new MatchAlreadyStartedException();
+            }
         }
     }
 
@@ -130,7 +142,6 @@ public class WaitingRoom {
                         SagradaLogger.log(Level.WARNING, "timer is expired");
                         reportStartMatch();
                         if (playersRoom.size()>= 2) {
-                            setMatchAlreadyStarted(true);
                             startMultiPlayerMatch();
                         }
                     }
@@ -140,38 +151,45 @@ public class WaitingRoom {
             SagradaLogger.log(Level.WARNING, "Maximum number of players reached, starting match...");
             reportStartMatch();
             if(playersRoom.size() >= 2) {
-                setMatchAlreadyStarted(true);
                 startMultiPlayerMatch();
             }
         }
     }
 
     /**
-     * This method adds a player to the waiting room.
-     * @param username the name of the player to addDie.
-     * @param connection the connection of the player to addDie.
+     * This method adds a player to the waiting room, in normal conditions. If the name of choice is already used and
+     * the match still has to start, this method throws an exception. If the name is taken and the match is started, the
+     * player will be able to reconnect.
+     * @param username the name of the player to add.
+     * @param connection the connection of the player to add.
      * @throws UserNameAlreadyTakenException when a player with a same username is already present.
      */
     private synchronized void addPlayer(String username, Connection connection) throws UserNameAlreadyTakenException {
         for (String name : playersRoom.keySet())
-            if (username.equals(name))
+            if (username.equals(name) && this.isMatchStillWaitingToStart()) {
                 throw new UserNameAlreadyTakenException();
-        playersRoom.put(username, connection);
+            } else if (username.equals(name) && this.controllerMaster.getSuspendedPlayers().contains(username)
+                    && !this.isMatchStillWaitingToStart()) {
+                this.playersRoom.replace(username, connection);
+                this.controllerMaster.reconnectPlayer(username);
+            }
+        this.playersRoom.put(username, connection);
     }
 
     /**
      * This method starts a multi player match.
      */
     private void startMultiPlayerMatch() {
-        ControllerMaster controllerMaster = new ControllerMaster(new HashMap<>(this.playersRoom), this);
+        this.controllerMaster = new ControllerMaster(new HashMap<>(this.playersRoom), this);
+        this.setMatchAlreadyStarted(true);
 
-        for(Map.Entry<String, Connection> entry: controllerMaster.getConnectedPlayers().entrySet()) {
-            controllerMaster.getCommonBoard().getPlayers().add(
-                    new Player(entry.getKey(), controllerMaster.getCommonBoard()));
-            entry.getValue().getServer().setController(controllerMaster);
+        for (Map.Entry<String, Connection> entry: controllerMaster.getConnectedPlayers().entrySet()) {
+            this.controllerMaster.getCommonBoard().getPlayers().add(
+                    new Player(entry.getKey(), this.controllerMaster.getCommonBoard()));
+            entry.getValue().getServer().setController(this.controllerMaster);
         }
 
-        controllerMaster.getStartGameManager().setUpPrivateObjectiveCardAndWp();
+        this.controllerMaster.getStartGameManager().setUpPrivateObjectiveCardAndWp();
     }
 
     /**

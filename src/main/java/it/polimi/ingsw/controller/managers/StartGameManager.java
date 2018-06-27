@@ -64,7 +64,15 @@ public class StartGameManager extends AGameManager {
         this.matchSetUp = matchSetUp;
     }
 
-//----------------------------------------------------------
+    public List<String> getPlayersDisconnectedBeforeChoosingWP() {
+        return playersDisconnectedBeforeChoosingWP;
+    }
+
+    public Map<String, List<Integer>> getListOfSentWpID() {
+        return listOfSentWpID;
+    }
+
+    //----------------------------------------------------------
 //                    SET UP METHODS
 //----------------------------------------------------------
 
@@ -153,7 +161,22 @@ public class StartGameManager extends AGameManager {
         if (this.listOfSentWpID.get(username).contains(chosenWp)) {
             WindowPatternCard wpToSet = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenWp);
             commonBoard.getSpecificPlayer(username).setWindowPatternCard(wpToSet);
-            this.markPlayerAndEventuallyStartMatch(username);
+
+            //Useful for reconnection.
+            if (isMatchSetUp()) {
+                super.getControllerMaster().getSuspendedPlayers().remove(username);
+                this.setOneCommonBoard(username);
+                IFromServerToClient client = super.getControllerMaster().getConnectedPlayers().get(username).getClient();
+                try {
+                    client.showCommand(super.getControllerMaster().getGamePlayManager().getWaitingPlayersCommands());
+                } catch (BrokenConnectionException e) {
+                    SagradaLogger.log(Level.SEVERE, "Connection lost with " + username + " while sending the new " +
+                            "commands after reconnecting.", e);
+                    super.getControllerMaster().suspendPlayer(username);
+                }
+            } else {
+                this.markPlayerAndEventuallyStartMatch(username);
+            }
         } else {
             try {
                 super.getControllerMaster().getConnectedPlayers().get(username).getClient().showNotice(
@@ -214,6 +237,26 @@ public class StartGameManager extends AGameManager {
                 super.getControllerMaster().suspendPlayer(playerName);
             }
         });
+    }
+
+    /**
+     * This method sets a {@link CommonBoard} to a specific player.
+     * @param playerName player whose {@link CommonBoard} has to be set.
+     */
+    private void setOneCommonBoard(String playerName) {
+        Map<String, SimplifiedWindowPatternCard> mapOfWp = mapsOfPlayersConverter();
+        int[] idPubObj = pubObjConverter();
+        int[] idTool = toolConverter();
+
+
+        IFromServerToClient client = super.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
+        try {
+            client.setCommonBoard(mapOfWp, idPubObj, idTool);
+            client.setFavorToken(numberFavTokenConverter(playerName));
+        } catch (BrokenConnectionException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to set the common board to " + playerName, e);
+            super.getControllerMaster().suspendPlayer(playerName);
+        }
     }
 
     /**
@@ -339,7 +382,7 @@ public class StartGameManager extends AGameManager {
      * @param chosenMap id of the chosen {@link WindowPatternCard}.
      * @return a {@link SimplifiedWindowPatternCard} obtained by a {@link WindowPatternCard}.
      */
-    private SimplifiedWindowPatternCard convertOneWp(int chosenMap) {
+    public SimplifiedWindowPatternCard convertOneWp(int chosenMap) {
         CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
         WindowPatternCard wp = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenMap);
 
