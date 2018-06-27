@@ -175,6 +175,8 @@ public class GUIView implements IViewMaster {
     public void setCommonBoard(Map<String, SimplifiedWindowPatternCard> players, int[] idPubObj, int[] idTool) {
         Platform.runLater(() -> {
             commonWindow.formatSecondContainer();
+            commonWindow.setPublicImages(idPubObj);
+            commonWindow.setToolImages(idTool);
             this.current = commonWindow;
             GUIMain.setRoot(current);
             GUIMain.centerScreen();
@@ -184,7 +186,8 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void setDraft(List<SetUpInformationUnit> draft) {
-
+        System.out.println("sto mettendo la draft");
+        Platform.runLater(() -> this.commonWindow.getDraftPoolGUI().formatDraftPool(draft));
     }
 
     @Override

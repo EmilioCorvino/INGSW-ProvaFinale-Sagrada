@@ -1,9 +1,6 @@
 package it.polimi.ingsw.view.gui.gamewindows;
 
-import it.polimi.ingsw.view.gui.GUICommunicationManager;
-import it.polimi.ingsw.view.gui.GUIMain;
-import it.polimi.ingsw.view.gui.ParentWindow;
-import it.polimi.ingsw.view.gui.PlayersData;
+import it.polimi.ingsw.view.gui.*;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -27,7 +24,20 @@ public class CommonBoardWindow extends ParentWindow {
 
     private HBox gameData;
 
+    private VBox publToolDraftCont;
+
     private VBox box = new VBox();
+
+    private DraftPoolGUI draftPoolGUI;
+    private VBox secondSecCont;
+
+    public DraftPoolGUI getDraftPoolGUI() {
+        return draftPoolGUI;
+    }
+
+    public void setDraftPoolGUI(DraftPoolGUI draftPoolGUI) {
+        this.draftPoolGUI = draftPoolGUI;
+    }
 
     private GUICommunicationManager manager;
 
@@ -42,9 +52,12 @@ public class CommonBoardWindow extends ParentWindow {
     private PlayersData data;
 
     public CommonBoardWindow(GUICommunicationManager manager) {
+        draftPoolGUI = new DraftPoolGUI();
+        secondSecCont = new VBox();
         this.manager = manager;
         mainContainer = new VBox();
         header = new HBox();
+        publToolDraftCont = new VBox();
 
         secondContainer = new HBox();
         gameData = new HBox();
@@ -92,15 +105,36 @@ public class CommonBoardWindow extends ParentWindow {
     }
 
     public void formatWindow() {
-
         this.mainContainer.setPadding(new Insets(20, 25, 20,25));
         this.mainContainer.setSpacing(20);
-
     }
 
     public void formatSecondContainer() {
-
         formatPlayersDataContainer();
+        this.secondContainer.setSpacing(60);
+        this.publToolDraftCont.setSpacing(35);
+        this.secondContainer.getChildren().add(this.secondSecCont);
+        formatDraftCommands();
+        this.secondSecCont.getChildren().add(this.draftPoolGUI);
+        //secondSecCont.setStyle("-fx-background-color: white");
+        secondSecCont.setMinWidth(200);
+        secondSecCont.setMaxWidth(200);
+        this.secondContainer.getChildren().add(publToolDraftCont);
+    }
+
+    public void formatDraftCommands() {
+        VBox commandsDraft = new VBox();
+        //secondSecCont.setStyle("-fx-background-color: purple");
+
+        Button draft = new Button("lancia");
+        Button pass = new Button("passa");
+
+        draft.getStyleClass().add("button-style");
+        pass.getStyleClass().add("button-style");
+
+        commandsDraft.getChildren().addAll(draft, pass);
+        this.secondSecCont.getChildren().add(commandsDraft);
+
 
     }
 
@@ -130,9 +164,6 @@ public class CommonBoardWindow extends ParentWindow {
         box.setMinWidth(280);
         box.setMaxWidth(280);
         box.setPadding(new Insets(80, 0, 0, 28));
-
-        //base.setStyle("-fx-background-color: rgba(0, 153, 204, 0.3)");
-        //box.setStyle("-fx-background-color: yellow");
         box.setSpacing(53);
 
         HBox favorTok = new HBox();
@@ -141,7 +172,6 @@ public class CommonBoardWindow extends ParentWindow {
         titleFav.getStyleClass().add("text-label-bold");
         Label numFav = new Label("");
         numFav.getStyleClass().add("text-label-bold");
-
 
         favorTok.getChildren().addAll(titleFav, numFav);
         box.getChildren().addAll(cardFavorCont, favorTok, map);
@@ -154,9 +184,44 @@ public class CommonBoardWindow extends ParentWindow {
         ((Label)((HBox)box.getChildren().get(1)).getChildren().get(1)).setText(this.data.getNumFavTok() + "");
     }
 
+    public void setPublicImages(int[] idPublObj) {
+        HBox publObjCont = new HBox();
+        publObjCont.setSpacing(25);
+        this.publToolDraftCont.getChildren().add(publObjCont);
+        //publObjCont.setMinHeight(240);
+
+        for(int i=0; i<idPublObj.length; i++) {
+            Image publCard = new Image("/cards/publicImages/publObj" + idPublObj[i] + ".png");
+            ImageView view = new ImageView(publCard);
+            view.setFitHeight(240);
+            view.setPreserveRatio(true);
+            publObjCont.getChildren().add(view);
+        }
+    }
+
+    public void setToolImages(int[] idTools) {
+        HBox toolCont = new HBox();
+        toolCont.setSpacing(25);
+        this.publToolDraftCont.getChildren().add(toolCont);
+
+        for(int i=0; i<idTools.length; i++) {
+            Image toolCard = new Image("/cards/toolImages/tool" + idTools[i] + ".png");
+            ImageView view = new ImageView(toolCard);
+            view.setFitHeight(240);
+            view.setPreserveRatio(true);
+            toolCont.getChildren().add(view);
+        }
 
 
+    }
 
+    public VBox getPublToolDraftCont() {
+        return publToolDraftCont;
+    }
+
+    public void setPublToolDraftCont(VBox publToolDraftCont) {
+        this.publToolDraftCont = publToolDraftCont;
+    }
 
     @Override
     public void addHandlers() {
