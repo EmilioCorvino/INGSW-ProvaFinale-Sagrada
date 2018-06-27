@@ -3,13 +3,19 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.controller.managers.EndGameManager;
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.managers.StartGameManager;
+import it.polimi.ingsw.controller.simplifiedview.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.turn.GameState;
 import it.polimi.ingsw.network.Connection;
+import it.polimi.ingsw.network.IFromServerToClient;
+import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 
 /**
@@ -111,9 +117,48 @@ public class ControllerMaster {
     public void suspendPlayer(String playerName) {
         if(!this.suspendedPlayers.contains(playerName)) {
             this.suspendedPlayers.add(playerName);
-            gamePlayManager.broadcastNotification("\n" + playerName + " è stato sospeso.\n");
+            this.gamePlayManager.broadcastNotification("\n" + playerName + " è stato sospeso.\n");
         }
     }
 
-    //todo handle reconnection
+    /**
+     * This method is used when a player, who previously logged out or disconnected, tries to get into the game again.
+     * It also deals with the case in which the player disconnected before choosing a
+     * {@link it.polimi.ingsw.model.die.containers.WindowPatternCard}, allowing him to do it. In this case, the removal
+     * from {@link #suspendedPlayers} is done in {@link StartGameManager#wpToSet(String, int)}, to avoid situations in
+     * which the turn of the player starts but he hasn't a Window Pattern Card set yet.
+     * If the player had already chose a Window Pattern Card, the commands for waiting players are shown to him.
+     * @param playerName name of the player who wants to reconnect.
+     * @see WaitingRoom
+     */
+    void reconnectPlayer(String playerName) {
+        IFromServerToClient client = this.connectedPlayers.get(playerName).getClient();
+
+        //If the player logged out or disconnected before choosing a wp, gives him the opportunity to do so.
+        //The removal from suspended player is done in {@link StartGameManager} to avoid
+        if (this.startGameManager.getPlayersDisconnectedBeforeChoosingWP().contains(playerName)) {
+            List<SimplifiedWindowPatternCard> listOfSentWp = new ArrayList<>();
+            this.getStartGameManager().getListOfSentWpID().get(playerName).forEach(cardID ->
+                listOfSentWp.add(this.getStartGameManager().convertOneWp(cardID)));
+            try {
+                client.showMapsToChoose(listOfSentWp);
+                client.showCommand(Arrays.asList(Commands.CHOOSE_WP, Commands.LOGOUT));
+            } catch (BrokenConnectionException e) {
+                SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while he was choosing" +
+                        " the Window Pattern Card after reconnecting.", e);
+                this.suspendPlayer(playerName);
+            }
+        } else {
+            this.suspendedPlayers.remove(playerName);
+            try {
+                client.showCommand(this.getGamePlayManager().getWaitingPlayersCommands());
+            } catch (BrokenConnectionException e) {
+                SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while sending the new " +
+                        "commands after reconnecting.", e);
+                this.suspendPlayer(playerName);
+            }
+        }
+
+        this.gamePlayManager.broadcastNotification("\n" + playerName + " si è appena riconnesso!\n");
+    }
 }

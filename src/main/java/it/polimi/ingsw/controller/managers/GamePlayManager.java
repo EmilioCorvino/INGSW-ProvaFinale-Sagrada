@@ -78,7 +78,11 @@ public class GamePlayManager extends AGameManager {
                 Commands.ROUND_TRACK, Commands.LOGOUT));
     }
 
-//----------------------------------------------------------
+    public List<Commands> getWaitingPlayersCommands() {
+        return waitingPlayersCommands;
+    }
+
+    //----------------------------------------------------------
 //                    GAME-PLAY FLOW METHODS
 //----------------------------------------------------------
 
