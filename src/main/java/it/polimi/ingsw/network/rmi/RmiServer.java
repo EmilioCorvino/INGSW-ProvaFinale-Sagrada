@@ -63,7 +63,7 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
 
     @Override
     public void windowPatternCardRequest(int idMap, Connection connection) {
-        synchronized(this) {
+        synchronized (this) {
             this.serverImplementation.getConnectionsQueue().add(connection);
             this.serverImplementation.windowPatternCardRequest(idMap);
         }
@@ -71,7 +71,7 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
 
     @Override
     public void performDefaultMove(SetUpInformationUnit info, Connection connection) {
-        synchronized(this) {
+        synchronized (this) {
             this.serverImplementation.getConnectionsQueue().add(connection);
             this.serverImplementation.performDefaultMove(info);
         }
@@ -87,12 +87,15 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
 
     @Override
     public void performRestrictedPlacement(SetUpInformationUnit infoUnit, Connection connection) throws RemoteException {
-
+        synchronized (this) {
+            this.serverImplementation.getConnectionsQueue().add(connection);
+            this.serverImplementation.performRestrictedPlacement(infoUnit);
+        }
     }
 
     @Override
     public void moveToNextTurn(Connection connection) {
-        synchronized(this) {
+        synchronized (this) {
             this.serverImplementation.getConnectionsQueue().add(connection);
             this.serverImplementation.moveToNextTurn();
         }
@@ -100,7 +103,7 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
 
     @Override
     public void startNewGameRequest(Connection connection) {
-        synchronized(this) {
+        synchronized (this) {
             this.serverImplementation.getConnectionsQueue().add(connection);
             this.serverImplementation.startNewGameRequest();
         }
@@ -108,7 +111,7 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
 
     @Override
     public void exitGame(Connection connection) {
-        synchronized(this) {
+        synchronized (this) {
             this.serverImplementation.getConnectionsQueue().add(connection);
             this.serverImplementation.exitGame();
         }

@@ -51,7 +51,7 @@ public class WindowPatternCardDeck {
      * This method draw a card from the deck.
      * @return A couple of window pattern card
      */
-    public List<WindowPatternCard> drawCard()throws EmptyException {
+    public List<WindowPatternCard> drawCard() throws EmptyException {
         if(this.deck.isEmpty()) {
             throw new EmptyException("The deck is empty");
         }

@@ -73,7 +73,7 @@ public class DraftValueEffect extends AValueEffect {
 
 
         // = computeRandomDieValue(manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice().get(setUpInfoUnit.getSourceIndex()));
-       // WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
+        // WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
 
         DiceDraftPool draft = manager.getControllerMaster().getCommonBoard().getDraftPool();
         draft.createCopy();

@@ -35,17 +35,14 @@ public class ValueRestrictionEffect extends PlacementRestrictionEffect {
         wp.setDesiredCell(new Cell(setUpInfoUnit.getDestinationIndex()/WindowPatternCard.MAX_COL , setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL));
 
         if(!wp.canBePlaced(chosenDie, wp.getDesiredCell(), gwCopy)) {
-            manager.sendNotification(wp.getErrorMessage() + " usa aiuto per ulteriori informazioni.");
+            manager.sendNotificationToCurrentPlayer(wp.getErrorMessage() + " usa aiuto per ulteriori informazioni.");
             manager.setMoveLegal(false);
             return;
         }
+
+        //restoreGlassWindow(wp, setUpInfoUnit.getDestinationIndex());
         restoreGlassWindow(wp);
-        Die removedDie = wp.removeDie(setUpInfoUnit.getSourceIndex());
-        setUpInfoUnit.setValue(removedDie.getActualDieValue());
-        setUpInfoUnit.setColor(removedDie.getDieColor());
-        wp.addDie(removedDie);
-        manager.setMoveLegal(true);
-        manager.showRearrangementResult(manager.getControllerMaster().getGameState().getCurrentPlayer(), setUpInfoUnit);
+       super.updateContainer(wp, setUpInfoUnit);
     }
 
     /**
@@ -87,6 +84,7 @@ public class ValueRestrictionEffect extends PlacementRestrictionEffect {
         for(int i=0; i<WindowPatternCard.MAX_COL; i++)
             for(int j=0; j<WindowPatternCard.MAX_COL; j++)
                 gwCopy[i][j].getRuleSetCell().add(listToRestore.get(j));
+
     }
 
 }

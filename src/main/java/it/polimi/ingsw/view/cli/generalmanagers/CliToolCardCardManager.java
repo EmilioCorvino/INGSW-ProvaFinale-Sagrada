@@ -12,7 +12,6 @@ import it.polimi.ingsw.view.cli.boardelements.ToolCardView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.regex.Pattern;
 
 public class CliToolCardCardManager extends CliCommunicationManager implements IToolCardManager {
 
@@ -177,13 +176,11 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         super.inputOutputManager.print(super.view.getPlayer().getWp().wpToString());
         infoUnit.setDestinationIndex(super.view.getGamePlayManager().choseCellWp());
 
-        /*todo, server method missing
         try{
-            performRestrictedPlacement(SetUpInformationUnit infoUnit);
+            server.performRestrictedPlacement(infoUnit);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 6");
         }
-        */
     }
 
     @Override
@@ -302,13 +299,11 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         super.inputOutputManager.print(super.view.getPlayer().getWp().wpToString());
         infoUnit.setDestinationIndex(super.view.getGamePlayManager().choseCellWp());
 
-        /*
         try{
-            performRestrictedPlacement(SetUpInformationUnit infoUnit);
+            server.performRestrictedPlacement(infoUnit);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 11");
         }
-        */
     }
 
     @Override

@@ -14,7 +14,7 @@ public class OppositeValueEffect extends AValueEffect {
     /**
      * This is the value used to compute the opposite value of the chosen die.
      */
-    private static final int OPPOSITE = 7;
+    public static final int OPPOSITE = 7;
 
     /**
      * This method computes the opposite value of the chosen die.
@@ -40,7 +40,7 @@ public class OppositeValueEffect extends AValueEffect {
         computeOppositeValue(die);
 
         if(!super.checkExistingCellsToUse(manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard(), die)) {
-            manager.sendNotification("Non ci sono celle disponibili in cui il dado può essere piazzato");
+            manager.sendNotificationToCurrentPlayer("Non ci sono celle disponibili in cui il dado può essere piazzato");
             return;
         }
 

@@ -23,23 +23,25 @@ public class GameState {
     private List<Turn> turnOrder;
 
     /**
-     * This attribute represents the index of the current round of the match.
+     * This attribute represents the index of the current round of the match. It starts from 1.
      */
     private int actualRound;
 
     /**
      * This attribute represent the initial player of a round.
      */
-    private int currentPlayerTurnIndex = 0;
+    private int currentPlayerTurnIndex;
 
     /**
      * This attribute indicates if the match is over or not.
      */
-    private boolean matchOver = false;
+    private boolean matchOver;
 
     public GameState() {
         this.turnOrder = new ArrayList<>();
         this.actualRound = 1;
+        this.currentPlayerTurnIndex = 0;
+        this.matchOver = false;
     }
 
     /**

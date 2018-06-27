@@ -1,12 +1,10 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.controller.managers.AGameManager;
 import it.polimi.ingsw.controller.managers.EndGameManager;
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.managers.StartGameManager;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.turn.GameState;
-import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.Connection;
 
 import java.util.ArrayList;
@@ -32,17 +30,17 @@ public class ControllerMaster {
     /**
      * This attribute represents the manager for the first state of the game.
      */
-    private final AGameManager startGameManager;
+    private final StartGameManager startGameManager;
 
     /**
      * This attribute represents the manager for the second state of the game.
      */
-    private final AGameManager gamePlayManager;
+    private final GamePlayManager gamePlayManager;
 
     /**
      * This attribute represents the manager for the last state of the game.
      */
-    private final AGameManager endGameManager;
+    private final EndGameManager endGameManager;
 
     /**
      * This attribute represents a specific state of the match.
@@ -52,7 +50,7 @@ public class ControllerMaster {
     /**
      * List of the suspended player after a problem of connection.
      */
-    private List<Player> suspendedPlayers;
+    private List<String> suspendedPlayers;
 
     /**
      * Room where player wait for a match to start.
@@ -60,7 +58,7 @@ public class ControllerMaster {
     private WaitingRoom waitingRoom;
 
 
-    public ControllerMaster(Map<String, Connection> connectedPlayers, WaitingRoom waitingRoom) {
+    ControllerMaster(Map<String, Connection> connectedPlayers, WaitingRoom waitingRoom) {
         this.waitingRoom = waitingRoom;
         this.commonBoard = new CommonBoard();
         this.commonBoard.initializeBoard();
@@ -80,15 +78,15 @@ public class ControllerMaster {
         return connectedPlayers;
     }
 
-    public AGameManager getStartGameManager() {
+    StartGameManager getStartGameManager() {
         return startGameManager;
     }
 
-    public AGameManager getGamePlayManager() {
+    public GamePlayManager getGamePlayManager() {
         return gamePlayManager;
     }
 
-    public AGameManager getEndGameManager() {
+    public EndGameManager getEndGameManager() {
         return endGameManager;
     }
 
@@ -96,22 +94,25 @@ public class ControllerMaster {
         return gameState;
     }
 
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
-    }
-
     public WaitingRoom getWaitingRoom() {
         return waitingRoom;
     }
 
+    public List<String> getSuspendedPlayers() {
+        return suspendedPlayers;
+    }
+
     /**
      * This method is used when a player disconnects or takes too much time to complete his turn. It adds the player to
-     * the {@link ControllerMaster}'s suspended players list and allows to skip his turns, considering him in the
+     * the {@link ControllerMaster#suspendedPlayers} list and allows to skip his turns, considering him in the
      * final score anyway.
      * @param playerName player to suspend.
      */
     public void suspendPlayer(String playerName) {
-
+        if(!this.suspendedPlayers.contains(playerName)) {
+            this.suspendedPlayers.add(playerName);
+            gamePlayManager.broadcastNotification("\n" + playerName + " è stato sospeso.\n");
+        }
     }
 
     //todo handle reconnection
