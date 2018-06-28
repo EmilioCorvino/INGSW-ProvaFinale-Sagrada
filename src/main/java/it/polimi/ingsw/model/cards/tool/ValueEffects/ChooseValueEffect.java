@@ -84,7 +84,7 @@ public class ChooseValueEffect extends AValueEffect {
             manager.sendNotificationToCurrentPlayer("Non puoi decrementare un 1 in un 6");
             return;
         }
-        
+
         if(setUpInfoUnit.getExtraParam() == INCREASE_CODE)
             die.setActualDieValue(increaseDieValue(die).getActualDieValue());
 
