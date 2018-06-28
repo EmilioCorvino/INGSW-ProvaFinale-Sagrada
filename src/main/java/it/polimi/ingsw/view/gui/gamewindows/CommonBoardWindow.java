@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui.gamewindows;
 
+import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.view.gui.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -186,7 +187,7 @@ public class CommonBoardWindow extends ParentWindow {
 
         HBox favorTok = new HBox();
         Label titleFav = new Label("Segnalini favore: ");
-        favorTok.setPadding(new Insets(0, 0, 0, 45));
+        favorTok.setPadding(new Insets(0, 0, 0, 35));
         titleFav.getStyleClass().add("text-label-bold");
         Label numFav = new Label("");
         numFav.getStyleClass().add("text-label-bold");
@@ -322,6 +323,24 @@ public class CommonBoardWindow extends ParentWindow {
 
     @Override
     public void addHandlers() {
+        Button button = (Button)this.commandsDraft.getChildren().get(1);
+        button.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> passTurnHandler());
 
+
+    }
+
+    public void passTurnHandler() {
+        if(this.manager.isCommandContained(Commands.END_TURN)) {
+            //button.setVisible(false);
+            removeHandlers();
+            this.manager.executeCommandIfPresent(Commands.END_TURN);
+        } else {
+            this.manager.communicateMessage("Comando non supportato poichè non è il tuo turno.");
+        }
+    }
+
+    public void removeHandlers() {
+        Button button = (Button)this.commandsDraft.getChildren().get(1);
+        button.removeEventHandler(MouseEvent.MOUSE_CLICKED, e -> passTurnHandler());
     }
 }

@@ -43,31 +43,36 @@ public class GUIDefaultMatchManager implements IDefaultMatchManager {
 
     @Override
     public void showPublicObj() {
-
+        //not necessary in gui
     }
 
     @Override
     public void showTool() {
-
+        //not necessary in gui
     }
 
     @Override
     public void showPrivateObj() {
-
+        //not necessary in gui
     }
 
     @Override
     public void showRoundTrack() {
-
+        //not necessary in gui
     }
 
     @Override
     public void printCommands() {
-
+        //not necessary in gui
     }
 
     @Override
     public void moveToNextTurn() {
+        try {
+            this.server.moveToNextTurn();
+        } catch (BrokenConnectionException br) {
+            SagradaLogger.log(Level.SEVERE, "Connection broken while moving to next turn", br);
+        }
 
     }
 

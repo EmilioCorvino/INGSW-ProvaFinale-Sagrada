@@ -179,6 +179,7 @@ public class GUIView implements IViewMaster {
             commonWindow.setToolImages(idTool);
             commonWindow.setRoundTrack();
             this.current = commonWindow;
+            //this.current.addHandlers();
             GUIMain.setRoot(current);
             GUIMain.centerScreen();
         });
@@ -187,7 +188,6 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void setDraft(List<SetUpInformationUnit> draft) {
-        System.out.println("sto mettendo la draft");
         Platform.runLater(() -> this.commonWindow.getDraftPoolGUI().formatDraftPool(draft));
     }
 
@@ -204,6 +204,7 @@ public class GUIView implements IViewMaster {
     @Override
     public void showCommand(List<Commands> commands) {
         Platform.runLater(() -> {
+            //commands.forEach(comm -> System.out.println(comm));
             Map<Commands, Runnable> functions = this.bank.getAvailableCommands(commands);
             this.manager.setFunctions(functions);
             this.current.addHandlers();
@@ -259,6 +260,7 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void showNotice(String notice) {
+        System.out.println(notice);
 
     }
 
