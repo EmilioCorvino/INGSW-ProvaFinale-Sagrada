@@ -18,6 +18,7 @@ public class GamePlayManager{
 
     public GamePlayManager(InputOutputManager inputOutputManager){
         this.inputOutputManager = inputOutputManager;
+        this.extraInfo = new SetUpInformationUnit();
     }
 
     /**
@@ -125,6 +126,7 @@ public class GamePlayManager{
      */
     public void showDie(SetUpInformationUnit infoUnit){
         setExtraInfo(infoUnit);
+        inputOutputManager.print(""+infoUnit.getValue());
         if (infoUnit.getValue() != 0)
             inputOutputManager.print("Il dado rilanciato e': " + (new DieView(infoUnit.getColor(), infoUnit.getValue())).toStringDie());
         else

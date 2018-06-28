@@ -828,7 +828,7 @@ public class GamePlayManager extends AGameManager {
             super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).setCost(2);
             super.broadcastNotification("\nIl costo della Carta Strumento " + toolCard.getName() + " è aumentato a "
                     + super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID).getCost() +
-                    " Segnalini Favore.\n");
+                    " Segnalini Favore.");
             for(String playerName: super.getControllerMaster().getConnectedPlayers().keySet()) {
                 if(!super.getControllerMaster().getSuspendedPlayers().contains(playerName)) {
                     IFromServerToClient playerClient = super.getPlayerClient(playerName);
