@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
+
 public class PlayersData {
 
     private String username;
@@ -10,9 +12,12 @@ public class PlayersData {
 
     private int numFavTok;
 
+    private SetUpInformationUnit setUpInformationUnit;
+
 
 
     public PlayersData() {
+        setUpInformationUnit = new SetUpInformationUnit();
 
     }
 
