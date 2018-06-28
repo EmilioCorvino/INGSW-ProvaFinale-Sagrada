@@ -41,6 +41,5 @@ public class ScannerThread extends Thread {
      */
     public void stopExecution() {
         isOnGame = false;
-        inputOutputManager.closeScanner();
     }
 }
