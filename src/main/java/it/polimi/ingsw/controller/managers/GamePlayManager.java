@@ -227,6 +227,7 @@ public class GamePlayManager extends AGameManager {
                     try {
                         client.showNotice("\nSei l'ultimo giocatore rimasto, HAI VINTO PER ABBANDONO!\n");
                         client.showCommand(endGameManager.endGameCommands);
+                        return;
                     } catch (BrokenConnectionException e) {
                         SagradaLogger.log(Level.SEVERE, playerName + " disconnected. Preparing a new room...");
                         endGameManager.quitGame();
