@@ -352,7 +352,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
     }
 
     private void printToolDescription(int id){
-        if (id > 0 && id < 3)
+        if (id > -1 && id < 3)
             super.inputOutputManager.print("Descrizione tool:\n\t- "+super.view.getCommonBoard().getToolCardViews().get(id).getDescription());
     }
 

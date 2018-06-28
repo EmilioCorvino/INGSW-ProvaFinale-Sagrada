@@ -68,11 +68,10 @@ public class GamePlayManager{
         int idRound = inputOutputManager.askInt("Inserisci il numero del round in cui c'e' il dado desiderato: ");
 
         while(idRound < 0 || idRound > 10) {
-            idRound = inputOutputManager.askInt("Errore: Round non presente, inserire valore tra (1-10) ");
+            idRound = inputOutputManager.askInt("Errore: Round non presente, inserire valore tra (1-10) ")-1;
         }
 
         informationUnit.setExtraParam(idRound);
-
         int idDie = inputOutputManager.askInt("Inserisci la posizione del dado desiderato (0-"+ roundTrack.getAvailableDice().get(idRound).size()+"): ");
 
         while(idDie < 0 || idDie > roundTrack.getAvailableDice().get(idRound).size()) {
@@ -125,6 +124,7 @@ public class GamePlayManager{
      * @param infoUnit: the container of all the info of the new die extracted.
      */
     public void showDie(SetUpInformationUnit infoUnit){
+        inputOutputManager.print("Sei dentro show die");
         setExtraInfo(infoUnit);
         inputOutputManager.print(""+infoUnit.getValue());
         if (infoUnit.getValue() != 0)

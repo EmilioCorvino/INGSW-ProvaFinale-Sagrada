@@ -30,7 +30,7 @@ public class ScannerThread extends Thread {
     @Override
     public void run() {
         while (isOnGame){
-            inputOutputManager.printCommandQuestion("> ");
+            inputOutputManager.printCommandQuestion();
             String stuff = inputOutputManager.read();
             functionToInvoke.accept(stuff);
         }
