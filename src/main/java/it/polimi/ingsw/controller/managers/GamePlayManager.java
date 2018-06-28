@@ -353,7 +353,6 @@ public class GamePlayManager extends AGameManager {
             } else {
                 ToolCardSlot slot = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID);
                 this.checkToolCardAvailability(gameState, slotID);
-                this.setMoveLegal(true);
                 for (int i = 0; i < infoUnits.size(); i++) {
                     if (this.isMoveLegal()) {
                         slot.getToolCard().getCardEffects().get(i).executeMove(this, infoUnits.get(i));
@@ -751,6 +750,7 @@ public class GamePlayManager extends AGameManager {
             this.updateFavorTokensAndToolCost(gameState, slotID, toolCard);
 
             if (gameState.getCurrentTurn().getDieCount() >= 2) {
+
                 //Considers the second turn of the same player in the round.
                 Turn turn = gameState.getTurnOrder().get(gameState.getTurnOrder().size() - gameState.getCurrentPlayerTurnIndex() - 1);
                 turn.setPassed(true);
@@ -798,11 +798,13 @@ public class GamePlayManager extends AGameManager {
             super.sendCommandsToCurrentPlayer(updatedCommands);
         } else if (!slot.canCardBePaid(playerFavorTokens)) {
             super.sendNotificationToCurrentPlayer("\nNon hai abbastanza Segnalini Favore per utilizzare la Carta Strumento selezionata\n");
+            this.setMoveLegal(false);
             List<Commands> updatedCommands = new ArrayList<>(this.currentPlayerCommands);
             updatedCommands.remove(slot.getToolCard().getCommandName());
             super.sendCommandsToCurrentPlayer(updatedCommands);
         } else {
             gameState.getCurrentTurn().setToolSlotUsed(slotID);
+            this.setMoveLegal(true);
         }
     }
 
