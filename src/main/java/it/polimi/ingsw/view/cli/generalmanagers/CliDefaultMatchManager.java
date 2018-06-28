@@ -72,6 +72,19 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
     }
 
     @Override
+    public void printDescription(){
+        String command = inputOutputManager.askInformation("Inserisci il comando di cui si richiede la descrizione: ");
+        String filteredString = super.view.stringConverter(command);
+
+        if(view.getFunctions().keySet().contains(filteredString)) {
+            for (UserCommands c : UserCommands.values())
+                if (c.getName().equals(filteredString))
+                    inputOutputManager.print(c.getDescription());
+        }else
+            inputOutputManager.print("Comando non disponibile");
+    }
+
+    @Override
     public void printCommands(){
         super.view.printCommands();
     }

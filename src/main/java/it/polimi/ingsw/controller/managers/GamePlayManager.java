@@ -607,7 +607,6 @@ public class GamePlayManager extends AGameManager {
         ToolCard card = super.getControllerMaster().getCommonBoard().getToolCardSlots()
                 .get(gameState.getCurrentTurn().getToolSlotUsed()).getToolCard();
         IFromServerToClient currentPlayerClient = super.getPlayerClient(currentPlayer.getPlayerName());
-        super.sendNotificationToCurrentPlayer("\nÈ stato estratto il seguente dado:\n");
         try {
             currentPlayerClient.showDie(infoUnit);
             Commands commandToSend = card.getCommandName().equals(Commands.TOOL6) ? Commands.EXTRA_TOOL6 : Commands.EXTRA_TOOL11;

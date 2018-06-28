@@ -458,7 +458,7 @@ public class CliView implements IViewMaster {
      * @param s: It is the command.
      * @return: The corresponding string of the key set if the command is equals (ignoring the case), else input sting.
      */
-    private String stringConverter(String s){
+    public String stringConverter(String s){
 
         for (String string : functions.keySet())
             if(s.equalsIgnoreCase(string))
@@ -474,6 +474,7 @@ public class CliView implements IViewMaster {
             inputOutputManager.print("\nCamandi disponibili: ");
             for (String s : functions.keySet())
                 inputOutputManager.print("\t- " + s);
+            inputOutputManager.print("Digitare aiuto per la descrizione dei comandi.");
         }else
             inputOutputManager.print("Nessun comando disponibile, attendi.");
     }
