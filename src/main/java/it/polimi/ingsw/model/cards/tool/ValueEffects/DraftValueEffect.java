@@ -62,7 +62,7 @@ public class DraftValueEffect extends AValueEffect {
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
 
-        manager.setMoveLegal(true);
+        //manager.setMoveLegal(true);
         DiceDraftPool draft = manager.getControllerMaster().getCommonBoard().getDraftPool();
         draft.createCopy();
 
