@@ -79,7 +79,8 @@ public class DraftValueEffect extends AValueEffect {
         draft.createCopy();
         Die chosenDie = draft.removeDie(setUpInfoUnit.getSourceIndex());
         chosenDie = computeRandomDieValue(chosenDie);
-        draft.addDie(chosenDie);
+        //draft.addDie(chosenDie);
+        setUpInfoUnit.setColor(chosenDie.getDieColor());
         setUpInfoUnit.setValue(chosenDie.getActualDieValue());
         manager.showDraftedDie(manager.getControllerMaster().getGameState().getCurrentPlayer(), setUpInfoUnit);
 

@@ -30,6 +30,7 @@ public class RestrictedDiePlacementMove implements IMove {
 
         Die dieToCheck = new Die(setUpInfoUnit.getValue(), setUpInfoUnit.getColor());
         Cell cell = new Cell(setUpInfoUnit.getDestinationIndex() / WindowPatternCard.getMaxCol(), setUpInfoUnit.getDestinationIndex() % WindowPatternCard.getMaxCol());
+        wp.setDesiredCell(cell);
 
         if(wp.canBePlaced(dieToCheck, cell, wp.getGlassWindowCopy())) {
             wp.addDie(dieToCheck);
