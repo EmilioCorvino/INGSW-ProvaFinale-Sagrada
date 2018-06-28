@@ -7,4 +7,6 @@ public abstract class ParentWindow extends VBox {
     public abstract void initializeHeader();
 
     public abstract void addHandlers();
+
+    public abstract void showMessage(String mex);
 }

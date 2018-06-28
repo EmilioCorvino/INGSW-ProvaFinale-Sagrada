@@ -293,6 +293,17 @@ public class CommonBoardWindow extends ParentWindow {
         }
     }
 
+    public void setPanelForInformation() {
+        HBox messageBox = new HBox();
+        Label label = new Label("");
+        messageBox.getChildren().add(label);
+        this.publToolDraftCont.getChildren().add(messageBox);
+    }
+
+    public void showMessage(String message) {
+        ((Label)((HBox)this.publToolDraftCont.getChildren().get(2)).getChildren().get(0)).setText(message);
+    }
+
     public void setRoundTrack() {
         this.secondContainer.getChildren().add(this.roundTrack);
     }
