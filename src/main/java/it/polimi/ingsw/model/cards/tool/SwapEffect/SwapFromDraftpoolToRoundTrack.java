@@ -22,6 +22,11 @@ public class SwapFromDraftpoolToRoundTrack extends ASwapDieEffect {
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit informationUnit) {
 
+        if(informationUnit.getExtraParam() == 1) {
+            manager.setMoveLegal(false);
+            manager.sendNotificationToCurrentPlayer("Non ci sono dadi sulla round track!");
+            return;
+        }
         Die die1 = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice().get(informationUnit.getSourceIndex());
         RoundTrack roundTrack = manager.getControllerMaster().getCommonBoard().getRoundTrack();
         roundTrack.setRoundToBeUpdated(informationUnit.getExtraParam());
