@@ -197,8 +197,8 @@ public class GamePlayManager extends AGameManager {
             public void run() {
                 SagradaLogger.log(Level.WARNING, turn.getPlayer().getPlayerName() + " turn timer is expired");
                 if (!turn.isTurnCompleted()) {
-                    getControllerMaster().suspendPlayer(turn.getPlayer().getPlayerName());
                     endTurn("\nIl tempo a tua disposizione è terminato. Sei stato sospeso per inattività.\n");
+                    getControllerMaster().suspendPlayer(turn.getPlayer().getPlayerName());
                 }
             }
         }, timeOut);
