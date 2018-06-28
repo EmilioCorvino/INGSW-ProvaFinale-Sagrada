@@ -73,6 +73,18 @@ public class ChooseValueEffect extends AValueEffect {
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
         Die die = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice().get(setUpInfoUnit.getSourceIndex());
 
+        if(die.getActualDieValue() == 6 && setUpInfoUnit.getExtraParam() == INCREASE_CODE) {
+            manager.setMoveLegal(false);
+            manager.sendNotificationToCurrentPlayer("Non puoi incrementare un 6 in un 1");
+            return;
+        }
+
+        if(die.getActualDieValue() == 1 && setUpInfoUnit.getExtraParam() == DECREASE_CODE) {
+            manager.setMoveLegal(false);
+            manager.sendNotificationToCurrentPlayer("Non puoi decrementare un 1 in un 6");
+            return;
+        }
+        
         if(setUpInfoUnit.getExtraParam() == INCREASE_CODE)
             die.setActualDieValue(increaseDieValue(die).getActualDieValue());
 
