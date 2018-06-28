@@ -38,6 +38,11 @@ public interface IDefaultMatchManager {
     void showRoundTrack();
 
     /**
+     * This method print the description of the command insert.
+     */
+    void printDescription();
+
+    /**
      * This method show the command available
      */
     void printCommands();

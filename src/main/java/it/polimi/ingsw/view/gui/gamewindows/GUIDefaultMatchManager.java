@@ -62,6 +62,11 @@ public class GUIDefaultMatchManager implements IDefaultMatchManager {
     }
 
     @Override
+    public void printDescription() {
+
+    }
+
+    @Override
     public void printCommands() {
         //not necessary in gui
     }

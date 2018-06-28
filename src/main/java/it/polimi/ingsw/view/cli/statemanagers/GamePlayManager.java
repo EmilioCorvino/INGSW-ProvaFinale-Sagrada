@@ -124,7 +124,7 @@ public class GamePlayManager{
      * @param infoUnit: the container of all the info of the new die extracted.
      */
     public void showDie(SetUpInformationUnit infoUnit){
-        this.extraInfo = infoUnit;
+        setExtraInfo(infoUnit);
         if (infoUnit.getValue() != 0)
             inputOutputManager.print("Il dado rilanciato e': " + (new DieView(infoUnit.getColor(), infoUnit.getValue())).toStringDie());
         else
@@ -135,4 +135,7 @@ public class GamePlayManager{
         return extraInfo;
     }
 
+    public void setExtraInfo(SetUpInformationUnit extraInfo) {
+        this.extraInfo = extraInfo;
+    }
 }

@@ -66,7 +66,7 @@ public class CommonBoardView {
     public String toolCardToString(){
         StringBuilder tool = new StringBuilder("\nCarte strumento: ");
         for (ToolCardView c : toolCardViews) {
-            tool.append("\n\t - ").append(toolCardViews.indexOf(c)).append(": ").append(c.getDescription()).append(" | Segnalini favore da usare: ").append(c.getCost());
+            tool.append("\n\t - ").append(toolCardViews.indexOf(c)+1).append(": ").append(c.getDescription()).append(" | Segnalini favore da usare: ").append(c.getCost());
         }
         return tool.toString();
     }
