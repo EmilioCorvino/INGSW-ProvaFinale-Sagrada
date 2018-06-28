@@ -3,7 +3,9 @@ package it.polimi.ingsw.model.cards.tool.SwapEffect;
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 import it.polimi.ingsw.model.die.containers.RoundTrack;
+import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 import it.polimi.ingsw.model.move.DiePlacementMove;
 import it.polimi.ingsw.model.move.IMove;
 
@@ -27,14 +29,27 @@ public class SwapFromDraftpoolToRoundTrack extends ASwapDieEffect {
             manager.sendNotificationToCurrentPlayer("Non ci sono dadi sulla round track!");
             return;
         }
+
+        DiceDraftPool draftPool = manager.getControllerMaster().getCommonBoard().getDraftPool();
+        draftPool.createCopy();
         Die die1 = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice().get(informationUnit.getSourceIndex());
         RoundTrack roundTrack = manager.getControllerMaster().getCommonBoard().getRoundTrack();
+        roundTrack.createCopy();
         roundTrack.setRoundToBeUpdated(informationUnit.getExtraParam());
         Die die2 = manager.getControllerMaster().getCommonBoard().getRoundTrack().removeDie(informationUnit.getOffset());
 
         super.swapDice(die1, die2);
 
-        IMove move = new DiePlacementMove();
-        move.executeMove(manager, informationUnit);
+        WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
+
+        if(super.checkExistingCellsToUse(wp, die1)) {
+            informationUnit.setColor(die1.getDieColor());
+            informationUnit.setValue(die1.getActualDieValue());
+            IMove move = new DiePlacementMove();
+            move.executeMove(manager, informationUnit);
+        } else {
+            manager.setMoveLegal(false);
+            manager.sendNotificationToCurrentPlayer("Non esistono celle della tua mappa in cui poter piazzare il dado");
+        }
     }
 }
