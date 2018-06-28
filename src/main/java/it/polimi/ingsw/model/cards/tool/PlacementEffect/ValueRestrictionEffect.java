@@ -27,6 +27,7 @@ public class ValueRestrictionEffect extends PlacementRestrictionEffect {
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
 
         WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
+        wp.createCopy();
 
         Die chosenDie = wp.getGlassWindowCopy()[setUpInfoUnit.getSourceIndex()/WindowPatternCard.MAX_COL][setUpInfoUnit.getSourceIndex() % WindowPatternCard.MAX_COL].getContainedDie();
         Cell[][] gwCopy = wp.getGlassWindowCopy();
