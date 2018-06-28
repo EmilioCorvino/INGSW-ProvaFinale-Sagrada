@@ -100,64 +100,6 @@ public class CommonBoard {
         this.populateToolSlots();
     }
 
-    /*todo This method will addDie the Window pattern of a specific player.
-    public void triggerNormalPlacement(Player player, Die die){
-        draftPool.addDie(die);
-        for(Player p : players)
-            if (p.isSamePlayerAs(player)) {
-                p.getWindowPatternCard().addDie(die);
-                this.notifyController();
-            }
-    }
-    */
-
-    /*todo This method will addDie the Window pattern of a specific player.
-    public void triggerWpPlacement(Die die, Player player){
-        for( Player p : players)
-            if (player.getPlayerName() == p.getPlayerName()){
-                p.getWindowPatternCard().addDie(die);
-                this.notifyController();
-            }
-
-    }
-    */
-
-    /**
-     * This method make the addDie of Round Track and trigger the notify to the controller
-     * @param action: Type of modification, (addDie) if a die want to be added, (remove) if a die want to be removed.
-     * @param die: the die to be added or removed from the round track.
-     */
-    /*todo this method will be addDie the Round Track and trigger the notify to the controller
-    public void triggerRoundTrackPlacement(String action, Die die){
-        if (action == "addDie")
-            roundTrack.addDie(die);
-        if (action == "remove")
-            roundTrack.remove(die);
-        this.notifyController();
-    }
-    */
-
-    /**
-     * This method addDie the draft pool.
-     * @param die: The die to be added.
-     */
-    /*todo
-    public void triggerDiceDraftPlacement(Die die){
-        draftPool.addDie(die);
-        this.notifyController();
-    }
-    */
-
-    /**
-     * This method notify the controller that something has been modify.
-    */
-    /*todo This method will notify the modification to the controller.
-    public void notifyController(){
-        controller.updateView();
-    }
-    */
-
-
     public List<Player> getPlayers() {
         return players;
     }
@@ -177,7 +119,6 @@ public class CommonBoard {
     public List<ToolCardSlot> getToolCardSlots() {
         return toolCardSlots;
     }
-
 
     public WindowPatternCardDeck getWindowPatternCardDeck() {
         return windowPatternCardDeck;

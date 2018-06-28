@@ -117,6 +117,12 @@ public class ControllerMaster {
     public void suspendPlayer(String playerName) {
         if(!this.suspendedPlayers.contains(playerName)) {
             this.suspendedPlayers.add(playerName);
+            IFromServerToClient client = getConnectedPlayers().get(playerName).getClient();
+            try {
+                client.forceLogOut();
+            } catch (BrokenConnectionException e) {
+                SagradaLogger.log(Level.WARNING, "Player was already disconnected.", e);
+            }
             this.gamePlayManager.broadcastNotification("\n" + playerName + " è stato sospeso.\n");
         }
     }
