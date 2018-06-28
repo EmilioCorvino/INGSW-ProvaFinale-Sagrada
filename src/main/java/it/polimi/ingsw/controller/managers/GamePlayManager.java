@@ -218,12 +218,6 @@ public class GamePlayManager extends AGameManager {
             super.getControllerMaster().suspendPlayer(gameState.getCurrentPlayer().getPlayerName());
         }
 
-        //If the round is not over, proceed to the next turn.
-        if (gameState.getCurrentPlayerTurnIndex() < gameState.getTurnOrder().size() - 1) {
-            gameState.incrementCurrentPlayerTurnIndex();
-            this.startTurn(gameState.getCurrentTurn());
-        }
-
         //Checks if there is only one (or less) player left playing. In that case, ends the match.
         if (super.getControllerMaster().getSuspendedPlayers().size() >= (super.getControllerMaster().getConnectedPlayers().size() - 1)) {
             for(String playerName: super.getControllerMaster().getConnectedPlayers().keySet()) {
@@ -239,6 +233,12 @@ public class GamePlayManager extends AGameManager {
                     }
                 }
             }
+        }
+
+        //If the round is not over, proceed to the next turn.
+        if (gameState.getCurrentPlayerTurnIndex() < gameState.getTurnOrder().size() - 1) {
+            gameState.incrementCurrentPlayerTurnIndex();
+            this.startTurn(gameState.getCurrentTurn());
         }
 
         //If the round is over, start a new one, unless it was the last one. In that case, report that the match is over.
