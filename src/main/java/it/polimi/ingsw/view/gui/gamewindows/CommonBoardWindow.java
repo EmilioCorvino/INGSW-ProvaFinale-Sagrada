@@ -195,6 +195,7 @@ public class CommonBoardWindow extends ParentWindow {
 
         Button pass = new Button("Passa il turno");
         pass.getStyleClass().add("button-style");
+        pass.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> passTurnHandler());
 
         commandsDraft.getChildren().addAll(favorTok, pass);
         this.secondSecCont.getChildren().add(commandsDraft);
@@ -284,7 +285,7 @@ public class CommonBoardWindow extends ParentWindow {
         toolCont.setSpacing(25);
         this.publToolDraftCont.getChildren().add(toolCont);
 
-        for(int i=0; i<idTools.length; i++) {
+        for(int i=0; i<idTools.length; i++) { //TODO: perché non un for each?
             Image toolCard = new Image("/cards/toolImages/tool" + idTools[i] + ".png");
             ImageView view = new ImageView(toolCard);
             view.setFitHeight(240);
@@ -334,24 +335,17 @@ public class CommonBoardWindow extends ParentWindow {
 
     @Override
     public void addHandlers() {
-        Button button = (Button)this.commandsDraft.getChildren().get(1);
-        button.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> passTurnHandler());
-
 
     }
 
-    public void passTurnHandler() {
+    /**
+     * This method manages the pass turn command.
+     */
+    private void passTurnHandler() {
         if(this.manager.isCommandContained(Commands.END_TURN)) {
-            //button.setVisible(false);
-            removeHandlers();
             this.manager.executeCommandIfPresent(Commands.END_TURN);
         } else {
             this.manager.communicateMessage("Comando non supportato poichè non è il tuo turno.");
         }
-    }
-
-    public void removeHandlers() {
-        Button button = (Button)this.commandsDraft.getChildren().get(1);
-        button.removeEventHandler(MouseEvent.MOUSE_CLICKED, e -> passTurnHandler());
     }
 }

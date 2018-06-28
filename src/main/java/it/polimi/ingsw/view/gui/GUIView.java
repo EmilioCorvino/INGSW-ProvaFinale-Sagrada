@@ -189,10 +189,8 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void setDraft(List<SetUpInformationUnit> draft) {
-        Platform.runLater(() -> {
-            this.commonWindow.getDraftPoolGUI().formatDraftPool(draft);
-            this.commonWindow.setDraftPoolGUI(new DraftPoolGUI());
-        });
+        Platform.runLater(() ->
+            this.commonWindow.getDraftPoolGUI().formatDraftPool(draft));
     }
 
     @Override

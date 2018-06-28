@@ -28,6 +28,9 @@ public class DraftPoolGUI extends GridPane {
      */
     private DieFactory dieFactory;
 
+    private boolean isEmpty = true;
+
+
 
     public DraftPoolGUI() {
         this.getStylesheets().add("style/backgrounds.css");
@@ -37,6 +40,7 @@ public class DraftPoolGUI extends GridPane {
         this.setMaxWidth(200);
         this.setHgap(12.5);
         this.setVgap(12.5);
+
 
         dieFactory = new DieFactory();
 
@@ -55,11 +59,15 @@ public class DraftPoolGUI extends GridPane {
      * @param diceList the list of dice to populate the draft pool.
      */
     public void formatDraftPool(List<SetUpInformationUnit> diceList) {
+        if(!this.isEmpty)
+            this.getChildren().remove(0, diceList.size());
+
         diceList.forEach( info -> {
+            this.isEmpty = false;
             DieGUI die = dieFactory.getsDieGUI(info);
             this.add(die, info.getDestinationIndex() % MAX_COL, info.getDestinationIndex() / MAX_COL);
         });
     }
 
-   // public boolean isDraftEm
+
 }
