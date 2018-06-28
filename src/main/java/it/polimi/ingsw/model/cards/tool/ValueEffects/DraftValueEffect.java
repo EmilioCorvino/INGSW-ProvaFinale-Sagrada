@@ -63,6 +63,9 @@ public class DraftValueEffect extends AValueEffect {
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
 
         manager.setMoveLegal(true);
+        DiceDraftPool draft = manager.getControllerMaster().getCommonBoard().getDraftPool();
+        draft.createCopy();
+
 
         if(this.limit == 0) {
             List<Die> diceToDraft = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice();
@@ -75,8 +78,6 @@ public class DraftValueEffect extends AValueEffect {
         // = computeRandomDieValue(manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice().get(setUpInfoUnit.getSourceIndex()));
         // WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
 
-        DiceDraftPool draft = manager.getControllerMaster().getCommonBoard().getDraftPool();
-        draft.createCopy();
         Die chosenDie = draft.removeDie(setUpInfoUnit.getSourceIndex());
         chosenDie = computeRandomDieValue(chosenDie);
         //draft.addDie(chosenDie);
