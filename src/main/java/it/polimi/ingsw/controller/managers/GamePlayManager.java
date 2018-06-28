@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.cards.ToolCardSlot;
 import it.polimi.ingsw.model.cards.tool.ToolCard;
+import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 import it.polimi.ingsw.model.move.DiePlacementMove;
 import it.polimi.ingsw.model.move.IMove;
@@ -274,10 +275,28 @@ public class GamePlayManager extends AGameManager {
             board.getRoundTrack().setRoundToBeUpdated(gameState.getActualRound() - 1);
             board.getRoundTrack().createCopy();
             int actualDraftSize = board.getDraftPool().getAvailableDice().size();
+            List<SetUpInformationUnit> diceToSend = new ArrayList<>();
+
             for (int i = 0; i < actualDraftSize; i++) {
-                board.getRoundTrack().addDie(board.getDraftPool().getAvailableDice().remove(0));
+                Die dieToMove = board.getDraftPool().getAvailableDice().remove(0);
+                board.getRoundTrack().addDie(dieToMove);
+                diceToSend.add(new SetUpInformationUnit(gameState.getActualRound() - 1, dieToMove.getDieColor(), dieToMove.getActualDieValue()));
             }
             board.getRoundTrack().overwriteOriginal();
+
+            //Updates the view of the players.
+            super.getControllerMaster().getConnectedPlayers().forEach((playerName, connection) -> {
+                if (!super.getControllerMaster().getSuspendedPlayers().contains(playerName)) {
+                    for (SetUpInformationUnit infoUnit: diceToSend) {
+                        try {
+                            connection.getClient().addOnRoundTrack(infoUnit);
+                        } catch (BrokenConnectionException e) {
+                            SagradaLogger.log(Level.SEVERE, IMPOSSIBLE_TO_UPDATE + playerName + " Round Track", e);
+                            super.getControllerMaster().suspendPlayer(playerName);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -353,7 +372,6 @@ public class GamePlayManager extends AGameManager {
             } else {
                 ToolCardSlot slot = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID);
                 this.checkToolCardAvailability(gameState, slotID);
-                this.setMoveLegal(true);
                 for (int i = 0; i < infoUnits.size(); i++) {
                     if (this.isMoveLegal()) {
                         slot.getToolCard().getCardEffects().get(i).executeMove(this, infoUnits.get(i));
@@ -751,6 +769,7 @@ public class GamePlayManager extends AGameManager {
             this.updateFavorTokensAndToolCost(gameState, slotID, toolCard);
 
             if (gameState.getCurrentTurn().getDieCount() >= 2) {
+
                 //Considers the second turn of the same player in the round.
                 Turn turn = gameState.getTurnOrder().get(gameState.getTurnOrder().size() - gameState.getCurrentPlayerTurnIndex() - 1);
                 turn.setPassed(true);
@@ -798,11 +817,13 @@ public class GamePlayManager extends AGameManager {
             super.sendCommandsToCurrentPlayer(updatedCommands);
         } else if (!slot.canCardBePaid(playerFavorTokens)) {
             super.sendNotificationToCurrentPlayer("\nNon hai abbastanza Segnalini Favore per utilizzare la Carta Strumento selezionata\n");
+            this.setMoveLegal(false);
             List<Commands> updatedCommands = new ArrayList<>(this.currentPlayerCommands);
             updatedCommands.remove(slot.getToolCard().getCommandName());
             super.sendCommandsToCurrentPlayer(updatedCommands);
         } else {
             gameState.getCurrentTurn().setToolSlotUsed(slotID);
+            this.setMoveLegal(true);
         }
     }
 
