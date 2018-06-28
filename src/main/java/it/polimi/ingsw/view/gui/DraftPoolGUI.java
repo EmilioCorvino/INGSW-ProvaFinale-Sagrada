@@ -60,4 +60,6 @@ public class DraftPoolGUI extends GridPane {
             this.add(die, info.getDestinationIndex() % MAX_COL, info.getDestinationIndex() / MAX_COL);
         });
     }
+
+   // public boolean isDraftEm
 }

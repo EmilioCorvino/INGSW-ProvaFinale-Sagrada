@@ -289,6 +289,11 @@ public class ChooseWpGUI extends ParentWindow {
             }
         }
 
+    @Override
+    public void showMessage(String mex) {
+
+    }
+
     public VBox getMainContainer() {
         return mainContainer;
     }

@@ -177,6 +177,7 @@ public class GUIView implements IViewMaster {
             commonWindow.formatSecondContainer();
             commonWindow.setPublicImages(idPubObj);
             commonWindow.setToolImages(idTool);
+            commonWindow.setPanelForInformation();
             commonWindow.setRoundTrack();
             this.current = commonWindow;
             //this.current.addHandlers();
@@ -188,7 +189,10 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void setDraft(List<SetUpInformationUnit> draft) {
-        Platform.runLater(() -> this.commonWindow.getDraftPoolGUI().formatDraftPool(draft));
+        Platform.runLater(() -> {
+            this.commonWindow.getDraftPoolGUI().formatDraftPool(draft);
+            this.commonWindow.setDraftPoolGUI(new DraftPoolGUI());
+        });
     }
 
     @Override
@@ -260,7 +264,12 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void showNotice(String notice) {
-        System.out.println(notice);
+        Platform.runLater( () -> {
+            if(this.current != null)
+                this.current.showMessage(notice);
+            System.out.println(notice);
+        });
+
 
     }
 
