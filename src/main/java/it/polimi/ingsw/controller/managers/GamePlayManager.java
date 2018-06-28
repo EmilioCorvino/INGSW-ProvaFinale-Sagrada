@@ -791,6 +791,7 @@ public class GamePlayManager extends AGameManager {
 
         if (!slot.getToolCard().canBeUsed(turnNumber)) {
             super.sendNotificationToCurrentPlayer("\nNon puoi usare questa Carta Strumento in questo turno!\n");
+            this.setMoveLegal(false);
             List<Commands> updatedCommands = new ArrayList<>(this.currentPlayerCommands);
             updatedCommands.remove(slot.getToolCard().getCommandName());
             super.sendCommandsToCurrentPlayer(updatedCommands);
