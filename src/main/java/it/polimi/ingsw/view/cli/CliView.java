@@ -388,7 +388,14 @@ public class CliView implements IViewMaster {
     @Override
     public void forceLogOut(){
         this.scannerThread.stopExecution();
+        try {
+            this.scannerThread.join();
+        }catch (InterruptedException e){
+            SagradaLogger.log(Level.SEVERE, e.getMessage());
+            this.scannerThread.interrupt();
+        }
         this.inputOutputManager.print("IL SERVER TI HA DISCONNESSO");
+        this.inputOutputManager.closeScanner();
         System.exit(0);
     }
 

@@ -63,7 +63,7 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
 
     @Override
     public void chooseWp() {
-        super.view.getFunctions().remove(UserCommands.SCELTA_WP.getDescription());
+        super.view.getFunctions().remove(UserCommands.SCELTA_WP.getName());
         try {
             server.windowPatternCardRequest(super.view.getSetUpManager().getIdChosen());
         } catch (BrokenConnectionException e){
