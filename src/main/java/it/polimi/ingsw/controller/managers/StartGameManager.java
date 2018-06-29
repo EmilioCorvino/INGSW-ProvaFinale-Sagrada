@@ -41,7 +41,7 @@ public class StartGameManager extends AGameManager {
     /**
      * List containing all the players that logged out or disconnected before choosing the {@link WindowPatternCard}.
      */
-    private List<String> playersDisconnectedBeforeChoosingWP;
+    private List<String> playersDisconnectedBeforeCommonBoardSetting;
 
     /**
      * Signals if the setting up is over or not.
@@ -52,7 +52,7 @@ public class StartGameManager extends AGameManager {
         super.setControllerMaster(controllerMaster);
         this.listOfSentWpID = new HashMap<>();
         this.playersWhoChose = new ArrayList<>();
-        this.playersDisconnectedBeforeChoosingWP = new ArrayList<>();
+        this.playersDisconnectedBeforeCommonBoardSetting = new ArrayList<>();
         this.matchSetUp = false;
     }
 
@@ -64,15 +64,11 @@ public class StartGameManager extends AGameManager {
         this.matchSetUp = matchSetUp;
     }
 
-    public List<String> getPlayersDisconnectedBeforeChoosingWP() {
-        return playersDisconnectedBeforeChoosingWP;
+    public List<String> getPlayersDisconnectedBeforeCommonBoardSetting() {
+        return playersDisconnectedBeforeCommonBoardSetting;
     }
 
-    public Map<String, List<Integer>> getListOfSentWpID() {
-        return listOfSentWpID;
-    }
-
-    //----------------------------------------------------------
+//----------------------------------------------------------
 //                    SET UP METHODS
 //----------------------------------------------------------
 
@@ -161,28 +157,13 @@ public class StartGameManager extends AGameManager {
         if (this.listOfSentWpID.get(username).contains(chosenWp)) {
             WindowPatternCard wpToSet = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenWp);
             commonBoard.getSpecificPlayer(username).setWindowPatternCard(wpToSet);
-
-            //Useful for reconnection.
-            if (isMatchSetUp()) {
-                super.getControllerMaster().getSuspendedPlayers().remove(username);
-                this.setOneCommonBoard(username);
-                IFromServerToClient client = super.getControllerMaster().getConnectedPlayers().get(username).getClient();
-                try {
-                    client.showCommand(super.getControllerMaster().getGamePlayManager().getWaitingPlayersCommands());
-                } catch (BrokenConnectionException e) {
-                    SagradaLogger.log(Level.SEVERE, "Connection lost with " + username + " while sending the new " +
-                            "commands after reconnecting.", e);
-                    super.getControllerMaster().suspendPlayer(username);
-                }
-            } else {
-                this.markPlayerAndEventuallyStartMatch(username);
-            }
+            this.markPlayerAndEventuallyStartMatch(username);
         } else {
             try {
-                super.getControllerMaster().getConnectedPlayers().get(username).getClient().showNotice(
-                        "Hai selezionato una vetrata non valida, reinserisci un ID tra quelli mostrati.");
-                super.getControllerMaster().getConnectedPlayers().get(username).getClient().showCommand(
-                        Arrays.asList(Commands.CHOOSE_WP, Commands.LOGOUT));
+                super.getControllerMaster().getConnectedPlayers().get(username).getClient()
+                        .showNotice("Hai selezionato una vetrata non valida, reinserisci un ID tra quelli mostrati.");
+                super.getControllerMaster().getConnectedPlayers().get(username).getClient()
+                        .showCommand(Arrays.asList(Commands.CHOOSE_WP, Commands.LOGOUT));
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Impossible to send a notice to the client", e);
                 this.exitGame(username);
@@ -194,24 +175,26 @@ public class StartGameManager extends AGameManager {
      * Checks if all the players have chosen a window pattern card. If so, starts the match. If not, informs the player
      * of how many people still have to choose.
      *
-     * @param username name of the player that has just chosen a correct wp.
+     * @param playerName name of the player that has just chosen a correct wp.
      */
-    private void markPlayerAndEventuallyStartMatch(String username) {
-        this.playersWhoChose.add(username);
-        if (this.playersWhoChose.size() == super.getControllerMaster().getCommonBoard().getPlayers().size() -
-                super.getControllerMaster().getSuspendedPlayers().size()) {
+    private void markPlayerAndEventuallyStartMatch(String playerName) {
+        this.playersWhoChose.add(playerName);
+        if (this.playersWhoChose.size() == super.getControllerMaster().getCommonBoard().getPlayers().size()) {
             this.setCommonBoard();
             this.setMatchSetUp(true);
             super.getControllerMaster().getGamePlayManager().startRound();
         } else {
             try {
-                super.getControllerMaster().getConnectedPlayers().get(username).getClient().showNotice(
+                super.getControllerMaster().getConnectedPlayers().get(playerName).getClient().showNotice(
                         "Alcuni giocatori (n: " + (super.getControllerMaster().getCommonBoard().getPlayers().size() -
                                 this.playersWhoChose.size()) +
                                 ") devono ancora scegliere la vetrata, attendi...");
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Impossible to send a notice to the client", e);
-                super.getControllerMaster().suspendPlayer(username);
+                super.getControllerMaster().suspendPlayer(playerName);
+                if (!this.playersDisconnectedBeforeCommonBoardSetting.contains(playerName)) {
+                    this.playersDisconnectedBeforeCommonBoardSetting.add(playerName);
+                }
             }
         }
     }
@@ -227,7 +210,6 @@ public class StartGameManager extends AGameManager {
         int[] idPubObj = pubObjConverter();
         int[] idTool = toolConverter();
 
-
         super.getControllerMaster().getConnectedPlayers().forEach((playerName, connection) -> {
             try {
                 connection.getClient().setCommonBoard(mapOfWp, idPubObj, idTool);
@@ -235,6 +217,9 @@ public class StartGameManager extends AGameManager {
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Impossible to set the common board to " + playerName, e);
                 super.getControllerMaster().suspendPlayer(playerName);
+                if (!this.playersDisconnectedBeforeCommonBoardSetting.contains(playerName)) {
+                    this.playersDisconnectedBeforeCommonBoardSetting.add(playerName);
+                }
             }
         });
     }
@@ -243,7 +228,7 @@ public class StartGameManager extends AGameManager {
      * This method sets a {@link CommonBoard} to a specific player.
      * @param playerName player whose {@link CommonBoard} has to be set.
      */
-    private void setOneCommonBoard(String playerName) {
+    public void setOneCommonBoard(String playerName) {
         Map<String, SimplifiedWindowPatternCard> mapOfWp = mapsOfPlayersConverter();
         int[] idPubObj = pubObjConverter();
         int[] idTool = toolConverter();
@@ -256,6 +241,7 @@ public class StartGameManager extends AGameManager {
         } catch (BrokenConnectionException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to set the common board to " + playerName, e);
             super.getControllerMaster().suspendPlayer(playerName);
+            this.playersDisconnectedBeforeCommonBoardSetting.add(playerName);
         }
     }
 
@@ -290,18 +276,21 @@ public class StartGameManager extends AGameManager {
     }
 
     /**
-     * This method is called when a player wants to log out during the set up phase.
+     * This method is called when a player wants to log out during the set up phase. If he didn't chose a
+     * {@link WindowPatternCard}, a random one is assigned among the sent ones.
      * @param playerName name of the player that wants to log out.
      */
     public void exitGame(String playerName) {
         super.getControllerMaster().suspendPlayer(playerName);
 
-        if(!this.playersDisconnectedBeforeChoosingWP.contains(playerName)) {
-            this.playersDisconnectedBeforeChoosingWP.add(playerName);
+        if (!this.playersWhoChose.contains(playerName)) {
+            this.playersDisconnectedBeforeCommonBoardSetting.add(playerName);
+            List<Integer> idSent = this.listOfSentWpID.get(playerName);
+            int random = new Random().nextInt(idSent.size());
+            this.wpToSet(playerName, this.listOfSentWpID.get(playerName).get(random));
         }
 
-        if(this.playersWhoChose.size() == super.getControllerMaster().getCommonBoard().getPlayers().size() -
-                super.getControllerMaster().getSuspendedPlayers().size()) {
+        if (this.playersWhoChose.size() == super.getControllerMaster().getCommonBoard().getPlayers().size()) {
             this.setCommonBoard();
             super.getControllerMaster().getGamePlayManager().startRound();
         }
