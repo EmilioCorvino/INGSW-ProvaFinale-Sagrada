@@ -88,12 +88,12 @@ public class EndGameManager extends AGameManager {
             }
         }
 
-        super.broadcastNotification("\nQuesta è la classifica completa:\n");
+        super.broadcastNotification("\nQuesta è la classifica completa:");
         for(String playerName: super.getControllerMaster().getConnectedPlayers().keySet()) {
             IFromServerToClient client = super.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
             try {
                 client.showRank(this.extractNamesToSend(rank), this.extractScoresToSend(rank));
-                client.showNotice("\nGrazie per aver giocato!\n");
+                client.showNotice("\nGrazie per aver giocato!");
                 client.showCommand(this.endGameCommands);
                 this.startTimer(playerName);
             } catch (BrokenConnectionException e) {
@@ -166,7 +166,7 @@ public class EndGameManager extends AGameManager {
 
             for(Map.Entry<String, Connection> remainingPlayer: connectedPlayers.entrySet()) {
                 try {
-                    remainingPlayer.getValue().getClient().showNotice("\nVerrai inserito in una nuova stanza d'attesa.\n");
+                    remainingPlayer.getValue().getClient().showNotice("\nVerrai inserito in una nuova stanza d'attesa.");
                 } catch (BrokenConnectionException e) {
                     SagradaLogger.log(Level.WARNING, CONNECTION_LOST_WITH + remainingPlayer.getKey() +
                         " while inserting him in a new room. He will be removed.");
@@ -187,17 +187,6 @@ public class EndGameManager extends AGameManager {
      * {@link it.polimi.ingsw.controller.WaitingRoom} for a new game.
      */
     void quitGame() {
-        /*System.out.println("Do you want the server to close? (yes/no)");
-        Scanner scanner = new Scanner(System.in);
-        String choice = scanner.nextLine();
-        while(!(choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("no"))) {
-            System.out.println("You have to type 'yes' or 'no'.");
-            choice = scanner.nextLine();
-        }
-        if(choice.equalsIgnoreCase("yes")) {
-            //todo close socket server here?
-            System.exit(0);
-        } else {*/
         synchronized(super.getControllerMaster().getWaitingRoom()) {
             WaitingRoom waitingRoom = super.getControllerMaster().getWaitingRoom();
             waitingRoom.getPlayersRoom().clear();

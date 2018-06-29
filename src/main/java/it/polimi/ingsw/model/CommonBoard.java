@@ -21,14 +21,10 @@ import java.util.logging.Level;
 /**
  * This class represents everything which is visible by all players.
  */
-//todo This will probably be the observed class that will notify changes.
 public class CommonBoard {
 
-    /*todo This will be the controller connection.
-    ControllerMaster controller;
-    */
+    private static final int NUMBER_OF_ROUNDS = 10;
 
-    public static final int NUMBER_OF_ROUNDS = 10;
     /**
      * Players connected to the match.
      */
