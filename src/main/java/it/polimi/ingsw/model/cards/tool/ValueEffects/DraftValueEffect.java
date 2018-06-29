@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.DiceDraftPool;
-import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 import it.polimi.ingsw.model.player.Player;
 
 import java.util.ArrayList;
@@ -78,18 +77,17 @@ public class DraftValueEffect extends AValueEffect {
         }
 
         Player p = manager.getControllerMaster().getGameState().getCurrentPlayer();
-        WindowPatternCard wp = p.getWindowPatternCard();
+       // WindowPatternCard wp = p.getWindowPatternCard();
 
-        Die chosenDie = computeRandomDieValue(diceToDraft.get(setUpInfoUnit.getSourceIndex()));
-
-        if(!super.checkExistingCellsToUse(wp, chosenDie)) {
-
-        }
+        //System.out.println(die.getActualDieValue() + " " + die.getDieColor());
+        Die chosenDie = computeRandomDieValue(draft.removeDie(setUpInfoUnit.getSourceIndex()));
+        //System.out.println(chosenDie.getDieColor() + " " + chosenDie.getActualDieValue());
 
 
         diceToDraft.set(setUpInfoUnit.getSourceIndex(), chosenDie);
         setUpInfoUnit.setColor(chosenDie.getDieColor());
         setUpInfoUnit.setValue(chosenDie.getActualDieValue());
+        //System.out.println(setUpInfoUnit.getColor() + " " + setUpInfoUnit.getValue());
         manager.showDraftedDie(manager.getControllerMaster().getGameState().getCurrentPlayer(), setUpInfoUnit);
 
 
