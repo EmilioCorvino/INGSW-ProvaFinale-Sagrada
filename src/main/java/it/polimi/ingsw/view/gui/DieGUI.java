@@ -13,6 +13,8 @@ public class DieGUI extends StackPane {
 
 
     public DieGUI() {
+        this.getStylesheets().add("style/backgrounds.css");
+
         color = new Pane();
         value = new ImageView();
 
@@ -20,6 +22,7 @@ public class DieGUI extends StackPane {
         value.setPreserveRatio(true);
         this.getChildren().add(color);
         this.getChildren().add(value);
+        this.getChildren().get(0).getStyleClass().add("dieChosen");
     }
 
     public Pane getColor() {

@@ -23,7 +23,8 @@ public class ColorPlacementRestrictionEffect extends PlacementRestrictionEffect 
         Die chosenDie = draftPoolDice.get(setUpInformationUnit.getSourceIndex()).get(setUpInformationUnit.getOffset());
 
         if(setUpInformationUnit.getColor().equals(chosenDie.getDieColor()))
-            super.executeMove(manager, setUpInformationUnit);
+            //super.executeMove(manager, setUpInformationUnit);
+            System.out.println();
         else {
             manager.sendNotificationToCurrentPlayer("Il dado della mappa scelto deve essere dello stesso colore del dado scelto dalla round track");
         }

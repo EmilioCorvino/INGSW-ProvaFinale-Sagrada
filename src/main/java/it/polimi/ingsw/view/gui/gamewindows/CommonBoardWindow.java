@@ -87,7 +87,7 @@ public class CommonBoardWindow extends ParentWindow {
         roundTrack = new RoundTrackGUI();
         draftPoolGUI = new DraftPoolGUI();
         secondSecCont = new VBox();
-        this.secondSecCont.setSpacing(45);
+        this.secondSecCont.setSpacing(35);
         this.manager = manager;
         mainContainer = new VBox();
         header = new HBox();
@@ -182,7 +182,7 @@ public class CommonBoardWindow extends ParentWindow {
      */
     public void formatDraftCommands() {
 
-        commandsDraft.setSpacing(20);
+        commandsDraft.setSpacing(10);
         commandsDraft.setAlignment(Pos.CENTER);
 
         HBox favorTok = new HBox();
@@ -197,7 +197,11 @@ public class CommonBoardWindow extends ParentWindow {
         pass.getStyleClass().add("button-style");
         pass.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> passTurnHandler());
 
-        commandsDraft.getChildren().addAll(favorTok, pass);
+        Button placement = new Button("Piazzamento base");
+        placement.getStyleClass().add("button-style");
+        //pass.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> passTurnHandler());
+
+        commandsDraft.getChildren().addAll(favorTok, placement, pass);
         this.secondSecCont.getChildren().add(commandsDraft);
     }
 
@@ -348,4 +352,6 @@ public class CommonBoardWindow extends ParentWindow {
             this.manager.communicateMessage("Comando non supportato poichè non è il tuo turno.");
         }
     }
+
+
 }
