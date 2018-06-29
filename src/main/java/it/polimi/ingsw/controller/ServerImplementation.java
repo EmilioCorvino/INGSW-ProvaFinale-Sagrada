@@ -148,6 +148,9 @@ public class ServerImplementation implements IFromClientToServer {
         startGameManager.exitGame(userName);
     }
 
-
-
+    @Override
+    public void reconnect() {
+        String userName = connectionsQueue.remove().getUserName();
+        this.controller.reconnectPlayer(userName);
+    }
 }

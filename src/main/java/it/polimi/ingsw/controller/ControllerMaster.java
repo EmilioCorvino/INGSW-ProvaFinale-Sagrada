@@ -168,6 +168,6 @@ public class ControllerMaster {
             }
         }
 
-        this.gamePlayManager.broadcastNotification("\n" + playerName + " si è appena riconnesso!\n");
+        this.gamePlayManager.broadcastNotification("\n" + playerName + " si è appena riconnesso!");
     }
 }

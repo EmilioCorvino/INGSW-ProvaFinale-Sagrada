@@ -91,6 +91,11 @@ public class GUIDefaultMatchManager implements IDefaultMatchManager {
 
     }
 
+    @Override
+    public void reconnect() {
+
+    }
+
     public IFromClientToServer getServer() {
         return server;
     }

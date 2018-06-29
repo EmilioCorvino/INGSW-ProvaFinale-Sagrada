@@ -41,4 +41,5 @@ public interface IRmiServer extends Remote {
 
     void exitGame(Connection connection) throws RemoteException;
 
+    void reconnect(Connection connection) throws RemoteException;
 }

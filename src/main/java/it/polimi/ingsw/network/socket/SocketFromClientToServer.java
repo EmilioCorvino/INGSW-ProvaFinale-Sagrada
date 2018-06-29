@@ -1,8 +1,8 @@
 package it.polimi.ingsw.network.socket;
 
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
-import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.network.IFromClientToServer;
+import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 
 import java.util.List;
 
@@ -44,6 +44,11 @@ public class SocketFromClientToServer implements IFromClientToServer {
 
     @Override
     public void exitGame() {
+
+    }
+
+    @Override
+    public void reconnect() throws BrokenConnectionException {
 
     }
 

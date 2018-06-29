@@ -3,13 +3,13 @@ package it.polimi.ingsw.network.rmi;
 import it.polimi.ingsw.ServerMain;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.network.Connection;
+import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.ClientImplementation;
-import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.view.IViewMaster;
 
 import java.rmi.NotBoundException;
@@ -60,7 +60,7 @@ public class RmiFromClientToServer implements IFromClientToServer {
         } catch (RemoteException e) {
             throw new BrokenConnectionException();
         } catch (NotBoundException e) {
-            SagradaLogger.log(Level.SEVERE, "There is no such interface in the registry", e);
+            SagradaLogger.log(Level.SEVERE, "There is no such interface in the registry");
         }
     }
 
@@ -79,7 +79,7 @@ public class RmiFromClientToServer implements IFromClientToServer {
         try {
             this.rmiServer.login(gameMode, playerName, this.callBack, connection);
         } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during register", e);
+            SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during register");
             throw new BrokenConnectionException();
         }
     }
@@ -89,7 +89,7 @@ public class RmiFromClientToServer implements IFromClientToServer {
         try {
             this.rmiServer.windowPatternCardRequest(idMap, connection);
         } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during window pattern card request", e);
+            SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during window pattern card request");
             throw new BrokenConnectionException();
         }
     }
@@ -99,7 +99,7 @@ public class RmiFromClientToServer implements IFromClientToServer {
         try {
             this.rmiServer.performDefaultMove(infoUnit, connection);
         } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during move execution", e);
+            SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during move execution");
             throw new BrokenConnectionException();
         }
     }
@@ -109,7 +109,7 @@ public class RmiFromClientToServer implements IFromClientToServer {
         try {
             this.rmiServer.performToolCardMove(slotID, infoUnits, connection);
         } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during tool card move execution", e);
+            SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during tool card move execution");
             throw new BrokenConnectionException();
         }
     }
@@ -119,7 +119,7 @@ public class RmiFromClientToServer implements IFromClientToServer {
         try {
             this.rmiServer.performRestrictedPlacement(infoUnit, connection);
         } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Connection to the server has been lost during restricted placement execution", e);
+            SagradaLogger.log(Level.SEVERE, "Connection to the server has been lost during restricted placement execution");
             throw new BrokenConnectionException();
         }
     }
@@ -129,7 +129,7 @@ public class RmiFromClientToServer implements IFromClientToServer {
         try {
             this.rmiServer.moveToNextTurn(connection);
         } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Connection to server has been lost while moving to the next round", e);
+            SagradaLogger.log(Level.SEVERE, "Connection to server has been lost while moving to the next round");
             throw new BrokenConnectionException();
         }
     }
@@ -150,7 +150,17 @@ public class RmiFromClientToServer implements IFromClientToServer {
         try {
             this.rmiServer.exitGame(connection);
         } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Connection to the serve has been lsot while logging out.");
+            SagradaLogger.log(Level.SEVERE, "Connection to the server has been lost while logging out.");
+            throw new BrokenConnectionException();
+        }
+    }
+
+    @Override
+    public void reconnect() throws BrokenConnectionException {
+        try {
+            this.rmiServer.reconnect(connection);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Connection to the server has been lost during reconnection.");
             throw new BrokenConnectionException();
         }
     }
