@@ -32,4 +32,11 @@ public class CliCommunicationManager {
     public void setServer(IFromClientToServer server) {
         this.server = server;
     }
+
+    protected void disconnect(){
+        view.getScannerThread().stopExecution();
+        inputOutputManager.closeScanner();
+        inputOutputManager.print("\nCHIUSURA APPLICAZIONE PER ROTTURA CONNESSIONE");
+        System.exit(0);
+    }
 }

@@ -33,6 +33,7 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
             super.server.performDefaultMove(setInfoUnit);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during normal placement",e);
+            disconnect();
         }
     }
 
@@ -68,6 +69,7 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
             server.windowPatternCardRequest(super.view.getSetUpManager().getIdChosen());
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during map id choose.");
+            disconnect();
         }
     }
 
@@ -95,6 +97,7 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
             super.server.moveToNextTurn();
         } catch (BrokenConnectionException e) {
             SagradaLogger.log(Level.SEVERE, "Connection broken while moving to next turn", e);
+            disconnect();
         }
     }
 
@@ -104,6 +107,7 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
             super.server.exitGame();
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during log out", e);
+            disconnect();
         }
         super.view.getScannerThread().stopExecution();
         super.inputOutputManager.closeScanner();
@@ -118,6 +122,7 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
             super.server.startNewGameRequest();
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during new game request.");
+            disconnect();
         }
     }
 
@@ -127,6 +132,7 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
             super.server.reconnect();
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during reconnection");
+            disconnect();
         }
     }
 

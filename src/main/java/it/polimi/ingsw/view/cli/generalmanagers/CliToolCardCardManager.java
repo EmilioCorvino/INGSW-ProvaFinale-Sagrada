@@ -50,6 +50,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
             super.server.performToolCardMove(toolSlot, units);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 1");
+            disconnect();
         }
 
     }
@@ -70,6 +71,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
             super.server.performToolCardMove(toolSlot, units);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 2");
+            disconnect();
         }
 
     }
@@ -90,6 +92,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
             super.server.performToolCardMove(toolSlot, units);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 3");
+            disconnect();
         }
 
     }
@@ -114,6 +117,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
             super.server.performToolCardMove(toolSlot, units);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 4");
+            disconnect();
         }
 
     }
@@ -142,6 +146,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
             super.server.performToolCardMove(toolSlot, units);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 5");
+            disconnect();
         }
 
     }
@@ -163,6 +168,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
             super.server.performToolCardMove(toolSlot, units);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 6");
+            disconnect();
         }
 
     }
@@ -180,6 +186,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
             server.performRestrictedPlacement(infoUnit);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 6");
+            disconnect();
         }
     }
 
@@ -197,6 +204,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
             super.server.performToolCardMove(toolSlot, units);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 7");
+            disconnect();
         }
 
     }
@@ -217,6 +225,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
             super.server.performToolCardMove(toolSlot, units);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 8");
+            disconnect();
         }
 
     }
@@ -237,6 +246,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
             super.server.performToolCardMove(toolSlot, units);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 9");
+            disconnect();
         }
 
     }
@@ -257,6 +267,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
             super.server.performToolCardMove(toolSlot, units);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 10");
+            disconnect();
         }
 
     }
@@ -278,6 +289,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
             super.server.performToolCardMove(toolSlot, units);
         } catch (BrokenConnectionException e) {
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 11");
+            disconnect();
         }
 
     }
@@ -303,6 +315,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
             server.performRestrictedPlacement(infoUnit);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 11");
+            disconnect();
         }
     }
 
@@ -311,10 +324,11 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         List<SetUpInformationUnit> units = new ArrayList<>();
         SetUpInformationUnit infoUnit1 = new SetUpInformationUnit();
         SetUpInformationUnit infoUnit2 = new SetUpInformationUnit();
-        String nDice = "0";
+        int nDice;
 
-        while (!"1".equals(nDice) || !"2".equals(nDice))
-            nDice = super.inputOutputManager.askInformation("Inserisci quanti dadi vuoi piazzare(1-2): ");
+        do {
+            nDice = super.inputOutputManager.askInt("Inserisci quanti dadi vuoi piazzare(1-2): ");
+        } while (!(nDice == 1 || nDice == 2));
 
 
         int toolSlot = this.getSlotId(Commands.TOOL12);
@@ -326,7 +340,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         this.fromWpToWp(infoUnit1);
         units.add(infoUnit1);
 
-        if("2".equals(nDice)) {
+        if(nDice == 2) {
             infoUnit2.setExtraParam(infoUnit1.getExtraParam());
             infoUnit2.setOffset(infoUnit1.getOffset());
             this.fromWpToWp(infoUnit2);
@@ -337,6 +351,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
             super.server.performToolCardMove(toolSlot, units);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 12");
+            disconnect();
         }
 
     }

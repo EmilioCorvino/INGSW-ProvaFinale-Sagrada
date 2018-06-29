@@ -4,14 +4,37 @@ import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplifiedview.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.network.IFromServerToClient;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Level;
 
 /**
  * This class handles messages arriving from the server, calling methods from {@link IViewMaster}.
  */
 public class ClientImplementation implements IFromServerToClient {
+
+    /**
+     * Timer to use in case the loading from file fails. Value is in milliseconds.
+     */
+    static final long BACK_UP_TIMER = 90000;
+
+    /**
+     * Path of the file containing the maximum amount of time available for players to make a choice.
+     */
+    static final String TIMER_TURN_FILE = "./src/main/resources/config/turnTimer";
+
+    /**
+     * Path of the file containing the maximum amount of time available for players to make a choice.
+     */
+    static final String TIMER_ROOM_FILE = "./src/main/resources/config/turnTimer";
 
     /**
      * View chosen by the user.
@@ -28,6 +51,8 @@ public class ClientImplementation implements IFromServerToClient {
      */
     @Override
     public void showRoom(List<String> players) {
+        if (players.size() == 2)
+            startTimer(TIMER_ROOM_FILE);
         view.showRoom(players);
     }
 
@@ -127,5 +152,27 @@ public class ClientImplementation implements IFromServerToClient {
         view.showNotice(notice);
     }
 
+    private void startTimer(String timerFile){
+        Timer timer = new Timer();
+
+        //Back up value.
+        long timeOut = BACK_UP_TIMER;
+
+        //Value read from file. If the loading is successful, it overwrites the back up.
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(timerFile)))) {
+            timeOut = Long.parseLong(reader.readLine())*4;
+            SagradaLogger.log(Level.CONFIG, "Timer successfully loaded from file. Its value is: " + timeOut / 1000 + "s");
+        } catch (IOException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
+        }
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                view.forceLogOut();
+            }
+        }, timeOut);
+
+    }
 
 }
