@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 import it.polimi.ingsw.model.die.containers.WindowPatternCard;
+import it.polimi.ingsw.model.move.DiePlacementMove;
+import it.polimi.ingsw.model.move.IMove;
 import it.polimi.ingsw.model.player.Player;
 
 /**
@@ -45,7 +47,7 @@ public class AdjacentCellsRestrictionEffect extends PlacementRestrictionEffect {
                 wp.addDie(wp.removeDie(info.getSourceIndex()));
                 info.setValue(chosenDie.getActualDieValue());
                 info.setColor(chosenDie.getDieColor());
-                manager.showRearrangementResult(p, info);
+                manager.showPlacementResult(p, info);
                 System.out.println("if dell own rule set");
                 return;
             } else {
@@ -56,8 +58,10 @@ public class AdjacentCellsRestrictionEffect extends PlacementRestrictionEffect {
             }
         }
 
-
+        info.setColor(chosenDie.getDieColor());
+        info.setValue(chosenDie.getActualDieValue());
         System.out.println("sto per chiamare la super");
-        super.executeMove(manager, info);
+        IMove move = new DiePlacementMove();
+        move.executeMove(manager, info);
     }
 }
