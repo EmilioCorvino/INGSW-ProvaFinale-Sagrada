@@ -35,7 +35,7 @@ public class DieFactory {
     public DieGUI getsDieGUI(SetUpInformationUnit info) {
         DieGUI die = new DieGUI();
         die.getChildren().get(0).setStyle("-fx-background-color:" + colorMap.get(info.getColor()));
-        die.getChildren().get(0).setOpacity(0.6);
+        die.getChildren().get(0).setOpacity(0.8);
 
         Image valueImg = new Image("/diceValues/die" + info.getValue() + ".png");
         ((ImageView)die.getChildren().get(1)).setImage(valueImg);

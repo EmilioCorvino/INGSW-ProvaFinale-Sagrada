@@ -348,4 +348,6 @@ public class CommonBoardWindow extends ParentWindow {
             this.manager.communicateMessage("Comando non supportato poichè non è il tuo turno.");
         }
     }
+
+
 }

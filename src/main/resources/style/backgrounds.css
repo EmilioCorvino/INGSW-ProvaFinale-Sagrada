@@ -77,6 +77,14 @@
     -fx-background-radius: 5 5 5 5;
 }
 
+.dieChosen {
+}
+
+.dieChosen:hover {
+    -fx-border-width: 2px 2px 2px 2px ;
+    -fx-border-color: rgb(102, 255, 224);
+}
+
 
 
 

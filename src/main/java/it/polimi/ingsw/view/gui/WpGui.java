@@ -63,16 +63,19 @@ public class WpGui extends Pane {
                     this.glassWindow.getColumnConstraints().add(cc);
                     SetUpInformationUnit info = list.get(k);
                     Pane pane = new Pane();
+                    pane.getStyleClass().add("dieChosen");
 
                     pane.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.MIDNIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
                     pane.setOpacity(0.2);
 
                     //restriction of color
                     if(!(info.getColor().equals(Color.BLANK)) && info.getValue() == 0) {
+                        StackPane stack = new StackPane();
+                        stack.getChildren().add(pane);
                         checkBorder(pane,i, j);
                         pane.setStyle("-fx-background-color:" + this.colorMap.get(info.getColor()));
                         pane.setOpacity(0.6);
-                        this.glassWindow.add(pane, j, i);
+                        this.glassWindow.add(stack, j, i);
 
                     }
                         //restriction of value
