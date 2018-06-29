@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
@@ -75,5 +76,11 @@ public interface IFromClientToServer {
      * @throws BrokenConnectionException when the connection drops.
      */
     void exitGame() throws BrokenConnectionException;
+
+    /**
+     * This method is used to reconnect the player during the match.
+     * @throws BrokenConnectionException
+     */
+    void reconnect() throws BrokenConnectionException;
 
 }

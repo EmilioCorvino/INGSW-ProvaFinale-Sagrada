@@ -37,7 +37,7 @@ public class LoginManager {
                 + "|"
                 + "(([0-9]{1,3}\\.){3})[0-9]{1,3})"); // Ip
 
-        String ip = inputOutputManager.askInformation("Inserire l'indirizzo IP del server: ");
+        String ip = inputOutputManager.askInformation("Inserire l'indirizzo IP del server: ").toLowerCase();
         boolean validIp = p.matcher(ip).matches();
 
         while(!validIp) {

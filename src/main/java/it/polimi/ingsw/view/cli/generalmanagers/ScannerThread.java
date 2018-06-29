@@ -32,7 +32,8 @@ public class ScannerThread extends Thread {
         while (isOnGame){
             inputOutputManager.printCommandQuestion();
             String stuff = inputOutputManager.read();
-            functionToInvoke.accept(stuff);
+            if(isOnGame)
+                functionToInvoke.accept(stuff);
         }
     }
 
@@ -41,5 +42,10 @@ public class ScannerThread extends Thread {
      */
     public void stopExecution() {
         isOnGame = false;
+    }
+
+    public void setEndState() {
+        stopExecution();
+        this.inputOutputManager.print("Scrivi [Enter] per terminare il programma...");
     }
 }

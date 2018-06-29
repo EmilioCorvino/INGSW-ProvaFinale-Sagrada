@@ -89,4 +89,8 @@ public class RoundTrack extends ADieContainer {
     public List<ArrayList<Die>> getAvailableDice() {
         return availableDice;
     }
+
+    public List<ArrayList<Die>> getAvailableDiceCopy() {
+        return availableDiceCopy;
+    }
 }
