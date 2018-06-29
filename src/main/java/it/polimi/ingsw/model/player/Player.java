@@ -1,14 +1,10 @@
 package it.polimi.ingsw.model.player;
 
-import it.polimi.ingsw.controller.IOController;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.Score;
 import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard;
 import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 import it.polimi.ingsw.model.move.IMove;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class is the representation of the player: it does anything the real player can do and has everything
@@ -48,16 +44,10 @@ public class Player implements IPlayer {
      */
     private final Score score;
 
-    /**
-     * This list contains all the moves made by the player.
-     */
-    private List<IMove> playerMoves;
-
     public Player(String playerName, CommonBoard board) {
         this.playerName = playerName;
         this.board = board;
         this.score = new Score(this);
-        this.playerMoves = new ArrayList<>();
     }
 
     public WindowPatternCard getWindowPatternCard() {
@@ -79,10 +69,6 @@ public class Player implements IPlayer {
 
     public int getFavorTokens() {
         return favorTokens;
-    }
-
-    public List<IMove> getPlayerMoves() {
-        return playerMoves;
     }
 
     public PrivateObjectiveCard getPrivateObjectiveCard() {
@@ -109,18 +95,6 @@ public class Player implements IPlayer {
 
     public void setPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) {
         this.privateObjectiveCard = privateObjectiveCard;
-    }
-
-    /**
-     * Launches the execution of the move and adds it to the list of performed moves.
-     * @param commonBoard board the player is watching.
-     * @param ioController class containing the input inserted by the user.
-     * @param move to be performed.
-     */
-    @Override
-    public void performMove(CommonBoard commonBoard, IOController ioController, IMove move) {
-
-        this.getPlayerMoves().add(move);
     }
 
     /**
