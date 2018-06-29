@@ -346,6 +346,7 @@ public class CliView implements IViewMaster {
     @Override
     public void updateFavTokenPlayer(int nFavorToken){
         this.player.setFavorToken(nFavorToken);
+        inputOutputManager.print(this.player.favTokensToString());
     }
 
     /**
@@ -387,8 +388,9 @@ public class CliView implements IViewMaster {
      */
     @Override
     public void forceLogOut(){
-        this.scannerThread.stopExecution();
         this.inputOutputManager.print("IL SERVER TI HA DISCONNESSO");
+        this.scannerThread.setEndState();
+        this.inputOutputManager.closeScanner();
         System.exit(0);
     }
 

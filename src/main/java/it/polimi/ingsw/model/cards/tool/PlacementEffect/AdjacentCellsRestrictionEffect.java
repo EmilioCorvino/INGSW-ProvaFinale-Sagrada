@@ -52,7 +52,7 @@ public class AdjacentCellsRestrictionEffect extends AToolCardEffect {
                 System.out.println("if dell own rule set");
                 return;
             } else {
-               manager.sendNotificationToCurrentPlayer(wp.getErrorMessage() + "digita aiuto per vedere i tuoi comandi");
+               manager.sendNotificationToCurrentPlayer(wp.getErrorMessage() + " Digita 'Comandi' per vedere i tuoi comandi");
                 manager.setMoveLegal(false);
                 System.out.println("else dell own ruleset " + wp.getErrorMessage());
                 return;

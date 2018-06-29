@@ -35,11 +35,11 @@ public class WindowPatternCardView {
         for(int i = 0; i < glassWindow.length; i++) {
             wp.append(" ").append(i).append("  ");
             for (int j = 0; j < glassWindow[i].length; j++) {
-                wp.append(" | ").append(this.glassWindow[i][j].toStringCell()).append(" ");
+                wp.append("| ").append(this.glassWindow[i][j].toStringCell()).append(" ");
             }
             wp.append("|\n");
         }
-        wp.append("       0    1    2    3    4");
+        wp.append("      0   1   2   3   4");
         wp.append("\nDifficoltà: ").append(difficulty);
         return wp.toString();
     }

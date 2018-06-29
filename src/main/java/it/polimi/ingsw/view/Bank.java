@@ -69,7 +69,8 @@ public class Bank {
         availableCommands.put(Commands.END_TURN, defaultMatchManager::moveToNextTurn);
         availableCommands.put(Commands.LOGOUT, defaultMatchManager::exitGame);
         availableCommands.put(Commands.START_ANOTHER_GAME, defaultMatchManager::newGame);
-    }
+        availableCommands.put(Commands.RECONNECT, defaultMatchManager::reconnect);
+}
 
     /**
      * This method populate the map matching the command with the corresponding command translated.
@@ -99,6 +100,7 @@ public class Bank {
         commandMap.put(Commands.END_TURN, UserCommands.PASSA);
         commandMap.put(Commands.LOGOUT, UserCommands.LOGOUT);
         commandMap.put(Commands.START_ANOTHER_GAME, UserCommands.NUOVA_PARTITA);
+        commandMap.put(Commands.RECONNECT, UserCommands.RECONNECT);
     }
 
 

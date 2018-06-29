@@ -21,14 +21,10 @@ import java.util.logging.Level;
 /**
  * This class represents everything which is visible by all players.
  */
-//todo This will probably be the observed class that will notify changes.
 public class CommonBoard {
 
-    /*todo This will be the controller connection.
-    ControllerMaster controller;
-    */
+    private static final int NUMBER_OF_ROUNDS = 10;
 
-    public static final int NUMBER_OF_ROUNDS = 10;
     /**
      * Players connected to the match.
      */
@@ -149,7 +145,7 @@ public class CommonBoard {
                 //this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().drawCard()));
                 this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(3)));
                 this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(4)));
-                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(6)));
+                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(5)));
                 //this.getToolCardSlots().get(i).setCost(1); //Default cost to use a tool card.
                 this.getToolCardSlots().forEach(slot -> slot.setCost(1));
             //} catch (EmptyException e) {

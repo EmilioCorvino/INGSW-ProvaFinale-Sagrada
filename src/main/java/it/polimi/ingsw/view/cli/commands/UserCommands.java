@@ -30,7 +30,8 @@ public enum UserCommands {
     AIUTO("Aiuto", "Visualizza la descrizione del comando che viene digitato"),
     COMANDI("Comandi", "Questo comando permette di visualizzare i comandi disponibili"),
     LOGOUT("Logout", "Questo comando permette di disconnettersi durante la partita"),
-    NUOVA_PARTITA("Nuova Partita", "Questo comando permette di iniziare una nuova partita mantenendo lo stesso username");
+    NUOVA_PARTITA("Nuova Partita", "Questo comando permette di iniziare una nuova partita mantenendo lo stesso username"),
+    RECONNECT("Riconnessione", "Questo comando permette di riconettersi dopo esere stati sospesi durante la partita");
 
     /**
      * This is the name of the command.

@@ -115,15 +115,18 @@ public class ControllerMaster {
      * @param playerName player to suspend.
      */
     public void suspendPlayer(String playerName) {
-        if(!this.suspendedPlayers.contains(playerName)) {
+        if (!this.suspendedPlayers.contains(playerName)) {
             this.suspendedPlayers.add(playerName);
-            IFromServerToClient client = getConnectedPlayers().get(playerName).getClient();
-            try {
-                client.forceLogOut();
-            } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.WARNING, "Player was already disconnected.", e);
+            IFromServerToClient client = this.getConnectedPlayers().get(playerName).getClient();
+            if (this.getStartGameManager().isMatchSetUp() && this.getGameState().getCurrentPlayer().getPlayerName().equals(playerName)) {
+                this.getGamePlayManager().endTurn("\nIl tempo a tua disposizione è terminato, sei stato sospeso per inattività.");
+                try {
+                    client.showCommand(Arrays.asList(Commands.RECONNECT, Commands.LOGOUT));
+                } catch (BrokenConnectionException e) {
+
+                }
             }
-            this.gamePlayManager.broadcastNotification("\n" + playerName + " è stato sospeso.\n");
+            this.gamePlayManager.broadcastNotification("\n" + playerName + " è stato sospeso.");
         }
     }
 
@@ -165,6 +168,6 @@ public class ControllerMaster {
             }
         }
 
-        this.gamePlayManager.broadcastNotification("\n" + playerName + " si è appena riconnesso!\n");
+        this.gamePlayManager.broadcastNotification("\n" + playerName + " si è appena riconnesso!");
     }
 }

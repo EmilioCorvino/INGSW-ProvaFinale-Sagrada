@@ -37,7 +37,7 @@ public class LoginManager {
                 + "|"
                 + "(([0-9]{1,3}\\.){3})[0-9]{1,3})"); // Ip
 
-        String ip = inputOutputManager.askInformation("Inserire l'indirizzo IP del server: ");
+        String ip = inputOutputManager.askInformation("Inserire l'indirizzo IP del server: ").toLowerCase();
         boolean validIp = p.matcher(ip).matches();
 
         while(!validIp) {
@@ -64,12 +64,11 @@ public class LoginManager {
      * @return The identifier of the game mode.
      */
     public int getGameMode(){
-        String gameMode = inputOutputManager.askInformation("\nInserire il numero della modalità di partita desiderata:\n\t 1 - Multigiocatore\n\t 2 - Giocatore Singolo");
-        while (!("1".equals(gameMode) || "2".equals(gameMode))) {
-            inputOutputManager.print("ERRORE: Scelta non supportata, inserire 1 (GiocatoreSingolo) o 2 (Multigiocatore): ");
-            gameMode = inputOutputManager.read();
+        int gameMode = inputOutputManager.askInt("\nInserire il numero della modalità di partita desiderata:\n\t 1 - Multigiocatore\n\t 2 - Giocatore Singolo");
+        while (!(gameMode == 1 || gameMode == 2)) {
+            gameMode = inputOutputManager.askInt("ERRORE: Scelta non supportata, inserire 1 (GiocatoreSingolo) o 2 (Multigiocatore): ");
         }
-        return Integer.parseInt(gameMode);
+        return gameMode;
     }
 
     /**

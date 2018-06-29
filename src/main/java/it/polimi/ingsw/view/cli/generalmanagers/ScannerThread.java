@@ -30,9 +30,10 @@ public class ScannerThread extends Thread {
     @Override
     public void run() {
         while (isOnGame){
-            inputOutputManager.printCommandQuestion("> ");
+            inputOutputManager.printCommandQuestion();
             String stuff = inputOutputManager.read();
-            functionToInvoke.accept(stuff);
+            if(isOnGame)
+                functionToInvoke.accept(stuff);
         }
     }
 
@@ -41,6 +42,10 @@ public class ScannerThread extends Thread {
      */
     public void stopExecution() {
         isOnGame = false;
-        inputOutputManager.closeScanner();
+    }
+
+    public void setEndState() {
+        stopExecution();
+        this.inputOutputManager.print("Scrivi [Enter] per terminare il programma...");
     }
 }

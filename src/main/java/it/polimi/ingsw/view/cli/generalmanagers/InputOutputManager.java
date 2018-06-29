@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.cli.generalmanagers;
 
-import java.util.InputMismatchException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 /**
@@ -8,7 +8,13 @@ import java.util.Scanner;
  */
 public class InputOutputManager {
 
-    private Scanner scan = new Scanner (System.in);
+    private Scanner scan;
+
+    private PrintWriter out;
+
+    public InputOutputManager(){
+        scan = new Scanner (System.in);
+    }
 
     /**
      * This method print a string to the user and get the input
@@ -18,6 +24,8 @@ public class InputOutputManager {
     public String askInformation(String input){
         this.print(input);
         return this.read();
+
+
     }
 
 
@@ -37,14 +45,14 @@ public class InputOutputManager {
         return in;
     }
 
-    void printCommandQuestion(String s){
-        System.out.print(s);
+    void printCommandQuestion(){
+        System.out.print("> ");
     }
     /**
      * This method take an input from the user.
      * @return: the string read.
      */
-    public String read(){
+    String read(){
        return scan.nextLine().trim();
     }
 

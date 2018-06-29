@@ -118,6 +118,14 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
     }
 
     @Override
+    public void reconnect(Connection connection) {
+        synchronized (this) {
+            this.serverImplementation.getConnectionsQueue().add(connection);
+            this.serverImplementation.reconnect();
+        }
+    }
+
+    @Override
     public boolean equals(Object obj) {
         return super.equals(obj);
     }

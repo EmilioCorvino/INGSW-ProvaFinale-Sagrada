@@ -62,4 +62,9 @@ public interface IDefaultMatchManager {
      */
     void newGame();
 
+    /**
+     * This method is used to reconnect the player during the match.
+     */
+    void reconnect();
+
 }

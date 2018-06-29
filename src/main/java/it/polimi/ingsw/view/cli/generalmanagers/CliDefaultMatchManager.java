@@ -63,7 +63,7 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
 
     @Override
     public void chooseWp() {
-        super.view.getFunctions().remove(UserCommands.SCELTA_WP.getDescription());
+        super.view.getFunctions().remove(UserCommands.SCELTA_WP.getName());
         try {
             server.windowPatternCardRequest(super.view.getSetUpManager().getIdChosen());
         } catch (BrokenConnectionException e){
@@ -106,6 +106,7 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
             SagradaLogger.log(Level.SEVERE, "Connection broken during log out", e);
         }
         super.view.getScannerThread().stopExecution();
+        super.inputOutputManager.closeScanner();
         super.inputOutputManager.print("\nDISCONNESSIONE AVVENUTA CON SUCCESSO");
         System.exit(0);
     }
@@ -117,6 +118,15 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
             super.server.startNewGameRequest();
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during new game request.");
+        }
+    }
+
+    @Override
+    public void reconnect() {
+        try{
+            super.server.reconnect();
+        } catch (BrokenConnectionException e){
+            SagradaLogger.log(Level.SEVERE, "Connection broken during reconnection");
         }
     }
 
