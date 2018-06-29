@@ -208,7 +208,12 @@ public class RmiFromServerToClient implements IFromServerToClient {
 
     @Override
     public void showDie(SetUpInformationUnit informationUnit) throws BrokenConnectionException {
-
+        try {
+            this.rmiClient.showDie(informationUnit);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to show the updated die to the client", e);
+            throw new BrokenConnectionException();
+        }
     }
 
     @Override

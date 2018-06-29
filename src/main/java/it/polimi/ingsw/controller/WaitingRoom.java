@@ -40,7 +40,7 @@ public class WaitingRoom {
      * Path of the file containing the maximum amount of time spent between the connection of the second player and
      * the start of the match.
      */
-    private static final String WAITING_ROOM_TIMER_FILE = "./src/main/java/it/polimi/ingsw/utils/config/roomTimer";
+    private static final String WAITING_ROOM_TIMER_FILE = "./src/main/resources/config/roomTimer";
 
     /**
      * The map for keeping in memory the player with its connection object.

@@ -23,7 +23,7 @@ public abstract class AGameManager {
     /**
      * Path of the file containing the maximum amount of time available for players to make a choice.
      */
-    static final String TIMER_FILE = "./src/main/java/it/polimi/ingsw/utils/config/turnTimer";
+    static final String TIMER_FILE = "./src/main/resources/config/turnTimer";
 
     private ControllerMaster controllerMaster;
 
