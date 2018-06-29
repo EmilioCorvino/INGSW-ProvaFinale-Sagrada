@@ -52,8 +52,7 @@ public class DraftValueEffect extends AValueEffect {
         chosenDie.setActualDieValue(randomNumber.nextInt(6) + 1);
         return chosenDie;
     }
-
-
+    
     /**
      * This method manages the placement of the chosen die with the new computed random value.
      * @param manager the controller.
@@ -65,16 +64,22 @@ public class DraftValueEffect extends AValueEffect {
         manager.setMoveLegal(true);
         DiceDraftPool draft = manager.getControllerMaster().getCommonBoard().getDraftPool();
         draft.createCopy();
-
+        List<Die> diceToDraft = draft.getAvailableDiceCopy();
 
         if(this.limit == 0) {
-            List<Die> diceToDraft = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice();
-            diceToDraft.forEach(die -> die.setActualDieValue(computeRandomDieValue(die).getActualDieValue()));
+            for(int i=0; i< diceToDraft.size(); i++) {
+                Die dieToCompute = computeRandomDieValue(diceToDraft.get(i));
+                diceToDraft.set(i, dieToCompute);
+            }
             manager.showUpdatedDraft(packMultipleInformation(manager));
             return;
         }
 
+        System.out.println("tutto è andato");
 
+    }
+
+/*
         // = computeRandomDieValue(manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice().get(setUpInfoUnit.getSourceIndex()));
         // WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
 
@@ -91,8 +96,7 @@ public class DraftValueEffect extends AValueEffect {
         wp.addDie(chosenDie);
         //TODO tell the controller to show updates.
         */
-
-    }
+   // }
 
     /**
      * This method packs multiple information - results to send to the controller.

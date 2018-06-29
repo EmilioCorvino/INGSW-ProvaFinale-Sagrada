@@ -31,6 +31,7 @@ public class PlacementRestrictionEffect extends AToolCardEffect {
         if(!checkMoveAvailability(playerWp.getGlassWindowCopy(), setUpInfoUnit)) {
             manager.setMoveLegal(false);
             manager.sendNotificationToCurrentPlayer(this.invalidMove);
+            return;
         }
 
         Die chosenDie = playerWp.getGlassWindow()[setUpInfoUnit.getSourceIndex()/WindowPatternCard.MAX_COL][setUpInfoUnit.getSourceIndex() % WindowPatternCard.MAX_COL].getContainedDie();
