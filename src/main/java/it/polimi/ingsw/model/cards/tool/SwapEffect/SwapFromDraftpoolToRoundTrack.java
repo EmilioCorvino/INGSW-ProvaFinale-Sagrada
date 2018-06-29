@@ -6,8 +6,6 @@ import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 import it.polimi.ingsw.model.die.containers.RoundTrack;
 import it.polimi.ingsw.model.die.containers.WindowPatternCard;
-import it.polimi.ingsw.model.move.DiePlacementMove;
-import it.polimi.ingsw.model.move.IMove;
 
 /**
  * This class manages the swap effect between a die chosen from the draft pool container and a die
@@ -45,15 +43,18 @@ public class SwapFromDraftpoolToRoundTrack extends ASwapDieEffect {
         roundTrack.setRoundToBeUpdated(informationUnit.getExtraParam());
         Die die2 = manager.getControllerMaster().getCommonBoard().getRoundTrack().removeDie(informationUnit.getOffset());
 
+        System.out.println(die1.getActualDieValue() + " " + die1.getDieColor());
+        System.out.println(die2.getActualDieValue() + " " + die2.getDieColor());
         super.swapDice(die1, die2);
+        System.out.println(die1.getActualDieValue() + " " + die1.getDieColor());
+        System.out.println(die2.getActualDieValue() + " " + die2.getDieColor());
 
         WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
 
         if(super.checkExistingCellsToUse(wp, die1)) {
             informationUnit.setColor(die1.getDieColor());
             informationUnit.setValue(die1.getActualDieValue());
-            IMove move = new DiePlacementMove();
-            move.executeMove(manager, informationUnit);
+            //manager.showDraftedDie(p);
         } else {
             manager.setMoveLegal(false);
             manager.sendNotificationToCurrentPlayer("Non esistono celle della tua mappa in cui poter piazzare il dado");

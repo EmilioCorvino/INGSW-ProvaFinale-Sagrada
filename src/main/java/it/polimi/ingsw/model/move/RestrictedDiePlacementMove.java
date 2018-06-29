@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 import it.polimi.ingsw.model.player.Player;
 
@@ -28,16 +29,22 @@ public class RestrictedDiePlacementMove implements IMove {
         WindowPatternCard wp = player.getWindowPatternCard();
         wp.createCopy();
 
+        DiceDraftPool draft = manager.getControllerMaster().getCommonBoard().getDraftPool();
+        for(int i=0; i< draft.getAvailableDice().size(); i++)
+            System.out.println(draft.getAvailableDice().get(i).getDieColor() + " " +  draft.getAvailableDice().get(i).getActualDieValue());
+
         Die dieToCheck = new Die(setUpInfoUnit.getValue(), setUpInfoUnit.getColor());
         Cell cell = new Cell(setUpInfoUnit.getDestinationIndex() / WindowPatternCard.getMaxCol(), setUpInfoUnit.getDestinationIndex() % WindowPatternCard.getMaxCol());
         wp.setDesiredCell(cell);
 
         if(wp.canBePlaced(dieToCheck, cell, wp.getGlassWindowCopy())) {
+            System.out.println("if della can be placed");
             wp.addDie(dieToCheck);
             manager.setMoveLegal(true);
             manager.showPlacementResult(player, setUpInfoUnit);
         } else {
             if(!checkExistingCellsToUse(wp, dieToCheck)) {
+                System.out.println("if della existing cell");
                 manager.setMoveLegal(true);
                 manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDiceCopy().add(dieToCheck);
                 manager.getControllerMaster().getGameState().getCurrentTurn().setDiePlaced(false);
