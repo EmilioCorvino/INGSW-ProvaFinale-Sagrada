@@ -184,9 +184,11 @@ public class WaitingRoom {
         this.setMatchAlreadyStarted(true);
 
         for (Map.Entry<String, Connection> entry: controllerMaster.getConnectedPlayers().entrySet()) {
-            this.controllerMaster.getCommonBoard().getPlayers().add(
-                    new Player(entry.getKey(), this.controllerMaster.getCommonBoard()));
+            this.controllerMaster.getCommonBoard().getPlayers()
+                    .add(new Player(entry.getKey(), this.controllerMaster.getCommonBoard()));
             entry.getValue().getServer().setController(this.controllerMaster);
+            this.controllerMaster.getGamePlayManager().getDynamicCommands()
+                    .put(entry.getKey(), this.controllerMaster.getGamePlayManager().getCurrentPlayerCommands());
         }
 
         this.controllerMaster.getStartGameManager().setUpPrivateObjectiveCardAndWp();
