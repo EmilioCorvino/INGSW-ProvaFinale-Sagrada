@@ -24,17 +24,24 @@ public class SwapFromDraftpoolToRoundTrack extends ASwapDieEffect {
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit informationUnit) {
 
-        if(informationUnit.getExtraParam() == 1) {
+        RoundTrack roundTrack = manager.getControllerMaster().getCommonBoard().getRoundTrack();
+        roundTrack.createCopy();
+
+        if(manager.getControllerMaster().getGameState().getActualRound() == 1) {
             manager.setMoveLegal(false);
-            manager.sendNotificationToCurrentPlayer("Non ci sono dadi sulla round track!");
+            manager.sendNotificationToCurrentPlayer("Il Tracciato dei Round è vuoto!");
+            return;
+        }
+
+        if(roundTrack.getAvailableDiceCopy().get(informationUnit.getExtraParam()).size() == 0) {
+            manager.setMoveLegal(false);
+            manager.sendNotificationToCurrentPlayer("Non ci sono dadi sulla round selezionato!");
             return;
         }
 
         DiceDraftPool draftPool = manager.getControllerMaster().getCommonBoard().getDraftPool();
         draftPool.createCopy();
         Die die1 = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice().get(informationUnit.getSourceIndex());
-        RoundTrack roundTrack = manager.getControllerMaster().getCommonBoard().getRoundTrack();
-        roundTrack.createCopy();
         roundTrack.setRoundToBeUpdated(informationUnit.getExtraParam());
         Die die2 = manager.getControllerMaster().getCommonBoard().getRoundTrack().removeDie(informationUnit.getOffset());
 
