@@ -75,12 +75,13 @@ public class DraftValueEffect extends AValueEffect {
             return;
         }
 
+        Die chosenDie = computeRandomDieValue(draft.removeDie(setUpInfoUnit.getSourceIndex()));
         setUpInfoUnit.setColor(chosenDie.getDieColor());
         setUpInfoUnit.setValue(chosenDie.getActualDieValue());
         System.out.println("setup da inviare" + setUpInfoUnit.getColor() + " " + setUpInfoUnit.getValue());
         manager.showDraftedDie(manager.getControllerMaster().getGameState().getCurrentPlayer(), setUpInfoUnit);
     }
-    
+
     /**
      * This method packs multiple information - results to send to the controller.
      * @param manager the controller.
