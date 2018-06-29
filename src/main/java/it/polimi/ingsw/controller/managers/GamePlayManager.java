@@ -83,13 +83,18 @@ public class GamePlayManager extends AGameManager {
         this.waitingPlayersCommands = new ArrayList<>(Arrays.asList(Commands.OTHER_PLAYERS_MAPS,
                 Commands.PUBLIC_OBJ_CARDS, Commands.PRIVATE_OBJ_CARD, Commands.AVAILABLE_TOOL_CARDS,
                 Commands.ROUND_TRACK, Commands.LOGOUT));
+    }
 
-        super.getControllerMaster().getConnectedPlayers().keySet().forEach(playerName ->
-                this.dynamicCommands.put(playerName, this.currentPlayerCommands));
+    public List<Commands> getCurrentPlayerCommands() {
+        return currentPlayerCommands;
     }
 
     public List<Commands> getWaitingPlayersCommands() {
         return waitingPlayersCommands;
+    }
+
+    public Map<String, List<Commands>> getDynamicCommands() {
+        return dynamicCommands;
     }
 
     //----------------------------------------------------------
