@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.cards.tool.PlacementEffect;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
+import it.polimi.ingsw.model.cards.tool.AToolCardEffect;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.DiceDraftPool;
@@ -15,7 +16,7 @@ import it.polimi.ingsw.model.player.Player;
  * to a non empty cell. If the desired cell is adjacent to a non empty cell the placement has to respect all the
  * default restriction.
  */
-public class AdjacentCellsRestrictionEffect extends PlacementRestrictionEffect {
+public class AdjacentCellsRestrictionEffect extends AToolCardEffect {
 
     /**
      * This method manages the particular placement ignoring the adjacent cells restriction.
