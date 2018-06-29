@@ -42,12 +42,17 @@ public class GamePlayManager extends AGameManager {
     private final List<Commands> waitingPlayersCommands;
 
     /**
+     * Map that contains the updated current player commands of each player within the turn.
+     */
+    private Map<String, List<Commands>> dynamicCommands;
+
+    /**
      * Says if the move done is legal or not. It's set by executeMove methods and at the start of each turn.
      */
     private boolean moveLegal = true;
 
     private static final String EVERYTHING_DONE = "\nHai effettuato tutte le operazioni possibili in un turno, " +
-            "passaggio al giocatore successivo...\n";
+            "passaggio al giocatore successivo...";
 
     private static final String IMPOSSIBLE_TO_UPDATE = "Impossible to update ";
 
@@ -64,6 +69,7 @@ public class GamePlayManager extends AGameManager {
     public GamePlayManager(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
         this.currentPlayerCommands = new ArrayList<>();
+        this. dynamicCommands = new HashMap<>();
 
         //Gets the tool cards commands from the model.
         for (ToolCardSlot slot : controllerMaster.getCommonBoard().getToolCardSlots()) {
@@ -77,6 +83,9 @@ public class GamePlayManager extends AGameManager {
         this.waitingPlayersCommands = new ArrayList<>(Arrays.asList(Commands.OTHER_PLAYERS_MAPS,
                 Commands.PUBLIC_OBJ_CARDS, Commands.PRIVATE_OBJ_CARD, Commands.AVAILABLE_TOOL_CARDS,
                 Commands.ROUND_TRACK, Commands.LOGOUT));
+
+        super.getControllerMaster().getConnectedPlayers().keySet().forEach(playerName ->
+                this.dynamicCommands.put(playerName, this.currentPlayerCommands));
     }
 
     public List<Commands> getWaitingPlayersCommands() {
@@ -136,14 +145,14 @@ public class GamePlayManager extends AGameManager {
         GameState gameState = super.getControllerMaster().getGameState();
 
         if (gameState.isCurrentTurnOver()) {
-            this.endTurn("\nDevi saltare questo turno!\n");
+            this.endTurn("\nDevi saltare questo turno!");
             return;
         }
 
         if (super.getControllerMaster().getSuspendedPlayers().contains(currentPlayerTurn.getPlayer().getPlayerName())) {
             super.broadcastNotification("\n" + currentPlayerTurn.getPlayer().getPlayerName() + " è sospeso: il suo turno" +
-                    " verrà saltato.\n");
-            this.endTurn("\nSei in stato di sospensione, il tuo turno verrà saltato.\n");
+                    " verrà saltato.");
+            this.endTurn("\nSei in stato di sospensione, il tuo turno verrà saltato.");
         }
 
         //Shows the available commands to the players waiting.
@@ -152,7 +161,7 @@ public class GamePlayManager extends AGameManager {
             if (!player.isSamePlayerAs(currentPlayerTurn.getPlayer())) {
                 IFromServerToClient waitingPlayerClient = super.getPlayerClient(player.getPlayerName());
                 try {
-                    waitingPlayerClient.showNotice("\nÈ il turno di " + gameState.getCurrentPlayer().getPlayerName() + "\n");
+                    waitingPlayerClient.showNotice("\nÈ il turno di " + gameState.getCurrentPlayer().getPlayerName());
                     waitingPlayerClient.showCommand(this.waitingPlayersCommands);
                 } catch (BrokenConnectionException e) {
                     SagradaLogger.log(Level.SEVERE, "Impossible to show commands " +
@@ -166,8 +175,9 @@ public class GamePlayManager extends AGameManager {
         String turnNumber =
                 gameState.getCurrentPlayerTurnIndex() < (gameState.getTurnOrder().size() / 2) ? "PRIMO" : "SECONDO";
 
-        super.sendNotificationToCurrentPlayer("\nÈ IL TUO " + turnNumber + " TURNO DEL ROUND!\n");
-        super.sendCommandsToCurrentPlayer(this.currentPlayerCommands);
+        super.sendNotificationToCurrentPlayer("\nÈ IL TUO " + turnNumber + " TURNO DEL ROUND!");
+        this.dynamicCommands.replace(currentPlayerTurn.getPlayer().getPlayerName(), this.currentPlayerCommands);
+        super.sendCommandsToCurrentPlayer(this.dynamicCommands.get(currentPlayerTurn.getPlayer().getPlayerName()));
         this.startTimer(currentPlayerTurn);
         this.checkIfPlayerIsSuspended(currentPlayerTurn.getPlayer().getPlayerName());
     }
@@ -197,7 +207,6 @@ public class GamePlayManager extends AGameManager {
             public void run() {
                 SagradaLogger.log(Level.WARNING, turn.getPlayer().getPlayerName() + " turn timer is expired");
                 if (!turn.isTurnCompleted()) {
-                    endTurn("\nIl tempo a tua disposizione è terminato. Sei stato sospeso per inattività.\n");
                     getControllerMaster().suspendPlayer(turn.getPlayer().getPlayerName());
                 }
             }
@@ -209,7 +218,7 @@ public class GamePlayManager extends AGameManager {
      * Then starts a new turn. If the player is the only one left, declare him as winner and ends the match.
      * @param message communication to send to the player, informing him why is his turn over.
      */
-    private void endTurn(String message) {
+    public void endTurn(String message) {
         GameState gameState = super.getControllerMaster().getGameState();
         IFromServerToClient currentPlayerClient = super.getPlayerClient(gameState.getCurrentPlayer().getPlayerName());
         try {
@@ -226,7 +235,7 @@ public class GamePlayManager extends AGameManager {
                     IFromServerToClient client = super.getPlayerClient(playerName);
                     EndGameManager endGameManager = super.getControllerMaster().getEndGameManager();
                     try {
-                        client.showNotice("\nSei l'ultimo giocatore rimasto, HAI VINTO PER ABBANDONO!\n");
+                        client.showNotice("\nSei l'ultimo giocatore rimasto, HAI VINTO PER ABBANDONO!");
                         client.showCommand(endGameManager.endGameCommands);
                         return;
                     } catch (BrokenConnectionException e) {
@@ -326,16 +335,16 @@ public class GamePlayManager extends AGameManager {
 
             //If the player has already placed a die, tells him and shows him a new appropriate list of commands.
             if (gameState.getCurrentTurn().isDiePlaced()) {
-                List<Commands> filteredCommands = this.filterPlacement(this.currentPlayerCommands);
+                List<Commands> filteredCommands = this.filterPlacement(this.dynamicCommands.get(playerName), playerName);
                 super.sendNotificationToCurrentPlayer("\nHai già effettuato un piazzamento in questo turno! Puoi ancora " +
                         "usare una Carta Strumento che non lo implichi, visualizzare informazioni della plancia" +
-                        " oppure passare.\n");
+                        " oppure passare.");
                 super.sendCommandsToCurrentPlayer(filteredCommands);
                 this.checkIfPlayerIsSuspended(playerName);
             } else {
                 IMove move = new DiePlacementMove();
                 move.executeMove(this, info);
-                this.checkAndResolveDefaultMoveLegality(gameState);
+                this.checkAndResolveDefaultMoveLegality(gameState, playerName);
             }
         } else {
             this.endTurn(EVERYTHING_DONE);
@@ -363,10 +372,10 @@ public class GamePlayManager extends AGameManager {
 
             //If the player has already used a Tool Card, tells him and shows him a new appropriate list of commands.
             if (gameState.getCurrentTurn().isToolCardUsed()) {
-                List<Commands> filteredCommands = this.filterTools(this.currentPlayerCommands, gameState);
+                List<Commands> filteredCommands = this.filterTools(this.dynamicCommands.get(playerName), gameState, playerName);
                 super.sendNotificationToCurrentPlayer("\nHai già usato una Carta Strumento in questo turno! Puoi ancora " +
                         "piazzare un dado (se la carta usata non implicava un piazzamento), visualizzare informazioni " +
-                        "della plancia, oppure passare.\n");
+                        "della plancia, oppure passare.");
                 super.sendCommandsToCurrentPlayer(filteredCommands);
                 this.checkIfPlayerIsSuspended(playerName);
             } else {
@@ -379,11 +388,11 @@ public class GamePlayManager extends AGameManager {
                 }
 
                 //Checks if the executeMove has been successful or not, and modifies the state of the turn accordingly.
-                this.checkAndResolveToolMoveLegality(gameState, slotID, slot.getToolCard());
+                this.checkAndResolveToolMoveLegality(gameState, slotID, slot.getToolCard(), playerName);
             }
         } else {
             this.endTurn("\nHai già effettuato tutte le operazioni possibili in un turno, " +
-                    "passaggio al giocatore successivo...\n");
+                    "passaggio al giocatore successivo...");
         }
     }
 
@@ -409,8 +418,8 @@ public class GamePlayManager extends AGameManager {
         restrictedPlacement.executeMove(this, infoUnit);
 
         if(!this.isMoveLegal()) {
-            super.sendNotificationToCurrentPlayer(gameState.getCurrentPlayer().getWindowPatternCard().getErrorMessage() +
-                    " Prova a piazzare il dado in un'altra posizione.\n");
+            super.sendNotificationToCurrentPlayer("\n" + gameState.getCurrentPlayer().getWindowPatternCard().getErrorMessage() +
+                    " Prova a piazzare il dado in un'altra posizione.");
 
             //Only the extra command for tool 6 is sent because even in the case of tool 11, at this point, the value
             //of the die has already been chosen.
@@ -421,8 +430,8 @@ public class GamePlayManager extends AGameManager {
                 this.endTurn(EVERYTHING_DONE);
             } else {
                 super.sendNotificationToCurrentPlayer("\nNon è possibile piazzare il dado in alcuna posizione. Verrà aggiunto alla" +
-                        " riserva. Puoi ancora effettuare un piazzamento standard.\n");
-                List<Commands> updatedCommands = this.filterTools(this.currentPlayerCommands, gameState);
+                        " riserva. Puoi ancora effettuare un piazzamento standard.");
+                List<Commands> updatedCommands = this.filterTools(this.dynamicCommands.get(playerName), gameState, playerName);
                 updatedCommands.add(0, Commands.PLACEMENT);
                 super.sendCommandsToCurrentPlayer(updatedCommands);
                 this.checkIfPlayerIsSuspended(playerName);
@@ -439,7 +448,7 @@ public class GamePlayManager extends AGameManager {
 
         GameState gameState = super.getControllerMaster().getGameState();
         gameState.getCurrentTurn().setPassed(true);
-        this.endTurn("\nHai scelto di passare il turno.\n");
+        this.endTurn("\nHai scelto di passare il turno.");
     }
 
 //----------------------------------------------------------
@@ -473,7 +482,7 @@ public class GamePlayManager extends AGameManager {
             if (!p.isSamePlayerAs(currentPlayer)) {
                 IFromServerToClient waitingPlayerClient = super.getPlayerClient(p.getPlayerName());
                 try {
-                    waitingPlayerClient.showNotice("\n" + currentPlayer.getPlayerName() + " ha effettuato un piazzamento.\n");
+                    waitingPlayerClient.showNotice("\n" + currentPlayer.getPlayerName() + " ha effettuato un piazzamento.");
                     waitingPlayerClient.addOnOtherPlayerWp(currentPlayer.getPlayerName(), setUpInfoUnit);
                     waitingPlayerClient.removeOnDraft(setUpInfoUnit);
                 } catch (BrokenConnectionException e) {
@@ -485,7 +494,7 @@ public class GamePlayManager extends AGameManager {
 
         //Updates the board of the player on duty.
         IFromServerToClient currentPlayerClient = super.getPlayerClient(currentPlayer.getPlayerName());
-        super.sendNotificationToCurrentPlayer("\nPiazzamento effettuato correttamente.\n");
+        super.sendNotificationToCurrentPlayer("\nPiazzamento effettuato correttamente.");
         try {
             currentPlayerClient.addOnOwnWp(setUpInfoUnit);
             currentPlayerClient.removeOnDraft(setUpInfoUnit);
@@ -516,7 +525,7 @@ public class GamePlayManager extends AGameManager {
 
         //Updates the board of the player on duty.
         IFromServerToClient currentPlayerClient = super.getPlayerClient(currentPlayer.getPlayerName());
-        super.sendNotificationToCurrentPlayer("\nSpostamento effettuato correttamente.\n");
+        super.sendNotificationToCurrentPlayer("\nSpostamento effettuato correttamente.");
         try {
             currentPlayerClient.removeOnOwnWp(setUpInfoUnit);
             currentPlayerClient.addOnOwnWp(setUpInfoUnit);
@@ -532,7 +541,7 @@ public class GamePlayManager extends AGameManager {
                 IFromServerToClient waitingPlayerClient = super.getPlayerClient(p.getPlayerName());
                 try {
                     waitingPlayerClient.showNotice("\n" + currentPlayer.getPlayerName() + " ha spostato un dado nella" +
-                            " sua vetrata.\n");
+                            " sua vetrata.");
                     waitingPlayerClient.removeOnOtherPlayerWp(currentPlayer.getPlayerName(), setUpInfoUnit);
                     waitingPlayerClient.addOnOtherPlayerWp(currentPlayer.getPlayerName(), setUpInfoUnit);
                 } catch (BrokenConnectionException e) {
@@ -565,7 +574,7 @@ public class GamePlayManager extends AGameManager {
             IFromServerToClient playerClient =
                     super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient();
             try {
-                playerClient.showNotice("\nÈ stato scambiato un dado tra il Tracciato dei Round e la Riserva.\n");
+                playerClient.showNotice("\nÈ stato scambiato un dado tra il Tracciato dei Round e la Riserva.");
                 playerClient.removeOnDraft(infoUnitDraft);
                 playerClient.addOnDraft(infoUnitDraft);
                 playerClient.removeOnRoundTrack(infoUnitRoundTrack);
@@ -598,7 +607,7 @@ public class GamePlayManager extends AGameManager {
         for(Player p: players) {
             IFromServerToClient playerClient = super.getPlayerClient(p.getPlayerName());
             try {
-                playerClient.showNotice("\nLa Riserva è stata aggiornata.\n");
+                playerClient.showNotice("\nLa Riserva è stata aggiornata.");
                 playerClient.setDraft(rolledDice);
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, IMPOSSIBLE_TO_UPDATE + p.getPlayerName() + " draft pool", e);
@@ -664,8 +673,9 @@ public class GamePlayManager extends AGameManager {
      * including {@link ToolCard}s.
      *
      * @param listToFilter list needing to be filtered.
+     * @param playerName name of the player whose commands need to be filtered.
      */
-    private List<Commands> filterPlacement(List<Commands> listToFilter) {
+    private List<Commands> filterPlacement(List<Commands> listToFilter, String playerName) {
         List<Commands> modifiedCurrentPlayerList = new ArrayList<>(listToFilter);
 
         //Remove the placement command.
@@ -678,6 +688,9 @@ public class GamePlayManager extends AGameManager {
             }
         }
 
+        //Updates the dynamic commands.
+        this.dynamicCommands.replace(playerName, modifiedCurrentPlayerList);
+
         return modifiedCurrentPlayerList;
     }
 
@@ -685,8 +698,9 @@ public class GamePlayManager extends AGameManager {
      * This method filters the list of {@link Commands} in input, removing all the ones related to {@link ToolCard}s.
      * @param listToFilter list needing to be filtered.
      * @param gameState object representing the state of the game.
+     * @param playerName name of the player whose commands need to be filtered.
      */
-    private List<Commands> filterTools(List<Commands> listToFilter, GameState gameState) {
+    private List<Commands> filterTools(List<Commands> listToFilter, GameState gameState, String playerName) {
         List<Commands> modifiedCurrentPlayerList = new ArrayList<>(listToFilter);
         int slotID = gameState.getCurrentTurn().getToolSlotUsed();
         ToolCardSlot slotUsed = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID);
@@ -700,6 +714,9 @@ public class GamePlayManager extends AGameManager {
         if (gameState.getCurrentTurn().isToolCardUsed() && slotUsed.doesCardImplyPlacement()) {
             modifiedCurrentPlayerList.remove(Commands.PLACEMENT);
         }
+
+        //Updates the dynamic commands.
+        this.dynamicCommands.replace(playerName, modifiedCurrentPlayerList);
 
         return modifiedCurrentPlayerList;
     }
@@ -731,20 +748,21 @@ public class GamePlayManager extends AGameManager {
      * This methods is used to check if the placement should be made effective or not and, if so, updates all the values
      * related to the move.
      * @param gameState object representing the state of the game.
+     * @param playerName name of the player whose move needs to be checked
      */
-    private void checkAndResolveDefaultMoveLegality(GameState gameState) {
+    private void checkAndResolveDefaultMoveLegality(GameState gameState, String playerName) {
         //Checks if the executeMove has been successful or not, and modifies the state of the turn accordingly.
         if (this.isMoveLegal()) {
             gameState.getCurrentTurn().setDiePlaced(true);
             gameState.getCurrentTurn().incrementDieCount();
-            super.sendNotificationToCurrentPlayer("\nPiazzamento effettuato!\n");
+            super.sendNotificationToCurrentPlayer("\nPiazzamento effettuato!");
 
             //Checks if the player has done everything he could. If he did, ends his turn; if not, shows him the commands.
             //The commands shown are relative to what the player can still do.
             if (!gameState.isCurrentTurnOver()) {
-                List<Commands> filteredCommands = this.filterPlacement(this.currentPlayerCommands);
+                List<Commands> filteredCommands = this.filterPlacement(this.dynamicCommands.get(playerName), playerName);
                 super.sendNotificationToCurrentPlayer("\nPuoi ancora usare una Carta Strumento che" +
-                        " non implichi un piazzamento, visualizzare informazioni della plancia oppure passare.\n");
+                        " non implichi un piazzamento, visualizzare informazioni della plancia oppure passare.");
                 super.sendCommandsToCurrentPlayer(filteredCommands);
                 this.checkIfPlayerIsSuspended(gameState.getCurrentPlayer().getPlayerName());
             } else {
@@ -762,8 +780,9 @@ public class GamePlayManager extends AGameManager {
      * @param gameState object representing the state of the game.
      * @param slotID    ID of the slot where the {@link ToolCard} is in.
      * @param toolCard  {@link ToolCard} that has been used.
+     * @param playerName name of the player whose Tool Card move needs to be checked.
      */
-    private void checkAndResolveToolMoveLegality(GameState gameState, int slotID, ToolCard toolCard) {
+    private void checkAndResolveToolMoveLegality(GameState gameState, int slotID, ToolCard toolCard, String playerName) {
         if (this.isMoveLegal()) {
             gameState.getCurrentTurn().setToolCardUsed(true);
             this.updateFavorTokensAndToolCost(gameState, slotID, toolCard);
@@ -773,7 +792,7 @@ public class GamePlayManager extends AGameManager {
                 //Considers the second turn of the same player in the round.
                 Turn turn = gameState.getTurnOrder().get(gameState.getTurnOrder().size() - gameState.getCurrentPlayerTurnIndex() - 1);
                 turn.setPassed(true);
-                super.sendNotificationToCurrentPlayer("\nRicorda che salterai il tuo prossimo turno in questo round!\n");
+                super.sendNotificationToCurrentPlayer("\nRicorda che salterai il tuo prossimo turno in questo round!");
             }
 
             if (toolCard.impliesPlacement()) {
@@ -785,9 +804,9 @@ public class GamePlayManager extends AGameManager {
             //Checks if the player has done everything he could. If he did, ends his turn; if not, shows him the
             //commands still available to him.
             if (!gameState.isCurrentTurnOver() && !toolCard.getEffectBuilder().requiresMultipleInteractions()) {
-                List<Commands> filteredCommands = this.filterTools(this.currentPlayerCommands, gameState);
+                List<Commands> filteredCommands = this.filterTools(this.dynamicCommands.get(playerName), gameState, playerName);
                 super.sendNotificationToCurrentPlayer("\nPuoi ancora effettuare un piazzamento, visualizzare informazioni della " +
-                        "plancia oppure passare.\n");
+                        "plancia oppure passare.");
                 super.sendCommandsToCurrentPlayer(filteredCommands);
                 this.checkIfPlayerIsSuspended(gameState.getCurrentPlayer().getPlayerName());
             } else if (gameState.isCurrentTurnOver() && !toolCard.getEffectBuilder().requiresMultipleInteractions()) {
@@ -810,13 +829,13 @@ public class GamePlayManager extends AGameManager {
         int turnNumber = gameState.getCurrentPlayerTurnIndex() < (gameState.getTurnOrder().size() / 2) ? FIRST_TURN : SECOND_TURN;
 
         if (!slot.getToolCard().canBeUsed(turnNumber)) {
-            super.sendNotificationToCurrentPlayer("\nNon puoi usare questa Carta Strumento in questo turno!\n");
+            super.sendNotificationToCurrentPlayer("\nNon puoi usare questa Carta Strumento in questo turno!");
             this.setMoveLegal(false);
             List<Commands> updatedCommands = new ArrayList<>(this.currentPlayerCommands);
             updatedCommands.remove(slot.getToolCard().getCommandName());
             super.sendCommandsToCurrentPlayer(updatedCommands);
         } else if (!slot.canCardBePaid(playerFavorTokens)) {
-            super.sendNotificationToCurrentPlayer("\nNon hai abbastanza Segnalini Favore per utilizzare la Carta Strumento selezionata\n");
+            super.sendNotificationToCurrentPlayer("\nNon hai abbastanza Segnalini Favore per utilizzare la Carta Strumento selezionata");
             this.setMoveLegal(false);
             List<Commands> updatedCommands = new ArrayList<>(this.currentPlayerCommands);
             updatedCommands.remove(slot.getToolCard().getCommandName());
@@ -872,7 +891,7 @@ public class GamePlayManager extends AGameManager {
      */
     private void checkIfPlayerIsSuspended(String playerName) {
         if(super.getControllerMaster().getSuspendedPlayers().contains(playerName)) {
-            this.endTurn("\nSei stato sospeso, il tuo turno terminerà.\n");
+            this.endTurn("\nSei stato sospeso, il tuo turno terminerà.");
         }
     }
 }
