@@ -92,12 +92,12 @@ public abstract class AValueEffect extends AToolCardEffect {
     }
 
     protected boolean checkExistingCellsToUse(WindowPatternCard wp, Die chosenDie) {
-        Cell[][] gw = wp.getGlassWindow();
+        Cell[][] gw = wp.getGlassWindowCopy();
         List<Cell> cellToUse = new ArrayList<>();
         for(int i=0; i< WindowPatternCard.getMaxRow(); i++)
             for (int j = 0; j < WindowPatternCard.getMaxCol(); j++) {
                 wp.setDesiredCell(gw[i][j]);
-                if (wp.canBePlaced(chosenDie, wp.getDesiredCell(), wp.getGlassWindow()))
+                if (wp.canBePlaced(chosenDie, wp.getDesiredCell(), wp.getGlassWindowCopy()))
                     cellToUse.add(gw[i][j]);
             }
         return cellToUse.size() > 0;
