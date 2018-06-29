@@ -4,6 +4,8 @@ import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.DiceDraftPool;
+import it.polimi.ingsw.model.die.containers.WindowPatternCard;
+import it.polimi.ingsw.model.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +54,7 @@ public class DraftValueEffect extends AValueEffect {
         chosenDie.setActualDieValue(randomNumber.nextInt(6) + 1);
         return chosenDie;
     }
-    
+
     /**
      * This method manages the placement of the chosen die with the new computed random value.
      * @param manager the controller.
@@ -75,7 +77,21 @@ public class DraftValueEffect extends AValueEffect {
             return;
         }
 
-        System.out.println("tutto è andato");
+        Player p = manager.getControllerMaster().getGameState().getCurrentPlayer();
+        WindowPatternCard wp = p.getWindowPatternCard();
+
+        Die chosenDie = computeRandomDieValue(diceToDraft.get(setUpInfoUnit.getSourceIndex()));
+
+        if(!super.checkExistingCellsToUse(wp, chosenDie)) {
+
+        }
+
+
+        diceToDraft.set(setUpInfoUnit.getSourceIndex(), chosenDie);
+        setUpInfoUnit.setColor(chosenDie.getDieColor());
+        setUpInfoUnit.setValue(chosenDie.getActualDieValue());
+        manager.showDraftedDie(manager.getControllerMaster().getGameState().getCurrentPlayer(), setUpInfoUnit);
+
 
     }
 
