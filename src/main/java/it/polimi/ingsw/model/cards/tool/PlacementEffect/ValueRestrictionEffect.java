@@ -43,7 +43,7 @@ public class ValueRestrictionEffect extends PlacementRestrictionEffect {
 
         //restoreGlassWindow(wp, setUpInfoUnit.getDestinationIndex());
         restoreGlassWindow(wp);
-       super.updateContainer(wp, setUpInfoUnit);
+       //super.updateContainer(wp, setUpInfoUnit);
     }
 
     /**
