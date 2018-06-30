@@ -13,7 +13,7 @@ import it.polimi.ingsw.model.die.containers.WindowPatternCard;
  */
 public class MoveWithRestrictionsEffect extends AToolCardEffect {
 
-    private String invalidMove;
+    String invalidMove;
 
     private boolean restrictionsIgnored = false;
 
@@ -27,20 +27,31 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
 
         WindowPatternCard playerWp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
+        Cell[][] glassWindowToConsider;
 
-        if(!areRestrictionsIgnored())
+        if(!areRestrictionsIgnored()) {
             playerWp.createCopy();
+            glassWindowToConsider = playerWp.getGlassWindowCopy();
 
-        if(!checkMoveAvailability(playerWp.getGlassWindowCopy(), setUpInfoUnit)) {
-            manager.setMoveLegal(false);
-            manager.sendNotificationToCurrentPlayer(this.invalidMove);
-            return;
+            if(!checkMoveAvailability(glassWindowToConsider, setUpInfoUnit)) {
+                manager.setMoveLegal(false);
+                manager.sendNotificationToCurrentPlayer(this.invalidMove);
+
+                //Restore the original situation.
+                this.setRestrictionsIgnored(false);
+                return;
+            }
+        } else {
+            glassWindowToConsider = playerWp.getGlassWindow();
+
+            //Restore the original situation.
+            this.setRestrictionsIgnored(false);
         }
 
         Die chosenDie = playerWp.removeDie(setUpInfoUnit.getSourceIndex());
         Cell desiredCell = new Cell(setUpInfoUnit.getDestinationIndex()/WindowPatternCard.MAX_COL , setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL);
 
-        if(!playerWp.canBePlaced(chosenDie, desiredCell, playerWp.getGlassWindow())) {
+        if(!playerWp.canBePlaced(chosenDie, desiredCell, glassWindowToConsider)) {
             manager.sendNotificationToCurrentPlayer(playerWp.getErrorMessage());
             manager.setMoveLegal(false);
             return;
@@ -52,7 +63,6 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
         setUpInfoUnit.setValue(chosenDie.getActualDieValue());
         setUpInfoUnit.setColor(chosenDie.getDieColor());
         manager.showRearrangementResult(manager.getControllerMaster().getGameState().getCurrentPlayer(), setUpInfoUnit);
-
     }
 
     /**
@@ -82,11 +92,21 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
             return false;
         }
         if (gw[info.getSourceIndex()/WindowPatternCard.MAX_COL][info.getSourceIndex() % WindowPatternCard.MAX_COL].isEmpty()) {
-           this.setInvalidMove("La cella sorgente è vuota");
+            this.setInvalidMove("La cella sorgente è vuota");
             return false;
         }
         if (!gw[info.getDestinationIndex()/WindowPatternCard.MAX_COL][info.getDestinationIndex() % WindowPatternCard.MAX_COL].isEmpty()) {
             this.setInvalidMove("La cella destinazione è piena");
+            return false;
+        }
+        return true;
+    }
+
+    boolean checkMoveLegality(GamePlayManager manager, WindowPatternCard wp, Die chosenDie, Cell desiredCell, Cell[][] gw) {
+        if (!wp.canBePlaced(chosenDie, desiredCell, gw)) {
+            wp.overwriteOriginal();
+            manager.sendNotificationToCurrentPlayer(wp.getErrorMessage() + " Digita 'comandi' per visualizzare i comandi disponibili.");
+            manager.setMoveLegal(false);
             return false;
         }
         return true;
