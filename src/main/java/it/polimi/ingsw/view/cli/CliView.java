@@ -243,11 +243,13 @@ public class CliView implements IViewMaster {
     @Override
     public void showCommand(List<Commands> commands) {
         functions = bank.getCommandMap(commands);
+        ((CliDefaultMatchManager)bank.getDefaultMatchManager()).populateHelp(functions);
         printCommands();
         if (!isNotTheFirstTime) {
             isNotTheFirstTime = true;
             scannerThread.start();
         }
+
     }
 
     /**
@@ -388,7 +390,7 @@ public class CliView implements IViewMaster {
      */
     @Override
     public void forceLogOut(){
-        this.inputOutputManager.print("IL SERVER TI HA DISCONNESSO");
+        this.inputOutputManager.print("SEI STATO DISCONNESSO");
         this.scannerThread.setEndState();
         this.inputOutputManager.closeScanner();
         System.exit(0);

@@ -21,7 +21,8 @@ public class AValueEffectTest {
 
         WindowPatternCard wp = new WindowPatternCard(3, 3);
         Die die = new Die(4, Color.BLUE);
-        Cell[][] gw = wp.getGlassWindow();
+        wp.createCopy();
+        Cell[][] gw = wp.getGlassWindowCopy();
 
         for(int i=0; i< WindowPatternCard.MAX_ROW; i++)
             for(int j=0; j< WindowPatternCard.getMaxCol(); j++)
@@ -32,7 +33,8 @@ public class AValueEffectTest {
 
 
         WindowPatternCard wp1 = new WindowPatternCard(4, 5);
-        Cell[][] gw1 = wp1.getGlassWindow();
+        wp1.createCopy();
+        Cell[][] gw1 = wp1.getGlassWindowCopy();
         List<ARestriction> list = new ArrayList<>();
         list.add(new ColorRestriction(Color.PURPLE));
 

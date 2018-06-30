@@ -7,18 +7,18 @@ public enum UserCommands {
 
     SCELTA_WP("Vetrata","Questo comando permette di scegliere l'id della vetrata desiderata"),
     PIAZZAMENTO("Piazzamento", "Questo comando permette di fare un piazzamento standard di un dado sulla draft"),
-    TOOL1("Strumento 1","Il nome della carta è: Pinza Sgrossatrice (Si consiglia di digitare il comando strumenti per conoscere la sua funzione)"),
-    TOOL2("Strumento 2","Il nome della carta è: Pennello per Eglomise (Si consiglia di digitare il comando strumenti per conoscere la sua funzione)"),
-    TOOL3("Strumento 3","Il nome della carta è: Alesatore per lamina di rame (Si consiglia di digitare il comando strumenti per conoscere la sua funzione)"),
-    TOOL4("Strumento 4","Il nome della carta è: Lathekin (Si consiglia di digitare il comando strumenti per conoscere la sua funzione)"),
-    TOOL5("Strumento 5","Il nome della carta è: Taglierina circolare (Si consiglia di digitare il comando strumenti per conoscere la sua funzione)"),
-    TOOL6("Strumento 6","Il nome della carta è: Pennello per Pasta Salda (Si consiglia di digitare il comando strumenti per conoscere la sua funzione)"),
-    TOOL7("Strumento 7","Il nome della carta è: Martelletto (Si consiglia di digitare il comando strumenti per conoscere la sua funzione)"),
-    TOOL8("Strumento 8","Il nome della carta è: Tenaglia a rotelle (Si consiglia di digitare il comando strumenti per conoscere la sua funzione)"),
-    TOOL9("Strumento 9","Il nome della carta è: Riga in sughero (Si consiglia di digitare il comando strumenti per conoscere la sua funzione)"),
-    TOOL10("Strumento 10","Il nome della carta è: Tampone diamantato (Si consiglia di digitare il comando strumenti per conoscere la sua funzione)"),
-    TOOL11("Strumento 11","Il nome della carta è: Diluente per pasta salda (Si consiglia di digitare il comando strumenti per conoscere la sua funzione)"),
-    TOOL12("Strumento 12","Il nome della carta è: Taglierina manuale (Si consiglia di digitare il comando strumenti per conoscere la sua funzione)"),
+    TOOL1("Strumento 1","Pinza Sgrossatrice:\n\tDopo aver scelto un dado, aumenta o diminuisci il valore del dado scelto di 1. Non puoi cambiare un 6 in 1 o un 1 in 6."),
+    TOOL2("Strumento 2","Pennello per Eglomise:\n\tMuovi un qualsiasi dado nella tua vetrata IGNORANDO LE RESTRIZIONI DI COLORE.\n\tDevi rispettare tutte le altre restrizioni di piazzamento."),
+    TOOL3("Strumento 3","Alesatore per lamina di rame:\n\tMuovi un qualsiasi dado nella tua vetrata IGNORANDO LE RESTRIZIONI DI VALORE.\n\tDevi rispettare tutte le altre restrizioni di piazzamento."),
+    TOOL4("Strumento 4","Lathekin:\n\tMuovi esattamente due dadi, rispettando tutte le restrizioni di piazzamento."),
+    TOOL5("Strumento 5","Taglierina circolare:\n\tDopo aver scelto un dado, scambia quel dado con una dado sul Tracciato dei Round."),
+    TOOL6("Strumento 6","Pennello per Pasta Salda:\n\tDopo aver scelto un dado, tira nuovamente quel dado.\n\tSe non puoi piazzarlo, riponilo nella Riserva."),
+    TOOL7("Strumento 7","Martelletto:\n\tTira nuovamente tutti i dadi della riserva.\n\tQuesta carta può essere usata solo durante il tuo secondo turno, prima di scegliere il secondo dado."),
+    TOOL8("Strumento 8","Tenaglia a rotelle:\n\tDopo il tuo primo turno scegli immediatamente un altro dado. Salta il tuo secondo turno in questo round."),
+    TOOL9("Strumento 9","Riga in sughero:\n\tDopo aver scelto un dado, piazzalo in una casella che non sia adiacente ad un altro dado.\n\tDevi rispettare tutte le restrizioni di piazzamento."),
+    TOOL10("Strumento 10","Tampone diamantato:\n\tDopo aver scelto un dado, giralo sulla faccia opposta.\n\t6 diventa 1, 5 diventa 2, 4 diventa 3 ecc..."),
+    TOOL11("Strumento 11","Diluente per pasta salda:\n\tDopo aver scelto un dado, riponilo nel Sacchetto, poi pescane un altro dal Sacchetto.\n\tScegli il valore del nuovo dado e piazzalo, rispettando tutte le restrizioni di piazzamento."),
+    TOOL12("Strumento 12","Taglierina manuale:\n\tMuovi fino a due dadi dello stesso colore di un solo dado sul tracciato dei round.\n\tDevi rispettare tutte le restrizioni di piazzamento."),
     EXTRA_TOOL6("Piazza", "Questo comando permette di piazzare il dado visualizzato sulla mappa"),
     EXTRA_TOOL11("Valore", "Questo comando permette di scegliere il valore del dado che vuoi piazzare"),
     MAPPE_ALTRI_GIOCATORI("Mappe", "Questo comando permette di visualizzare le mappe degli altri giocatori"),
@@ -31,7 +31,8 @@ public enum UserCommands {
     COMANDI("Comandi", "Questo comando permette di visualizzare i comandi disponibili"),
     LOGOUT("Logout", "Questo comando permette di disconnettersi durante la partita"),
     NUOVA_PARTITA("Nuova Partita", "Questo comando permette di iniziare una nuova partita mantenendo lo stesso username"),
-    RECONNECT("Riconnessione", "Questo comando permette di riconettersi dopo esere stati sospesi durante la partita");
+    RECONNECT("Riconnessione", "Questo comando permette di riconettersi dopo esere stati sospesi durante la partita"),
+    VISUALIZZAZIONE("Plancia", "Questo comando permette di visualizzare i componenti della plancia");
 
     /**
      * This is the name of the command.

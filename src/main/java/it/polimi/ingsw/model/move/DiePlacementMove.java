@@ -26,15 +26,13 @@ public class DiePlacementMove implements IMove {
         wp.createCopy();
         manager.getControllerMaster().getCommonBoard().getDraftPool().createCopy();
 
-        Die die = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice().get(setUpInfoUnit.getSourceIndex());
+        Die die = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDiceCopy().get(setUpInfoUnit.getSourceIndex());
 
         if(!wp.canBePlaced(die, desiredCell, wp.getGlassWindowCopy())) {
             manager.setMoveLegal(false);
             manager.sendNotificationToCurrentPlayer(wp.getErrorMessage() + "\nDigita 'comandi' per visualizzare nuovamente i tuoi comandi.");
             return;
         }
-
-        manager.setMoveLegal(true);
 
         //Generation of SetUpInformationUnits to send to the view.
         //this goes in a proper method and show placement result takes one parameter as input.

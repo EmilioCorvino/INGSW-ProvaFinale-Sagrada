@@ -13,41 +13,6 @@ public interface IDefaultMatchManager {
     void defaultPlacement();
 
     /**
-     * This method show the wp of the other player.
-     */
-    void showAllWp();
-
-    /**
-     * This method show the public objective card.
-     */
-    void showPublicObj();
-
-    /**
-     * This method show the tool card in the common board.
-     */
-    void showTool();
-
-    /**
-     * This method show the private objective of the player connected.
-     */
-    void showPrivateObj();
-
-    /**
-     * This method show the round track to the user.
-     */
-    void showRoundTrack();
-
-    /**
-     * This method print the description of the command insert.
-     */
-    void printDescription();
-
-    /**
-     * This method show the command available
-     */
-    void printCommands();
-
-    /**
      * This method is use to tell the server that the user want to move to the next turn
      */
     void moveToNextTurn();
@@ -66,5 +31,7 @@ public interface IDefaultMatchManager {
      * This method is used to reconnect the player during the match.
      */
     void reconnect();
+
+    void visualization();
 
 }
