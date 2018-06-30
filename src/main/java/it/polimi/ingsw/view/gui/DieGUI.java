@@ -22,7 +22,8 @@ public class DieGUI extends StackPane {
         value.setPreserveRatio(true);
         this.getChildren().add(color);
         this.getChildren().add(value);
-        this.getChildren().get(0).getStyleClass().add("dieChosen");
+        this.getStyleClass().add("dieChosen");
+
     }
 
     public Pane getColor() {

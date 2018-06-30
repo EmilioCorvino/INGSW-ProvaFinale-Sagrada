@@ -14,6 +14,10 @@ public class PlayersData {
 
     private SetUpInformationUnit setUpInformationUnit;
 
+    private boolean sourceFilled;
+
+    private boolean destinationFilled;
+
 
 
     public PlayersData() {
@@ -52,5 +56,29 @@ public class PlayersData {
 
     public void setNumFavTok(int numFavTok) {
         this.numFavTok = numFavTok;
+    }
+
+    public SetUpInformationUnit getSetUpInformationUnit() {
+        return setUpInformationUnit;
+    }
+
+    public void setSetUpInformationUnit(SetUpInformationUnit setUpInformationUnit) {
+        this.setUpInformationUnit = setUpInformationUnit;
+    }
+
+    public boolean isSourceFilled() {
+        return sourceFilled;
+    }
+
+    public void setSourceFilled(boolean sourceFilled) {
+        this.sourceFilled = sourceFilled;
+    }
+
+    public boolean isDestinationFilled() {
+        return destinationFilled;
+    }
+
+    public void setDestinationFilled(boolean destinationFilled) {
+        this.destinationFilled = destinationFilled;
     }
 }

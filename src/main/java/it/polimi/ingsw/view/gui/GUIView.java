@@ -21,6 +21,7 @@ import it.polimi.ingsw.view.gui.loginwindows.ShowPlayersGUI;
 import it.polimi.ingsw.view.gui.setupwindows.ChooseWpGUI;
 import javafx.application.Platform;
 import javafx.scene.Parent;
+import javafx.scene.layout.StackPane;
 
 import java.util.List;
 import java.util.Map;
@@ -49,6 +50,8 @@ public class GUIView implements IViewMaster {
 
     private ParentWindow current;
 
+    private DieFactory dieFactory;
+
 
 
 
@@ -63,6 +66,7 @@ public class GUIView implements IViewMaster {
 
         chooseWpGUI.setPlayersData(this.playersData);
         commonWindow.setData(this.playersData);
+        dieFactory = new DieFactory();
     }
 
     /**
@@ -206,8 +210,7 @@ public class GUIView implements IViewMaster {
     @Override
     public void showCommand(List<Commands> commands) {
         Platform.runLater(() -> {
-            //commands.forEach(comm -> System.out.println(comm));
-            Map<Commands, Runnable> functions = this.bank.getAvailableCommands(commands);
+            Map<String, Runnable> functions = this.bank.getCommandMap(commands);
             this.manager.setFunctions(functions);
             this.current.addHandlers();
         });
@@ -217,6 +220,10 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void addOnOwnWp(SetUpInformationUnit unit) {
+        Platform.runLater(() -> {
+            DieGUI die = this.dieFactory.getsDieGUI(unit);
+            this.commonWindow.getData().getPersonalWp().addOnThisWp(die, unit.getDestinationIndex());
+        });
 
     }
 
@@ -242,7 +249,11 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void removeOnDraft(SetUpInformationUnit info) {
-
+        Platform.runLater(() -> {
+            DraftPoolGUI draft = this.commonWindow.getDraftPoolGUI();
+            StackPane stack = (StackPane)draft.getChildren().get(info.getSourceIndex());
+            stack.getChildren().remove(0);
+        });
     }
 
     @Override
