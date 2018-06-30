@@ -9,7 +9,7 @@ import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 /**
  * This class manages the
  */
-public class DiePlacementMove implements IMove {
+public class DefaultDiePlacementMove implements IMove {
 
     /**
      * This method performs the placement move in the window pattern card.

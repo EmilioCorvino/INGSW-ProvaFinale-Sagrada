@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model.cards.objective.publics;
 
 import com.google.gson.annotations.SerializedName;
-import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 import it.polimi.ingsw.model.cards.objective.AObjectiveCard;
 import it.polimi.ingsw.model.cards.objective.publics.strategies.*;
+import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 
 /**
  * Generic public objective card.
@@ -70,9 +70,9 @@ public abstract class APublicObjectiveCard extends AObjectiveCard {
     }
 
     /**
-     * This method analyzes a specific window pattern card with a policy related to the publics objective card.
+     * This method analyzes a specific window pattern card with a policy related to the public objective cards.
      * @param windowPatternCard pattern card analyzed to get the score.
-     * @return the score given by a publics objective card in relation to the window pattern card.
+     * @return the score given by a public objective card in relation to the window pattern card.
      */
     @Override
     public abstract int analyzeWindowPatternCard(WindowPatternCard windowPatternCard);

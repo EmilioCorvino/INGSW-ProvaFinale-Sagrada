@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.cards.tool.PlacementEffect;
+package it.polimi.ingsw.model.cards.tool.ignorerestrictionseffects;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
@@ -16,7 +16,7 @@ import java.util.List;
  * This class manages the tool effect that allows the user to place a die ignoring the color restriction but
  * respecting only the value restriction of the personal window pattern card.
  */
-public class ValueRestrictionEffect extends PlacementRestrictionEffect {
+public class IgnoreColorRestrictionEffect extends MoveWithRestrictionsEffect {
 
     private List<ARestriction> listToRestore = new ArrayList<>();
 

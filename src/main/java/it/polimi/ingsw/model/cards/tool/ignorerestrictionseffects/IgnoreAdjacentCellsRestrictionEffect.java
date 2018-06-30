@@ -1,14 +1,12 @@
-package it.polimi.ingsw.model.cards.tool.PlacementEffect;
+package it.polimi.ingsw.model.cards.tool.ignorerestrictionseffects;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
-import it.polimi.ingsw.model.cards.tool.AToolCardEffect;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 import it.polimi.ingsw.model.die.containers.WindowPatternCard;
-import it.polimi.ingsw.model.move.DiePlacementMove;
-import it.polimi.ingsw.model.move.IMove;
+import it.polimi.ingsw.model.move.DefaultDiePlacementMove;
 import it.polimi.ingsw.model.player.Player;
 
 /**
@@ -16,7 +14,7 @@ import it.polimi.ingsw.model.player.Player;
  * to a non empty cell. If the desired cell is adjacent to a non empty cell the placement has to respect all the
  * default restriction.
  */
-public class AdjacentCellsRestrictionEffect extends AToolCardEffect {
+public class IgnoreAdjacentCellsRestrictionEffect extends DefaultDiePlacementMove {
 
     /**
      * This method manages the particular placement ignoring the adjacent cells restriction.
@@ -52,7 +50,7 @@ public class AdjacentCellsRestrictionEffect extends AToolCardEffect {
                 System.out.println("if dell own rule set");
                 return;
             } else {
-               manager.sendNotificationToCurrentPlayer(wp.getErrorMessage() + " Digita 'Comandi' per vedere i tuoi comandi");
+                manager.sendNotificationToCurrentPlayer(wp.getErrorMessage() + " Digita 'Comandi' per vedere i tuoi comandi");
                 manager.setMoveLegal(false);
                 System.out.println("else dell own ruleset " + wp.getErrorMessage());
                 return;
@@ -62,7 +60,6 @@ public class AdjacentCellsRestrictionEffect extends AToolCardEffect {
         info.setColor(chosenDie.getDieColor());
         info.setValue(chosenDie.getActualDieValue());
         System.out.println("sto per chiamare la super");
-        IMove move = new DiePlacementMove();
-        move.executeMove(manager, info);
+        super.executeMove(manager, info);
     }
 }

@@ -1,15 +1,16 @@
 package it.polimi.ingsw.controller.managers;
 
-
 import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.ControllerMaster;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.cards.ToolCardSlot;
 import it.polimi.ingsw.model.cards.tool.ToolCard;
+import it.polimi.ingsw.model.cards.tool.ignorerestrictionseffects.*;
+import it.polimi.ingsw.model.cards.tool.swapeffects.SwapFromDraftPoolToRoundTrack;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.DiceDraftPool;
-import it.polimi.ingsw.model.move.DiePlacementMove;
+import it.polimi.ingsw.model.move.DefaultDiePlacementMove;
 import it.polimi.ingsw.model.move.IMove;
 import it.polimi.ingsw.model.move.RestrictedDiePlacementMove;
 import it.polimi.ingsw.model.player.Player;
@@ -316,13 +317,13 @@ public class GamePlayManager extends AGameManager {
 //----------------------------------------------------------
 
     /**
-     * This method is used to perform a standard {@link DiePlacementMove}. It can handle weird situations in which a
+     * This method is used to perform a standard {@link DefaultDiePlacementMove}. It can handle weird situations in which a
      * player tries to perform moves not in his turn.
      * It also checks if a placement has already been done and in that case it shows to the player new suitable
      * {@link Commands}.
      * @param info       object containing the information needed to update the model.
      * @param playerName name of the player trying to perform the move.
-     * @see DiePlacementMove
+     * @see DefaultDiePlacementMove
      */
     public void performDefaultMove(SetUpInformationUnit info, String playerName) {
         GameState gameState = super.getControllerMaster().getGameState();
@@ -344,7 +345,7 @@ public class GamePlayManager extends AGameManager {
                 super.sendCommandsToCurrentPlayer(filteredCommands);
                 this.checkIfPlayerIsSuspended(playerName);
             } else {
-                IMove move = new DiePlacementMove();
+                IMove move = new DefaultDiePlacementMove();
                 move.executeMove(this, info);
                 this.checkAndResolveDefaultMoveLegality(gameState, playerName);
             }
@@ -404,8 +405,8 @@ public class GamePlayManager extends AGameManager {
      * {@link ToolCard}.
      * @param infoUnit object containing the information needed to update the model.
      * @param playerName name of the player trying to perform the move.
-     * @see it.polimi.ingsw.model.cards.tool.ValueEffects.DraftValueEffect
-     * @see it.polimi.ingsw.model.cards.tool.SwapEffect.SwapFromDraftPoolToDicebag
+     * @see it.polimi.ingsw.model.cards.tool.valueeffects.DraftValueEffect
+     * @see it.polimi.ingsw.model.cards.tool.swapeffects.SwapFromDraftPoolToDicebag
      */
     public void performRestrictedPlacement(SetUpInformationUnit infoUnit, String playerName) {
         GameState gameState = super.getControllerMaster().getGameState();
@@ -464,10 +465,10 @@ public class GamePlayManager extends AGameManager {
      * @param setUpInfoUnit information used by the view to update
      *                      the {@link it.polimi.ingsw.view.cli.die.WindowPatternCardView} and the
      *                      {@link it.polimi.ingsw.view.cli.die.DieDraftPoolView}.
-     * @see DiePlacementMove
-     * @see it.polimi.ingsw.model.cards.tool.ValueEffects.ChooseValueEffect
-     * @see it.polimi.ingsw.model.cards.tool.ValueEffects.OppositeValueEffect
-     * @see it.polimi.ingsw.model.cards.tool.PlacementEffect.AdjacentCellsRestrictionEffect
+     * @see DefaultDiePlacementMove
+     * @see it.polimi.ingsw.model.cards.tool.valueeffects.ChooseValueEffect
+     * @see it.polimi.ingsw.model.cards.tool.valueeffects.OppositeValueEffect
+     * @see IgnoreAdjacentCellsRestrictionEffect
      */
     public void showPlacementResult(Player currentPlayer, SetUpInformationUnit setUpInfoUnit) {
         if (!this.isMoveLegal()) {
@@ -512,10 +513,10 @@ public class GamePlayManager extends AGameManager {
      * @param currentPlayer player on duty.
      * @param setUpInfoUnit information used by the view to update
      *                      the {@link it.polimi.ingsw.view.cli.die.WindowPatternCardView}.
-     * @see it.polimi.ingsw.model.cards.tool.PlacementEffect.PlacementRestrictionEffect
-     * @see it.polimi.ingsw.model.cards.tool.PlacementEffect.ColorRestrictionEffect
-     * @see it.polimi.ingsw.model.cards.tool.PlacementEffect.ValueRestrictionEffect
-     * @see it.polimi.ingsw.model.cards.tool.PlacementEffect.ColorPlacementRestrictionEffect
+     * @see MoveWithRestrictionsEffect
+     * @see IgnoreValueRestrictionEffect
+     * @see IgnoreColorRestrictionEffect
+     * @see ColorBondMoveWithRestrictionEffect
      */
     public void showRearrangementResult(Player currentPlayer, SetUpInformationUnit setUpInfoUnit) {
         if(!this.isMoveLegal()) {
@@ -559,7 +560,7 @@ public class GamePlayManager extends AGameManager {
      * {@link it.polimi.ingsw.model.die.containers.RoundTrack}.
      * @param infoUnitDraft contains the information to update the {@link it.polimi.ingsw.view.cli.die.DieDraftPoolView}.
      * @param infoUnitRoundTrack contains the information to update the {@link it.polimi.ingsw.view.cli.die.RoundTrackView}.
-     * @see it.polimi.ingsw.model.cards.tool.SwapEffect.SwapFromDraftpoolToRoundTrack
+     * @see SwapFromDraftPoolToRoundTrack
      */
     public void showDraftPoolRoundTrackSwap(SetUpInformationUnit infoUnitDraft, SetUpInformationUnit infoUnitRoundTrack) {
         if(!this.isMoveLegal()) {
@@ -593,7 +594,7 @@ public class GamePlayManager extends AGameManager {
      * Shows the result of the rolling of all dices of the {@link DiceDraftPool} to the
      * {@link it.polimi.ingsw.view.cli.die.DieDraftPoolView}.
      * @param rolledDice list of information needed to update the view with the newly rolled dice.
-     * @see it.polimi.ingsw.model.cards.tool.ValueEffects.DraftValueEffect
+     * @see it.polimi.ingsw.model.cards.tool.valueeffects.DraftValueEffect
      * @see RestrictedDiePlacementMove
      */
     public void showUpdatedDraft(List<SetUpInformationUnit> rolledDice) {
@@ -624,8 +625,8 @@ public class GamePlayManager extends AGameManager {
      * @param currentPlayer player on duty.
      * @param infoUnit contains the information needed to show the new {@link it.polimi.ingsw.model.die.Die}
      *                 (in the form of a {@link it.polimi.ingsw.view.cli.die.DieView}).
-     * @see it.polimi.ingsw.model.cards.tool.ValueEffects.DraftValueEffect
-     * @see it.polimi.ingsw.model.cards.tool.SwapEffect.SwapFromDraftPoolToDicebag
+     * @see it.polimi.ingsw.model.cards.tool.valueeffects.DraftValueEffect
+     * @see it.polimi.ingsw.model.cards.tool.swapeffects.SwapFromDraftPoolToDicebag
      */
     public void showDraftedDie(Player currentPlayer, SetUpInformationUnit infoUnit) {
         if(!isMoveLegal()) {

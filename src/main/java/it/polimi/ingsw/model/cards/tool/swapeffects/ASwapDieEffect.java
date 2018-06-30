@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.cards.tool.SwapEffect;
+package it.polimi.ingsw.model.cards.tool.swapeffects;
 
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.tool.AToolCardEffect;

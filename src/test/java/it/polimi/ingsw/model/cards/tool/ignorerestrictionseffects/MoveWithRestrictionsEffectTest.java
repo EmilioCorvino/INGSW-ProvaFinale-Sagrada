@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.cards.tool.PlacementEffect;
+package it.polimi.ingsw.model.cards.tool.ignorerestrictionseffects;
 
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.model.Color;
@@ -10,7 +10,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-public class PlacementRestrictionEffectTest {
+public class MoveWithRestrictionsEffectTest {
 
     @Test
     public void isGlassWindowEmpty() {
@@ -21,9 +21,9 @@ public class PlacementRestrictionEffectTest {
         wp.setDesiredCell(new Cell(0,1));
         wp.addDie(die);
 
-        PlacementRestrictionEffect effect = new PlacementRestrictionEffect();
+        MoveWithRestrictionsEffect effect = new MoveWithRestrictionsEffect();
 
-        assertFalse(effect.isGlassWindowEmpty(wp.getGlassWindowCopy()));
+        assertFalse(effect.hasGlassWindowLessThanTwoDice(wp.getGlassWindowCopy()));
     }
 
     @Test
@@ -44,7 +44,7 @@ public class PlacementRestrictionEffectTest {
         info.setSourceIndex(1);
         info.setDestinationIndex(7);
 
-        PlacementRestrictionEffect effect = new PlacementRestrictionEffect();
+        MoveWithRestrictionsEffect effect = new MoveWithRestrictionsEffect();
 
         assertFalse(effect.checkMoveAvailability(wp.getGlassWindowCopy(), info));
         assertEquals("La cella destinazione è piena", effect.getInvalidMove());
