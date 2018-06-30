@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Color;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 import java.util.HashMap;
@@ -63,7 +64,7 @@ public class WpGui extends Pane {
                     this.glassWindow.getColumnConstraints().add(cc);
                     SetUpInformationUnit info = list.get(k);
                     Pane pane = new Pane();
-                    pane.getStyleClass().add("dieChosen");
+                    //pane.getStyleClass().add("dieChosen");
 
                     pane.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.MIDNIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
                     pane.setOpacity(0.2);
@@ -89,21 +90,32 @@ public class WpGui extends Pane {
                         }
 
                     if(info.getColor().equals(Color.BLANK)  && info.getValue() == 0) {
+                        StackPane stack = new StackPane();
+                        stack.getChildren().add(pane);
                         checkBorder(pane, i, j);
-
-                        this.glassWindow.add(pane, j, i);
-
+                        this.glassWindow.add(stack, j, i);
                     }
                 }
             }
+        }
+
+    public void cellMapAsDestinationHandler(PlayersData data) {
+        for(int i=0; i<WpGui.MAX_ROW; i++)
+            for(int j=0; j<WpGui.MAX_COL; j++) {
+                StackPane stack = (StackPane)this.glassWindow.getChildren().get(i * WpGui.MAX_COL + j);
+                stack.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+                    SetUpInformationUnit info = data.getSetUpInformationUnit();
+                    info.setDestinationIndex(GridPane.getRowIndex((Node)e.getSource()) * WpGui.MAX_COL + GridPane.getColumnIndex((Node)e.getSource()));
+                });
+            }
     }
+
 
     public void checkBorder(Node pane, int row, int col) {
         pane.setStyle("-fx-border-width: 1px 1px 1px 1px");
 
         if(row ==0 )
             pane.setStyle("-fx-border-width: 2px 0px 0px 0px");
-
 
         if(row == 3)
             pane.setStyle("-fx-border-width: 0px 0px 2px 0px");

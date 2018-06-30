@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.gui;
 
-import it.polimi.ingsw.controller.Commands;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
@@ -12,26 +11,26 @@ import java.util.Map;
 
 public class GUICommunicationManager {
 
-   private Map<Commands, Runnable> functions;
+   private Map<String, Runnable> functions;
 
    GUICommunicationManager() {
 
       functions = new LinkedHashMap<>();
    }
 
-   public Map<Commands, Runnable> getFunctions() {
+   public Map<String, Runnable> getFunctions() {
       return functions;
    }
 
-   public void setFunctions(Map<Commands, Runnable> functions) {
+   public void setFunctions(Map<String, Runnable> functions) {
       this.functions = functions;
    }
 
-   public boolean isCommandContained(Commands commands){
+   public boolean isCommandContained(String commands){
       return functions.containsKey(commands);
    }
 
-   public void executeCommandIfPresent(Commands command) {// EXECUTE COMMAND IF PRESENT
+   public void executeCommandIfPresent(String command) {// EXECUTE COMMAND IF PRESENT
       if(functions.containsKey(command)) {
          functions.get(command).run();
          this.functions.remove(command);

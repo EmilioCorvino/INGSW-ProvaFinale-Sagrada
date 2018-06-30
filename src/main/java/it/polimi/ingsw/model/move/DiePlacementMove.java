@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 
 /**
@@ -48,7 +49,9 @@ public class DiePlacementMove implements IMove {
         manager.setMoveLegal(true);
 
         //CAREFUL
-        Die dieToRemove = manager.getControllerMaster().getCommonBoard().getDraftPool().removeDie(setUpInfoUnit.getSourceIndex());
+        DiceDraftPool draft = manager.getControllerMaster().getCommonBoard().getDraftPool();
+        draft.createCopy();
+        Die dieToRemove = draft.removeDie(setUpInfoUnit.getSourceIndex());
         wp.addDie(dieToRemove);
         manager.showPlacementResult(manager.getControllerMaster().getGameState().getCurrentPlayer(), wpSetUpInfoUnit);
     }

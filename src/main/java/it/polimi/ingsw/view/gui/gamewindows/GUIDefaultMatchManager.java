@@ -24,7 +24,6 @@ public class GUIDefaultMatchManager implements IDefaultMatchManager {
     @Override
     public void chooseWp() {
         try {
-            System.out.println("lo mandi al server?");
             this.server.windowPatternCardRequest(Integer.parseInt(playersData.getPersonalWp().getIdMap().getText().split(" ")[1]));
         } catch (BrokenConnectionException br) {
             SagradaLogger.log(Level.SEVERE, "Connection broken during map id choose.");
@@ -33,6 +32,12 @@ public class GUIDefaultMatchManager implements IDefaultMatchManager {
 
     @Override
     public void defaultPlacement() {
+        try {
+            System.out.println("arriva fin quì");
+            this.server.performDefaultMove(playersData.getSetUpInformationUnit());
+        } catch(BrokenConnectionException br) {
+            SagradaLogger.log(Level.SEVERE, "Connection broken during map id choose.");
+        }
 
     }
 

@@ -2,6 +2,8 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -28,9 +30,12 @@ public class DraftPoolGUI extends GridPane {
      */
     private DieFactory dieFactory;
 
+    /**
+     * This attribute indicates if the draft pool is already empty or not.
+     */
     private boolean isEmpty = true;
 
-
+    private int numOfDice;
 
     public DraftPoolGUI() {
         this.getStylesheets().add("style/backgrounds.css");
@@ -62,11 +67,21 @@ public class DraftPoolGUI extends GridPane {
         if(!this.isEmpty)
             this.getChildren().remove(0, diceList.size());
 
+        this.numOfDice = diceList.size();
         diceList.forEach( info -> {
             this.isEmpty = false;
             DieGUI die = dieFactory.getsDieGUI(info);
             this.add(die, info.getDestinationIndex() % MAX_COL, info.getDestinationIndex() / MAX_COL);
         });
+    }
+
+    public void cellAsSource(PlayersData data) {
+        for(int i=0; i< numOfDice; i++) {
+            this.getChildren().get(i).addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+                SetUpInformationUnit info = data.getSetUpInformationUnit();
+                info.setSourceIndex(GridPane.getRowIndex((Node)e.getSource()) * DraftPoolGUI.MAX_COL + GridPane.getColumnIndex((Node)e.getSource()));
+            });
+        }
     }
 
 

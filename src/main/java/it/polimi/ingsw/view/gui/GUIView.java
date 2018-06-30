@@ -206,8 +206,7 @@ public class GUIView implements IViewMaster {
     @Override
     public void showCommand(List<Commands> commands) {
         Platform.runLater(() -> {
-            //commands.forEach(comm -> System.out.println(comm));
-            Map<Commands, Runnable> functions = this.bank.getAvailableCommands(commands);
+            Map<String, Runnable> functions = this.bank.getCommandMap(commands);
             this.manager.setFunctions(functions);
             this.current.addHandlers();
         });

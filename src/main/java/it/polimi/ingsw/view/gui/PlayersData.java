@@ -53,4 +53,12 @@ public class PlayersData {
     public void setNumFavTok(int numFavTok) {
         this.numFavTok = numFavTok;
     }
+
+    public SetUpInformationUnit getSetUpInformationUnit() {
+        return setUpInformationUnit;
+    }
+
+    public void setSetUpInformationUnit(SetUpInformationUnit setUpInformationUnit) {
+        this.setUpInformationUnit = setUpInformationUnit;
+    }
 }
