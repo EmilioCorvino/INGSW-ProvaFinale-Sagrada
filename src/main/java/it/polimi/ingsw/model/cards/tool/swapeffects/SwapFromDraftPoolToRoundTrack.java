@@ -5,7 +5,7 @@ import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 import it.polimi.ingsw.model.die.containers.RoundTrack;
-import it.polimi.ingsw.model.die.containers.WindowPatternCard;
+import it.polimi.ingsw.model.player.Player;
 
 /**
  * This class manages the swap effect between a die chosen from the draft pool container and a die
@@ -49,15 +49,11 @@ public class SwapFromDraftPoolToRoundTrack extends ASwapDieEffect {
         System.out.println(die1.getActualDieValue() + " " + die1.getDieColor());
         System.out.println(die2.getActualDieValue() + " " + die2.getDieColor());
 
-        WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
+        Player p = manager.getControllerMaster().getGameState().getCurrentPlayer();
+        informationUnit.setColor(die1.getDieColor());
+        informationUnit.setValue(die1.getActualDieValue());
+        manager.showDraftedDie(p, informationUnit);
 
-        if(super.checkExistingCellsToUse(wp, die1)) {
-            informationUnit.setColor(die1.getDieColor());
-            informationUnit.setValue(die1.getActualDieValue());
-            //manager.showDraftedDie(p);
-        } else {
-            manager.setMoveLegal(false);
-            manager.sendNotificationToCurrentPlayer("Non esistono celle della tua mappa in cui poter piazzare il dado");
         }
-    }
+
 }

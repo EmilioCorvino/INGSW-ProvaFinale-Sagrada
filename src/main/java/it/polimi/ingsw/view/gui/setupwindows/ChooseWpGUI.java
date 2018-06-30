@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.gui.setupwindows;
 
-import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.view.gui.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -76,6 +75,8 @@ public class ChooseWpGUI extends ParentWindow {
     public ChooseWpGUI(GUICommunicationManager manager) {
         this.communicator = manager;
         chosenWp = new WpGui();
+
+
         mainContainer = new VBox();
         secondContainer = new HBox();
         maps = new ArrayList<>();
@@ -263,14 +264,14 @@ public class ChooseWpGUI extends ParentWindow {
      * @param map the chosen map.
      */
     public void handleChosenMap(VBox map) {
-        if(this.communicator.isCommandContained(Commands.CHOOSE_WP)) {
+        if(this.communicator.isCommandContained("Vetrata")) {
             WpGui chosen = new WpGui();
             chosen.setIdMap((Label)map.getChildren().get(0));
             chosen.setGlassWindow((GridPane)map.getChildren().get(1));
             chosen.setDifficulty((Label)map.getChildren().get(2));
             map.setStyle("-fx-background-color: rgba(102, 217, 255, 0.3)");
             this.playersData.setPersonalWp(chosen);
-            this.communicator.executeCommandIfPresent(Commands.CHOOSE_WP);
+            this.communicator.executeCommandIfPresent("Vetrata");
         } else {
             this.communicator.communicateMessage("Hai già scelto una mappa.");
         }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.gui.gamewindows;
 
-import it.polimi.ingsw.controller.Commands;
+import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.view.gui.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -83,11 +83,14 @@ public class CommonBoardWindow extends ParentWindow {
      */
     private PlayersData data;
 
+    private Button ok;
+
+
     public CommonBoardWindow(GUICommunicationManager manager) {
         roundTrack = new RoundTrackGUI();
         draftPoolGUI = new DraftPoolGUI();
         secondSecCont = new VBox();
-        this.secondSecCont.setSpacing(35);
+        this.secondSecCont.setSpacing(25);
         this.manager = manager;
         mainContainer = new VBox();
         header = new HBox();
@@ -95,6 +98,8 @@ public class CommonBoardWindow extends ParentWindow {
 
         secondContainer = new HBox();
         gameData = new HBox();
+
+        ok = new Button("Ok");
 
         this.setMinHeight(760);
         this.setMinWidth(1400);
@@ -111,6 +116,9 @@ public class CommonBoardWindow extends ParentWindow {
 
         this.getChildren().add(mainContainer);
         this.mainContainer.getChildren().addAll(header, secondContainer, gameData);
+
+        ok.getStyleClass().add("button-style");
+        ok.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> validateMoveHandler());
     }
 
 
@@ -199,9 +207,13 @@ public class CommonBoardWindow extends ParentWindow {
 
         Button placement = new Button("Piazzamento base");
         placement.getStyleClass().add("button-style");
-        //pass.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> passTurnHandler());
+        placement.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> diePlacementHandler());
 
-        commandsDraft.getChildren().addAll(favorTok, placement, pass);
+        this.ok.setVisible(false);
+
+
+
+        commandsDraft.getChildren().addAll(favorTok, placement, pass, ok);
         this.secondSecCont.getChildren().add(commandsDraft);
     }
 
@@ -242,6 +254,10 @@ public class CommonBoardWindow extends ParentWindow {
         titleFav.getStyleClass().add("text-label-bold");
         Label numFav = new Label("");
         numFav.getStyleClass().add("text-label-bold");
+
+
+
+
 
         favorTok.getChildren().addAll(titleFav, numFav);
         box.getChildren().addAll(cardFavorCont, favorTok, map);
@@ -342,13 +358,45 @@ public class CommonBoardWindow extends ParentWindow {
 
     }
 
+    public void validateMoveHandler() {
+        SetUpInformationUnit info = this.data.getSetUpInformationUnit();
+        if(!(this.data.isDestinationFilled() && this.data.isSourceFilled() )) {
+            this.manager.communicateMessage("Non hai riempito i campi corretti");
+            System.out.println(info.getSourceIndex() + " " + info.getDestinationIndex());
+        }
+        else {
+            this.ok.setVisible(false);
+            this.manager.executeCommandIfPresent("Piazzamento");
+        }
+    }
+
+
+    public void diePlacementHandler() {
+
+         if(this.manager.isCommandContained("Piazzamento")) {
+             GridPane grid = this.data.getPersonalWp().getGlassWindow();
+
+             for(int i=0; i< WpGui.MAX_ROW; i++)
+                 for(int j=0; j<WpGui.MAX_COL; j++) {
+                     StackPane stack = (StackPane) grid.getChildren().get(WpGui.MAX_COL * i + j);
+                     stack.getStyleClass().add("dieChosen");
+                 }
+
+             this.draftPoolGUI.cellAsSource(this.data);
+             this.data.getPersonalWp().cellMapAsDestinationHandler(this.data);
+             this.ok.setVisible(true);
+         } else {
+             this.manager.communicateMessage("Non puoi effettuare un piazzamento");
+         }
+    }
+
     /**
      * This method manages the pass turn command.
      */
     private void passTurnHandler() {
-        if(this.manager.isCommandContained(Commands.END_TURN)) {
-            this.manager.executeCommandIfPresent(Commands.END_TURN);
-        } else {
+        if(this.manager.isCommandContained("Passa"))
+            this.manager.executeCommandIfPresent("Passa");
+         else {
             this.manager.communicateMessage("Comando non supportato poichè non è il tuo turno.");
         }
     }
