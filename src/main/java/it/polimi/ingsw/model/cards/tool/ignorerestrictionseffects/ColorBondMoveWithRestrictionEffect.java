@@ -13,18 +13,17 @@ import java.util.List;
 public class ColorBondMoveWithRestrictionEffect extends MoveWithRestrictionsEffect {
 
     /**
-     * @param manager the controller.
-     * @param setUpInformationUnit
+     * @param manager part of the controller that deals with the game play.
+     * @param setUpInformationUnit object containing all the information needed to perform the move.
      */
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInformationUnit) {
 
-        List<ArrayList<Die>> draftPoolDice = manager.getControllerMaster().getCommonBoard().getRoundTrack().getAvailableDice();
-        Die chosenDie = draftPoolDice.get(setUpInformationUnit.getSourceIndex()).get(setUpInformationUnit.getOffset());
+        List<ArrayList<Die>> roundTrack = manager.getControllerMaster().getCommonBoard().getRoundTrack().getAvailableDice();
+        Die chosenDie = roundTrack.get(setUpInformationUnit.getSourceIndex()).get(setUpInformationUnit.getOffset());
 
         if(setUpInformationUnit.getColor().equals(chosenDie.getDieColor()))
-            //super.executeMove(manager, setUpInformationUnit);
-            System.out.println();
+            super.executeMove(manager, setUpInformationUnit);
         else {
             manager.sendNotificationToCurrentPlayer("Il dado della mappa scelto deve essere dello stesso colore del dado scelto dalla round track");
         }
