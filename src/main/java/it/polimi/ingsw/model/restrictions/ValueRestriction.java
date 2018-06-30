@@ -18,8 +18,8 @@ public class ValueRestriction extends ARestriction {
 
     /**
      * This method manages the value restriction of a cell.
-     * @param die: the selected die.
-     * @return true if the value of the die is equal to the value restriction of the cell.
+     * @param die the selected die.
+     * @return {@code true} if the value of the die is equal to the value restriction of the cell, {@code false} otherwise.
      */
     public boolean isRespected(Die die) {
         return die.getActualDieValue() == this.getValue();

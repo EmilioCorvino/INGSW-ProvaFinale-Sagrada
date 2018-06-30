@@ -28,19 +28,23 @@ public class IgnoreColorRestrictionEffect extends MoveWithRestrictionsEffect {
 
         WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
         wp.createCopy();
-
-        Die chosenDie = wp.getGlassWindowCopy()[setUpInfoUnit.getSourceIndex()/WindowPatternCard.MAX_COL][setUpInfoUnit.getSourceIndex() % WindowPatternCard.MAX_COL].getContainedDie();
         Cell[][] gw = wp.getGlassWindow();
-        Cell desiredCell = new Cell(setUpInfoUnit.getDestinationIndex()/WindowPatternCard.MAX_COL , setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL);
-        deleteColorRestriction(gw);
 
-        if(!wp.canBePlaced(chosenDie, desiredCell, gw)) {
-            wp.overwriteOriginal();
-            manager.sendNotificationToCurrentPlayer(wp.getErrorMessage() + "Usa 'comandi' per ulteriori informazioni.");
+        if (!super.checkMoveAvailability(gw, setUpInfoUnit)) {
             manager.setMoveLegal(false);
+            manager.sendNotificationToCurrentPlayer(super.invalidMove);
             return;
         }
 
+        Die chosenDie = wp.getGlassWindowCopy()[setUpInfoUnit.getSourceIndex()/WindowPatternCard.MAX_COL]
+                [setUpInfoUnit.getSourceIndex() % WindowPatternCard.MAX_COL].getContainedDie();
+
+        Cell desiredCell = new Cell(setUpInfoUnit.getDestinationIndex()/WindowPatternCard.MAX_COL , setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL);
+        deleteColorRestriction(gw);
+
+        if (!super.checkMoveLegality(manager, wp, chosenDie, desiredCell, gw)) {
+            return;
+        }
         super.setRestrictionsIgnored(true);
         super.executeMove(manager, setUpInfoUnit);
     }
@@ -51,21 +55,22 @@ public class IgnoreColorRestrictionEffect extends MoveWithRestrictionsEffect {
      */
     private void deleteColorRestriction(Cell[][] gw) {
         List<ARestriction> list;
-        for(int i=0; i<WindowPatternCard.MAX_ROW; i++)
-            for(int j=0; j<WindowPatternCard.MAX_COL; j++) {
+        for(int i=0; i<WindowPatternCard.MAX_ROW; i++) {
+            for (int j = 0; j < WindowPatternCard.MAX_COL; j++) {
                 list = new ArrayList<>();
-                if(!gw[i][j].isEmpty()) {
+                if (!gw[i][j].isEmpty()) {
                     ARestriction valueRestriction = new ValueRestriction(gw[i][j].getContainedDie().getActualDieValue());
                     list.add(valueRestriction);
                     gw[i][j].updateRuleSet(list);
                 } else {
                     int restrictionParameter = gw[i][j].getDefaultValueRestriction().getValue();
-                    if(restrictionParameter != 0) {
+                    if (restrictionParameter != 0) {
                         ARestriction valueRestriction = new ValueRestriction(restrictionParameter);
                         list.add(valueRestriction);
                         gw[i][j].updateRuleSet(list);
                     }
                 }
             }
+        }
     }
 }
