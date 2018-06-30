@@ -105,7 +105,7 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
     boolean checkMoveLegality(GamePlayManager manager, WindowPatternCard wp, Die chosenDie, Cell desiredCell, Cell[][] gw) {
         if (!wp.canBePlaced(chosenDie, desiredCell, gw)) {
             wp.overwriteOriginal();
-            manager.sendNotificationToCurrentPlayer(wp.getErrorMessage() + " Usa 'comandi' per ulteriori informazioni.");
+            manager.sendNotificationToCurrentPlayer(wp.getErrorMessage() + " Digita 'comandi' per visualizzare i comandi disponibili.");
             manager.setMoveLegal(false);
             return false;
         }
