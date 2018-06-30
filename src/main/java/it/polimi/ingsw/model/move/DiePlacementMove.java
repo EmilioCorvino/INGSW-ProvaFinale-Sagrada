@@ -22,7 +22,6 @@ public class DiePlacementMove implements IMove {
         WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
 
         Cell desiredCell = new Cell(setUpInfoUnit.getDestinationIndex() / WindowPatternCard.getMaxCol(), setUpInfoUnit.getDestinationIndex() % WindowPatternCard.getMaxCol());
-        wp.setDesiredCell(desiredCell);
 
         wp.createCopy();
         manager.getControllerMaster().getCommonBoard().getDraftPool().createCopy();
@@ -49,6 +48,7 @@ public class DiePlacementMove implements IMove {
 
         //CAREFUL
         Die dieToRemove = manager.getControllerMaster().getCommonBoard().getDraftPool().removeDie(setUpInfoUnit.getSourceIndex());
+        wp.setDesiredCell(desiredCell);
         wp.addDie(dieToRemove);
         manager.showPlacementResult(manager.getControllerMaster().getGameState().getCurrentPlayer(), wpSetUpInfoUnit);
     }

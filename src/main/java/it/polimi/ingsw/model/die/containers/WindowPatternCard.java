@@ -209,14 +209,13 @@ public class WindowPatternCard extends ADieContainer {
      * @return true if the die respects all the restrictions of the selected cell.
      */
     public boolean checkOwnRuleSet(Die die, Cell selectedCell, Cell[][] glassWindowToConsider){
-        boolean ok = true;
 
         for (ARestriction restriction : glassWindowToConsider[selectedCell.getRow()][selectedCell.getCol()].getRuleSetCell())
             if (!restriction.isRespected(die)) {
-                ok = false;
                 setErrorMessage("Non sono rispettate le restrizioni della cella desiderata.");
+                return false;
             }
-        return ok;
+        return true;
     }
 
     /**

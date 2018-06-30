@@ -110,6 +110,7 @@ public class GamePlayManager extends AGameManager {
         //Terminates the match if there are no players left.
         if (super.getControllerMaster().getSuspendedPlayers().size() == super.getControllerMaster().getConnectedPlayers().size()) {
             super.getControllerMaster().getEndGameManager().quitGame();
+            return;
         }
 
         if (!gameState.isMatchOver()) {
