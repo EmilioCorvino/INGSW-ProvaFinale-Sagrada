@@ -21,7 +21,6 @@ import it.polimi.ingsw.view.gui.loginwindows.ShowPlayersGUI;
 import it.polimi.ingsw.view.gui.setupwindows.ChooseWpGUI;
 import javafx.application.Platform;
 import javafx.scene.Parent;
-import javafx.scene.layout.StackPane;
 
 import java.util.List;
 import java.util.Map;
@@ -251,8 +250,9 @@ public class GUIView implements IViewMaster {
     public void removeOnDraft(SetUpInformationUnit info) {
         Platform.runLater(() -> {
             DraftPoolGUI draft = this.commonWindow.getDraftPoolGUI();
-            StackPane stack = (StackPane)draft.getChildren().get(info.getSourceIndex());
-            stack.getChildren().remove(0);
+            draft.getChildren().remove(info.getSourceIndex());
+            draft.reFormatDraft();
+            System.out.println("dado rimosso dalla draft" + info.getSourceIndex());
         });
     }
 

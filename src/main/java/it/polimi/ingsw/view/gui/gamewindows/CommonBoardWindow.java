@@ -360,9 +360,9 @@ public class CommonBoardWindow extends ParentWindow {
 
     public void validateMoveHandler() {
         SetUpInformationUnit info = this.data.getSetUpInformationUnit();
-        if(!(this.data.isDestinationFilled() && this.data.isSourceFilled() )) {
+        if(!(this.data.isDestinationFilled() && this.data.isSourceFilled())) {
             this.manager.communicateMessage("Non hai riempito i campi corretti");
-            System.out.println(info.getSourceIndex() + " " + info.getDestinationIndex());
+            System.out.println(data.isDestinationFilled() + " " + data.isSourceFilled());
         }
         else {
             this.ok.setVisible(false);
