@@ -9,34 +9,43 @@ import javafx.stage.Stage;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * This class manages the communication among the windows of the gui and the server.
+ */
 public class GUICommunicationManager {
 
+   /**
+    * This attribute represents the available commands for the player.
+    */
    private Map<String, Runnable> functions;
 
    GUICommunicationManager() {
-
       functions = new LinkedHashMap<>();
    }
 
-   public Map<String, Runnable> getFunctions() {
-      return functions;
-   }
-
-   public void setFunctions(Map<String, Runnable> functions) {
-      this.functions = functions;
-   }
-
+   /**
+    * This method checks if a command is available for the player.
+    * @param commands the command to check.
+    * @return true if the command is contained in the map, false otherwise.
+    */
    public boolean isCommandContained(String commands){
       return functions.containsKey(commands);
    }
 
+   /**
+    * This method executes the command the player chose.
+    * @param command the command to execute.
+    */
    public void executeCommandIfPresent(String command) {// EXECUTE COMMAND IF PRESENT
       if(functions.containsKey(command)) {
          functions.get(command).run();
-         this.functions.remove(command);
       }
    }
 
+   /**
+    * This method constructs a notification to display to the user.
+    * @param message the message to display.
+    */
    public void communicateMessage(String message) {
       /*
       Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -69,4 +78,11 @@ public class GUICommunicationManager {
 
    }
 
+   public Map<String, Runnable> getFunctions() {
+      return functions;
+   }
+
+   public void setFunctions(Map<String, Runnable> functions) {
+      this.functions = functions;
+   }
 }

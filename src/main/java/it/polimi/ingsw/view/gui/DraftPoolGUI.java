@@ -36,12 +36,10 @@ public class DraftPoolGUI extends GridPane {
      */
     private boolean isEmpty = true;
 
-    //private int clicked;
-
-    private SetUpInformationUnit info;
+   // private SetUpInformationUnit info;
 
     public DraftPoolGUI() {
-        setInfo(info);
+        //setInfo(info);
         this.getStylesheets().add("style/backgrounds.css");
         this.getStyleClass().add("map-background");
         this.setPadding(new Insets(20));
@@ -49,7 +47,6 @@ public class DraftPoolGUI extends GridPane {
         this.setMaxWidth(200);
         this.setHgap(12.5);
         this.setVgap(12.5);
-
 
         dieFactory = new DieFactory();
 
@@ -74,26 +71,27 @@ public class DraftPoolGUI extends GridPane {
 
         diceList.forEach( info -> {
             this.isEmpty = false;
-           // StackPane stack = new StackPane();
             DieGUI die = dieFactory.getsDieGUI(info);
-           // stack.getChildren().addAll(die);
             this.add(die, info.getDestinationIndex() % MAX_COL, info.getDestinationIndex() / MAX_COL);
         });
     }
 
-
+    /**
+     * This method adds the handler to the dice available in the draft pool.
+     * @param data the data where to store the input of the user.
+     */
     public void cellAsSource(PlayersData data) {
-
         for(int i=0; i<this.getChildren().size(); i++)
                 this.getChildren().get(i).addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-                    System.out.println("aariva qui?");
                     SetUpInformationUnit info = data.getSetUpInformationUnit();
                     info.setSourceIndex(GridPane.getRowIndex((Node)e.getSource()) * DraftPoolGUI.MAX_COL + GridPane.getColumnIndex((Node)e.getSource()));
                     data.setSourceFilled(true);
-
                 });
     }
 
+    /**
+     * This method flows the dice of the draft after a dice has benn removed for a placement.
+     */
     public void reFormatDraft() {
         List dice = new ArrayList();
         for(int i=0; i<this.getChildren().size(); i++)
@@ -105,7 +103,7 @@ public class DraftPoolGUI extends GridPane {
             this.add((DieGUI)dice.get(i), i%3, i/3);
     }
 
-
+/*
     public SetUpInformationUnit getInfo() {
         return info;
     }
@@ -113,4 +111,5 @@ public class DraftPoolGUI extends GridPane {
     public void setInfo(SetUpInformationUnit info) {
         this.info = info;
     }
+    */
 }
