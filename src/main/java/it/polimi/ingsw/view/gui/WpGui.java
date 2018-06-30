@@ -13,18 +13,42 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class manages the GUI version of the window pattern card of the game.
+ */
 public class WpGui extends Pane {
 
+    /**
+     * The number of rows of the map.
+     */
     public static final int MAX_ROW = 4;
+
+    /**
+     * The number of columns of the map.
+     */
     public static final int MAX_COL = 5;
 
+    /**
+     * The glass window that will contain die and restrictions.
+     */
     private GridPane glassWindow;
 
+    /**
+     * The id of the map.
+     */
     private Label idMap;
 
+    /**
+     * The difficulty of the map.
+     */
     private Label difficulty;
 
+    /**
+     * A map that maps color from the server to colors to be represented in the gui.
+     */
     private final Map<Color, String> colorMap;
+
+    private int clicked;
 
     public WpGui() {
 
@@ -39,66 +63,72 @@ public class WpGui extends Pane {
         colorMap.put(Color.GREEN, "#2E8B57");
         colorMap.put(Color.BLUE, "#1E90FF");
         colorMap.put(Color.PURPLE, "#800080");
-
-
     }
 
+    /**
+     * This method constructs a specific map for a player.
+     * @param map the info to use to construct the map.
+     */
     public void constructMap(SimplifiedWindowPatternCard map) {
 
-            this.idMap.setText("Mappa: " + map.getIdMap());
-            this.difficulty.setText("Difficoltà: " + map.getDifficulty());
+        this.idMap.setText("Mappa: " + map.getIdMap());
+        this.difficulty.setText("Difficoltà: " + map.getDifficulty());
 
-            this.idMap.getStyleClass().add("text-label");
-            this.difficulty.getStyleClass().add("text-label");
+        this.idMap.getStyleClass().add("text-label");
+        this.difficulty.getStyleClass().add("text-label");
 
-            List<SetUpInformationUnit> list = map.getInformationUnitList();
+        List<SetUpInformationUnit> list = map.getInformationUnitList();
 
-            int k = 0;
-            for(int i=0; i<WpGui.MAX_ROW; i++) {
-                RowConstraints rc = new RowConstraints(45);
-                this.glassWindow.getRowConstraints().add(rc);
-                rc.setVgrow(Priority.ALWAYS);
-                for(int j=0; j<WpGui.MAX_COL; j++, k++) {
-                    ColumnConstraints cc = new ColumnConstraints(45);
-                    cc.setHgrow(Priority.ALWAYS);
-                    this.glassWindow.getColumnConstraints().add(cc);
-                    SetUpInformationUnit info = list.get(k);
-                    Pane pane = new Pane();
-                    //pane.getStyleClass().add("dieChosen");
+        int k = 0;
+        for(int i=0; i<WpGui.MAX_ROW; i++) {
+            RowConstraints rc = new RowConstraints(45);
+            this.glassWindow.getRowConstraints().add(rc);
+            rc.setVgrow(Priority.ALWAYS);
+            for(int j=0; j<WpGui.MAX_COL; j++, k++) {
+                ColumnConstraints cc = new ColumnConstraints(45);
+                cc.setHgrow(Priority.ALWAYS);
+                this.glassWindow.getColumnConstraints().add(cc);
+                SetUpInformationUnit info = list.get(k);
+                Pane pane = new Pane();
 
-                    pane.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.MIDNIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-                    pane.setOpacity(0.2);
+                pane.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.MIDNIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+                pane.setOpacity(0.2);
 
-                    //restriction of color
-                    if(!(info.getColor().equals(Color.BLANK)) && info.getValue() == 0) {
-                        StackPane stack = new StackPane();
-                        stack.getChildren().add(pane);
-                        checkBorder(pane,i, j);
-                        pane.setStyle("-fx-background-color:" + this.colorMap.get(info.getColor()));
-                        pane.setOpacity(0.6);
-                        this.glassWindow.add(stack, j, i);
+                StackPane stack = new StackPane();
 
-                    }
-                        //restriction of value
-                        if(info.getColor().equals(Color.BLANK) && info.getValue() !=0) {
-                            StackPane stack = new StackPane();
-                            Label number = new Label(info.getValue() + "");
-                            number.getStyleClass().add("text-label");
-                            checkBorder(pane, i, j);
-                            stack.getChildren().addAll(pane, number);
-                            this.glassWindow.add(stack, j, i);
-                        }
 
-                    if(info.getColor().equals(Color.BLANK)  && info.getValue() == 0) {
-                        StackPane stack = new StackPane();
-                        stack.getChildren().add(pane);
-                        checkBorder(pane, i, j);
-                        this.glassWindow.add(stack, j, i);
-                    }
+                //restriction of color
+                if(!(info.getColor().equals(Color.BLANK)) && info.getValue() == 0) {
+                    Pane extraPane = new Pane();
+                    extraPane.setStyle("-fx-background-color: transparent");
+                    stack.getChildren().addAll(pane, extraPane);
+                    checkBorder(pane,i, j);
+                    pane.setStyle("-fx-background-color:" + this.colorMap.get(info.getColor()));
+                    pane.setOpacity(0.6);
+                    this.glassWindow.add(stack, j, i);
+                }
+                //restriction of value
+                if(info.getColor().equals(Color.BLANK) && info.getValue() !=0) {
+                    Label number = new Label(info.getValue() + "");
+                    number.getStyleClass().add("text-label");
+                    checkBorder(pane, i, j);
+                    stack.getChildren().addAll(pane, number);
+                    this.glassWindow.add(stack, j, i);
+                }
+
+                if(info.getColor().equals(Color.BLANK)  && info.getValue() == 0) {
+                    stack.getChildren().add(pane);
+                    checkBorder(pane, i, j);
+                    this.glassWindow.add(stack, j, i);
                 }
             }
         }
+    }
 
+    /**
+     * This method sets the proper clicked cells as destination in the information unit to send to the server.
+     * @param data the data player from which to get the info.
+     */
     public void cellMapAsDestinationHandler(PlayersData data) {
         for(int i=0; i<WpGui.MAX_ROW; i++)
             for(int j=0; j<WpGui.MAX_COL; j++) {
@@ -106,11 +136,28 @@ public class WpGui extends Pane {
                 stack.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
                     SetUpInformationUnit info = data.getSetUpInformationUnit();
                     info.setDestinationIndex(GridPane.getRowIndex((Node)e.getSource()) * WpGui.MAX_COL + GridPane.getColumnIndex((Node)e.getSource()));
+                    data.setDestinationFilled(true);
                 });
             }
-    }
+        }
+
+    /**
+     * This method adds a die on the window pattern card gui.
+     * @param die the die to add.
+     * @param index the index of the cell where to add the die.
+     */
+    public void addOnThisWp(DieGUI die, int index) {
+            StackPane stack = (StackPane)this.glassWindow.getChildren().get(index);
+            stack.getChildren().add(die);
+        }
 
 
+    /**
+     * This method adds proper border to each pane of the cell.
+     * @param pane the pane to style with border.
+     * @param row the row of the cell.
+     * @param col the column of the cell.
+     */
     public void checkBorder(Node pane, int row, int col) {
         pane.setStyle("-fx-border-width: 1px 1px 1px 1px");
 
@@ -153,4 +200,11 @@ public class WpGui extends Pane {
         this.difficulty = difficulty;
     }
 
+    public int getClicked() {
+        return clicked;
+    }
+
+    public void setClicked(int clicked) {
+        this.clicked = clicked;
+    }
 }

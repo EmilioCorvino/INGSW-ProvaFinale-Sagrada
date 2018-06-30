@@ -116,6 +116,9 @@ public class CommonBoardWindow extends ParentWindow {
 
         this.getChildren().add(mainContainer);
         this.mainContainer.getChildren().addAll(header, secondContainer, gameData);
+
+        ok.getStyleClass().add("button-style");
+        ok.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> validateMoveHandler());
     }
 
 
@@ -357,33 +360,34 @@ public class CommonBoardWindow extends ParentWindow {
 
     public void validateMoveHandler() {
         SetUpInformationUnit info = this.data.getSetUpInformationUnit();
-        if(info.getSourceIndex() == 0 || info.getDestinationIndex() == 0 )
+        if(!(this.data.isDestinationFilled() && this.data.isSourceFilled() )) {
             this.manager.communicateMessage("Non hai riempito i campi corretti");
-        else
+            System.out.println(info.getSourceIndex() + " " + info.getDestinationIndex());
+        }
+        else {
+            this.ok.setVisible(false);
             this.manager.executeCommandIfPresent("Piazzamento");
+        }
     }
 
 
     public void diePlacementHandler() {
-        this.ok.setVisible(true);
-        ok.getStyleClass().add("button-style");
-        ok.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> validateMoveHandler());
-        GridPane grid = this.data.getPersonalWp().getGlassWindow();
-
-
-        for(int i=0; i< WpGui.MAX_ROW; i++)
-            for(int j=0; j<WpGui.MAX_COL; j++) {
-                StackPane stack = (StackPane) grid.getChildren().get(WpGui.MAX_COL * i + j);
-                stack.getStyleClass().add("dieChosen");
-            }
 
          if(this.manager.isCommandContained("Piazzamento")) {
-            this.draftPoolGUI.cellAsSource(this.data);
-            this.data.getPersonalWp().cellMapAsDestinationHandler(this.data);
+             GridPane grid = this.data.getPersonalWp().getGlassWindow();
 
+             for(int i=0; i< WpGui.MAX_ROW; i++)
+                 for(int j=0; j<WpGui.MAX_COL; j++) {
+                     StackPane stack = (StackPane) grid.getChildren().get(WpGui.MAX_COL * i + j);
+                     stack.getStyleClass().add("dieChosen");
+                 }
 
+             this.draftPoolGUI.cellAsSource(this.data);
+             this.data.getPersonalWp().cellMapAsDestinationHandler(this.data);
+             this.ok.setVisible(true);
+         } else {
+             this.manager.communicateMessage("Non puoi effettuare un piazzamento");
          }
-
     }
 
     /**
