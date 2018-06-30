@@ -25,10 +25,6 @@ public class CliCommunicationManager {
         this.server = view.getServer();
     }
 
-    public void setInputOutputManager(InputOutputManager inputOutputManager) {
-        this.inputOutputManager = inputOutputManager;
-    }
-
     public void setServer(IFromClientToServer server) {
         this.server = server;
     }

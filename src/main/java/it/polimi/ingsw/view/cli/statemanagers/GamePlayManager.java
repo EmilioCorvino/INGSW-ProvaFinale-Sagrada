@@ -137,7 +137,7 @@ public class GamePlayManager{
         return extraInfo;
     }
 
-    public void setExtraInfo(SetUpInformationUnit extraInfo) {
+    private void setExtraInfo(SetUpInformationUnit extraInfo) {
         this.extraInfo = extraInfo;
     }
 }

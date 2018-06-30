@@ -76,13 +76,9 @@ public class GamePlayManager extends AGameManager {
             this.currentPlayerCommands.add(slot.getToolCard().getCommandName());
         }
 
-        this.currentPlayerCommands.addAll(Arrays.asList(Commands.PLACEMENT, Commands.OTHER_PLAYERS_MAPS,
-                Commands.PUBLIC_OBJ_CARDS, Commands.PRIVATE_OBJ_CARD, Commands.AVAILABLE_TOOL_CARDS,
-                Commands.ROUND_TRACK, Commands.END_TURN, Commands.LOGOUT));
+        this.currentPlayerCommands.addAll(Arrays.asList(Commands.PLACEMENT, Commands.VISUALIZATION,Commands.END_TURN, Commands.LOGOUT));
 
-        this.waitingPlayersCommands = new ArrayList<>(Arrays.asList(Commands.OTHER_PLAYERS_MAPS,
-                Commands.PUBLIC_OBJ_CARDS, Commands.PRIVATE_OBJ_CARD, Commands.AVAILABLE_TOOL_CARDS,
-                Commands.ROUND_TRACK, Commands.LOGOUT));
+        this.waitingPlayersCommands = new ArrayList<>(Arrays.asList(Commands.VISUALIZATION, Commands.LOGOUT));
     }
 
     public List<Commands> getCurrentPlayerCommands() {

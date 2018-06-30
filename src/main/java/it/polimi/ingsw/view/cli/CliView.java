@@ -243,11 +243,13 @@ public class CliView implements IViewMaster {
     @Override
     public void showCommand(List<Commands> commands) {
         functions = bank.getCommandMap(commands);
+        ((CliDefaultMatchManager)bank.getDefaultMatchManager()).populateHelp(functions);
         printCommands();
         if (!isNotTheFirstTime) {
             isNotTheFirstTime = true;
             scannerThread.start();
         }
+
     }
 
     /**

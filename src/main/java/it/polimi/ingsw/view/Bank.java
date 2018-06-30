@@ -61,15 +61,11 @@ public class Bank {
         availableCommands.put(Commands.TOOL12, toolCardManager::tool12);
         availableCommands.put(Commands.EXTRA_TOOL6, toolCardManager::tool6Extra);
         availableCommands.put(Commands.EXTRA_TOOL11, toolCardManager::tool11Extra);
-        availableCommands.put(Commands.OTHER_PLAYERS_MAPS, defaultMatchManager::showAllWp);
-        availableCommands.put(Commands.PUBLIC_OBJ_CARDS, defaultMatchManager::showPublicObj);
-        availableCommands.put(Commands.PRIVATE_OBJ_CARD, defaultMatchManager::showPrivateObj);
-        availableCommands.put(Commands.AVAILABLE_TOOL_CARDS, defaultMatchManager::showTool);
-        availableCommands.put(Commands.ROUND_TRACK, defaultMatchManager::showRoundTrack);
         availableCommands.put(Commands.END_TURN, defaultMatchManager::moveToNextTurn);
         availableCommands.put(Commands.LOGOUT, defaultMatchManager::exitGame);
         availableCommands.put(Commands.START_ANOTHER_GAME, defaultMatchManager::newGame);
         availableCommands.put(Commands.RECONNECT, defaultMatchManager::reconnect);
+        availableCommands.put(Commands.VISUALIZATION, defaultMatchManager::visualization);
 }
 
     /**
@@ -92,15 +88,11 @@ public class Bank {
         commandMap.put(Commands.TOOL12, UserCommands.TOOL12);
         commandMap.put(Commands.EXTRA_TOOL6, UserCommands.EXTRA_TOOL6);
         commandMap.put(Commands.EXTRA_TOOL11, UserCommands.EXTRA_TOOL11);
-        commandMap.put(Commands.OTHER_PLAYERS_MAPS, UserCommands.MAPPE_ALTRI_GIOCATORI);
-        commandMap.put(Commands.PUBLIC_OBJ_CARDS, UserCommands.OBBIETTIVI_PUBBLICI);
-        commandMap.put(Commands.PRIVATE_OBJ_CARD, UserCommands.OBIETTIVO_PRIVATO);
-        commandMap.put(Commands.AVAILABLE_TOOL_CARDS, UserCommands.CARTE_STRUMENTO_DISPONIBILI);
-        commandMap.put(Commands.ROUND_TRACK, UserCommands.ROUND_TRACK);
         commandMap.put(Commands.END_TURN, UserCommands.PASSA);
         commandMap.put(Commands.LOGOUT, UserCommands.LOGOUT);
         commandMap.put(Commands.START_ANOTHER_GAME, UserCommands.NUOVA_PARTITA);
         commandMap.put(Commands.RECONNECT, UserCommands.RECONNECT);
+        commandMap.put(Commands.VISUALIZATION, UserCommands.VISUALIZZAZIONE);
     }
 
 
@@ -113,11 +105,10 @@ public class Bank {
         Map<String, Runnable> function = new LinkedHashMap<>();
 
         commands.forEach(c -> function.put(commandToStringConverter(c), availableCommands.get(c)));
-        function.put(UserCommands.AIUTO.getName(), defaultMatchManager::printDescription);
-        function.put(UserCommands.COMANDI.getName(), defaultMatchManager::printCommands);
 
         return function;
     }
+
 
     public Map<Commands, Runnable> getAvailableCommands(List<Commands> commands) {
         Map<Commands, Runnable> map = new LinkedHashMap<>();
@@ -142,6 +133,10 @@ public class Bank {
 
     public void setToolCardManager(IToolCardManager toolCardManager){
         this.toolCardManager = toolCardManager;
+    }
+
+    public IDefaultMatchManager getDefaultMatchManager() {
+        return defaultMatchManager;
     }
 
     public void populateBank(){
