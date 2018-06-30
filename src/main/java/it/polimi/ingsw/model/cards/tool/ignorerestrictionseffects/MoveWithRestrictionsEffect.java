@@ -15,6 +15,8 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
 
     private String invalidMove;
 
+    private boolean restrictionsIgnored = false;
+
     /**
      * This method executes the specific effect of the tool that allows the user to move a die from a cell to another
      * of the personal window pattern card.
@@ -24,9 +26,10 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
 
-
         WindowPatternCard playerWp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
-        playerWp.createCopy();
+
+        if(!areRestrictionsIgnored())
+            playerWp.createCopy();
 
         if(!checkMoveAvailability(playerWp.getGlassWindowCopy(), setUpInfoUnit)) {
             manager.setMoveLegal(false);
@@ -37,7 +40,7 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
         Die chosenDie = playerWp.removeDie(setUpInfoUnit.getSourceIndex());
         Cell desiredCell = new Cell(setUpInfoUnit.getDestinationIndex()/WindowPatternCard.MAX_COL , setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL);
 
-        if(!playerWp.canBePlaced(chosenDie, desiredCell, playerWp.getGlassWindowCopy())) {
+        if(!playerWp.canBePlaced(chosenDie, desiredCell, playerWp.getGlassWindow())) {
             manager.sendNotificationToCurrentPlayer(playerWp.getErrorMessage());
             manager.setMoveLegal(false);
             return;
@@ -95,5 +98,13 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
 
     private void setInvalidMove(String invalidMove) {
         this.invalidMove = invalidMove;
+    }
+
+    void setRestrictionsIgnored(boolean restrictionsIgnored) {
+        this.restrictionsIgnored = restrictionsIgnored;
+    }
+
+    private boolean areRestrictionsIgnored() {
+        return restrictionsIgnored;
     }
 }

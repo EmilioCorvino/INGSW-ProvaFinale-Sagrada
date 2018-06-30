@@ -34,22 +34,22 @@ public class ClientImplementation implements IFromServerToClient {
     /**
      * This attribute indicate if is the first call of the room method.
      */
-    boolean afterFirstRoomCall;
+    private boolean afterFirstRoomCall;
 
     /**
      * Timer to use in case the loading from file fails. Value is in milliseconds.
      */
-    static final long BACK_UP_TIMER = 90000;
+    private static final long BACK_UP_TIMER = 90000;
 
     /**
      * Path of the file containing the maximum amount of time available for players to make a choice.
      */
-    static final String TIMER_TURN_FILE = "./src/main/resources/config/turnTimer";
+    private static final String TIMER_TURN_FILE = "./src/main/resources/config/turnTimer";
 
     /**
      * Path of the file containing the maximum amount of time available for players to make a choice.
      */
-    static final String TIMER_ROOM_FILE = "./src/main/resources/config/turnTimer";
+    private static final String TIMER_ROOM_FILE = "./src/main/resources/config/turnTimer";
 
     /**
      * View chosen by the user.
