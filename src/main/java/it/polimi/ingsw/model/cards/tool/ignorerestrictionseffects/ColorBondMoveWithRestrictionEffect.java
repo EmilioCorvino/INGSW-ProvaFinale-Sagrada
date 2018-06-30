@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.cards.tool.PlacementEffect;
+package it.polimi.ingsw.model.cards.tool.ignorerestrictionseffects;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  *
  */
-public class ColorPlacementRestrictionEffect extends PlacementRestrictionEffect {
+public class ColorBondMoveWithRestrictionEffect extends MoveWithRestrictionsEffect {
 
     /**
      * @param manager the controller.

@@ -82,7 +82,7 @@
     "placement": true,
     "effect": {
       "names": [
-        "swapDraftpoolRoundtrack"
+        "swapDraftPoolRoundTrack"
       ],
       "source": "DraftPool",
       "destination": "RoundTrack",

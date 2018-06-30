@@ -97,7 +97,6 @@ public class LoginManager {
      * @param players: list of username of players connected to the server.
      */
     public void showRoom(List<String> players) {
-        inputOutputManager.print("\n--------------------------------");
         inputOutputManager.print("In attesa di connessione di altri giocatori...");
         inputOutputManager.print("Giocatori momentaneamente connessi: ");
         for (String name : players)

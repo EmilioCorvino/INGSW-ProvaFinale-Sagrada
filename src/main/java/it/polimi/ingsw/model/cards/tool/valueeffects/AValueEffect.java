@@ -1,5 +1,5 @@
 
-package it.polimi.ingsw.model.cards.tool.ValueEffects;
+package it.polimi.ingsw.model.cards.tool.valueeffects;
 
 import it.polimi.ingsw.model.cards.tool.AToolCardEffect;
 import it.polimi.ingsw.model.die.Cell;

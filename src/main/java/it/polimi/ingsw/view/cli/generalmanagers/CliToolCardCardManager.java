@@ -4,8 +4,8 @@ import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.logs.SagradaLogger;
-import it.polimi.ingsw.view.cli.CliCommunicationManager;
 import it.polimi.ingsw.view.IToolCardManager;
+import it.polimi.ingsw.view.cli.CliCommunicationManager;
 import it.polimi.ingsw.view.cli.CliView;
 import it.polimi.ingsw.view.cli.boardelements.ToolCardView;
 

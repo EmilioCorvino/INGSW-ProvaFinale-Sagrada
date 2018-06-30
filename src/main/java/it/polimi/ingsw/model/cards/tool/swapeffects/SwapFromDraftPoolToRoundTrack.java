@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.cards.tool.SwapEffect;
+package it.polimi.ingsw.model.cards.tool.swapeffects;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
@@ -11,7 +11,7 @@ import it.polimi.ingsw.model.player.Player;
  * This class manages the swap effect between a die chosen from the draft pool container and a die
  * chosen from the round track container.
  */
-public class SwapFromDraftpoolToRoundTrack extends ASwapDieEffect {
+public class SwapFromDraftPoolToRoundTrack extends ASwapDieEffect {
 
     /**
      * This method executes the swap and then, if possible, places the die in the window pattern card according to

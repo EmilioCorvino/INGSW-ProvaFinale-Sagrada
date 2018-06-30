@@ -1,9 +1,9 @@
-package it.polimi.ingsw.model.cards.tool.ValueEffects;
+package it.polimi.ingsw.model.cards.tool.valueeffects;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.model.move.DiePlacementMove;
+import it.polimi.ingsw.model.move.DefaultDiePlacementMove;
 import it.polimi.ingsw.model.move.IMove;
 
 /**
@@ -92,7 +92,7 @@ public class ChooseValueEffect extends AValueEffect {
             die.setActualDieValue(decreaseDieValue(die).getActualDieValue());
 
         //tell the controller to show the result
-        IMove move = new DiePlacementMove();
+        IMove move = new DefaultDiePlacementMove();
         move.executeMove(manager, setUpInfoUnit);
     }
 

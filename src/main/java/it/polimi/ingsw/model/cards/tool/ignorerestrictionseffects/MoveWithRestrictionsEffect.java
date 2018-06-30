@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.cards.tool.PlacementEffect;
+package it.polimi.ingsw.model.cards.tool.ignorerestrictionseffects;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
@@ -9,11 +9,13 @@ import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 
 /**
  * This class manges the tool effect that enables to move a die from a cell of the personal window pattern card
- * to one another.
+ * to another one.
  */
-public class PlacementRestrictionEffect extends AToolCardEffect {
+public class MoveWithRestrictionsEffect extends AToolCardEffect {
 
     private String invalidMove;
+
+    private boolean restrictionsIgnored = false;
 
     /**
      * This method executes the specific effect of the tool that allows the user to move a die from a cell to another
@@ -24,9 +26,10 @@ public class PlacementRestrictionEffect extends AToolCardEffect {
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
 
-
         WindowPatternCard playerWp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
-        playerWp.createCopy();
+
+        if(!areRestrictionsIgnored())
+            playerWp.createCopy();
 
         if(!checkMoveAvailability(playerWp.getGlassWindowCopy(), setUpInfoUnit)) {
             manager.setMoveLegal(false);
@@ -34,18 +37,18 @@ public class PlacementRestrictionEffect extends AToolCardEffect {
             return;
         }
 
-        Die chosenDie = playerWp.getGlassWindow()[setUpInfoUnit.getSourceIndex()/WindowPatternCard.MAX_COL][setUpInfoUnit.getSourceIndex() % WindowPatternCard.MAX_COL].getContainedDie();
-        playerWp.setDesiredCell(new Cell(setUpInfoUnit.getDestinationIndex()/WindowPatternCard.MAX_COL , setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL));
+        Die chosenDie = playerWp.removeDie(setUpInfoUnit.getSourceIndex());
+        Cell desiredCell = new Cell(setUpInfoUnit.getDestinationIndex()/WindowPatternCard.MAX_COL , setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL);
 
-        if(!playerWp.canBePlaced(chosenDie, playerWp.getDesiredCell(), playerWp.getGlassWindow())) {
+        if(!playerWp.canBePlaced(chosenDie, desiredCell, playerWp.getGlassWindow())) {
             manager.sendNotificationToCurrentPlayer(playerWp.getErrorMessage());
             manager.setMoveLegal(false);
             return;
         }
 
         manager.setMoveLegal(true);
-        playerWp.setDesiredCell(new Cell(setUpInfoUnit.getDestinationIndex()/WindowPatternCard.MAX_COL, setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL));
-        playerWp.addDie(playerWp.removeDie(setUpInfoUnit.getSourceIndex()));
+        playerWp.setDesiredCell(desiredCell);
+        playerWp.addDie(chosenDie);
         setUpInfoUnit.setValue(chosenDie.getActualDieValue());
         setUpInfoUnit.setColor(chosenDie.getDieColor());
         manager.showRearrangementResult(manager.getControllerMaster().getGameState().getCurrentPlayer(), setUpInfoUnit);
@@ -57,13 +60,14 @@ public class PlacementRestrictionEffect extends AToolCardEffect {
      * @param gw the glass window to check.
      * @return true if it has no dice, false otherwise.
      */
-    public boolean isGlassWindowEmpty(Cell[][] gw) {
+    boolean hasGlassWindowLessThanTwoDice(Cell[][] gw) {
+        int count = 0;
         for(int i=0; i<WindowPatternCard.getMaxRow(); i++)
             for(int j=0; j< WindowPatternCard.getMaxCol(); j++) {
                 if(!gw[i][j].isEmpty())
-                    return false;
+                    count++;
             }
-        return true;
+        return count < 2;
     }
 
     /**
@@ -72,27 +76,35 @@ public class PlacementRestrictionEffect extends AToolCardEffect {
      * @param info the information to use.
      * @return true if all the conditions are satisfied, false otherwise.
      */
-    public boolean checkMoveAvailability(Cell[][] gw, SetUpInformationUnit info) {
-        if(isGlassWindowEmpty(gw)) {
-            this.setInvalidMove("La tua vetrata non ha dadi! non puoi muovere alcun dado.");
+    boolean checkMoveAvailability(Cell[][] gw, SetUpInformationUnit info) {
+        if (hasGlassWindowLessThanTwoDice(gw)) {
+            this.setInvalidMove("La tua vetrata non ha abbastanza dadi! Non puoi muovere alcun dado.");
             return false;
         }
-        if(gw[info.getSourceIndex()/WindowPatternCard.MAX_COL][info.getSourceIndex() % WindowPatternCard.MAX_COL].isEmpty()) {
+        if (gw[info.getSourceIndex()/WindowPatternCard.MAX_COL][info.getSourceIndex() % WindowPatternCard.MAX_COL].isEmpty()) {
            this.setInvalidMove("La cella sorgente è vuota");
             return false;
         }
-        if(!gw[info.getDestinationIndex()/WindowPatternCard.MAX_COL][info.getDestinationIndex() % WindowPatternCard.MAX_COL].isEmpty()) {
+        if (!gw[info.getDestinationIndex()/WindowPatternCard.MAX_COL][info.getDestinationIndex() % WindowPatternCard.MAX_COL].isEmpty()) {
             this.setInvalidMove("La cella destinazione è piena");
             return false;
         }
         return true;
     }
 
-    public String getInvalidMove() {
+    String getInvalidMove() {
         return invalidMove;
     }
 
-    public void setInvalidMove(String invalidMove) {
+    private void setInvalidMove(String invalidMove) {
         this.invalidMove = invalidMove;
+    }
+
+    void setRestrictionsIgnored(boolean restrictionsIgnored) {
+        this.restrictionsIgnored = restrictionsIgnored;
+    }
+
+    private boolean areRestrictionsIgnored() {
+        return restrictionsIgnored;
     }
 }
