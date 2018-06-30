@@ -24,17 +24,17 @@ public class ClientImplementation implements IFromServerToClient {
     /**
      * This attribute indicate if the game is in the room stage.
      */
-    boolean isInRoom;
+    private boolean isInRoom = false;
 
     /**
-     * This attribute indicate that is not the turn of this player.
+     * This attribute is used to control if the server is still online.
      */
-    boolean isOutOfTurn;
+    private boolean isServerDown = false;
 
     /**
      * This attribute indicate if is the first call of the room method.
      */
-    private boolean afterFirstRoomCall;
+    private boolean afterFirstRoomCall = false;
 
     /**
      * Timer to use in case the loading from file fails. Value is in milliseconds.
@@ -67,6 +67,7 @@ public class ClientImplementation implements IFromServerToClient {
     @Override
     public void showRoom(List<String> players) {
         isInRoom = true;
+        isServerDown = false;
         if (!afterFirstRoomCall){
             startRoomTimer();
             afterFirstRoomCall = true;
@@ -77,100 +78,123 @@ public class ClientImplementation implements IFromServerToClient {
     @Override
     public void showPrivateObjective(int idPrivateObj){
         isInRoom = false;
+        isServerDown = false;
         view.showPrivateObjective(idPrivateObj);
     }
 
     @Override
     public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) {
+        isServerDown = false;
         view.showMapsToChoose(listWp);
     }
 
     @Override
     public void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool){
+        isServerDown = false;
         view.setCommonBoard(players,idPubObj, idTool);
     }
 
     @Override
     public void setDraft(List<SetUpInformationUnit> draft){
+        isServerDown = false;
         view.setDraft(draft);
     }
 
     @Override
     public void setFavorToken(int nFavTokens){
+        isServerDown = false;
         view.setFavorToken(nFavTokens);
     }
 
     @Override
     public void showCommand(List<Commands> commands) {
+        isServerDown = false;
         view.showCommand(commands);
     }
 
     @Override
     public void addOnOwnWp(SetUpInformationUnit unit){
+        isServerDown = false;
         view.addOnOwnWp(unit);
     }
 
     @Override
     public void removeOnOwnWp(SetUpInformationUnit unit){
+        isServerDown = false;
         view.removeOnOwnWp(unit);
     }
 
     @Override
     public void addOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit){
+        isServerDown = false;
         view.addOnOtherPlayerWp(userName,infoUnit);
     }
 
     @Override
     public void removeOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit){
+        isServerDown = false;
         view.removeOnOtherPlayerWp(userName, infoUnit);
     }
 
     @Override
     public void addOnDraft(SetUpInformationUnit info){
+        isServerDown = false;
         view.addOnDraft(info);
     }
 
     @Override
     public void removeOnDraft(SetUpInformationUnit info){
+        isServerDown = false;
         view.removeOnDraft(info);
     }
 
     @Override
     public void addOnRoundTrack(SetUpInformationUnit info){
+        isServerDown = false;
         view.addOnRoundTrack(info);
     }
 
     @Override
     public void removeOnRoundTrack(SetUpInformationUnit info){
+        isServerDown = false;
         view.removeOnRoundTrack(info);
     }
 
     @Override
     public void updateFavTokenPlayer(int nFavorToken){
+        isServerDown = false;
         view.updateFavTokenPlayer(nFavorToken);
     }
 
     @Override
     public void updateToolCost(int idSlot, int cost){
-        view.updateToolCost(idSlot,cost);}
+        isServerDown = false;
+        view.updateToolCost(idSlot,cost);
+    }
 
     @Override
     public void showDie(SetUpInformationUnit informationUnit){
+        isServerDown = false;
         view.showDie(informationUnit);}
 
     @Override
     public void showRank(String[] playerNames, int[] scores) {
+        isServerDown = false;
         view.showRank(playerNames, scores);
     }
 
     @Override
     public void forceLogOut() {
+        isServerDown = false;
         view.forceLogOut();
     }
 
     @Override
     public void showNotice(String notice) {
         view.showNotice(notice);
+        isServerDown = true;
+        startTurnTimer();
+
     }
 
     private void startRoomTimer(){
@@ -182,7 +206,6 @@ public class ClientImplementation implements IFromServerToClient {
         //Value read from file. If the loading is successful, it overwrites the back up.
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_ROOM_FILE)))) {
             timeOut = Long.parseLong(reader.readLine())*2;
-            SagradaLogger.log(Level.CONFIG, "Timer successfully loaded from file. Its value is: " + timeOut / 1000 + "s");
         } catch (IOException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
         }
@@ -209,7 +232,6 @@ public class ClientImplementation implements IFromServerToClient {
         //Value read from file. If the loading is successful, it overwrites the back up.
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_TURN_FILE)))) {
             timeOut = Long.parseLong(reader.readLine())*4;
-            SagradaLogger.log(Level.CONFIG, "Timer successfully loaded from file. Its value is: " + timeOut / 1000 + "s");
         } catch (IOException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
         }
@@ -217,7 +239,7 @@ public class ClientImplementation implements IFromServerToClient {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (isOutOfTurn) {
+                if (isServerDown) {
                     SagradaLogger.log(Level.SEVERE, "Timer of turn expired");
                     view.forceLogOut();
                 }
