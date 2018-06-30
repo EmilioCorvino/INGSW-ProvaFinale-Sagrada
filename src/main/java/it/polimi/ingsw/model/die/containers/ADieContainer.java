@@ -13,20 +13,20 @@ public abstract class ADieContainer {
      * This is the error message set after any failure.
      * @see WindowPatternCard#canBePlaced(Die, Cell, Cell[][])
      */
-    protected String errorMessage;
+    private String errorMessage;
 
     /**
      * This method updates the die container involved with the die tha player wants to place.
      * @param die: the die that has to be placed.
      */
-    public abstract void addDie(Die die);
+    public abstract void addDieToCopy(Die die);
 
     /**
      * This method removes a die from a specific container.
      * @param index a copy of the die to be removed.
      * @return the die contained, that has been removed.
      */
-    public abstract Die removeDie(int index);
+    public abstract Die removeDieFromCopy(int index);
 
     /**
      * This method create a copy of the objects contained.

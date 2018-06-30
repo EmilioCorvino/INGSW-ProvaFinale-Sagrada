@@ -28,11 +28,11 @@ public class RoundTrack extends ADieContainer {
     }
 
     /**
-     * This method effective addDie a die in the round chosen.
+     * This method effective addDieToCopy a die in the round chosen.
      * @param die: the die that has to be placed.
      */
     @Override
-    public void addDie(Die die) {
+    public void addDieToCopy(Die die) {
         this.availableDiceCopy.get(roundToBeUpdated).add(die);
     }
 
@@ -42,7 +42,7 @@ public class RoundTrack extends ADieContainer {
      * @return the die contained, that has been removed.
      */
     @Override
-    public Die removeDie(int index){
+    public Die removeDieFromCopy(int index){
         return this.availableDiceCopy.get(roundToBeUpdated).remove(index);
     }
 

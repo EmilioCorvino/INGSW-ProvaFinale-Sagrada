@@ -49,31 +49,31 @@ public class ColouredDiagonalsTest extends CardTestField {
         anotherWindow.createCopy();
         if(anotherWindow.canBePlaced(redDie1, anotherWindow.getGlassWindow()[0][2], anotherWindow.getGlassWindowCopy())) {
             anotherWindow.setDesiredCell(anotherWindow.getGlassWindow()[0][2]);
-            anotherWindow.addDie(redDie1);
+            anotherWindow.addDieToCopy(redDie1);
         }
         if(anotherWindow.canBePlaced(redDie2, anotherWindow.getGlassWindow()[1][3], anotherWindow.getGlassWindowCopy())) {
             anotherWindow.setDesiredCell(anotherWindow.getGlassWindow()[1][3]);
-            anotherWindow.addDie(redDie2);
+            anotherWindow.addDieToCopy(redDie2);
         }
         if(anotherWindow.canBePlaced(redDie3, anotherWindow.getGlassWindow()[2][2], anotherWindow.getGlassWindowCopy())) {
             anotherWindow.setDesiredCell(anotherWindow.getGlassWindow()[2][2]);
-            anotherWindow.addDie(redDie3);
+            anotherWindow.addDieToCopy(redDie3);
         }
         if(anotherWindow.canBePlaced(redDie4, anotherWindow.getGlassWindow()[2][4], anotherWindow.getGlassWindowCopy())) {
             anotherWindow.setDesiredCell(anotherWindow.getGlassWindow()[2][4]);
-            anotherWindow.addDie(redDie4);
+            anotherWindow.addDieToCopy(redDie4);
         }
         if(anotherWindow.canBePlaced(redDie5, anotherWindow.getGlassWindow()[3][3], anotherWindow.getGlassWindowCopy())) {
             anotherWindow.setDesiredCell(anotherWindow.getGlassWindow()[3][3]);
-            anotherWindow.addDie(redDie5);
+            anotherWindow.addDieToCopy(redDie5);
         }
         if(anotherWindow.canBePlaced(redDie6, anotherWindow.getGlassWindow()[3][1], anotherWindow.getGlassWindowCopy())) {
             anotherWindow.setDesiredCell(anotherWindow.getGlassWindow()[3][1]);
-            anotherWindow.addDie(redDie6);
+            anotherWindow.addDieToCopy(redDie6);
         }
         if(anotherWindow.canBePlaced(redDie7, anotherWindow.getGlassWindow()[2][0], anotherWindow.getGlassWindowCopy())) {
             anotherWindow.setDesiredCell(anotherWindow.getGlassWindow()[2][0]);
-            anotherWindow.addDie(redDie7);
+            anotherWindow.addDieToCopy(redDie7);
         }
         anotherWindow.overwriteOriginal();
         return anotherWindow;

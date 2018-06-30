@@ -75,7 +75,7 @@ public class DiceBagTest {
     }
 
     /**
-     * This test verify if an addDie of all the dice, effective remove all the die from the bag.
+     * This test verify if an addDieToCopy of all the dice, effective remove all the die from the bag.
      */
     @Test
     public void emptyBag(){
@@ -97,7 +97,7 @@ public class DiceBagTest {
         DiceBag diceBag = new DiceBag();
         diceBag.createCopy();
 
-        diceBag.addDie(new Die(5, Color.GREEN));
+        diceBag.addDieToCopy(new Die(5, Color.GREEN));
         diceBag.overwriteOriginal();
 
         assertEquals(91, diceBag.getAvailableDice().size());

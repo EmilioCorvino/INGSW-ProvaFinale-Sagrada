@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 public class RoundTrackTest {
 
     /**
-     * This test verify round track updates (both addDie and remove dice).
+     * This test verify round track updates (both addDieToCopy and remove dice).
      */
     @Test
     public void multiplePopulation(){
@@ -23,7 +23,7 @@ public class RoundTrackTest {
         for ( int i = 0; i < nRounds; i++) {
             roundTrack.setRoundToBeUpdated(i);
             for (int j = 0; j < 2; j++)
-                roundTrack.addDie(new Die(1 + new Random().nextInt(6), Color.availableColors().get(new Random().nextInt(5))));
+                roundTrack.addDieToCopy(new Die(1 + new Random().nextInt(6), Color.availableColors().get(new Random().nextInt(5))));
         }
         roundTrack.overwriteOriginal();
 
@@ -32,7 +32,7 @@ public class RoundTrackTest {
 
 
         roundTrack.setRoundToBeUpdated(roundWithRemove);
-        roundTrack.removeDie(0);
+        roundTrack.removeDieFromCopy(0);
         roundTrack.overwriteOriginal();
 
         assertEquals(1, roundTrack.getAvailableDice().get(roundWithRemove).size());

@@ -291,7 +291,7 @@ public class GamePlayManager extends AGameManager {
 
             for (int i = 0; i < actualDraftSize; i++) {
                 Die dieToMove = board.getDraftPool().getAvailableDice().remove(0);
-                board.getRoundTrack().addDie(dieToMove);
+                board.getRoundTrack().addDieToCopy(dieToMove);
                 diceToSend.add(new SetUpInformationUnit(gameState.getActualRound() - 1, dieToMove.getDieColor(), dieToMove.getActualDieValue()));
             }
             board.getRoundTrack().overwriteOriginal();

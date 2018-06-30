@@ -27,7 +27,7 @@ public class WindowPatternTest {
 
         if(wp.canBePlaced(die,selectedCell, wp.getGlassWindow())) {
             wp.setDesiredCell(selectedCell);
-            wp.addDie(die);
+            wp.addDieToCopy(die);
         }
 
         wp.overwriteOriginal();
@@ -67,7 +67,7 @@ public class WindowPatternTest {
 
         if(wp.canBePlaced(die1, selectedCell, wp.getGlassWindow())) {
             wp.setDesiredCell(selectedCell);
-            wp.addDie(die1);
+            wp.addDieToCopy(die1);
         }
 
         wp.overwriteOriginal();
@@ -91,7 +91,7 @@ public class WindowPatternTest {
 
         if(wp.canBePlaced(die1,selectedCell1, wp.getGlassWindow())) {
             wp.setDesiredCell(selectedCell1);
-            wp.addDie(die1);
+            wp.addDieToCopy(die1);
         }
 
         wp.overwriteOriginal();
@@ -143,7 +143,7 @@ public class WindowPatternTest {
 
         if(wp.canBePlaced(die,cell1, wp.getGlassWindow())){
             wp.setDesiredCell(cell1);
-            wp.addDie(die);
+            wp.addDieToCopy(die);
         }
 
         wp.overwriteOriginal();
@@ -195,7 +195,7 @@ public class WindowPatternTest {
         //Test of consecutive placement
         if(wp.canBePlaced(die2,cell2, wp.getGlassWindowCopy())) {
             wp.setDesiredCell(cell2);
-            wp.addDie(die2);
+            wp.addDieToCopy(die2);
         }
         wp.overwriteOriginal();
         assertFalse(wp.canBePlaced(die3, cell6, wp.getGlassWindowCopy()));
@@ -219,7 +219,7 @@ public class WindowPatternTest {
 
         if (wp.canBePlaced(die,cell, wp.getGlassWindow())) {
             wp.setDesiredCell(cell);
-            wp.addDie(die);
+            wp.addDieToCopy(die);
         }
 
         wp.overwriteOriginal();
@@ -227,7 +227,7 @@ public class WindowPatternTest {
         assertEquals(die.getDieColor(), wp.getGlassWindow()[cell.getRow()][cell.getCol()].getContainedDie().getDieColor());
 
         wp.setDesiredCell(cell);
-        wp.removeDie(cell.getRow()*WindowPatternCard.MAX_COL+cell.getCol());
+        wp.removeDieFromCopy(cell.getRow()*WindowPatternCard.MAX_COL+cell.getCol());
 
         wp.overwriteOriginal();
         assertNull(wp.getGlassWindow()[cell.getRow()][cell.getCol()].getContainedDie());

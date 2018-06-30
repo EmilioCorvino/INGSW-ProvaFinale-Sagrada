@@ -75,7 +75,7 @@ public class DraftValueEffect extends AValueEffect {
             return;
         }
 
-        Die chosenDie = computeRandomDieValue(draft.removeDie(setUpInfoUnit.getSourceIndex()));
+        Die chosenDie = computeRandomDieValue(draft.removeDieFromCopy(setUpInfoUnit.getSourceIndex()));
         setUpInfoUnit.setColor(chosenDie.getDieColor());
         setUpInfoUnit.setValue(chosenDie.getActualDieValue());
         System.out.println("setup da inviare" + setUpInfoUnit.getColor() + " " + setUpInfoUnit.getValue());

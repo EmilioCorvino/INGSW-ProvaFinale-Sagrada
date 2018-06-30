@@ -32,7 +32,7 @@ public class RestrictedDiePlacementMove implements IMove {
         wp.setDesiredCell(cell);
 
         if(wp.canBePlaced(dieToCheck, cell, wp.getGlassWindowCopy())) {
-            wp.addDie(dieToCheck);
+            wp.addDieToCopy(dieToCheck);
             manager.setMoveLegal(true);
             manager.showPlacementResult(player, setUpInfoUnit);
         } else {

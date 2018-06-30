@@ -19,7 +19,7 @@ public class MoveWithRestrictionsEffectTest {
 
         Die die = new Die(5, Color.BLUE);
         wp.setDesiredCell(new Cell(0,1));
-        wp.addDie(die);
+        wp.addDieToCopy(die);
 
         MoveWithRestrictionsEffect effect = new MoveWithRestrictionsEffect();
 
@@ -34,11 +34,11 @@ public class MoveWithRestrictionsEffectTest {
 
         Die die = new Die(5, Color.BLUE);
         wp.setDesiredCell(new Cell(0,1));
-        wp.addDie(die);
+        wp.addDieToCopy(die);
 
         Die die2 = new Die(5, Color.GREEN);
         wp.setDesiredCell(new Cell(1, 2));
-        wp.addDie(die2);
+        wp.addDieToCopy(die2);
 
         SetUpInformationUnit info = new SetUpInformationUnit();
         info.setSourceIndex(1);

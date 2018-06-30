@@ -69,21 +69,21 @@ public class DiceBag extends ADieContainer {
     }
 
     /**
-     * This method addDie a die in the bag
+     * This method addDieToCopy a die in the bag
      * @param die: the die that has to be placed.
      */
     @Override
-    public void addDie(Die die) {
+    public void addDieToCopy(Die die) {
         availableDiceCopy.add(die);
     }
 
     /**
-     * This method addDie the list of available dice.
+     * This method addDieToCopy the list of available dice.
      * @param index a copy of the die to be removed.
      * @return the die contained, that has been removed.
      */
     @Override
-    public Die removeDie(int index){
+    public Die removeDieFromCopy(int index){
         return this.availableDiceCopy.remove(index);
     }
 
