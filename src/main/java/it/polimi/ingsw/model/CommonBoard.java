@@ -143,9 +143,9 @@ public class CommonBoard {
         //for (int i = 0; i < 3; i++) {
             //try {
                 //this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().drawCard()));
+                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(3)));
+                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(4)));
                 this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(5)));
-                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(6)));
-                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(8)));
                 //this.getToolCardSlots().get(i).setCost(1); //Default cost to use a tool card.
                 this.getToolCardSlots().forEach(slot -> slot.setCost(1));
             //} catch (EmptyException e) {

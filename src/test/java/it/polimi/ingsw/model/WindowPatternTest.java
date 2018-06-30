@@ -164,9 +164,10 @@ public class WindowPatternTest {
         Cell cell3 = new Cell(0,0);
         Cell cell4 = new Cell(1,3);
         Cell cell5 = new Cell(0,0);
+        Cell cell6 = new Cell(0,2);
 
         Die die1 = new Die(4, Color.PURPLE);
-        Die die2 = new Die(1, Color.GREEN);
+        Die die2 = new Die(1, Color.RED);
         Die die3 = new Die(5, Color.BLUE);
 
         CommonBoard commonBoard = new CommonBoard();
@@ -174,6 +175,7 @@ public class WindowPatternTest {
 
         wp = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(7);
         wp.createCopy();
+
 
         // Test of color restricted cell.
         assertTrue(wp.canBePlaced(die1,cell1, wp.getGlassWindow()));
@@ -191,9 +193,12 @@ public class WindowPatternTest {
         assertFalse(wp.canBePlaced(die1, cell4, wp.getGlassWindow()));
 
         //Test of consecutive placement
-        wp.setDesiredCell(cell2);
-        wp.addDie(die2);
+        if(wp.canBePlaced(die2,cell2, wp.getGlassWindowCopy())) {
+            wp.setDesiredCell(cell2);
+            wp.addDie(die2);
+        }
         wp.overwriteOriginal();
+        assertFalse(wp.canBePlaced(die3, cell6, wp.getGlassWindowCopy()));
         assertEquals(wp.getGlassWindow()[cell2.getRow()][cell2.getCol()].getContainedDie().getDieColor(), die2.getDieColor());
         assertEquals(wp.getGlassWindow()[cell2.getRow()][cell2.getCol()].getContainedDie().getActualDieValue(), die2.getActualDieValue());
         assertTrue(wp.canBePlaced(die3, cell5, wp.getGlassWindow()));
