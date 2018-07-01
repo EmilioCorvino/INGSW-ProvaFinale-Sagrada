@@ -1,7 +1,8 @@
-package it.polimi.ingsw.model.cards.tool.valueeffects;
+package it.polimi.ingsw.model.cards.tool.draft;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
+import it.polimi.ingsw.model.cards.tool.AToolCardEffect;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 
@@ -12,7 +13,7 @@ import java.util.Random;
 /**
  * This class manages the effect of the tool card that allow the user to relaunch the chosen die.
  */
-public class DraftValueEffect extends AValueEffect {
+public class DraftValueEffect extends AToolCardEffect {
 
     /**
      * This attribute is the number of dice that has to be drafted. If is equal to 0 means that all dice of the draft pool must be rolled.
@@ -78,7 +79,6 @@ public class DraftValueEffect extends AValueEffect {
         Die chosenDie = computeRandomDieValue(draft.removeDieFromCopy(setUpInfoUnit.getSourceIndex()));
         setUpInfoUnit.setColor(chosenDie.getDieColor());
         setUpInfoUnit.setValue(chosenDie.getActualDieValue());
-        System.out.println("setup da inviare" + setUpInfoUnit.getColor() + " " + setUpInfoUnit.getValue());
         manager.showDraftedDie(manager.getControllerMaster().getGameState().getCurrentPlayer(), setUpInfoUnit);
     }
 

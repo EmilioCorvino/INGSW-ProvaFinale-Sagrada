@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.cards.tool.valueeffects;
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 import it.polimi.ingsw.model.move.DefaultDiePlacementMove;
 import it.polimi.ingsw.model.move.IMove;
 
@@ -34,9 +35,10 @@ public class OppositeValueEffect extends AValueEffect {
      */
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
+        DiceDraftPool draftPool = manager.getControllerMaster().getCommonBoard().getDraftPool();
+        draftPool.createCopy();
 
-        Die die = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice().get(setUpInfoUnit.getSourceIndex());
-
+        Die die = draftPool.getAvailableDiceCopy().get(setUpInfoUnit.getSourceIndex());
         computeOppositeValue(die);
 
         if(!super.checkExistingCellsToUse(manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard(), die)) {
