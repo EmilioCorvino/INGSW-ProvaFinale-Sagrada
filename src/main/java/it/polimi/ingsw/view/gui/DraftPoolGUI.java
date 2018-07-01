@@ -36,10 +36,12 @@ public class DraftPoolGUI extends GridPane {
      */
     private boolean isEmpty = true;
 
-   // private SetUpInformationUnit info;
+    private List<Integer> values;
+
 
     public DraftPoolGUI() {
         //setInfo(info);
+        values = new ArrayList<>();
         this.getStylesheets().add("style/backgrounds.css");
         this.getStyleClass().add("map-background");
         this.setPadding(new Insets(20));
@@ -56,7 +58,6 @@ public class DraftPoolGUI extends GridPane {
             for(int j=0; j<MAX_COL; j++) {
                 ColumnConstraints cc = new ColumnConstraints(45);
                 this.getColumnConstraints().add(cc);
-
             }
         }
     }
@@ -70,6 +71,7 @@ public class DraftPoolGUI extends GridPane {
             this.getChildren().remove(0, this.getChildren().size());
 
         diceList.forEach( info -> {
+            this.values.add(info.getValue());
             this.isEmpty = false;
             DieGUI die = dieFactory.getsDieGUI(info);
             this.add(die, info.getDestinationIndex() % MAX_COL, info.getDestinationIndex() / MAX_COL);
@@ -103,13 +105,11 @@ public class DraftPoolGUI extends GridPane {
             this.add((DieGUI)dice.get(i), i%3, i/3);
     }
 
-/*
-    public SetUpInformationUnit getInfo() {
-        return info;
+    public List<Integer> getValues() {
+        return values;
     }
 
-    public void setInfo(SetUpInformationUnit info) {
-        this.info = info;
+    public void setValues(List<Integer> values) {
+        this.values = values;
     }
-    */
 }

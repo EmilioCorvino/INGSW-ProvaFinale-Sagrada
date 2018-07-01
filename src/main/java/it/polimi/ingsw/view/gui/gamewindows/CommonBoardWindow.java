@@ -16,6 +16,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -90,8 +92,14 @@ public class CommonBoardWindow extends ParentWindow {
 
     private Button ok;
 
+    private ToolWindowManager toolWindowManager;
+
+    private List<Integer> toolsId;
+
 
     public CommonBoardWindow(GUICommunicationManager manager) {
+
+
         roundTrack = new RoundTrackGUI();
         draftPoolGUI = new DraftPoolGUI();
         secondSecCont = new VBox();
@@ -124,6 +132,11 @@ public class CommonBoardWindow extends ParentWindow {
 
         ok.getStyleClass().add("button-style");
         ok.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> validateMoveHandler());
+
+        toolsId = new ArrayList<>();
+        toolWindowManager = new ToolWindowManager(manager);
+        toolWindowManager.setData(this.data);
+        toolWindowManager.setDraft(this.draftPoolGUI);
     }
 
 
@@ -373,6 +386,15 @@ public class CommonBoardWindow extends ParentWindow {
             view.setFitHeight(240);
             view.setPreserveRatio(true);
             toolCont.getChildren().add(view);
+
+            this.toolsId.add(idTools[i]);
+
+            view.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+                Integer index = (Integer)(e.getSource());
+                System.out.println("index tool: " + index);
+                this.data.setSlotChosen(index);
+                this.toolWindowManager.displayToolWindow(this.toolsId.get(index));
+            });
         }
     }
 

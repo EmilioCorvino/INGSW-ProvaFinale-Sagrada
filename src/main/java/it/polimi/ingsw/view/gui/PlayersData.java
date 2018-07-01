@@ -18,6 +18,8 @@ public class PlayersData {
 
     private boolean destinationFilled;
 
+    private int slotChosen;
+
 
 
     public PlayersData() {
@@ -80,5 +82,13 @@ public class PlayersData {
 
     public void setDestinationFilled(boolean destinationFilled) {
         this.destinationFilled = destinationFilled;
+    }
+
+    public int getSlotChosen() {
+        return slotChosen;
+    }
+
+    public void setSlotChosen(int slotChosen) {
+        this.slotChosen = slotChosen;
     }
 }

@@ -53,8 +53,6 @@ public class GUIView implements IViewMaster {
 
 
 
-
-
     public GUIView() {
         bank = new Bank();
         manager = new GUICommunicationManager();
@@ -322,6 +320,8 @@ public class GUIView implements IViewMaster {
     public void setListPlayers(Parent listPlayers) {
         this.listPlayers = listPlayers;
     }
+
+
 
 
 }

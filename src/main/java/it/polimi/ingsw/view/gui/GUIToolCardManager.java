@@ -1,7 +1,14 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.network.IFromClientToServer;
+import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
+import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.IToolCardManager;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
 
 public class GUIToolCardManager implements IToolCardManager {
 
@@ -17,6 +24,16 @@ public class GUIToolCardManager implements IToolCardManager {
 
     @Override
     public void tool1() {
+        List<SetUpInformationUnit> setupList = new ArrayList<>();
+        setupList.add(playersData.getSetUpInformationUnit());
+        System.out.println("id slot: " + playersData.getSlotChosen());
+        try{
+            this.server.performToolCardMove(playersData.getSlotChosen(), setupList);
+        } catch (BrokenConnectionException e){
+            SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 1");
+            //disconnect();
+        }
+
 
     }
 
