@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCardsDeck;
-import it.polimi.ingsw.model.cards.objective.publics.PublicObjectiveCardsDeck;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,35 +41,35 @@ public class ObjectiveCardAnalyzerVisitorTest {
         window.createCopy();
         if(window.canBePlaced(greenDie1, window.getGlassWindow()[0][3], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[0][3]);
-            window.addDie(greenDie1);
+            window.addDieToCopy(greenDie1);
         }
         if(window.canBePlaced(redDie1, window.getGlassWindow()[1][2], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[1][2]);
-            window.addDie(redDie1);
+            window.addDieToCopy(redDie1);
         }
         if(window.canBePlaced(purpleDie, window.getGlassWindow()[2][2], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[2][2]);
-            window.addDie(purpleDie);
+            window.addDieToCopy(purpleDie);
         }
         if(window.canBePlaced(yellowDie, window.getGlassWindow()[2][3], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[2][3]);
-            window.addDie(yellowDie);
+            window.addDieToCopy(yellowDie);
         }
         if(window.canBePlaced(greenDie2, window.getGlassWindow()[3][1], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[3][1]);
-            window.addDie(greenDie2);
+            window.addDieToCopy(greenDie2);
         }
         if(window.canBePlaced(redDie2, window.getGlassWindow()[3][4], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[3][4]);
-            window.addDie(redDie2);
+            window.addDieToCopy(redDie2);
         }
         if(window.canBePlaced(redDie3, window.getGlassWindow()[3][2], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[3][2]);
-            window.addDie(redDie3);
+            window.addDieToCopy(redDie3);
         }
         if(window.canBePlaced(blueDie, window.getGlassWindow()[2][1], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[2][1]);
-            window.addDie(blueDie);
+            window.addDieToCopy(blueDie);
         }
         window.overwriteOriginal();
     }

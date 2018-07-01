@@ -30,7 +30,7 @@ public class IgnoreAdjacentCellsRestrictionEffect extends DefaultDiePlacementMov
 
         DiceDraftPool draft = manager.getControllerMaster().getCommonBoard().getDraftPool();
         draft.createCopy();
-        Die chosenDie = draft.removeDie(info.getSourceIndex());
+        Die chosenDie = draft.removeDieFromCopy(info.getSourceIndex());
 
         Cell desiredCell = new Cell(info.getSourceIndex() / WindowPatternCard.getMaxCol(), info.getSourceIndex() % WindowPatternCard.getMaxCol());
         wp.setDesiredCell(desiredCell);
@@ -43,7 +43,7 @@ public class IgnoreAdjacentCellsRestrictionEffect extends DefaultDiePlacementMov
             System.out.println("la cella non è adiacente quindi puoi fare il piazzamento");
             if(wp.checkOwnRuleSet(chosenDie, desiredCell, gwCopy)) {
                 manager.setMoveLegal(true);
-                wp.addDie(wp.removeDie(info.getSourceIndex()));
+                wp.addDieToCopy(wp.removeDieFromCopy(info.getSourceIndex()));
                 info.setValue(chosenDie.getActualDieValue());
                 info.setColor(chosenDie.getDieColor());
                 manager.showPlacementResult(p, info);

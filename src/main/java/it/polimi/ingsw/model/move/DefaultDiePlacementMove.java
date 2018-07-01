@@ -45,9 +45,9 @@ public class DefaultDiePlacementMove implements IMove {
         manager.setMoveLegal(true);
 
         //CAREFUL
-        Die dieToRemove = manager.getControllerMaster().getCommonBoard().getDraftPool().removeDie(setUpInfoUnit.getSourceIndex());
+        Die dieToRemove = manager.getControllerMaster().getCommonBoard().getDraftPool().removeDieFromCopy(setUpInfoUnit.getSourceIndex());
         wp.setDesiredCell(desiredCell);
-        wp.addDie(dieToRemove);
+        wp.addDieToCopy(dieToRemove);
         manager.showPlacementResult(manager.getControllerMaster().getGameState().getCurrentPlayer(), wpSetUpInfoUnit);
     }
 }

@@ -104,31 +104,31 @@ public class PrivateObjectiveCardTest {
         window.createCopy();
         if(window.canBePlaced(purpleDie1, window.getGlassWindow()[0][0], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[0][0]);
-            window.addDie(purpleDie1);
+            window.addDieToCopy(purpleDie1);
         }
         if(window.canBePlaced(purpleDie2, window.getGlassWindow()[1][1], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[1][1]);
-            window.addDie(purpleDie2);
+            window.addDieToCopy(purpleDie2);
         }
         if(window.canBePlaced(redDie, window.getGlassWindow()[0][1], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[0][1]);
-            window.addDie(redDie);
+            window.addDieToCopy(redDie);
         }
         if(window.canBePlaced(yellowDie, window.getGlassWindow()[1][0], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[1][0]);
-            window.addDie(yellowDie);
+            window.addDieToCopy(yellowDie);
         }
         if(window.canBePlaced(greenDie, window.getGlassWindow()[2][1], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[2][1]);
-            window.addDie(greenDie);
+            window.addDieToCopy(greenDie);
         }
         if(window.canBePlaced(blueDie, window.getGlassWindow()[3][2], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[3][2]);
-            window.addDie(blueDie);
+            window.addDieToCopy(blueDie);
         }
         if(window.canBePlaced(purpleDie3, window.getGlassWindow()[2][3], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[2][3]);
-            window.addDie(purpleDie3);
+            window.addDieToCopy(purpleDie3);
         }
         window.overwriteOriginal();
 

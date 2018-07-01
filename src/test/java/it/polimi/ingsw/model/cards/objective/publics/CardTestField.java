@@ -55,71 +55,71 @@ public abstract class CardTestField {
 
         if(window.canBePlaced(greenDie1, window.getGlassWindow()[0][3], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[0][3]);
-            window.addDie(greenDie1);
+            window.addDieToCopy(greenDie1);
         }
         if(window.canBePlaced(redDie1, window.getGlassWindow()[1][2], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[1][2]);
-            window.addDie(redDie1);
+            window.addDieToCopy(redDie1);
         }
         if(window.canBePlaced(purpleDie1, window.getGlassWindow()[2][2], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[2][2]);
-            window.addDie(purpleDie1);
+            window.addDieToCopy(purpleDie1);
         }
         if(window.canBePlaced(yellowDie1, window.getGlassWindow()[2][3], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[2][3]);
-            window.addDie(yellowDie1);
+            window.addDieToCopy(yellowDie1);
         }
         if(window.canBePlaced(greenDie2, window.getGlassWindow()[3][1], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[3][1]);
-            window.addDie(greenDie2);
+            window.addDieToCopy(greenDie2);
         }
         if(window.canBePlaced(redDie2, window.getGlassWindow()[3][4], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[3][4]);
-            window.addDie(redDie2);
+            window.addDieToCopy(redDie2);
         }
         if(window.canBePlaced(redDie3, window.getGlassWindow()[3][2], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[3][2]);
-            window.addDie(redDie3);
+            window.addDieToCopy(redDie3);
         }
         if(window.canBePlaced(blueDie1, window.getGlassWindow()[2][1], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[2][1]);
-            window.addDie(blueDie1);
+            window.addDieToCopy(blueDie1);
         }
         if(window.canBePlaced(redDie4, window.getGlassWindow()[2][0], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[2][0]);
-            window.addDie(redDie4);
+            window.addDieToCopy(redDie4);
         }
         if(window.canBePlaced(greenDie3, window.getGlassWindow()[2][4], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[2][4]);
-            window.addDie(greenDie3);
+            window.addDieToCopy(greenDie3);
         }
         if(window.canBePlaced(blueDie2, window.getGlassWindow()[0][2], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[0][2]);
-            window.addDie(blueDie2);
+            window.addDieToCopy(blueDie2);
         }
         if(window.canBePlaced(redDie5, window.getGlassWindow()[0][1], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[0][1]);
-            window.addDie(redDie5);
+            window.addDieToCopy(redDie5);
         }
         if(window.canBePlaced(yellowDie2, window.getGlassWindow()[0][0], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[0][0]);
-            window.addDie(yellowDie2);
+            window.addDieToCopy(yellowDie2);
         }
         if(window.canBePlaced(purpleDie2, window.getGlassWindow()[0][4], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[0][4]);
-            window.addDie(purpleDie2);
+            window.addDieToCopy(purpleDie2);
         }
         if(window.canBePlaced(blueDie3, window.getGlassWindow()[1][0], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[1][0]);
-            window.addDie(blueDie3);
+            window.addDieToCopy(blueDie3);
         }
         if(window.canBePlaced(purpleDie3, window.getGlassWindow()[3][0], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[3][0]);
-            window.addDie(purpleDie3);
+            window.addDieToCopy(purpleDie3);
         }
         if(window.canBePlaced(greenDie4, window.getGlassWindow()[3][3], window.getGlassWindowCopy())) {
             window.setDesiredCell(window.getGlassWindow()[3][3]);
-            window.addDie(greenDie4);
+            window.addDieToCopy(greenDie4);
         }
 
         window.overwriteOriginal();

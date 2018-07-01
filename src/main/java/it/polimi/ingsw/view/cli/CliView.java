@@ -253,8 +253,8 @@ public class CliView implements IViewMaster {
     }
 
     /**
-     * This method addDie the wp of the player connected and print it.
-     * @param unit : information for the addDie, index of matrix and die that needs to be place.
+     * This method addDieToCopy the wp of the player connected and print it.
+     * @param unit : information for the addDieToCopy, index of matrix and die that needs to be place.
      */
     @Override
     public void addOnOwnWp(SetUpInformationUnit unit){
@@ -274,11 +274,10 @@ public class CliView implements IViewMaster {
         WindowPatternCardView wp = this.player.getWp();
 
         gamePlayManager.removeOnWp(wp, unit);
-        inputOutputManager.print(wp.wpToString());
     }
 
     /**
-     * This method addDie the die in all the wp of all player.
+     * This method addDieToCopy the die in all the wp of all player.
      * @param userName : The userName of the player with the wp modified
      * @param infoUnit : The info of modification of the wp.
      */
@@ -305,7 +304,7 @@ public class CliView implements IViewMaster {
     }
 
     /**
-     * This method addDie a die from the draft in a specified index.
+     * This method addDieToCopy a die from the draft in a specified index.
      * @param info : the containers of the die info.
      */
     @Override
@@ -324,7 +323,7 @@ public class CliView implements IViewMaster {
     }
 
     /**
-     * This method addDie a die on the round track
+     * This method addDieToCopy a die on the round track
      * @param info: The containers of the info.
      */
     @Override
@@ -342,7 +341,7 @@ public class CliView implements IViewMaster {
     }
 
     /**
-     * This method addDie the number of favor token assigned to a player
+     * This method addDieToCopy the number of favor token assigned to a player
      * @param nFavorToken : number of favor token remain.
      */
     @Override
@@ -352,7 +351,7 @@ public class CliView implements IViewMaster {
     }
 
     /**
-     * This method addDie the cost of use for a specified tool, it is used after the first use of a tool.
+     * This method addDieToCopy the cost of use for a specified tool, it is used after the first use of a tool.
      * @param idSlot: It is the id of the tool updated
      * @param cost: The new cost of the tool.
      */

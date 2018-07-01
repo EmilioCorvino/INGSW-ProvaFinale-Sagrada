@@ -41,7 +41,7 @@ public class SwapFromDraftPoolToRoundTrack extends ASwapDieEffect {
         draftPool.createCopy();
         Die die1 = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice().get(informationUnit.getSourceIndex());
         roundTrack.setRoundToBeUpdated(informationUnit.getExtraParam());
-        Die die2 = manager.getControllerMaster().getCommonBoard().getRoundTrack().removeDie(informationUnit.getOffset());
+        Die die2 = manager.getControllerMaster().getCommonBoard().getRoundTrack().removeDieFromCopy(informationUnit.getOffset());
 
         System.out.println(die1.getActualDieValue() + " " + die1.getDieColor());
         System.out.println(die2.getActualDieValue() + " " + die2.getDieColor());

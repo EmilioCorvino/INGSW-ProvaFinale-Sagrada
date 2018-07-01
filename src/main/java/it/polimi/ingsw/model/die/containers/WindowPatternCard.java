@@ -88,7 +88,7 @@ public class WindowPatternCard extends ADieContainer {
      * @param die: the die with which the window pattern card has to be updated.
      */
     @Override
-    public void addDie(Die die) {
+    public void addDieToCopy(Die die) {
         glassWindowCopy[desiredCell.getRow()][desiredCell.getCol()].setContainedDie(die);
         setDesiredCell(null);
     }
@@ -99,8 +99,13 @@ public class WindowPatternCard extends ADieContainer {
      * @return the die contained, that has been removed.
      */
     @Override
-    public Die removeDie(int index){
+    public Die removeDieFromCopy(int index){
         Cell cell = glassWindowCopy[ index/WindowPatternCard.MAX_COL ][ index%WindowPatternCard.MAX_COL ];
+        return cell.removeContainedDie();
+    }
+
+    public Die removeDieFromOriginal(int index){
+        Cell cell = glassWindow[ index/WindowPatternCard.MAX_COL ][ index%WindowPatternCard.MAX_COL ];
         return cell.removeContainedDie();
     }
 

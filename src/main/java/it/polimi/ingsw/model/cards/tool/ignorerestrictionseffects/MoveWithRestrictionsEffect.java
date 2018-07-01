@@ -15,8 +15,6 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
 
     String invalidMove;
 
-    private boolean restrictionsIgnored = false;
-
     /**
      * This method executes the specific effect of the tool that allows the user to move a die from a cell to another
      * of the personal window pattern card.
@@ -29,26 +27,16 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
         WindowPatternCard playerWp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
         Cell[][] glassWindowToConsider;
 
-        if(!areRestrictionsIgnored()) {
-            playerWp.createCopy();
-            glassWindowToConsider = playerWp.getGlassWindowCopy();
+        playerWp.createCopy();
+        glassWindowToConsider = playerWp.getGlassWindowCopy();
 
-            if(!checkMoveAvailability(glassWindowToConsider, setUpInfoUnit)) {
-                manager.setMoveLegal(false);
-                manager.sendNotificationToCurrentPlayer(this.invalidMove);
-
-                //Restore the original situation.
-                this.setRestrictionsIgnored(false);
-                return;
-            }
-        } else {
-            glassWindowToConsider = playerWp.getGlassWindow();
-
-            //Restore the original situation.
-            this.setRestrictionsIgnored(false);
+        if(!checkMoveAvailability(glassWindowToConsider, setUpInfoUnit)) {
+            manager.setMoveLegal(false);
+            manager.sendNotificationToCurrentPlayer(this.invalidMove);
+            return;
         }
 
-        Die chosenDie = playerWp.removeDie(setUpInfoUnit.getSourceIndex());
+        Die chosenDie = playerWp.removeDieFromCopy(setUpInfoUnit.getSourceIndex());
         Cell desiredCell = new Cell(setUpInfoUnit.getDestinationIndex()/WindowPatternCard.MAX_COL , setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL);
 
         if(!playerWp.canBePlaced(chosenDie, desiredCell, glassWindowToConsider)) {
@@ -59,7 +47,7 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
 
         manager.setMoveLegal(true);
         playerWp.setDesiredCell(desiredCell);
-        playerWp.addDie(chosenDie);
+        playerWp.addDieToCopy(chosenDie);
         setUpInfoUnit.setValue(chosenDie.getActualDieValue());
         setUpInfoUnit.setColor(chosenDie.getDieColor());
         manager.showRearrangementResult(manager.getControllerMaster().getGameState().getCurrentPlayer(), setUpInfoUnit);
@@ -118,13 +106,5 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
 
     private void setInvalidMove(String invalidMove) {
         this.invalidMove = invalidMove;
-    }
-
-    void setRestrictionsIgnored(boolean restrictionsIgnored) {
-        this.restrictionsIgnored = restrictionsIgnored;
-    }
-
-    private boolean areRestrictionsIgnored() {
-        return restrictionsIgnored;
     }
 }

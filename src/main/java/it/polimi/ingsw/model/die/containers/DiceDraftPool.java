@@ -41,7 +41,7 @@ public class DiceDraftPool extends ADieContainer {
     }
 
     /**
-     * This method call the addDie the DiceDraftPool in each round.
+     * This method call the addDieToCopy the DiceDraftPool in each round.
      */
     public void populateDiceDraftPool(int numberOfPlayers){
         int i = 0;
@@ -59,21 +59,21 @@ public class DiceDraftPool extends ADieContainer {
     }
 
     /**
-     * This method addDie a die in the draft.
+     * This method addDieToCopy a die in the draft.
      * @param die: the die that has to be placed.
      */
     @Override
-    public void addDie(Die die) {
+    public void addDieToCopy(Die die) {
         this.availableDiceCopy.add(die);
     }
 
     /**
-     * This method addDie the DraftPool list's of dice, removing the die chosen.
+     * This method addDieToCopy the DraftPool list's of dice, removing the die chosen.
      * @param index a copy of the die to be removed.
      * @return the die contained, that has been removed.
      */
     @Override
-    public Die removeDie(int index){
+    public Die removeDieFromCopy(int index){
         return this.availableDiceCopy.remove(index);
     }
 

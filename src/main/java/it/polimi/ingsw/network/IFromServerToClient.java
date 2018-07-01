@@ -63,7 +63,7 @@ public interface IFromServerToClient {
 
     /**
      * This method updates the wp of the player connected and print it.
-     * @param unit : information for the addDie, index of matrix and die that needs to be place.
+     * @param unit : information for the addDieToCopy, index of matrix and die that needs to be place.
      */
     void addOnOwnWp(SetUpInformationUnit unit)throws BrokenConnectionException;
 

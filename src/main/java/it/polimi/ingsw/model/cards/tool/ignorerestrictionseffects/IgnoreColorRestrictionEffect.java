@@ -36,8 +36,8 @@ public class IgnoreColorRestrictionEffect extends MoveWithRestrictionsEffect {
             return;
         }
 
-        Die chosenDie = wp.getGlassWindowCopy()[setUpInfoUnit.getSourceIndex()/WindowPatternCard.MAX_COL]
-                [setUpInfoUnit.getSourceIndex() % WindowPatternCard.MAX_COL].getContainedDie();
+        Die chosenDie = wp.removeDieFromOriginal(setUpInfoUnit.getSourceIndex());
+        wp.removeDieFromCopy(setUpInfoUnit.getSourceIndex());
 
         Cell desiredCell = new Cell(setUpInfoUnit.getDestinationIndex()/WindowPatternCard.MAX_COL , setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL);
         deleteColorRestriction(gw);
@@ -45,8 +45,13 @@ public class IgnoreColorRestrictionEffect extends MoveWithRestrictionsEffect {
         if (!super.checkMoveLegality(manager, wp, chosenDie, desiredCell, gw)) {
             return;
         }
-        super.setRestrictionsIgnored(true);
-        super.executeMove(manager, setUpInfoUnit);
+
+        manager.setMoveLegal(true);
+        wp.setDesiredCell(desiredCell);
+        wp.addDieToCopy(chosenDie);
+        setUpInfoUnit.setValue(chosenDie.getActualDieValue());
+        setUpInfoUnit.setColor(chosenDie.getDieColor());
+        manager.showRearrangementResult(manager.getControllerMaster().getGameState().getCurrentPlayer(), setUpInfoUnit);
     }
 
     /**
@@ -61,15 +66,14 @@ public class IgnoreColorRestrictionEffect extends MoveWithRestrictionsEffect {
                 if (!gw[i][j].isEmpty()) {
                     ARestriction valueRestriction = new ValueRestriction(gw[i][j].getContainedDie().getActualDieValue());
                     list.add(valueRestriction);
-                    gw[i][j].updateRuleSet(list);
                 } else {
                     int restrictionParameter = gw[i][j].getDefaultValueRestriction().getValue();
                     if (restrictionParameter != 0) {
                         ARestriction valueRestriction = new ValueRestriction(restrictionParameter);
                         list.add(valueRestriction);
-                        gw[i][j].updateRuleSet(list);
                     }
                 }
+                gw[i][j].updateRuleSet(list);
             }
         }
     }
