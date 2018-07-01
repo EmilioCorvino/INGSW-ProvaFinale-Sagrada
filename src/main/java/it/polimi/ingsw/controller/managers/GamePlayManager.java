@@ -519,12 +519,9 @@ public class GamePlayManager extends AGameManager {
      * @see ColorBondMoveWithRestrictionEffect
      */
     public void showRearrangementResult(Player currentPlayer, SetUpInformationUnit setUpInfoUnit) {
-        if(!this.isMoveLegal()) {
+        if (!this.isMoveLegal()) {
             return;
         }
-
-        //Copies back the updated wp.
-        currentPlayer.getWindowPatternCard().overwriteOriginal();
 
         //Updates the board of the player on duty.
         IFromServerToClient currentPlayerClient = super.getPlayerClient(currentPlayer.getPlayerName());
@@ -563,7 +560,7 @@ public class GamePlayManager extends AGameManager {
      * @see SwapFromDraftPoolToRoundTrack
      */
     public void showDraftPoolRoundTrackSwap(SetUpInformationUnit infoUnitDraft, SetUpInformationUnit infoUnitRoundTrack) {
-        if(!this.isMoveLegal()) {
+        if (!this.isMoveLegal()) {
             return;
         }
 
@@ -573,7 +570,7 @@ public class GamePlayManager extends AGameManager {
 
         //Updates the draft pool and the round track for each player.
         List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
-        for(Player p: players) {
+        for (Player p: players) {
             IFromServerToClient playerClient =
                     super.getControllerMaster().getConnectedPlayers().get(p.getPlayerName()).getClient();
             try {
@@ -598,7 +595,7 @@ public class GamePlayManager extends AGameManager {
      * @see RestrictedDiePlacementMove
      */
     public void showUpdatedDraft(List<SetUpInformationUnit> rolledDice) {
-        if(!this.isMoveLegal()) {
+        if (!this.isMoveLegal()) {
             return;
         }
 
@@ -607,7 +604,7 @@ public class GamePlayManager extends AGameManager {
 
         //Updates the draft pool for each player.
         List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
-        for(Player p: players) {
+        for (Player p: players) {
             IFromServerToClient playerClient = super.getPlayerClient(p.getPlayerName());
             try {
                 playerClient.showNotice("\nLa Riserva è stata aggiornata.");
@@ -629,7 +626,7 @@ public class GamePlayManager extends AGameManager {
      * @see it.polimi.ingsw.model.cards.tool.swapeffects.SwapFromDraftPoolToDicebag
      */
     public void showDraftedDie(Player currentPlayer, SetUpInformationUnit infoUnit) {
-        if(!isMoveLegal()) {
+        if (!isMoveLegal()) {
            return;
         }
 

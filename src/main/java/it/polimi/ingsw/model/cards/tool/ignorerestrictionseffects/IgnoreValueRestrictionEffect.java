@@ -32,17 +32,19 @@ public class IgnoreValueRestrictionEffect extends MoveWithRestrictionsEffect {
 
         if (!super.checkMoveAvailability(gw, setUpInfoUnit)) {
             manager.setMoveLegal(false);
-            manager.sendNotificationToCurrentPlayer(super.invalidMove);
+            manager.sendNotificationToCurrentPlayer(super.invalidMoveMessage);
             return;
         }
 
         Die chosenDie = wp.removeDieFromOriginal(setUpInfoUnit.getSourceIndex());
         wp.removeDieFromCopy(setUpInfoUnit.getSourceIndex());
 
-        Cell desiredCell = new Cell(setUpInfoUnit.getDestinationIndex()/WindowPatternCard.MAX_COL , setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL);
+        Cell desiredCell = new Cell(setUpInfoUnit.getDestinationIndex() / WindowPatternCard.MAX_COL,
+                setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL);
         deleteValueRestriction(gw);
 
-        if (!super.checkMoveLegality(manager, wp, chosenDie, desiredCell, gw)) {
+        if (super.isMoveIllegal(manager, wp, chosenDie, desiredCell, gw)) {
+            super.restoreOriginalSituation(wp, setUpInfoUnit, chosenDie);
             return;
         }
 
@@ -59,21 +61,21 @@ public class IgnoreValueRestrictionEffect extends MoveWithRestrictionsEffect {
      * @param gw the glass window to modify.
      */
     private void deleteValueRestriction(Cell[][] gw) {
-        List<ARestriction> list;
+        List<ARestriction> temporaryRuleSet;
         for(int i=0; i<WindowPatternCard.MAX_ROW; i++) {
             for (int j = 0; j < WindowPatternCard.MAX_COL; j++) {
-                list = new ArrayList<>();
+                temporaryRuleSet = new ArrayList<>();
                 if (!gw[i][j].isEmpty()) {
                     ARestriction colorRestriction = new ColorRestriction(gw[i][j].getContainedDie().getDieColor());
-                    list.add(colorRestriction);
+                    temporaryRuleSet.add(colorRestriction);
                 } else {
                     Color restrictionParameter = gw[i][j].getDefaultColorRestriction().getColor();
-                    if (restrictionParameter.equals(Color.BLANK)) {
+                    if (!restrictionParameter.equals(Color.BLANK)) {
                         ARestriction colorRestriction = new ColorRestriction(restrictionParameter);
-                        list.add(colorRestriction);
+                        temporaryRuleSet.add(colorRestriction);
                     }
                 }
-                gw[i][j].updateRuleSet(list);
+                gw[i][j].updateRuleSet(temporaryRuleSet);
             }
         }
     }

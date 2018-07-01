@@ -13,12 +13,12 @@ import it.polimi.ingsw.model.die.containers.WindowPatternCard;
  */
 public class MoveWithRestrictionsEffect extends AToolCardEffect {
 
-    String invalidMove;
+    String invalidMoveMessage;
 
     /**
      * This method executes the specific effect of the tool that allows the user to move a die from a cell to another
      * of the personal window pattern card.
-     * @param manager the controller.
+     * @param manager part of the controller that deals with the game play.e controller.
      * @param setUpInfoUnit the unit information to use to perform the effect.
      */
     @Override
@@ -32,7 +32,7 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
 
         if(!checkMoveAvailability(glassWindowToConsider, setUpInfoUnit)) {
             manager.setMoveLegal(false);
-            manager.sendNotificationToCurrentPlayer(this.invalidMove);
+            manager.sendNotificationToCurrentPlayer(this.invalidMoveMessage);
             return;
         }
 
@@ -60,11 +60,13 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
      */
     boolean hasGlassWindowLessThanTwoDice(Cell[][] gw) {
         int count = 0;
-        for(int i=0; i<WindowPatternCard.getMaxRow(); i++)
-            for(int j=0; j< WindowPatternCard.getMaxCol(); j++) {
-                if(!gw[i][j].isEmpty())
+        for (int i = 0; i < WindowPatternCard.getMaxRow(); i++) {
+            for (int j = 0; j < WindowPatternCard.getMaxCol(); j++) {
+                if (!gw[i][j].isEmpty()) {
                     count++;
+                }
             }
+        }
         return count < 2;
     }
 
@@ -76,35 +78,52 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
      */
     boolean checkMoveAvailability(Cell[][] gw, SetUpInformationUnit info) {
         if (hasGlassWindowLessThanTwoDice(gw)) {
-            this.setInvalidMove("La tua vetrata non ha abbastanza dadi! Non puoi muovere alcun dado.");
+            this.setInvalidMoveMessage("La tua vetrata non ha abbastanza dadi! Non puoi muovere alcun dado.");
             return false;
         }
         if (gw[info.getSourceIndex()/WindowPatternCard.MAX_COL][info.getSourceIndex() % WindowPatternCard.MAX_COL].isEmpty()) {
-            this.setInvalidMove("La cella sorgente è vuota");
+            this.setInvalidMoveMessage("La cella sorgente è vuota.");
             return false;
         }
         if (!gw[info.getDestinationIndex()/WindowPatternCard.MAX_COL][info.getDestinationIndex() % WindowPatternCard.MAX_COL].isEmpty()) {
-            this.setInvalidMove("La cella destinazione è piena");
+            this.setInvalidMoveMessage("La cella destinazione è piena.");
             return false;
         }
         return true;
     }
 
-    boolean checkMoveLegality(GamePlayManager manager, WindowPatternCard wp, Die chosenDie, Cell desiredCell, Cell[][] gw) {
+    /**
+     * This method is used to check the validity of the movement, after the parameters have been validated by
+     * {@link #checkMoveAvailability(Cell[][], SetUpInformationUnit)}.
+     * @param manager part of the controller that deals with the game play.
+     * @param wp {@link WindowPatternCard} to consider.
+     * @param chosenDie {@link Die} that has been chosen.
+     * @param desiredCell {@link Cell} that has been selected as destination.
+     * @param gw glass window of the {@link WindowPatternCard} to consider.
+     * @return {@code true} if the move is illegal, {@code false} otherwise.
+     */
+    boolean isMoveIllegal(GamePlayManager manager, WindowPatternCard wp, Die chosenDie, Cell desiredCell, Cell[][] gw) {
         if (!wp.canBePlaced(chosenDie, desiredCell, gw)) {
-            wp.overwriteOriginal();
-            manager.sendNotificationToCurrentPlayer(wp.getErrorMessage() + " Digita 'comandi' per visualizzare i comandi disponibili.");
+            manager.sendNotificationToCurrentPlayer(wp.getErrorMessage() + COMMANDS_HELP);
             manager.setMoveLegal(false);
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
-    String getInvalidMove() {
-        return invalidMove;
+    void restoreOriginalSituation(WindowPatternCard wp, SetUpInformationUnit setUpInfoUnit, Die chosenDie) {
+        Cell previousCell = new Cell(setUpInfoUnit.getSourceIndex()/WindowPatternCard.MAX_COL,
+                setUpInfoUnit.getSourceIndex() % WindowPatternCard.MAX_COL);
+        wp.setDesiredCell(previousCell);
+        wp.addDieToCopy(chosenDie);
+        wp.overwriteOriginal();
     }
 
-    private void setInvalidMove(String invalidMove) {
-        this.invalidMove = invalidMove;
+    String getInvalidMoveMessage() {
+        return invalidMoveMessage;
+    }
+
+    private void setInvalidMoveMessage(String invalidMoveMessage) {
+        this.invalidMoveMessage = invalidMoveMessage;
     }
 }
