@@ -4,8 +4,11 @@ import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,12 +36,12 @@ public class DraftPoolGUI extends GridPane {
      */
     private boolean isEmpty = true;
 
-    //private int clicked;
+    private List<Integer> values;
 
-    private SetUpInformationUnit info;
 
     public DraftPoolGUI() {
-        setInfo(info);
+        //setInfo(info);
+        values = new ArrayList<>();
         this.getStylesheets().add("style/backgrounds.css");
         this.getStyleClass().add("map-background");
         this.setPadding(new Insets(20));
@@ -46,7 +49,6 @@ public class DraftPoolGUI extends GridPane {
         this.setMaxWidth(200);
         this.setHgap(12.5);
         this.setVgap(12.5);
-
 
         dieFactory = new DieFactory();
 
@@ -56,9 +58,6 @@ public class DraftPoolGUI extends GridPane {
             for(int j=0; j<MAX_COL; j++) {
                 ColumnConstraints cc = new ColumnConstraints(45);
                 this.getColumnConstraints().add(cc);
-
-                Pane pane = new Pane();
-                this.add(pane, j, i);
             }
         }
     }
@@ -69,37 +68,48 @@ public class DraftPoolGUI extends GridPane {
      */
     public void formatDraftPool(List<SetUpInformationUnit> diceList) {
         if(!this.isEmpty)
-            this.getChildren().remove(0, diceList.size());
+            this.getChildren().remove(0, this.getChildren().size());
 
         diceList.forEach( info -> {
+            this.values.add(info.getValue());
             this.isEmpty = false;
-            StackPane stack = new StackPane();
             DieGUI die = dieFactory.getsDieGUI(info);
-            stack.getChildren().addAll(die);
-            this.add(stack, info.getDestinationIndex() % MAX_COL, info.getDestinationIndex() / MAX_COL);
+            this.add(die, info.getDestinationIndex() % MAX_COL, info.getDestinationIndex() / MAX_COL);
         });
     }
 
-
+    /**
+     * This method adds the handler to the dice available in the draft pool.
+     * @param data the data where to store the input of the user.
+     */
     public void cellAsSource(PlayersData data) {
-        for(int i=0; i< DraftPoolGUI.MAX_COL * DraftPoolGUI.MAX_ROW; i++) {
-            if(this.getChildren().get(i) != null) {
+        for(int i=0; i<this.getChildren().size(); i++)
                 this.getChildren().get(i).addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-                    System.out.println("aariva qui?");
                     SetUpInformationUnit info = data.getSetUpInformationUnit();
                     info.setSourceIndex(GridPane.getRowIndex((Node)e.getSource()) * DraftPoolGUI.MAX_COL + GridPane.getColumnIndex((Node)e.getSource()));
                     data.setSourceFilled(true);
                 });
-            }
-        }
     }
 
+    /**
+     * This method flows the dice of the draft after a dice has benn removed for a placement.
+     */
+    public void reFormatDraft() {
+        List dice = new ArrayList();
+        for(int i=0; i<this.getChildren().size(); i++)
+            dice.add(this.getChildren().get(i));
 
-    public SetUpInformationUnit getInfo() {
-        return info;
+        this.getChildren().remove(0, this.getChildren().size());
+
+        for(int i=0; i< dice.size(); i++)
+            this.add((DieGUI)dice.get(i), i%3, i/3);
     }
 
-    public void setInfo(SetUpInformationUnit info) {
-        this.info = info;
+    public List<Integer> getValues() {
+        return values;
+    }
+
+    public void setValues(List<Integer> values) {
+        this.values = values;
     }
 }

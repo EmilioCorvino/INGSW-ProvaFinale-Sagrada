@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.gamewindows;
 
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.view.gui.*;
+import javafx.animation.ScaleTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -13,9 +14,15 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+/**
+ * This class manages the common board window in the GUI.
+ */
 public class CommonBoardWindow extends ParentWindow {
 
     /**
@@ -85,8 +92,14 @@ public class CommonBoardWindow extends ParentWindow {
 
     private Button ok;
 
+    private ToolWindowManager toolWindowManager;
+
+    private List<Integer> toolsId;
+
 
     public CommonBoardWindow(GUICommunicationManager manager) {
+
+
         roundTrack = new RoundTrackGUI();
         draftPoolGUI = new DraftPoolGUI();
         secondSecCont = new VBox();
@@ -119,6 +132,11 @@ public class CommonBoardWindow extends ParentWindow {
 
         ok.getStyleClass().add("button-style");
         ok.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> validateMoveHandler());
+
+        toolsId = new ArrayList<>();
+        toolWindowManager = new ToolWindowManager(manager);
+        toolWindowManager.setData(this.data);
+        toolWindowManager.setDraft(this.draftPoolGUI);
     }
 
 
@@ -148,6 +166,7 @@ public class CommonBoardWindow extends ParentWindow {
         minimize.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> GUIMain.getStage().setIconified(true));
     }
 
+
     /**
      * This method formats the window in general.
      */
@@ -155,6 +174,7 @@ public class CommonBoardWindow extends ParentWindow {
         this.mainContainer.setPadding(new Insets(20, 25, 20,25));
         this.mainContainer.setSpacing(20);
     }
+
 
     /**
      * This method formats the container of the window where the maps and other commands for the
@@ -171,6 +191,25 @@ public class CommonBoardWindow extends ParentWindow {
         ImageView view = new ImageView(card);
         imgViewCont.getStyleClass().add("map-background");
         imgViewCont.setPadding(new Insets(20));
+
+        //when mouse is entered the image is bigger.
+        view.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
+            ScaleTransition st = new ScaleTransition(Duration.millis(30), view);
+            st.setByX(0.25f);
+            st.setByY(0.25f);
+            st.setAutoReverse(true);
+            st.play();
+        } );
+
+        //when mouse is exited the image returns to its original size.
+        view.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
+            ScaleTransition st = new ScaleTransition(Duration.millis(30), view);
+            st.setByX(-0.25f);
+            st.setByY(-0.25f);
+            st.setAutoReverse(false);
+            st.play();
+        } );
+
         view.setFitHeight(240);
         view.setPreserveRatio(true);
         imgViewCont.setMinHeight(260);
@@ -184,6 +223,7 @@ public class CommonBoardWindow extends ParentWindow {
         secondSecCont.setMaxWidth(200);
         this.secondContainer.getChildren().add(publToolDraftCont);
     }
+
 
     /**
      * This method formats the proper commands useful during the game, such as the "pass turn" command.
@@ -211,11 +251,10 @@ public class CommonBoardWindow extends ParentWindow {
 
         this.ok.setVisible(false);
 
-
-
         commandsDraft.getChildren().addAll(favorTok, placement, pass, ok);
         this.secondSecCont.getChildren().add(commandsDraft);
     }
+
 
     /**
      * This method formats all that is relative to the player, such as its personal map and
@@ -255,16 +294,13 @@ public class CommonBoardWindow extends ParentWindow {
         Label numFav = new Label("");
         numFav.getStyleClass().add("text-label-bold");
 
-
-
-
-
         favorTok.getChildren().addAll(titleFav, numFav);
         box.getChildren().addAll(cardFavorCont, favorTok, map);
         base.getChildren().addAll(view1, box);
 
         this.secondContainer.getChildren().add(base);
     }
+
 
     /**
      * This method is responsible for updating the number of favor tokens each time a
@@ -288,11 +324,31 @@ public class CommonBoardWindow extends ParentWindow {
         for(int i=0; i<idPublObj.length; i++) {
             Image publCard = new Image("/cards/publicImages/publObj" + idPublObj[i] + ".png");
             ImageView view = new ImageView(publCard);
+
+            //when mouse is entered the image is bigger.
+            view.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
+                ScaleTransition st = new ScaleTransition(Duration.millis(30), view);
+                st.setByX(0.25f);
+                st.setByY(0.25f);
+                st.setAutoReverse(true);
+                st.play();
+            } );
+
+            //when mouse is exited the image returns to its original size.
+            view.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
+                ScaleTransition st = new ScaleTransition(Duration.millis(30), view);
+                st.setByX(-0.25f);
+                st.setByY(-0.25f);
+                st.setAutoReverse(false);
+                st.play();
+            } );
+
             view.setFitHeight(240);
             view.setPreserveRatio(true);
             publObjCont.getChildren().add(view);
         }
     }
+
 
     /**
      * This method sets the tool card images sent by the server.
@@ -305,14 +361,43 @@ public class CommonBoardWindow extends ParentWindow {
         toolCont.setSpacing(25);
         this.publToolDraftCont.getChildren().add(toolCont);
 
-        for(int i=0; i<idTools.length; i++) { //TODO: perché non un for each?
+        for(int i=0; i<idTools.length; i++) {
             Image toolCard = new Image("/cards/toolImages/tool" + idTools[i] + ".png");
             ImageView view = new ImageView(toolCard);
+
+            //when mouse is entered the image is bigger.
+            view.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
+                ScaleTransition st = new ScaleTransition(Duration.millis(30), view);
+                st.setByX(0.25f);
+                st.setByY(0.25f);
+                st.setAutoReverse(true);
+                st.play();
+            } );
+
+            //when mouse is exited the image returns to its original size.
+            view.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
+                ScaleTransition st = new ScaleTransition(Duration.millis(30), view);
+                st.setByX(-0.25f);
+                st.setByY(-0.25f);
+                st.setAutoReverse(false);
+                st.play();
+            } );
+
             view.setFitHeight(240);
             view.setPreserveRatio(true);
             toolCont.getChildren().add(view);
+
+            this.toolsId.add(idTools[i]);
+
+            view.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+                Integer index = (Integer)(e.getSource());
+                System.out.println("index tool: " + index);
+                this.data.setSlotChosen(index);
+                this.toolWindowManager.displayToolWindow(this.toolsId.get(index));
+            });
         }
     }
+
 
     public void setPanelForInformation() {
         HBox messageBox = new HBox();
@@ -321,13 +406,16 @@ public class CommonBoardWindow extends ParentWindow {
         this.publToolDraftCont.getChildren().add(messageBox);
     }
 
+
     public void showMessage(String message) {
         ((Label)((HBox)this.publToolDraftCont.getChildren().get(2)).getChildren().get(0)).setText(message);
     }
 
+
     public void setRoundTrack() {
         this.secondContainer.getChildren().add(this.roundTrack);
     }
+
 
     public VBox getPublToolDraftCont() {
         return publToolDraftCont;
@@ -355,14 +443,16 @@ public class CommonBoardWindow extends ParentWindow {
 
     @Override
     public void addHandlers() {
-
     }
 
+
+    /**
+     * This method checks if the die placement move has been done correctly, if so,  invokes the proper method
+     * to execute it.
+     */
     public void validateMoveHandler() {
-        SetUpInformationUnit info = this.data.getSetUpInformationUnit();
-        if(!(this.data.isDestinationFilled() && this.data.isSourceFilled() )) {
+        if(!(this.data.isDestinationFilled() && this.data.isSourceFilled())) {
             this.manager.communicateMessage("Non hai riempito i campi corretti");
-            System.out.println(info.getSourceIndex() + " " + info.getDestinationIndex());
         }
         else {
             this.ok.setVisible(false);
@@ -371,11 +461,16 @@ public class CommonBoardWindow extends ParentWindow {
     }
 
 
+    /**
+     * This method manages the placement of a die from the draft pool to the personal
+     * window pattern card in the GUI.
+     */
     public void diePlacementHandler() {
-
          if(this.manager.isCommandContained("Piazzamento")) {
+             SetUpInformationUnit setup = new SetUpInformationUnit();
+             this.data.setSetUpInformationUnit(setup);
              GridPane grid = this.data.getPersonalWp().getGlassWindow();
-
+            //This cycle adds css to the glass window of the player.
              for(int i=0; i< WpGui.MAX_ROW; i++)
                  for(int j=0; j<WpGui.MAX_COL; j++) {
                      StackPane stack = (StackPane) grid.getChildren().get(WpGui.MAX_COL * i + j);
@@ -390,6 +485,7 @@ public class CommonBoardWindow extends ParentWindow {
          }
     }
 
+
     /**
      * This method manages the pass turn command.
      */
@@ -400,6 +496,4 @@ public class CommonBoardWindow extends ParentWindow {
             this.manager.communicateMessage("Comando non supportato poichè non è il tuo turno.");
         }
     }
-
-
 }
