@@ -85,7 +85,7 @@ public class WindowPatternCard extends ADieContainer {
 
     /**
      * This method sets the window pattern card with the selected die.
-     * @param die: the die with which the window pattern card has to be updated.
+     * @param die the die with which the window pattern card has to be updated.
      */
     @Override
     public void addDieToCopy(Die die) {
