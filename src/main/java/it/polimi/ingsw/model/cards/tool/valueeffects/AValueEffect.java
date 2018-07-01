@@ -1,6 +1,9 @@
 
 package it.polimi.ingsw.model.cards.tool.valueeffects;
 
+import it.polimi.ingsw.controller.Commands;
+import it.polimi.ingsw.controller.managers.GamePlayManager;
+import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.model.cards.tool.AToolCardEffect;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
@@ -17,12 +20,7 @@ public abstract class AValueEffect extends AToolCardEffect {
     /**
      * The offset that determines the interval in which the value that will be chosen must respect.
      */
-    protected int offset;
-
-    /**
-     * This attribute defines which method has to be called when the player wants to increase or decrease the value of a die.
-     */
-    //protected String symbol;
+    private int offset;
 
     /**
      *
@@ -40,7 +38,7 @@ public abstract class AValueEffect extends AToolCardEffect {
     /**
      * This constructor will set e default value for the offset in case it is not specified;
      */
-    public AValueEffect() {
+    AValueEffect() {
         this.offset = 0;
     }
 
@@ -48,7 +46,7 @@ public abstract class AValueEffect extends AToolCardEffect {
      * This constructor will set a specific value to use when the effect will be applied.
      * @param offset: the specific value for the offset to set.
      */
-    public AValueEffect(int offset) {
+    AValueEffect(int offset) {
         this.offset = offset;
     }
 
@@ -60,22 +58,12 @@ public abstract class AValueEffect extends AToolCardEffect {
         this.offset = offset;
     }
 
-    /*
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-    */
-
     /**
      * This method checks if the result of an operation on the value of die is a right value.
      * @param dieValue: the value of the die.
      * @return true if the value that will be set is coherent.
      */
-    protected boolean checkValue(int dieValue) {
+    boolean checkValue(int dieValue) {
         return dieValue >=1 && dieValue <= 6;
     }
 
@@ -85,13 +73,13 @@ public abstract class AValueEffect extends AToolCardEffect {
      * @param originalValue: the original value on which to execute the check.
      * @return true if the value is in the interval allowed by the effect of the tool card.
      */
-    protected boolean checkNewValue(int newValue, int originalValue) {
+    boolean checkNewValue(int newValue, int originalValue) {
         if(this.offset != 0)
             return newValue >= originalValue - this.offset && newValue <= originalValue + this.offset;
         return true;
     }
 
-    protected boolean checkExistingCellsToUse(WindowPatternCard wp, Die chosenDie) {
+    boolean checkExistingCellsToUse(WindowPatternCard wp, Die chosenDie) {
         Cell[][] gw = wp.getGlassWindowCopy();
         List<Cell> cellToUse = new ArrayList<>();
         for(int i=0; i< WindowPatternCard.MAX_ROW; i++)
@@ -101,5 +89,40 @@ public abstract class AValueEffect extends AToolCardEffect {
                     cellToUse.add(gw[i][j]);
             }
         return cellToUse.size() > 0;
+    }
+
+    /**
+     * This method executes the effect common to the value effects.
+     * @param manager part of the controller that deals with the game play.
+     * @param setUpInfoUnit object containing all the information needed to perform the move.
+     */
+    @Override
+    public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit){
+        WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
+
+        Cell desiredCell = new Cell(setUpInfoUnit.getDestinationIndex() / WindowPatternCard.getMaxCol(), setUpInfoUnit.getDestinationIndex() % WindowPatternCard.getMaxCol());
+
+        Die die = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDiceCopy().get(setUpInfoUnit.getSourceIndex());
+
+        if(!wp.canBePlaced(die, desiredCell, wp.getGlassWindowCopy())) {
+            manager.setMoveLegal(false);
+            manager.sendNotificationToCurrentPlayer(wp.getErrorMessage() + COMMANDS_HELP);
+            return;
+        }
+
+        //Generation of SetUpInformationUnits to send to the view.
+        //this goes in a proper method and show placement result takes one parameter as input.
+        SetUpInformationUnit wpSetUpInfoUnit = new SetUpInformationUnit();
+        wpSetUpInfoUnit.setColor(die.getDieColor());
+        wpSetUpInfoUnit.setValue(die.getActualDieValue());
+        wpSetUpInfoUnit.setDestinationIndex(setUpInfoUnit.getDestinationIndex());
+        wpSetUpInfoUnit.setSourceIndex(setUpInfoUnit.getSourceIndex());
+
+        manager.setMoveLegal(true);
+
+        Die dieToRemove = manager.getControllerMaster().getCommonBoard().getDraftPool().removeDieFromCopy(setUpInfoUnit.getSourceIndex());
+        wp.setDesiredCell(desiredCell);
+        wp.addDieToCopy(dieToRemove);
+        manager.showPlacementResult(manager.getControllerMaster().getGameState().getCurrentPlayer(), wpSetUpInfoUnit);
     }
 }
