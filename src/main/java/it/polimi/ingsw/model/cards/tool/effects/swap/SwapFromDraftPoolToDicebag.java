@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.cards.tool.swapeffects;
+package it.polimi.ingsw.model.cards.tool.effects.swap;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;

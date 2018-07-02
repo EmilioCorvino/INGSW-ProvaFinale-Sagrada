@@ -6,11 +6,13 @@ import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.IFromServerToClient;
+import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 
 public abstract class AGameManager {
@@ -25,6 +27,25 @@ public abstract class AGameManager {
      */
     static final String TIMER_FILE = "./src/main/resources/config/turnTimer";
 
+    /**
+     * This is the timer that starts at the beginning of each player turn. If it expires, the player is suspended.
+     */
+    final Timer timer = new Timer();
+
+    /**
+     * Task associated with the timer. It's the one that effectively suspends players.
+     * @see GamePlayManager
+     */
+    TimerTask task;
+
+    /**
+     * Maximum amount of time each player has to perform a turn
+     */
+    long timeOut;
+
+    /**
+     * Controller of the application.
+     */
     private ControllerMaster controllerMaster;
 
     public ControllerMaster getControllerMaster() {
@@ -34,6 +55,16 @@ public abstract class AGameManager {
     void setControllerMaster(ControllerMaster controllerMaster) {
         this.controllerMaster = controllerMaster;
     }
+
+    /**
+     * Starts the timer related to a player. What happens when the timer expires is up to the state of the game in which
+     * players are.
+     * @param playerName player to whom the timer is related to.
+     * @see StartGameManager#startTimer(String)
+     * @see GamePlayManager#startTimer(String)
+     * @see EndGameManager#startTimer(String)
+     */
+    abstract void startTimer(String playerName);
 
     /**
      * This method notifies the current client any type of issue may occur in each request.

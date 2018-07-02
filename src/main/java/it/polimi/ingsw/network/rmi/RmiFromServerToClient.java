@@ -4,8 +4,8 @@ import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplifiedview.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.network.IFromServerToClient;
+import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.rmi.RemoteException;
 import java.util.List;

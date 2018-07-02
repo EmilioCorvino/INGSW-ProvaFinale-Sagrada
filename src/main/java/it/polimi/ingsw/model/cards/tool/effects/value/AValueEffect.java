@@ -1,16 +1,12 @@
 
-package it.polimi.ingsw.model.cards.tool.valueeffects;
+package it.polimi.ingsw.model.cards.tool.effects.value;
 
-import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
-import it.polimi.ingsw.model.cards.tool.AToolCardEffect;
+import it.polimi.ingsw.model.cards.tool.effects.AToolCardEffect;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.WindowPatternCard;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class manages the effects of the tool cards related to a change of the value of one or more dice.
@@ -23,7 +19,7 @@ public abstract class AValueEffect extends AToolCardEffect {
     private int offset;
 
     /**
-     *
+     * Die to which the effect is applied.
      */
     protected Die chosenDie;
 
@@ -50,21 +46,13 @@ public abstract class AValueEffect extends AToolCardEffect {
         this.offset = offset;
     }
 
-    public int getOffset() {
-        return offset;
-    }
-
-    public void setOffset(int offset) {
-        this.offset = offset;
-    }
-
     /**
      * This method checks if the result of an operation on the value of die is a right value.
      * @param dieValue: the value of the die.
      * @return true if the value that will be set is coherent.
      */
     boolean checkValue(int dieValue) {
-        return dieValue >=1 && dieValue <= 6;
+        return dieValue >= 1 && dieValue <= 6;
     }
 
     /**
@@ -79,17 +67,6 @@ public abstract class AValueEffect extends AToolCardEffect {
         return true;
     }
 
-    boolean checkExistingCellsToUse(WindowPatternCard wp, Die chosenDie) {
-        Cell[][] gw = wp.getGlassWindowCopy();
-        List<Cell> cellToUse = new ArrayList<>();
-        for(int i=0; i< WindowPatternCard.MAX_ROW; i++)
-            for (int j = 0; j < WindowPatternCard.MAX_COL; j++) {
-                wp.setDesiredCell(gw[i][j]);
-                if (wp.canBePlaced(chosenDie, wp.getDesiredCell(), wp.getGlassWindowCopy()))
-                    cellToUse.add(gw[i][j]);
-            }
-        return cellToUse.size() > 0;
-    }
 
     /**
      * This method executes the effect common to the value effects.
@@ -119,6 +96,7 @@ public abstract class AValueEffect extends AToolCardEffect {
         wpSetUpInfoUnit.setSourceIndex(setUpInfoUnit.getSourceIndex());
 
         manager.setMoveLegal(true);
+        manager.getControllerMaster().getGameState().getCurrentTurn().incrementDieCount();
 
         Die dieToRemove = manager.getControllerMaster().getCommonBoard().getDraftPool().removeDieFromCopy(setUpInfoUnit.getSourceIndex());
         wp.setDesiredCell(desiredCell);

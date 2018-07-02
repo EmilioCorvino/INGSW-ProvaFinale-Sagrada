@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.die.containers;
 
 import it.polimi.ingsw.model.die.Die;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,16 +71,11 @@ public class RoundTrack extends ADieContainer {
      */
     private void roundTrackCopy(List<ArrayList<Die>> source, List<ArrayList<Die>> destination){
         destination.clear();
-        for( int i = 0; i< 10; i++)
+        for( int i = 0; i < 10; i++)
             destination.add(new ArrayList<>());
         for (int i = 0; i < source.size(); i++)
             for (Die d : source.get(i))
                 destination.get(i).add(new Die(d.getActualDieValue(),d.getDieColor()));
-    }
-
-    @Override
-    public boolean isContained(Die die) {
-        return false;
     }
 
     public void setRoundToBeUpdated(int round) {

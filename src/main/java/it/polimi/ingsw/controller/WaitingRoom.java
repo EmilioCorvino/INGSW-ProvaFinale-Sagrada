@@ -3,11 +3,11 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.controller.managers.AGameManager;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.Connection;
+import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -188,7 +188,7 @@ public class WaitingRoom {
                     .add(new Player(entry.getKey(), this.controllerMaster.getCommonBoard()));
             entry.getValue().getServer().setController(this.controllerMaster);
             this.controllerMaster.getGamePlayManager().getDynamicCommands()
-                    .put(entry.getKey(), this.controllerMaster.getGamePlayManager().getCurrentPlayerCommands());
+                    .put(entry.getKey(), new ArrayList<>(this.controllerMaster.getGamePlayManager().getCurrentPlayerCommands()));
         }
 
         this.controllerMaster.getStartGameManager().setUpPrivateObjectiveCardAndWp();

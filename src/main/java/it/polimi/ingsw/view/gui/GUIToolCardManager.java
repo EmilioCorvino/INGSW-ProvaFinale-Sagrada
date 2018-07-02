@@ -2,8 +2,8 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.network.IFromClientToServer;
+import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.IToolCardManager;
 
 import java.util.ArrayList;

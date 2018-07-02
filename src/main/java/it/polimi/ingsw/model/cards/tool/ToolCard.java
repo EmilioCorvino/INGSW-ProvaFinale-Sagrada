@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.cards.tool;
 import com.google.gson.annotations.SerializedName;
 import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.move.IMove;
+import it.polimi.ingsw.model.move.AMove;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,10 @@ public class ToolCard implements IToolCard {
     private int availableTurn;
 
     /**
-     * This boolean is used to understand whether hte card implies a die placement or not.
+     * This boolean is used to understand whether hte card implies a die placement in the {@link it.polimi.ingsw.model.turn.Turn}
+     * in which it is used or not.
+     * N.B.: the tool card 8 does not imply a placement within a turn because it anticipates the placement of the
+     * next turn.
      */
     @SerializedName("placement")
     private boolean impliesPlacement;
@@ -61,7 +64,7 @@ public class ToolCard implements IToolCard {
     /**
      * Effects possessed by the card.
      */
-    private transient List<IMove> cardEffects;
+    private transient List<AMove> cardEffects;
 
     /**
      * Checks if the available turn in which the tool card can be used corresponds to the current turn.
@@ -96,7 +99,7 @@ public class ToolCard implements IToolCard {
         return effectBuilder;
     }
 
-    public List<IMove> getCardEffects() {
+    public List<AMove> getCardEffects() {
         return cardEffects;
     }
 

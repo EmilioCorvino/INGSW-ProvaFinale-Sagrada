@@ -1,10 +1,10 @@
-package it.polimi.ingsw.model.cards.tool.valueeffects;
+package it.polimi.ingsw.model.cards.tool.effects.value;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Die;
-import it.polimi.ingsw.model.move.DefaultDiePlacementMove;
-import it.polimi.ingsw.model.move.IMove;
+import it.polimi.ingsw.model.die.containers.DiceDraftPool;
+import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 
 /**
  * This class manages the effect of those tool cards that allow the player to increase the value of a chosen die.
@@ -12,12 +12,12 @@ import it.polimi.ingsw.model.move.IMove;
 public class ChooseValueEffect extends AValueEffect {
 
     /**
-     *
+     * This is a flag that indicates the die value needs to be increased.
      */
     private static final int INCREASE_CODE = 0;
 
     /**
-     *
+     * This is a flag that indicates the die value needs to be decreased.
      */
     private static final int DECREASE_CODE = 1;
 
@@ -65,23 +65,29 @@ public class ChooseValueEffect extends AValueEffect {
     }
 
     /**
-     * This metho
-     * @param manager
-     * @param setUpInfoUnit
+     * This method executes the effect of the increment or decrement a chosen die.
+     * @param manager part of the controller that deals with the game play.
+     * @param setUpInfoUnit object containing all the information needed to perform the move.
      */
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
-        Die die = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDice().get(setUpInfoUnit.getSourceIndex());
+        DiceDraftPool draftPool = manager.getControllerMaster().getCommonBoard().getDraftPool();
+        draftPool.createCopy();
+
+        WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
+        wp.createCopy();
+
+        Die die = draftPool.getAvailableDiceCopy().get(setUpInfoUnit.getSourceIndex());
 
         if(die.getActualDieValue() == 6 && setUpInfoUnit.getExtraParam() == INCREASE_CODE) {
             manager.setMoveLegal(false);
-            manager.sendNotificationToCurrentPlayer("Non puoi incrementare un 6 in un 1");
+            manager.sendNotificationToCurrentPlayer("Non puoi incrementare un 6 in un 1." + COMMANDS_HELP);
             return;
         }
 
         if(die.getActualDieValue() == 1 && setUpInfoUnit.getExtraParam() == DECREASE_CODE) {
             manager.setMoveLegal(false);
-            manager.sendNotificationToCurrentPlayer("Non puoi decrementare un 1 in un 6");
+            manager.sendNotificationToCurrentPlayer("Non puoi decrementare un 1 in un 6." + COMMANDS_HELP);
             return;
         }
 
@@ -91,16 +97,13 @@ public class ChooseValueEffect extends AValueEffect {
         if(setUpInfoUnit.getExtraParam() == DECREASE_CODE)
             die.setActualDieValue(decreaseDieValue(die).getActualDieValue());
 
-        //tell the controller to show the result
-        IMove move = new DefaultDiePlacementMove();
-        move.executeMove(manager, setUpInfoUnit);
-    }
+        if(!super.checkExistingCellsToUse(wp, die)) {
+            manager.setMoveLegal(false);
+            manager.sendNotificationToCurrentPlayer("Non ci sono celle disponibili in cui il dado può essere piazzato."
+                    + COMMANDS_HELP);
+            return;
+        }
 
-    public static int getIncreaseCode() {
-        return INCREASE_CODE;
-    }
-
-    public static int getDecreaseCode() {
-        return DECREASE_CODE;
+        super.executeMove(manager, setUpInfoUnit);
     }
 }

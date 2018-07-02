@@ -12,9 +12,9 @@ import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 import it.polimi.ingsw.model.die.containers.WindowPatternCardDeck;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.IFromServerToClient;
+import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -44,24 +44,39 @@ public class StartGameManager extends AGameManager {
     private List<String> playersDisconnectedBeforeCommonBoardSetting;
 
     /**
-     * Signals if the setting up is over or not.
+     * Signals if the setting up is over or not, hence if the match is in its game play state or not.
      */
-    private boolean matchSetUp;
+    private boolean matchRunning;
 
+    /**
+     * A part from initializing the class attributes, this constructor also loads the timer from file.
+     * @param controllerMaster main controller class.
+     */
     public StartGameManager(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
         this.listOfSentWpID = new HashMap<>();
         this.playersWhoChose = new ArrayList<>();
         this.playersDisconnectedBeforeCommonBoardSetting = new ArrayList<>();
-        this.matchSetUp = false;
+        this.matchRunning = false;
+
+        //Back up value.
+        super.timeOut = BACK_UP_TIMER;
+
+        //Value read from file. If the loading is successful, it overwrites the back up.
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_FILE)))) {
+            super.timeOut = Long.parseLong(reader.readLine());
+            SagradaLogger.log(Level.CONFIG, "Timer successfully loaded from file. Its value is: " + timeOut / 1000 + "s");
+        } catch (IOException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
+        }
     }
 
-    public boolean isMatchSetUp() {
-        return matchSetUp;
+    public boolean isMatchRunning() {
+        return matchRunning;
     }
 
-    private void setMatchSetUp(boolean matchSetUp) {
-        this.matchSetUp = matchSetUp;
+    void setMatchRunning(boolean matchRunning) {
+        this.matchRunning = matchRunning;
     }
 
     public List<String> getPlayersDisconnectedBeforeCommonBoardSetting() {
@@ -181,7 +196,7 @@ public class StartGameManager extends AGameManager {
         this.playersWhoChose.add(playerName);
         if (this.playersWhoChose.size() == super.getControllerMaster().getCommonBoard().getPlayers().size()) {
             this.setCommonBoard();
-            this.setMatchSetUp(true);
+            this.setMatchRunning(true);
             super.getControllerMaster().getGamePlayManager().startRound();
         } else {
             try {
@@ -249,21 +264,9 @@ public class StartGameManager extends AGameManager {
      * Starts the timer of the turn. If it can't be loaded from file, a back up value is used.
      * @param playerName name of the player to suspend in case he didn't choose the {@link WindowPatternCard} on time.
      */
-    private void startTimer(String playerName) {
-        Timer timer = new Timer();
-
-        //Back up value.
-        long timeOut = BACK_UP_TIMER;
-
-        //Value read from file. If the loading is successful, it overwrites the back up.
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_FILE)))) {
-            timeOut = Long.parseLong(reader.readLine());
-            SagradaLogger.log(Level.CONFIG, "Timer successfully loaded from file. Its value is: " + timeOut / 1000 + "s");
-        } catch (IOException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
-        }
+    @Override
+    void startTimer(String playerName) {
         SagradaLogger.log(Level.INFO, playerName + " wp choice timer is started");
-
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -272,7 +275,7 @@ public class StartGameManager extends AGameManager {
                     exitGame(playerName);
                 }
             }
-        }, timeOut);
+        }, super.timeOut);
     }
 
     /**

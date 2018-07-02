@@ -11,8 +11,8 @@ import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 import it.polimi.ingsw.model.die.containers.RoundTrack;
 import it.polimi.ingsw.model.die.containers.WindowPatternCardDeck;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,9 +143,9 @@ public class CommonBoard {
         //for (int i = 0; i < 3; i++) {
             //try {
                 //this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().drawCard()));
-                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(0)));
-                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(7)));
-                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(9)));
+                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(4)));
+                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(8)));
+                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(6)));
                 //this.getToolCardSlots().get(i).setCost(1); //Default cost to use a tool card.
                 this.getToolCardSlots().forEach(slot -> slot.setCost(1));
             //} catch (EmptyException e) {

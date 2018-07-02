@@ -65,8 +65,11 @@ public class LoginManager {
      */
     public int getGameMode(){
         int gameMode = inputOutputManager.askInt("\nInserire il numero della modalità di partita desiderata:\n\t 1 - Multigiocatore\n\t 2 - Giocatore Singolo");
-        while (!(gameMode == 1 || gameMode == 2)) {
-            gameMode = inputOutputManager.askInt("ERRORE: Scelta non supportata, inserire 1 (GiocatoreSingolo) o 2 (Multigiocatore): ");
+        while (gameMode != 1) {
+            if (gameMode == 2)
+                gameMode = inputOutputManager.askInt("Funzionalità ancora non supportata, effettuare una scelta differente: ");
+            else
+                gameMode = inputOutputManager.askInt("ERRORE: Scelta non supportata, inserire 1 (GiocatoreSingolo) o 2 (Multigiocatore): ");
         }
         return gameMode;
     }
@@ -78,16 +81,13 @@ public class LoginManager {
      * @param view: An instance of view.
      */
     public IFromClientToServer chooseNetworkInterface(String ip, IViewMaster view) throws BrokenConnectionException {
-
-        Scanner scan = new Scanner(System.in);
-        String networkType;
+        int networkType;
 
         do {
-            inputOutputManager.print("\nScegliere l'interfaccia di rete desiderata:\n\t 1 - Socket\n\t 2 - RMI");
-            networkType = scan.next().trim();
-        } while (!("1".equals(networkType) || "2".equals(networkType)));
-        if (networkType.equals("1"))
-            return new SocketFromClientToServer();
+            networkType = inputOutputManager.askInt("\nScegliere l'interfaccia di rete desiderata:\n\t 1 - Socket\n\t 2 - RMI");
+            if (networkType == 1)
+                inputOutputManager.print("Funzionalità ancora non supportata, effettuare una scelta differente.");
+        } while (networkType != 2);
 
         return new RmiFromClientToServer(ip, view);
     }
@@ -97,6 +97,7 @@ public class LoginManager {
      * @param players: list of username of players connected to the server.
      */
     public void showRoom(List<String> players) {
+        inputOutputManager.print("----------------------------------------------");
         inputOutputManager.print("In attesa di connessione di altri giocatori...");
         inputOutputManager.print("Giocatori momentaneamente connessi: ");
         for (String name : players)

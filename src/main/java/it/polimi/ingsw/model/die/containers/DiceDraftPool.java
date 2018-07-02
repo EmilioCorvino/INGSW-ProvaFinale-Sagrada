@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.die.containers;
 
 import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,11 +75,6 @@ public class DiceDraftPool extends ADieContainer {
     @Override
     public Die removeDieFromCopy(int index){
         return this.availableDiceCopy.remove(index);
-    }
-
-    @Override
-    public boolean isContained(Die die) {
-        return false;
     }
 
     /**

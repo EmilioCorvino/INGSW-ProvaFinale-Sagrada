@@ -8,7 +8,7 @@ import it.polimi.ingsw.model.cards.objective.publics.strategies.ColumnStrategy;
 import it.polimi.ingsw.model.cards.objective.publics.strategies.DiagonalStrategy;
 import it.polimi.ingsw.model.cards.objective.publics.strategies.RowStrategy;
 import it.polimi.ingsw.model.cards.objective.publics.strategies.SetStrategy;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
+import it.polimi.ingsw.utils.SagradaLogger;
 
 import java.io.FileReader;
 import java.io.IOException;

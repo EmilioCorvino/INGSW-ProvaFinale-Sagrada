@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.cards.tool;
 
 import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.cards.tool.valueeffects.AValueEffect;
-import it.polimi.ingsw.model.cards.tool.valueeffects.OppositeValueEffect;
+import it.polimi.ingsw.model.cards.tool.effects.value.AValueEffect;
+import it.polimi.ingsw.model.cards.tool.effects.value.OppositeValueEffect;
 import it.polimi.ingsw.model.die.Die;
 import org.junit.Test;
 

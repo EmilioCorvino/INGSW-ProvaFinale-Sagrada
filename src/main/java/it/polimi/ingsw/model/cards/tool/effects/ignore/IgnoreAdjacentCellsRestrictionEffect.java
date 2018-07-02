@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.cards.tool.ignorerestrictionseffects;
+package it.polimi.ingsw.model.cards.tool.effects.ignore;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
@@ -40,26 +40,24 @@ public class IgnoreAdjacentCellsRestrictionEffect extends DefaultDiePlacementMov
         //!wp.checkAdjacentCells(desiredCell, gwCopy)
 
         if((!wp.checkAdjacentCells(desiredCell, gwCopy)) ) {
-            System.out.println("la cella non è adiacente quindi puoi fare il piazzamento");
             if(wp.checkOwnRuleSet(chosenDie, desiredCell, gwCopy)) {
                 manager.setMoveLegal(true);
                 wp.addDieToCopy(wp.removeDieFromCopy(info.getSourceIndex()));
                 info.setValue(chosenDie.getActualDieValue());
                 info.setColor(chosenDie.getDieColor());
                 manager.showPlacementResult(p, info);
-                System.out.println("if dell own rule set");
                 return;
             } else {
                 manager.sendNotificationToCurrentPlayer(wp.getErrorMessage() + " Digita 'Comandi' per vedere i tuoi comandi");
                 manager.setMoveLegal(false);
-                System.out.println("else dell own ruleset " + wp.getErrorMessage());
                 return;
             }
         }
 
         info.setColor(chosenDie.getDieColor());
         info.setValue(chosenDie.getActualDieValue());
-        System.out.println("sto per chiamare la super");
         super.executeMove(manager, info);
+
+        //todo check if this has to use defaultPlacement or AValue effect placement. Remember to increment the die placed count.
     }
 }

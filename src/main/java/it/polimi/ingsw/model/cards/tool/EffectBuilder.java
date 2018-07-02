@@ -1,8 +1,9 @@
 package it.polimi.ingsw.model.cards.tool;
 
 import com.google.gson.annotations.SerializedName;
-import it.polimi.ingsw.model.cards.tool.draft.DraftValueEffect;
-import it.polimi.ingsw.model.cards.tool.valueeffects.ChooseValueEffect;
+import it.polimi.ingsw.model.cards.tool.effects.AToolCardEffect;
+import it.polimi.ingsw.model.cards.tool.effects.draft.DraftValueEffect;
+import it.polimi.ingsw.model.cards.tool.effects.value.ChooseValueEffect;
 
 /**
  * This class is used to store the parsed information used to build the {@link AToolCardEffect}.

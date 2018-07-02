@@ -1,12 +1,10 @@
-package it.polimi.ingsw.model.cards.tool.valueeffects;
+package it.polimi.ingsw.model.cards.tool.effects.value;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 import it.polimi.ingsw.model.die.containers.WindowPatternCard;
-import it.polimi.ingsw.model.move.DefaultDiePlacementMove;
-import it.polimi.ingsw.model.move.IMove;
 
 /**
  * This class manages the too effect that computes the opposite value of a chosen die.
@@ -16,7 +14,7 @@ public class OppositeValueEffect extends AValueEffect {
     /**
      * This is the value used to compute the opposite value of the chosen die.
      */
-    public static final int OPPOSITE = 7;
+    private static final int OPPOSITE = 7;
 
     /**
      * This method computes the opposite value of the chosen die.
@@ -30,7 +28,7 @@ public class OppositeValueEffect extends AValueEffect {
     }
 
     /**
-     * This method execute the effect of the computation of the opposite value of a chosen die.
+     * This method executes the effect of the computation of the opposite value of a chosen die.
      * @param manager part of the controller that deals with the game play.
      * @param setUpInfoUnit object containing all the information needed to perform the move.
      */
@@ -47,7 +45,8 @@ public class OppositeValueEffect extends AValueEffect {
 
         if(!super.checkExistingCellsToUse(wp, die)) {
             manager.setMoveLegal(false);
-            manager.sendNotificationToCurrentPlayer("Non ci sono celle disponibili in cui il dado può essere piazzato");
+            manager.sendNotificationToCurrentPlayer("Non ci sono celle disponibili in cui il dado può essere piazzato."
+                + COMMANDS_HELP);
             return;
         }
 

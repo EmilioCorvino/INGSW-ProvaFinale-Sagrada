@@ -38,7 +38,7 @@ public class Turn {
      */
     private int toolSlotUsed = -1;
 
-    Turn(Player player) {
+    public Turn(Player player) {
         this.player = player;
     }
 

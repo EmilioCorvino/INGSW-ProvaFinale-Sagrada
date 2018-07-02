@@ -4,11 +4,11 @@ import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplifiedview.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.network.IFromClientToServer;
+import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.Bank;
 import it.polimi.ingsw.view.IViewMaster;
 import it.polimi.ingsw.view.cli.boardelements.CommonBoardView;
@@ -242,6 +242,8 @@ public class CliView implements IViewMaster {
      */
     @Override
     public void showCommand(List<Commands> commands) {
+        if(commands.contains(Commands.VISUALIZATION))
+            inputOutputManager.print(this.player.getWp().wpToString());
         functions = bank.getCommandMap(commands);
         ((CliDefaultMatchManager)bank.getDefaultMatchManager()).populateHelp(functions);
         printCommands();

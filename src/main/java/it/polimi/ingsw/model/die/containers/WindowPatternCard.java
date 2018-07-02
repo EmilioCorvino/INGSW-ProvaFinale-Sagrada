@@ -42,11 +42,6 @@ public class WindowPatternCard extends ADieContainer {
     private Cell desiredCell;
 
     /**
-     * This attributes indicates if the original glass window has been modified
-     */
-    private boolean isGlassWindowModified = false;
-
-    /**
      * The copy of the glass window.
      */
     private Cell[][] glassWindowCopy = new Cell[MAX_ROW][MAX_COL];
@@ -174,7 +169,7 @@ public class WindowPatternCard extends ADieContainer {
     private boolean checkBorderCells(Cell selectedCell) {
         if(selectedCell.getCol() == 0 || selectedCell.getCol() == MAX_COL-1 || selectedCell.getRow() == 0 || selectedCell.getRow() == MAX_ROW-1)
             return true;
-        setErrorMessage("La cella selezionata non e' una cella del bordo");
+        setErrorMessage("La cella selezionata non e' una cella del bordo.");
         return false;
     }
 
@@ -204,7 +199,7 @@ public class WindowPatternCard extends ADieContainer {
                 if (!(i == 1 && j == i) && (!(glassWindowToConsider[selectedCell.getRow()-1 + i][selectedCell.getCol()-1 + j].isEmpty())))
                     return true;
 
-        setErrorMessage("La cella desiderata non e' vicina ad un dado");
+        setErrorMessage("La cella desiderata non e' vicina ad un dado.");
         return false;
     }
 
@@ -249,7 +244,7 @@ public class WindowPatternCard extends ADieContainer {
 
         for (ARestriction restriction : adjacentRules)
             if(restriction.isRespected(die)) {
-                setErrorMessage("Non sono rispettate le restrizioni delle celle adiacenti");
+                setErrorMessage("Non sono rispettate le restrizioni delle celle adiacenti.");
                 return false;
             }
 
@@ -270,49 +265,27 @@ public class WindowPatternCard extends ADieContainer {
     public boolean canBePlaced(Die die, Cell selectedCell, Cell[][] glassWindowToConsider) {
 
         if (!isTheCellInTheMatrix(selectedCell) ){
-            setErrorMessage("La cella desiderata non e' contenuta nella matrice");
+            setErrorMessage("La cella desiderata non e' contenuta nella matrice.");
             return false;
         }
         if (!glassWindowToConsider[selectedCell.getRow()][selectedCell.getCol()].isEmpty()){
-            setErrorMessage("La cella desiderata e' gia piena");
+            setErrorMessage("La cella desiderata e' gia piena.");
             return false;
         }
         if (matrixIsEmpty(glassWindowToConsider)) {
             return checkBorderCells(selectedCell) && checkOwnRuleSet(die, selectedCell, glassWindowToConsider);
-        }else {
+        } else {
             return checkAdjacentCells(selectedCell, glassWindowToConsider) &&
                     checkOwnRuleSet(die, selectedCell, glassWindowToConsider) &&
                     checkAdjacentRuleSet(die, selectedCell, glassWindowToConsider);
         }
     }
 
-    /**
-     * This method checks if a specific die is contained in the window pattern card
-     * @param dieToSearch: die that should be contained.
-     * @return true if is contained else false.
-     */
-    public boolean isContained(Die dieToSearch) {
-        for(int i=0; i<MAX_ROW; i++)
-            for(int j=0; i<MAX_COL; j++)
-                if(!glassWindow[i][j].isEmpty())
-                    return glassWindow[i][j].getContainedDie().equals(dieToSearch);
-        return false;
-    }
-
-
-    public boolean isGlassWindowModified() {
-        return isGlassWindowModified;
-    }
-
-    public void setGlassWindowModified(boolean glassWindowModified) {
-        isGlassWindowModified = glassWindowModified;
-    }
-
     public Cell[][] getGlassWindowCopy() {
         return glassWindowCopy;
     }
 
-    public void setGlassWindowCopy(Cell[][] glassWindowCopy) {
+    void setGlassWindowCopy(Cell[][] glassWindowCopy) {
         this.glassWindowCopy = glassWindowCopy;
     }
 
@@ -328,20 +301,8 @@ public class WindowPatternCard extends ADieContainer {
         return difficulty;
     }
 
-    public void setDifficulty(int difficulty) {
-        this.difficulty = difficulty;
-    }
-
     public Cell[][] getGlassWindow() {
         return glassWindow;
-    }
-
-    public void setGlassWindow(Cell[][] glassWindow) {
-        this.glassWindow = glassWindow;
-    }
-
-    public Cell getDesiredCell() {
-        return desiredCell;
     }
 
     public void setDesiredCell(Cell desiredCell) {

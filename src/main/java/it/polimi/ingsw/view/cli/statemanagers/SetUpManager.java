@@ -2,7 +2,7 @@ package it.polimi.ingsw.view.cli.statemanagers;
 
 import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplifiedview.SimplifiedWindowPatternCard;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
+import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.view.cli.boardelements.PlayerView;
 import it.polimi.ingsw.view.cli.boardelements.ToolCardView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
@@ -15,7 +15,6 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.regex.Pattern;
 
 /**
  * This class manages all the interaction during the game's state of set up.

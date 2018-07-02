@@ -5,21 +5,21 @@ import it.polimi.ingsw.controller.ControllerMaster;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.cards.ToolCardSlot;
-import it.polimi.ingsw.model.cards.tool.draft.DraftValueEffect;
 import it.polimi.ingsw.model.cards.tool.ToolCard;
-import it.polimi.ingsw.model.cards.tool.ignorerestrictionseffects.*;
-import it.polimi.ingsw.model.cards.tool.swapeffects.SwapFromDraftPoolToRoundTrack;
+import it.polimi.ingsw.model.cards.tool.effects.draft.DraftValueEffect;
+import it.polimi.ingsw.model.cards.tool.effects.ignore.*;
+import it.polimi.ingsw.model.cards.tool.effects.swap.SwapFromDraftPoolToRoundTrack;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.DiceDraftPool;
+import it.polimi.ingsw.model.move.AMove;
 import it.polimi.ingsw.model.move.DefaultDiePlacementMove;
-import it.polimi.ingsw.model.move.IMove;
 import it.polimi.ingsw.model.move.RestrictedDiePlacementMove;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.turn.GameState;
 import it.polimi.ingsw.model.turn.Turn;
 import it.polimi.ingsw.network.IFromServerToClient;
+import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -65,13 +65,12 @@ public class GamePlayManager extends AGameManager {
     /**
      * This constructor, other than setting the controller master, also initializes the lists of commands to be shown
      * both to the player on duty ({@link #currentPlayerCommands}) and to the others ({@link #waitingPlayersCommands}).
-     *
+     * It also loads the timer from file.
      * @param controllerMaster main controller class.
      */
     public GamePlayManager(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
         this.currentPlayerCommands = new ArrayList<>();
-        this. dynamicCommands = new HashMap<>();
 
         //Gets the tool cards commands from the model.
         for (ToolCardSlot slot : controllerMaster.getCommonBoard().getToolCardSlots()) {
@@ -79,8 +78,21 @@ public class GamePlayManager extends AGameManager {
         }
 
         this.currentPlayerCommands.addAll(Arrays.asList(Commands.PLACEMENT, Commands.VISUALIZATION,Commands.END_TURN, Commands.LOGOUT));
-
         this.waitingPlayersCommands = new ArrayList<>(Arrays.asList(Commands.VISUALIZATION, Commands.LOGOUT));
+
+        //Initializes the dynamic map of commands.
+        this.dynamicCommands = new HashMap<>();
+
+        //Back up value.
+        super.timeOut = BACK_UP_TIMER;
+
+        //Value read from file. If the loading is successful, it overwrites the back up.
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_FILE)))) {
+            super.timeOut = Long.parseLong(reader.readLine());
+            SagradaLogger.log(Level.CONFIG, "Timer successfully loaded from file. Its value is: " + timeOut / 1000 + "s");
+        } catch (IOException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
+        }
     }
 
     public List<Commands> getCurrentPlayerCommands() {
@@ -107,6 +119,7 @@ public class GamePlayManager extends AGameManager {
 
         //Terminates the match if there are no players left.
         if (super.getControllerMaster().getSuspendedPlayers().size() == super.getControllerMaster().getConnectedPlayers().size()) {
+            super.getControllerMaster().getStartGameManager().setMatchRunning(false);
             super.getControllerMaster().getEndGameManager().quitGame();
             return;
         }
@@ -136,6 +149,7 @@ public class GamePlayManager extends AGameManager {
 
             this.startTurn(gameState.getCurrentTurn());
         } else {
+            super.getControllerMaster().getStartGameManager().setMatchRunning(false);
             super.getControllerMaster().getEndGameManager().computeRank();
         }
     }
@@ -180,41 +194,48 @@ public class GamePlayManager extends AGameManager {
                 gameState.getCurrentPlayerTurnIndex() < (gameState.getTurnOrder().size() / 2) ? "PRIMO" : "SECONDO";
 
         super.sendNotificationToCurrentPlayer("\nÈ IL TUO " + turnNumber + " TURNO DEL ROUND!");
-        this.dynamicCommands.replace(currentPlayerTurn.getPlayer().getPlayerName(), this.currentPlayerCommands);
+        this.dynamicCommands.replace(currentPlayerTurn.getPlayer().getPlayerName(), new ArrayList<>(this.currentPlayerCommands));
         super.sendCommandsToCurrentPlayer(this.dynamicCommands.get(currentPlayerTurn.getPlayer().getPlayerName()));
-        this.startTimer(currentPlayerTurn);
+        this.startTimer(currentPlayerTurn.getPlayer().getPlayerName());
         this.checkIfPlayerIsSuspended(currentPlayerTurn.getPlayer().getPlayerName());
     }
 
     /**
      * Starts the timer of the turn. If it can't be loaded from file, a back up value is used.
-     * @param turn turn of the player to suspend in case his turn isn't over when the timer expires. It has a reference
-     *             to said {@link Player}.
+     * This method cancels the previous {@link TimerTask} if it's not completed yet, and then starts a new task.
+     * From the playerName, the last turn of the player is retrieved from the turn order: if this turn isn't completed
+     * by when the timer expires, the player gets suspended.
+     * @param playerName player to suspend in case his turn isn't over when the timer expires.
      */
-    private void startTimer(Turn turn) {
-        Timer timer = new Timer();
-
-        //Back up value.
-        long timeOut = BACK_UP_TIMER;
-
-        //Value read from file. If the loading is successful, it overwrites the back up.
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_FILE)))) {
-            timeOut = Long.parseLong(reader.readLine());
-            SagradaLogger.log(Level.CONFIG, "Timer successfully loaded from file. Its value is: " + timeOut / 1000 + "s");
-        } catch (IOException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
+    @Override
+    void startTimer(String playerName) {
+        if (task != null) {
+            task.cancel();
+            task = null;
+            SagradaLogger.log(Level.INFO, "Previous timer has been canceled.");
         }
-        SagradaLogger.log(Level.INFO, turn.getPlayer().getPlayerName() + " turn timer is started");
 
-        timer.schedule(new TimerTask() {
+        GameState gameState = super.getControllerMaster().getGameState();
+        SagradaLogger.log(Level.INFO, playerName + " turn timer is started");
+        task = new TimerTask() {
             @Override
             public void run() {
-                SagradaLogger.log(Level.WARNING, turn.getPlayer().getPlayerName() + " turn timer is expired");
-                if (!turn.isTurnCompleted()) {
-                    getControllerMaster().suspendPlayer(turn.getPlayer().getPlayerName());
+                SagradaLogger.log(Level.WARNING, playerName + " turn timer is expired");
+
+                //This should always be overwritten.
+                Turn playerTurn = new Turn(new Player("fakePlayer", getControllerMaster().getCommonBoard()));
+                for (Turn turn: gameState.getTurnOrder()) {
+                    if (turn.getPlayer().getPlayerName().equals(playerName) &&
+                            gameState.getTurnOrder().indexOf(turn) <= gameState.getCurrentPlayerTurnIndex()) {
+                        playerTurn = turn;
+                    }
+                }
+                if (!playerTurn.isTurnCompleted()) {
+                    getControllerMaster().suspendPlayer(playerTurn.getPlayer().getPlayerName());
                 }
             }
-        }, timeOut);
+        };
+        timer.schedule(task, super.timeOut);
     }
 
     /**
@@ -234,6 +255,7 @@ public class GamePlayManager extends AGameManager {
 
         //Checks if there is only one (or less) player left playing. In that case, ends the match.
         if (super.getControllerMaster().getSuspendedPlayers().size() >= (super.getControllerMaster().getConnectedPlayers().size() - 1)) {
+            super.getControllerMaster().getStartGameManager().setMatchRunning(false);
             for(String playerName: super.getControllerMaster().getConnectedPlayers().keySet()) {
                 if(!super.getControllerMaster().getSuspendedPlayers().contains(playerName)) {
                     IFromServerToClient client = super.getPlayerClient(playerName);
@@ -346,7 +368,7 @@ public class GamePlayManager extends AGameManager {
                 super.sendCommandsToCurrentPlayer(filteredCommands);
                 this.checkIfPlayerIsSuspended(playerName);
             } else {
-                IMove move = new DefaultDiePlacementMove();
+                AMove move = new DefaultDiePlacementMove();
                 move.executeMove(this, info);
                 this.checkAndResolveDefaultMoveLegality(gameState, playerName);
             }
@@ -384,7 +406,7 @@ public class GamePlayManager extends AGameManager {
                 this.checkIfPlayerIsSuspended(playerName);
             } else {
                 ToolCardSlot slot = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID);
-                this.checkToolCardAvailability(gameState, slotID);
+                this.checkToolCardAvailability(gameState, slotID, playerName);
                 for (int i = 0; i < infoUnits.size(); i++) {
                     if (this.isMoveLegal()) {
                         slot.getToolCard().getCardEffects().get(i).executeMove(this, infoUnits.get(i));
@@ -407,7 +429,7 @@ public class GamePlayManager extends AGameManager {
      * @param infoUnit object containing the information needed to update the model.
      * @param playerName name of the player trying to perform the move.
      * @see DraftValueEffect
-     * @see it.polimi.ingsw.model.cards.tool.swapeffects.SwapFromDraftPoolToDicebag
+     * @see it.polimi.ingsw.model.cards.tool.effects.swap.SwapFromDraftPoolToDicebag
      */
     public void performRestrictedPlacement(SetUpInformationUnit infoUnit, String playerName) {
         GameState gameState = super.getControllerMaster().getGameState();
@@ -418,7 +440,7 @@ public class GamePlayManager extends AGameManager {
             return;
         }
 
-        IMove restrictedPlacement = new RestrictedDiePlacementMove();
+        AMove restrictedPlacement = new RestrictedDiePlacementMove();
         restrictedPlacement.executeMove(this, infoUnit);
 
         if(!this.isMoveLegal()) {
@@ -467,8 +489,8 @@ public class GamePlayManager extends AGameManager {
      *                      the {@link it.polimi.ingsw.view.cli.die.WindowPatternCardView} and the
      *                      {@link it.polimi.ingsw.view.cli.die.DieDraftPoolView}.
      * @see DefaultDiePlacementMove
-     * @see it.polimi.ingsw.model.cards.tool.valueeffects.ChooseValueEffect
-     * @see it.polimi.ingsw.model.cards.tool.valueeffects.OppositeValueEffect
+     * @see it.polimi.ingsw.model.cards.tool.effects.value.ChooseValueEffect
+     * @see it.polimi.ingsw.model.cards.tool.effects.value.OppositeValueEffect
      * @see IgnoreAdjacentCellsRestrictionEffect
      */
     public void showPlacementResult(Player currentPlayer, SetUpInformationUnit setUpInfoUnit) {
@@ -624,7 +646,7 @@ public class GamePlayManager extends AGameManager {
      * @param infoUnit contains the information needed to show the new {@link it.polimi.ingsw.model.die.Die}
      *                 (in the form of a {@link it.polimi.ingsw.view.cli.die.DieView}).
      * @see DraftValueEffect
-     * @see it.polimi.ingsw.model.cards.tool.swapeffects.SwapFromDraftPoolToDicebag
+     * @see it.polimi.ingsw.model.cards.tool.effects.swap.SwapFromDraftPoolToDicebag
      */
     public void showDraftedDie(Player currentPlayer, SetUpInformationUnit infoUnit) {
         if (!isMoveLegal()) {
@@ -755,8 +777,15 @@ public class GamePlayManager extends AGameManager {
         //Checks if the executeMove has been successful or not, and modifies the state of the turn accordingly.
         if (this.isMoveLegal()) {
             gameState.getCurrentTurn().setDiePlaced(true);
-            gameState.getCurrentTurn().incrementDieCount();
             super.sendNotificationToCurrentPlayer("\nPiazzamento effettuato!");
+
+            if (gameState.getCurrentTurn().getDieCount() >= 2) {
+
+                //Considers the second turn of the same player in the round.
+                Turn turn = gameState.getTurnOrder().get(gameState.getTurnOrder().size() - gameState.getCurrentPlayerTurnIndex() - 1);
+                turn.setPassed(true);
+                super.sendNotificationToCurrentPlayer("\nRicorda che salterai il tuo prossimo turno in questo round!");
+            }
 
             //Checks if the player has done everything he could. If he did, ends his turn; if not, shows him the commands.
             //The commands shown are relative to what the player can still do.
@@ -798,7 +827,6 @@ public class GamePlayManager extends AGameManager {
 
             if (toolCard.impliesPlacement()) {
                 gameState.getCurrentTurn().setDiePlaced(true);
-                gameState.getCurrentTurn().incrementDieCount();
                 super.sendNotificationToCurrentPlayer("\nLa Carta Strumento che hai usato implicava un piazzamento");
             }
 
@@ -824,7 +852,7 @@ public class GamePlayManager extends AGameManager {
      * Favor Tokens to spend.
      * In case the card cannot be used, a new suitable set of {@link Commands} is sent to the player.
      */
-    private void checkToolCardAvailability(GameState gameState, int slotID) {
+    private void checkToolCardAvailability(GameState gameState, int slotID, String playerName) {
         ToolCardSlot slot = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID);
         int playerFavorTokens = gameState.getCurrentPlayer().getFavorTokens();
         int turnNumber = gameState.getCurrentPlayerTurnIndex() < (gameState.getTurnOrder().size() / 2) ? FIRST_TURN : SECOND_TURN;
@@ -832,13 +860,13 @@ public class GamePlayManager extends AGameManager {
         if (!slot.getToolCard().canBeUsed(turnNumber)) {
             super.sendNotificationToCurrentPlayer("\nNon puoi usare questa Carta Strumento in questo turno!");
             this.setMoveLegal(false);
-            List<Commands> updatedCommands = new ArrayList<>(this.currentPlayerCommands);
+            List<Commands> updatedCommands = this.dynamicCommands.get(playerName);
             updatedCommands.remove(slot.getToolCard().getCommandName());
             super.sendCommandsToCurrentPlayer(updatedCommands);
         } else if (!slot.canCardBePaid(playerFavorTokens)) {
             super.sendNotificationToCurrentPlayer("\nNon hai abbastanza Segnalini Favore per utilizzare la Carta Strumento selezionata");
             this.setMoveLegal(false);
-            List<Commands> updatedCommands = new ArrayList<>(this.currentPlayerCommands);
+            List<Commands> updatedCommands = this.dynamicCommands.get(playerName);
             updatedCommands.remove(slot.getToolCard().getCommandName());
             super.sendCommandsToCurrentPlayer(updatedCommands);
         } else {

@@ -5,8 +5,8 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.restrictions.ARestriction;
+import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.io.FileReader;
 import java.io.IOException;
