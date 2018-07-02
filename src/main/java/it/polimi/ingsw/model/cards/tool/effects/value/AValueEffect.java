@@ -19,19 +19,6 @@ public abstract class AValueEffect extends AToolCardEffect {
     private int offset;
 
     /**
-     * Die to which the effect is applied.
-     */
-    protected Die chosenDie;
-
-    public Die getChosenDie() {
-        return chosenDie;
-    }
-
-    public void setChosenDie(Die chosenDie) {
-        this.chosenDie = chosenDie;
-    }
-
-    /**
      * This constructor will set e default value for the offset in case it is not specified;
      */
     AValueEffect() {

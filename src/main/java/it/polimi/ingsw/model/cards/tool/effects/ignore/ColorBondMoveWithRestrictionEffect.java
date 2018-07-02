@@ -13,6 +13,7 @@ import java.util.List;
 public class ColorBondMoveWithRestrictionEffect extends MoveWithRestrictionsEffect {
 
     /**
+     * This method execute a moving dice placement and control if the dice are the same of the die on the round track.
      * @param manager part of the controller that deals with the game play.
      * @param setUpInformationUnit object containing all the information needed to perform the move.
      */

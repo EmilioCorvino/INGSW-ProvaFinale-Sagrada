@@ -150,7 +150,7 @@ public class WindowPatternCard extends ADieContainer {
      * @return True if is all the cells are empty, otherwise false.
      * @param glassWindowToConsider: The glass window to analyze.
      */
-    private boolean matrixIsEmpty(Cell[][] glassWindowToConsider) {
+    public boolean matrixIsEmpty(Cell[][] glassWindowToConsider) {
         boolean matrixEmpty = true;
 
         for (int i = 0; i < MAX_ROW; i++)
@@ -166,7 +166,7 @@ public class WindowPatternCard extends ADieContainer {
      * @param selectedCell: the cell where the player wants to put the die.
      * @return true if the selected cell is one of the cells of the border.
      */
-    private boolean checkBorderCells(Cell selectedCell) {
+    public boolean checkBorderCells(Cell selectedCell) {
         if(selectedCell.getCol() == 0 || selectedCell.getCol() == MAX_COL-1 || selectedCell.getRow() == 0 || selectedCell.getRow() == MAX_ROW-1)
             return true;
         setErrorMessage("La cella selezionata non e' una cella del bordo.");
