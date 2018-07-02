@@ -54,7 +54,7 @@ public class DraftValueEffect extends AToolCardEffect {
         if(this.limit == 0) {
             if (manager.getControllerMaster().getGameState().getCurrentTurn().isDiePlaced()) {
                 manager.setMoveLegal(false);
-                manager.sendNotificationToCurrentPlayer("Non puoi utilizzare questa tool dopo aver piazzato un dado." + COMMANDS_HELP);
+                manager.sendNotificationToCurrentPlayer("\nNon puoi utilizzare questa tool dopo aver piazzato un dado." + COMMANDS_HELP);
             }
             for(int i=0; i< diceToDraft.size(); i++) {
                 Die dieToCompute = computeRandomDieValue(diceToDraft.get(i));

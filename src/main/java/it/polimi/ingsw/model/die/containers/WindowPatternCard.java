@@ -169,7 +169,7 @@ public class WindowPatternCard extends ADieContainer {
     private boolean checkBorderCells(Cell selectedCell) {
         if(selectedCell.getCol() == 0 || selectedCell.getCol() == MAX_COL-1 || selectedCell.getRow() == 0 || selectedCell.getRow() == MAX_ROW-1)
             return true;
-        setErrorMessage("La cella selezionata non e' una cella del bordo");
+        setErrorMessage("La cella selezionata non e' una cella del bordo.");
         return false;
     }
 
@@ -265,11 +265,11 @@ public class WindowPatternCard extends ADieContainer {
     public boolean canBePlaced(Die die, Cell selectedCell, Cell[][] glassWindowToConsider) {
 
         if (!isTheCellInTheMatrix(selectedCell) ){
-            setErrorMessage("La cella desiderata non e' contenuta nella matrice");
+            setErrorMessage("La cella desiderata non e' contenuta nella matrice.");
             return false;
         }
         if (!glassWindowToConsider[selectedCell.getRow()][selectedCell.getCol()].isEmpty()){
-            setErrorMessage("La cella desiderata e' gia piena");
+            setErrorMessage("La cella desiderata e' gia piena.");
             return false;
         }
         if (matrixIsEmpty(glassWindowToConsider)) {
