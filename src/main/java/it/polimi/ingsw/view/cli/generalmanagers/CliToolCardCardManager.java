@@ -32,7 +32,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
 
         infoUnit.setSourceIndex(super.view.getGamePlayManager().choseDraftDie(super.view.getCommonBoard().getDraftPool()));
 
-        String option = super.inputOutputManager.askInformation("Inserire l'operazione desiderata:\n" +
+        String option = super.inputOutputManager.askInformation("Inserire l'operazione desiderata (incrementa/decrementa):\n" +
                 "\t- Incrementa di 1\n\t- Decrementa di 1");
         while (!("incrementa".equalsIgnoreCase(option) || "decrementa".equalsIgnoreCase(option)))
             option = super.inputOutputManager.askInformation("Errore: scelta non supportata, inserire (Decrementa/Incrementa): ");

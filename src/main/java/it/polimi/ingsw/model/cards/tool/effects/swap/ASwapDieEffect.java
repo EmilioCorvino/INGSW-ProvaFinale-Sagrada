@@ -31,22 +31,5 @@ public abstract class ASwapDieEffect extends AToolCardEffect {
         die1.setActualDieValue(temp.getActualDieValue());
         die1.setDieColor(temp.getDieColor());
     }
-
-    /**
-     * This method checks if exists at least one cell in which the user can place a die.
-     * @param wp the window pattern of the player.
-     * @param chosenDie the die to place.
-     * @return true if exists at least one cell, false otherwise.
-     */
-    protected boolean checkExistingCellsToUse(WindowPatternCard wp, Die chosenDie) {
-        Cell[][] gw = wp.getGlassWindowCopy();
-        List<Cell> cellToUse = new ArrayList<>();
-        for(int i=0; i< WindowPatternCard.getMaxRow(); i++)
-            for (int j = 0; j < WindowPatternCard.getMaxCol(); j++) {
-                wp.setDesiredCell(gw[i][j]);
-                if (wp.canBePlaced(chosenDie, wp.getDesiredCell(), wp.getGlassWindow()))
-                    cellToUse.add(gw[i][j]);
-            }
-        return cellToUse.size() > 0;
-    }
+    
 }

@@ -56,8 +56,8 @@ public class DraftValueEffect extends AToolCardEffect {
 
     /**
      * This method manages the placement of the chosen die with the new computed random value.
-     * @param manager the controller.
-     * @param setUpInfoUnit the information to use.
+     * @param manager part of the controller that deals with the game play.
+     * @param setUpInfoUnit object containing all the information needed to perform the move.
      */
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {

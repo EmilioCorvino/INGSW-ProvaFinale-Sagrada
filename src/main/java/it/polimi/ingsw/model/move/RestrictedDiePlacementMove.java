@@ -50,22 +50,6 @@ public class RestrictedDiePlacementMove extends AMove {
     }
 
     /**
-     * This method checks if exists at least one cell in which the user can place a die.
-     * @param wp the window pattern of the player.
-     * @param chosenDie the die to place.
-     * @return true if exists at least one cell, false otherwise.
-     */
-    private boolean checkExistingCellsToUse(WindowPatternCard wp, Die chosenDie) {
-        Cell[][] gwCopy = wp.getGlassWindowCopy();
-        for(int i=0; i< WindowPatternCard.getMaxRow(); i++)
-            for (int j = 0; j < WindowPatternCard.getMaxCol(); j++) {
-                if (wp.canBePlaced(chosenDie, gwCopy[i][j], gwCopy))
-                    return true;
-            }
-        return false;
-    }
-
-    /**
      * This method packs multiple information - results to send to the controller.
      * @param manager the controller.
      * @return a list of results.
