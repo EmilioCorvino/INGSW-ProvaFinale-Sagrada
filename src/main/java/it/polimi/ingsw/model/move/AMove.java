@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This interface represents a generic move a player can perform
  * @see DefaultDiePlacementMove
@@ -39,5 +42,23 @@ public abstract class AMove {
                     return true;
             }
         return false;
+    }
+
+    /**
+     * This method packs multiple information - results to send to the controller.
+     * @param manager the controller.
+     * @return a list of results.
+     */
+    protected List<SetUpInformationUnit> packMultipleInformation(GamePlayManager manager) {
+        List<Die> list = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDiceCopy();
+        List<SetUpInformationUnit> listToSend = new ArrayList<>();
+        for (Die d : list) {
+            SetUpInformationUnit setup = new SetUpInformationUnit();
+            setup.setSourceIndex(list.indexOf(d));
+            setup.setValue(d.getActualDieValue());
+            setup.setColor(d.getDieColor());
+            listToSend.add(setup);
+        }
+        return listToSend;
     }
 }

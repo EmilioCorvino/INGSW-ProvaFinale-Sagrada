@@ -7,9 +7,6 @@ import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 import it.polimi.ingsw.model.player.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * This class manages a particular type of move: the restricted move, which has to be performed under certain
  * conditions and when one or more of them fall some specific actions need to be performed.
@@ -47,23 +44,5 @@ public class RestrictedDiePlacementMove extends AMove {
                 manager.setMoveLegal(false);
             }
         }
-    }
-
-    /**
-     * This method packs multiple information - results to send to the controller.
-     * @param manager the controller.
-     * @return a list of results.
-     */
-    private List<SetUpInformationUnit> packMultipleInformation(GamePlayManager manager) {
-        List<Die> list = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDiceCopy();
-        List<SetUpInformationUnit> listToSend = new ArrayList<>();
-        for (Die d : list) {
-            SetUpInformationUnit setup = new SetUpInformationUnit();
-            setup.setSourceIndex(list.indexOf(d));
-            setup.setValue(d.getActualDieValue());
-            setup.setColor(d.getDieColor());
-            listToSend.add(setup);
-        }
-        return listToSend;
     }
 }

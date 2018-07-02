@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.cards.tool.effects.AToolCardEffect;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -21,25 +20,10 @@ public class DraftValueEffect extends AToolCardEffect {
     private int limit;
 
     /**
-     * Constructs this effect with a default value for limit.
-     */
-    public DraftValueEffect() {
-        this.limit = 0;
-    }
-
-    /**
      * Construct this effect with a specific value for limit.
      * @param limit the limit parameter to set.
      */
     public DraftValueEffect(int limit) {
-        this.limit = limit;
-    }
-
-    public int getLimit() {
-        return limit;
-    }
-
-    public void setLimit(int limit) {
         this.limit = limit;
     }
 
@@ -68,6 +52,10 @@ public class DraftValueEffect extends AToolCardEffect {
         List<Die> diceToDraft = draft.getAvailableDiceCopy();
 
         if(this.limit == 0) {
+            if (manager.getControllerMaster().getGameState().getCurrentTurn().isDiePlaced()) {
+                manager.setMoveLegal(false);
+                manager.sendNotificationToCurrentPlayer("Non puoi utilizzare questa tool dopo aver piazzato un dado." + COMMANDS_HELP);
+            }
             for(int i=0; i< diceToDraft.size(); i++) {
                 Die dieToCompute = computeRandomDieValue(diceToDraft.get(i));
                 diceToDraft.set(i, dieToCompute);
@@ -82,21 +70,4 @@ public class DraftValueEffect extends AToolCardEffect {
         manager.showDraftedDie(manager.getControllerMaster().getGameState().getCurrentPlayer(), setUpInfoUnit);
     }
 
-    /**
-     * This method packs multiple information - results to send to the controller.
-     * @param manager the controller.
-     * @return a list of results.
-     */
-    private List<SetUpInformationUnit> packMultipleInformation(GamePlayManager manager) {
-        List<Die> list = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDiceCopy();
-        List<SetUpInformationUnit> listToSend = new ArrayList<>();
-        for (Die d : list) {
-            SetUpInformationUnit setup = new SetUpInformationUnit();
-            setup.setSourceIndex(list.indexOf(d));
-            setup.setValue(d.getActualDieValue());
-            setup.setColor(d.getDieColor());
-            listToSend.add(setup);
-        }
-        return listToSend;
-    }
 }
