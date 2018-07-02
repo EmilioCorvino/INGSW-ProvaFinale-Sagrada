@@ -18,8 +18,8 @@ public class IgnoreAdjacentCellsRestrictionEffect extends DefaultDiePlacementMov
 
     /**
      * This method manages the particular placement ignoring the adjacent cells restriction.
-     * @param manager the controller.
-     * @param info the info unit to use.
+     * @param manager part of the controller that deals with the game play.
+     * @param info object containing all the information needed to perform the move.
      */
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit info) {
@@ -37,6 +37,7 @@ public class IgnoreAdjacentCellsRestrictionEffect extends DefaultDiePlacementMov
 
         if (!wp.matrixIsEmpty(gwCopy) && !wp.checkAdjacentCells(desiredCell, gwCopy)) {
             if (wp.checkOwnRuleSet(chosenDie, desiredCell, gwCopy)) {
+                manager.getControllerMaster().getGameState().getCurrentTurn().incrementDieCount();
                 manager.setMoveLegal(true);
                 wp.setDesiredCell(desiredCell);
                 wp.addDieToCopy(draft.removeDieFromCopy(info.getSourceIndex()));
@@ -52,7 +53,5 @@ public class IgnoreAdjacentCellsRestrictionEffect extends DefaultDiePlacementMov
         }
 
         super.executeMove(manager, info);
-
-        //todo check if this has to use defaultPlacement or AValue effect placement. Remember to increment the die placed count.
     }
 }

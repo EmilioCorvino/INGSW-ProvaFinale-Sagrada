@@ -31,7 +31,7 @@ public class SwapFromDraftPoolToRoundTrack extends ASwapDieEffect {
             return;
         }
 
-        if(roundTrack.getAvailableDiceCopy().get(informationUnit.getExtraParam()).size() == 0) {
+        if(roundTrack.getAvailableDiceCopy().isEmpty()) {
             manager.setMoveLegal(false);
             manager.sendNotificationToCurrentPlayer("Non ci sono dadi sulla round selezionato!");
             return;
