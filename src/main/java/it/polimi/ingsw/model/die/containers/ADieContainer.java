@@ -38,18 +38,11 @@ public abstract class ADieContainer {
      */
     public abstract void overwriteOriginal();
 
-    /**
-     * This method computes if a given die is contained in a specific container.
-     * @param die the die to search.
-     * @return true if the given die is contained, false otherwise.
-     */
-    public abstract boolean isContained(Die die);
-
     public String getErrorMessage() {
         return errorMessage;
     }
 
-    protected void setErrorMessage(String errorMessage) {
+    public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 }

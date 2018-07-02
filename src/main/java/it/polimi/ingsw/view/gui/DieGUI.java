@@ -11,6 +11,8 @@ public class DieGUI extends StackPane {
 
     private ImageView value;
 
+    private int dieValue;
+
 
     public DieGUI() {
         this.getStylesheets().add("style/backgrounds.css");
@@ -40,5 +42,13 @@ public class DieGUI extends StackPane {
 
     public void setValue(ImageView value) {
         this.value = value;
+    }
+
+    public int getDieValue() {
+        return dieValue;
+    }
+
+    public void setDieValue(int dieValue) {
+        this.dieValue = dieValue;
     }
 }

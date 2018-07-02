@@ -53,6 +53,7 @@ public class GUIView implements IViewMaster {
 
 
 
+
     public GUIView() {
         bank = new Bank();
         manager = new GUICommunicationManager();
@@ -74,7 +75,10 @@ public class GUIView implements IViewMaster {
         bank.setDefaultMatchManager(matchManager);
         matchManager.setServer(this.server);
         matchManager.setPlayersData(this.playersData);
-        //bank.setToolCardManager(new CliToolCardCardManager(this));
+        GUIToolCardManager toolManager = new GUIToolCardManager(this);
+        toolManager.setServer(this.server);
+        toolManager.setPlayersData(this.playersData);
+        bank.setToolCardManager(toolManager);
         bank.populateBank();
     }
 
@@ -178,10 +182,9 @@ public class GUIView implements IViewMaster {
             commonWindow.formatSecondContainer();
             commonWindow.setPublicImages(idPubObj);
             commonWindow.setToolImages(idTool);
-            commonWindow.setPanelForInformation();
             commonWindow.setRoundTrack();
             this.current = commonWindow;
-            //this.current.addHandlers();
+            this.current.addHandlers();
             GUIMain.setRoot(current);
             GUIMain.centerScreen();
         });
@@ -211,8 +214,6 @@ public class GUIView implements IViewMaster {
             this.manager.setFunctions(functions);
             this.current.addHandlers();
         });
-
-
     }
 
     @Override
@@ -250,7 +251,6 @@ public class GUIView implements IViewMaster {
             DraftPoolGUI draft = this.commonWindow.getDraftPoolGUI();
             draft.getChildren().remove(info.getSourceIndex());
             draft.reFormatDraft();
-            System.out.println("dado rimosso dalla draft" + info.getSourceIndex());
         });
     }
 
@@ -274,7 +274,6 @@ public class GUIView implements IViewMaster {
         Platform.runLater( () -> {
             if(this.current != null)
                 this.current.showMessage(notice);
-            System.out.println(notice);
         });
 
 

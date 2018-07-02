@@ -19,8 +19,22 @@ public class GUICommunicationManager {
     */
    private Map<String, Runnable> functions;
 
+   private Stage newWindow;
+
    GUICommunicationManager() {
       functions = new LinkedHashMap<>();
+
+      newWindow = new Stage();
+      newWindow.setTitle("Second Stage");
+
+
+      newWindow.initModality(Modality.WINDOW_MODAL);
+
+      newWindow.initOwner(GUIMain.getStage());
+
+
+      newWindow.setX(GUIMain.getStage().getX() + 200);
+      newWindow.setY(GUIMain.getStage().getY() + 100);
    }
 
    /**
@@ -43,6 +57,16 @@ public class GUICommunicationManager {
    }
 
    /**
+    * This method executes the command the player chose for the tool card.
+    * @param tool the command tool to execute.
+    */
+   public void executeCommandToolIfPresent(int tool) {// EXECUTE COMMAND IF PRESENT
+      if(functions.containsKey("Strumento " + tool)) {
+         functions.get("Strumento " + tool).run();
+      }
+   }
+
+   /**
     * This method constructs a notification to display to the user.
     * @param message the message to display.
     */
@@ -60,19 +84,9 @@ public class GUICommunicationManager {
       Label secondLabel = new Label(message);
       secondWindow.getChildren().addAll(secondLabel);
 
-      Scene second = new Scene(secondWindow, 100, 100);
+      Scene second = new Scene(secondWindow, 400, 100);
 
-      Stage newWindow = new Stage();
-      newWindow.setTitle("Second Stage");
-      newWindow.setScene(second);
-
-      newWindow.initModality(Modality.WINDOW_MODAL);
-
-      newWindow.initOwner(GUIMain.getStage());
-
-
-      newWindow.setX(GUIMain.getStage().getX() + 200);
-      newWindow.setY(GUIMain.getStage().getY() + 100);
+       newWindow.setScene(second);
 
       newWindow.show();
 

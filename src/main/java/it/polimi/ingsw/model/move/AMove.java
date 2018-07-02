@@ -35,12 +35,17 @@ public abstract class AMove {
      * @return true if exists at least one cell, false otherwise.
      */
     public boolean checkExistingCellsToUse(WindowPatternCard wp, Die chosenDie) {
+        String messageToRestore = wp.getErrorMessage();
         Cell[][] gwCopy = wp.getGlassWindowCopy();
-        for(int i=0; i< WindowPatternCard.getMaxRow(); i++)
+        for(int i=0; i< WindowPatternCard.getMaxRow(); i++) {
             for (int j = 0; j < WindowPatternCard.getMaxCol(); j++) {
-                if (wp.canBePlaced(chosenDie, gwCopy[i][j], gwCopy))
+                if (wp.canBePlaced(chosenDie, gwCopy[i][j], gwCopy)) {
+                    wp.setErrorMessage(messageToRestore);
                     return true;
+                }
             }
+        }
+        wp.setErrorMessage(messageToRestore);
         return false;
     }
 

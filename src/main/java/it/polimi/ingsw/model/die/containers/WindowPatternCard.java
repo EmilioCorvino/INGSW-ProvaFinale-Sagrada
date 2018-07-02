@@ -274,24 +274,11 @@ public class WindowPatternCard extends ADieContainer {
         }
         if (matrixIsEmpty(glassWindowToConsider)) {
             return checkBorderCells(selectedCell) && checkOwnRuleSet(die, selectedCell, glassWindowToConsider);
-        }else {
+        } else {
             return checkAdjacentCells(selectedCell, glassWindowToConsider) &&
                     checkOwnRuleSet(die, selectedCell, glassWindowToConsider) &&
                     checkAdjacentRuleSet(die, selectedCell, glassWindowToConsider);
         }
-    }
-
-    /**
-     * This method checks if a specific die is contained in the window pattern card
-     * @param dieToSearch: die that should be contained.
-     * @return true if is contained else false.
-     */
-    public boolean isContained(Die dieToSearch) {
-        for(int i=0; i<MAX_ROW; i++)
-            for(int j=0; j<MAX_COL; j++)
-                if(!glassWindow[i][j].isEmpty())
-                    return glassWindow[i][j].getContainedDie().equals(dieToSearch);
-        return false;
     }
 
     public Cell[][] getGlassWindowCopy() {

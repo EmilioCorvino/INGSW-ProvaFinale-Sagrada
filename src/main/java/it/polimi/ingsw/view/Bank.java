@@ -36,7 +36,7 @@ public class Bank {
     private IToolCardManager toolCardManager;
 
 
-    public Bank (){
+    public Bank () {
         this.availableCommands = new EnumMap<>(Commands.class);
         this.commandMap = new EnumMap<>(Commands.class);
     }
@@ -109,14 +109,6 @@ public class Bank {
         return function;
     }
 
-
-    public Map<Commands, Runnable> getAvailableCommands(List<Commands> commands) {
-        Map<Commands, Runnable> map = new LinkedHashMap<>();
-
-        commands.forEach(c -> map.put(c, availableCommands.get(c)));
-
-        return map;
-    }
 
     /**
      * This method convert a command to a string

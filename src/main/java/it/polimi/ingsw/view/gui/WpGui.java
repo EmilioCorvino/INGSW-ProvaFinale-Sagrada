@@ -130,6 +130,7 @@ public class WpGui extends Pane {
      * @param data the data player from which to get the info.
      */
     public void cellMapAsDestinationHandler(PlayersData data) {
+
         for(int i=0; i<WpGui.MAX_ROW; i++)
             for(int j=0; j<WpGui.MAX_COL; j++) {
                 StackPane stack = (StackPane)this.glassWindow.getChildren().get(i * WpGui.MAX_COL + j);

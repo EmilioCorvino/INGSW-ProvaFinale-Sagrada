@@ -71,7 +71,6 @@ public class GamePlayManager extends AGameManager {
     public GamePlayManager(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
         this.currentPlayerCommands = new ArrayList<>();
-        this.dynamicCommands = new HashMap<>();
 
         //Gets the tool cards commands from the model.
         for (ToolCardSlot slot : controllerMaster.getCommonBoard().getToolCardSlots()) {
@@ -80,6 +79,9 @@ public class GamePlayManager extends AGameManager {
 
         this.currentPlayerCommands.addAll(Arrays.asList(Commands.PLACEMENT, Commands.VISUALIZATION,Commands.END_TURN, Commands.LOGOUT));
         this.waitingPlayersCommands = new ArrayList<>(Arrays.asList(Commands.VISUALIZATION, Commands.LOGOUT));
+
+        //Initializes the dynamic map of commands.
+        this.dynamicCommands = new HashMap<>();
 
         //Back up value.
         super.timeOut = BACK_UP_TIMER;
@@ -192,7 +194,7 @@ public class GamePlayManager extends AGameManager {
                 gameState.getCurrentPlayerTurnIndex() < (gameState.getTurnOrder().size() / 2) ? "PRIMO" : "SECONDO";
 
         super.sendNotificationToCurrentPlayer("\nÈ IL TUO " + turnNumber + " TURNO DEL ROUND!");
-        this.dynamicCommands.replace(currentPlayerTurn.getPlayer().getPlayerName(), this.currentPlayerCommands);
+        this.dynamicCommands.replace(currentPlayerTurn.getPlayer().getPlayerName(), new ArrayList<>(this.currentPlayerCommands));
         super.sendCommandsToCurrentPlayer(this.dynamicCommands.get(currentPlayerTurn.getPlayer().getPlayerName()));
         this.startTimer(currentPlayerTurn.getPlayer().getPlayerName());
         this.checkIfPlayerIsSuspended(currentPlayerTurn.getPlayer().getPlayerName());

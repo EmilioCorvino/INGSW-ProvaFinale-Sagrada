@@ -1,64 +1,35 @@
 package it.polimi.ingsw.view.gui;
 
-
 import it.polimi.ingsw.view.gui.gamewindows.CommonBoardWindow;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ToolWindowManager {
+public class ToolWindowBuilder {
 
-    private GUICommunicationManager manager;
+    private Map<Integer, Runnable> toolBuilderMap;
+
 
     private CommonBoardWindow commonBoardWindow;
 
-    private Map<Integer, Runnable> toolMethods;
-
-    private Map<Integer, Runnable> toolMoveValidator;
-
-    private int slotId;
-
-    private int currTool;
-
-    private ToolWindowBuilder toolWindowBuilder;
-
-
-    public ToolWindowManager(CommonBoardWindow commonBoardWindow) {
+    public ToolWindowBuilder(CommonBoardWindow commonBoardWindow) {
         this.commonBoardWindow = commonBoardWindow;
-        toolMethods = new HashMap<>();
-        toolMoveValidator = new HashMap<>();
+        toolBuilderMap = new HashMap<>();
 
-        toolMethods.put(1, this::toolOneWindow);
-
-        toolMoveValidator.put(1, this::validateToolOne);
-
-        toolWindowBuilder = new ToolWindowBuilder(commonBoardWindow);
-
+        toolBuilderMap.put(1, this::showSupportWindowToolOne);
     }
 
-    public void invokeToolCommand(int toolId) {
-        this.currTool = toolId;
-        this.toolMethods.get(toolId).run();
-    }
-
-    public void invokeMoveValidator(int toolId) {
-        this.toolMoveValidator.get(toolId).run();
-    }
-
-
-    public void validateToolOne() {
-        this.manager.executeCommandToolIfPresent(this.currTool);
-
-    }
-
-    public void buildWindow() {
-
-        this.toolWindowBuilder.getToolBuilderMap().get(this.currTool).run();
-
-    }
-
-    /*
-    public void showSupportWindowTool1() {
+    private void showSupportWindowToolOne() {
         VBox mainCont = new VBox();
         mainCont.getStylesheets().add("style/backgrounds.css");
         mainCont.getStyleClass().add("background");
@@ -94,6 +65,7 @@ public class ToolWindowManager {
         mainCont.getChildren().add(valueButtons);
 
         this.commonBoardWindow.getData().getSetUpInformationUnit().setExtraParam(2);
+        System.out.println(this.commonBoardWindow.getDraftPoolGUI().getCurrValue());
 
         minus.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> {
             if(!this.commonBoardWindow.getData().isSourceFilled()) {
@@ -160,28 +132,13 @@ public class ToolWindowManager {
 
         newWindow.show();
     }
-    */
 
-    private void toolOneWindow() {
-        if(!this.commonBoardWindow.getDraftPoolGUI().isHandlerActive())
-            this.commonBoardWindow.getDraftPoolGUI().cellsAsSourceWithCondition(this.commonBoardWindow.getData());
 
-        this.commonBoardWindow.getData().getPersonalWp().cellMapAsDestinationHandler(this.commonBoardWindow.getData());
+    public Map<Integer, Runnable> getToolBuilderMap() {
+        return toolBuilderMap;
     }
 
-    public int getSlotId() {
-        return slotId;
-    }
-
-    public void setSlotId(int slotId) {
-        this.slotId = slotId;
-    }
-
-    public GUICommunicationManager getManager() {
-        return manager;
-    }
-
-    public void setManager(GUICommunicationManager manager) {
-        this.manager = manager;
+    public void setToolBuilderMap(Map<Integer, Runnable> toolBuilderMap) {
+        this.toolBuilderMap = toolBuilderMap;
     }
 }

@@ -26,6 +26,7 @@ public class GUIToolCardManager implements IToolCardManager {
     public void tool1() {
         List<SetUpInformationUnit> setupList = new ArrayList<>();
         setupList.add(playersData.getSetUpInformationUnit());
+        System.out.println(setupList.get(0).getSourceIndex() + " " + setupList.get(0).getDestinationIndex());
         System.out.println("id slot: " + playersData.getSlotChosen());
         try{
             this.server.performToolCardMove(playersData.getSlotChosen(), setupList);
@@ -100,5 +101,21 @@ public class GUIToolCardManager implements IToolCardManager {
     @Override
     public void tool12() {
 
+    }
+
+    public IFromClientToServer getServer() {
+        return server;
+    }
+
+    public void setServer(IFromClientToServer server) {
+        this.server = server;
+    }
+
+    public PlayersData getPlayersData() {
+        return playersData;
+    }
+
+    public void setPlayersData(PlayersData playersData) {
+        this.playersData = playersData;
     }
 }
