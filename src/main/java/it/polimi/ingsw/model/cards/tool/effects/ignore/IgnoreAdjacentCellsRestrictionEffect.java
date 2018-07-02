@@ -30,19 +30,16 @@ public class IgnoreAdjacentCellsRestrictionEffect extends DefaultDiePlacementMov
 
         DiceDraftPool draft = manager.getControllerMaster().getCommonBoard().getDraftPool();
         draft.createCopy();
-        Die chosenDie = draft.removeDieFromCopy(info.getSourceIndex());
+        Die chosenDie = draft.getAvailableDiceCopy().get(info.getSourceIndex());
 
-        Cell desiredCell = new Cell(info.getSourceIndex() / WindowPatternCard.getMaxCol(), info.getSourceIndex() % WindowPatternCard.getMaxCol());
-        wp.setDesiredCell(desiredCell);
-
+        Cell desiredCell = new Cell(info.getDestinationIndex() / WindowPatternCard.getMaxCol(), info.getDestinationIndex() % WindowPatternCard.getMaxCol());
         Cell[][] gwCopy = wp.getGlassWindowCopy();
 
-        //!wp.checkAdjacentCells(desiredCell, gwCopy)
-
-        if((!wp.checkAdjacentCells(desiredCell, gwCopy)) ) {
-            if(wp.checkOwnRuleSet(chosenDie, desiredCell, gwCopy)) {
+        if (!wp.matrixIsEmpty(gwCopy) && !wp.checkAdjacentCells(desiredCell, gwCopy)) {
+            if (wp.checkOwnRuleSet(chosenDie, desiredCell, gwCopy)) {
                 manager.setMoveLegal(true);
-                wp.addDieToCopy(wp.removeDieFromCopy(info.getSourceIndex()));
+                wp.setDesiredCell(desiredCell);
+                wp.addDieToCopy(draft.removeDieFromCopy(info.getSourceIndex()));
                 info.setValue(chosenDie.getActualDieValue());
                 info.setColor(chosenDie.getDieColor());
                 manager.showPlacementResult(p, info);
@@ -54,8 +51,6 @@ public class IgnoreAdjacentCellsRestrictionEffect extends DefaultDiePlacementMov
             }
         }
 
-        info.setColor(chosenDie.getDieColor());
-        info.setValue(chosenDie.getActualDieValue());
         super.executeMove(manager, info);
 
         //todo check if this has to use defaultPlacement or AValue effect placement. Remember to increment the die placed count.
