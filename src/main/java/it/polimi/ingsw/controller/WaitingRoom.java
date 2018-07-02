@@ -3,11 +3,11 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.controller.managers.AGameManager;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.Connection;
+import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

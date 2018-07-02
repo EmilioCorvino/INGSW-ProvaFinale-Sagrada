@@ -2,7 +2,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.controller.WaitingRoom;
 import it.polimi.ingsw.network.rmi.RmiServer;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
+import it.polimi.ingsw.utils.SagradaLogger;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

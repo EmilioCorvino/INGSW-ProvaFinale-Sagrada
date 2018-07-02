@@ -1,4 +1,4 @@
-package it.polimi.ingsw.utils.logs;
+package it.polimi.ingsw.utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class SagradaLogger {
     /**
      * File where the configuration is stored.
      */
-    private static final String CONF_PATH = "./src/main/java/it/polimi/ingsw/utils/logs/logger.properties";
+    private static final String CONF_PATH = "./src/main/resources/config/logger.properties";
 
     /**
      * This class shouldn't be instantiated.

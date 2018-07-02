@@ -5,26 +5,22 @@ import it.polimi.ingsw.controller.ControllerMaster;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.cards.ToolCardSlot;
-import it.polimi.ingsw.model.cards.tool.draft.DraftValueEffect;
 import it.polimi.ingsw.model.cards.tool.ToolCard;
-import it.polimi.ingsw.model.cards.tool.ignorerestrictionseffects.*;
-import it.polimi.ingsw.model.cards.tool.swapeffects.SwapFromDraftPoolToRoundTrack;
+import it.polimi.ingsw.model.cards.tool.effects.draft.DraftValueEffect;
+import it.polimi.ingsw.model.cards.tool.effects.ignore.*;
+import it.polimi.ingsw.model.cards.tool.effects.swap.SwapFromDraftPoolToRoundTrack;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.DiceDraftPool;
+import it.polimi.ingsw.model.move.AMove;
 import it.polimi.ingsw.model.move.DefaultDiePlacementMove;
-import it.polimi.ingsw.model.move.IMove;
 import it.polimi.ingsw.model.move.RestrictedDiePlacementMove;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.turn.GameState;
 import it.polimi.ingsw.model.turn.Turn;
 import it.polimi.ingsw.network.IFromServerToClient;
+import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -65,13 +61,12 @@ public class GamePlayManager extends AGameManager {
     /**
      * This constructor, other than setting the controller master, also initializes the lists of commands to be shown
      * both to the player on duty ({@link #currentPlayerCommands}) and to the others ({@link #waitingPlayersCommands}).
-     *
      * @param controllerMaster main controller class.
      */
     public GamePlayManager(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
         this.currentPlayerCommands = new ArrayList<>();
-        this. dynamicCommands = new HashMap<>();
+        this.dynamicCommands = new HashMap<>();
 
         //Gets the tool cards commands from the model.
         for (ToolCardSlot slot : controllerMaster.getCommonBoard().getToolCardSlots()) {
@@ -182,39 +177,46 @@ public class GamePlayManager extends AGameManager {
         super.sendNotificationToCurrentPlayer("\nÈ IL TUO " + turnNumber + " TURNO DEL ROUND!");
         this.dynamicCommands.replace(currentPlayerTurn.getPlayer().getPlayerName(), this.currentPlayerCommands);
         super.sendCommandsToCurrentPlayer(this.dynamicCommands.get(currentPlayerTurn.getPlayer().getPlayerName()));
-        this.startTimer(currentPlayerTurn);
+        this.startTimer(currentPlayerTurn.getPlayer().getPlayerName());
         this.checkIfPlayerIsSuspended(currentPlayerTurn.getPlayer().getPlayerName());
     }
 
     /**
      * Starts the timer of the turn. If it can't be loaded from file, a back up value is used.
-     * @param turn turn of the player to suspend in case his turn isn't over when the timer expires. It has a reference
-     *             to said {@link Player}.
+     * This method cancels the previous {@link TimerTask} if it's not completed yet, and then starts a new task.
+     * From the playerName, the last turn of the player is retrieved from the turn order: if this turn isn't completed
+     * by when the timer expires, the player gets suspended.
+     * @param playerName player to suspend in case his turn isn't over when the timer expires.
      */
-    private void startTimer(Turn turn) {
-        Timer timer = new Timer();
-
-        //Back up value.
-        long timeOut = BACK_UP_TIMER;
-
-        //Value read from file. If the loading is successful, it overwrites the back up.
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_FILE)))) {
-            timeOut = Long.parseLong(reader.readLine());
-            SagradaLogger.log(Level.CONFIG, "Timer successfully loaded from file. Its value is: " + timeOut / 1000 + "s");
-        } catch (IOException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
+    @Override
+    void startTimer(String playerName) {
+        if (task != null) {
+            task.cancel();
+            task = null;
+            SagradaLogger.log(Level.INFO, "Previous timer has been canceled.");
         }
-        SagradaLogger.log(Level.INFO, turn.getPlayer().getPlayerName() + " turn timer is started");
 
-        timer.schedule(new TimerTask() {
+        GameState gameState = super.getControllerMaster().getGameState();
+        SagradaLogger.log(Level.INFO, playerName + " turn timer is started");
+        task = new TimerTask() {
             @Override
             public void run() {
-                SagradaLogger.log(Level.WARNING, turn.getPlayer().getPlayerName() + " turn timer is expired");
-                if (!turn.isTurnCompleted()) {
-                    getControllerMaster().suspendPlayer(turn.getPlayer().getPlayerName());
+                SagradaLogger.log(Level.WARNING, playerName + " turn timer is expired");
+
+                //This should always be overwritten.
+                Turn playerTurn = new Turn(new Player("fakePlayer", getControllerMaster().getCommonBoard()));
+                for (Turn turn: gameState.getTurnOrder()) {
+                    if (turn.getPlayer().getPlayerName().equals(playerName) &&
+                            gameState.getTurnOrder().indexOf(turn) <= gameState.getCurrentPlayerTurnIndex()) {
+                        playerTurn = turn;
+                    }
+                }
+                if (!playerTurn.isTurnCompleted()) {
+                    getControllerMaster().suspendPlayer(playerTurn.getPlayer().getPlayerName());
                 }
             }
-        }, timeOut);
+        };
+        timer.schedule(task, timeOut);
     }
 
     /**
@@ -346,7 +348,7 @@ public class GamePlayManager extends AGameManager {
                 super.sendCommandsToCurrentPlayer(filteredCommands);
                 this.checkIfPlayerIsSuspended(playerName);
             } else {
-                IMove move = new DefaultDiePlacementMove();
+                AMove move = new DefaultDiePlacementMove();
                 move.executeMove(this, info);
                 this.checkAndResolveDefaultMoveLegality(gameState, playerName);
             }
@@ -407,7 +409,7 @@ public class GamePlayManager extends AGameManager {
      * @param infoUnit object containing the information needed to update the model.
      * @param playerName name of the player trying to perform the move.
      * @see DraftValueEffect
-     * @see it.polimi.ingsw.model.cards.tool.swapeffects.SwapFromDraftPoolToDicebag
+     * @see it.polimi.ingsw.model.cards.tool.effects.swap.SwapFromDraftPoolToDicebag
      */
     public void performRestrictedPlacement(SetUpInformationUnit infoUnit, String playerName) {
         GameState gameState = super.getControllerMaster().getGameState();
@@ -418,7 +420,7 @@ public class GamePlayManager extends AGameManager {
             return;
         }
 
-        IMove restrictedPlacement = new RestrictedDiePlacementMove();
+        AMove restrictedPlacement = new RestrictedDiePlacementMove();
         restrictedPlacement.executeMove(this, infoUnit);
 
         if(!this.isMoveLegal()) {
@@ -467,8 +469,8 @@ public class GamePlayManager extends AGameManager {
      *                      the {@link it.polimi.ingsw.view.cli.die.WindowPatternCardView} and the
      *                      {@link it.polimi.ingsw.view.cli.die.DieDraftPoolView}.
      * @see DefaultDiePlacementMove
-     * @see it.polimi.ingsw.model.cards.tool.valueeffects.ChooseValueEffect
-     * @see it.polimi.ingsw.model.cards.tool.valueeffects.OppositeValueEffect
+     * @see it.polimi.ingsw.model.cards.tool.effects.value.ChooseValueEffect
+     * @see it.polimi.ingsw.model.cards.tool.effects.value.OppositeValueEffect
      * @see IgnoreAdjacentCellsRestrictionEffect
      */
     public void showPlacementResult(Player currentPlayer, SetUpInformationUnit setUpInfoUnit) {
@@ -624,7 +626,7 @@ public class GamePlayManager extends AGameManager {
      * @param infoUnit contains the information needed to show the new {@link it.polimi.ingsw.model.die.Die}
      *                 (in the form of a {@link it.polimi.ingsw.view.cli.die.DieView}).
      * @see DraftValueEffect
-     * @see it.polimi.ingsw.model.cards.tool.swapeffects.SwapFromDraftPoolToDicebag
+     * @see it.polimi.ingsw.model.cards.tool.effects.swap.SwapFromDraftPoolToDicebag
      */
     public void showDraftedDie(Player currentPlayer, SetUpInformationUnit infoUnit) {
         if (!isMoveLegal()) {

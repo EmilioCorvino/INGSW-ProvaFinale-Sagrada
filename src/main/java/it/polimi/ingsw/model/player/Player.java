@@ -4,11 +4,11 @@ import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.Score;
 import it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard;
 import it.polimi.ingsw.model.die.containers.WindowPatternCard;
-import it.polimi.ingsw.model.move.IMove;
+import it.polimi.ingsw.model.move.AMove;
 
 /**
  * This class is the representation of the player: it does anything the real player can do and has everything
- * the real player has. It can see the board through the {@link CommonBoard}, make moves using {@link IMove} interface
+ * the real player has. It can see the board through the {@link CommonBoard}, make moves using {@link AMove} interface
  * and get his score computed by the {@link Score} class.
  */
 public class Player implements IPlayer {

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.view.gui.gamewindows;
 
 import it.polimi.ingsw.network.IFromClientToServer;
+import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
 import it.polimi.ingsw.view.IDefaultMatchManager;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.PlayersData;

@@ -7,8 +7,8 @@ import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.turn.GameState;
 import it.polimi.ingsw.network.Connection;
 import it.polimi.ingsw.network.IFromServerToClient;
+import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.util.ArrayList;
 import java.util.Arrays;

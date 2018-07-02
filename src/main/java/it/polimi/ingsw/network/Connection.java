@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * This class is used to identify the connection between a client and the server. The client has a unique
- * {@link PlayerColor} in the {@link it.polimi.ingsw.controller.WaitingRoom} and during a match.
+ * user name in the {@link it.polimi.ingsw.controller.WaitingRoom} and during a match.
  */
 public class Connection implements Serializable {
 

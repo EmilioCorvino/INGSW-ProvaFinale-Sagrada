@@ -7,13 +7,9 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.turn.Turn;
 import it.polimi.ingsw.network.Connection;
 import it.polimi.ingsw.network.IFromServerToClient;
+import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -308,19 +304,8 @@ public class EndGameManager extends AGameManager {
      * @param playerName turn of the player to suspend in case his turn isn't over when the timer expires. It has a reference
      *             to said {@link Player}.
      */
-    private void startTimer(String playerName) {
-        Timer timer = new Timer();
-
-        //Back up value.
-        long timeOut = BACK_UP_TIMER;
-
-        //Value read from file. If the loading is successful, it overwrites the back up.
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_FILE)))) {
-            timeOut = Long.parseLong(reader.readLine());
-            SagradaLogger.log(Level.CONFIG, "Timer successfully loaded from file. Its value is: " + timeOut/1000 + "s");
-        } catch (IOException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
-        }
+    @Override
+    void startTimer(String playerName) {
         SagradaLogger.log(Level.INFO, playerName + " end choice timer is started");
 
         timer.schedule(new TimerTask() {

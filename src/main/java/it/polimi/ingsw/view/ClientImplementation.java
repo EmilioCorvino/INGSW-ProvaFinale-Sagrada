@@ -4,7 +4,7 @@ import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplifiedview.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.network.IFromServerToClient;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
+import it.polimi.ingsw.utils.SagradaLogger;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

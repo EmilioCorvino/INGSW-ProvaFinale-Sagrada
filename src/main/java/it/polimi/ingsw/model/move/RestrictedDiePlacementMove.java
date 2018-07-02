@@ -14,7 +14,7 @@ import java.util.List;
  * This class manages a particular type of move: the restricted move, which has to be performed under certain
  * conditions and when one or more of them fall some specific actions need to be performed.
  */
-public class RestrictedDiePlacementMove implements IMove {
+public class RestrictedDiePlacementMove extends AMove {
 
     /**
      * This method executed the move considering some specific conditions.

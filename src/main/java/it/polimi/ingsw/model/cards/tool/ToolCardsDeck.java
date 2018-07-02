@@ -2,15 +2,15 @@ package it.polimi.ingsw.model.cards.tool;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.model.cards.tool.draft.DraftValueEffect;
-import it.polimi.ingsw.model.cards.tool.ignorerestrictionseffects.*;
-import it.polimi.ingsw.model.cards.tool.swapeffects.SwapFromDraftPoolToDicebag;
-import it.polimi.ingsw.model.cards.tool.swapeffects.SwapFromDraftPoolToRoundTrack;
-import it.polimi.ingsw.model.cards.tool.valueeffects.ChooseValueEffect;
-import it.polimi.ingsw.model.cards.tool.valueeffects.OppositeValueEffect;
+import it.polimi.ingsw.model.cards.tool.effects.draft.DraftValueEffect;
+import it.polimi.ingsw.model.cards.tool.effects.ignore.*;
+import it.polimi.ingsw.model.cards.tool.effects.swap.SwapFromDraftPoolToDicebag;
+import it.polimi.ingsw.model.cards.tool.effects.swap.SwapFromDraftPoolToRoundTrack;
+import it.polimi.ingsw.model.cards.tool.effects.value.ChooseValueEffect;
+import it.polimi.ingsw.model.cards.tool.effects.value.OppositeValueEffect;
 import it.polimi.ingsw.model.move.DefaultDiePlacementMove;
+import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.io.FileReader;
 import java.io.IOException;

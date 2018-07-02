@@ -9,7 +9,7 @@ import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 /**
  * This class manages the
  */
-public class DefaultDiePlacementMove implements IMove {
+public class DefaultDiePlacementMove extends AMove {
 
     /**
      * This method performs the placement move in the window pattern card.
@@ -30,7 +30,7 @@ public class DefaultDiePlacementMove implements IMove {
 
         if(!wp.canBePlaced(die, desiredCell, wp.getGlassWindowCopy())) {
             manager.setMoveLegal(false);
-            manager.sendNotificationToCurrentPlayer(wp.getErrorMessage() + "\nDigita 'comandi' per visualizzare nuovamente i tuoi comandi.");
+            manager.sendNotificationToCurrentPlayer(wp.getErrorMessage() + COMMANDS_HELP);
             return;
         }
 
@@ -43,8 +43,9 @@ public class DefaultDiePlacementMove implements IMove {
         wpSetUpInfoUnit.setSourceIndex(setUpInfoUnit.getSourceIndex());
 
         manager.setMoveLegal(true);
+        //manager.getControllerMaster().getGameState().getCurrentTurn().incrementDieCount();
 
-        //CAREFUL
+        //Update of model and view.
         Die dieToRemove = manager.getControllerMaster().getCommonBoard().getDraftPool().removeDieFromCopy(setUpInfoUnit.getSourceIndex());
         wp.setDesiredCell(desiredCell);
         wp.addDieToCopy(dieToRemove);

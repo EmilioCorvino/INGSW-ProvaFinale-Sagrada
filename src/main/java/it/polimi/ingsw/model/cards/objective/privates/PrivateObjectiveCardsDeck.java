@@ -4,9 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.cards.objective.AObjectiveCard;
 import it.polimi.ingsw.model.cards.objective.AObjectiveCardsDeck;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
+import it.polimi.ingsw.utils.SagradaLogger;
 
-import java.io.*;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Vector;

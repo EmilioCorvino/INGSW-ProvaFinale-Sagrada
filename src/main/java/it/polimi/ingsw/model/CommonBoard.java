@@ -11,8 +11,8 @@ import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 import it.polimi.ingsw.model.die.containers.RoundTrack;
 import it.polimi.ingsw.model.die.containers.WindowPatternCardDeck;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.EmptyException;
-import it.polimi.ingsw.utils.logs.SagradaLogger;
 
 import java.util.ArrayList;
 import java.util.List;

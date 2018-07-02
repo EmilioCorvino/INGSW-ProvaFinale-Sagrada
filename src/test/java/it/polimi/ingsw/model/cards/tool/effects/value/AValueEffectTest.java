@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.cards.tool.valueeffects;
+package it.polimi.ingsw.model.cards.tool.effects.value;
 
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.die.Cell;
