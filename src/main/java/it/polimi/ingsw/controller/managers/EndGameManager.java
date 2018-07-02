@@ -10,6 +10,10 @@ import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -30,10 +34,25 @@ public class EndGameManager extends AGameManager {
 
     private static final String CONNECTION_LOST_WITH = "Connection lost with ";
 
+    /**
+     * A part from initializing the class attributes, this constructor also loads the timer from file.
+     * @param controllerMaster main controller class.
+     */
     public EndGameManager(ControllerMaster controllerMaster) {
         super.setControllerMaster(controllerMaster);
         this.endGameCommands = new ArrayList<>(Arrays.asList(Commands.START_ANOTHER_GAME, Commands.LOGOUT));
         this.playersThatAnswered = new ArrayList<>();
+
+        //Back up value.
+        super.timeOut = BACK_UP_TIMER;
+
+        //Value read from file. If the loading is successful, it overwrites the back up.
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_FILE)))) {
+            super.timeOut = Long.parseLong(reader.readLine());
+            SagradaLogger.log(Level.CONFIG, "Timer successfully loaded from file. Its value is: " + timeOut / 1000 + "s");
+        } catch (IOException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
+        }
     }
 
 //----------------------------------------------------------
@@ -325,7 +344,7 @@ public class EndGameManager extends AGameManager {
                     }
                 }
             }
-        }, timeOut);
+        }, super.timeOut);
     }
 
 //----------------------------------------------------------

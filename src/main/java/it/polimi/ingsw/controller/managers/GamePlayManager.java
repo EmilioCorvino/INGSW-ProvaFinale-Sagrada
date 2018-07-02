@@ -21,6 +21,10 @@ import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -61,6 +65,7 @@ public class GamePlayManager extends AGameManager {
     /**
      * This constructor, other than setting the controller master, also initializes the lists of commands to be shown
      * both to the player on duty ({@link #currentPlayerCommands}) and to the others ({@link #waitingPlayersCommands}).
+     * It also loads the timer from file.
      * @param controllerMaster main controller class.
      */
     public GamePlayManager(ControllerMaster controllerMaster) {
@@ -74,8 +79,18 @@ public class GamePlayManager extends AGameManager {
         }
 
         this.currentPlayerCommands.addAll(Arrays.asList(Commands.PLACEMENT, Commands.VISUALIZATION,Commands.END_TURN, Commands.LOGOUT));
-
         this.waitingPlayersCommands = new ArrayList<>(Arrays.asList(Commands.VISUALIZATION, Commands.LOGOUT));
+
+        //Back up value.
+        super.timeOut = BACK_UP_TIMER;
+
+        //Value read from file. If the loading is successful, it overwrites the back up.
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_FILE)))) {
+            super.timeOut = Long.parseLong(reader.readLine());
+            SagradaLogger.log(Level.CONFIG, "Timer successfully loaded from file. Its value is: " + timeOut / 1000 + "s");
+        } catch (IOException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
+        }
     }
 
     public List<Commands> getCurrentPlayerCommands() {
@@ -102,6 +117,7 @@ public class GamePlayManager extends AGameManager {
 
         //Terminates the match if there are no players left.
         if (super.getControllerMaster().getSuspendedPlayers().size() == super.getControllerMaster().getConnectedPlayers().size()) {
+            super.getControllerMaster().getStartGameManager().setMatchRunning(false);
             super.getControllerMaster().getEndGameManager().quitGame();
             return;
         }
@@ -131,6 +147,7 @@ public class GamePlayManager extends AGameManager {
 
             this.startTurn(gameState.getCurrentTurn());
         } else {
+            super.getControllerMaster().getStartGameManager().setMatchRunning(false);
             super.getControllerMaster().getEndGameManager().computeRank();
         }
     }
@@ -216,7 +233,7 @@ public class GamePlayManager extends AGameManager {
                 }
             }
         };
-        timer.schedule(task, timeOut);
+        timer.schedule(task, super.timeOut);
     }
 
     /**
@@ -236,6 +253,7 @@ public class GamePlayManager extends AGameManager {
 
         //Checks if there is only one (or less) player left playing. In that case, ends the match.
         if (super.getControllerMaster().getSuspendedPlayers().size() >= (super.getControllerMaster().getConnectedPlayers().size() - 1)) {
+            super.getControllerMaster().getStartGameManager().setMatchRunning(false);
             for(String playerName: super.getControllerMaster().getConnectedPlayers().keySet()) {
                 if(!super.getControllerMaster().getSuspendedPlayers().contains(playerName)) {
                     IFromServerToClient client = super.getPlayerClient(playerName);

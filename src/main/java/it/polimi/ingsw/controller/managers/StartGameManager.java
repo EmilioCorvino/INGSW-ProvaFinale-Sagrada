@@ -44,13 +44,12 @@ public class StartGameManager extends AGameManager {
     private List<String> playersDisconnectedBeforeCommonBoardSetting;
 
     /**
-     * Signals if the setting up is over or not.
+     * Signals if the setting up is over or not, hence if the match is in its game play state or not.
      */
-    private boolean matchSetUp;
+    private boolean matchRunning;
 
     /**
-     * A part from initializing the class attributes, this constructor also loads the timer from file. This timer will
-     * be used by all game managers.
+     * A part from initializing the class attributes, this constructor also loads the timer from file.
      * @param controllerMaster main controller class.
      */
     public StartGameManager(ControllerMaster controllerMaster) {
@@ -58,7 +57,7 @@ public class StartGameManager extends AGameManager {
         this.listOfSentWpID = new HashMap<>();
         this.playersWhoChose = new ArrayList<>();
         this.playersDisconnectedBeforeCommonBoardSetting = new ArrayList<>();
-        this.matchSetUp = false;
+        this.matchRunning = false;
 
         //Back up value.
         super.timeOut = BACK_UP_TIMER;
@@ -72,12 +71,12 @@ public class StartGameManager extends AGameManager {
         }
     }
 
-    public boolean isMatchSetUp() {
-        return matchSetUp;
+    public boolean isMatchRunning() {
+        return matchRunning;
     }
 
-    private void setMatchSetUp(boolean matchSetUp) {
-        this.matchSetUp = matchSetUp;
+    void setMatchRunning(boolean matchRunning) {
+        this.matchRunning = matchRunning;
     }
 
     public List<String> getPlayersDisconnectedBeforeCommonBoardSetting() {
@@ -197,7 +196,7 @@ public class StartGameManager extends AGameManager {
         this.playersWhoChose.add(playerName);
         if (this.playersWhoChose.size() == super.getControllerMaster().getCommonBoard().getPlayers().size()) {
             this.setCommonBoard();
-            this.setMatchSetUp(true);
+            this.setMatchRunning(true);
             super.getControllerMaster().getGamePlayManager().startRound();
         } else {
             try {
@@ -276,7 +275,7 @@ public class StartGameManager extends AGameManager {
                     exitGame(playerName);
                 }
             }
-        }, timeOut);
+        }, super.timeOut);
     }
 
     /**

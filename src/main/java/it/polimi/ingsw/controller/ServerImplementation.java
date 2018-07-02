@@ -138,7 +138,7 @@ public class ServerImplementation implements IFromClientToServer {
         }
 
         //Game Play.
-        if (this.getController().getStartGameManager().isMatchSetUp()) {
+        if (this.getController().getStartGameManager().isMatchRunning()) {
             this.controller.suspendPlayer(userName);
             return;
         }

@@ -10,10 +10,7 @@ import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 
 
@@ -83,7 +80,7 @@ public class ControllerMaster {
         return connectedPlayers;
     }
 
-    StartGameManager getStartGameManager() {
+    public StartGameManager getStartGameManager() {
         return startGameManager;
     }
 
@@ -117,7 +114,7 @@ public class ControllerMaster {
         if (!this.suspendedPlayers.contains(playerName)) {
             this.suspendedPlayers.add(playerName);
             IFromServerToClient client = this.getConnectedPlayers().get(playerName).getClient();
-            if (this.getStartGameManager().isMatchSetUp() && this.getGameState().getCurrentPlayer().getPlayerName().equals(playerName)) {
+            if (this.getStartGameManager().isMatchRunning() && this.getGameState().getCurrentPlayer().getPlayerName().equals(playerName)) {
                 this.getGamePlayManager().endTurn("\nIl tempo a tua disposizione è terminato, sei stato sospeso per inattività.");
                 try {
                     client.showCommand(Arrays.asList(Commands.RECONNECT, Commands.LOGOUT));
@@ -147,15 +144,26 @@ public class ControllerMaster {
             this.startGameManager.getPlayersDisconnectedBeforeCommonBoardSetting().remove(playerName);
         }
 
-        this.suspendedPlayers.remove(playerName);
-        try {
-            client.showCommand(this.getGamePlayManager().getWaitingPlayersCommands());
-        } catch (BrokenConnectionException e) {
-            SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while sending the new " +
-                    "commands after reconnecting.", e);
-            this.suspendPlayer(playerName);
-        }
+        if (this.getStartGameManager().isMatchRunning()) {
+            this.suspendedPlayers.remove(playerName);
+            try {
+                client.showCommand(this.getGamePlayManager().getWaitingPlayersCommands());
+            } catch (BrokenConnectionException e) {
+                SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while sending the new " +
+                        "commands after reconnecting.", e);
+                this.suspendPlayer(playerName);
+            }
 
-        this.gamePlayManager.broadcastNotification("\n" + playerName + " si è appena riconnesso!");
+            this.gamePlayManager.broadcastNotification("\n" + playerName + " si è appena riconnesso!");
+        } else {
+            try {
+                client.showNotice("\nLa partita è finita mentre eri sospeso, è impossibile riconnettersi.");
+                client.showCommand(Collections.singletonList(Commands.LOGOUT));
+            } catch (BrokenConnectionException e) {
+                SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while sending the new " +
+                        "commands after reconnecting.", e);
+                this.suspendPlayer(playerName);
+            }
+        }
     }
 }
