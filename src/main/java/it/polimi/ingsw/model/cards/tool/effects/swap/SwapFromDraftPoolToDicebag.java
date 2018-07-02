@@ -13,7 +13,7 @@ public class SwapFromDraftPoolToDicebag extends ASwapDieEffect {
      */
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
-
+        //todo manager.incrementEffectCounter();
         DiceDraftPool draftPool = manager.getControllerMaster().getCommonBoard().getDraftPool();
         //DiceBag diceBag = manager.getControllerMaster().getCommonBoard().getDiceBag ???;
 

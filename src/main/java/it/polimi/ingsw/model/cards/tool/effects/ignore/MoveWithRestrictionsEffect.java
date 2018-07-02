@@ -26,6 +26,7 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
 
         WindowPatternCard playerWp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
         Cell[][] glassWindowToConsider;
+        manager.incrementEffectCounter();
 
         playerWp.createCopy();
         glassWindowToConsider = playerWp.getGlassWindowCopy();
@@ -37,7 +38,8 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
         }
 
         Die chosenDie = playerWp.removeDieFromCopy(setUpInfoUnit.getSourceIndex());
-        Cell desiredCell = new Cell(setUpInfoUnit.getDestinationIndex()/WindowPatternCard.MAX_COL , setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL);
+        Cell desiredCell = new Cell(setUpInfoUnit.getDestinationIndex() / WindowPatternCard.MAX_COL,
+                setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL);
 
         if(!playerWp.canBePlaced(chosenDie, desiredCell, glassWindowToConsider)) {
             manager.sendNotificationToCurrentPlayer(playerWp.getErrorMessage());

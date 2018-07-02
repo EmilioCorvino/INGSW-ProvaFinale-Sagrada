@@ -24,6 +24,7 @@ public class SwapFromDraftPoolToRoundTrack extends ASwapDieEffect {
 
         RoundTrack roundTrack = manager.getControllerMaster().getCommonBoard().getRoundTrack();
         roundTrack.createCopy();
+        //todo per Gian, quando hai finito, metti qui questa riga: manager.incrementEffectCounter();
 
         if(manager.getControllerMaster().getGameState().getActualRound() == 1) {
             manager.setMoveLegal(false);

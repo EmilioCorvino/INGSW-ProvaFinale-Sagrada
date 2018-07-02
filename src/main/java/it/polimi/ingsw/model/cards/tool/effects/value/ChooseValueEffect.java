@@ -73,6 +73,7 @@ public class ChooseValueEffect extends AValueEffect {
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
         DiceDraftPool draftPool = manager.getControllerMaster().getCommonBoard().getDraftPool();
         draftPool.createCopy();
+        manager.incrementEffectCounter();
 
         WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
         wp.createCopy();
