@@ -29,9 +29,10 @@ public class RestrictedDiePlacementMove extends AMove {
         wp.createCopy();
         Die dieToCheck = new Die(setUpInfoUnit.getValue(), setUpInfoUnit.getColor());
         Cell cell = new Cell(setUpInfoUnit.getDestinationIndex() / WindowPatternCard.getMaxCol(), setUpInfoUnit.getDestinationIndex() % WindowPatternCard.getMaxCol());
-        wp.setDesiredCell(cell);
+
 
         if(wp.canBePlaced(dieToCheck, cell, wp.getGlassWindowCopy())) {
+            wp.setDesiredCell(cell);
             wp.addDieToCopy(dieToCheck);
             manager.setMoveLegal(true);
             manager.showPlacementResult(player, setUpInfoUnit);
@@ -54,15 +55,13 @@ public class RestrictedDiePlacementMove extends AMove {
      * @return true if exists at least one cell, false otherwise.
      */
     private boolean checkExistingCellsToUse(WindowPatternCard wp, Die chosenDie) {
-        Cell[][] gw = wp.getGlassWindowCopy();
-        List<Cell> cellToUse = new ArrayList<>();
+        Cell[][] gwCopy = wp.getGlassWindowCopy();
         for(int i=0; i< WindowPatternCard.getMaxRow(); i++)
             for (int j = 0; j < WindowPatternCard.getMaxCol(); j++) {
-                wp.setDesiredCell(gw[i][j]);
-                if (wp.canBePlaced(chosenDie, wp.getDesiredCell(), wp.getGlassWindowCopy()))
-                    cellToUse.add(gw[i][j]);
+                if (wp.canBePlaced(chosenDie, gwCopy[i][j], gwCopy))
+                    return true;
             }
-        return cellToUse.size() > 0;
+        return false;
     }
 
     /**
