@@ -107,6 +107,7 @@ public abstract class AValueEffect extends AToolCardEffect {
         wpSetUpInfoUnit.setSourceIndex(setUpInfoUnit.getSourceIndex());
 
         manager.setMoveLegal(true);
+        manager.getControllerMaster().getGameState().getCurrentTurn().incrementDieCount();
 
         Die dieToRemove = manager.getControllerMaster().getCommonBoard().getDraftPool().removeDieFromCopy(setUpInfoUnit.getSourceIndex());
         wp.setDesiredCell(desiredCell);

@@ -34,6 +34,7 @@ public class RestrictedDiePlacementMove extends AMove {
         if(wp.canBePlaced(dieToCheck, cell, wp.getGlassWindowCopy())) {
             wp.addDieToCopy(dieToCheck);
             manager.setMoveLegal(true);
+            manager.getControllerMaster().getGameState().getCurrentTurn().incrementDieCount();
             manager.showPlacementResult(player, setUpInfoUnit);
         } else {
             if(!checkExistingCellsToUse(wp, dieToCheck)) {

@@ -775,8 +775,15 @@ public class GamePlayManager extends AGameManager {
         //Checks if the executeMove has been successful or not, and modifies the state of the turn accordingly.
         if (this.isMoveLegal()) {
             gameState.getCurrentTurn().setDiePlaced(true);
-            gameState.getCurrentTurn().incrementDieCount();
             super.sendNotificationToCurrentPlayer("\nPiazzamento effettuato!");
+
+            if (gameState.getCurrentTurn().getDieCount() >= 2) {
+
+                //Considers the second turn of the same player in the round.
+                Turn turn = gameState.getTurnOrder().get(gameState.getTurnOrder().size() - gameState.getCurrentPlayerTurnIndex() - 1);
+                turn.setPassed(true);
+                super.sendNotificationToCurrentPlayer("\nRicorda che salterai il tuo prossimo turno in questo round!");
+            }
 
             //Checks if the player has done everything he could. If he did, ends his turn; if not, shows him the commands.
             //The commands shown are relative to what the player can still do.
@@ -818,7 +825,6 @@ public class GamePlayManager extends AGameManager {
 
             if (toolCard.impliesPlacement()) {
                 gameState.getCurrentTurn().setDiePlaced(true);
-                gameState.getCurrentTurn().incrementDieCount();
                 super.sendNotificationToCurrentPlayer("\nLa Carta Strumento che hai usato implicava un piazzamento");
             }
 

@@ -47,7 +47,10 @@ public class ToolCard implements IToolCard {
     private int availableTurn;
 
     /**
-     * This boolean is used to understand whether hte card implies a die placement or not.
+     * This boolean is used to understand whether hte card implies a die placement in the {@link it.polimi.ingsw.model.turn.Turn}
+     * in which it is used or not.
+     * N.B.: the tool card 8 does not imply a placement within a turn because it anticipates the placement of the
+     * next turn.
      */
     @SerializedName("placement")
     private boolean impliesPlacement;
