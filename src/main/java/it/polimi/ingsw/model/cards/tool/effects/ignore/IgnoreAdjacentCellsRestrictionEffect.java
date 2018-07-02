@@ -61,5 +61,7 @@ public class IgnoreAdjacentCellsRestrictionEffect extends DefaultDiePlacementMov
         info.setValue(chosenDie.getActualDieValue());
         System.out.println("sto per chiamare la super");
         super.executeMove(manager, info);
+
+        //todo check if this has to use drfaultPlacement or AValue effect placement. Remember to increment the die placed count.
     }
 }

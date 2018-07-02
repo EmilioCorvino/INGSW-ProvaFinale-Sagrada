@@ -43,7 +43,7 @@ public class DefaultDiePlacementMove extends AMove {
         wpSetUpInfoUnit.setSourceIndex(setUpInfoUnit.getSourceIndex());
 
         manager.setMoveLegal(true);
-        //manager.getControllerMaster().getGameState().getCurrentTurn().incrementDieCount();
+        manager.getControllerMaster().getGameState().getCurrentTurn().incrementDieCount();
 
         //Update of model and view.
         Die dieToRemove = manager.getControllerMaster().getCommonBoard().getDraftPool().removeDieFromCopy(setUpInfoUnit.getSourceIndex());
