@@ -404,7 +404,7 @@ public class GamePlayManager extends AGameManager {
                 this.checkIfPlayerIsSuspended(playerName);
             } else {
                 ToolCardSlot slot = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID);
-                this.checkToolCardAvailability(gameState, slotID);
+                this.checkToolCardAvailability(gameState, slotID, playerName);
                 for (int i = 0; i < infoUnits.size(); i++) {
                     if (this.isMoveLegal()) {
                         slot.getToolCard().getCardEffects().get(i).executeMove(this, infoUnits.get(i));
@@ -850,7 +850,7 @@ public class GamePlayManager extends AGameManager {
      * Favor Tokens to spend.
      * In case the card cannot be used, a new suitable set of {@link Commands} is sent to the player.
      */
-    private void checkToolCardAvailability(GameState gameState, int slotID) {
+    private void checkToolCardAvailability(GameState gameState, int slotID, String playerName) {
         ToolCardSlot slot = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID);
         int playerFavorTokens = gameState.getCurrentPlayer().getFavorTokens();
         int turnNumber = gameState.getCurrentPlayerTurnIndex() < (gameState.getTurnOrder().size() / 2) ? FIRST_TURN : SECOND_TURN;
@@ -858,13 +858,13 @@ public class GamePlayManager extends AGameManager {
         if (!slot.getToolCard().canBeUsed(turnNumber)) {
             super.sendNotificationToCurrentPlayer("\nNon puoi usare questa Carta Strumento in questo turno!");
             this.setMoveLegal(false);
-            List<Commands> updatedCommands = new ArrayList<>(this.currentPlayerCommands);
+            List<Commands> updatedCommands = this.dynamicCommands.get(playerName);
             updatedCommands.remove(slot.getToolCard().getCommandName());
             super.sendCommandsToCurrentPlayer(updatedCommands);
         } else if (!slot.canCardBePaid(playerFavorTokens)) {
             super.sendNotificationToCurrentPlayer("\nNon hai abbastanza Segnalini Favore per utilizzare la Carta Strumento selezionata");
             this.setMoveLegal(false);
-            List<Commands> updatedCommands = new ArrayList<>(this.currentPlayerCommands);
+            List<Commands> updatedCommands = this.dynamicCommands.get(playerName);
             updatedCommands.remove(slot.getToolCard().getCommandName());
             super.sendCommandsToCurrentPlayer(updatedCommands);
         } else {
