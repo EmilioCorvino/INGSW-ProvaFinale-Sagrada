@@ -36,12 +36,22 @@ public class DraftPoolGUI extends GridPane {
      */
     private boolean isEmpty = true;
 
-    private List<Integer> values;
+    /**
+     * This attribute manages the handlers related to the chosen tool.
+     */
+    private ToolWindowManager toolManager;
 
+    /**
+     * This attribute represents the value of the chosen die of the draft.
+     */
+    private int currValue;
+
+    /**
+     * This attribute indicates if a handler is active or not.
+     */
+    private boolean isHandlerActive;
 
     public DraftPoolGUI() {
-        //setInfo(info);
-        values = new ArrayList<>();
         this.getStylesheets().add("style/backgrounds.css");
         this.getStyleClass().add("map-background");
         this.setPadding(new Insets(20));
@@ -50,6 +60,7 @@ public class DraftPoolGUI extends GridPane {
         this.setHgap(12.5);
         this.setVgap(12.5);
 
+        System.out.println("sto creando il die factory");
         dieFactory = new DieFactory();
 
         for(int i=0; i< MAX_ROW; i++) {
@@ -60,6 +71,7 @@ public class DraftPoolGUI extends GridPane {
                 this.getColumnConstraints().add(cc);
             }
         }
+
     }
 
     /**
@@ -71,11 +83,26 @@ public class DraftPoolGUI extends GridPane {
             this.getChildren().remove(0, this.getChildren().size());
 
         diceList.forEach( info -> {
-            this.values.add(info.getValue());
             this.isEmpty = false;
             DieGUI die = dieFactory.getsDieGUI(info);
             this.add(die, info.getDestinationIndex() % MAX_COL, info.getDestinationIndex() / MAX_COL);
         });
+
+        for(int i=0; i<this.getChildren().size(); i++)
+            this.getChildren().get(i).addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+                int index = GridPane.getRowIndex((Node)e.getSource()) * DraftPoolGUI.MAX_COL + GridPane.getColumnIndex((Node)e.getSource());
+                System.out.println("valore scelto: " + currValue + " di indice: " + index + " in values" );
+                setCurr(index);
+            });
+    }
+
+    /**
+     * This method sets the current value of the chosen die.
+     * @param i
+     */
+    public void setCurr(int i) {
+        int val = ((DieGUI)this.getChildren().get(i)).getDieValue();
+        setCurrValue(val);
     }
 
     /**
@@ -91,10 +118,25 @@ public class DraftPoolGUI extends GridPane {
                 });
     }
 
+    public void cellsAsSourceWithCondition(PlayersData data) {
+        this.isHandlerActive = true;
+        for(int i=0; i<this.getChildren().size(); i++)
+            this.getChildren().get(i).addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+                SetUpInformationUnit info = data.getSetUpInformationUnit();
+                info.setSourceIndex(GridPane.getRowIndex((Node)e.getSource()) * DraftPoolGUI.MAX_COL + GridPane.getColumnIndex((Node)e.getSource()));
+                data.setSourceFilled(true);
+
+                //this.currValue = this.values.get(GridPane.getRowIndex((Node)e.getSource()) * DraftPoolGUI.MAX_COL + GridPane.getColumnIndex((Node)e.getSource()));
+                this.toolManager.buildWindow();
+            });
+    }
+
+
     /**
      * This method flows the dice of the draft after a dice has benn removed for a placement.
      */
     public void reFormatDraft() {
+
         List dice = new ArrayList();
         for(int i=0; i<this.getChildren().size(); i++)
             dice.add(this.getChildren().get(i));
@@ -105,11 +147,28 @@ public class DraftPoolGUI extends GridPane {
             this.add((DieGUI)dice.get(i), i%3, i/3);
     }
 
-    public List<Integer> getValues() {
-        return values;
+    public ToolWindowManager getToolManager() {
+        return toolManager;
     }
 
-    public void setValues(List<Integer> values) {
-        this.values = values;
+    public void setToolManager(ToolWindowManager toolManager) {
+        this.toolManager = toolManager;
     }
+
+    public int getCurrValue() {
+        return currValue;
+    }
+
+    public void setCurrValue(int currValue) {
+        this.currValue = currValue;
+    }
+
+    public boolean isHandlerActive() {
+        return isHandlerActive;
+    }
+
+    public void setHandlerActive(boolean handlerActive) {
+        isHandlerActive = handlerActive;
+    }
+
 }

@@ -16,8 +16,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -94,11 +92,8 @@ public class CommonBoardWindow extends ParentWindow {
 
     private ToolWindowManager toolWindowManager;
 
-    private List<Integer> toolsId;
-
 
     public CommonBoardWindow(GUICommunicationManager manager) {
-
 
         roundTrack = new RoundTrackGUI();
         draftPoolGUI = new DraftPoolGUI();
@@ -133,10 +128,10 @@ public class CommonBoardWindow extends ParentWindow {
         ok.getStyleClass().add("button-style");
         ok.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> validateMoveHandler());
 
-        toolsId = new ArrayList<>();
-        toolWindowManager = new ToolWindowManager(manager);
-        toolWindowManager.setData(this.data);
-        toolWindowManager.setDraft(this.draftPoolGUI);
+        toolWindowManager = new ToolWindowManager(this);
+        this.draftPoolGUI.setToolManager(this.toolWindowManager);
+        toolWindowManager.setManager(this.manager);
+
     }
 
 
@@ -199,6 +194,7 @@ public class CommonBoardWindow extends ParentWindow {
             st.setByY(0.25f);
             st.setAutoReverse(true);
             st.play();
+            st.stop();
         } );
 
         //when mouse is exited the image returns to its original size.
@@ -208,6 +204,7 @@ public class CommonBoardWindow extends ParentWindow {
             st.setByY(-0.25f);
             st.setAutoReverse(false);
             st.play();
+            st.stop();
         } );
 
         view.setFitHeight(240);
@@ -288,7 +285,7 @@ public class CommonBoardWindow extends ParentWindow {
         box.setSpacing(62);
 
         HBox favorTok = new HBox();
-        Label titleFav = new Label(" ");
+        Label titleFav = new Label(this.data.getUsername());
         favorTok.setPadding(new Insets(0, 0, 0, 45));
         titleFav.getStyleClass().add("text-label-bold");
         Label numFav = new Label("");
@@ -332,6 +329,7 @@ public class CommonBoardWindow extends ParentWindow {
                 st.setByY(0.25f);
                 st.setAutoReverse(true);
                 st.play();
+                st.stop();
             } );
 
             //when mouse is exited the image returns to its original size.
@@ -341,6 +339,7 @@ public class CommonBoardWindow extends ParentWindow {
                 st.setByY(-0.25f);
                 st.setAutoReverse(false);
                 st.play();
+                st.stop();
             } );
 
             view.setFitHeight(240);
@@ -349,66 +348,58 @@ public class CommonBoardWindow extends ParentWindow {
         }
     }
 
+    private HBox toolCont;
 
     /**
      * This method sets the tool card images sent by the server.
      * @param idTools the id of the tool cards to set.
      */
     public void setToolImages(int[] idTools) {
-        HBox toolCont = new HBox();
+        toolCont = new HBox();
         toolCont.getStyleClass().add("map-background");
         toolCont.setPadding(new Insets(20));
         toolCont.setSpacing(25);
         this.publToolDraftCont.getChildren().add(toolCont);
 
         for(int i=0; i<idTools.length; i++) {
-            Image toolCard = new Image("/cards/toolImages/tool" + idTools[i] + ".png");
-            ImageView view = new ImageView(toolCard);
-
-            //when mouse is entered the image is bigger.
-            view.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
-                ScaleTransition st = new ScaleTransition(Duration.millis(30), view);
-                st.setByX(0.25f);
-                st.setByY(0.25f);
-                st.setAutoReverse(true);
-                st.play();
-            } );
-
-            //when mouse is exited the image returns to its original size.
-            view.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
-                ScaleTransition st = new ScaleTransition(Duration.millis(30), view);
-                st.setByX(-0.25f);
-                st.setByY(-0.25f);
-                st.setAutoReverse(false);
-                st.play();
-            } );
-
-            view.setFitHeight(240);
-            view.setPreserveRatio(true);
-            toolCont.getChildren().add(view);
-
-            this.toolsId.add(idTools[i]);
-
-            view.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-                Integer index = (Integer)(e.getSource());
-                System.out.println("index tool: " + index);
-                this.data.setSlotChosen(index);
-                this.toolWindowManager.displayToolWindow(this.toolsId.get(index));
-            });
+            ToolCardGUI toolCard = new ToolCardGUI("/cards/toolImages/tool" + idTools[i] + ".png");
+            toolCard.setIdTool(idTools[i] - 300 + 1);
+            System.out.println("tool settata: " + toolCard + " " + toolCard.getIdTool());
+            toolCard.setToolSlot(i);
+            toolCont.getChildren().add(toolCard);
+            toolCard.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> chooseToolCardHandler(toolCard));
         }
     }
 
+    public void chooseToolCardHandler(ToolCardGUI tool) {
+        System.out.println("chosen tool: " + tool + " " + (tool.getIdTool()));
+        if(this.manager.isCommandContained("Strumento " + (tool.getIdTool()))) {
+            HBox box = (HBox)tool.getChildren().get(1);
+            Button button = (Button)box.getChildren().get(1);
+            button.setVisible(true);
+            this.toolWindowManager.invokeToolCommand(tool.getIdTool());
+            button.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> this.toolWindowManager.invokeMoveValidator(tool.getIdTool()));
+            this.toolWindowManager.setSlotId(tool.getToolSlot());
 
+        } else {
+            this.manager.communicateMessage("Non puoi usare questa tool (Hai già effettuato un piazzamento oppure non" +
+                    "hai abbastanza segnalini favore.");
+        }
+    }
+
+/*
     public void setPanelForInformation() {
         HBox messageBox = new HBox();
         Label label = new Label("");
         messageBox.getChildren().add(label);
         this.publToolDraftCont.getChildren().add(messageBox);
     }
+    */
 
 
     public void showMessage(String message) {
-        ((Label)((HBox)this.publToolDraftCont.getChildren().get(2)).getChildren().get(0)).setText(message);
+        //((Label)((HBox)this.publToolDraftCont.getChildren().get(2)).getChildren().get(0)).setText(message);
+        this.manager.communicateMessage(message);
     }
 
 
@@ -443,6 +434,15 @@ public class CommonBoardWindow extends ParentWindow {
 
     @Override
     public void addHandlers() {
+        GridPane grid = this.data.getPersonalWp().getGlassWindow();
+        //This cycle adds css to the glass window of the player.
+        for(int i=0; i< WpGui.MAX_ROW; i++)
+            for(int j=0; j<WpGui.MAX_COL; j++) {
+                StackPane stack = (StackPane) grid.getChildren().get(WpGui.MAX_COL * i + j);
+                stack.getStyleClass().add("dieChosen");
+            }
+
+        //this.toolCont.getChildren().forEach(imageView -> imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> chooseToolHandler(e)));
     }
 
 
@@ -469,13 +469,7 @@ public class CommonBoardWindow extends ParentWindow {
          if(this.manager.isCommandContained("Piazzamento")) {
              SetUpInformationUnit setup = new SetUpInformationUnit();
              this.data.setSetUpInformationUnit(setup);
-             GridPane grid = this.data.getPersonalWp().getGlassWindow();
-            //This cycle adds css to the glass window of the player.
-             for(int i=0; i< WpGui.MAX_ROW; i++)
-                 for(int j=0; j<WpGui.MAX_COL; j++) {
-                     StackPane stack = (StackPane) grid.getChildren().get(WpGui.MAX_COL * i + j);
-                     stack.getStyleClass().add("dieChosen");
-                 }
+
 
              this.draftPoolGUI.cellAsSource(this.data);
              this.data.getPersonalWp().cellMapAsDestinationHandler(this.data);
