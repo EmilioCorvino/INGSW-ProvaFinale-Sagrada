@@ -199,7 +199,7 @@ public class WindowPatternCard extends ADieContainer {
                 if (!(i == 1 && j == i) && (!(glassWindowToConsider[selectedCell.getRow()-1 + i][selectedCell.getCol()-1 + j].isEmpty())))
                     return true;
 
-        setErrorMessage("La cella desiderata non e' vicina ad un dado");
+        setErrorMessage("La cella desiderata non e' vicina ad un dado.");
         return false;
     }
 
@@ -244,7 +244,7 @@ public class WindowPatternCard extends ADieContainer {
 
         for (ARestriction restriction : adjacentRules)
             if(restriction.isRespected(die)) {
-                setErrorMessage("Non sono rispettate le restrizioni delle celle adiacenti");
+                setErrorMessage("Non sono rispettate le restrizioni delle celle adiacenti.");
                 return false;
             }
 
@@ -274,24 +274,11 @@ public class WindowPatternCard extends ADieContainer {
         }
         if (matrixIsEmpty(glassWindowToConsider)) {
             return checkBorderCells(selectedCell) && checkOwnRuleSet(die, selectedCell, glassWindowToConsider);
-        }else {
+        } else {
             return checkAdjacentCells(selectedCell, glassWindowToConsider) &&
                     checkOwnRuleSet(die, selectedCell, glassWindowToConsider) &&
                     checkAdjacentRuleSet(die, selectedCell, glassWindowToConsider);
         }
-    }
-
-    /**
-     * This method checks if a specific die is contained in the window pattern card
-     * @param dieToSearch: die that should be contained.
-     * @return true if is contained else false.
-     */
-    public boolean isContained(Die dieToSearch) {
-        for(int i=0; i<MAX_ROW; i++)
-            for(int j=0; j<MAX_COL; j++)
-                if(!glassWindow[i][j].isEmpty())
-                    return glassWindow[i][j].getContainedDie().equals(dieToSearch);
-        return false;
     }
 
     public Cell[][] getGlassWindowCopy() {

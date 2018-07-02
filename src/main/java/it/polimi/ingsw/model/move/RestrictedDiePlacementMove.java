@@ -28,7 +28,7 @@ public class RestrictedDiePlacementMove extends AMove {
         Cell cell = new Cell(setUpInfoUnit.getDestinationIndex() / WindowPatternCard.getMaxCol(), setUpInfoUnit.getDestinationIndex() % WindowPatternCard.getMaxCol());
 
 
-        if(wp.canBePlaced(dieToCheck, cell, wp.getGlassWindowCopy())) {
+        if (wp.canBePlaced(dieToCheck, cell, wp.getGlassWindowCopy())) {
             wp.setDesiredCell(cell);
             wp.addDieToCopy(dieToCheck);
             manager.setMoveLegal(true);

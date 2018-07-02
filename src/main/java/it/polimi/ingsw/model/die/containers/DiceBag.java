@@ -87,11 +87,6 @@ public class DiceBag extends ADieContainer {
         return this.availableDiceCopy.remove(index);
     }
 
-    @Override
-    public boolean isContained(Die die) {
-        return false;
-    }
-
     /**
      * This method create a copy of the objects contained.
      */
