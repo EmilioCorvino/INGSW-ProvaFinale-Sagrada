@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.gui;
+package it.polimi.ingsw.view.gui.gamewindows;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;

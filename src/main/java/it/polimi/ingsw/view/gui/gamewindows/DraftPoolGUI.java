@@ -1,6 +1,7 @@
-package it.polimi.ingsw.view.gui;
+package it.polimi.ingsw.view.gui.gamewindows;
 
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
+import it.polimi.ingsw.view.gui.gamewindows.toolcardsGUImanagers.ToolWindowManager;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
@@ -46,10 +47,9 @@ public class DraftPoolGUI extends GridPane {
      */
     private int currValue;
 
-    /**
-     * This attribute indicates if a handler is active or not.
-     */
-    private boolean isHandlerActive;
+    private int indexChosenCell;
+
+    private boolean draftCellChosen;
 
     public DraftPoolGUI() {
         this.getStylesheets().add("style/backgrounds.css");
@@ -60,7 +60,6 @@ public class DraftPoolGUI extends GridPane {
         this.setHgap(12.5);
         this.setVgap(12.5);
 
-        System.out.println("sto creando il die factory");
         dieFactory = new DieFactory();
 
         for(int i=0; i< MAX_ROW; i++) {
@@ -69,6 +68,7 @@ public class DraftPoolGUI extends GridPane {
             for(int j=0; j<MAX_COL; j++) {
                 ColumnConstraints cc = new ColumnConstraints(45);
                 this.getColumnConstraints().add(cc);
+
             }
         }
 
@@ -88,17 +88,11 @@ public class DraftPoolGUI extends GridPane {
             this.add(die, info.getDestinationIndex() % MAX_COL, info.getDestinationIndex() / MAX_COL);
         });
 
-        for(int i=0; i<this.getChildren().size(); i++)
-            this.getChildren().get(i).addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-                int index = GridPane.getRowIndex((Node)e.getSource()) * DraftPoolGUI.MAX_COL + GridPane.getColumnIndex((Node)e.getSource());
-                System.out.println("valore scelto: " + currValue + " di indice: " + index + " in values" );
-                setCurr(index);
-            });
     }
 
     /**
      * This method sets the current value of the chosen die.
-     * @param i
+     * @param i the index of the current value chosen by the player.
      */
     public void setCurr(int i) {
         int val = ((DieGUI)this.getChildren().get(i)).getDieValue();
@@ -107,28 +101,16 @@ public class DraftPoolGUI extends GridPane {
 
     /**
      * This method adds the handler to the dice available in the draft pool.
-     * @param data the data where to store the input of the user.
+     * //@param data the data where to store the input of the user.
      */
-    public void cellAsSource(PlayersData data) {
+    public void cellAsSource() {
         for(int i=0; i<this.getChildren().size(); i++)
                 this.getChildren().get(i).addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-                    SetUpInformationUnit info = data.getSetUpInformationUnit();
-                    info.setSourceIndex(GridPane.getRowIndex((Node)e.getSource()) * DraftPoolGUI.MAX_COL + GridPane.getColumnIndex((Node)e.getSource()));
-                    data.setSourceFilled(true);
+                    setIndexChosenCell(GridPane.getRowIndex((Node)e.getSource()) * DraftPoolGUI.MAX_COL + GridPane.getColumnIndex((Node)e.getSource()));
+                   this.draftCellChosen = true;
+                    int index = GridPane.getRowIndex((Node)e.getSource()) * DraftPoolGUI.MAX_COL + GridPane.getColumnIndex((Node)e.getSource());
+                    setCurr(index);
                 });
-    }
-
-    public void cellsAsSourceWithCondition(PlayersData data) {
-        this.isHandlerActive = true;
-        for(int i=0; i<this.getChildren().size(); i++)
-            this.getChildren().get(i).addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-                SetUpInformationUnit info = data.getSetUpInformationUnit();
-                info.setSourceIndex(GridPane.getRowIndex((Node)e.getSource()) * DraftPoolGUI.MAX_COL + GridPane.getColumnIndex((Node)e.getSource()));
-                data.setSourceFilled(true);
-
-                //this.currValue = this.values.get(GridPane.getRowIndex((Node)e.getSource()) * DraftPoolGUI.MAX_COL + GridPane.getColumnIndex((Node)e.getSource()));
-                this.toolManager.buildWindow();
-            });
     }
 
 
@@ -163,12 +145,19 @@ public class DraftPoolGUI extends GridPane {
         this.currValue = currValue;
     }
 
-    public boolean isHandlerActive() {
-        return isHandlerActive;
+    public int getIndexChosenCell() {
+        return indexChosenCell;
     }
 
-    public void setHandlerActive(boolean handlerActive) {
-        isHandlerActive = handlerActive;
+    public void setIndexChosenCell(int indexChosenCell) {
+        this.indexChosenCell = indexChosenCell;
     }
 
+    public boolean isDraftCellChosen() {
+        return draftCellChosen;
+    }
+
+    public void setDraftCellChosen(boolean draftCellChosen) {
+        this.draftCellChosen = draftCellChosen;
+    }
 }

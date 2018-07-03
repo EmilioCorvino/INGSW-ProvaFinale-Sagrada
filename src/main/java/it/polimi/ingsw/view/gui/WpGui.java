@@ -3,12 +3,14 @@ package it.polimi.ingsw.view.gui;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.controller.simplifiedview.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.view.gui.gamewindows.DieGUI;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,8 +52,19 @@ public class WpGui extends Pane {
 
     private int clicked;
 
+    private boolean isHandlerActive;
+
+
+
+    private List<Integer> cellsClicked;
+
+    private boolean wpCellClicked;
+
+
+
     public WpGui() {
 
+        cellsClicked = new ArrayList<>();
         idMap = new Label();
         difficulty = new Label();
 
@@ -123,22 +136,25 @@ public class WpGui extends Pane {
                 }
             }
         }
+
     }
 
     /**
      * This method sets the proper clicked cells as destination in the information unit to send to the server.
-     * @param data the data player from which to get the info.
+     * //@param data the data player from which to get the info.
      */
-    public void cellMapAsDestinationHandler(PlayersData data) {
+    public void cellMapAsDestinationHandler() {
 
         for(int i=0; i<WpGui.MAX_ROW; i++)
             for(int j=0; j<WpGui.MAX_COL; j++) {
                 StackPane stack = (StackPane)this.glassWindow.getChildren().get(i * WpGui.MAX_COL + j);
                 stack.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-                    SetUpInformationUnit info = data.getSetUpInformationUnit();
-                    info.setDestinationIndex(GridPane.getRowIndex((Node)e.getSource()) * WpGui.MAX_COL + GridPane.getColumnIndex((Node)e.getSource()));
-                    data.setDestinationFilled(true);
+                    this.wpCellClicked = true;
+                    setClicked(GridPane.getRowIndex((Node)e.getSource()) * WpGui.MAX_COL + GridPane.getColumnIndex((Node)e.getSource()));
+                    this.cellsClicked.add(GridPane.getRowIndex((Node)e.getSource()) * WpGui.MAX_COL + GridPane.getColumnIndex((Node)e.getSource()));
+
                 });
+
             }
         }
 
@@ -207,5 +223,29 @@ public class WpGui extends Pane {
 
     public void setClicked(int clicked) {
         this.clicked = clicked;
+    }
+
+    public List<Integer> getCellsClicked() {
+        return cellsClicked;
+    }
+
+    public void setCellsClicked(List<Integer> cellsClicked) {
+        this.cellsClicked = cellsClicked;
+    }
+
+    public boolean isWpCellClicked() {
+        return wpCellClicked;
+    }
+
+    public void setWpCellClicked(boolean wpCellClicked) {
+        this.wpCellClicked = wpCellClicked;
+    }
+
+    public boolean isHandlerActive() {
+        return isHandlerActive;
+    }
+
+    public void setHandlerActive(boolean handlerActive) {
+        isHandlerActive = handlerActive;
     }
 }
