@@ -166,7 +166,13 @@ public class WpGui extends Pane {
     public void addOnThisWp(DieGUI die, int index) {
             StackPane stack = (StackPane)this.glassWindow.getChildren().get(index);
             stack.getChildren().add(die);
-        }
+    }
+
+    public void removeFromThisWp(int source) {
+        System.out.println("Sto per rimuovere l'elemento...sono in wp " + source);
+        StackPane stack = (StackPane)this.glassWindow.getChildren().get(source);
+        stack.getChildren().remove(2);
+    }
 
 
     /**

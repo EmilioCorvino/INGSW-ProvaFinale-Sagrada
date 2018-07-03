@@ -6,6 +6,7 @@ import it.polimi.ingsw.view.gui.GUICommunicationManager;
 import it.polimi.ingsw.view.gui.gamewindows.CommonBoardWindow;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -58,8 +59,10 @@ public class ToolWindowManager {
         toolMoveValidator = new HashMap<>();
 
         toolMethods.put(1, this::toolOneWindow);
+        toolMethods.put(2, this::toolTwoWindow);
 
         toolMoveValidator.put(1, this::validateToolOne);
+        toolMoveValidator.put(2, this::toolTwoValidator);
 
         toolWindowBuilder = new ToolWindowBuilder(commonBoardWindow);
     }
@@ -102,6 +105,33 @@ public class ToolWindowManager {
                 this.toolWindowBuilder.showSupportWindowToolOne();
             else
                 this.commonBoardWindow.sendMessage("Devi scegliere un dado dalla riserva.");
+    }
+
+    private void toolTwoWindow() {
+        List<Integer> values = this.commonBoardWindow.getData().getPersonalWp().getCellsClicked();
+
+        if(values.size() > 0)
+            values.clear();
+
+        this.commonBoardWindow.sendMessage("Scegli una cella sorgente della tua mappa, poi scegli"
+        + " una cella destinazione della tua mappa in cui mettere il dado che vuoi spostare.");
+    }
+
+    private void toolTwoValidator() {
+        List<Integer> values = this.commonBoardWindow.getData().getPersonalWp().getCellsClicked();
+        if(values.size() > 2) {
+            this.manager.communicateMessage("Devi scegliere solo due celle della tua mappa personale;" +
+                        "ignora le restrizioni di COLORE");
+            values.clear();
+            return;
+        }
+
+        if(values.size() < 2)
+            this.commonBoardWindow.sendMessage("Devi scegliere due celle della tua mappa personale." +
+                    " Ignora le restrizioni di COLORE.");
+        else {
+            this.manager.executeCommandToolIfPresent(2);
+        }
     }
 
 

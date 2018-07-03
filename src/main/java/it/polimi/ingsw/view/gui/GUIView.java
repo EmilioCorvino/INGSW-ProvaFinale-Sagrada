@@ -224,7 +224,6 @@ public class GUIView implements IViewMaster {
             DieGUI die = this.dieFactory.getsDieGUI(unit);
             this.commonWindow.getData().getPersonalWp().setWpCellClicked(false);
             this.commonWindow.getData().getPersonalWp().getCellsClicked().clear();
-            System.out.println("size of cellsclicked after clear: " + this.commonWindow.getData().getPersonalWp().getCellsClicked().size() );
             this.commonWindow.getData().getPersonalWp().addOnThisWp(die, unit.getDestinationIndex());
         });
 
@@ -232,6 +231,11 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void removeOnOwnWp(SetUpInformationUnit unit) {
+        Platform.runLater(() -> {
+            System.out.println("Sto per rimuovere l'elemento... " + unit.getSourceIndex());
+            this.commonWindow.getData().getPersonalWp().removeFromThisWp(unit.getSourceIndex());
+                });
+
 
     }
 

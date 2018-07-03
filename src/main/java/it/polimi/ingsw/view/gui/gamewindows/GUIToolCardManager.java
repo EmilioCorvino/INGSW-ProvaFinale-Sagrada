@@ -55,7 +55,26 @@ public class GUIToolCardManager implements IToolCardManager {
 
     @Override
     public void tool2() {
+        List<SetUpInformationUnit> setupList = new ArrayList<>();
+        SetUpInformationUnit info = new SetUpInformationUnit();
+        List<Integer> values = this.playersData.getPersonalWp().getCellsClicked();
 
+        info.setSourceIndex(values.get(0));
+        info.setDestinationIndex(values.get(1));
+
+        setupList.add(info);
+
+        System.out.println("id dello slot: " + playersData.getSlotChosen());
+        System.out.println("cella sorgente wp : " + info.getSourceIndex());
+        System.out.println("cella destinazione wp : " + info.getDestinationIndex());
+
+
+        try{
+            this.server.performToolCardMove(playersData.getSlotChosen(), setupList);
+        } catch (BrokenConnectionException e) {
+            SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 2");
+            //disconnect();
+        }
     }
 
     @Override
