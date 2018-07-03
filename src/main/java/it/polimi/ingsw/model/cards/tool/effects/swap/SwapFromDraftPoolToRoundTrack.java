@@ -24,6 +24,7 @@ public class SwapFromDraftPoolToRoundTrack extends ASwapDieEffect {
 
         RoundTrack roundTrack = manager.getControllerMaster().getCommonBoard().getRoundTrack();
         roundTrack.createCopy();
+        //todo per Gian, quando hai finito, metti qui questa riga: manager.incrementEffectCounter();
 
         if(manager.getControllerMaster().getGameState().getActualRound() == 1) {
             manager.setMoveLegal(false);
@@ -31,7 +32,7 @@ public class SwapFromDraftPoolToRoundTrack extends ASwapDieEffect {
             return;
         }
 
-        if(roundTrack.getAvailableDiceCopy().get(informationUnit.getExtraParam()).size() == 0) {
+        if(roundTrack.getAvailableDiceCopy().isEmpty()) {
             manager.setMoveLegal(false);
             manager.sendNotificationToCurrentPlayer("Non ci sono dadi sulla round selezionato!");
             return;

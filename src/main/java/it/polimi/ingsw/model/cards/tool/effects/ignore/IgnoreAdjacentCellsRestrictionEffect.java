@@ -18,8 +18,8 @@ public class IgnoreAdjacentCellsRestrictionEffect extends DefaultDiePlacementMov
 
     /**
      * This method manages the particular placement ignoring the adjacent cells restriction.
-     * @param manager the controller.
-     * @param info the info unit to use.
+     * @param manager part of the controller that deals with the game play.
+     * @param info object containing all the information needed to perform the move.
      */
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit info) {
@@ -27,22 +27,21 @@ public class IgnoreAdjacentCellsRestrictionEffect extends DefaultDiePlacementMov
         Player p = manager.getControllerMaster().getGameState().getCurrentPlayer();
         WindowPatternCard wp = p.getWindowPatternCard();
         wp.createCopy();
+        manager.incrementEffectCounter();
 
         DiceDraftPool draft = manager.getControllerMaster().getCommonBoard().getDraftPool();
         draft.createCopy();
-        Die chosenDie = draft.removeDieFromCopy(info.getSourceIndex());
+        Die chosenDie = draft.getAvailableDiceCopy().get(info.getSourceIndex());
 
-        Cell desiredCell = new Cell(info.getSourceIndex() / WindowPatternCard.getMaxCol(), info.getSourceIndex() % WindowPatternCard.getMaxCol());
-        wp.setDesiredCell(desiredCell);
-
+        Cell desiredCell = new Cell(info.getDestinationIndex() / WindowPatternCard.getMaxCol(), info.getDestinationIndex() % WindowPatternCard.getMaxCol());
         Cell[][] gwCopy = wp.getGlassWindowCopy();
 
-        //!wp.checkAdjacentCells(desiredCell, gwCopy)
-
-        if((!wp.checkAdjacentCells(desiredCell, gwCopy)) ) {
-            if(wp.checkOwnRuleSet(chosenDie, desiredCell, gwCopy)) {
+        if (!wp.matrixIsEmpty(gwCopy) && !wp.checkAdjacentCells(desiredCell, gwCopy)) {
+            if (wp.checkOwnRuleSet(chosenDie, desiredCell, gwCopy)) {
+                manager.getControllerMaster().getGameState().getCurrentTurn().incrementDieCount();
                 manager.setMoveLegal(true);
-                wp.addDieToCopy(wp.removeDieFromCopy(info.getSourceIndex()));
+                wp.setDesiredCell(desiredCell);
+                wp.addDieToCopy(draft.removeDieFromCopy(info.getSourceIndex()));
                 info.setValue(chosenDie.getActualDieValue());
                 info.setColor(chosenDie.getDieColor());
                 manager.showPlacementResult(p, info);
@@ -54,10 +53,6 @@ public class IgnoreAdjacentCellsRestrictionEffect extends DefaultDiePlacementMov
             }
         }
 
-        info.setColor(chosenDie.getDieColor());
-        info.setValue(chosenDie.getActualDieValue());
         super.executeMove(manager, info);
-
-        //todo check if this has to use defaultPlacement or AValue effect placement. Remember to increment the die placed count.
     }
 }

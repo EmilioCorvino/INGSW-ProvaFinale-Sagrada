@@ -242,8 +242,11 @@ public class CliView implements IViewMaster {
      */
     @Override
     public void showCommand(List<Commands> commands) {
-        if(commands.contains(Commands.VISUALIZATION))
+        if(commands.contains(Commands.VISUALIZATION)) {
+            inputOutputManager.print(this.player.favTokensToString());
+            inputOutputManager.print(this.commonBoard.getDraftPool().diceDraftToString());
             inputOutputManager.print(this.player.getWp().wpToString());
+        }
         functions = bank.getCommandMap(commands);
         ((CliDefaultMatchManager)bank.getDefaultMatchManager()).populateHelp(functions);
         printCommands();
