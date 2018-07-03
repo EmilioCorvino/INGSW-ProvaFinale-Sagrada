@@ -53,6 +53,9 @@ public class GUIToolCardManager implements IToolCardManager {
         }
     }
 
+    /**
+     * This method sends the information to perform the effect of the tool number two;
+     */
     @Override
     public void tool2() {
         List<SetUpInformationUnit> setupList = new ArrayList<>();
@@ -64,11 +67,6 @@ public class GUIToolCardManager implements IToolCardManager {
 
         setupList.add(info);
 
-        System.out.println("id dello slot: " + playersData.getSlotChosen());
-        System.out.println("cella sorgente wp : " + info.getSourceIndex());
-        System.out.println("cella destinazione wp : " + info.getDestinationIndex());
-
-
         try{
             this.server.performToolCardMove(playersData.getSlotChosen(), setupList);
         } catch (BrokenConnectionException e) {
@@ -77,9 +75,12 @@ public class GUIToolCardManager implements IToolCardManager {
         }
     }
 
+    /**
+     * This method sends the information to perform the effect of the tool number three;
+     */
     @Override
     public void tool3() {
-
+        tool2();
     }
 
     @Override

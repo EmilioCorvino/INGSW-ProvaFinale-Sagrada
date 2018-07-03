@@ -59,10 +59,12 @@ public class ToolWindowManager {
         toolMoveValidator = new HashMap<>();
 
         toolMethods.put(1, this::toolOneWindow);
-        toolMethods.put(2, this::toolTwoWindow);
+        toolMethods.put(2, this::toolTwoThreeWindow);
+        toolMethods.put(3, this::toolTwoThreeWindow);
 
         toolMoveValidator.put(1, this::validateToolOne);
         toolMoveValidator.put(2, this::toolTwoValidator);
+        toolMoveValidator.put(3, this::toolThreeValidator);
 
         toolWindowBuilder = new ToolWindowBuilder(commonBoardWindow);
     }
@@ -107,7 +109,7 @@ public class ToolWindowManager {
                 this.commonBoardWindow.sendMessage("Devi scegliere un dado dalla riserva.");
     }
 
-    private void toolTwoWindow() {
+    private void toolTwoThreeWindow() {
         List<Integer> values = this.commonBoardWindow.getData().getPersonalWp().getCellsClicked();
 
         if(values.size() > 0)
@@ -129,6 +131,23 @@ public class ToolWindowManager {
         if(values.size() < 2)
             this.commonBoardWindow.sendMessage("Devi scegliere due celle della tua mappa personale." +
                     " Ignora le restrizioni di COLORE.");
+        else {
+            this.manager.executeCommandToolIfPresent(2);
+        }
+    }
+
+    public void toolThreeValidator() {
+        List<Integer> values = this.commonBoardWindow.getData().getPersonalWp().getCellsClicked();
+        if(values.size() > 2) {
+            this.manager.communicateMessage("Devi scegliere solo due celle della tua mappa personale;" +
+                    "ignora le restrizioni di VALORE");
+            values.clear();
+            return;
+        }
+
+        if(values.size() < 2)
+            this.commonBoardWindow.sendMessage("Devi scegliere due celle della tua mappa personale." +
+                    " Ignora le restrizioni di VALORE.");
         else {
             this.manager.executeCommandToolIfPresent(2);
         }

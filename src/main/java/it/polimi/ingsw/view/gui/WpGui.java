@@ -171,7 +171,8 @@ public class WpGui extends Pane {
     public void removeFromThisWp(int source) {
         System.out.println("Sto per rimuovere l'elemento...sono in wp " + source);
         StackPane stack = (StackPane)this.glassWindow.getChildren().get(source);
-        stack.getChildren().remove(2);
+        int indexToRem = stack.getChildren().size() - 1;
+        stack.getChildren().remove(indexToRem);
     }
 
 
