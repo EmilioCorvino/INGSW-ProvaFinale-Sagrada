@@ -770,7 +770,8 @@ public class GamePlayManager extends AGameManager {
         }
 
         //Removes the placement command if the card already used implied it.
-        if (gameState.getCurrentTurn().isToolCardUsed() && slotUsed.doesCardImplyPlacement()) {
+        if (gameState.getCurrentTurn().isToolCardUsed() && slotUsed.doesCardImplyPlacement() &&
+                gameState.getCurrentTurn().getDieCount() > 0) {
             modifiedCurrentPlayerList.remove(Commands.PLACEMENT);
         }
 
