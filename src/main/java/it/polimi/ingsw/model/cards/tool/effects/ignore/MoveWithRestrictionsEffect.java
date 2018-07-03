@@ -36,7 +36,7 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
         manager.incrementEffectCounter();
         glassWindowToConsider = playerWp.getGlassWindowCopy();
 
-        if(!checkMoveAvailability(glassWindowToConsider, setUpInfoUnit)) {
+        if(!checkMoveAvailability(glassWindowToConsider, setUpInfoUnit, manager.getEffectCounter())) {
             manager.setMoveLegal(false);
             manager.sendNotificationToCurrentPlayer(this.invalidMoveMessage);
             manager.showRearrangementResult(manager.getControllerMaster().getGameState().getCurrentPlayer(), setUpInfoUnit);
@@ -82,19 +82,20 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
      * This method checks if some important conditions to perform this move are satisfied or not.
      * @param gw the glass window to check.
      * @param info the information to use.
+     * @param effectCounter represent the specific effect of the card.
      * @return true if all the conditions are satisfied, false otherwise.
      */
-    boolean checkMoveAvailability(Cell[][] gw, SetUpInformationUnit info) {
+    boolean checkMoveAvailability(Cell[][] gw, SetUpInformationUnit info, int effectCounter) {
         if (hasGlassWindowLessThanTwoDice(gw)) {
             this.setInvalidMoveMessage("La tua vetrata non ha abbastanza dadi! Non puoi muovere alcun dado." + COMMANDS_HELP);
             return false;
         }
         if (gw[info.getSourceIndex()/WindowPatternCard.MAX_COL][info.getSourceIndex() % WindowPatternCard.MAX_COL].isEmpty()) {
-            this.setInvalidMoveMessage("La cella sorgente è vuota." + COMMANDS_HELP);
+            this.setInvalidMoveMessage("Spostamento n° " + effectCounter + ": la cella sorgente è vuota." + COMMANDS_HELP);
             return false;
         }
         if (!gw[info.getDestinationIndex()/WindowPatternCard.MAX_COL][info.getDestinationIndex() % WindowPatternCard.MAX_COL].isEmpty()) {
-            this.setInvalidMoveMessage("La cella destinazione è piena." + COMMANDS_HELP);
+            this.setInvalidMoveMessage("Spostamento n° " + effectCounter + ": la cella destinazione è piena." + COMMANDS_HELP);
             return false;
         }
         return true;
@@ -102,7 +103,7 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
 
     /**
      * This method is used to check the validity of the movement, after the parameters have been validated by
-     * {@link #checkMoveAvailability(Cell[][], SetUpInformationUnit)}.
+     * {@link #checkMoveAvailability(Cell[][], SetUpInformationUnit, int)}.
      * @param manager part of the controller that deals with the game play.
      * @param wp {@link WindowPatternCard} to consider.
      * @param chosenDie {@link Die} that has been chosen.
