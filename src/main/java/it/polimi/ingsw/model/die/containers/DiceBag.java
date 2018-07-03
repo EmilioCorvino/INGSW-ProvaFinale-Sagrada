@@ -88,7 +88,7 @@ public class DiceBag extends ADieContainer {
     }
 
     /**
-     * This method create a copy of the objects contained.
+     * This method creates a copy of the objects contained.
      */
     @Override
     public void createCopy(){
@@ -97,7 +97,7 @@ public class DiceBag extends ADieContainer {
     }
 
     /**
-     * This method move the copy of the objects contained to the original.
+     * This method moves the copy of the objects contained to the original.
      */
     @Override
     public void overwriteOriginal(){

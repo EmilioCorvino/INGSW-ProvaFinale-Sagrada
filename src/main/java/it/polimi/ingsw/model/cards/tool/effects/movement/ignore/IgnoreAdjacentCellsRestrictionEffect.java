@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.cards.tool.effects.ignore;
+package it.polimi.ingsw.model.cards.tool.effects.movement.ignore;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;

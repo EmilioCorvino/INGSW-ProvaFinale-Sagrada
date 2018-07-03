@@ -1,7 +1,8 @@
-package it.polimi.ingsw.model.cards.tool.effects.ignore;
+package it.polimi.ingsw.model.cards.tool.effects.movement.ignore;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
+import it.polimi.ingsw.model.cards.tool.effects.movement.MoveWithRestrictionsEffect;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.WindowPatternCard;
