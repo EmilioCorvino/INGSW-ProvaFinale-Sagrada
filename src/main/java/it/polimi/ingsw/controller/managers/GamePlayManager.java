@@ -7,7 +7,11 @@ import it.polimi.ingsw.model.CommonBoard;
 import it.polimi.ingsw.model.cards.ToolCardSlot;
 import it.polimi.ingsw.model.cards.tool.ToolCard;
 import it.polimi.ingsw.model.cards.tool.effects.draft.DraftValueEffect;
-import it.polimi.ingsw.model.cards.tool.effects.ignore.*;
+import it.polimi.ingsw.model.cards.tool.effects.movement.ColorBoundMoveWithRestrictionEffect;
+import it.polimi.ingsw.model.cards.tool.effects.movement.MoveWithRestrictionsEffect;
+import it.polimi.ingsw.model.cards.tool.effects.movement.ignore.IgnoreAdjacentCellsRestrictionEffect;
+import it.polimi.ingsw.model.cards.tool.effects.movement.ignore.IgnoreColorRestrictionEffect;
+import it.polimi.ingsw.model.cards.tool.effects.movement.ignore.IgnoreValueRestrictionEffect;
 import it.polimi.ingsw.model.cards.tool.effects.swap.SwapFromDraftPoolToRoundTrack;
 import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.DiceDraftPool;
@@ -162,7 +166,7 @@ public class GamePlayManager extends AGameManager {
 
             //Populates the dice draft pool and updates the view.
             super.getControllerMaster().getCommonBoard().getDraftPool().populateDiceDraftPool(players.size());
-            this.broadcastNotification("\nÈ INIZIATO IL ROUND N° " + gameState.getActualRound() + "\n" +
+            this.broadcastNotification("\n\nÈ INIZIATO IL ROUND N° " + gameState.getActualRound() + "\n" +
                     "La riserva è stata aggiornata:");
             for (Player player : players) {
                 IFromServerToClient client = super.getPlayerClient(player.getPlayerName());
@@ -592,7 +596,6 @@ public class GamePlayManager extends AGameManager {
         //Updates the board of the player on duty.
         super.sendNotificationToCurrentPlayer("\nSpostamento n° " + this.effectCounter + " effettuato correttamente.");
         this.updateOwnWpViewMovement(currentPlayer, setUpInfoUnit);
-        //todo maybe is better if this has the same behaviour of the waiting players.
 
         //Update other player wp and overwrite the original one of the player on duty on the model only if all
         //the iterations of the effect are completed.

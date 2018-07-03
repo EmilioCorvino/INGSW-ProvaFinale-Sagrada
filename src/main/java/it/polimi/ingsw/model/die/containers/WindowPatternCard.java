@@ -105,7 +105,7 @@ public class WindowPatternCard extends ADieContainer {
     }
 
     /**
-     * This method copy the original to a copy.
+     * This method copies the original to a copy.
      */
     @Override
     public void createCopy(){
@@ -113,7 +113,7 @@ public class WindowPatternCard extends ADieContainer {
     }
 
     /**
-     * This method restore the original glass window.
+     * This method restores the original glass window.
      */
     @Override
     public void overwriteOriginal() {

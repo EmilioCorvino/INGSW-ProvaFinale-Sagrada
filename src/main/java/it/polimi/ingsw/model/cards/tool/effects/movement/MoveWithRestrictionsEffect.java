@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.cards.tool.effects.ignore;
+package it.polimi.ingsw.model.cards.tool.effects.movement;
 
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
@@ -16,7 +16,7 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
     /**
      * Message containing the reason why the move didn't end well.
      */
-    String invalidMoveMessage;
+    protected String invalidMoveMessage;
 
     /**
      * This method executes the specific effect of the tool that allows the user to move a die from a cell to another
@@ -85,16 +85,16 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
      * @param effectCounter represent the specific effect of the card.
      * @return true if all the conditions are satisfied, false otherwise.
      */
-    boolean checkMoveAvailability(Cell[][] gw, SetUpInformationUnit info, int effectCounter) {
+    protected boolean checkMoveAvailability(Cell[][] gw, SetUpInformationUnit info, int effectCounter) {
         if (hasGlassWindowLessThanTwoDice(gw)) {
             this.setInvalidMoveMessage("La tua vetrata non ha abbastanza dadi! Non puoi muovere alcun dado." + COMMANDS_HELP);
             return false;
         }
-        if (gw[info.getSourceIndex()/WindowPatternCard.MAX_COL][info.getSourceIndex() % WindowPatternCard.MAX_COL].isEmpty()) {
+        if (gw[info.getSourceIndex() / WindowPatternCard.MAX_COL][info.getSourceIndex() % WindowPatternCard.MAX_COL].isEmpty()) {
             this.setInvalidMoveMessage("Spostamento n° " + effectCounter + ": la cella sorgente è vuota." + COMMANDS_HELP);
             return false;
         }
-        if (!gw[info.getDestinationIndex()/WindowPatternCard.MAX_COL][info.getDestinationIndex() % WindowPatternCard.MAX_COL].isEmpty()) {
+        if (!gw[info.getDestinationIndex() / WindowPatternCard.MAX_COL][info.getDestinationIndex() % WindowPatternCard.MAX_COL].isEmpty()) {
             this.setInvalidMoveMessage("Spostamento n° " + effectCounter + ": la cella destinazione è piena." + COMMANDS_HELP);
             return false;
         }
@@ -111,7 +111,7 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
      * @param gw glass window of the {@link WindowPatternCard} to consider.
      * @return {@code true} if the move is illegal, {@code false} otherwise.
      */
-    boolean isMoveIllegal(GamePlayManager manager, WindowPatternCard wp, Die chosenDie, Cell desiredCell, Cell[][] gw) {
+    protected boolean isMoveIllegal(GamePlayManager manager, WindowPatternCard wp, Die chosenDie, Cell desiredCell, Cell[][] gw) {
         if (!wp.canBePlaced(chosenDie, desiredCell, gw)) {
             manager.sendNotificationToCurrentPlayer(wp.getErrorMessage() + COMMANDS_HELP);
             manager.setMoveLegal(false);
@@ -120,7 +120,7 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
         return false;
     }
 
-    void restoreOriginalSituation(WindowPatternCard wp, SetUpInformationUnit setUpInfoUnit, Die chosenDie, GamePlayManager manager) {
+    protected void restoreOriginalSituation(WindowPatternCard wp, SetUpInformationUnit setUpInfoUnit, Die chosenDie, GamePlayManager manager) {
         Cell previousCell = new Cell(setUpInfoUnit.getSourceIndex() / WindowPatternCard.MAX_COL,
                 setUpInfoUnit.getSourceIndex() % WindowPatternCard.MAX_COL);
         wp.setDesiredCell(previousCell);
