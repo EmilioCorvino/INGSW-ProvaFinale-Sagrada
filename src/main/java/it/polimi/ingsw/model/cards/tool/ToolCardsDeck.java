@@ -90,7 +90,7 @@ public class ToolCardsDeck {
                                                           break;
                     case "swapDraftPoolDiceBag":          card.getCardEffects().add(new SwapFromDraftPoolToDicebag());
                                                           break;
-                    case "colorPlacementRestrictionEffect": card.getCardEffects().add(new ColorBondMoveWithRestrictionEffect());
+                    case "colorPlacementRestrictionEffect": card.getCardEffects().add(new ColorBoundMoveWithRestrictionEffect());
                                                           break;
                     case "valueRestrictionEffect":        card.getCardEffects().add(new IgnoreColorRestrictionEffect());
                                                           break;

@@ -46,7 +46,7 @@ public class MoveWithRestrictionsEffectTest {
 
         MoveWithRestrictionsEffect effect = new MoveWithRestrictionsEffect();
 
-        assertFalse(effect.checkMoveAvailability(wp.getGlassWindowCopy(), info));
+        assertFalse(effect.checkMoveAvailability(wp.getGlassWindowCopy(), info, ));
         assertEquals("La cella destinazione è piena", effect.getInvalidMoveMessage());
 
     }
