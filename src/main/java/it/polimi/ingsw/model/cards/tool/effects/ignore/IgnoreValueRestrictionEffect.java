@@ -31,7 +31,7 @@ public class IgnoreValueRestrictionEffect extends MoveWithRestrictionsEffect {
         Cell[][] gw = wp.getGlassWindow();
         manager.incrementEffectCounter();
 
-        if (!super.checkMoveAvailability(gw, setUpInfoUnit)) {
+        if (!super.checkMoveAvailability(gw, setUpInfoUnit, manager.getEffectCounter())) {
             manager.setMoveLegal(false);
             manager.sendNotificationToCurrentPlayer(super.invalidMoveMessage);
             return;

@@ -53,14 +53,34 @@ public class GUIToolCardManager implements IToolCardManager {
         }
     }
 
+    /**
+     * This method sends the information to perform the effect of the tool number two;
+     */
     @Override
     public void tool2() {
+        List<SetUpInformationUnit> setupList = new ArrayList<>();
+        SetUpInformationUnit info = new SetUpInformationUnit();
+        List<Integer> values = this.playersData.getPersonalWp().getCellsClicked();
 
+        info.setSourceIndex(values.get(0));
+        info.setDestinationIndex(values.get(1));
+
+        setupList.add(info);
+
+        try{
+            this.server.performToolCardMove(playersData.getSlotChosen(), setupList);
+        } catch (BrokenConnectionException e) {
+            SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 2");
+            //disconnect();
+        }
     }
 
+    /**
+     * This method sends the information to perform the effect of the tool number three;
+     */
     @Override
     public void tool3() {
-
+        tool2();
     }
 
     @Override

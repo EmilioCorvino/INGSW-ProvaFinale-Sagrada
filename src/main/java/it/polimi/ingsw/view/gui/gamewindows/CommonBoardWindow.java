@@ -385,6 +385,7 @@ public class CommonBoardWindow extends ParentWindow {
             button.setVisible(true);
             this.toolWindowManager.invokeToolCommand(tool.getIdTool());
             this.toolWindowManager.setSlotId(tool.getToolSlot());
+            this.data.setSlotChosen(tool.getToolSlot());
 
         } else {
             button.setVisible(false);

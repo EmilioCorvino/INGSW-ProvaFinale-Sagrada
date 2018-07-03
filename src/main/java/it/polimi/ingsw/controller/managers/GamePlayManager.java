@@ -576,7 +576,7 @@ public class GamePlayManager extends AGameManager {
      * @see MoveWithRestrictionsEffect
      * @see IgnoreValueRestrictionEffect
      * @see IgnoreColorRestrictionEffect
-     * @see ColorBondMoveWithRestrictionEffect
+     * @see ColorBoundMoveWithRestrictionEffect
      */
     public void showRearrangementResult(Player currentPlayer, SetUpInformationUnit setUpInfoUnit) {
         if (!this.isMoveLegal() && this.effectCounter < MAX_TOOL_EFFECTS_NUMBER) {
@@ -590,7 +590,7 @@ public class GamePlayManager extends AGameManager {
         }
 
         //Updates the board of the player on duty.
-        super.sendNotificationToCurrentPlayer("\nSpostamento effettuato correttamente.");
+        super.sendNotificationToCurrentPlayer("\nSpostamento n° " + this.effectCounter + " effettuato correttamente.");
         this.updateOwnWpViewMovement(currentPlayer, setUpInfoUnit);
         //todo maybe is better if this has the same behaviour of the waiting players.
 
@@ -861,7 +861,7 @@ public class GamePlayManager extends AGameManager {
                 super.sendNotificationToCurrentPlayer("\nRicorda che salterai il tuo prossimo turno in questo round!");
             }
 
-            if (toolCard.impliesPlacement()) {
+            if (toolCard.impliesPlacement() && gameState.getCurrentTurn().getDieCount() > 0) {
                 gameState.getCurrentTurn().setDiePlaced(true);
                 super.sendNotificationToCurrentPlayer("\nLa Carta Strumento che hai usato implicava un piazzamento");
             }

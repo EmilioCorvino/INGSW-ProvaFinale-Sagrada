@@ -23,7 +23,7 @@ public class MoveWithRestrictionsEffectTest {
 
         MoveWithRestrictionsEffect effect = new MoveWithRestrictionsEffect();
 
-        assertFalse(effect.hasGlassWindowLessThanTwoDice(wp.getGlassWindowCopy()));
+        assertFalse(!effect.hasGlassWindowLessThanTwoDice(wp.getGlassWindowCopy()));
     }
 
     @Test
@@ -46,8 +46,8 @@ public class MoveWithRestrictionsEffectTest {
 
         MoveWithRestrictionsEffect effect = new MoveWithRestrictionsEffect();
 
-        assertFalse(effect.checkMoveAvailability(wp.getGlassWindowCopy(), info));
-        assertEquals("La cella destinazione è piena", effect.getInvalidMoveMessage());
+        assertFalse(effect.checkMoveAvailability(wp.getGlassWindowCopy(), info, 1));
+        assertEquals("Spostamento n° 1: la cella destinazione è piena. Digita 'comandi' per visualizzare i comandi ancora disponibili.", effect.getInvalidMoveMessage());
 
     }
 }

@@ -50,7 +50,7 @@ public class DraftValueEffect extends AToolCardEffect {
         DiceDraftPool draft = manager.getControllerMaster().getCommonBoard().getDraftPool();
         draft.createCopy();
         List<Die> diceToDraft = draft.getAvailableDiceCopy();
-        manager.incrementEffectCounter();
+        //manager.incrementEffectCounter();
 
         if(this.limit == 0) {
             if (manager.getControllerMaster().getGameState().getCurrentTurn().isDiePlaced()) {
