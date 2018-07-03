@@ -13,6 +13,9 @@ import it.polimi.ingsw.model.die.containers.WindowPatternCard;
  */
 public class MoveWithRestrictionsEffect extends AToolCardEffect {
 
+    /**
+     * Message containing the reason why the move didn't end well.
+     */
     String invalidMoveMessage;
 
     /**
@@ -26,14 +29,17 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
 
         WindowPatternCard playerWp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
         Cell[][] glassWindowToConsider;
-        manager.incrementEffectCounter();
 
-        playerWp.createCopy();
+        if (manager.getEffectCounter() == 0) {
+            playerWp.createCopy();
+        }
+        manager.incrementEffectCounter();
         glassWindowToConsider = playerWp.getGlassWindowCopy();
 
         if(!checkMoveAvailability(glassWindowToConsider, setUpInfoUnit)) {
             manager.setMoveLegal(false);
             manager.sendNotificationToCurrentPlayer(this.invalidMoveMessage);
+            manager.showRearrangementResult(manager.getControllerMaster().getGameState().getCurrentPlayer(), setUpInfoUnit);
             return;
         }
 
@@ -41,9 +47,9 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
         Cell desiredCell = new Cell(setUpInfoUnit.getDestinationIndex() / WindowPatternCard.MAX_COL,
                 setUpInfoUnit.getDestinationIndex() % WindowPatternCard.MAX_COL);
 
-        if(!playerWp.canBePlaced(chosenDie, desiredCell, glassWindowToConsider)) {
-            manager.sendNotificationToCurrentPlayer(playerWp.getErrorMessage());
-            manager.setMoveLegal(false);
+        if (this.isMoveIllegal(manager, playerWp, chosenDie, desiredCell, glassWindowToConsider)) {
+            this.restoreOriginalSituation(playerWp, setUpInfoUnit, chosenDie, manager);
+            manager.showRearrangementResult(manager.getControllerMaster().getGameState().getCurrentPlayer(), setUpInfoUnit);
             return;
         }
 
@@ -80,15 +86,15 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
      */
     boolean checkMoveAvailability(Cell[][] gw, SetUpInformationUnit info) {
         if (hasGlassWindowLessThanTwoDice(gw)) {
-            this.setInvalidMoveMessage("La tua vetrata non ha abbastanza dadi! Non puoi muovere alcun dado.");
+            this.setInvalidMoveMessage("La tua vetrata non ha abbastanza dadi! Non puoi muovere alcun dado." + COMMANDS_HELP);
             return false;
         }
         if (gw[info.getSourceIndex()/WindowPatternCard.MAX_COL][info.getSourceIndex() % WindowPatternCard.MAX_COL].isEmpty()) {
-            this.setInvalidMoveMessage("La cella sorgente è vuota.");
+            this.setInvalidMoveMessage("La cella sorgente è vuota." + COMMANDS_HELP);
             return false;
         }
         if (!gw[info.getDestinationIndex()/WindowPatternCard.MAX_COL][info.getDestinationIndex() % WindowPatternCard.MAX_COL].isEmpty()) {
-            this.setInvalidMoveMessage("La cella destinazione è piena.");
+            this.setInvalidMoveMessage("La cella destinazione è piena." + COMMANDS_HELP);
             return false;
         }
         return true;
@@ -113,12 +119,14 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
         return false;
     }
 
-    void restoreOriginalSituation(WindowPatternCard wp, SetUpInformationUnit setUpInfoUnit, Die chosenDie) {
-        Cell previousCell = new Cell(setUpInfoUnit.getSourceIndex()/WindowPatternCard.MAX_COL,
+    void restoreOriginalSituation(WindowPatternCard wp, SetUpInformationUnit setUpInfoUnit, Die chosenDie, GamePlayManager manager) {
+        Cell previousCell = new Cell(setUpInfoUnit.getSourceIndex() / WindowPatternCard.MAX_COL,
                 setUpInfoUnit.getSourceIndex() % WindowPatternCard.MAX_COL);
         wp.setDesiredCell(previousCell);
         wp.addDieToCopy(chosenDie);
-        wp.overwriteOriginal();
+        if (manager.getEffectCounter() < GamePlayManager.MAX_TOOL_EFFECTS_NUMBER) {
+            wp.overwriteOriginal();
+        }
     }
 
     String getInvalidMoveMessage() {

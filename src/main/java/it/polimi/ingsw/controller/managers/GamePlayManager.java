@@ -49,9 +49,29 @@ public class GamePlayManager extends AGameManager {
     private Map<String, List<Commands>> dynamicCommands;
 
     /**
+     * Maximum number of effects a {@link ToolCard} can have.
+     */
+    public static final int MAX_TOOL_EFFECTS_NUMBER = 2;
+
+    /**
+     * Number of effects the user wants to use from a {@link ToolCard}.
+     */
+    private int numberOfChosenEffects = 0;
+
+    /**
+     * Counter that represents how many effects of a tool card have been used.
+     */
+    private int effectCounter = 0;
+
+    /**
      * Says if the move done is legal or not. It's set by executeMove methods and at the start of each turn.
      */
     private boolean moveLegal = true;
+
+    /**
+     * This object is used as a back up for some effects.
+     */
+    private SetUpInformationUnit backUpUnit;
 
     private static final String EVERYTHING_DONE = "\nHai effettuato tutte le operazioni possibili in un turno, " +
             "passaggio al giocatore successivo...";
@@ -107,7 +127,15 @@ public class GamePlayManager extends AGameManager {
         return dynamicCommands;
     }
 
-//----------------------------------------------------------
+    public void incrementEffectCounter() {
+        this.effectCounter++;
+    }
+
+    public int getEffectCounter() {
+        return effectCounter;
+    }
+
+    //----------------------------------------------------------
 //                    GAME-PLAY FLOW METHODS
 //----------------------------------------------------------
 
@@ -156,10 +184,14 @@ public class GamePlayManager extends AGameManager {
 
     /**
      * This method starts the turn of a player, sending the correct {@link Commands} to him and the waiting players.
+     * It also brings all the counters and booleans of the class to their initial state.
      * @param currentPlayerTurn the turn of the current player.
      */
     private void startTurn(Turn currentPlayerTurn) {
         this.setMoveLegal(true);
+        this.effectCounter = 0;
+        this.numberOfChosenEffects = 0;
+        this.backUpUnit = null;
         GameState gameState = super.getControllerMaster().getGameState();
 
         if (gameState.isCurrentTurnOver()) {
@@ -390,7 +422,7 @@ public class GamePlayManager extends AGameManager {
 
         //Checks if the request comes from the current player. If not, shows the player the commands of a waiting player.
         //This is just a security measure, it should not be possible to be in this situation.
-        if(this.handleIllegalStateRequests(playerName)) {
+        if (this.handleIllegalStateRequests(playerName)) {
             return;
         }
 
@@ -407,7 +439,9 @@ public class GamePlayManager extends AGameManager {
             } else {
                 ToolCardSlot slot = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID);
                 this.checkToolCardAvailability(gameState, slotID, playerName);
-                for (int i = 0; i < infoUnits.size(); i++) {
+                this.numberOfChosenEffects = infoUnits.size();
+                this.effectCounter = 0;
+                for (int i = 0; i < this.numberOfChosenEffects; i++) {
                     if (this.isMoveLegal()) {
                         slot.getToolCard().getCardEffects().get(i).executeMove(this, infoUnits.get(i));
                     }
@@ -533,6 +567,9 @@ public class GamePlayManager extends AGameManager {
     /**
      * Shows the result of the movement of a die within a {@link it.polimi.ingsw.model.die.containers.WindowPatternCard}.
      * This method is used by various {@link ToolCard}s.
+     * Note that the overwriting of the original Window Pattern Card is done only if all the effects of the card have been
+     * used. The Window Pattern Card of the player on duty, however, is updated to the view even between the iterations.
+     * If in the end the effect is illegal, it is brought back to the original one.
      * @param currentPlayer player on duty.
      * @param setUpInfoUnit information used by the view to update
      *                      the {@link it.polimi.ingsw.view.cli.die.WindowPatternCardView}.
@@ -542,37 +579,36 @@ public class GamePlayManager extends AGameManager {
      * @see ColorBondMoveWithRestrictionEffect
      */
     public void showRearrangementResult(Player currentPlayer, SetUpInformationUnit setUpInfoUnit) {
-        if (!this.isMoveLegal()) {
+        if (!this.isMoveLegal() && this.effectCounter < MAX_TOOL_EFFECTS_NUMBER) {
+            return;
+        } else if (!this.isMoveLegal() && this.effectCounter == MAX_TOOL_EFFECTS_NUMBER) {
+            super.sendNotificationToCurrentPlayer("\nL'ultimo spostamento non è andato a buon fine, ripristino della" +
+                    " situazione iniziale...");
+            SetUpInformationUnit restoreUnit = this.backUpUnit.invertSourceAndDestination();
+            this.updateOwnWpViewMovement(currentPlayer, restoreUnit);
             return;
         }
 
         //Updates the board of the player on duty.
-        IFromServerToClient currentPlayerClient = super.getPlayerClient(currentPlayer.getPlayerName());
         super.sendNotificationToCurrentPlayer("\nSpostamento effettuato correttamente.");
-        try {
-            currentPlayerClient.removeOnOwnWp(setUpInfoUnit);
-            currentPlayerClient.addOnOwnWp(setUpInfoUnit);
-        } catch (BrokenConnectionException e) {
-            SagradaLogger.log(Level.SEVERE, IMPOSSIBLE_TO_UPDATE + currentPlayer.getPlayerName() + "'s WP", e);
-            super.getControllerMaster().suspendPlayer(currentPlayer.getPlayerName());
-        }
+        this.updateOwnWpViewMovement(currentPlayer, setUpInfoUnit);
+        //todo maybe is better if this has the same behaviour of the waiting players.
 
-        //Updates the board of the waiting players.
-        List<Player> waitingPlayers = super.getControllerMaster().getCommonBoard().getPlayers();
-        for (Player p : waitingPlayers) {
-            if (!p.isSamePlayerAs(currentPlayer)) {
-                IFromServerToClient waitingPlayerClient = super.getPlayerClient(p.getPlayerName());
-                try {
-                    waitingPlayerClient.showNotice("\n" + currentPlayer.getPlayerName() + " ha spostato un dado nella" +
-                            " sua vetrata.");
-                    waitingPlayerClient.removeOnOtherPlayerWp(currentPlayer.getPlayerName(), setUpInfoUnit);
-                    waitingPlayerClient.addOnOtherPlayerWp(currentPlayer.getPlayerName(), setUpInfoUnit);
-                } catch (BrokenConnectionException e) {
-                    SagradaLogger.log(Level.SEVERE, IMPOSSIBLE_TO_UPDATE + p.getPlayerName() + "'s WP", e);
-                    super.getControllerMaster().suspendPlayer(p.getPlayerName());
+        //Update other player wp and overwrite the original one of the player on duty on the model only if all
+        //the iterations of the effect are completed.
+        if (this.effectCounter == this.numberOfChosenEffects) {
+            currentPlayer.getWindowPatternCard().overwriteOriginal();
+
+            //Updates the board of the waiting players.
+            List<Player> waitingPlayers = super.getControllerMaster().getCommonBoard().getPlayers();
+            for (Player p : waitingPlayers) {
+                if (!p.isSamePlayerAs(currentPlayer)) {
+                    this.updateOthersWpViewMovement(currentPlayer, p, setUpInfoUnit);
                 }
             }
         }
+
+        this.backUpUnit = setUpInfoUnit;
     }
 
     /**
@@ -587,7 +623,7 @@ public class GamePlayManager extends AGameManager {
             return;
         }
 
-        //Copies bck the updated draft pool and round track.
+        //Copies back the updated draft pool and round track.
         super.getControllerMaster().getCommonBoard().getDraftPool().overwriteOriginal();
         super.getControllerMaster().getCommonBoard().getRoundTrack().overwriteOriginal();
 
@@ -813,7 +849,7 @@ public class GamePlayManager extends AGameManager {
      * @param playerName name of the player whose Tool Card move needs to be checked.
      */
     private void checkAndResolveToolMoveLegality(GameState gameState, int slotID, ToolCard toolCard, String playerName) {
-        if (this.isMoveLegal()) {
+        if (this.isMoveLegal() && this.effectCounter == this.numberOfChosenEffects) {
             gameState.getCurrentTurn().setToolCardUsed(true);
             this.updateFavorTokensAndToolCost(gameState, slotID, toolCard);
 
@@ -921,6 +957,49 @@ public class GamePlayManager extends AGameManager {
     private void checkIfPlayerIsSuspended(String playerName) {
         if(super.getControllerMaster().getSuspendedPlayers().contains(playerName)) {
             this.endTurn("\nSei stato sospeso, il tuo turno terminerà.");
+        }
+    }
+
+    /**
+     * This method updates the {@link it.polimi.ingsw.model.die.containers.WindowPatternCard} of the current player.
+     * @param currentPlayer player whose {@link it.polimi.ingsw.view.cli.die.WindowPatternCardView} is updated.
+     * @param infoUnit object containing all the information needed to perform the update.
+     */
+    private void updateOwnWpViewMovement(Player currentPlayer, SetUpInformationUnit infoUnit) {
+        IFromServerToClient currentPlayerClient = super.getPlayerClient(currentPlayer.getPlayerName());
+        try {
+            currentPlayerClient.removeOnOwnWp(infoUnit);
+            currentPlayerClient.addOnOwnWp(infoUnit);
+        } catch (BrokenConnectionException e) {
+            SagradaLogger.log(Level.SEVERE, IMPOSSIBLE_TO_UPDATE + currentPlayer.getPlayerName() + "'s WP", e);
+            super.getControllerMaster().suspendPlayer(currentPlayer.getPlayerName());
+        }
+    }
+
+    /**
+     * This method updates the {@link it.polimi.ingsw.model.die.containers.WindowPatternCard} of a waiting player.
+     * @param currentPlayer player whose {@link it.polimi.ingsw.view.cli.die.WindowPatternCardView} is updated.
+     * @param waitingPlayer player whose version of the current player wp has to be updated.
+     * @param infoUnit object containing all the information needed to perform the update.
+     */
+    private void updateOthersWpViewMovement(Player currentPlayer, Player waitingPlayer, SetUpInformationUnit infoUnit) {
+        IFromServerToClient waitingPlayerClient = super.getPlayerClient(waitingPlayer.getPlayerName());
+        try {
+            waitingPlayerClient.showNotice("\n" + currentPlayer.getPlayerName() + " ha spostato un dado nella" +
+                    " sua vetrata.");
+
+            //Do the rollback to others only if this is at least the second time the player uses this effect
+            //in a single card.
+            if (this.effectCounter > 1) {
+                waitingPlayerClient.removeOnOtherPlayerWp(currentPlayer.getPlayerName(), this.backUpUnit);
+                waitingPlayerClient.addOnOtherPlayerWp(currentPlayer.getPlayerName(), this.backUpUnit);
+            }
+
+            waitingPlayerClient.removeOnOtherPlayerWp(currentPlayer.getPlayerName(), infoUnit);
+            waitingPlayerClient.addOnOtherPlayerWp(currentPlayer.getPlayerName(), infoUnit);
+        } catch (BrokenConnectionException e) {
+            SagradaLogger.log(Level.SEVERE, IMPOSSIBLE_TO_UPDATE + waitingPlayer.getPlayerName() + "'s WP", e);
+            super.getControllerMaster().suspendPlayer(waitingPlayer.getPlayerName());
         }
     }
 }
