@@ -266,6 +266,9 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void addOnRoundTrack(SetUpInformationUnit info) {
+        Platform.runLater(() -> {
+            
+        });
 
     }
 
@@ -282,8 +285,11 @@ public class GUIView implements IViewMaster {
     @Override
     public void showNotice(String notice) {
         Platform.runLater( () -> {
+            String newMex = notice;
+            if(notice.contains(" Digita 'comandi' per visualizzare i comandi ancora disponibili."))
+                newMex = notice.replace(" Digita 'comandi' per visualizzare i comandi ancora disponibili.", "");
             if(this.current != null)
-                this.current.showMessage(notice);
+                this.current.showMessage(newMex);
         });
 
 
