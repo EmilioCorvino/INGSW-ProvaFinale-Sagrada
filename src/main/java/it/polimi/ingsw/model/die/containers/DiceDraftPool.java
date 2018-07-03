@@ -108,4 +108,8 @@ public class DiceDraftPool extends ADieContainer {
     public List<Die> getAvailableDiceCopy(){
         return this.availableDiceCopy;
     }
+
+    public DiceBag getDiceBag() {
+        return diceBag;
+    }
 }

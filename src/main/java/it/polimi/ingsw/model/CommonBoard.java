@@ -120,10 +120,6 @@ public class CommonBoard {
         return windowPatternCardDeck;
     }
 
-    public PrivateObjectiveCardsDeck getPrivateObjectiveCardsDeck() {
-        return privateObjectiveCardsDeck;
-    }
-
     private PublicObjectiveCardsDeck getPublicObjectiveCardsDeck() {
         return publicObjectiveCardsDeck;
     }
