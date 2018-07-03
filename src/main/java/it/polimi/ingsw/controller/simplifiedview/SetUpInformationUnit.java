@@ -102,4 +102,20 @@ public class SetUpInformationUnit implements Serializable {
     public void setExtraParam(int extraParam) {
         this.extraParam = extraParam;
     }
+
+    /**
+     * This method is used if there is the need to restore the result of a move gone wrong.
+     * @return a new {@link SetUpInformationUnit} equal to this, except for the fact it has inverted source and
+     * destination.
+     */
+    public SetUpInformationUnit invertSourceAndDestination() {
+        int restoreDestination = this.getSourceIndex();
+        int restoreSource = this.getDestinationIndex();
+        SetUpInformationUnit restoreSetUpInfoUnit = new SetUpInformationUnit();
+        restoreSetUpInfoUnit.setDestinationIndex(restoreDestination);
+        restoreSetUpInfoUnit.setSourceIndex(restoreSource);
+        restoreSetUpInfoUnit.setValue(this.getValue());
+        restoreSetUpInfoUnit.setColor(this.getColor());
+        return restoreSetUpInfoUnit;
+    }
 }
