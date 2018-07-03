@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.cards.tool.effects.ignore;
+package it.polimi.ingsw.model.cards.tool.effects.movement;
 
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.model.Color;

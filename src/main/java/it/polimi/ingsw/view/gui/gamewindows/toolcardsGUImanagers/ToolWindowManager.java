@@ -61,10 +61,12 @@ public class ToolWindowManager {
         toolMethods.put(1, this::toolOneWindow);
         toolMethods.put(2, this::toolTwoThreeWindow);
         toolMethods.put(3, this::toolTwoThreeWindow);
+        toolMethods.put(4, this::toolFourWindow);
 
         toolMoveValidator.put(1, this::validateToolOne);
         toolMoveValidator.put(2, this::toolTwoValidator);
         toolMoveValidator.put(3, this::toolThreeValidator);
+        toolMoveValidator.put(4, this::toolFourValidator);
 
         toolWindowBuilder = new ToolWindowBuilder(commonBoardWindow);
     }
@@ -149,8 +151,31 @@ public class ToolWindowManager {
             this.commonBoardWindow.sendMessage("Devi scegliere due celle della tua mappa personale." +
                     " Ignora le restrizioni di VALORE.");
         else {
-            this.manager.executeCommandToolIfPresent(2);
+            this.manager.executeCommandToolIfPresent(3);
         }
+    }
+
+    public void toolFourWindow() {
+        List<Integer> values = this.commonBoardWindow.getData().getPersonalWp().getCellsClicked();
+
+        if(values.size() > 0)
+            values.clear();
+
+        this.commonBoardWindow.sendMessage("Scegli una cella sorgente della tua mappa, poi scegli"
+                + " una cella destinazione della tua mappa in cui mettere il primo dado che vuoi spostare." +
+                    " Fai la stessa cosa con il secondo dado.");
+
+    }
+
+    public void toolFourValidator() {
+        List<Integer> values = this.commonBoardWindow.getData().getPersonalWp().getCellsClicked();
+
+        if(values.size() != 4) {
+            this.manager.communicateMessage("Devi scegliere esattamente due dadi. Scegli delle nuove coordinate per i due dadi.");
+            values.clear();
+        }
+        else
+            this.manager.executeCommandToolIfPresent(4);
     }
 
 
