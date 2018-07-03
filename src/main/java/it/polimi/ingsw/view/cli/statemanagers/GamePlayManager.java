@@ -65,17 +65,23 @@ public class GamePlayManager{
      */
     public void choseRoundDie(RoundTrackView roundTrack, SetUpInformationUnit informationUnit){
 
-        int idRound = inputOutputManager.askInt("Inserisci il numero del round in cui c'e' il dado desiderato: ");
+        int idRound = (inputOutputManager.askInt("Inserisci il numero del round in cui c'e' il dado desiderato: ")-1);
+        int maxRoundSize;
 
-        while(idRound < 0 || idRound > 10) {
-            idRound = inputOutputManager.askInt("Errore: Round non presente, inserire valore tra (1-10) ")-1;
+        while(idRound < 0 || idRound > 9) {
+            idRound = (inputOutputManager.askInt("Errore: Round non presente, inserire valore tra (1-10) ")-1);
         }
-
         informationUnit.setExtraParam(idRound);
-        int idDie = inputOutputManager.askInt("Inserisci la posizione del dado desiderato (0-"+ roundTrack.getAvailableDice().get(idRound).size()+"): ");
 
-        while(idDie < 0 || idDie > roundTrack.getAvailableDice().get(idRound).size()) {
-            idDie = inputOutputManager.askInt("Errore: indice errato, inserire indice tra (0-" + roundTrack.getAvailableDice().get(idRound).size() + "): ");
+        if (roundTrack.getAvailableDice().get(idRound).isEmpty())
+            maxRoundSize = 0;
+        else
+            maxRoundSize = roundTrack.getAvailableDice().get(idRound).size()-1;
+
+        int idDie = inputOutputManager.askInt("Inserisci la posizione del dado desiderato (0-"+ maxRoundSize +"): ");
+
+        while(idDie < 0 || idDie > maxRoundSize) {
+            idDie = inputOutputManager.askInt("Errore: indice errato, inserire indice tra (0-" + maxRoundSize + "): ");
         }
 
         informationUnit.setOffset(idDie);
