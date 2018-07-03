@@ -30,7 +30,7 @@ public class RoundTrackView {
                 roundTrack.append("\t").append(i+1).append(": | ");
 
             for (DieView d : availableDice.get(i))
-                roundTrack.append(d.toStringDie()).append(" |");
+                roundTrack.append(d.toStringDie()).append(" | ");
             roundTrack.append("\n");
         }
 

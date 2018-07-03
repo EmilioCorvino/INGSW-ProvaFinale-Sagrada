@@ -315,6 +315,7 @@ public class CliView implements IViewMaster {
     @Override
     public void addOnDraft(SetUpInformationUnit info){
         gamePlayManager.addOnDraft(this.commonBoard.getDraftPool(), info);
+        inputOutputManager.print(this.commonBoard.getDraftPool().diceDraftToString());
     }
 
     /**

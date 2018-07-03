@@ -63,6 +63,9 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         int toolSlot = this.getSlotId(Commands.TOOL2);
         this.printToolDescription(toolSlot);
 
+
+
+        super.inputOutputManager.print(super.view.getPlayer().getWp().wpToString());
         this.fromWpToWp(infoUnit);
 
         units.add(infoUnit);
@@ -84,6 +87,8 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         int toolSlot = this.getSlotId(Commands.TOOL3);
         this.printToolDescription(toolSlot);
 
+
+        super.inputOutputManager.print(super.view.getPlayer().getWp().wpToString());
         this.fromWpToWp(infoUnit);
 
         units.add(infoUnit);
@@ -107,6 +112,8 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         int toolSlot = this.getSlotId(Commands.TOOL4);
         this.printToolDescription(toolSlot);
 
+
+        super.inputOutputManager.print(super.view.getPlayer().getWp().wpToString());
         this.fromWpToWp(infoUnit1);
         this.fromWpToWp(infoUnit2);
 
@@ -337,6 +344,8 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         super.inputOutputManager.print(super.view.getCommonBoard().getRoundTrack().roundTrackToString());
         super.view.getGamePlayManager().choseRoundDie(super.view.getCommonBoard().getRoundTrack(), infoUnit1);
 
+
+        super.inputOutputManager.print(super.view.getPlayer().getWp().wpToString());
         this.fromWpToWp(infoUnit1);
         units.add(infoUnit1);
 
@@ -374,7 +383,6 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
 
 
     private void fromWpToWp(SetUpInformationUnit infoUnit){
-        super.inputOutputManager.print(super.view.getPlayer().getWp().wpToString());
 
         super.inputOutputManager.print("Da:");
         infoUnit.setSourceIndex(super.view.getGamePlayManager().choseCellWp());

@@ -51,8 +51,8 @@ public abstract class AMove {
 
     /**
      * This method packs multiple information - results to send to the controller.
-     * @param manager the controller.
-     * @return a list of results.
+     * @param manager part of the controller that deals with the game play.
+     * @return a list of {@link SetUpInformationUnit} to send back.
      */
     protected List<SetUpInformationUnit> packMultipleInformation(GamePlayManager manager) {
         List<Die> list = manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDiceCopy();
