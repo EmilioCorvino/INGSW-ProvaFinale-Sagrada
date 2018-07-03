@@ -44,7 +44,7 @@ public class IgnoreColorRestrictionEffect extends MoveWithRestrictionsEffect {
         deleteColorRestriction(gw);
 
         if (super.isMoveIllegal(manager, wp, chosenDie, desiredCell, gw)) {
-            super.restoreOriginalSituation(wp, setUpInfoUnit, chosenDie);
+            super.restoreOriginalSituation(wp, setUpInfoUnit, chosenDie, manager);
             return;
         }
 
