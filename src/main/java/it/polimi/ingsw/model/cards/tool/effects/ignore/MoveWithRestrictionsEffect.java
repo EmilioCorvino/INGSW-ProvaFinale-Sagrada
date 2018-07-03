@@ -91,11 +91,11 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
             return false;
         }
         if (gw[info.getSourceIndex()/WindowPatternCard.MAX_COL][info.getSourceIndex() % WindowPatternCard.MAX_COL].isEmpty()) {
-            this.setInvalidMoveMessage("Spostamento n° " + effectCounter + " la cella sorgente è vuota." + COMMANDS_HELP);
+            this.setInvalidMoveMessage("Spostamento n° " + effectCounter + ": la cella sorgente è vuota." + COMMANDS_HELP);
             return false;
         }
         if (!gw[info.getDestinationIndex()/WindowPatternCard.MAX_COL][info.getDestinationIndex() % WindowPatternCard.MAX_COL].isEmpty()) {
-            this.setInvalidMoveMessage("Spostamento n° " + effectCounter + " la cella destinazione è piena." + COMMANDS_HELP);
+            this.setInvalidMoveMessage("Spostamento n° " + effectCounter + ": la cella destinazione è piena." + COMMANDS_HELP);
             return false;
         }
         return true;
