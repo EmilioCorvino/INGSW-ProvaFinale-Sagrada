@@ -8,7 +8,7 @@ import it.polimi.ingsw.model.cards.tool.effects.movement.MoveWithRestrictionsEff
 import it.polimi.ingsw.model.cards.tool.effects.movement.ignore.IgnoreAdjacentCellsRestrictionEffect;
 import it.polimi.ingsw.model.cards.tool.effects.movement.ignore.IgnoreColorRestrictionEffect;
 import it.polimi.ingsw.model.cards.tool.effects.movement.ignore.IgnoreValueRestrictionEffect;
-import it.polimi.ingsw.model.cards.tool.effects.swap.SwapFromDraftPoolToDicebag;
+import it.polimi.ingsw.model.cards.tool.effects.swap.SwapFromDraftPoolToDiceBag;
 import it.polimi.ingsw.model.cards.tool.effects.swap.SwapFromDraftPoolToRoundTrack;
 import it.polimi.ingsw.model.cards.tool.effects.value.ChooseValueEffect;
 import it.polimi.ingsw.model.cards.tool.effects.value.OppositeValueEffect;
@@ -92,7 +92,7 @@ public class ToolCardsDeck {
                                                           break;
                     case "oppositeValueEffect":           card.getCardEffects().add(new OppositeValueEffect());
                                                           break;
-                    case "swapDraftPoolDiceBag":          card.getCardEffects().add(new SwapFromDraftPoolToDicebag());
+                    case "swapDraftPoolDiceBag":          card.getCardEffects().add(new SwapFromDraftPoolToDiceBag());
                                                           break;
                     case "colorPlacementRestrictionEffect": card.getCardEffects().add(new ColorBoundMoveWithRestrictionEffect());
                                                           break;
