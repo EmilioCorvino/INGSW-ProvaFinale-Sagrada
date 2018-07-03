@@ -467,7 +467,7 @@ public class GamePlayManager extends AGameManager {
      * @param infoUnit object containing the information needed to update the model.
      * @param playerName name of the player trying to perform the move.
      * @see DraftValueEffect
-     * @see it.polimi.ingsw.model.cards.tool.effects.swap.SwapFromDraftPoolToDicebag
+     * @see it.polimi.ingsw.model.cards.tool.effects.swap.SwapFromDraftPoolToDiceBag
      */
     public void performRestrictedPlacement(SetUpInformationUnit infoUnit, String playerName) {
         GameState gameState = super.getControllerMaster().getGameState();
@@ -685,7 +685,7 @@ public class GamePlayManager extends AGameManager {
      * @param infoUnit contains the information needed to show the new {@link it.polimi.ingsw.model.die.Die}
      *                 (in the form of a {@link it.polimi.ingsw.view.cli.die.DieView}).
      * @see DraftValueEffect
-     * @see it.polimi.ingsw.model.cards.tool.effects.swap.SwapFromDraftPoolToDicebag
+     * @see it.polimi.ingsw.model.cards.tool.effects.swap.SwapFromDraftPoolToDiceBag
      */
     public void showDraftedDie(Player currentPlayer, SetUpInformationUnit infoUnit) {
         if (!isMoveLegal()) {

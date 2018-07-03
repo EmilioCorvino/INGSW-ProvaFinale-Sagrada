@@ -25,18 +25,19 @@ public class RestrictedDiePlacementMove extends AMove {
         WindowPatternCard wp = player.getWindowPatternCard();
         wp.createCopy();
         Die dieToCheck = new Die(setUpInfoUnit.getValue(), setUpInfoUnit.getColor());
-        Cell cell = new Cell(setUpInfoUnit.getDestinationIndex() / WindowPatternCard.getMaxCol(), setUpInfoUnit.getDestinationIndex() % WindowPatternCard.getMaxCol());
+        Cell cell = new Cell(setUpInfoUnit.getDestinationIndex() / WindowPatternCard.getMaxCol(),
+                setUpInfoUnit.getDestinationIndex() % WindowPatternCard.getMaxCol());
 
 
         if (wp.canBePlaced(dieToCheck, cell, wp.getGlassWindowCopy())) {
             wp.setDesiredCell(cell);
             wp.addDieToCopy(dieToCheck);
             manager.setMoveLegal(true);
-            manager.getControllerMaster().getGameState().getCurrentTurn().incrementDieCount();
             manager.showPlacementResult(player, setUpInfoUnit);
         } else {
             if(!checkExistingCellsToUse(wp, dieToCheck)) {
                 manager.setMoveLegal(true);
+                manager.getControllerMaster().getGameState().getCurrentTurn().decrementDieCount();
                 manager.getControllerMaster().getCommonBoard().getDraftPool().getAvailableDiceCopy().add(dieToCheck);
                 manager.getControllerMaster().getGameState().getCurrentTurn().setDiePlaced(false);
                 manager.showUpdatedDraft(packMultipleInformation(manager));

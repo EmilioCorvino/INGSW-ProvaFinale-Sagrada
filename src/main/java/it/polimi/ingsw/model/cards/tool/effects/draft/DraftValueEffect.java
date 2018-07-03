@@ -68,7 +68,7 @@ public class DraftValueEffect extends AToolCardEffect {
         Die chosenDie = computeRandomDieValue(draft.removeDieFromCopy(setUpInfoUnit.getSourceIndex()));
         setUpInfoUnit.setColor(chosenDie.getDieColor());
         setUpInfoUnit.setValue(chosenDie.getActualDieValue());
+        manager.getControllerMaster().getGameState().getCurrentTurn().incrementDieCount();
         manager.showDraftedDie(manager.getControllerMaster().getGameState().getCurrentPlayer(), setUpInfoUnit);
     }
-
 }

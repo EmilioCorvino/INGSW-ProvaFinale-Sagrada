@@ -30,10 +30,11 @@ public class SwapFromDraftPoolToDiceBag extends ASwapDieEffect {
         diceBag.addDieToCopy(dieChosen);
 
         Die dieExtracted = diceBag.removeDieFromCopy(new Random().nextInt(diceBag.getAvailableDice().size()));
+        diceBag.overwriteOriginal();
 
         setUpInfoUnit.setColor(dieExtracted.getDieColor());
         setUpInfoUnit.setValue(0);
+        manager.getControllerMaster().getGameState().getCurrentTurn().incrementDieCount();
         manager.showDraftedDie(manager.getControllerMaster().getGameState().getCurrentPlayer(), setUpInfoUnit);
-
     }
 }

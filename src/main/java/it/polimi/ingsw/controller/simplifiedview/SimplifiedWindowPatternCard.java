@@ -19,11 +19,6 @@ public class SimplifiedWindowPatternCard implements Serializable {
     private int difficulty;
 
     /**
-     * The information unit the client has to fill.
-     */
-    private InformationUnit informationUnit;
-
-    /**
      * The set up information the client has to set in the window pattern cards.
      */
     private List<SetUpInformationUnit> informationUnitList;
@@ -32,24 +27,11 @@ public class SimplifiedWindowPatternCard implements Serializable {
         setInformationUnitList(informationUnitList);
     }
 
-    public SimplifiedWindowPatternCard(InformationUnit informationUnit) {
-        setInformationUnit(informationUnit);
-    }
-
-
-    public InformationUnit getInformationUnit() {
-        return informationUnit;
-    }
-
-    public void setInformationUnit(InformationUnit informationUnit) {
-        this.informationUnit = informationUnit;
-    }
-
     public List<SetUpInformationUnit> getInformationUnitList() {
         return informationUnitList;
     }
 
-    public void setInformationUnitList(List<SetUpInformationUnit> informationUnitList) {
+    private void setInformationUnitList(List<SetUpInformationUnit> informationUnitList) {
         this.informationUnitList = informationUnitList;
     }
 
