@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.gui;
+package it.polimi.ingsw.view.gui.gamewindows;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;

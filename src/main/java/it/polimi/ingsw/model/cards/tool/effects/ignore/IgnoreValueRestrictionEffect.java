@@ -29,6 +29,7 @@ public class IgnoreValueRestrictionEffect extends MoveWithRestrictionsEffect {
         WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
         wp.createCopy();
         Cell[][] gw = wp.getGlassWindow();
+        manager.incrementEffectCounter();
 
         if (!super.checkMoveAvailability(gw, setUpInfoUnit)) {
             manager.setMoveLegal(false);

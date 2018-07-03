@@ -27,6 +27,7 @@ public class SwapFromDraftPoolToRoundTrack extends ASwapDieEffect {
 
         RoundTrack roundTrack = manager.getControllerMaster().getCommonBoard().getRoundTrack();
         roundTrack.createCopy();
+        //todo per Gian, quando hai finito, metti qui questa riga: manager.incrementEffectCounter();
 
         DiceDraftPool draftPool = manager.getControllerMaster().getCommonBoard().getDraftPool();
         draftPool.createCopy();

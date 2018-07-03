@@ -1,41 +1,56 @@
-package it.polimi.ingsw.view.gui;
+package it.polimi.ingsw.view.gui.gamewindows;
 
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.view.IToolCardManager;
+import it.polimi.ingsw.view.gui.GUIView;
+import it.polimi.ingsw.view.gui.PlayersData;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+/**
+ * This class manages the preparation of the information to send to the server to be elaborated to perform
+ * the effect of the chosen tool card.
+ */
 public class GUIToolCardManager implements IToolCardManager {
 
+    /**
+     * The server where to send the information.
+     */
     private IFromClientToServer server;
 
+    /**
+     * The main data container of the specific player where to pick all the needed data.
+     */
     private PlayersData playersData;
 
+    /**
+     * The GUI view of the game.
+     */
     private GUIView view;
 
     public GUIToolCardManager(GUIView view ) {
         this.view = view;
     }
 
+    /**
+     * This method collects and prepares all the needed information to send to the server to perform
+     * the effecto of the tool card number one.
+     */
     @Override
     public void tool1() {
         List<SetUpInformationUnit> setupList = new ArrayList<>();
         setupList.add(playersData.getSetUpInformationUnit());
-        System.out.println(setupList.get(0).getSourceIndex() + " " + setupList.get(0).getDestinationIndex());
-        System.out.println("id slot: " + playersData.getSlotChosen());
         try{
             this.server.performToolCardMove(playersData.getSlotChosen(), setupList);
         } catch (BrokenConnectionException e){
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 1");
             //disconnect();
         }
-
-
     }
 
     @Override

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.gui.gamewindows;
+package it.polimi.ingsw.view.gui.gamewindows.toolcardsGUImanagers;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

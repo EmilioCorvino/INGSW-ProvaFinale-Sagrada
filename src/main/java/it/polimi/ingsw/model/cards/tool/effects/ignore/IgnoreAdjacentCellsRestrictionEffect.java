@@ -27,6 +27,7 @@ public class IgnoreAdjacentCellsRestrictionEffect extends DefaultDiePlacementMov
         Player p = manager.getControllerMaster().getGameState().getCurrentPlayer();
         WindowPatternCard wp = p.getWindowPatternCard();
         wp.createCopy();
+        manager.incrementEffectCounter();
 
         DiceDraftPool draft = manager.getControllerMaster().getCommonBoard().getDraftPool();
         draft.createCopy();

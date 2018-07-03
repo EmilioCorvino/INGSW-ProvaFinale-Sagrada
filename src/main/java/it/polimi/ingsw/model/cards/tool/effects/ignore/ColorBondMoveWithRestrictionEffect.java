@@ -28,6 +28,6 @@ public class ColorBondMoveWithRestrictionEffect extends MoveWithRestrictionsEffe
         else {
             manager.sendNotificationToCurrentPlayer("Il dado della mappa scelto deve essere dello stesso colore del dado scelto dalla round track");
         }
-
+        //todo check incrementEffectCounter
     }
 }

@@ -2,6 +2,8 @@ package it.polimi.ingsw.view.gui.gamewindows;
 
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.view.gui.*;
+import it.polimi.ingsw.view.gui.gamewindows.toolcardsGUImanagers.ToolCardGUI;
+import it.polimi.ingsw.view.gui.gamewindows.toolcardsGUImanagers.ToolWindowManager;
 import javafx.animation.ScaleTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -246,8 +248,6 @@ public class CommonBoardWindow extends ParentWindow {
         placement.getStyleClass().add("button-style");
         placement.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> diePlacementHandler());
 
-        this.ok.setVisible(false);
-
         commandsDraft.getChildren().addAll(favorTok, placement, pass, ok);
         this.secondSecCont.getChildren().add(commandsDraft);
     }
@@ -324,7 +324,7 @@ public class CommonBoardWindow extends ParentWindow {
 
             //when mouse is entered the image is bigger.
             view.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
-                ScaleTransition st = new ScaleTransition(Duration.millis(30), view);
+                ScaleTransition st = new ScaleTransition(Duration.millis(5), view);
                 st.setByX(0.25f);
                 st.setByY(0.25f);
                 st.setAutoReverse(true);
@@ -334,7 +334,7 @@ public class CommonBoardWindow extends ParentWindow {
 
             //when mouse is exited the image returns to its original size.
             view.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
-                ScaleTransition st = new ScaleTransition(Duration.millis(30), view);
+                ScaleTransition st = new ScaleTransition(Duration.millis(5), view);
                 st.setByX(-0.25f);
                 st.setByY(-0.25f);
                 st.setAutoReverse(false);
@@ -364,37 +364,35 @@ public class CommonBoardWindow extends ParentWindow {
         for(int i=0; i<idTools.length; i++) {
             ToolCardGUI toolCard = new ToolCardGUI("/cards/toolImages/tool" + idTools[i] + ".png");
             toolCard.setIdTool(idTools[i] - 300 + 1);
-            System.out.println("tool settata: " + toolCard + " " + toolCard.getIdTool());
             toolCard.setToolSlot(i);
             toolCont.getChildren().add(toolCard);
             toolCard.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> chooseToolCardHandler(toolCard));
+
+            HBox box = (HBox)toolCard.getChildren().get(1);
+            Button button = (Button)box.getChildren().get(1);
+            button.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+                button.setVisible(false);
+                this.toolWindowManager.invokeMoveValidator(toolCard.getIdTool());
+            } );
         }
     }
 
+
     public void chooseToolCardHandler(ToolCardGUI tool) {
-        System.out.println("chosen tool: " + tool + " " + (tool.getIdTool()));
+        HBox box = (HBox)tool.getChildren().get(1);
+        Button button = (Button)box.getChildren().get(1);
         if(this.manager.isCommandContained("Strumento " + (tool.getIdTool()))) {
-            HBox box = (HBox)tool.getChildren().get(1);
-            Button button = (Button)box.getChildren().get(1);
             button.setVisible(true);
             this.toolWindowManager.invokeToolCommand(tool.getIdTool());
-            button.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> this.toolWindowManager.invokeMoveValidator(tool.getIdTool()));
             this.toolWindowManager.setSlotId(tool.getToolSlot());
 
         } else {
+            button.setVisible(false);
             this.manager.communicateMessage("Non puoi usare questa tool (Hai già effettuato un piazzamento oppure non" +
                     "hai abbastanza segnalini favore.");
         }
     }
 
-/*
-    public void setPanelForInformation() {
-        HBox messageBox = new HBox();
-        Label label = new Label("");
-        messageBox.getChildren().add(label);
-        this.publToolDraftCont.getChildren().add(messageBox);
-    }
-    */
 
 
     public void showMessage(String message) {
@@ -441,8 +439,6 @@ public class CommonBoardWindow extends ParentWindow {
                 StackPane stack = (StackPane) grid.getChildren().get(WpGui.MAX_COL * i + j);
                 stack.getStyleClass().add("dieChosen");
             }
-
-        //this.toolCont.getChildren().forEach(imageView -> imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> chooseToolHandler(e)));
     }
 
 
@@ -451,11 +447,15 @@ public class CommonBoardWindow extends ParentWindow {
      * to execute it.
      */
     public void validateMoveHandler() {
-        if(!(this.data.isDestinationFilled() && this.data.isSourceFilled())) {
+        if(!(this.getData().getPersonalWp().isWpCellClicked() && this.draftPoolGUI.isDraftCellChosen())) {
             this.manager.communicateMessage("Non hai riempito i campi corretti");
+            this.ok.setVisible(false);
         }
         else {
             this.ok.setVisible(false);
+            SetUpInformationUnit info = this.data.getSetUpInformationUnit();
+            info.setSourceIndex(this.draftPoolGUI.getIndexChosenCell());
+            info.setDestinationIndex(this.data.getPersonalWp().getClicked());
             this.manager.executeCommandIfPresent("Piazzamento");
         }
     }
@@ -466,15 +466,9 @@ public class CommonBoardWindow extends ParentWindow {
      * window pattern card in the GUI.
      */
     public void diePlacementHandler() {
-         if(this.manager.isCommandContained("Piazzamento")) {
-             SetUpInformationUnit setup = new SetUpInformationUnit();
-             this.data.setSetUpInformationUnit(setup);
-
-
-             this.draftPoolGUI.cellAsSource(this.data);
-             this.data.getPersonalWp().cellMapAsDestinationHandler(this.data);
+         if(this.manager.isCommandContained("Piazzamento"))
              this.ok.setVisible(true);
-         } else {
+         else {
              this.manager.communicateMessage("Non puoi effettuare un piazzamento");
          }
     }
@@ -489,5 +483,9 @@ public class CommonBoardWindow extends ParentWindow {
          else {
             this.manager.communicateMessage("Comando non supportato poichè non è il tuo turno.");
         }
+    }
+
+    public void sendMessage(String message) {
+        this.manager.communicateMessage(message);
     }
 }
