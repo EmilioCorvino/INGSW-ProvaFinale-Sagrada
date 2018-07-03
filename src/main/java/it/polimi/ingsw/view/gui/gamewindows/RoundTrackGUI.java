@@ -1,14 +1,16 @@
 package it.polimi.ingsw.view.gui.gamewindows;
 
+import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RoundTrackGUI extends VBox {
 
@@ -17,9 +19,19 @@ public class RoundTrackGUI extends VBox {
     private List<String> colorRound;
 
     private StackPane diceRound;
-    private HBox allDiceRound;
+
+    private DieFactory dieFactory;
+
+    private Map<Integer, List<DieGUI>> allDiceRound;
+
 
     public RoundTrackGUI() {
+
+        dieFactory = new DieFactory();
+        allDiceRound = new HashMap<>();
+
+        for(int i=0; i<10; i++)
+            allDiceRound.put(i+1, new ArrayList<>());
 
         this.setSpacing(20);
         this.setPadding(new Insets(20));
@@ -44,7 +56,10 @@ public class RoundTrackGUI extends VBox {
         for(int i=0; i<NUM_ROUND; i++) {
 
             StackPane mainBase = new StackPane();
-            this.getChildren().add(mainBase); //51, 153, 102
+            this.getChildren().add(mainBase);
+
+            StackPane diceRound = new StackPane();
+            this.getChildren().add(diceRound);
 
 
             StackPane baseRound = new StackPane();
@@ -69,6 +84,16 @@ public class RoundTrackGUI extends VBox {
             diceRound.setMinWidth(45);
             mainBase.getChildren().add(diceRound);
         }
+    }
+
+    public void addDieToRound(SetUpInformationUnit informationUnit) {
+        StackPane mainRoundStack = (StackPane)this.getChildren().get(informationUnit.getDestinationIndex());
+        StackPane diceRound = (StackPane)mainRoundStack.getChildren().get(1);
+        DieGUI dieToAdd = this.dieFactory.getsDieGUI(informationUnit);
+        diceRound.getChildren().add(dieToAdd);
+
+        List<DieGUI> list = this.allDiceRound.get(informationUnit.getDestinationIndex() + 1);
+        list.add(dieToAdd);
     }
 
     public StackPane getDiceRound() {
