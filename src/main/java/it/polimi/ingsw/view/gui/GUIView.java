@@ -13,8 +13,7 @@ import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.view.Bank;
 import it.polimi.ingsw.view.IViewMaster;
-import it.polimi.ingsw.view.gui.gamewindows.CommonBoardWindow;
-import it.polimi.ingsw.view.gui.gamewindows.GUIDefaultMatchManager;
+import it.polimi.ingsw.view.gui.gamewindows.*;
 import it.polimi.ingsw.view.gui.loginwindows.LoginIpAddrTypeConnGUI;
 import it.polimi.ingsw.view.gui.loginwindows.LoginUsernameGameModeGUI;
 import it.polimi.ingsw.view.gui.loginwindows.ShowPlayersGUI;
@@ -171,7 +170,6 @@ public class GUIView implements IViewMaster {
            }
            this.chooseWpGUI.formatMapsContainer();
        });
-
     }
 
 
@@ -184,17 +182,21 @@ public class GUIView implements IViewMaster {
             commonWindow.setToolImages(idTool);
             commonWindow.setRoundTrack();
             this.current = commonWindow;
+            this.commonWindow.getDraftPoolGUI().cellAsSource();
+            this.playersData.getPersonalWp().cellMapAsDestinationHandler();
+
             this.current.addHandlers();
             GUIMain.setRoot(current);
             GUIMain.centerScreen();
         });
-
     }
 
     @Override
     public void setDraft(List<SetUpInformationUnit> draft) {
-        Platform.runLater(() ->
-            this.commonWindow.getDraftPoolGUI().formatDraftPool(draft));
+        Platform.runLater(() -> {
+            this.commonWindow.getDraftPoolGUI().formatDraftPool(draft);
+            this.commonWindow.getDraftPoolGUI().cellAsSource();
+        });
     }
 
     @Override
@@ -220,6 +222,9 @@ public class GUIView implements IViewMaster {
     public void addOnOwnWp(SetUpInformationUnit unit) {
         Platform.runLater(() -> {
             DieGUI die = this.dieFactory.getsDieGUI(unit);
+            this.commonWindow.getData().getPersonalWp().setWpCellClicked(false);
+            this.commonWindow.getData().getPersonalWp().getCellsClicked().clear();
+            System.out.println("size of cellsclicked after clear: " + this.commonWindow.getData().getPersonalWp().getCellsClicked().size() );
             this.commonWindow.getData().getPersonalWp().addOnThisWp(die, unit.getDestinationIndex());
         });
 
@@ -249,6 +254,7 @@ public class GUIView implements IViewMaster {
     public void removeOnDraft(SetUpInformationUnit info) {
         Platform.runLater(() -> {
             DraftPoolGUI draft = this.commonWindow.getDraftPoolGUI();
+            draft.setDraftCellChosen(false);
             draft.getChildren().remove(info.getSourceIndex());
             draft.reFormatDraft();
         });
