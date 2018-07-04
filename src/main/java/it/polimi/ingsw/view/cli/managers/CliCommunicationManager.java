@@ -1,6 +1,7 @@
-package it.polimi.ingsw.view.cli;
+package it.polimi.ingsw.view.cli.managers;
 
 import it.polimi.ingsw.network.IFromClientToServer;
+import it.polimi.ingsw.view.cli.CliView;
 import it.polimi.ingsw.view.cli.managers.general.InputOutputManager;
 
 public class CliCommunicationManager {

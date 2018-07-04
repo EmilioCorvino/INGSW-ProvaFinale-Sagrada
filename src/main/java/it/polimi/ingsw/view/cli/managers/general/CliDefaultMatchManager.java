@@ -5,10 +5,10 @@ import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.view.IDefaultMatchManager;
-import it.polimi.ingsw.view.cli.CliCommunicationManager;
 import it.polimi.ingsw.view.cli.CliView;
 import it.polimi.ingsw.view.cli.commands.UserCommands;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
+import it.polimi.ingsw.view.cli.managers.CliCommunicationManager;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

@@ -441,7 +441,7 @@ public class CliView implements IViewMaster {
         return player;
     }
 
-    InputOutputManager getInputOutputManager() {
+    public InputOutputManager getInputOutputManager() {
         return inputOutputManager;
     }
 
