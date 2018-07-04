@@ -62,11 +62,13 @@ public class ToolWindowManager {
         toolMethods.put(2, this::toolTwoThreeWindow);
         toolMethods.put(3, this::toolTwoThreeWindow);
         toolMethods.put(4, this::toolFourWindow);
+        toolMethods.put(5, this::toolFiveWindow);
 
         toolMoveValidator.put(1, this::validateToolOne);
         toolMoveValidator.put(2, this::toolTwoValidator);
         toolMoveValidator.put(3, this::toolThreeValidator);
         toolMoveValidator.put(4, this::toolFourValidator);
+        toolMoveValidator.put(5, this::toolFiveValidator);
 
         toolWindowBuilder = new ToolWindowBuilder(commonBoardWindow);
     }
@@ -178,6 +180,28 @@ public class ToolWindowManager {
             this.manager.executeCommandToolIfPresent(4);
     }
 
+    public void toolFiveWindow() {
+        this.manager.communicateMessage("Scegli un dado dalla draft, un dado della round track e infine una cella della tua mappa in cui posizionare il dado");
+    }
+
+    public void toolFiveValidator() {
+        if(!this.commonBoardWindow.getData().getPersonalWp().isWpCellClicked()) {
+            this.manager.communicateMessage("Devi scegliere una cella della tua mappa.");
+            return;
+        }
+
+        if(!this.commonBoardWindow.getDraftPoolGUI().isDraftCellChosen()) {
+            this.manager.communicateMessage("Devi scegliere un dado della riserva.");
+            return;
+        }
+
+        if(!this.commonBoardWindow.getRoundTrack().isRoundChosen()) {
+            this.manager.communicateMessage("Devi scegliere un dado dal tracciato dei round.");
+            return;
+        }
+
+        this.manager.executeCommandToolIfPresent(5);
+    }
 
     public int getSlotId() {
         return slotId;

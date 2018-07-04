@@ -258,6 +258,7 @@ public class GUIView implements IViewMaster {
     public void removeOnDraft(SetUpInformationUnit info) {
         Platform.runLater(() -> {
             DraftPoolGUI draft = this.commonWindow.getDraftPoolGUI();
+            System.out.println("sono in remove on draft");
             draft.setDraftCellChosen(false);
             draft.getChildren().remove(info.getSourceIndex());
             draft.reFormatDraft();
@@ -338,7 +339,11 @@ public class GUIView implements IViewMaster {
         this.listPlayers = listPlayers;
     }
 
+    public CommonBoardWindow getCommonWindow() {
+        return commonWindow;
+    }
 
-
-
+    public void setCommonWindow(CommonBoardWindow commonWindow) {
+        this.commonWindow = commonWindow;
+    }
 }
