@@ -22,19 +22,25 @@ import java.util.logging.Level;
 public class ClientImplementation implements IFromServerToClient {
 
     /**
-     * This attribute indicate if the game is in the room stage.
+     * Task associated with the timer
      */
-    private boolean isInRoom = false;
+    private TimerTask task;
+
+    /**
+     * This is the timer that starts at the last show notice sent by the serve.
+     * If it expires, the player will be disconnected, because it means that the server is death.
+     */
+    final Timer serverTimer = new Timer();
+
+    /**
+     * Maximum amount of time server has to respond.
+     */
+    private long timeOut;
 
     /**
      * This attribute is used to control if the server is still online.
      */
     private boolean isServerDown = false;
-
-    /**
-     * This attribute indicate if is the first call of the room method.
-     */
-    private boolean afterFirstRoomCall = false;
 
     /**
      * Timer to use in case the loading from file fails. Value is in milliseconds.
@@ -44,12 +50,7 @@ public class ClientImplementation implements IFromServerToClient {
     /**
      * Path of the file containing the maximum amount of time available for players to make a choice.
      */
-    private static final String TIMER_TURN_FILE = "./src/main/resources/config/turnTimer";
-
-    /**
-     * Path of the file containing the maximum amount of time available for players to make a choice.
-     */
-    private static final String TIMER_ROOM_FILE = "./src/main/resources/config/turnTimer";
+    private static final String TIMER_FILE = "./src/main/resources/config/turnTimer";
 
     /**
      * View chosen by the user.
@@ -58,6 +59,16 @@ public class ClientImplementation implements IFromServerToClient {
 
     public ClientImplementation(IViewMaster view) {
         this.view = view;
+
+        //Back up value.
+        timeOut = BACK_UP_TIMER;
+
+        //Value read from file. If the loading is successful, it overwrites the back up.
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_FILE)))) {
+            timeOut = Long.parseLong(reader.readLine())*3;
+        } catch (IOException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to load the server timer from file", e);
+        }
     }
 
     /**
@@ -66,18 +77,13 @@ public class ClientImplementation implements IFromServerToClient {
      */
     @Override
     public void showRoom(List<String> players) {
-        isInRoom = true;
-        isServerDown = false;
-        if (!afterFirstRoomCall){
-            startRoomTimer();
-            afterFirstRoomCall = true;
-        }
         view.showRoom(players);
+        isServerDown = true;
+        startTimer();
     }
 
     @Override
     public void showPrivateObjective(int idPrivateObj){
-        isInRoom = false;
         isServerDown = false;
         view.showPrivateObjective(idPrivateObj);
     }
@@ -193,58 +199,26 @@ public class ClientImplementation implements IFromServerToClient {
     public void showNotice(String notice) {
         view.showNotice(notice);
         isServerDown = true;
-        startTurnTimer();
+        startTimer();
 
     }
 
-    private void startRoomTimer(){
-        Timer timer = new Timer();
-
-        //Back up value.
-        long timeOut = BACK_UP_TIMER;
-
-        //Value read from file. If the loading is successful, it overwrites the back up.
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_ROOM_FILE)))) {
-            timeOut = Long.parseLong(reader.readLine())*2;
-        } catch (IOException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
+    private void startTimer(){
+        if (task != null) {
+            task.cancel();
+            task = null;
         }
 
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (isInRoom) {
-                    SagradaLogger.log(Level.SEVERE, "Timer of waiting room expired");
-                    view.forceLogOut();
-                }
-            }
-        }, timeOut);
-
-    }
-
-    private void startTurnTimer(){
-
-        Timer timer = new Timer();
-
-        //Back up value.
-        long timeOut = BACK_UP_TIMER;
-
-        //Value read from file. If the loading is successful, it overwrites the back up.
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_TURN_FILE)))) {
-            timeOut = Long.parseLong(reader.readLine())*4;
-        } catch (IOException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
-        }
-
-        timer.schedule(new TimerTask() {
+        task = new TimerTask() {
             @Override
             public void run() {
                 if (isServerDown) {
-                    SagradaLogger.log(Level.SEVERE, "Timer of turn expired");
+                    SagradaLogger.log(Level.SEVERE, "Server timeout");
                     view.forceLogOut();
                 }
             }
-        }, timeOut);
+        };
+        serverTimer.schedule(task, timeOut);
     }
 
 }
