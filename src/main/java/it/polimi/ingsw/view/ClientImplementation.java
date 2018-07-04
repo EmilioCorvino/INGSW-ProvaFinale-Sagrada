@@ -22,19 +22,20 @@ import java.util.logging.Level;
 public class ClientImplementation implements IFromServerToClient {
 
     /**
-     * This attribute indicate if the game is in the room stage.
+     * Task associated with the timer
      */
-    private boolean isInRoom = false;
+    private TimerTask task;
 
     /**
-     * This attribute is used to control if the server is still online.
+     * This is the timer that starts at the last show notice sent by the serve.
+     * If it expires, the player will be disconnected, because it means that the server is death.
      */
-    private boolean isServerDown = false;
+    private final Timer serverTimer = new Timer();
 
     /**
-     * This attribute indicate if is the first call of the room method.
+     * Maximum amount of time server has to respond.
      */
-    private boolean afterFirstRoomCall = false;
+    private long timeOut;
 
     /**
      * Timer to use in case the loading from file fails. Value is in milliseconds.
@@ -44,12 +45,7 @@ public class ClientImplementation implements IFromServerToClient {
     /**
      * Path of the file containing the maximum amount of time available for players to make a choice.
      */
-    private static final String TIMER_TURN_FILE = "./src/main/resources/config/turnTimer";
-
-    /**
-     * Path of the file containing the maximum amount of time available for players to make a choice.
-     */
-    private static final String TIMER_ROOM_FILE = "./src/main/resources/config/turnTimer";
+    private static final String TIMER_FILE = "./src/main/resources/config/turnTimer";
 
     /**
      * View chosen by the user.
@@ -58,6 +54,16 @@ public class ClientImplementation implements IFromServerToClient {
 
     public ClientImplementation(IViewMaster view) {
         this.view = view;
+
+        //Back up value.
+        timeOut = BACK_UP_TIMER;
+
+        //Value read from file. If the loading is successful, it overwrites the back up.
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_FILE)))) {
+            timeOut = Long.parseLong(reader.readLine())*2;
+        } catch (IOException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to load the server timer from file", e);
+        }
     }
 
     /**
@@ -66,185 +72,125 @@ public class ClientImplementation implements IFromServerToClient {
      */
     @Override
     public void showRoom(List<String> players) {
-        isInRoom = true;
-        isServerDown = false;
-        if (!afterFirstRoomCall){
-            startRoomTimer();
-            afterFirstRoomCall = true;
-        }
         view.showRoom(players);
+        startTimer();
     }
 
     @Override
     public void showPrivateObjective(int idPrivateObj){
-        isInRoom = false;
-        isServerDown = false;
         view.showPrivateObjective(idPrivateObj);
     }
 
     @Override
     public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) {
-        isServerDown = false;
         view.showMapsToChoose(listWp);
     }
 
     @Override
     public void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool){
-        isServerDown = false;
         view.setCommonBoard(players,idPubObj, idTool);
     }
 
     @Override
     public void setDraft(List<SetUpInformationUnit> draft){
-        isServerDown = false;
         view.setDraft(draft);
     }
 
     @Override
     public void setFavorToken(int nFavTokens){
-        isServerDown = false;
         view.setFavorToken(nFavTokens);
     }
 
     @Override
     public void showCommand(List<Commands> commands) {
-        isServerDown = false;
         view.showCommand(commands);
     }
 
     @Override
     public void addOnOwnWp(SetUpInformationUnit unit){
-        isServerDown = false;
         view.addOnOwnWp(unit);
     }
 
     @Override
     public void removeOnOwnWp(SetUpInformationUnit unit){
-        isServerDown = false;
         view.removeOnOwnWp(unit);
     }
 
     @Override
     public void addOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit){
-        isServerDown = false;
         view.addOnOtherPlayerWp(userName,infoUnit);
     }
 
     @Override
     public void removeOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit){
-        isServerDown = false;
         view.removeOnOtherPlayerWp(userName, infoUnit);
     }
 
     @Override
     public void addOnDraft(SetUpInformationUnit info){
-        isServerDown = false;
         view.addOnDraft(info);
     }
 
     @Override
     public void removeOnDraft(SetUpInformationUnit info){
-        isServerDown = false;
         view.removeOnDraft(info);
     }
 
     @Override
     public void addOnRoundTrack(SetUpInformationUnit info){
-        isServerDown = false;
         view.addOnRoundTrack(info);
     }
 
     @Override
     public void removeOnRoundTrack(SetUpInformationUnit info){
-        isServerDown = false;
         view.removeOnRoundTrack(info);
     }
 
     @Override
     public void updateFavTokenPlayer(int nFavorToken){
-        isServerDown = false;
         view.updateFavTokenPlayer(nFavorToken);
     }
 
     @Override
     public void updateToolCost(int idSlot, int cost){
-        isServerDown = false;
         view.updateToolCost(idSlot,cost);
     }
 
     @Override
     public void showDie(SetUpInformationUnit informationUnit){
-        isServerDown = false;
         view.showDie(informationUnit);}
 
     @Override
     public void showRank(String[] playerNames, int[] scores) {
-        isServerDown = false;
         view.showRank(playerNames, scores);
     }
 
     @Override
     public void forceLogOut() {
-        isServerDown = false;
         view.forceLogOut();
     }
 
     @Override
     public void showNotice(String notice) {
         view.showNotice(notice);
-        isServerDown = true;
-        startTurnTimer();
+        startTimer();
 
     }
 
-    private void startRoomTimer(){
-        Timer timer = new Timer();
-
-        //Back up value.
-        long timeOut = BACK_UP_TIMER;
-
-        //Value read from file. If the loading is successful, it overwrites the back up.
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_ROOM_FILE)))) {
-            timeOut = Long.parseLong(reader.readLine())*2;
-        } catch (IOException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
+    private void startTimer(){
+        if (task != null) {
+            task.cancel();
+            task = null;
         }
 
-        timer.schedule(new TimerTask() {
+        task = new TimerTask() {
             @Override
             public void run() {
-                if (isInRoom) {
-                    SagradaLogger.log(Level.SEVERE, "Timer of waiting room expired");
+                    SagradaLogger.log(Level.SEVERE, "Server timeout");
                     view.forceLogOut();
                 }
-            }
-        }, timeOut);
-
-    }
-
-    private void startTurnTimer(){
-
-        Timer timer = new Timer();
-
-        //Back up value.
-        long timeOut = BACK_UP_TIMER;
-
-        //Value read from file. If the loading is successful, it overwrites the back up.
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_TURN_FILE)))) {
-            timeOut = Long.parseLong(reader.readLine())*4;
-        } catch (IOException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
-        }
-
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (isServerDown) {
-                    SagradaLogger.log(Level.SEVERE, "Timer of turn expired");
-                    view.forceLogOut();
-                }
-            }
-        }, timeOut);
+        };
+        serverTimer.schedule(task, timeOut);
     }
 
 }

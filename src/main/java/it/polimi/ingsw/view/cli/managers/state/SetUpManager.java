@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.cli.statemanagers;
+package it.polimi.ingsw.view.cli.managers.state;
 
 import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplifiedview.SimplifiedWindowPatternCard;
@@ -6,7 +6,7 @@ import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.view.cli.boardelements.PlayerView;
 import it.polimi.ingsw.view.cli.boardelements.ToolCardView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
-import it.polimi.ingsw.view.cli.generalmanagers.InputOutputManager;
+import it.polimi.ingsw.view.cli.managers.general.InputOutputManager;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
