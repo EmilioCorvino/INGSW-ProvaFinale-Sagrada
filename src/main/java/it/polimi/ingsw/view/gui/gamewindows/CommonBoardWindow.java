@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.view.gui.*;
 import it.polimi.ingsw.view.gui.gamewindows.toolcardsGUImanagers.ToolCardGUI;
 import it.polimi.ingsw.view.gui.gamewindows.toolcardsGUImanagers.ToolWindowManager;
-import javafx.animation.ScaleTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -16,7 +15,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
 
 import java.util.Random;
 
@@ -110,6 +108,7 @@ public class CommonBoardWindow extends ParentWindow {
         gameData = new HBox();
 
         ok = new Button("Ok");
+        ok.setVisible(false);
 
         this.setMinHeight(760);
         this.setMinWidth(1400);
@@ -189,25 +188,7 @@ public class CommonBoardWindow extends ParentWindow {
         imgViewCont.getStyleClass().add("map-background");
         imgViewCont.setPadding(new Insets(20));
 
-        //when mouse is entered the image is bigger.
-        view.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
-            ScaleTransition st = new ScaleTransition(Duration.millis(30), view);
-            st.setByX(0.25f);
-            st.setByY(0.25f);
-            st.setAutoReverse(true);
-            st.play();
-            st.stop();
-        } );
 
-        //when mouse is exited the image returns to its original size.
-        view.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
-            ScaleTransition st = new ScaleTransition(Duration.millis(30), view);
-            st.setByX(-0.25f);
-            st.setByY(-0.25f);
-            st.setAutoReverse(false);
-            st.play();
-            st.stop();
-        } );
 
         view.setFitHeight(240);
         view.setPreserveRatio(true);
@@ -221,6 +202,7 @@ public class CommonBoardWindow extends ParentWindow {
         secondSecCont.setMinWidth(200);
         secondSecCont.setMaxWidth(200);
         this.secondContainer.getChildren().add(publToolDraftCont);
+        EnlargementHandler.addToAnimation(view);
     }
 
 
@@ -322,29 +304,10 @@ public class CommonBoardWindow extends ParentWindow {
             Image publCard = new Image("/cards/publicImages/publObj" + idPublObj[i] + ".png");
             ImageView view = new ImageView(publCard);
 
-            //when mouse is entered the image is bigger.
-            view.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
-                ScaleTransition st = new ScaleTransition(Duration.millis(5), view);
-                st.setByX(0.25f);
-                st.setByY(0.25f);
-                st.setAutoReverse(true);
-                st.play();
-                st.stop();
-            } );
-
-            //when mouse is exited the image returns to its original size.
-            view.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
-                ScaleTransition st = new ScaleTransition(Duration.millis(5), view);
-                st.setByX(-0.25f);
-                st.setByY(-0.25f);
-                st.setAutoReverse(false);
-                st.play();
-                st.stop();
-            } );
-
             view.setFitHeight(240);
             view.setPreserveRatio(true);
             publObjCont.getChildren().add(view);
+            EnlargementHandler.addToAnimation(view);
         }
     }
 
@@ -359,6 +322,7 @@ public class CommonBoardWindow extends ParentWindow {
         toolCont.getStyleClass().add("map-background");
         toolCont.setPadding(new Insets(20));
         toolCont.setSpacing(25);
+        toolCont.setMinHeight(260);
         this.publToolDraftCont.getChildren().add(toolCont);
 
         for(int i=0; i<idTools.length; i++) {
@@ -488,5 +452,14 @@ public class CommonBoardWindow extends ParentWindow {
 
     public void sendMessage(String message) {
         this.manager.communicateMessage(message);
+    }
+
+
+    public RoundTrackGUI getRoundTrack() {
+        return roundTrack;
+    }
+
+    public void setRoundTrack(RoundTrackGUI roundTrack) {
+        this.roundTrack = roundTrack;
     }
 }

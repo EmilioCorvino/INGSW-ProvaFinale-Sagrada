@@ -267,7 +267,9 @@ public class GUIView implements IViewMaster {
     @Override
     public void addOnRoundTrack(SetUpInformationUnit info) {
         Platform.runLater(() -> {
-            
+            this.commonWindow.getRoundTrack().addDieToRound(info);
+
+
         });
 
     }
