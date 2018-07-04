@@ -269,6 +269,7 @@ public class GUIView implements IViewMaster {
         Platform.runLater(() -> {
             this.commonWindow.getRoundTrack().addDieToRound(info);
 
+
         });
 
     }
