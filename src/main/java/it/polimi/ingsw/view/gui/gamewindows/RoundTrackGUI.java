@@ -1,14 +1,20 @@
 package it.polimi.ingsw.view.gui.gamewindows;
 
+import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
+import javafx.animation.TranslateTransition;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RoundTrackGUI extends VBox {
 
@@ -17,9 +23,29 @@ public class RoundTrackGUI extends VBox {
     private List<String> colorRound;
 
     private StackPane diceRound;
-    private HBox allDiceRound;
+
+    /**
+     * This attribute represents the object used to construct dice.
+     */
+    private DieFactory dieFactory;
+
+    /**
+     * This attribute maps each id for the round with its specific list of available dice
+     * updated dynamically when required.
+     */
+    private Map<Integer, List<SetUpInformationUnit>> allDiceRound;
+
+    private int round;
+
+    private int offset;
+
+    private boolean isRoundChosen;
+
 
     public RoundTrackGUI() {
+
+        dieFactory = new DieFactory();
+        allDiceRound = new HashMap<>();
 
         this.setSpacing(20);
         this.setPadding(new Insets(20));
@@ -41,11 +67,13 @@ public class RoundTrackGUI extends VBox {
         colorRound.add("-fx-background-color: linear-gradient(to top, rgb(0, 0, 153, 0.4), rgb(0, 0, 204, 0.4))");//9
         colorRound.add("-fx-background-color: linear-gradient(to top, rgb(51, 0, 102, 0.4), rgb(0, 51, 102, 0.4))");//10
 
+        for(int i=0; i<10; i++)
+            this.allDiceRound.put(i+1, new ArrayList<>());
+
         for(int i=0; i<NUM_ROUND; i++) {
 
             StackPane mainBase = new StackPane();
-            this.getChildren().add(mainBase); //51, 153, 102
-
+            this.getChildren().add(mainBase);
 
             StackPane baseRound = new StackPane();
             baseRound.setMinHeight(45);
@@ -62,20 +90,104 @@ public class RoundTrackGUI extends VBox {
             baseRound.getChildren().addAll(base, round);
             mainBase.getChildren().add(baseRound);
 
-            diceRound = new StackPane();
+            StackPane diceRound = new StackPane();
             diceRound.setMinHeight(45);
             diceRound.setMaxHeight(45);
             diceRound.setMaxWidth(45);
             diceRound.setMinWidth(45);
             mainBase.getChildren().add(diceRound);
         }
+
+        for(int i=0; i<this.getChildren().size(); i++) {
+            StackPane main = (StackPane)this.getChildren().get(i);
+            main.addEventHandler(MouseEvent.MOUSE_ENTERED, ev -> slideInDiceHandler(main));
+            main.addEventHandler(MouseEvent.MOUSE_EXITED, ev -> slideOutDiceHandler(main));
+        }
     }
 
-    public StackPane getDiceRound() {
-        return diceRound;
+    /**
+     * This method adds a die on a specific round of the round track GUI of the game.
+     * @param informationUnit the object to use to construct a die to put on a round.
+     */
+    public void addDieToRound(SetUpInformationUnit informationUnit) {
+        StackPane mainRoundStack = (StackPane)this.getChildren().get(informationUnit.getDestinationIndex());
+        StackPane diceRound = (StackPane)mainRoundStack.getChildren().get(1);
+        DieGUI dieToAdd = this.dieFactory.getsDieGUI(informationUnit);
+        diceRound.getChildren().add(dieToAdd);
+        //dieToAdd.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> roundDieClickedHandler(mainRoundStack, dieToAdd));
+        //adds the information of the die to allow the construction of an updated list of dice each time.
+        this.allDiceRound.get((informationUnit.getDestinationIndex() + 1)).add(informationUnit);
     }
 
-    public void setDiceRound(StackPane diceRound) {
-        this.diceRound = diceRound;
+    /**
+     * This method allows to view all the available dice for a specific round.
+     * @param stack the main stack container of the dice.
+     */
+    private void slideInDiceHandler(StackPane stack) {
+        int index = this.getChildren().indexOf(stack);
+        StackPane diceRound = (StackPane)stack.getChildren().get(1);
+        List<SetUpInformationUnit> list = this.allDiceRound.get(index + 1 );
+        HBox box = new HBox();
+        if(list.size() > 0) {
+            box.setSpacing(10);
+            box.setPadding(new Insets(5));
+            list.forEach( elem -> {
+                DieGUI die = this.dieFactory.getsDieGUI(elem);
+                box.getChildren().add(die);
+                die.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> roundDieClickedHandler(stack, die, box));
+            });
+            diceRound.getChildren().add(box);
+        }
+
+        //This adds a translate transition to the hbox of dice of the selected round to show.
+        TranslateTransition tt = new TranslateTransition(Duration.millis(10), box);
+        tt.setByX( stack.getLayoutX() );
+        tt.play();
+    }
+
+    /**
+     * This method removes the box of all the dice present in a round, after the mouse exits the
+     * round container area.
+     * @param main the main stack container of the dice of a single round.
+     */
+    private void slideOutDiceHandler(StackPane main) {
+        StackPane diceRound = (StackPane)main.getChildren().get(1);
+        int size = diceRound.getChildren().size();
+        if(size> 1)
+            diceRound.getChildren().remove(size -1 );
+    }
+
+    public void roundDieClickedHandler(StackPane main, DieGUI die, HBox box) {
+        int index = this.getChildren().indexOf(main);
+        setRound(index);
+        int offset = box.getChildren().indexOf(die);
+        setOffset(offset);
+        setRoundChosen(true);
+
+        System.out.println("round: " + (index) + "  offset: " + offset );
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
+    }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
+
+    public boolean isRoundChosen() {
+        return isRoundChosen;
+    }
+
+    public void setRoundChosen(boolean roundChosen) {
+        isRoundChosen = roundChosen;
     }
 }

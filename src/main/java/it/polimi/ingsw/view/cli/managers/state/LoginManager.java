@@ -1,14 +1,12 @@
-package it.polimi.ingsw.view.cli.statemanagers;
+package it.polimi.ingsw.view.cli.managers.state;
 
 import it.polimi.ingsw.network.IFromClientToServer;
 import it.polimi.ingsw.network.rmi.RmiFromClientToServer;
-import it.polimi.ingsw.network.socket.SocketFromClientToServer;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.view.IViewMaster;
-import it.polimi.ingsw.view.cli.generalmanagers.InputOutputManager;
+import it.polimi.ingsw.view.cli.managers.general.InputOutputManager;
 
 import java.util.List;
-import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
