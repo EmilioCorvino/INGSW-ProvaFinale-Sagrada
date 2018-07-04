@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.model.die.Cell;
 import it.polimi.ingsw.model.die.Die;
+import it.polimi.ingsw.model.die.containers.ADieContainer;
 import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 import it.polimi.ingsw.model.die.containers.RoundTrack;
 import it.polimi.ingsw.model.die.containers.WindowPatternCard;
@@ -56,13 +57,13 @@ public class SwapFromDraftPoolToRoundTrack extends ASwapDieEffect {
             }else{
                 manager.sendNotificationToCurrentPlayer("Non era possibile piazzare il dado in nessuna posizione.");
                 manager.getControllerMaster().getGameState().getCurrentTurn().setDiePlaced(false);
-                makeSwap(manager, draftPool, roundTrack, draftInfoUnit, roundTrackInfoUnit, informationUnit);
+                swapAndShow(manager, draftPool, roundTrack, draftInfoUnit, roundTrackInfoUnit, informationUnit);
                 return;
             }
         }
 
 
-        makeSwap(manager, draftPool, roundTrack, draftInfoUnit, roundTrackInfoUnit, informationUnit);
+        swapAndShow(manager, draftPool, roundTrack, draftInfoUnit, roundTrackInfoUnit, informationUnit);
 
         informationUnit.setSourceIndex(draftPool.getAvailableDiceCopy().size()-1);
         AMove defaultPlacement = new DefaultDiePlacementMove();
@@ -127,22 +128,38 @@ public class SwapFromDraftPoolToRoundTrack extends ASwapDieEffect {
      * @param roundTrackInfoUnit The information unit to fill for the round Track's view refreshing
      * @param informationUnit The object which contains all the information of the input chosen by the user.
      */
-    private void makeSwap(GamePlayManager manager, DiceDraftPool draft, RoundTrack roundTrack,
-                          SetUpInformationUnit draftInfoUnit, SetUpInformationUnit roundTrackInfoUnit, SetUpInformationUnit informationUnit){
-        //move die from round track to draft.
-        roundTrack.setRoundToBeUpdated(informationUnit.getExtraParam());
-        Die draftDie = roundTrack.removeDieFromCopy(informationUnit.getOffset());
-        draft.addDieToCopy(draftDie);
+    private void swapAndShow(GamePlayManager manager, DiceDraftPool draft, RoundTrack roundTrack,
+                             SetUpInformationUnit draftInfoUnit, SetUpInformationUnit roundTrackInfoUnit, SetUpInformationUnit informationUnit){
 
-        //move die from draft to roundTrack.
-        Die rtDie = draft.removeDieFromCopy(informationUnit.getSourceIndex());
-        roundTrack.setRoundToBeUpdated(informationUnit.getExtraParam());
-        roundTrack.addDieToCopy(rtDie);
+        swapDie(roundTrack, draft, informationUnit);
+        Die draftDie = draft.getAvailableDiceCopy().get(draft.getAvailableDice().size()-1);
+        Die rtDie = roundTrack.getAvailableDiceCopy().get(informationUnit.getExtraParam()).get(roundTrack.getAvailableDiceCopy().get(informationUnit.getExtraParam()).size()-1);
 
         packDraftInfoUnit(informationUnit, draftDie, draftInfoUnit);
         packRoundTrackInfoUnit(informationUnit, rtDie, roundTrackInfoUnit);
 
         manager.setMoveLegal(true);
         manager.showDraftPoolRoundTrackSwap(draftInfoUnit, roundTrackInfoUnit);
+    }
+
+
+    /**
+     * This method move a die from a die container to another one, it takes the information about the move form the informationUnit.
+     * @param source The die container from where the die is going to be moved.
+     * @param destination The die container where the die moves.
+     * @param informationUnit The containers of all the information needed for the moving.
+     */
+    @Override
+    protected void swapDie(ADieContainer source, ADieContainer destination, SetUpInformationUnit informationUnit) {
+
+        //move die from round track to draft.
+        ((RoundTrack)source).setRoundToBeUpdated(informationUnit.getExtraParam());
+        Die draftDie = source.removeDieFromCopy(informationUnit.getOffset());
+        destination.addDieToCopy(draftDie);
+
+        //move die from draft to roundTrack.
+        Die rtDie = destination.removeDieFromCopy(informationUnit.getSourceIndex());
+        ((RoundTrack)source).setRoundToBeUpdated(informationUnit.getExtraParam());
+        source.addDieToCopy(rtDie);
     }
 }
