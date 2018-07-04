@@ -19,9 +19,9 @@ public class SwapFromDraftPoolToRoundTrack extends ASwapDieEffect {
 
     /**
      * This method executes the swap and then, if possible, places the die in the window pattern card according to
-     * user's coordinates.
-     * @param manager the controller.
-     * @param informationUnit the info to use.
+     * user provided coordinates.
+     * @param manager part of the controller that deals with the game play.
+     * @param informationUnit object containing all the information needed to perform the move.
      */
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit informationUnit) {
