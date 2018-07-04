@@ -146,6 +146,7 @@ public class ControllerMaster {
 
         if (this.getStartGameManager().isMatchRunning()) {
             this.suspendedPlayers.remove(playerName);
+            this.getStartGameManager().setOneCommonBoard(playerName);
             try {
                 client.showCommand(this.getGamePlayManager().getWaitingPlayersCommands());
             } catch (BrokenConnectionException e) {

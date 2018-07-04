@@ -127,7 +127,8 @@ public class SwapFromDraftPoolToRoundTrack extends ASwapDieEffect {
      * @param roundTrackInfoUnit The information unit to fill for the round Track's view refreshing
      * @param informationUnit The object which contains all the information of the input chosen by the user.
      */
-    private void makeSwap(GamePlayManager manager, DiceDraftPool draft, RoundTrack roundTrack, SetUpInformationUnit draftInfoUnit, SetUpInformationUnit roundTrackInfoUnit, SetUpInformationUnit informationUnit){
+    private void makeSwap(GamePlayManager manager, DiceDraftPool draft, RoundTrack roundTrack,
+                          SetUpInformationUnit draftInfoUnit, SetUpInformationUnit roundTrackInfoUnit, SetUpInformationUnit informationUnit){
         //move die from round track to draft.
         roundTrack.setRoundToBeUpdated(informationUnit.getExtraParam());
         Die draftDie = roundTrack.removeDieFromCopy(informationUnit.getOffset());
@@ -144,5 +145,4 @@ public class SwapFromDraftPoolToRoundTrack extends ASwapDieEffect {
         manager.setMoveLegal(true);
         manager.showDraftPoolRoundTrackSwap(draftInfoUnit, roundTrackInfoUnit);
     }
-
 }

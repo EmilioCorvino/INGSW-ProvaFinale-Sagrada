@@ -66,6 +66,10 @@ public class Turn {
         this.dieCount++;
     }
 
+    public void decrementDieCount() {
+        this.dieCount--;
+    }
+
     public boolean isToolCardUsed() {
         return toolCardUsed;
     }
