@@ -119,8 +119,6 @@ public class GUIToolCardManager implements IToolCardManager {
 
         listInfo.add(setup);
 
-        System.out.println("sono in tool 5");
-
         try{
             this.server.performToolCardMove(playersData.getSlotChosen(), listInfo);
         } catch (BrokenConnectionException e) {

@@ -251,6 +251,7 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void addOnDraft(SetUpInformationUnit info) {
+        Platform.runLater(() -> this.commonWindow.getDraftPoolGUI().addOneDie(info));
 
     }
 
@@ -258,7 +259,6 @@ public class GUIView implements IViewMaster {
     public void removeOnDraft(SetUpInformationUnit info) {
         Platform.runLater(() -> {
             DraftPoolGUI draft = this.commonWindow.getDraftPoolGUI();
-            System.out.println("sono in remove on draft");
             draft.setDraftCellChosen(false);
             draft.getChildren().remove(info.getSourceIndex());
             draft.reFormatDraft();
@@ -269,15 +269,13 @@ public class GUIView implements IViewMaster {
     public void addOnRoundTrack(SetUpInformationUnit info) {
         Platform.runLater(() -> {
             this.commonWindow.getRoundTrack().addDieToRound(info);
-
-
         });
 
     }
 
     @Override
     public void removeOnRoundTrack(SetUpInformationUnit info) {
-
+        Platform.runLater(() -> this.commonWindow.getRoundTrack().removeOneDie(info));
     }
 
     @Override

@@ -163,8 +163,16 @@ public class RoundTrackGUI extends VBox {
         int offset = box.getChildren().indexOf(die);
         setOffset(offset);
         setRoundChosen(true);
+    }
 
-        System.out.println("round: " + (index) + "  offset: " + offset );
+    public void removeOneDie(SetUpInformationUnit info) {
+        StackPane mainRoundStack = (StackPane)this.getChildren().get(info.getSourceIndex());
+        StackPane diceRound = (StackPane)mainRoundStack.getChildren().get(1);
+        diceRound.getChildren().remove(info.getOffset());
+
+        List<SetUpInformationUnit> list = this.allDiceRound.get(info.getSourceIndex() + 1);
+        list.remove(info.getOffset());
+
     }
 
     public int getRound() {
