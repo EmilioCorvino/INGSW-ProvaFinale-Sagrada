@@ -1,8 +1,8 @@
-package it.polimi.ingsw.view.cli.statemanagers;
+package it.polimi.ingsw.view.cli.managers.state;
 
 
 import it.polimi.ingsw.view.cli.boardelements.PlayerView;
-import it.polimi.ingsw.view.cli.generalmanagers.InputOutputManager;
+import it.polimi.ingsw.view.cli.managers.general.InputOutputManager;
 
 
 /**

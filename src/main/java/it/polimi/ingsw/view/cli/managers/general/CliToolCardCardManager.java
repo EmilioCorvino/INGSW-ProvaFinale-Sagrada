@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.cli.generalmanagers;
+package it.polimi.ingsw.view.cli.managers.general;
 
 import it.polimi.ingsw.controller.Commands;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;

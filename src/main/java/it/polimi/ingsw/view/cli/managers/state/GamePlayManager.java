@@ -1,11 +1,11 @@
-package it.polimi.ingsw.view.cli.statemanagers;
+package it.polimi.ingsw.view.cli.managers.state;
 
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.view.cli.die.DieDraftPoolView;
 import it.polimi.ingsw.view.cli.die.DieView;
 import it.polimi.ingsw.view.cli.die.RoundTrackView;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
-import it.polimi.ingsw.view.cli.generalmanagers.InputOutputManager;
+import it.polimi.ingsw.view.cli.managers.general.InputOutputManager;
 
 /**
  * This class manages all the interaction during the game play state.
