@@ -107,14 +107,6 @@ public class ToolCard implements IToolCard {
         this.cardEffects = new ArrayList<>();
     }
 
-    public int getAvailableTurn() {
-        return availableTurn;
-    }
-
-    public void setAvailableTurn(int availableTurn) {
-        this.availableTurn = availableTurn;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
