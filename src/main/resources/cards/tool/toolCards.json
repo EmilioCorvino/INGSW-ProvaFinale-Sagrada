@@ -208,8 +208,8 @@
     "placement": false,
     "effect": {
       "names": [
-        "colorBoundMoveWithRestrictionEffect",
-        "colorBoundMoveWithRestrictionEffect"
+        "colorBoundMoveWithRestrictionsEffect",
+        "colorBoundMoveWithRestrictionsEffect"
       ],
       "source": "Window pattern card",
       "destination": "None",

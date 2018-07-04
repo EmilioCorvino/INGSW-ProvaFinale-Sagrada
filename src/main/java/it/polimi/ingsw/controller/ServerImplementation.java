@@ -139,7 +139,7 @@ public class ServerImplementation implements IFromClientToServer {
 
         //Game Play.
         if (this.getController().getStartGameManager().isMatchRunning()) {
-            this.controller.suspendPlayer(userName);
+            this.controller.suspendPlayer(userName, true);
             return;
         }
 
@@ -150,7 +150,7 @@ public class ServerImplementation implements IFromClientToServer {
 
     @Override
     public void reconnect() {
-        String userName = connectionsQueue.remove().getUserName();
-        this.controller.reconnectPlayer(userName);
+        Connection connection = connectionsQueue.remove();
+        this.controller.reconnectPlayer(connection.getUserName(), connection);
     }
 }

@@ -65,9 +65,21 @@ public class WaitingRoom {
         matchAlreadyStarted = false;
     }
 
+    private boolean isMatchStillWaitingToStart() {
+        return !matchAlreadyStarted;
+    }
+
+    public void setMatchAlreadyStarted(boolean matchAlreadyStarted) {
+        this.matchAlreadyStarted = matchAlreadyStarted;
+    }
+
+    public Map<String, Connection> getPlayersRoom() {
+        return playersRoom;
+    }
+
     /**
      * This method is responsible for the registration of a player. It can also make a player reconnect, if the match
-     * is started and the username is the same as one of the players that have been suspended.
+     * is started and the username is the same as one of the players that have disconnected.
      * @param username the player who wants to play.
      * @param connection the connection assigned to the player.
      * @param gameMode the type of match the players wants to play.
@@ -89,9 +101,9 @@ public class WaitingRoom {
             notifyWaitingPlayers();
             checkNumberOfPlayers();
         } else {
-            if (this.playersRoom.containsKey(username) && this.controllerMaster.getSuspendedPlayers().contains(username)) {
+            if (this.playersRoom.containsKey(username) && this.controllerMaster.getDisconnectedPlayers().contains(username)) {
                 this.playersRoom.replace(username, connection);
-                this.controllerMaster.reconnectPlayer(username);
+                this.controllerMaster.reconnectPlayer(username, connection);
             } else {
                 throw new MatchAlreadyStartedException();
             }
@@ -168,10 +180,10 @@ public class WaitingRoom {
         for (String name : playersRoom.keySet())
             if (username.equals(name) && this.isMatchStillWaitingToStart()) {
                 throw new UserNameAlreadyTakenException();
-            } else if (username.equals(name) && this.controllerMaster.getSuspendedPlayers().contains(username)
+            } else if (username.equals(name) && this.controllerMaster.getDisconnectedPlayers().contains(username)
                     && !this.isMatchStillWaitingToStart()) {
                 this.playersRoom.replace(username, connection);
-                this.controllerMaster.reconnectPlayer(username);
+                this.controllerMaster.reconnectPlayer(username, connection);
             }
         this.playersRoom.put(username, connection);
     }
@@ -209,19 +221,10 @@ public class WaitingRoom {
         });
     }
 
+    /**
+     * This method needs to be implemented in order to start a single player match.
+     */
     private void startSingleMatch() {
         //Implement this to handle single player.
-    }
-
-    private boolean isMatchStillWaitingToStart() {
-        return !matchAlreadyStarted;
-    }
-
-    public void setMatchAlreadyStarted(boolean matchAlreadyStarted) {
-        this.matchAlreadyStarted = matchAlreadyStarted;
-    }
-
-    public Map<String, Connection> getPlayersRoom() {
-        return playersRoom;
     }
 }

@@ -77,7 +77,7 @@ public class RmiFromClientToServer implements IFromClientToServer {
             MatchAlreadyStartedException, BrokenConnectionException {
         this.connection = new Connection(playerName);
         try {
-            this.rmiServer.login(gameMode, playerName, this.callBack, connection);
+            this.rmiServer.login(gameMode, playerName, callBack, connection);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Connection to server has been lost during register");
             throw new BrokenConnectionException();
@@ -158,7 +158,7 @@ public class RmiFromClientToServer implements IFromClientToServer {
     @Override
     public void reconnect() throws BrokenConnectionException {
         try {
-            this.rmiServer.reconnect(connection);
+            this.rmiServer.reconnect(callBack, connection);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Connection to the server has been lost during reconnection.");
             throw new BrokenConnectionException();

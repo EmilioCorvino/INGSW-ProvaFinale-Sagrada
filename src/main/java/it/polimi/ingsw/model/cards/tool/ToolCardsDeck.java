@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.cards.tool;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.cards.tool.effects.draft.DraftValueEffect;
-import it.polimi.ingsw.model.cards.tool.effects.movement.ColorBoundMoveWithRestrictionEffect;
+import it.polimi.ingsw.model.cards.tool.effects.movement.ColorBoundMoveWithRestrictionsEffect;
 import it.polimi.ingsw.model.cards.tool.effects.movement.MoveWithRestrictionsEffect;
 import it.polimi.ingsw.model.cards.tool.effects.movement.ignore.IgnoreAdjacentCellsRestrictionEffect;
 import it.polimi.ingsw.model.cards.tool.effects.movement.ignore.IgnoreColorRestrictionEffect;
@@ -97,8 +97,8 @@ public class ToolCardsDeck {
                     case "swapFromDraftPoolToDiceBag":              card.getCardEffects().add(new
                                                                         SwapFromDraftPoolToDiceBag());
                                                                     break;
-                    case "colorBoundMoveWithRestrictionEffect":     card.getCardEffects().add(new
-                                                                        ColorBoundMoveWithRestrictionEffect());
+                    case "colorBoundMoveWithRestrictionsEffect":     card.getCardEffects().add(new
+                                                                        ColorBoundMoveWithRestrictionsEffect());
                                                                     break;
                     case "ignoreColorRestrictionEffect":            card.getCardEffects().add(new
                                                                         IgnoreColorRestrictionEffect());
