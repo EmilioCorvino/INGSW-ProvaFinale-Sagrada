@@ -9,12 +9,13 @@ import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 
 /**
- * This class manages the effects of the tool cards related to a change of the value of one or more dice.
+ * This class manages the effects of the tool cards related to a change of the value of one or more dice. Said value is
+ * not drafted, but willingly chosen by the player.
  */
 public abstract class AValueEffect extends AToolCardEffect {
 
     /**
-     * The offset that determines the interval in which the value that will be chosen must respect.
+     * The offset that determines the interval in which the value that will be chosen has to be.
      */
     private int offset;
 
@@ -27,16 +28,16 @@ public abstract class AValueEffect extends AToolCardEffect {
 
     /**
      * This constructor will set a specific value to use when the effect will be applied.
-     * @param offset: the specific value for the offset to set.
+     * @param offset the specific value for the offset to set.
      */
     AValueEffect(int offset) {
         this.offset = offset;
     }
 
     /**
-     * This method checks if the result of an operation on the value of die is a right value.
-     * @param dieValue: the value of the die.
-     * @return true if the value that will be set is coherent.
+     * This method checks if the result of an operation on the value of die is legal.
+     * @param dieValue the value of the die.
+     * @return {@code true} if the value that will be set is coherent, {@code false} otherwise.
      */
     boolean checkValue(int dieValue) {
         return dieValue >= 1 && dieValue <= 6;
@@ -44,9 +45,10 @@ public abstract class AValueEffect extends AToolCardEffect {
 
     /**
      * This method checks if the value the user chooses is in the interval allowed by the effect of the tool card.
-     * @param newValue: the value chosen by the player.
-     * @param originalValue: the original value on which to execute the check.
-     * @return true if the value is in the interval allowed by the effect of the tool card.
+     * @param newValue the value chosen by the player.
+     * @param originalValue the original value on which to execute the check.
+     * @return {@code true} if the value is in the interval allowed by the effect of the tool card, {@code false}
+     * otherwise.
      */
     boolean checkNewValue(int newValue, int originalValue) {
         if(this.offset != 0)
@@ -56,7 +58,7 @@ public abstract class AValueEffect extends AToolCardEffect {
 
 
     /**
-     * This method executes the effect common to the value effects.
+     * This method executes the effect common to the value effects, which is the placement of the die.
      * @param manager part of the controller that deals with the game play.
      * @param setUpInfoUnit object containing all the information needed to perform the move.
      */
@@ -75,7 +77,6 @@ public abstract class AValueEffect extends AToolCardEffect {
         }
 
         //Generation of SetUpInformationUnits to send to the view.
-        //this goes in a proper method and show placement result takes one parameter as input.
         SetUpInformationUnit wpSetUpInfoUnit = new SetUpInformationUnit();
         wpSetUpInfoUnit.setColor(die.getDieColor());
         wpSetUpInfoUnit.setValue(die.getActualDieValue());

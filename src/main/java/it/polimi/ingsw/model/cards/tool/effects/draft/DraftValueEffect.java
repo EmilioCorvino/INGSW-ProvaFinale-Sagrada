@@ -10,12 +10,14 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * This class manages the effect of the tool card that allow the user to relaunch the chosen die.
+ * This class manages the effects dealing with {@link DiceDraftPool} dice drafting. Depending on the card,
+ * it can roll again just one or all of the dice in the {@link DiceDraftPool}.
  */
 public class DraftValueEffect extends AToolCardEffect {
 
     /**
-     * This attribute is the number of dice that has to be drafted. If is equal to 0 means that all dice of the draft pool must be rolled.
+     * This attribute represents the number of dice that have to be drafted. If it is equal to 0,
+     * then all dice of the draft pool must be rolled.
      */
     private int limit;
 
@@ -39,7 +41,7 @@ public class DraftValueEffect extends AToolCardEffect {
     }
 
     /**
-     * This method manages the placement of the chosen die with the new computed random value.
+     * This method manages the rolling of the chosen die or of all of the dice in the {@link DiceDraftPool}.
      * @param manager part of the controller that deals with the game play.
      * @param setUpInfoUnit object containing all the information needed to perform the move.
      */

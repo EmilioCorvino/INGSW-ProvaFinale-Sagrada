@@ -14,13 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class manages the effect that allows the player to place a die ignoring the value restriction but
- * respecting only the color restriction of the personal window pattern card.
+ * This class manages the tool effect that allows the user to place a die ignoring the
+ * {@link it.polimi.ingsw.model.restrictions.ValueRestriction}, respecting only the {@link ColorRestriction} of the
+ * personal {@link WindowPatternCard}.
  */
 public class IgnoreValueRestrictionEffect extends MoveWithRestrictionsEffect {
 
     /**
-     * This method moves the die ignoring value restrictions.
+     * This method moves the die ignoring {@link it.polimi.ingsw.model.restrictions.ValueRestriction}s.
      * @param manager part of the controller that deals with the game play.
      * @param setUpInfoUnit object containing all the information needed to perform the move.
      */
@@ -59,7 +60,8 @@ public class IgnoreValueRestrictionEffect extends MoveWithRestrictionsEffect {
     }
 
     /**
-     * This method deletes all the color restriction in the original glass window.
+     * This method deletes all the {@link it.polimi.ingsw.model.restrictions.ValueRestriction}s in the original
+     * glass window.
      * @param gw the glass window to modify.
      */
     private void deleteValueRestriction(Cell[][] gw) {

@@ -7,7 +7,8 @@ import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 
 /**
- * This class manages the effect of those tool cards that allow the player to increase the value of a chosen die.
+ * This class manages the effect of the tool card that allows the player to increase or decrease the value of
+ * a chosen die from the {@link DiceDraftPool}.
  */
 public class ChooseValueEffect extends AValueEffect {
 
@@ -37,8 +38,8 @@ public class ChooseValueEffect extends AValueEffect {
     }
 
     /**
-     * This method increases the original die value by a factor of one.
-     * @param die: the die on which to perform the action.
+     * This method increases the original die value by one.
+     * @param die the die on which to perform the action.
      * @return the die with the increased value or with the original value in case the checks fail.
      */
     public Die increaseDieValue(Die die) {
@@ -51,7 +52,7 @@ public class ChooseValueEffect extends AValueEffect {
     }
 
     /**
-     * This method decreases the original die value by a factor of one.
+     * This method decreases the original die value by one.
      * @param chosenDie the die on which to perform the action.
      * @return the die with the decreased value or with the original value in case the checks fail.
      */
@@ -65,7 +66,8 @@ public class ChooseValueEffect extends AValueEffect {
     }
 
     /**
-     * This method executes the effect of the increment or decrement a chosen die.
+     * This method executes the effect of the increment or decrement a chosen die, always checking the availability
+     * of the move (the player cannot increase a 6 or decrease a 1).
      * @param manager part of the controller that deals with the game play.
      * @param setUpInfoUnit object containing all the information needed to perform the move.
      */

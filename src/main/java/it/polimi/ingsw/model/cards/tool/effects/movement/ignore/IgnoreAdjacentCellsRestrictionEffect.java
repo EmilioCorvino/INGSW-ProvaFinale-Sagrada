@@ -11,13 +11,13 @@ import it.polimi.ingsw.model.player.Player;
 
 /**
  * This class manages the tool card effect that allows the player to place a die in a cell that is not adjacent
- * to a non empty cell. If the desired cell is adjacent to a non empty cell the placement has to respect all the
- * default restriction.
+ * to a cell containing a die. If the desired cell is adjacent to a non empty cell or the placement is the first one
+ * of the player, it behaves as a {@link DefaultDiePlacementMove}.
  */
 public class IgnoreAdjacentCellsRestrictionEffect extends DefaultDiePlacementMove {
 
     /**
-     * This method manages the particular placement ignoring the adjacent cells restriction.
+     * This method manages the particular placement that ignores the adjacent cells restriction.
      * @param manager part of the controller that deals with the game play.
      * @param info object containing all the information needed to perform the move.
      */

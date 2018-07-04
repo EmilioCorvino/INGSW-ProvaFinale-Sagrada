@@ -27,7 +27,7 @@
     "placement": false,
     "effect": {
       "names": [
-        "valueRestrictionEffect"
+        "ignoreColorRestrictionEffect"
       ],
       "source": "WindowPatternCard",
       "destination": "None",
@@ -45,7 +45,7 @@
     "placement": false,
     "effect": {
       "names": [
-        "colorRestrictionEffect"
+        "ignoreValueRestrictionEffect"
       ],
       "source": "WindowPatternCard",
       "destination": "None",
@@ -63,8 +63,8 @@
     "placement": false,
     "effect": {
       "names": [
-        "placementRestrictionEffect",
-        "placementRestrictionEffect"
+        "moveWithRestrictionsEffect",
+        "moveWithRestrictionsEffect"
       ],
       "source": "WindowPatternCard",
       "destination": "None",
@@ -82,7 +82,7 @@
     "placement": true,
     "effect": {
       "names": [
-        "swapDraftPoolRoundTrack"
+        "swapFromDraftPoolToRoundTrack"
       ],
       "source": "DraftPool",
       "destination": "RoundTrack",
@@ -136,7 +136,7 @@
     "placement": false,
     "effect": {
       "names": [
-        "placement"
+        "defaultDiePlacementMove"
       ],
       "source": "DraftPool",
       "destination": "None",
@@ -154,7 +154,7 @@
     "placement": true,
     "effect": {
       "names": [
-        "adjacentRestrictionEffect"
+        "ignoreAdjacentCellsRestrictionEffect"
       ],
       "source": "DraftPool",
       "destination": "None",
@@ -190,7 +190,7 @@
     "placement": true,
     "effect": {
       "names": [
-        "swapDraftPoolDiceBag"
+        "swapFromDraftPoolToDiceBag"
       ],
       "source": "DraftPool",
       "destination": "None",
@@ -208,8 +208,8 @@
     "placement": false,
     "effect": {
       "names": [
-        "colorPlacementRestrictionEffect",
-        "colorPlacementRestrictionEffect"
+        "colorBoundMoveWithRestrictionEffect",
+        "colorBoundMoveWithRestrictionEffect"
       ],
       "source": "Window pattern card",
       "destination": "None",

@@ -17,7 +17,8 @@ public class ColorBoundMoveWithRestrictionEffect extends MoveWithRestrictionsEff
 
     /**
      * This method executes the movement of a die in the {@link WindowPatternCard} and checks if the die has the same
-     * color as the die on the round track that has been chosen.
+     * color as the die on the round track that has been chosen, then exploits
+     * {@link MoveWithRestrictionsEffect#executeMove(GamePlayManager, SetUpInformationUnit)}.
      * @param manager part of the controller that deals with the game play.
      * @param setUpInfoUnit object containing all the information needed to perform the move.
      */

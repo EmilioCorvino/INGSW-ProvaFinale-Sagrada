@@ -54,15 +54,11 @@ public class EffectBuilder {
         return destinationContainer;
     }
 
-    public int getEffectSpecificParameter() {
+    int getEffectSpecificParameter() {
         return effectSpecificParameter;
     }
 
-    public boolean requiresMultipleInteractions() {
-        return multipleInteractions;
+    public boolean requiresOnlyOneInteraction() {
+        return !multipleInteractions;
     }
-
-    //public AToolCardEffect getNewEffectToAdd(String effectName) {
-
-    //}
 }

@@ -8,7 +8,7 @@ import it.polimi.ingsw.model.die.Die;
 import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 
 /**
- * This class manges the tool effect that enables to move a die from a cell of the personal window pattern card
+ * This class manges the tool effect that enables to move a die from a cell of the personal {@link WindowPatternCard}
  * to another one.
  */
 public class MoveWithRestrictionsEffect extends AToolCardEffect {
@@ -18,9 +18,17 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
      */
     protected String invalidMoveMessage;
 
+    String getInvalidMoveMessage() {
+        return invalidMoveMessage;
+    }
+
+    private void setInvalidMoveMessage(String invalidMoveMessage) {
+        this.invalidMoveMessage = invalidMoveMessage;
+    }
+
     /**
      * This method executes the specific effect of the tool that allows the user to move a die from a cell to another
-     * of the personal window pattern card.
+     * of the personal {@link WindowPatternCard}.
      * @param manager part of the controller that deals with the game play.e controller.
      * @param setUpInfoUnit the unit information to use to perform the effect.
      */
@@ -62,9 +70,9 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
     }
 
     /**
-     * This method checks if a glass window has no dice.
+     * This method checks if a glass window less than two dice.
      * @param gw the glass window to check.
-     * @return true if it has no dice, false otherwise.
+     * @return {@code true} if it has less than dice, {@code false} otherwise.
      */
     boolean hasGlassWindowLessThanTwoDice(Cell[][] gw) {
         int count = 0;
@@ -79,11 +87,12 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
     }
 
     /**
-     * This method checks if some important conditions to perform this move are satisfied or not.
+     * This method checks if the player has enough dice in his {@link WindowPatternCard#glassWindow} to perform the move,
+     * if the cell he has selected contains a die and if the cell where he wants to move said die is empty.
      * @param gw the glass window to check.
      * @param info the information to use.
      * @param effectCounter represent the specific effect of the card.
-     * @return true if all the conditions are satisfied, false otherwise.
+     * @return {@code true} if all the conditions are satisfied, {@code false} otherwise.
      */
     protected boolean checkMoveAvailability(Cell[][] gw, SetUpInformationUnit info, int effectCounter) {
         if (hasGlassWindowLessThanTwoDice(gw)) {
@@ -120,6 +129,14 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
         return false;
     }
 
+    /**
+     * If the move could not be performed, it adds back to the {@link WindowPatternCard} of the player the die that
+     * had been previously removed.
+     * @param wp {@link WindowPatternCard} of the player performing the move.
+     * @param setUpInfoUnit object containing the information needed to restore the original situation.
+     * @param chosenDie die that had previously been removed.
+     * @param manager part of the controller that deals with the game play.
+     */
     protected void restoreOriginalSituation(WindowPatternCard wp, SetUpInformationUnit setUpInfoUnit, Die chosenDie, GamePlayManager manager) {
         Cell previousCell = new Cell(setUpInfoUnit.getSourceIndex() / WindowPatternCard.MAX_COL,
                 setUpInfoUnit.getSourceIndex() % WindowPatternCard.MAX_COL);
@@ -128,13 +145,5 @@ public class MoveWithRestrictionsEffect extends AToolCardEffect {
         if (manager.getEffectCounter() < GamePlayManager.MAX_TOOL_EFFECTS_NUMBER) {
             wp.overwriteOriginal();
         }
-    }
-
-    String getInvalidMoveMessage() {
-        return invalidMoveMessage;
-    }
-
-    private void setInvalidMoveMessage(String invalidMoveMessage) {
-        this.invalidMoveMessage = invalidMoveMessage;
     }
 }

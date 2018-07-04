@@ -872,13 +872,13 @@ public class GamePlayManager extends AGameManager {
 
             //Checks if the player has done everything he could. If he did, ends his turn; if not, shows him the
             //commands still available to him.
-            if (!gameState.isCurrentTurnOver() && !toolCard.getEffectBuilder().requiresMultipleInteractions()) {
+            if (!gameState.isCurrentTurnOver() && toolCard.getEffectBuilder().requiresOnlyOneInteraction()) {
                 List<Commands> filteredCommands = this.filterTools(this.dynamicCommands.get(playerName), gameState, playerName);
                 super.sendNotificationToCurrentPlayer("\nPuoi ancora effettuare un piazzamento, visualizzare informazioni della " +
                         "plancia oppure passare.");
                 super.sendCommandsToCurrentPlayer(filteredCommands);
                 this.checkIfPlayerIsSuspended(gameState.getCurrentPlayer().getPlayerName());
-            } else if (gameState.isCurrentTurnOver() && !toolCard.getEffectBuilder().requiresMultipleInteractions()) {
+            } else if (gameState.isCurrentTurnOver() && toolCard.getEffectBuilder().requiresOnlyOneInteraction()) {
                 this.endTurn(EVERYTHING_DONE);
             }
         } else {

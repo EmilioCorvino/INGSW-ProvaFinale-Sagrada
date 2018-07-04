@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.die.containers.DiceDraftPool;
 import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 
 /**
- * This class manages the too effect that computes the opposite value of a chosen die.
+ * This class manages the effect of the tool card that computes the opposite value of a chosen die.
  */
 public class OppositeValueEffect extends AValueEffect {
 
