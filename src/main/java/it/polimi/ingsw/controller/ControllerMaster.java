@@ -50,9 +50,15 @@ public class ControllerMaster {
     private GameState gameState;
 
     /**
-     * List of the suspended player after a problem of connection.
+     * List of the suspended players after prolonged inactivity. They could also be inserted here for connection
+     * problems. In that case, they will be in {@link #disconnectedPlayers} too.
      */
     private List<String> suspendedPlayers;
+
+    /**
+     * List of the disconnected players.
+     */
+    private List<String> disconnectedPlayers;
 
     /**
      * Room where player wait for a match to start.
@@ -70,6 +76,7 @@ public class ControllerMaster {
         this.connectedPlayers = connectedPlayers;
         this.gameState = new GameState();
         this.suspendedPlayers = new ArrayList<>();
+        this.disconnectedPlayers = new ArrayList<>();
     }
 
     public CommonBoard getCommonBoard() {
@@ -104,23 +111,34 @@ public class ControllerMaster {
         return suspendedPlayers;
     }
 
+    public List<String> getDisconnectedPlayers() {
+        return disconnectedPlayers;
+    }
+
     /**
      * This method is used when a player disconnects or takes too much time to complete his turn. It adds the player to
      * the {@link ControllerMaster#suspendedPlayers} list and allows to skip his turns, considering him in the
      * final score anyway.
      * @param playerName player to suspend.
+     * @param disconnected flag that signals if the suspension is due to a disconnection or not.
      */
-    public void suspendPlayer(String playerName) {
+    public void suspendPlayer(String playerName, boolean disconnected) {
         if (!this.suspendedPlayers.contains(playerName)) {
             this.suspendedPlayers.add(playerName);
+            if (disconnected && !this.disconnectedPlayers.contains(playerName)) {
+                this.disconnectedPlayers.add(playerName);
+            }
             IFromServerToClient client = this.getConnectedPlayers().get(playerName).getClient();
-            if (this.getStartGameManager().isMatchRunning() && this.getGameState().getCurrentPlayer().getPlayerName().equals(playerName)) {
+            if (this.getStartGameManager().isMatchRunning() &&
+                    this.getGameState().getCurrentPlayer().getPlayerName().equals(playerName) &&
+                    !this.disconnectedPlayers.contains(playerName)) {
                 this.getGamePlayManager().endTurn("\nIl tempo a tua disposizione è terminato, sei stato sospeso per inattività.");
                 try {
                     client.showCommand(Arrays.asList(Commands.RECONNECT, Commands.LOGOUT));
                 } catch (BrokenConnectionException e) {
-                    SagradaLogger.log(Level.SEVERE, "Impossible to send reconnection commands: " + playerName +
+                    SagradaLogger.log(Level.INFO, "Impossible to send reconnection commands: " + playerName +
                     "'s connection is dropped.");
+                    this.disconnectedPlayers.add(playerName);
                 }
             }
             this.gamePlayManager.broadcastNotification("\n" + playerName + " è stato sospeso.");
@@ -132,38 +150,35 @@ public class ControllerMaster {
      * If the player didn't get the opportunity to choose the {@link it.polimi.ingsw.model.die.containers.WindowPatternCard},
      * this method shows him the Common Board, including the random Window Pattern Card assigned to him.
      * @param playerName name of the player who wants to reconnect.
+     * @param connection connection established with the player. It is used only if the match is over when the attempt
+     *                   at reconnection is done.
      * @see WaitingRoom
      */
-    void reconnectPlayer(String playerName) {
-        IFromServerToClient client = this.connectedPlayers.get(playerName).getClient();
-
-        //If the player logged out or disconnected before choosing a wp, gives him the opportunity to do so.
-        //The removal from suspended player is done in {@link StartGameManager} to avoid
-        if (this.startGameManager.getPlayersDisconnectedBeforeCommonBoardSetting().contains(playerName)) {
-            this.getStartGameManager().setOneCommonBoard(playerName);
-            this.startGameManager.getPlayersDisconnectedBeforeCommonBoardSetting().remove(playerName);
-        }
-
+    void reconnectPlayer(String playerName, Connection connection) {
         if (this.getStartGameManager().isMatchRunning()) {
+            IFromServerToClient client = this.connectedPlayers.get(playerName).getClient();
+            this.startGameManager.getPlayersDisconnectedBeforeCommonBoardSetting().remove(playerName);
             this.suspendedPlayers.remove(playerName);
+            this.disconnectedPlayers.remove(playerName);
             this.getStartGameManager().setOneCommonBoard(playerName);
             try {
                 client.showCommand(this.getGamePlayManager().getWaitingPlayersCommands());
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while sending the new " +
                         "commands after reconnecting.", e);
-                this.suspendPlayer(playerName);
+                this.disconnectedPlayers.add(playerName);
+                this.suspendPlayer(playerName, true);
             }
 
             this.gamePlayManager.broadcastNotification("\n" + playerName + " si è appena riconnesso!");
         } else {
             try {
-                client.showNotice("\nLa partita è finita mentre eri sospeso, è impossibile riconnettersi.");
-                client.showCommand(Collections.singletonList(Commands.LOGOUT));
+                connection.getClient().showNotice("\nLa partita si è conclusa mentre eri sospeso, è impossibile riconnettersi.");
+                connection.getClient().showCommand(Collections.singletonList(Commands.LOGOUT));
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while sending the new " +
                         "commands after reconnecting.", e);
-                this.suspendPlayer(playerName);
+                this.suspendPlayer(playerName, true);
             }
         }
     }

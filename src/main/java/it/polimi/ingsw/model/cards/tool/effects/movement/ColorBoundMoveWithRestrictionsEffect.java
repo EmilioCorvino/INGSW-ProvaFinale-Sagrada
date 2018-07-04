@@ -13,7 +13,7 @@ import java.util.List;
  * This class manages the effect that allows a player to move two dice in his {@link WindowPatternCard} which are of
  * the same color as a die on the {@link it.polimi.ingsw.model.die.containers.RoundTrack}.
  */
-public class ColorBoundMoveWithRestrictionEffect extends MoveWithRestrictionsEffect {
+public class ColorBoundMoveWithRestrictionsEffect extends MoveWithRestrictionsEffect {
 
     /**
      * This method executes the movement of a die in the {@link WindowPatternCard} and checks if the die has the same

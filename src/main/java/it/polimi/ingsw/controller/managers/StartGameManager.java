@@ -163,7 +163,6 @@ public class StartGameManager extends AGameManager {
      * sets said window pattern card to the player, adds the player to the ones that have correctly chosen the
      * window pattern card ({@link #playersWhoChose}) and starts the match if everybody has chosen.
      * If the ID is not correct, this methods says it to the player and asks for another ID.
-     *
      * @param username name of the player sending the chosen {@link WindowPatternCard}.
      * @param chosenWp chosen {@link WindowPatternCard}.
      */
@@ -189,7 +188,6 @@ public class StartGameManager extends AGameManager {
     /**
      * Checks if all the players have chosen a window pattern card. If so, starts the match. If not, informs the player
      * of how many people still have to choose.
-     *
      * @param playerName name of the player that has just chosen a correct wp.
      */
     private void markPlayerAndEventuallyStartMatch(String playerName) {
@@ -201,12 +199,10 @@ public class StartGameManager extends AGameManager {
         } else {
             try {
                 super.getControllerMaster().getConnectedPlayers().get(playerName).getClient().showNotice(
-                        "Alcuni giocatori (n: " + (super.getControllerMaster().getCommonBoard().getPlayers().size() -
-                                this.playersWhoChose.size()) +
-                                ") devono ancora scegliere la vetrata, attendi...");
+                        "Alcuni giocatori devono ancora scegliere la vetrata, attendi...");
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Impossible to send a notice to the client", e);
-                super.getControllerMaster().suspendPlayer(playerName);
+                super.getControllerMaster().suspendPlayer(playerName, true);
                 if (!this.playersDisconnectedBeforeCommonBoardSetting.contains(playerName)) {
                     this.playersDisconnectedBeforeCommonBoardSetting.add(playerName);
                 }
@@ -231,7 +227,7 @@ public class StartGameManager extends AGameManager {
                 connection.getClient().setFavorToken(numberFavTokenConverter(playerName));
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Impossible to set the common board to " + playerName, e);
-                super.getControllerMaster().suspendPlayer(playerName);
+                super.getControllerMaster().suspendPlayer(playerName, true);
                 if (!this.playersDisconnectedBeforeCommonBoardSetting.contains(playerName)) {
                     this.playersDisconnectedBeforeCommonBoardSetting.add(playerName);
                 }
@@ -255,7 +251,7 @@ public class StartGameManager extends AGameManager {
             client.setFavorToken(numberFavTokenConverter(playerName));
         } catch (BrokenConnectionException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to set the common board to " + playerName, e);
-            super.getControllerMaster().suspendPlayer(playerName);
+            super.getControllerMaster().suspendPlayer(playerName, true);
             this.playersDisconnectedBeforeCommonBoardSetting.add(playerName);
         }
     }
@@ -284,7 +280,7 @@ public class StartGameManager extends AGameManager {
      * @param playerName name of the player that wants to log out.
      */
     public void exitGame(String playerName) {
-        super.getControllerMaster().suspendPlayer(playerName);
+        super.getControllerMaster().suspendPlayer(playerName, true);
 
         if (!this.playersWhoChose.contains(playerName)) {
             this.playersDisconnectedBeforeCommonBoardSetting.add(playerName);
@@ -305,7 +301,6 @@ public class StartGameManager extends AGameManager {
 
     /**
      * Converts the {@link it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard} of a player into its id.
-     *
      * @param userName name of the player owning the
      *                 {@link it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard}.
      * @return id of the {@link it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard} owned by
@@ -323,7 +318,6 @@ public class StartGameManager extends AGameManager {
 
     /**
      * This method converts the window pattern card into objects to send to the client.
-     *
      * @return a list of a couple of matched window pattern card.
      */
     private List<SimplifiedWindowPatternCard> windowPatternCardConverter() {
@@ -355,7 +349,6 @@ public class StartGameManager extends AGameManager {
 
     /**
      * Maps each player (identified by his user name) with the {@link SimplifiedWindowPatternCard} of choice.
-     *
      * @return the map in which each player is mapped with his {@link SimplifiedWindowPatternCard}.
      */
     private Map<String, SimplifiedWindowPatternCard> mapsOfPlayersConverter() {
@@ -370,11 +363,10 @@ public class StartGameManager extends AGameManager {
 
     /**
      * Converts a complex {@link WindowPatternCard} into a {@link SimplifiedWindowPatternCard}.
-     *
      * @param chosenMap id of the chosen {@link WindowPatternCard}.
      * @return a {@link SimplifiedWindowPatternCard} obtained by a {@link WindowPatternCard}.
      */
-    public SimplifiedWindowPatternCard convertOneWp(int chosenMap) {
+    private SimplifiedWindowPatternCard convertOneWp(int chosenMap) {
         CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
         WindowPatternCard wp = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenMap);
 
@@ -396,7 +388,6 @@ public class StartGameManager extends AGameManager {
     /**
      * Converts the {@link it.polimi.ingsw.model.cards.objective.publics.APublicObjectiveCard}s drawn into an array of
      * integers, which are their id.
-     *
      * @return an array containing the drawn {@link it.polimi.ingsw.model.cards.objective.publics.APublicObjectiveCard}s'
      * ids.
      */
@@ -416,7 +407,6 @@ public class StartGameManager extends AGameManager {
     /**
      * Converts the {@link it.polimi.ingsw.model.cards.tool.ToolCard}s drawn into an array of integers, which are their
      * id.
-     *
      * @return an array containing the drawn {@link it.polimi.ingsw.model.cards.tool.ToolCard}s' ids.
      */
     private int[] toolConverter() {
@@ -433,8 +423,7 @@ public class StartGameManager extends AGameManager {
     }
 
     /**
-     * Gets the favor tokens owned by the player.
-     *
+     * Retrieves the favor tokens owned by the player.
      * @param userName name of the player owning the favor tokens.
      * @return the number of favor tokens owned by the player.
      */
