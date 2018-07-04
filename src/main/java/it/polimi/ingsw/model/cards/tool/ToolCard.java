@@ -103,7 +103,7 @@ public class ToolCard implements IToolCard {
         return cardEffects;
     }
 
-    public void initializeCardEffects() {
+    void initializeCardEffects() {
         this.cardEffects = new ArrayList<>();
     }
 
