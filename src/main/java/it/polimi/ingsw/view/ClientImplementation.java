@@ -30,17 +30,12 @@ public class ClientImplementation implements IFromServerToClient {
      * This is the timer that starts at the last show notice sent by the serve.
      * If it expires, the player will be disconnected, because it means that the server is death.
      */
-    final Timer serverTimer = new Timer();
+    private final Timer serverTimer = new Timer();
 
     /**
      * Maximum amount of time server has to respond.
      */
     private long timeOut;
-
-    /**
-     * This attribute is used to control if the server is still online.
-     */
-    private boolean isServerDown = false;
 
     /**
      * Timer to use in case the loading from file fails. Value is in milliseconds.
@@ -65,7 +60,7 @@ public class ClientImplementation implements IFromServerToClient {
 
         //Value read from file. If the loading is successful, it overwrites the back up.
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_FILE)))) {
-            timeOut = Long.parseLong(reader.readLine())*3;
+            timeOut = Long.parseLong(reader.readLine())*2;
         } catch (IOException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to load the server timer from file", e);
         }
@@ -78,127 +73,106 @@ public class ClientImplementation implements IFromServerToClient {
     @Override
     public void showRoom(List<String> players) {
         view.showRoom(players);
-        isServerDown = true;
         startTimer();
     }
 
     @Override
     public void showPrivateObjective(int idPrivateObj){
-        isServerDown = false;
         view.showPrivateObjective(idPrivateObj);
     }
 
     @Override
     public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) {
-        isServerDown = false;
         view.showMapsToChoose(listWp);
     }
 
     @Override
     public void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool){
-        isServerDown = false;
         view.setCommonBoard(players,idPubObj, idTool);
     }
 
     @Override
     public void setDraft(List<SetUpInformationUnit> draft){
-        isServerDown = false;
         view.setDraft(draft);
     }
 
     @Override
     public void setFavorToken(int nFavTokens){
-        isServerDown = false;
         view.setFavorToken(nFavTokens);
     }
 
     @Override
     public void showCommand(List<Commands> commands) {
-        isServerDown = false;
         view.showCommand(commands);
     }
 
     @Override
     public void addOnOwnWp(SetUpInformationUnit unit){
-        isServerDown = false;
         view.addOnOwnWp(unit);
     }
 
     @Override
     public void removeOnOwnWp(SetUpInformationUnit unit){
-        isServerDown = false;
         view.removeOnOwnWp(unit);
     }
 
     @Override
     public void addOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit){
-        isServerDown = false;
         view.addOnOtherPlayerWp(userName,infoUnit);
     }
 
     @Override
     public void removeOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit){
-        isServerDown = false;
         view.removeOnOtherPlayerWp(userName, infoUnit);
     }
 
     @Override
     public void addOnDraft(SetUpInformationUnit info){
-        isServerDown = false;
         view.addOnDraft(info);
     }
 
     @Override
     public void removeOnDraft(SetUpInformationUnit info){
-        isServerDown = false;
         view.removeOnDraft(info);
     }
 
     @Override
     public void addOnRoundTrack(SetUpInformationUnit info){
-        isServerDown = false;
         view.addOnRoundTrack(info);
     }
 
     @Override
     public void removeOnRoundTrack(SetUpInformationUnit info){
-        isServerDown = false;
         view.removeOnRoundTrack(info);
     }
 
     @Override
     public void updateFavTokenPlayer(int nFavorToken){
-        isServerDown = false;
         view.updateFavTokenPlayer(nFavorToken);
     }
 
     @Override
     public void updateToolCost(int idSlot, int cost){
-        isServerDown = false;
         view.updateToolCost(idSlot,cost);
     }
 
     @Override
     public void showDie(SetUpInformationUnit informationUnit){
-        isServerDown = false;
         view.showDie(informationUnit);}
 
     @Override
     public void showRank(String[] playerNames, int[] scores) {
-        isServerDown = false;
         view.showRank(playerNames, scores);
     }
 
     @Override
     public void forceLogOut() {
-        isServerDown = false;
         view.forceLogOut();
     }
 
     @Override
     public void showNotice(String notice) {
         view.showNotice(notice);
-        isServerDown = true;
         startTimer();
 
     }
@@ -212,11 +186,9 @@ public class ClientImplementation implements IFromServerToClient {
         task = new TimerTask() {
             @Override
             public void run() {
-                if (isServerDown) {
                     SagradaLogger.log(Level.SEVERE, "Server timeout");
                     view.forceLogOut();
                 }
-            }
         };
         serverTimer.schedule(task, timeOut);
     }
