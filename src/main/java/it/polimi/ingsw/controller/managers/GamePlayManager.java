@@ -200,14 +200,14 @@ public class GamePlayManager extends AGameManager {
         this.backUpUnit = null;
         GameState gameState = super.getControllerMaster().getGameState();
 
-        if (super.getControllerMaster().getGameState().isMatchOver()) {
+        /*if (super.getControllerMaster().getGameState().isMatchOver()) {
             IFromServerToClient client = super.getPlayerClient(currentPlayerTurn.getPlayer().getPlayerName());
             try {
                 client.forceLogOut();
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.WARNING, "Client connection lost while logging out");
             }
-        }
+        }*/
 
         if (gameState.isCurrentTurnOver()) {
             this.endTurn("\nDevi saltare questo turno!");
@@ -218,6 +218,7 @@ public class GamePlayManager extends AGameManager {
             super.broadcastNotification("\n" + currentPlayerTurn.getPlayer().getPlayerName() + " è sospeso: il suo turno" +
                     " verrà saltato.");
             this.endTurn("\nSei in stato di sospensione, il tuo turno verrà saltato.");
+            return;
         }
 
         //Shows the available commands to the players waiting.
@@ -245,7 +246,6 @@ public class GamePlayManager extends AGameManager {
         this.dynamicCommands.replace(currentPlayerTurn.getPlayer().getPlayerName(), new ArrayList<>(this.currentPlayerCommands));
         super.sendCommandsToCurrentPlayer(this.dynamicCommands.get(currentPlayerTurn.getPlayer().getPlayerName()));
         this.startTimer(currentPlayerTurn.getPlayer().getPlayerName());
-        this.checkIfPlayerIsSuspended(currentPlayerTurn.getPlayer().getPlayerName());
     }
 
     /**

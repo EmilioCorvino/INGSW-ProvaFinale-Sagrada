@@ -106,16 +106,15 @@ public class EndGameManager extends AGameManager {
         super.broadcastNotification("\nQuesta è la classifica completa:");
         for(String playerName: super.getControllerMaster().getConnectedPlayers().keySet()) {
             IFromServerToClient client = super.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
+            this.startTimer(playerName);
             try {
                 client.showRank(this.extractNamesToSend(rank), this.extractScoresToSend(rank));
                 client.showNotice("\nGrazie per aver giocato!");
                 client.showCommand(this.endGameCommands);
-                this.startTimer(playerName);
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, CONNECTION_LOST_WITH + playerName + " while showing the rank");
                 this.exitGame(playerName);
             }
-
         }
     }
 
@@ -130,6 +129,13 @@ public class EndGameManager extends AGameManager {
             this.playersThatAnswered.add(playerName);
         }
         Map<String, Connection> connectedPlayers = super.getControllerMaster().getConnectedPlayers();
+        IFromServerToClient client = connectedPlayers.get(playerName).getClient();
+        try {
+            client.forceLogOut();
+        } catch (BrokenConnectionException e) {
+            SagradaLogger.log(Level.WARNING, "Connection lost with " + playerName + " while forcing him to log" +
+                    " out");
+        }
         connectedPlayers.remove(playerName);
 
         SagradaLogger.log(Level.WARNING, playerName + " logged out.");
@@ -523,12 +529,14 @@ public class EndGameManager extends AGameManager {
      */
     private void removeSuspendedPlayers() {
         super.getControllerMaster().getSuspendedPlayers().forEach(suspendedPlayer -> {
-            try {
-                getControllerMaster().getConnectedPlayers().get(suspendedPlayer).getClient().forceLogOut();
-            } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.WARNING, "Player disconnected while forcing him to log out");
-            } finally {
-                getControllerMaster().getConnectedPlayers().remove(suspendedPlayer);
+            if (!getControllerMaster().getConnectedPlayers().containsKey(suspendedPlayer)) {
+                try {
+                    getControllerMaster().getConnectedPlayers().get(suspendedPlayer).getClient().forceLogOut();
+                } catch (BrokenConnectionException e) {
+                    SagradaLogger.log(Level.WARNING, "Player disconnected while forcing him to log out");
+                } finally {
+                    getControllerMaster().getConnectedPlayers().remove(suspendedPlayer);
+                }
             }
         });
     }

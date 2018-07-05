@@ -169,7 +169,7 @@ public class ControllerMaster {
                 client.showCommand(this.getGamePlayManager().getWaitingPlayersCommands());
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while sending the new " +
-                        "commands after reconnecting.", e);
+                        "commands after reconnecting.");
                 this.disconnectedPlayers.add(playerName);
                 this.suspendPlayer(playerName, true);
             }
@@ -181,7 +181,7 @@ public class ControllerMaster {
                 connection.getClient().showCommand(Collections.singletonList(Commands.LOGOUT));
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while sending the new " +
-                        "commands after reconnecting.", e);
+                        "commands after reconnecting.");
                 this.suspendPlayer(playerName, true);
             }
         }
