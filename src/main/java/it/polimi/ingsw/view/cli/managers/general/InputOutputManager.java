@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.cli.managers.general;
 
-import java.io.PrintWriter;
 import java.util.Scanner;
 
 /**
@@ -9,8 +8,6 @@ import java.util.Scanner;
 public class InputOutputManager {
 
     private Scanner scan;
-
-    private PrintWriter out;
 
     public InputOutputManager(){
         scan = new Scanner (System.in);
@@ -57,8 +54,8 @@ public class InputOutputManager {
             return scan.nextLine().trim();
         } catch (IllegalStateException e){
             print("Impossibile ricevere input mentre sei disconnesso");
+            return "";
         }
-        return "";
     }
 
     /**
