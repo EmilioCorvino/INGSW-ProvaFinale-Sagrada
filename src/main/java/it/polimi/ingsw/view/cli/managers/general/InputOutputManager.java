@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.cli.managers.general;
 
-import java.io.PrintWriter;
 import java.util.Scanner;
 
 /**
@@ -9,8 +8,6 @@ import java.util.Scanner;
 public class InputOutputManager {
 
     private Scanner scan;
-
-    private PrintWriter out;
 
     public InputOutputManager(){
         scan = new Scanner (System.in);
@@ -53,7 +50,7 @@ public class InputOutputManager {
      * @return: the string read.
      */
     String read(){
-       return scan.nextLine().trim();
+        return scan.nextLine().trim();
     }
 
     /**
