@@ -334,7 +334,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         int nDice;
 
         do {
-            nDice = super.inputOutputManager.askInt("Inserisci quanti dadi vuoi piazzare(1-2): ");
+            nDice = super.inputOutputManager.askInt("Inserisci quanti dadi vuoi muovere(1-2): ");
         } while (!(nDice == 1 || nDice == 2));
 
 

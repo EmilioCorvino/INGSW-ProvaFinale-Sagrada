@@ -48,6 +48,8 @@ public interface IViewMaster {
 
     void showDie(SetUpInformationUnit informationUnit);
 
+    void setServer(IFromClientToServer server);
+
     IFromClientToServer getServer();
 
     void showRank(String[] playerNames, int[] scores);

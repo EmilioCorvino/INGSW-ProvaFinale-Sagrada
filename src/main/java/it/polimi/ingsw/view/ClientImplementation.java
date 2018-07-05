@@ -167,6 +167,7 @@ public class ClientImplementation implements IFromServerToClient {
 
     @Override
     public void forceLogOut() {
+        view.setServer(null);
         view.forceLogOut();
     }
 
@@ -187,7 +188,7 @@ public class ClientImplementation implements IFromServerToClient {
             @Override
             public void run() {
                     SagradaLogger.log(Level.SEVERE, "Server timeout");
-                    view.forceLogOut();
+                    forceLogOut();
                 }
         };
         serverTimer.schedule(task, timeOut);

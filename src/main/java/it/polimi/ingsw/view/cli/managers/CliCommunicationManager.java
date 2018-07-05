@@ -31,9 +31,7 @@ public class CliCommunicationManager {
     }
 
     protected void disconnect(){
-        view.getScannerThread().stopExecution();
-        inputOutputManager.closeScanner();
         inputOutputManager.print("\nCHIUSURA APPLICAZIONE PER ROTTURA CONNESSIONE");
-        System.exit(0);
+        view.forceLogOut();
     }
 }
