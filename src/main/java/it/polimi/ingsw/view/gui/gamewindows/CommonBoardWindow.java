@@ -97,8 +97,12 @@ public class CommonBoardWindow extends ParentWindow {
 
     private ToolWindowManager toolWindowManager;
 
+    private ToolWindowBuilder toolWindowBuilder;
+
 
     public CommonBoardWindow(GUICommunicationManager manager) {
+
+        toolWindowBuilder = new ToolWindowBuilder(this);
 
         roundTrack = new RoundTrackGUI();
         draftPoolGUI = new DraftPoolGUI();
@@ -411,8 +415,7 @@ public class CommonBoardWindow extends ParentWindow {
         Button showButton = (Button)toolComm.getChildren().get(1);
 
         showButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-            ToolWindowBuilder toolBuilder = new ToolWindowBuilder(this);
-            toolBuilder.invokeMethodShowWindow(6);
+            this.toolWindowBuilder.invokeMethodShowWindow(6);
         });
 
     }

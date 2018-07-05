@@ -27,9 +27,12 @@ public class ToolWindowBuilder {
 
     private CommonBoardWindow commonBoardWindow;
 
+    private Stage supportStage;
+
     public ToolWindowBuilder(CommonBoardWindow commonBoardWindow) {
         this.commonBoardWindow = commonBoardWindow;
         toolBuilderMap = new HashMap<>();
+        supportStageBuilder();
 
         toolBuilderMap.put(1, this::showSupportWindowToolOne);
         toolBuilderMap.put(6, this::showSupportToolWindowFive);
@@ -37,6 +40,19 @@ public class ToolWindowBuilder {
 
     public void invokeMethodShowWindow(int toolId) {
         this.toolBuilderMap.get(toolId).run();
+    }
+
+    private void supportStageBuilder() {
+        this.supportStage = new Stage();
+        this.supportStage.initStyle(StageStyle.TRANSPARENT);
+
+
+        GUIMain.centerScreen();
+
+        supportStage.initStyle(StageStyle.TRANSPARENT);
+        supportStage.initOwner(GUIMain.getStage());
+
+
     }
 
 
@@ -167,24 +183,24 @@ public class ToolWindowBuilder {
 
         dieDrafted.getChildren().addAll(title, die, placeIt);
 
-        Stage newWindow = new Stage();
-        newWindow.initStyle(StageStyle.TRANSPARENT);
+
         Scene second = new Scene(dieDrafted);
         placeIt.addEventHandler(MouseEvent.MOUSE_CLICKED, e ->  {
-            newWindow.close();
+            this.supportStage.close();
             if(!this.commonBoardWindow.getManager().isCommandContained("Piazza"))
                 this.commonBoardWindow.getManager().communicateMessage("errore.");
-            else
+            else {
                 this.commonBoardWindow.getManager().executeCommandIfPresent("Piazza");
+                this.supportStage.close();
+            }
         });
 
-        second.setFill(Color.TRANSPARENT);
-        newWindow.setScene(second);
-        GUIMain.centerScreen();
         GUIMain.dragWindow(dieDrafted);
-        newWindow.initStyle(StageStyle.TRANSPARENT);
-        newWindow.initOwner(GUIMain.getStage());
-        newWindow.show();
+
+        second.setFill(Color.TRANSPARENT);
+        supportStage.setScene(second);
+        supportStage.show();
+
 
     }
 
