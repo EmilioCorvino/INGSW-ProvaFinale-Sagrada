@@ -142,6 +142,10 @@ public class ControllerMaster {
                 }
             }
             this.gamePlayManager.broadcastNotification("\n" + playerName + " è stato sospeso.");
+        } else {
+            if (!this.disconnectedPlayers.contains(playerName)) {
+                this.disconnectedPlayers.add(playerName);
+            }
         }
     }
 

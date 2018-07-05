@@ -174,7 +174,7 @@ public class GamePlayManager extends AGameManager {
                     client.setDraft(super.draftPoolConverter());
                 } catch (BrokenConnectionException e) {
                     SagradaLogger.log(Level.SEVERE, "Connection broken while updating draft pool at the start" +
-                            "of a round", e);
+                            "of a round");
                     super.getControllerMaster().suspendPlayer(player.getPlayerName(), true);
                 }
             }
@@ -223,14 +223,15 @@ public class GamePlayManager extends AGameManager {
         //Shows the available commands to the players waiting.
         List<Player> waitingPlayers = super.getControllerMaster().getCommonBoard().getPlayers();
         for (Player player : waitingPlayers) {
-            if (!player.isSamePlayerAs(currentPlayerTurn.getPlayer())) {
+            if (!player.isSamePlayerAs(currentPlayerTurn.getPlayer()) &&
+                    !super.getControllerMaster().getSuspendedPlayers().contains(player.getPlayerName())) {
                 IFromServerToClient waitingPlayerClient = super.getPlayerClient(player.getPlayerName());
                 try {
                     waitingPlayerClient.showNotice("\nÈ il turno di " + gameState.getCurrentPlayer().getPlayerName());
                     waitingPlayerClient.showCommand(this.waitingPlayersCommands);
                 } catch (BrokenConnectionException e) {
                     SagradaLogger.log(Level.SEVERE, "Impossible to show commands " +
-                            "to the waiting players", e);
+                            "to the waiting players");
                     super.getControllerMaster().suspendPlayer(player.getPlayerName(), true);
                 }
             }
@@ -297,7 +298,7 @@ public class GamePlayManager extends AGameManager {
         try {
             currentPlayerClient.showNotice(message);
         } catch (BrokenConnectionException e) {
-            SagradaLogger.log(Level.SEVERE, "Connection broken while ending the turn", e);
+            SagradaLogger.log(Level.SEVERE, "Connection broken while ending the turn");
             super.getControllerMaster().suspendPlayer(gameState.getCurrentPlayer().getPlayerName(), true);
         }
 
@@ -377,7 +378,7 @@ public class GamePlayManager extends AGameManager {
                         try {
                             connection.getClient().addOnRoundTrack(infoUnit);
                         } catch (BrokenConnectionException e) {
-                            SagradaLogger.log(Level.SEVERE, IMPOSSIBLE_TO_UPDATE + playerName + " Round Track", e);
+                            SagradaLogger.log(Level.SEVERE, IMPOSSIBLE_TO_UPDATE + playerName + " Round Track");
                             super.getControllerMaster().suspendPlayer(playerName, true);
                         }
                     }
@@ -565,7 +566,7 @@ public class GamePlayManager extends AGameManager {
                     waitingPlayerClient.addOnOtherPlayerWp(currentPlayer.getPlayerName(), setUpInfoUnit);
                     waitingPlayerClient.removeOnDraft(setUpInfoUnit);
                 } catch (BrokenConnectionException e) {
-                    SagradaLogger.log(Level.SEVERE, IMPOSSIBLE_TO_UPDATE + p.getPlayerName() + "'s WP and Draft Pool", e);
+                    SagradaLogger.log(Level.SEVERE, IMPOSSIBLE_TO_UPDATE + p.getPlayerName() + "'s WP and Draft Pool");
                     super.getControllerMaster().suspendPlayer(p.getPlayerName(), true);
                 }
             }
@@ -578,7 +579,7 @@ public class GamePlayManager extends AGameManager {
             currentPlayerClient.addOnOwnWp(setUpInfoUnit);
             currentPlayerClient.removeOnDraft(setUpInfoUnit);
         } catch (BrokenConnectionException e) {
-            SagradaLogger.log(Level.SEVERE, IMPOSSIBLE_TO_UPDATE + currentPlayer.getPlayerName() + "'s WP and Draft Pool", e);
+            SagradaLogger.log(Level.SEVERE, IMPOSSIBLE_TO_UPDATE + currentPlayer.getPlayerName() + "'s WP and Draft Pool");
             super.getControllerMaster().suspendPlayer(currentPlayer.getPlayerName(), true);
         }
     }
@@ -658,7 +659,7 @@ public class GamePlayManager extends AGameManager {
                 playerClient.addOnRoundTrack(infoUnitRoundTrack);
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, IMPOSSIBLE_TO_UPDATE + p.getPlayerName() + "'s Draft Pool " +
-                        "and round track", e);
+                        "and round track");
                 super.getControllerMaster().suspendPlayer(p.getPlayerName(), true);
             }
         }
@@ -687,7 +688,7 @@ public class GamePlayManager extends AGameManager {
                 playerClient.showNotice("\nLa Riserva è stata aggiornata.");
                 playerClient.setDraft(rolledDice);
             } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.SEVERE, IMPOSSIBLE_TO_UPDATE + p.getPlayerName() + " draft pool", e);
+                SagradaLogger.log(Level.SEVERE, IMPOSSIBLE_TO_UPDATE + p.getPlayerName() + " draft pool");
                 super.getControllerMaster().suspendPlayer(p.getPlayerName(), true);
             }
         }
@@ -956,7 +957,7 @@ public class GamePlayManager extends AGameManager {
             currentPlayerClient.updateFavTokenPlayer(oldPlayerFavorTokens - toolCost);
         } catch (BrokenConnectionException e) {
             SagradaLogger.log(Level.SEVERE, IMPOSSIBLE_TO_UPDATE + gameState.getCurrentPlayer().getPlayerName() +
-                    "'s Favor Tokens.", e);
+                    "'s Favor Tokens.");
             super.getControllerMaster().suspendPlayer(gameState.getCurrentPlayer().getPlayerName(), true);
         }
 
@@ -971,7 +972,7 @@ public class GamePlayManager extends AGameManager {
                     try {
                         playerClient.updateToolCost(slotID, 2);
                     } catch (BrokenConnectionException e) {
-                        SagradaLogger.log(Level.SEVERE,  IMPOSSIBLE_TO_UPDATE + "the Tool Card cost to " + playerName, e);
+                        SagradaLogger.log(Level.SEVERE,  IMPOSSIBLE_TO_UPDATE + "the Tool Card cost to " + playerName);
                         super.getControllerMaster().suspendPlayer(playerName, true);
                     }
                 }
@@ -1000,7 +1001,7 @@ public class GamePlayManager extends AGameManager {
             currentPlayerClient.removeOnOwnWp(infoUnit);
             currentPlayerClient.addOnOwnWp(infoUnit);
         } catch (BrokenConnectionException e) {
-            SagradaLogger.log(Level.SEVERE, IMPOSSIBLE_TO_UPDATE + currentPlayer.getPlayerName() + "'s WP", e);
+            SagradaLogger.log(Level.SEVERE, IMPOSSIBLE_TO_UPDATE + currentPlayer.getPlayerName() + "'s WP");
             super.getControllerMaster().suspendPlayer(currentPlayer.getPlayerName(), true);
         }
     }
@@ -1027,7 +1028,7 @@ public class GamePlayManager extends AGameManager {
             waitingPlayerClient.removeOnOtherPlayerWp(currentPlayer.getPlayerName(), infoUnit);
             waitingPlayerClient.addOnOtherPlayerWp(currentPlayer.getPlayerName(), infoUnit);
         } catch (BrokenConnectionException e) {
-            SagradaLogger.log(Level.SEVERE, IMPOSSIBLE_TO_UPDATE + waitingPlayer.getPlayerName() + "'s WP", e);
+            SagradaLogger.log(Level.SEVERE, IMPOSSIBLE_TO_UPDATE + waitingPlayer.getPlayerName() + "'s WP");
             super.getControllerMaster().suspendPlayer(waitingPlayer.getPlayerName(), true);
         }
     }

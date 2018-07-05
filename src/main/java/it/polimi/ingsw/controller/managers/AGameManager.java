@@ -78,7 +78,7 @@ public abstract class AGameManager {
         try {
             iFromServerToClient.showNotice(message);
         } catch (BrokenConnectionException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to send notification to " + playerName, e);
+            SagradaLogger.log(Level.SEVERE, "Impossible to send notification to " + playerName);
             this.getControllerMaster().suspendPlayer(playerName, true);
         }
     }
@@ -94,7 +94,7 @@ public abstract class AGameManager {
                 try {
                     client.showNotice(message);
                 } catch (BrokenConnectionException e) {
-                    SagradaLogger.log(Level.SEVERE, "Impossible to send notification to " + player.getPlayerName(), e);
+                    SagradaLogger.log(Level.SEVERE, "Impossible to send notification to " + player.getPlayerName());
                     this.getControllerMaster().suspendPlayer(player.getPlayerName(), true);
                 }
             }
@@ -112,7 +112,7 @@ public abstract class AGameManager {
         try {
             iFromServerToClient.showCommand(commands);
         } catch (BrokenConnectionException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to send commands to " + playerName, e);
+            SagradaLogger.log(Level.SEVERE, "Impossible to send commands to " + playerName);
             this.getControllerMaster().suspendPlayer(playerName, true);
         }
     }

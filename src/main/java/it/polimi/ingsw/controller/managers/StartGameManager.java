@@ -108,7 +108,7 @@ public class StartGameManager extends AGameManager {
             try {
                 connection.getClient().showPrivateObjective(privateObjId);
             } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.SEVERE, "Impossible to set the private objective card to " + playerName, e);
+                SagradaLogger.log(Level.SEVERE, "Impossible to set the private objective card to " + playerName);
                 this.exitGame(playerName);
             }
         });
@@ -139,7 +139,7 @@ public class StartGameManager extends AGameManager {
                 iFromServerToClient.showCommand(Arrays.asList(Commands.CHOOSE_WP, Commands.LOGOUT));
                 this.startTimer(player.getPlayerName());
             } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.SEVERE, "Impossible to send window pattern cards to " + player.getPlayerName(), e);
+                SagradaLogger.log(Level.SEVERE, "Impossible to send window pattern cards to " + player.getPlayerName());
                 this.exitGame(player.getPlayerName());
             }
         });
@@ -179,7 +179,7 @@ public class StartGameManager extends AGameManager {
                 super.getControllerMaster().getConnectedPlayers().get(username).getClient()
                         .showCommand(Arrays.asList(Commands.CHOOSE_WP, Commands.LOGOUT));
             } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.SEVERE, "Impossible to send a notice to the client", e);
+                SagradaLogger.log(Level.SEVERE, "Impossible to send a notice to the client");
                 this.exitGame(username);
             }
         }
