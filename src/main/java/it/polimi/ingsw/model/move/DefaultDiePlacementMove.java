@@ -19,6 +19,10 @@ public class DefaultDiePlacementMove extends AMove {
     @Override
     public void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit) {
 
+        if (manager.getEffectCounter() == 0) {
+            manager.incrementEffectCounter();
+        }
+        
         WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
 
         Cell desiredCell = new Cell(setUpInfoUnit.getDestinationIndex() / WindowPatternCard.getMaxCol(), setUpInfoUnit.getDestinationIndex() % WindowPatternCard.getMaxCol());
