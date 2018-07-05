@@ -22,11 +22,19 @@ import java.util.Map;
 
 public class ToolWindowBuilder {
 
+    /**
+     * This map contains the method for building the support windows for the tool.
+     */
     private Map<Integer, Runnable> toolBuilderMap;
 
-
+    /**
+     * The common board GUI of the game.
+     */
     private CommonBoardWindow commonBoardWindow;
 
+    /**
+     * The stage for the support windows of the tools.
+     */
     private Stage supportStage;
 
     public ToolWindowBuilder(CommonBoardWindow commonBoardWindow) {
@@ -39,25 +47,30 @@ public class ToolWindowBuilder {
         toolBuilderMap.put(11, this::showSupportToolWindowEleven);
     }
 
+    /**
+     * This method invokes the proper method to build the support window of the given tool.
+     * @param toolId the id of the tool that needs support window.
+     */
     public void invokeMethodShowWindow(int toolId) {
         this.toolBuilderMap.get(toolId).run();
     }
 
+    /**
+     * This method builds the stage for the support windows of the tools.
+     */
     private void supportStageBuilder() {
         this.supportStage = new Stage();
         this.supportStage.initStyle(StageStyle.TRANSPARENT);
-
 
         GUIMain.centerScreen();
 
         supportStage.initStyle(StageStyle.TRANSPARENT);
         supportStage.initOwner(GUIMain.getStage());
-
-
     }
 
-
-
+    /**
+     * This method builds the support window for tool one.
+     */
     public void showSupportWindowToolOne() {
         VBox mainCont = new VBox();
         mainCont.getStylesheets().add("style/backgrounds.css");
@@ -95,32 +108,24 @@ public class ToolWindowBuilder {
 
         this.commonBoardWindow.getData().getSetUpInformationUnit().setExtraParam(2);
 
-
         minus.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> {
-           // if(!this.commonBoardWindow.getData().isSourceFilled()) {
-              //  title.setText("Devi scegliere un dado");
-           // } else {
-                int val = Integer.parseInt(value.getText());
-                int valCurr = this.commonBoardWindow.getDraftPoolGUI().getCurrValue();
-                value.setText(val + "");
-                val--;
 
-                if(val < valCurr - 1)
-                    val = valCurr - 1;
-                else if(val < 1)
-                    val = 1;
+            int val = Integer.parseInt(value.getText());
+            int valCurr = this.commonBoardWindow.getDraftPoolGUI().getCurrValue();
+            value.setText(val + "");
+            val--;
 
-                value.setText(val + "");
-                this.commonBoardWindow.getData().getSetUpInformationUnit().setExtraParam(1);
-                this.commonBoardWindow.getData().getSetUpInformationUnit().setValue(val);
-         //   }
+            if(val < valCurr - 1)
+                val = valCurr - 1;
+            else if(val < 1)
+                val = 1;
+
+            value.setText(val + "");
+            this.commonBoardWindow.getData().getSetUpInformationUnit().setExtraParam(1);
+            this.commonBoardWindow.getData().getSetUpInformationUnit().setValue(val);
         });
 
         plus.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> {
-
-            //if(!this.commonBoardWindow.getData().isSourceFilled()) {
-               // title.setText("Devi scegliere un dado");
-           // } else {
 
                 int val = Integer.parseInt(value.getText());
                 int valCurr = this.commonBoardWindow.getDraftPoolGUI().getCurrValue();
@@ -134,7 +139,6 @@ public class ToolWindowBuilder {
                 value.setText(val + "");
                 this.commonBoardWindow.getData().getSetUpInformationUnit().setExtraParam(0);
                 this.commonBoardWindow.getData().getSetUpInformationUnit().setValue(val);
-           // }
         });
 
         secondCont.getChildren().addAll(buttons);
@@ -162,11 +166,13 @@ public class ToolWindowBuilder {
         newWindow.show();
     }
 
+    /**
+     * This method builds the window for extra commands needed in tool five.
+     */
     private void showSupportToolWindowFive() {
 
         DieFactory dieFactory =  new DieFactory();
         DieGUI die = dieFactory.getsDieGUI(this.commonBoardWindow.getData().getSetUpInformationUnit());
-
 
         VBox dieDrafted = new VBox();
         dieDrafted.setAlignment(Pos.CENTER);
@@ -181,9 +187,7 @@ public class ToolWindowBuilder {
         Button placeIt = new Button("Piazzalo");
         placeIt.getStyleClass().add("button-style");
 
-
         dieDrafted.getChildren().addAll(title, die, placeIt);
-
 
         Scene second = new Scene(dieDrafted);
         placeIt.addEventHandler(MouseEvent.MOUSE_CLICKED, e ->  {
@@ -204,10 +208,12 @@ public class ToolWindowBuilder {
     }
 
 
+    /**
+     * This method builds the window for extra commands needed in tool eleven.
+     */
     private void showSupportToolWindowEleven() {
         DieFactory dieFactory =  new DieFactory();
         DieGUI die = dieFactory.getsDieGUI(this.commonBoardWindow.getData().getSetUpInformationUnit());
-
 
         VBox dieDrafted = new VBox();
         dieDrafted.setAlignment(Pos.CENTER);
@@ -233,12 +239,7 @@ public class ToolWindowBuilder {
         plus.getStyleClass().add("button-style");
         valueButtons.getChildren().addAll(minus, value, plus);
 
-        //this.commonBoardWindow.getData().getSetUpInformationUnit().setExtraParam(2);
-
         minus.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> {
-            // if(!this.commonBoardWindow.getData().isSourceFilled()) {
-            //  title.setText("Devi scegliere un dado");
-            // } else {
             int val = Integer.parseInt(value.getText());
 
             value.setText(val + "");
@@ -248,16 +249,10 @@ public class ToolWindowBuilder {
                 val = val+1;
 
             value.setText(val + "");
-            //this.commonBoardWindow.getData().getSetUpInformationUnit().setExtraParam(1);
             this.commonBoardWindow.getData().getSetUpInformationUnit().setValue(val);
-            //   }
         });
 
         plus.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> {
-
-            //if(!this.commonBoardWindow.getData().isSourceFilled()) {
-            // title.setText("Devi scegliere un dado");
-            // } else {
 
             int val = Integer.parseInt(value.getText());
             val++;
@@ -266,17 +261,13 @@ public class ToolWindowBuilder {
                 val = val-1;
 
             value.setText(val + "");
-            //this.commonBoardWindow.getData().getSetUpInformationUnit().setExtraParam(0);
             this.commonBoardWindow.getData().getSetUpInformationUnit().setValue(val);
-            // }
         });
 
         Button placeIt = new Button("Piazzalo");
         placeIt.getStyleClass().add("button-style");
 
-
         dieDrafted.getChildren().addAll(title, die, valueButtons, placeIt);
-
 
         Scene second = new Scene(dieDrafted);
         placeIt.addEventHandler(MouseEvent.MOUSE_CLICKED, e ->  {
@@ -294,15 +285,5 @@ public class ToolWindowBuilder {
         second.setFill(Color.TRANSPARENT);
         supportStage.setScene(second);
         supportStage.show();
-
-    }
-
-
-    public Map<Integer, Runnable> getToolBuilderMap() {
-        return toolBuilderMap;
-    }
-
-    public void setToolBuilderMap(Map<Integer, Runnable> toolBuilderMap) {
-        this.toolBuilderMap = toolBuilderMap;
     }
 }

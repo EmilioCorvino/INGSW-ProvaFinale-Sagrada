@@ -71,6 +71,10 @@ public class ToolCardGUI extends VBox {
         this.setSpacing(40);
     }
 
+    /**
+     * This method manages the hiding and the showing of the button for those tool that needs extra commands.
+     * @param val the value that determines the visibility.
+     */
     public void hideShowButton(Boolean val) {
         HBox toolInfoCont = (HBox)this.getChildren().get(1);
         VBox toolComm = (VBox)toolInfoCont.getChildren().get(1);
@@ -79,6 +83,10 @@ public class ToolCardGUI extends VBox {
         showButton.setVisible(val);
     }
 
+    /**
+     * This method updates the cost of a tool in the GUI view.
+     * @param cost the cost to set.
+     */
     public void updateCost(int cost) {
         HBox costCont = (HBox)((HBox)this.getChildren().get(1)).getChildren().get(0);
         Label costToUpd = (Label)costCont.getChildren().get(1);
@@ -100,5 +108,4 @@ public class ToolCardGUI extends VBox {
     public void setToolSlot(int toolSlot) {
         this.toolSlot = toolSlot;
     }
-
 }
