@@ -82,11 +82,18 @@ public class DraftPoolGUI extends GridPane {
         if(!this.isEmpty)
             this.getChildren().remove(0, this.getChildren().size());
 
+        adjustIndexes(diceList);
+
         diceList.forEach( info -> {
             this.isEmpty = false;
             DieGUI die = dieFactory.getsDieGUI(info);
             this.add(die, info.getDestinationIndex() % MAX_COL, info.getDestinationIndex() / MAX_COL);
         });
+    }
+
+    private void adjustIndexes(List<SetUpInformationUnit> list) {
+        for(int i=0; i< list.size(); i++)
+            list.get(i).setDestinationIndex(i);
 
     }
 

@@ -52,6 +52,8 @@ public class ToolWindowManager {
      */
     private ToolWindowBuilder toolWindowBuilder;
 
+    private boolean isAlreadyUsed;
+
 
     public ToolWindowManager(CommonBoardWindow commonBoardWindow) {
         this.commonBoardWindow = commonBoardWindow;
@@ -63,12 +65,19 @@ public class ToolWindowManager {
         toolMethods.put(3, this::toolTwoThreeWindow);
         toolMethods.put(4, this::toolFourWindow);
         toolMethods.put(5, this::toolFiveWindow);
+        toolMethods.put(6, this::toolSixWindow);
+        toolMethods.put(7, this::toolSevenWindow);
+        toolMethods.put(8, this::toolEightWindow);
+
 
         toolMoveValidator.put(1, this::validateToolOne);
         toolMoveValidator.put(2, this::toolTwoValidator);
         toolMoveValidator.put(3, this::toolThreeValidator);
         toolMoveValidator.put(4, this::toolFourValidator);
         toolMoveValidator.put(5, this::toolFiveValidator);
+        toolMoveValidator.put(6, this::toolSixValidator);
+        toolMoveValidator.put(7, this::toolSevenValidator);
+        toolMoveValidator.put(8, this::toolEightValidator);
 
         toolWindowBuilder = new ToolWindowBuilder(commonBoardWindow);
     }
@@ -140,7 +149,7 @@ public class ToolWindowManager {
         }
     }
 
-    public void toolThreeValidator() {
+    private void toolThreeValidator() {
         List<Integer> values = this.commonBoardWindow.getData().getPersonalWp().getCellsClicked();
         if(values.size() > 2) {
             this.manager.communicateMessage("Devi scegliere solo due celle della tua mappa personale;" +
@@ -157,7 +166,7 @@ public class ToolWindowManager {
         }
     }
 
-    public void toolFourWindow() {
+    private void toolFourWindow() {
         List<Integer> values = this.commonBoardWindow.getData().getPersonalWp().getCellsClicked();
 
         if(values.size() > 0)
@@ -169,7 +178,7 @@ public class ToolWindowManager {
 
     }
 
-    public void toolFourValidator() {
+    private void toolFourValidator() {
         List<Integer> values = this.commonBoardWindow.getData().getPersonalWp().getCellsClicked();
 
         if(values.size() != 4) {
@@ -180,11 +189,11 @@ public class ToolWindowManager {
             this.manager.executeCommandToolIfPresent(4);
     }
 
-    public void toolFiveWindow() {
+    private void toolFiveWindow() {
         this.manager.communicateMessage("Scegli un dado dalla draft, un dado della round track e infine una cella della tua mappa in cui posizionare il dado");
     }
 
-    public void toolFiveValidator() {
+    private void toolFiveValidator() {
         if(!this.commonBoardWindow.getData().getPersonalWp().isWpCellClicked()) {
             this.manager.communicateMessage("Devi scegliere una cella della tua mappa.");
             return;
@@ -203,6 +212,47 @@ public class ToolWindowManager {
         this.manager.executeCommandToolIfPresent(5);
     }
 
+    private void toolSixWindow() {
+        if(!this.isAlreadyUsed) {
+            this.manager.communicateMessage("Scegli un dado dalla riserva. Attenzione a sceglierne uno valido!");
+            setAlreadyUsed(true);
+        } else
+            this.commonBoardWindow.showDraftedDie(this.commonBoardWindow.getData().getSetUpInformationUnit());
+
+    }
+
+    private void toolSixValidator() {
+        if(!this.commonBoardWindow.getDraftPoolGUI().isDraftCellChosen()) {
+            this.manager.communicateMessage("Devi scegliere un dado dalla riseva!");
+            return;
+        }
+        this.manager.executeCommandToolIfPresent(6);
+    }
+
+    public void toolSevenWindow() {
+
+    }
+
+    public void toolSevenValidator() {
+        this.manager.executeCommandToolIfPresent(7);
+    }
+
+    public void toolEightWindow() {
+        this.manager.communicateMessage("Scegli un dado dalla draft e piazzalo");
+    }
+
+    public void toolEightValidator() {
+        if(!(this.commonBoardWindow.getData().getPersonalWp().isWpCellClicked() && this.commonBoardWindow.getDraftPoolGUI().isDraftCellChosen())) {
+            this.manager.communicateMessage("Non hai riempito i campi corretti");
+        }
+        else {
+            SetUpInformationUnit info = this.commonBoardWindow.getData().getSetUpInformationUnit();
+            info.setSourceIndex(this.commonBoardWindow.getDraftPoolGUI().getIndexChosenCell());
+            info.setDestinationIndex(this.commonBoardWindow.getData().getPersonalWp().getClicked());
+            this.manager.executeCommandToolIfPresent(8);
+        }
+    }
+
     public int getSlotId() {
         return slotId;
     }
@@ -217,5 +267,13 @@ public class ToolWindowManager {
 
     public void setManager(GUICommunicationManager manager) {
         this.manager = manager;
+    }
+
+    public boolean isAlreadyUsed() {
+        return isAlreadyUsed;
+    }
+
+    public void setAlreadyUsed(boolean alreadyUsed) {
+        isAlreadyUsed = alreadyUsed;
     }
 }

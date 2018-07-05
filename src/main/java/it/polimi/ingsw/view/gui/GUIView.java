@@ -194,6 +194,7 @@ public class GUIView implements IViewMaster {
     @Override
     public void setDraft(List<SetUpInformationUnit> draft) {
         Platform.runLater(() -> {
+
             this.commonWindow.getDraftPoolGUI().formatDraftPool(draft);
             this.commonWindow.getDraftPoolGUI().cellAsSource();
         });
@@ -308,6 +309,10 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void showDie(SetUpInformationUnit informationUnit) {
+        Platform.runLater(() -> {
+            this.playersData.setSetUpInformationUnit(informationUnit);
+            this.commonWindow.showDraftedDie(informationUnit);
+        });
 
     }
 
