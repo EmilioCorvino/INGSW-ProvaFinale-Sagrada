@@ -45,11 +45,6 @@ public class CommonBoardWindow extends ParentWindow {
     private HBox secondContainer;
 
     /**
-     *
-     */
-    private HBox gameData;
-
-    /**
      * This is the vbox contanining the hboxes for the public and tool cards.
      */
     private VBox publToolDraftCont;
@@ -75,7 +70,6 @@ public class CommonBoardWindow extends ParentWindow {
      */
     private RoundTrackGUI roundTrack;
 
-
     /**
      * This is the container for the commands during a turn of the player, such as the "pass turn" command.
      */
@@ -93,10 +87,19 @@ public class CommonBoardWindow extends ParentWindow {
      */
     private PlayersData data;
 
+    /**
+     * This is to confirm the default placement action.
+     */
     private Button ok;
 
+    /**
+     * This manages the activation of the tool cards in the gui.
+     */
     private ToolWindowManager toolWindowManager;
 
+    /**
+     * This manages the construction of the support windows for some tool cards.
+     */
     private ToolWindowBuilder toolWindowBuilder;
 
 
@@ -114,7 +117,6 @@ public class CommonBoardWindow extends ParentWindow {
         publToolDraftCont = new VBox();
 
         secondContainer = new HBox();
-        gameData = new HBox();
 
         ok = new Button("Ok");
         ok.setVisible(false);
@@ -133,7 +135,7 @@ public class CommonBoardWindow extends ParentWindow {
         formatWindow();
 
         this.getChildren().add(mainContainer);
-        this.mainContainer.getChildren().addAll(header, secondContainer, gameData);
+        this.mainContainer.getChildren().addAll(header, secondContainer);
 
         ok.getStyleClass().add("button-style");
         ok.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> validateMoveHandler());
