@@ -36,6 +36,7 @@ public class ToolWindowBuilder {
 
         toolBuilderMap.put(1, this::showSupportWindowToolOne);
         toolBuilderMap.put(6, this::showSupportToolWindowFive);
+        toolBuilderMap.put(11, this::showSupportToolWindowEleven);
     }
 
     public void invokeMethodShowWindow(int toolId) {
@@ -93,7 +94,7 @@ public class ToolWindowBuilder {
         mainCont.getChildren().add(valueButtons);
 
         this.commonBoardWindow.getData().getSetUpInformationUnit().setExtraParam(2);
-        System.out.println(this.commonBoardWindow.getDraftPoolGUI().getCurrValue());
+
 
         minus.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> {
            // if(!this.commonBoardWindow.getData().isSourceFilled()) {
@@ -200,7 +201,99 @@ public class ToolWindowBuilder {
         second.setFill(Color.TRANSPARENT);
         supportStage.setScene(second);
         supportStage.show();
+    }
 
+
+    private void showSupportToolWindowEleven() {
+        DieFactory dieFactory =  new DieFactory();
+        DieGUI die = dieFactory.getsDieGUI(this.commonBoardWindow.getData().getSetUpInformationUnit());
+
+
+        VBox dieDrafted = new VBox();
+        dieDrafted.setAlignment(Pos.CENTER);
+        dieDrafted.getStylesheets().add("style/backgrounds.css");
+        dieDrafted.getStyleClass().addAll("VBox", "background");
+        dieDrafted.setSpacing(20);
+        dieDrafted.setPadding(new Insets(30));
+
+        Label title = new Label("Scegli il valore del nuovo dado");
+        title.getStyleClass().add("text-label");
+
+        HBox valueButtons = new HBox();
+        valueButtons.setSpacing(10);
+
+        Button minus = new Button(" - ");
+        minus.getStyleClass().add("button-style");
+
+        Label value = new Label("");
+        value.setText(this.commonBoardWindow.getData().getSetUpInformationUnit().getValue() + "");
+        value.getStyleClass().add("text-label-bold");
+
+        Button plus = new Button("+");
+        plus.getStyleClass().add("button-style");
+        valueButtons.getChildren().addAll(minus, value, plus);
+
+        //this.commonBoardWindow.getData().getSetUpInformationUnit().setExtraParam(2);
+
+        minus.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> {
+            // if(!this.commonBoardWindow.getData().isSourceFilled()) {
+            //  title.setText("Devi scegliere un dado");
+            // } else {
+            int val = Integer.parseInt(value.getText());
+
+            value.setText(val + "");
+            val--;
+
+            if(val < 1)
+                val = val+1;
+
+            value.setText(val + "");
+            //this.commonBoardWindow.getData().getSetUpInformationUnit().setExtraParam(1);
+            this.commonBoardWindow.getData().getSetUpInformationUnit().setValue(val);
+            //   }
+        });
+
+        plus.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> {
+
+            //if(!this.commonBoardWindow.getData().isSourceFilled()) {
+            // title.setText("Devi scegliere un dado");
+            // } else {
+
+            int val = Integer.parseInt(value.getText());
+            val++;
+
+            if(val > 6)
+                val = val-1;
+
+            value.setText(val + "");
+            //this.commonBoardWindow.getData().getSetUpInformationUnit().setExtraParam(0);
+            this.commonBoardWindow.getData().getSetUpInformationUnit().setValue(val);
+            // }
+        });
+
+        Button placeIt = new Button("Piazzalo");
+        placeIt.getStyleClass().add("button-style");
+
+
+        dieDrafted.getChildren().addAll(title, die, valueButtons, placeIt);
+
+
+        Scene second = new Scene(dieDrafted);
+        placeIt.addEventHandler(MouseEvent.MOUSE_CLICKED, e ->  {
+            this.supportStage.close();
+            if(!this.commonBoardWindow.getManager().isCommandContained("Valore"))
+                this.commonBoardWindow.getManager().communicateMessage("errore.");
+            else {
+                this.commonBoardWindow.getManager().executeCommandIfPresent("Valore");
+                this.supportStage.close();
+            }
+        });
+
+        GUIMain.dragWindow(dieDrafted);
+
+        second.setFill(Color.TRANSPARENT);
+        supportStage.setScene(second);
+        supportStage.show();
 
     }
 

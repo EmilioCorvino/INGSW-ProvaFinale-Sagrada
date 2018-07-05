@@ -218,7 +218,7 @@ public class CommonBoardWindow extends ParentWindow {
     /**
      * This method formats the proper commands useful during the game, such as the "pass turn" command.
      */
-    public void formatDraftCommands() {
+    private void formatDraftCommands() {
 
         commandsDraft.setSpacing(10);
         commandsDraft.setAlignment(Pos.CENTER);
@@ -227,6 +227,7 @@ public class CommonBoardWindow extends ParentWindow {
         Label titleFav = new Label("Segnalini favore: ");
         favorTok.setPadding(new Insets(0, 0, 0, 35));
         titleFav.getStyleClass().add("text-label-bold");
+        //the number of favor tokens updated by the server.
         Label numFav = new Label("");
         numFav.getStyleClass().add("text-label-bold");
         favorTok.getChildren().addAll(titleFav, numFav);
@@ -241,6 +242,12 @@ public class CommonBoardWindow extends ParentWindow {
 
         commandsDraft.getChildren().addAll(favorTok, placement, pass, ok);
         this.secondSecCont.getChildren().add(commandsDraft);
+    }
+
+    public void updateFavorTokens(int nFavTok) {
+        HBox box = (HBox)this.commandsDraft.getChildren().get(0);
+        Label tok = (Label)box.getChildren().get(1);
+        tok.setText(nFavTok + "");
     }
 
 
@@ -414,10 +421,14 @@ public class CommonBoardWindow extends ParentWindow {
 
         Button showButton = (Button)toolComm.getChildren().get(1);
 
-        showButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-            this.toolWindowBuilder.invokeMethodShowWindow(6);
-        });
+        showButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> this.toolWindowBuilder.invokeMethodShowWindow(tool.getIdTool()));
 
+    }
+
+    public void updateToolCost(int slot, int cost) {
+        HBox toolCont = (HBox)this.publToolDraftCont.getChildren().get(1);
+        ToolCardGUI tool = (ToolCardGUI)toolCont.getChildren().get(slot);
+        tool.updateCost(cost);
     }
 
 

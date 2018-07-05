@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.gamewindows.toolcardsGUImanagers;
 
 import it.polimi.ingsw.view.gui.EnlargementHandler;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -38,12 +39,14 @@ public class ToolCardGUI extends VBox {
 
         HBox toolInfo = new HBox();
         this.getChildren().add(toolInfo);
-        toolInfo.setSpacing(20);
+        toolInfo.setSpacing(10);
 
         HBox costInfo = new HBox();
         Label titleCost = new Label("Costo:");
         titleCost.getStyleClass().add("text-label");
         costInfo.getChildren().add(titleCost);
+        costInfo.setSpacing(10);
+        costInfo.setPadding(new Insets(10));
 
         //The effective cost of the tool, updated by the server.
         Label cost = new Label("1");
@@ -74,6 +77,12 @@ public class ToolCardGUI extends VBox {
 
         Button showButton = (Button)toolComm.getChildren().get(1);
         showButton.setVisible(val);
+    }
+
+    public void updateCost(int cost) {
+        HBox costCont = (HBox)((HBox)this.getChildren().get(1)).getChildren().get(0);
+        Label costToUpd = (Label)costCont.getChildren().get(1);
+        costToUpd.setText(cost + "");
     }
 
     public int getIdTool() {

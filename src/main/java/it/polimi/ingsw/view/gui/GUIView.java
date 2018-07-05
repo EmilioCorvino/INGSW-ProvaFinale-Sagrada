@@ -282,6 +282,7 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void updateFavTokenPlayer(int nFavorToken) {
+        Platform.runLater(() -> this.commonWindow.updateFavorTokens(nFavorToken));
 
     }
 
@@ -305,6 +306,7 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void updateToolCost(int idSlot, int cost) {
+        Platform.runLater(() -> this.commonWindow.updateToolCost(idSlot, cost));
 
     }
 

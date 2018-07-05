@@ -276,11 +276,15 @@ public class ToolWindowManager {
     }
 
     private void toolElevenWindow() {
-
-
+        this.manager.communicateMessage("Scegli un dado dalla riserva. Attenzione a sceglierne uno valido!");
     }
 
     private void toolElevenValidator() {
+        if(!this.commonBoardWindow.getDraftPoolGUI().isDraftCellChosen()) {
+            this.manager.communicateMessage("Devi scegliere un dado dalla riseva!");
+            return;
+        }
+        this.manager.executeCommandToolIfPresent(11);
 
     }
 
