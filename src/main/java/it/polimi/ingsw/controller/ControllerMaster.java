@@ -70,10 +70,10 @@ public class ControllerMaster {
         this.waitingRoom = waitingRoom;
         this.commonBoard = new CommonBoard();
         this.commonBoard.initializeBoard();
+        this.connectedPlayers = connectedPlayers;
         this.startGameManager = new StartGameManager(this);
         this.gamePlayManager = new GamePlayManager(this);
         this.endGameManager = new EndGameManager(this);
-        this.connectedPlayers = connectedPlayers;
         this.gameState = new GameState();
         this.suspendedPlayers = new ArrayList<>();
         this.disconnectedPlayers = new ArrayList<>();
@@ -142,6 +142,10 @@ public class ControllerMaster {
                 }
             }
             this.gamePlayManager.broadcastNotification("\n" + playerName + " è stato sospeso.");
+        } else {
+            if (!this.disconnectedPlayers.contains(playerName)) {
+                this.disconnectedPlayers.add(playerName);
+            }
         }
     }
 
@@ -165,7 +169,7 @@ public class ControllerMaster {
                 client.showCommand(this.getGamePlayManager().getWaitingPlayersCommands());
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while sending the new " +
-                        "commands after reconnecting.", e);
+                        "commands after reconnecting.");
                 this.disconnectedPlayers.add(playerName);
                 this.suspendPlayer(playerName, true);
             }
@@ -177,7 +181,7 @@ public class ControllerMaster {
                 connection.getClient().showCommand(Collections.singletonList(Commands.LOGOUT));
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while sending the new " +
-                        "commands after reconnecting.", e);
+                        "commands after reconnecting.");
                 this.suspendPlayer(playerName, true);
             }
         }
