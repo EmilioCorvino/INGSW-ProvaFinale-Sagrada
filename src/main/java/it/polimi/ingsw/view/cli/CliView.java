@@ -396,8 +396,8 @@ public class CliView implements IViewMaster {
     @Override
     public void forceLogOut(){
         this.inputOutputManager.print("SEI STATO DISCONNESSO");
-        this.inputOutputManager.closeScanner();
         this.scannerThread.setEndState();
+        this.inputOutputManager.closeScanner();
         System.exit(0);
     }
 
