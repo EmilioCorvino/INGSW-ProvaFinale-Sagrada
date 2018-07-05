@@ -42,6 +42,7 @@ public class ScannerThread extends Thread {
      */
     void stopExecution() {
         isOnGame = false;
+        this.interrupt();
     }
 
     public void setEndState() {
