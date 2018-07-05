@@ -150,7 +150,7 @@ public class CliView implements IViewMaster {
 
     /**
      *This method print the name of all the players connected.
-     * @param players: list of username of players connected.
+     * @param players list of username of players connected.
      */
     @Override
     public void showRoom(List<String> players) {
@@ -404,7 +404,7 @@ public class CliView implements IViewMaster {
 //----------------------------------------------------------
     /**
      * This method notice a message to the user.
-     * @param notice: the message that need to be printed.
+     * @param notice the message that need to be printed.
      */
     @Override
     public void showNotice(String notice){
@@ -463,8 +463,8 @@ public class CliView implements IViewMaster {
 
     /**
      * This method check if the command is contained in the map ignoring the case.
-     * @param s: It is the command.
-     * @return: The corresponding string of the key set if the command is equals (ignoring the case), else input sting.
+     * @param s It is the command.
+     * @return The corresponding string of the key set if the command is equals (ignoring the case), else input sting.
      */
     public String stringConverter(String s){
 

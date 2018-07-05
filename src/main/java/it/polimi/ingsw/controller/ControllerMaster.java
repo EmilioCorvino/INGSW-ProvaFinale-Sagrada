@@ -70,10 +70,10 @@ public class ControllerMaster {
         this.waitingRoom = waitingRoom;
         this.commonBoard = new CommonBoard();
         this.commonBoard.initializeBoard();
+        this.connectedPlayers = connectedPlayers;
         this.startGameManager = new StartGameManager(this);
         this.gamePlayManager = new GamePlayManager(this);
         this.endGameManager = new EndGameManager(this);
-        this.connectedPlayers = connectedPlayers;
         this.gameState = new GameState();
         this.suspendedPlayers = new ArrayList<>();
         this.disconnectedPlayers = new ArrayList<>();

@@ -73,7 +73,7 @@ public class ClientImplementation implements IFromServerToClient {
     @Override
     public void showRoom(List<String> players) {
         view.showRoom(players);
-        startTimer();
+        //startTimer();
     }
 
     @Override
@@ -174,7 +174,7 @@ public class ClientImplementation implements IFromServerToClient {
     @Override
     public void showNotice(String notice) {
         view.showNotice(notice);
-        startTimer();
+        //startTimer();
 
     }
 

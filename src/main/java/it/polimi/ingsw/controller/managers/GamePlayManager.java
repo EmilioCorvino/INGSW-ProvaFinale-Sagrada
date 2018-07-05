@@ -312,6 +312,7 @@ public class GamePlayManager extends AGameManager {
                     try {
                         client.showNotice("\nSei l'ultimo giocatore rimasto, HAI VINTO PER ABBANDONO!");
                         client.showCommand(endGameManager.endGameCommands);
+                        endGameManager.startTimer(playerName);
                         return;
                     } catch (BrokenConnectionException e) {
                         SagradaLogger.log(Level.SEVERE, playerName + " disconnected. Preparing a new room...");
@@ -809,11 +810,21 @@ public class GamePlayManager extends AGameManager {
         IFromServerToClient client = super.getPlayerClient(playerName);
         if (!isRequestFromCurrentPlayer(playerName)) {
             try {
-                client.showNotice("Non puoi effettuare questa mossa durante il turno degli altri!");
+                client.showNotice("\nNon puoi effettuare questa mossa durante il turno degli altri!");
                 client.showCommand(this.waitingPlayersCommands);
             } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.SEVERE, "Connection with the client crashed while performing a " +
-                        "default move", e);
+                SagradaLogger.log(Level.SEVERE, "Connection with " + playerName + " crashed while in an illegal" +
+                        " state");
+                super.getControllerMaster().suspendPlayer(playerName, true);
+            }
+            return true;
+        } else if (super.getControllerMaster().getSuspendedPlayers().contains(playerName)) {
+            try {
+                client.showNotice("\nNon puoi effettuare mosse durante la sospensione!");
+                client.showCommand(Arrays.asList(Commands.RECONNECT, Commands.LOGOUT));
+            } catch (BrokenConnectionException e) {
+                SagradaLogger.log(Level.SEVERE, "Connection with " + playerName + " crashed while suspended " +
+                        "and trying to perform a move");
                 super.getControllerMaster().suspendPlayer(playerName, true);
             }
             return true;

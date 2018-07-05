@@ -13,7 +13,7 @@ public class DefaultDiePlacementMove extends AMove {
 
     /**
      * This method performs the placement move in the window pattern card.
-     * @param manager the manager.
+     * @param manager part of the controller that deals with the game play.
      * @param setUpInfoUnit the information container in which the coordinates to use are stored.
      */
     @Override
@@ -22,7 +22,7 @@ public class DefaultDiePlacementMove extends AMove {
         if (manager.getEffectCounter() == 0) {
             manager.incrementEffectCounter();
         }
-        
+
         WindowPatternCard wp = manager.getControllerMaster().getGameState().getCurrentPlayer().getWindowPatternCard();
 
         Cell desiredCell = new Cell(setUpInfoUnit.getDestinationIndex() / WindowPatternCard.getMaxCol(), setUpInfoUnit.getDestinationIndex() % WindowPatternCard.getMaxCol());
