@@ -53,7 +53,12 @@ public class InputOutputManager {
      * @return: the string read.
      */
     String read(){
-       return scan.nextLine().trim();
+        try{
+            return scan.nextLine().trim();
+        } catch (IllegalStateException e){
+            print("Impossibile ricevere input mentre sei disconnesso");
+        }
+        return "";
     }
 
     /**

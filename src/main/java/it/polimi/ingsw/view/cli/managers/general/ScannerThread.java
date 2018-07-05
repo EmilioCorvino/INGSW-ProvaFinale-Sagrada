@@ -40,7 +40,7 @@ public class ScannerThread extends Thread {
     /**
      * This method close the thread and the scanner of the input output manager.
      */
-    public void stopExecution() {
+    void stopExecution() {
         isOnGame = false;
     }
 
