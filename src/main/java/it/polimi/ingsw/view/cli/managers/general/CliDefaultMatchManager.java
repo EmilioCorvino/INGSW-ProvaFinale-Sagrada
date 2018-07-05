@@ -46,7 +46,7 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
         try {
             super.server.performDefaultMove(setInfoUnit);
         } catch (BrokenConnectionException e){
-            SagradaLogger.log(Level.SEVERE, "Connection broken during normal placement",e);
+            SagradaLogger.log(Level.SEVERE, "Connection broken during normal placement");
             disconnect();
         }
     }
@@ -69,7 +69,7 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
         try {
             super.server.moveToNextTurn();
         } catch (BrokenConnectionException e) {
-            SagradaLogger.log(Level.SEVERE, "Connection broken while moving to next turn", e);
+            SagradaLogger.log(Level.SEVERE, "Connection broken while moving to next turn");
             disconnect();
         }
     }
@@ -82,9 +82,7 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
             SagradaLogger.log(Level.SEVERE, "Connection broken during log out", e);
             disconnect();
         }
-        super.inputOutputManager.print("\nDISCONNESSIONE AVVENUTA CON SUCCESSO");
-        System.exit(0);
-    }
+}
 
     @Override
     public void newGame(){

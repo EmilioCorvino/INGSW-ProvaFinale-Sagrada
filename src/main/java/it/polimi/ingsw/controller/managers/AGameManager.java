@@ -89,7 +89,7 @@ public abstract class AGameManager {
      */
     public void broadcastNotification(String message) {
         for(Player player: this.getControllerMaster().getCommonBoard().getPlayers()) {
-            if(!this.controllerMaster.getDisconnectedPlayers().contains(player.getPlayerName())) {
+            if(!this.controllerMaster.getSuspendedPlayers().contains(player.getPlayerName())) {
                 IFromServerToClient client = this.getPlayerClient(player.getPlayerName());
                 try {
                     client.showNotice(message);
