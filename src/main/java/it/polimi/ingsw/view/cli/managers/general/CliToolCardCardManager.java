@@ -5,9 +5,9 @@ import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.utils.SagradaLogger;
 import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.view.IToolCardManager;
-import it.polimi.ingsw.view.cli.CliCommunicationManager;
 import it.polimi.ingsw.view.cli.CliView;
 import it.polimi.ingsw.view.cli.boardelements.ToolCardView;
+import it.polimi.ingsw.view.cli.managers.CliCommunicationManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -334,7 +334,7 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         int nDice;
 
         do {
-            nDice = super.inputOutputManager.askInt("Inserisci quanti dadi vuoi piazzare(1-2): ");
+            nDice = super.inputOutputManager.askInt("Inserisci quanti dadi vuoi muovere(1-2): ");
         } while (!(nDice == 1 || nDice == 2));
 
 

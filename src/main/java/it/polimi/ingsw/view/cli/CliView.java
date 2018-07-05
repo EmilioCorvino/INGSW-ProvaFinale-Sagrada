@@ -417,6 +417,7 @@ public class CliView implements IViewMaster {
         return server;
     }
 
+    @Override
     public void setServer(IFromClientToServer server) {
         this.server = server;
     }
@@ -441,7 +442,7 @@ public class CliView implements IViewMaster {
         return player;
     }
 
-    InputOutputManager getInputOutputManager() {
+    public InputOutputManager getInputOutputManager() {
         return inputOutputManager;
     }
 

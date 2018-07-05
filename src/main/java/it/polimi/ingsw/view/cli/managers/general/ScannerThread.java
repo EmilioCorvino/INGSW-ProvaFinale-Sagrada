@@ -46,6 +46,6 @@ public class ScannerThread extends Thread {
 
     public void setEndState() {
         stopExecution();
-        this.inputOutputManager.print("Scrivi [Enter] per terminare il programma...");
+        this.inputOutputManager.print("Premi [Enter] per terminare il programma...");
     }
 }
