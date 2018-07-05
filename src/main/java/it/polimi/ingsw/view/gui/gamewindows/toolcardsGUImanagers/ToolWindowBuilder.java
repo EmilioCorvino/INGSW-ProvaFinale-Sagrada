@@ -2,10 +2,14 @@ package it.polimi.ingsw.view.gui.gamewindows.toolcardsGUImanagers;
 
 import it.polimi.ingsw.view.gui.GUIMain;
 import it.polimi.ingsw.view.gui.gamewindows.CommonBoardWindow;
+import it.polimi.ingsw.view.gui.gamewindows.DieFactory;
+import it.polimi.ingsw.view.gui.gamewindows.DieGUI;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -28,7 +32,14 @@ public class ToolWindowBuilder {
         toolBuilderMap = new HashMap<>();
 
         toolBuilderMap.put(1, this::showSupportWindowToolOne);
+        toolBuilderMap.put(6, this::showSupportToolWindowFive);
     }
+
+    public void invokeMethodShowWindow(int toolId) {
+        this.toolBuilderMap.get(toolId).run();
+    }
+
+
 
     public void showSupportWindowToolOne() {
         VBox mainCont = new VBox();
@@ -132,6 +143,49 @@ public class ToolWindowBuilder {
         second.setFill(Color.TRANSPARENT);
 
         newWindow.show();
+    }
+
+    private void showSupportToolWindowFive() {
+
+        DieFactory dieFactory =  new DieFactory();
+        DieGUI die = dieFactory.getsDieGUI(this.commonBoardWindow.getData().getSetUpInformationUnit());
+
+
+        VBox dieDrafted = new VBox();
+        dieDrafted.setAlignment(Pos.CENTER);
+        dieDrafted.getStylesheets().add("style/backgrounds.css");
+        dieDrafted.getStyleClass().addAll("VBox", "background");
+        dieDrafted.setSpacing(20);
+        dieDrafted.setPadding(new Insets(30));
+
+        Label title = new Label("Ecco il dado con il nuovo valore");
+        title.getStyleClass().add("text-label");
+
+        Button placeIt = new Button("Piazzalo");
+        placeIt.getStyleClass().add("button-style");
+
+
+        dieDrafted.getChildren().addAll(title, die, placeIt);
+
+        Stage newWindow = new Stage();
+        newWindow.initStyle(StageStyle.TRANSPARENT);
+        Scene second = new Scene(dieDrafted);
+        placeIt.addEventHandler(MouseEvent.MOUSE_CLICKED, e ->  {
+            newWindow.close();
+            if(!this.commonBoardWindow.getManager().isCommandContained("Piazza"))
+                this.commonBoardWindow.getManager().communicateMessage("errore.");
+            else
+                this.commonBoardWindow.getManager().executeCommandIfPresent("Piazza");
+        });
+
+        second.setFill(Color.TRANSPARENT);
+        newWindow.setScene(second);
+        GUIMain.centerScreen();
+        GUIMain.dragWindow(dieDrafted);
+        newWindow.initStyle(StageStyle.TRANSPARENT);
+        newWindow.initOwner(GUIMain.getStage());
+        newWindow.show();
+
     }
 
 

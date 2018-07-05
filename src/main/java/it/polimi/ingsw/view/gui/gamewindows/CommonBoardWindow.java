@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui.gamewindows;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.view.gui.*;
 import it.polimi.ingsw.view.gui.gamewindows.toolcardsGUImanagers.ToolCardGUI;
+import it.polimi.ingsw.view.gui.gamewindows.toolcardsGUImanagers.ToolWindowBuilder;
 import it.polimi.ingsw.view.gui.gamewindows.toolcardsGUImanagers.ToolWindowManager;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -49,7 +50,7 @@ public class CommonBoardWindow extends ParentWindow {
     private HBox gameData;
 
     /**
-     * This id the vbox contanining the hboxes for the public and tool cards.
+     * This is the vbox contanining the hboxes for the public and tool cards.
      */
     private VBox publToolDraftCont;
 
@@ -336,7 +337,8 @@ public class CommonBoardWindow extends ParentWindow {
             toolCard.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> chooseToolCardHandler(toolCard));
 
             HBox box = (HBox)toolCard.getChildren().get(1);
-            Button button = (Button)box.getChildren().get(1);
+            VBox vBox = (VBox)box.getChildren().get(1);
+            Button button = (Button)vBox.getChildren().get(0);
             button.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
                 button.setVisible(false);
                 this.toolWindowManager.invokeMoveValidator(toolCard.getIdTool());
@@ -347,7 +349,8 @@ public class CommonBoardWindow extends ParentWindow {
 
     public void chooseToolCardHandler(ToolCardGUI tool) {
         HBox box = (HBox)tool.getChildren().get(1);
-        Button button = (Button)box.getChildren().get(1);
+        VBox vBox = (VBox)box.getChildren().get(1); /* ocio */
+        Button button = (Button)vBox.getChildren().get(0);
         if(this.manager.isCommandContained("Strumento " + (tool.getIdTool()))) {
             button.setVisible(true);
             this.toolWindowManager.invokeToolCommand(tool.getIdTool());
@@ -365,7 +368,6 @@ public class CommonBoardWindow extends ParentWindow {
         DieFactory dieFactory =  new DieFactory();
         DieGUI die = dieFactory.getsDieGUI(info);
 
-
         VBox dieDrafted = new VBox();
         dieDrafted.setAlignment(Pos.CENTER);
         dieDrafted.getStylesheets().add("style/backgrounds.css");
@@ -376,22 +378,16 @@ public class CommonBoardWindow extends ParentWindow {
         Label title = new Label("Ecco il dado con il nuovo valore");
         title.getStyleClass().add("text-label");
 
-        Button placeIt = new Button("Piazzalo");
-        placeIt.getStyleClass().add("button-style");
+        Button proceed = new Button("Procedi");
+        proceed.getStyleClass().add("button-style");
 
 
-        dieDrafted.getChildren().addAll(title, die, placeIt);
+        dieDrafted.getChildren().addAll(title, die, proceed);
 
         Stage newWindow = new Stage();
         newWindow.initStyle(StageStyle.TRANSPARENT);
         Scene second = new Scene(dieDrafted);
-        placeIt.addEventHandler(MouseEvent.MOUSE_CLICKED, e ->  {
-            newWindow.close();
-            if(!this.manager.isCommandContained("Piazza"))
-                manager.communicateMessage("errore.");
-            else
-                manager.executeCommandIfPresent("Piazza");
-        });
+        proceed.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> newWindow.close());
 
         second.setFill(Color.TRANSPARENT);
         newWindow.setScene(second);
@@ -400,6 +396,24 @@ public class CommonBoardWindow extends ParentWindow {
         newWindow.initStyle(StageStyle.TRANSPARENT);
         newWindow.initOwner(GUIMain.getStage());
         newWindow.show();
+
+        manageToolButtons(true);
+    }
+
+    public void manageToolButtons(Boolean val) {
+        HBox toolCont = (HBox)this.publToolDraftCont.getChildren().get(1);
+        ToolCardGUI tool = (ToolCardGUI)toolCont.getChildren().get(this.data.getSlotChosen());
+        tool.hideShowButton(val);
+
+        HBox toolInfoCont = (HBox)tool.getChildren().get(1);
+        VBox toolComm = (VBox)toolInfoCont.getChildren().get(1);
+
+        Button showButton = (Button)toolComm.getChildren().get(1);
+
+        showButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            ToolWindowBuilder toolBuilder = new ToolWindowBuilder(this);
+            toolBuilder.invokeMethodShowWindow(6);
+        });
 
     }
 
@@ -495,6 +509,10 @@ public class CommonBoardWindow extends ParentWindow {
         }
     }
 
+    public void resetIsAlreadyUsedFlag() {
+        this.toolWindowManager.setAlreadyUsed(false);
+    }
+
     public void sendMessage(String message) {
         this.manager.communicateMessage(message);
     }
@@ -506,5 +524,13 @@ public class CommonBoardWindow extends ParentWindow {
 
     public void setRoundTrack(RoundTrackGUI roundTrack) {
         this.roundTrack = roundTrack;
+    }
+
+    public GUICommunicationManager getManager() {
+        return manager;
+    }
+
+    public void setManager(GUICommunicationManager manager) {
+        this.manager = manager;
     }
 }

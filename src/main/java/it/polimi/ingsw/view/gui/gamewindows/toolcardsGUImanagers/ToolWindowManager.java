@@ -68,6 +68,10 @@ public class ToolWindowManager {
         toolMethods.put(6, this::toolSixWindow);
         toolMethods.put(7, this::toolSevenWindow);
         toolMethods.put(8, this::toolEightWindow);
+        toolMethods.put(9, this::toolNineWindow);
+        toolMethods.put(10, this::toolTenWindow);
+        toolMethods.put(11, this::toolElevenWindow);
+        toolMethods.put(12, this::toolTwelveWindow);
 
 
         toolMoveValidator.put(1, this::validateToolOne);
@@ -78,6 +82,10 @@ public class ToolWindowManager {
         toolMoveValidator.put(6, this::toolSixValidator);
         toolMoveValidator.put(7, this::toolSevenValidator);
         toolMoveValidator.put(8, this::toolEightValidator);
+        toolMoveValidator.put(9, this::toolNineValidator);
+        toolMoveValidator.put(10, this::toolTenValidator);
+        toolMoveValidator.put(11, this::toolElevenValidator);
+        toolMoveValidator.put(12, this::toolTwelveValidator);
 
         toolWindowBuilder = new ToolWindowBuilder(commonBoardWindow);
     }
@@ -191,6 +199,7 @@ public class ToolWindowManager {
 
     private void toolFiveWindow() {
         this.manager.communicateMessage("Scegli un dado dalla draft, un dado della round track e infine una cella della tua mappa in cui posizionare il dado");
+
     }
 
     private void toolFiveValidator() {
@@ -213,12 +222,7 @@ public class ToolWindowManager {
     }
 
     private void toolSixWindow() {
-        if(!this.isAlreadyUsed) {
-            this.manager.communicateMessage("Scegli un dado dalla riserva. Attenzione a sceglierne uno valido!");
-            setAlreadyUsed(true);
-        } else
-            this.commonBoardWindow.showDraftedDie(this.commonBoardWindow.getData().getSetUpInformationUnit());
-
+        this.manager.communicateMessage("Scegli un dado dalla riserva. Attenzione a sceglierne uno valido!");
     }
 
     private void toolSixValidator() {
@@ -229,29 +233,93 @@ public class ToolWindowManager {
         this.manager.executeCommandToolIfPresent(6);
     }
 
-    public void toolSevenWindow() {
-
+    private void toolSevenWindow() {
+        //there is no need to do anything for this tool card.
     }
 
-    public void toolSevenValidator() {
+    private void toolSevenValidator() {
         this.manager.executeCommandToolIfPresent(7);
     }
 
-    public void toolEightWindow() {
-        this.manager.communicateMessage("Scegli un dado dalla draft e piazzalo");
+    private void toolEightWindow() {
+        this.manager.communicateMessage("Scegli un dado dalla riserva e piazzalo");
     }
 
-    public void toolEightValidator() {
-        if(!(this.commonBoardWindow.getData().getPersonalWp().isWpCellClicked() && this.commonBoardWindow.getDraftPoolGUI().isDraftCellChosen())) {
+    private void toolEightValidator() {
+        if(defaultValidator())
+            this.manager.executeCommandToolIfPresent(8);
+        else
             this.manager.communicateMessage("Non hai riempito i campi corretti");
+
+    }
+
+    private void toolNineWindow() {
+        toolEightWindow();
+    }
+
+    private void toolNineValidator() {
+        if(defaultValidator())
+            this.manager.executeCommandToolIfPresent(9);
+        else
+            this.manager.communicateMessage("Non hai riempito i campi corretti");
+    }
+
+    private void toolTenWindow() {
+        toolEightWindow();
+    }
+
+    private void toolTenValidator() {
+        if(defaultValidator())
+            this.manager.executeCommandToolIfPresent(10);
+        else
+            this.manager.communicateMessage("Non hai riempito i campi corretti");
+    }
+
+    private void toolElevenWindow() {
+
+
+    }
+
+    private void toolElevenValidator() {
+
+    }
+
+    private void toolTwelveWindow() {
+        this.manager.communicateMessage("Scegli un dado dal tracciato dei round e poi scegli"
+                + " le celle di destinazione della tua mappa in cui vuoi spostare i dadi. Puoi spostarne fino a due.");
+
+    }
+
+    private void toolTwelveValidator() {
+        if(!this.commonBoardWindow.getRoundTrack().isRoundChosen()) {
+            this.manager.communicateMessage("Devi scegliere un dado dal tracciato dei round.");
+            return;
+        }
+
+        List<Integer> values = this.commonBoardWindow.getData().getPersonalWp().getCellsClicked();
+
+        if(values.size() != 4 && values.size() !=2) {
+            this.manager.communicateMessage("Puoi scegliere fino a due dadi. Scegli delle nuove coordinate.");
+            values.clear();
+            return;
+        }
+        this.manager.executeCommandToolIfPresent(12);
+
+    }
+
+    private boolean defaultValidator() {
+        if(!(this.commonBoardWindow.getData().getPersonalWp().isWpCellClicked() && this.commonBoardWindow.getDraftPoolGUI().isDraftCellChosen())) {
+            return false;
         }
         else {
             SetUpInformationUnit info = this.commonBoardWindow.getData().getSetUpInformationUnit();
             info.setSourceIndex(this.commonBoardWindow.getDraftPoolGUI().getIndexChosenCell());
             info.setDestinationIndex(this.commonBoardWindow.getData().getPersonalWp().getClicked());
-            this.manager.executeCommandToolIfPresent(8);
         }
+        return true;
     }
+
+
 
     public int getSlotId() {
         return slotId;

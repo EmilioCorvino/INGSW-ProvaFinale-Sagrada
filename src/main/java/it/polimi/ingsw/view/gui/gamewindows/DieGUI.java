@@ -31,6 +31,11 @@ public class DieGUI extends StackPane {
         this.getChildren().add(value);
         this.getStyleClass().add("dieChosen");
 
+        this.setMinHeight(45);
+        this.setMinWidth(45);
+        this.setMaxHeight(45);
+        this.setMaxWidth(45);
+
     }
 
     public Pane getColor() {

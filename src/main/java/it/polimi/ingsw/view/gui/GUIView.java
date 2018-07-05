@@ -136,8 +136,6 @@ public class GUIView implements IViewMaster {
                     System.exit(0);
                 }
             }
-        System.out.println("connection ok");
-
     }
 
 
@@ -194,9 +192,10 @@ public class GUIView implements IViewMaster {
     @Override
     public void setDraft(List<SetUpInformationUnit> draft) {
         Platform.runLater(() -> {
-
+            this.commonWindow.resetIsAlreadyUsedFlag();
             this.commonWindow.getDraftPoolGUI().formatDraftPool(draft);
             this.commonWindow.getDraftPoolGUI().cellAsSource();
+            this.commonWindow.manageToolButtons(false);
         });
     }
 
@@ -222,6 +221,8 @@ public class GUIView implements IViewMaster {
     @Override
     public void addOnOwnWp(SetUpInformationUnit unit) {
         Platform.runLater(() -> {
+            this.commonWindow.resetIsAlreadyUsedFlag();
+            this.commonWindow.manageToolButtons(false);
             DieGUI die = this.dieFactory.getsDieGUI(unit);
             this.commonWindow.getData().getPersonalWp().setWpCellClicked(false);
             this.commonWindow.getData().getPersonalWp().getCellsClicked().clear();

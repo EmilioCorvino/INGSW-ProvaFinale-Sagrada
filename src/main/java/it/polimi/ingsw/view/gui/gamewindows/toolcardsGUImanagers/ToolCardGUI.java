@@ -51,13 +51,29 @@ public class ToolCardGUI extends VBox {
         toolInfo.getChildren().add(costInfo);
         cost.getStyleClass().add("text-label");
 
+        VBox buttonsTool = new VBox();
+
         Button okButton = new Button("Ok");
         okButton.setVisible(false);
         okButton.getStyleClass().add("button-style");
-        toolInfo.getChildren().add(okButton);
+        buttonsTool.getChildren().add(okButton);
+
+        Button show = new Button("Mostra");
+        show.setVisible(false);
+        show.getStyleClass().add("button-style");
+        buttonsTool.getChildren().add(show);
+
+        toolInfo.getChildren().add(buttonsTool);
 
         this.setSpacing(40);
+    }
 
+    public void hideShowButton(Boolean val) {
+        HBox toolInfoCont = (HBox)this.getChildren().get(1);
+        VBox toolComm = (VBox)toolInfoCont.getChildren().get(1);
+
+        Button showButton = (Button)toolComm.getChildren().get(1);
+        showButton.setVisible(val);
     }
 
     public int getIdTool() {
