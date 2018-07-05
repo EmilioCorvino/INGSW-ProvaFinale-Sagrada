@@ -312,6 +312,11 @@ public class GUIView implements IViewMaster {
     }
 
     @Override
+    public void setServer(IFromClientToServer server) {
+        this.server = server;
+    }
+
+    @Override
     public void showRank(String[] playerNames, int[] scores) {
 
     }
