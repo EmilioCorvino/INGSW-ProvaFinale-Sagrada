@@ -129,6 +129,12 @@ public class DraftPoolGUI extends GridPane {
             this.add((DieGUI)dice.get(i), i%3, i/3);
     }
 
+    public void addOneDie(SetUpInformationUnit informationUnit) {
+        DieGUI die = this.dieFactory.getsDieGUI(informationUnit);
+        this.getChildren().add(die);
+
+    }
+
     public ToolWindowManager getToolManager() {
         return toolManager;
     }

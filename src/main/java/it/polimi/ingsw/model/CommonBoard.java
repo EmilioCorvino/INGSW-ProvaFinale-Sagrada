@@ -26,7 +26,7 @@ public class CommonBoard {
     private static final int NUMBER_OF_ROUNDS = 10;
 
     /**
-     * Players connected to the match.
+     * List of {@link Player}s connected to the match.
      */
     private final List<Player> players;
 
@@ -70,6 +70,10 @@ public class CommonBoard {
      */
     private final WindowPatternCardDeck windowPatternCardDeck;
 
+    /**
+     * Deck composed by {@link it.polimi.ingsw.model.cards.tool.ToolCard}s.
+     * @see ToolCardsDeck
+     */
     private final ToolCardsDeck toolCardsDeck;
 
     public CommonBoard() {
@@ -128,6 +132,11 @@ public class CommonBoard {
         return toolCardsDeck;
     }
 
+    /**
+     * Retrieves a specific player within {@link #players}.
+     * @param username name of the player to find.
+     * @return the player whose name is the same as the one in input.
+     */
     public Player getSpecificPlayer(String username) {
         for(Player p: players)
             if(username.equals(p.getPlayerName()))
@@ -135,13 +144,17 @@ public class CommonBoard {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * This method is used to populate {@link ToolCardSlot}s with {@link it.polimi.ingsw.model.cards.tool.ToolCard}s,
+     * drawn from the {@link ToolCardsDeck}.
+     */
     private void populateToolSlots(){
         //for (int i = 0; i < 3; i++) {
             //try {
                 //this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().drawCard()));
-                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(3)));
+                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(4)));
                 this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(5)));
-                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(10)));
+                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(6)));
                 //this.getToolCardSlots().get(i).setCost(1); //Default cost to use a tool card.
                 this.getToolCardSlots().forEach(slot -> slot.setCost(1));
             //} catch (EmptyException e) {
@@ -150,6 +163,10 @@ public class CommonBoard {
         //}
     }
 
+    /**
+     * This method is used to populate {@link PublicObjectiveCardSlot}s with {@link APublicObjectiveCard}s, drawn from
+     * the {@link PublicObjectiveCardsDeck}.
+     */
     private void populatePubObjSlots(){
         for (int i = 0; i < 3; i++) {
             try {
@@ -160,6 +177,9 @@ public class CommonBoard {
         }
     }
 
+    /**
+     * This method gives to each player a {@link PrivateObjectiveCard}, drawn from the {@link PrivateObjectiveCardsDeck}.
+     */
     public void givePrivateObjCard(){
         for (Player p: this.players)
             try {

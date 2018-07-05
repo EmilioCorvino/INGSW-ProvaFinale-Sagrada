@@ -109,7 +109,22 @@ public class GUIToolCardManager implements IToolCardManager {
 
     @Override
     public void tool5() {
+        List<SetUpInformationUnit> listInfo =  new ArrayList<>();
+        SetUpInformationUnit setup = this.playersData.getSetUpInformationUnit();
 
+        setup.setSourceIndex(this.view.getCommonWindow().getDraftPoolGUI().getIndexChosenCell());
+        setup.setDestinationIndex(this.playersData.getPersonalWp().getClicked());
+        setup.setExtraParam(this.view.getCommonWindow().getRoundTrack().getRound());
+        setup.setOffset(this.view.getCommonWindow().getRoundTrack().getOffset());
+
+        listInfo.add(setup);
+
+        try{
+            this.server.performToolCardMove(playersData.getSlotChosen(), listInfo);
+        } catch (BrokenConnectionException e) {
+            SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 4");
+            //disconnect();
+        }
     }
 
     @Override

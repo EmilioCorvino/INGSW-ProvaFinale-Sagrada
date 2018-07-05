@@ -118,7 +118,10 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
     }
 
     @Override
-    public void reconnect(Connection connection) {
+    public void reconnect(IRmiClient callBack, Connection connection) {
+        IFromServerToClient client = new RmiFromServerToClient(callBack);
+        connection.setClient(client);
+        connection.setServer(this.serverImplementation);
         synchronized (this) {
             this.serverImplementation.getConnectionsQueue().add(connection);
             this.serverImplementation.reconnect();

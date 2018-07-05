@@ -24,16 +24,28 @@ public class RoundTrackGUI extends VBox {
 
     private StackPane diceRound;
 
+    /**
+     * This attribute represents the object used to construct dice.
+     */
     private DieFactory dieFactory;
 
+    /**
+     * This attribute maps each id for the round with its specific list of available dice
+     * updated dynamically when required.
+     */
     private Map<Integer, List<SetUpInformationUnit>> allDiceRound;
+
+    private int round;
+
+    private int offset;
+
+    private boolean isRoundChosen;
 
 
     public RoundTrackGUI() {
 
         dieFactory = new DieFactory();
         allDiceRound = new HashMap<>();
-
 
         this.setSpacing(20);
         this.setPadding(new Insets(20));
@@ -62,7 +74,6 @@ public class RoundTrackGUI extends VBox {
 
             StackPane mainBase = new StackPane();
             this.getChildren().add(mainBase);
-
 
             StackPane baseRound = new StackPane();
             baseRound.setMinHeight(45);
@@ -103,11 +114,15 @@ public class RoundTrackGUI extends VBox {
         StackPane diceRound = (StackPane)mainRoundStack.getChildren().get(1);
         DieGUI dieToAdd = this.dieFactory.getsDieGUI(informationUnit);
         diceRound.getChildren().add(dieToAdd);
-
+        //dieToAdd.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> roundDieClickedHandler(mainRoundStack, dieToAdd));
+        //adds the information of the die to allow the construction of an updated list of dice each time.
         this.allDiceRound.get((informationUnit.getDestinationIndex() + 1)).add(informationUnit);
-
     }
 
+    /**
+     * This method allows to view all the available dice for a specific round.
+     * @param stack the main stack container of the dice.
+     */
     private void slideInDiceHandler(StackPane stack) {
         int index = this.getChildren().indexOf(stack);
         StackPane diceRound = (StackPane)stack.getChildren().get(1);
@@ -119,17 +134,22 @@ public class RoundTrackGUI extends VBox {
             list.forEach( elem -> {
                 DieGUI die = this.dieFactory.getsDieGUI(elem);
                 box.getChildren().add(die);
+                die.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> roundDieClickedHandler(stack, die, box));
             });
             diceRound.getChildren().add(box);
         }
-        System.out.println("layout x: " + stack.getLayoutX());
+
+        //This adds a translate transition to the hbox of dice of the selected round to show.
         TranslateTransition tt = new TranslateTransition(Duration.millis(10), box);
         tt.setByX( stack.getLayoutX() );
         tt.play();
-        }
+    }
 
-
-
+    /**
+     * This method removes the box of all the dice present in a round, after the mouse exits the
+     * round container area.
+     * @param main the main stack container of the dice of a single round.
+     */
     private void slideOutDiceHandler(StackPane main) {
         StackPane diceRound = (StackPane)main.getChildren().get(1);
         int size = diceRound.getChildren().size();
@@ -137,13 +157,45 @@ public class RoundTrackGUI extends VBox {
             diceRound.getChildren().remove(size -1 );
     }
 
-
-
-    public StackPane getDiceRound() {
-        return diceRound;
+    public void roundDieClickedHandler(StackPane main, DieGUI die, HBox box) {
+        int index = this.getChildren().indexOf(main);
+        setRound(index);
+        int offset = box.getChildren().indexOf(die);
+        setOffset(offset);
+        setRoundChosen(true);
     }
 
-    public void setDiceRound(StackPane diceRound) {
-        this.diceRound = diceRound;
+    public void removeOneDie(SetUpInformationUnit info) {
+        StackPane mainRoundStack = (StackPane)this.getChildren().get(info.getSourceIndex());
+        StackPane diceRound = (StackPane)mainRoundStack.getChildren().get(1);
+        diceRound.getChildren().remove(info.getOffset());
+
+        List<SetUpInformationUnit> list = this.allDiceRound.get(info.getSourceIndex() + 1);
+        list.remove(info.getOffset());
+
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
+    }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
+
+    public boolean isRoundChosen() {
+        return isRoundChosen;
+    }
+
+    public void setRoundChosen(boolean roundChosen) {
+        isRoundChosen = roundChosen;
     }
 }

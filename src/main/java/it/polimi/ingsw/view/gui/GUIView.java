@@ -251,6 +251,7 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void addOnDraft(SetUpInformationUnit info) {
+        Platform.runLater(() -> this.commonWindow.getDraftPoolGUI().addOneDie(info));
 
     }
 
@@ -268,15 +269,13 @@ public class GUIView implements IViewMaster {
     public void addOnRoundTrack(SetUpInformationUnit info) {
         Platform.runLater(() -> {
             this.commonWindow.getRoundTrack().addDieToRound(info);
-
-
         });
 
     }
 
     @Override
     public void removeOnRoundTrack(SetUpInformationUnit info) {
-
+        Platform.runLater(() -> this.commonWindow.getRoundTrack().removeOneDie(info));
     }
 
     @Override
@@ -338,7 +337,11 @@ public class GUIView implements IViewMaster {
         this.listPlayers = listPlayers;
     }
 
+    public CommonBoardWindow getCommonWindow() {
+        return commonWindow;
+    }
 
-
-
+    public void setCommonWindow(CommonBoardWindow commonWindow) {
+        this.commonWindow = commonWindow;
+    }
 }
