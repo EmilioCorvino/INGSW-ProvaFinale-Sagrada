@@ -82,8 +82,6 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
             SagradaLogger.log(Level.SEVERE, "Connection broken during log out", e);
             disconnect();
         }
-        super.view.getScannerThread().stopExecution();
-        super.inputOutputManager.closeScanner();
         super.inputOutputManager.print("\nDISCONNESSIONE AVVENUTA CON SUCCESSO");
         System.exit(0);
     }
