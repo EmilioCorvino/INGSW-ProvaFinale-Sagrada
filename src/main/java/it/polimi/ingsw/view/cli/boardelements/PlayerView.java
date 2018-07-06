@@ -3,7 +3,7 @@ package it.polimi.ingsw.view.cli.boardelements;
 import it.polimi.ingsw.view.cli.die.WindowPatternCardView;
 
 /**
- * This class identify the player.
+ * This class that identifies the player in the view.
  */
 public class PlayerView {
 

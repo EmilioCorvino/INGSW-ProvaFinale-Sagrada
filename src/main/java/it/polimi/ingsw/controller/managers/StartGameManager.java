@@ -163,24 +163,28 @@ public class StartGameManager extends AGameManager {
      * sets said window pattern card to the player, adds the player to the ones that have correctly chosen the
      * window pattern card ({@link #playersWhoChose}) and starts the match if everybody has chosen.
      * If the ID is not correct, this methods says it to the player and asks for another ID.
-     * @param username name of the player sending the chosen {@link WindowPatternCard}.
+     * @param playerName name of the player sending the chosen {@link WindowPatternCard}.
      * @param chosenWp chosen {@link WindowPatternCard}.
      */
-    public void wpToSet(String username, int chosenWp) {
+    public void wpToSet(String playerName, int chosenWp) {
+        if (this.handleIllegalStateRequests(playerName)) {
+            return;
+        }
+
         CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
-        if (this.listOfSentWpID.get(username).contains(chosenWp)) {
+        if (this.listOfSentWpID.get(playerName).contains(chosenWp)) {
             WindowPatternCard wpToSet = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenWp);
-            commonBoard.getSpecificPlayer(username).setWindowPatternCard(wpToSet);
-            this.markPlayerAndEventuallyStartMatch(username);
+            commonBoard.getSpecificPlayer(playerName).setWindowPatternCard(wpToSet);
+            this.markPlayerAndEventuallyStartMatch(playerName);
         } else {
             try {
-                super.getControllerMaster().getConnectedPlayers().get(username).getClient()
+                super.getControllerMaster().getConnectedPlayers().get(playerName).getClient()
                         .showNotice("Hai selezionato una vetrata non valida, reinserisci un ID tra quelli mostrati.");
-                super.getControllerMaster().getConnectedPlayers().get(username).getClient()
+                super.getControllerMaster().getConnectedPlayers().get(playerName).getClient()
                         .showCommand(Arrays.asList(Commands.CHOOSE_WP, Commands.LOGOUT));
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Impossible to send a notice to the client");
-                this.exitGame(username);
+                this.exitGame(playerName);
             }
         }
     }
@@ -232,7 +236,7 @@ public class StartGameManager extends AGameManager {
     }
 
     /**
-     * This method sets a {@link CommonBoard} to a specific player.
+     * This method sets a complete {@link CommonBoard} to a specific player.
      * @param playerName player whose {@link CommonBoard} has to be set.
      */
     public void setOneCommonBoard(String playerName) {
@@ -244,6 +248,8 @@ public class StartGameManager extends AGameManager {
         IFromServerToClient client = super.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
         if (!super.getControllerMaster().getDisconnectedPlayers().contains(playerName)) {
             try {
+                client.showPrivateObjective(privateObjCardConverter(playerName));
+                client.setDraft(draftPoolConverter());
                 client.setCommonBoard(mapOfWp, idPubObj, idTool);
                 client.setFavorToken(numberFavTokenConverter(playerName));
             } catch (BrokenConnectionException e) {
@@ -265,6 +271,12 @@ public class StartGameManager extends AGameManager {
             public void run() {
                 SagradaLogger.log(Level.WARNING, playerName + " wp choice timer is expired");
                 if (!playersWhoChose.contains(playerName)) {
+                    IFromServerToClient client = getPlayerClient(playerName);
+                    try {
+                        client.showNotice("\nIl tempo a tua disposizione è scaduto, sei stato sospeso.");
+                    } catch (BrokenConnectionException e) {
+                        SagradaLogger.log(Level.WARNING, playerName + " disconnected during time out");
+                    }
                     exitGame(playerName);
                 }
             }
@@ -276,7 +288,7 @@ public class StartGameManager extends AGameManager {
      * {@link WindowPatternCard}, a random one is assigned among the sent ones.
      * @param playerName name of the player that wants to log out.
      */
-    public void exitGame(String playerName) {
+    public synchronized void exitGame(String playerName) {
         super.getControllerMaster().suspendPlayer(playerName, true);
 
         if (!this.playersWhoChose.contains(playerName)) {
@@ -284,7 +296,6 @@ public class StartGameManager extends AGameManager {
             List<Integer> idSent = this.listOfSentWpID.get(playerName);
             int random = new Random().nextInt(idSent.size());
             this.wpToSet(playerName, this.listOfSentWpID.get(playerName).get(random));
-            this.playersWhoChose.add(playerName);
         }
 
         if (this.playersWhoChose.size() == super.getControllerMaster().getCommonBoard().getPlayers().size() && !this.isMatchRunning()) {
@@ -300,16 +311,16 @@ public class StartGameManager extends AGameManager {
 
     /**
      * Converts the {@link it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard} of a player into its id.
-     * @param userName name of the player owning the
+     * @param playerName name of the player owning the
      *                 {@link it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard}.
      * @return id of the {@link it.polimi.ingsw.model.cards.objective.privates.PrivateObjectiveCard} owned by
      * the player.
      */
-    private int privateObjCardConverter(String userName) {
+    private int privateObjCardConverter(String playerName) {
         List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
 
         for (Player p : players)
-            if (p.getPlayerName().equals(userName)) {
+            if (p.getPlayerName().equals(playerName)) {
                 return p.getPrivateObjectiveCard().getId();
             }
         return 0;
@@ -423,15 +434,41 @@ public class StartGameManager extends AGameManager {
 
     /**
      * Retrieves the favor tokens owned by the player.
-     * @param userName name of the player owning the favor tokens.
+     * @param playerName name of the player owning the favor tokens.
      * @return the number of favor tokens owned by the player.
      */
-    private int numberFavTokenConverter(String userName) {
+    private int numberFavTokenConverter(String playerName) {
         List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
 
         for (Player p : players)
-            if (p.getPlayerName().equals(userName))
+            if (p.getPlayerName().equals(playerName))
                 return p.getFavorTokens();
         return 0;
+    }
+
+//----------------------------------------------------------
+//                    UTILITY METHODS
+//----------------------------------------------------------
+
+    /**
+     * This method is used to handle those situations in which the player tries to choose a {@link WindowPatternCard},
+     * through {@link #wpToSet(String, int)}, when the match is already started. It shows the asking players the
+     * {@link Commands} to reconnect or logout.
+     * @param playerName name of the player making the illegal request.
+     * @return {@code true} if the request is illegal, {@code false} otherwise.
+     */
+    private boolean handleIllegalStateRequests(String playerName) {
+        if (this.isMatchRunning()) {
+            IFromServerToClient client = super.getPlayerClient(playerName);
+            try {
+                client.showNotice("\nNon puoi scegliere la vetrata quando la partita è iniziata!");
+                client.showCommand(Arrays.asList(Commands.RECONNECT, Commands.LOGOUT));
+            } catch (BrokenConnectionException e) {
+                SagradaLogger.log(Level.WARNING, playerName + " disconnected while recovering from an" +
+                        " illegal start game state.");
+            }
+            return true;
+        }
+        return false;
     }
 }

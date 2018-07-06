@@ -122,7 +122,7 @@ public class ControllerMaster {
      * @param playerName player to suspend.
      * @param disconnected flag that signals if the suspension is due to a disconnection or not.
      */
-    public void suspendPlayer(String playerName, boolean disconnected) {
+    public synchronized void suspendPlayer(String playerName, boolean disconnected) {
         if (!this.suspendedPlayers.contains(playerName)) {
             this.suspendedPlayers.add(playerName);
             if (disconnected && !this.disconnectedPlayers.contains(playerName)) {
@@ -168,7 +168,7 @@ public class ControllerMaster {
      *                   at reconnection is done.
      * @see WaitingRoom
      */
-    void reconnectPlayer(String playerName, Connection connection) {
+    synchronized void reconnectPlayer(String playerName, Connection connection) {
         if (this.getStartGameManager().isMatchRunning()) {
             this.getConnectedPlayers().replace(playerName, connection);
             IFromServerToClient client = this.connectedPlayers.get(playerName).getClient();
