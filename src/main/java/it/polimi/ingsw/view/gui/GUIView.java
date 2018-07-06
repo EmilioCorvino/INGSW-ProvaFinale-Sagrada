@@ -266,6 +266,11 @@ public class GUIView implements IViewMaster {
         });
     }
 
+    @Override
+    public void setRestoredWindowPatternCards(Map<String, List<SetUpInformationUnit>> diceToRestore) {
+
+    }
+
     /**
      * This method is responsible for updating all the available commands the user can execute at each time.
      * @param commands the list of available commands.

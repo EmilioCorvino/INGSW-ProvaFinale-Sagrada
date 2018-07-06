@@ -133,7 +133,7 @@ public class EndGameManager extends AGameManager {
      * {@link it.polimi.ingsw.controller.WaitingRoom} whether there is at least one player willing to play again.
      * @param playerName name of the player sending the request.
      */
-    public synchronized void exitGame(String playerName) {
+    public void exitGame(String playerName) {
         if (!playersThatAnswered.contains(playerName) && !super.getControllerMaster().getSuspendedPlayers().contains(playerName)) {
             this.playersThatAnswered.add(playerName);
         }
@@ -171,7 +171,7 @@ public class EndGameManager extends AGameManager {
      * connections drop.
      * @param playerName player sending the request.
      */
-    public synchronized void newGame(String playerName) {
+    public void newGame(String playerName) {
         if (!playersThatAnswered.contains(playerName)) {
             this.playersThatAnswered.add(playerName);
         }
