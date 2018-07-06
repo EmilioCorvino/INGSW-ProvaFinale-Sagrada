@@ -288,7 +288,7 @@ public class StartGameManager extends AGameManager {
      * {@link WindowPatternCard}, a random one is assigned among the sent ones.
      * @param playerName name of the player that wants to log out.
      */
-    public synchronized void exitGame(String playerName) {
+    public void exitGame(String playerName) {
         super.getControllerMaster().suspendPlayer(playerName, true);
 
         if (!this.playersWhoChose.contains(playerName)) {
