@@ -15,6 +15,7 @@ import java.util.logging.Level;
 /**
  * This class is used to launch a client that uses the command line interface.
  * @see CliView
+ * @see it.polimi.ingsw.client.view.gui.GUIView
  */
 public class ClientMain {
 
