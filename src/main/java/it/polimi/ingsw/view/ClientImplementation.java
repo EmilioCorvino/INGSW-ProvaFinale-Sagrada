@@ -103,7 +103,7 @@ public class ClientImplementation implements IFromServerToClient {
 
     @Override
     public void setRestoredWindowPatternCards(Map<String, List<SetUpInformationUnit>> diceToRestore) {
-
+        view.setRestoredWindowPatternCards(diceToRestore);
     }
 
     @Override
