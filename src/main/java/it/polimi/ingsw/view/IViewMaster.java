@@ -24,6 +24,8 @@ public interface IViewMaster {
 
     void setFavorToken(int nFavTokens);
 
+    void setRestoredWindowPatternCards(Map<String, List<SetUpInformationUnit>> diceToRestore);
+
    void showCommand(List<Commands> commands);
 
     void addOnOwnWp(SetUpInformationUnit unit);

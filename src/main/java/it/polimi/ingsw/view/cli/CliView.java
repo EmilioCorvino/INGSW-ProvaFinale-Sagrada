@@ -239,6 +239,31 @@ public class CliView implements IViewMaster {
         inputOutputManager.print(this.player.favTokensToString());
     }
 
+    @Override
+    public void setRestoredWindowPatternCards(Map<String, List<SetUpInformationUnit>> diceToRestore) {
+        
+        diceToRestore.forEach( (playerName, dice) -> {
+            if (playerName.equals(player.getUserName()))
+                restoreOwnWp(dice);
+            else{
+                for (PlayerView p : this.getCommonBoard().getPlayers())
+                    restoreOtherPlayersWp(p, playerName, dice);
+            }
+        });
+    }
+
+    private void restoreOwnWp(List<SetUpInformationUnit> dice){
+        for(SetUpInformationUnit die : dice)
+            gamePlayManager.addOnWp(player.getWp(), die);
+    }
+
+    private void restoreOtherPlayersWp(PlayerView p, String playerName, List<SetUpInformationUnit> dice){
+
+            if (p.getUserName().equals(playerName))
+                for (SetUpInformationUnit die : dice)
+                    gamePlayManager.addOnWp(p.getWp(), die);
+    }
+
 //----------------------------------------------------------
 //                  GAME PLAY STATE
 //----------------------------------------------------------
