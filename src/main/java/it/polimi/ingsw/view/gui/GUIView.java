@@ -441,8 +441,11 @@ public class GUIView implements IViewMaster {
      */
     @Override
     public void forceLogOut() {
-        this.manager.communicateMessage("Logout effettuato");
-        System.exit(0);
+        Platform.runLater( () -> {
+            this.manager.communicateMessage("Logout effettuato");
+            System.exit(0);
+        });
+
     }
 
     public void setLoginManager(LoginIpAddrTypeConnGUI loginManager) {

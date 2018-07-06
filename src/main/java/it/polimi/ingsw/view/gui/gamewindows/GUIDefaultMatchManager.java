@@ -73,6 +73,7 @@ public class GUIDefaultMatchManager implements IDefaultMatchManager {
 
     @Override
     public void exitGame() {
+        System.out.println("arriva nell exit game");
         try{
             this.server.exitGame();
         } catch (BrokenConnectionException e){
