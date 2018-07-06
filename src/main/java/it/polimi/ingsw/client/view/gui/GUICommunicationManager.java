@@ -1,10 +1,13 @@
 package it.polimi.ingsw.client.view.gui;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -25,10 +28,11 @@ public class GUICommunicationManager {
       functions = new LinkedHashMap<>();
 
       newWindow = new Stage();
-      newWindow.setTitle("Second Stage");
+      newWindow.initStyle(StageStyle.TRANSPARENT);
 
 
-      newWindow.initModality(Modality.WINDOW_MODAL);
+
+      //newWindow.initModality(Modality.WINDOW_MODAL);
 
       newWindow.initOwner(GUIMain.getStage());
 
@@ -71,24 +75,29 @@ public class GUICommunicationManager {
     * @param message the message to display.
     */
    public void communicateMessage(String message) {
-      /*
-      Alert alert = new Alert(Alert.AlertType.INFORMATION);
-      alert.initStyle(StageStyle.TRANSPARENT);
-      alert.setHeaderText(null);
-      alert.setContentText(message);
-      alert.showAndWait();
-      alert.setOnCloseRequest(event -> alert.hide());
-      */
 
       Pane secondWindow = new Pane();
       Label secondLabel = new Label(message);
+      //secondWindow.setLayoutX(200);
+     // secondWindow.setLayoutY(100);
       secondWindow.getChildren().addAll(secondLabel);
+      secondLabel.setPrefWidth(400);
+      secondLabel.setWrapText(true);
+      secondLabel.setPadding(new Insets(15));
+      secondLabel.setAlignment(Pos.CENTER);
+      secondLabel.getStyleClass().add("text-label");
 
-      Scene second = new Scene(secondWindow, 400, 100);
+
+      secondWindow.getStylesheets().add("style/backgrounds.css");
+      secondWindow.getStyleClass().add("background");
+      secondWindow.getStyleClass().add("notification");
+
+      Scene second = new Scene(secondWindow, 400, 110);
+      second.setFill(Color.TRANSPARENT);
 
        newWindow.setScene(second);
 
-      newWindow.show();
+       newWindow.show();
 
    }
 

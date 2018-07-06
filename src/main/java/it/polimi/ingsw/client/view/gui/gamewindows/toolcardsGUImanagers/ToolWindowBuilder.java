@@ -64,7 +64,6 @@ public class ToolWindowBuilder {
 
         GUIMain.centerScreen();
 
-        supportStage.initStyle(StageStyle.TRANSPARENT);
         supportStage.initOwner(GUIMain.getStage());
     }
 

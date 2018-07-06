@@ -89,6 +89,12 @@
     -fx-background-color: transparent;
 }
 
+.notification {
+   -fx-background-color: rgba(25, 25, 77, 0.3);
+   -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 10, 10);
+   -fx-background-radius: 10;
+}
+
 
 
 
