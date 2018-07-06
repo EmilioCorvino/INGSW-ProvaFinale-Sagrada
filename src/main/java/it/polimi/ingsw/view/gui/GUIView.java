@@ -314,12 +314,26 @@ public class GUIView implements IViewMaster {
 
     @Override
     public void addOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) {
-
+        Platform.runLater(() -> {
+            List<WpGui> list = this.playersData.getOtherMaps();
+            list.forEach( map -> {
+                if(map.getName().equals(userName)) {
+                    DieGUI die = this.dieFactory.getsDieGUI(infoUnit);
+                    map.addOnThisWp(die, infoUnit.getDestinationIndex());
+                }
+            });
+        });
     }
 
     @Override
     public void removeOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) {
-
+        Platform.runLater(() -> {
+            List<WpGui> list = this.playersData.getOtherMaps();
+            list.forEach( map -> {
+                if(map.getName().equals(userName))
+                    map.removeFromThisWp(infoUnit.getSourceIndex());
+            });
+        });
     }
 
     /**
@@ -445,7 +459,6 @@ public class GUIView implements IViewMaster {
             this.manager.communicateMessage("Logout effettuato");
             System.exit(0);
         });
-
     }
 
     public void setLoginManager(LoginIpAddrTypeConnGUI loginManager) {

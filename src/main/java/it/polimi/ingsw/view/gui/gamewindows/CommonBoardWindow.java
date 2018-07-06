@@ -291,10 +291,11 @@ public class CommonBoardWindow extends ParentWindow {
         base.setMaxWidth(300);
         box.setMinWidth(280);
         box.setMaxWidth(280);
-        box.setPadding(new Insets(60, 0, 0, 28));
+        box.setPadding(new Insets(50, 0, 0, 28));
         box.setSpacing(62);
 
         VBox favorTok = new VBox();
+        favorTok.setSpacing(5);
         Label titleFav = new Label(this.data.getUsername());
         favorTok.setPadding(new Insets(0, 0, 0, 45));
         titleFav.getStyleClass().add("text-label-bold");

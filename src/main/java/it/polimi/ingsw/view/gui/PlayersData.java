@@ -50,9 +50,12 @@ public class PlayersData {
      */
     private List<VBox> otherPLayersMaps;
 
+    private List<WpGui> otherMaps;
+
     public PlayersData() {
         setUpInformationUnit = new SetUpInformationUnit();
         otherPLayersMaps = new ArrayList<>();
+        otherMaps = new ArrayList<>();
     }
 
     public void constructOtherPlayerMap(Map<String, SimplifiedWindowPatternCard> players) {
@@ -74,6 +77,8 @@ public class PlayersData {
         nameLabel.getStyleClass().add("text-label");
 
         WpGui wpGui = new WpGui();
+        this.otherMaps.add(wpGui);
+        wpGui.setName(name);
         wpGui.constructMap(map);
 
         box.getChildren().addAll(nameLabel, wpGui.getGlassWindow());
@@ -134,7 +139,7 @@ public class PlayersData {
         return otherPLayersMaps;
     }
 
-    public void setOtherPLayersMaps(List<VBox> otherPLayersMaps) {
-        this.otherPLayersMaps = otherPLayersMaps;
+    public List<WpGui> getOtherMaps() {
+        return otherMaps;
     }
 }

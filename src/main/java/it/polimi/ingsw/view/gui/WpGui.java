@@ -55,8 +55,6 @@ public class WpGui extends Pane {
      */
     private int clicked;
 
-    private boolean isHandlerActive;
-
     /**
      * This represents a list of cells clicked.
      */
@@ -66,6 +64,8 @@ public class WpGui extends Pane {
      * This indicates if a cell has been clicked or not.
      */
     private boolean wpCellClicked;
+
+    private String name;
 
     public WpGui() {
 
@@ -250,11 +250,11 @@ public class WpGui extends Pane {
         this.wpCellClicked = wpCellClicked;
     }
 
-    public boolean isHandlerActive() {
-        return isHandlerActive;
+    public String getName() {
+        return name;
     }
 
-    public void setHandlerActive(boolean handlerActive) {
-        isHandlerActive = handlerActive;
+    public void setName(String name) {
+        this.name = name;
     }
 }
