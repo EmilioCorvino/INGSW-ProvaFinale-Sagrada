@@ -172,7 +172,12 @@ public class CommonBoardWindow extends ParentWindow {
 
         this.header.setSpacing(1070);
 
-        exit.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> System.exit(0));
+        exit.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            if(this.manager.isCommandContained("Logout"))
+                this.manager.executeCommandIfPresent("Logout");
+            else
+                this.manager.communicateMessage("Non disponibile");
+        });
         help.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> this.manager.communicateMessage("Seleziona una sola delle 4 mappe presentate"));
         minimize.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> GUIMain.getStage().setIconified(true));
     }

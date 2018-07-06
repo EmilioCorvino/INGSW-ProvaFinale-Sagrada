@@ -431,9 +431,13 @@ public class GUIView implements IViewMaster {
         });
     }
 
+    /**
+     * This method executes the logout for the player.
+     */
     @Override
     public void forceLogOut() {
-
+        this.manager.communicateMessage("Logout effettuato");
+        System.exit(0);
     }
 
     public void setLoginManager(LoginIpAddrTypeConnGUI loginManager) {

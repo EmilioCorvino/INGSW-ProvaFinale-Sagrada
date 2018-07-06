@@ -73,7 +73,12 @@ public class GUIDefaultMatchManager implements IDefaultMatchManager {
 
     @Override
     public void exitGame() {
-
+        try{
+            this.server.exitGame();
+        } catch (BrokenConnectionException e){
+            SagradaLogger.log(Level.SEVERE, "Connection broken during log out");
+           // disconnect();
+        }
     }
 
     @Override
