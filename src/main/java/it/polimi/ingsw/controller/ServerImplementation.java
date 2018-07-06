@@ -6,7 +6,9 @@ import it.polimi.ingsw.controller.managers.StartGameManager;
 import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.network.Connection;
 import it.polimi.ingsw.network.IFromClientToServer;
+import it.polimi.ingsw.network.IFromServerToClient;
 import it.polimi.ingsw.utils.SagradaLogger;
+import it.polimi.ingsw.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.utils.exceptions.MatchAlreadyStartedException;
 import it.polimi.ingsw.utils.exceptions.TooManyUsersException;
 import it.polimi.ingsw.utils.exceptions.UserNameAlreadyTakenException;
@@ -50,13 +52,13 @@ public class ServerImplementation implements IFromClientToServer {
     }
 
     /**
-     *
+     * Method used to log in.
      * @param gameMode can be either single-player or multi-player.
      * @param playerName name the player chooses for himself in the application.
      */
     @Override
     public void login(int gameMode, String playerName) {
-        //figure how to use this
+        //useful for socket
     }
 
     /**
@@ -128,24 +130,37 @@ public class ServerImplementation implements IFromClientToServer {
      */
     @Override
     public void exitGame() {
-        String userName = connectionsQueue.remove().getUserName();
+        String username = connectionsQueue.remove().getUserName();
+        IFromServerToClient client = getController().getConnectedPlayers().get(username).getClient();
 
         //End Game.
         if (this.getController().getGameState().isMatchOver()) {
             EndGameManager endGameManager = this.controller.getEndGameManager();
-            endGameManager.exitGame(userName);
+            endGameManager.exitGame(username);
             return;
         }
 
         //Game Play.
         if (this.getController().getStartGameManager().isMatchRunning()) {
-            this.controller.suspendPlayer(userName, true);
+            this.controller.suspendPlayer(username, true);
+            try {
+                client.forceLogOut();
+            } catch (BrokenConnectionException e) {
+                SagradaLogger.log(Level.WARNING, username + "is unreachable while forcing him " +
+                        "to log out");
+            }
             return;
         }
 
         //Start Game
         StartGameManager startGameManager = this.controller.getStartGameManager();
-        startGameManager.exitGame(userName);
+        startGameManager.exitGame(username);
+        try {
+            client.forceLogOut();
+        } catch (BrokenConnectionException e) {
+            SagradaLogger.log(Level.WARNING, username + "is unreachable while forcing him " +
+                    "to log out");
+        }
     }
 
     @Override

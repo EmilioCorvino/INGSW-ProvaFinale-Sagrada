@@ -79,7 +79,7 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
         try{
             super.server.exitGame();
         } catch (BrokenConnectionException e){
-            SagradaLogger.log(Level.SEVERE, "Connection broken during log out", e);
+            SagradaLogger.log(Level.SEVERE, "Connection broken during log out");
             disconnect();
         }
 }

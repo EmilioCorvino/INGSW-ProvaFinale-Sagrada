@@ -88,8 +88,17 @@ public class RmiFromServerToClient implements IFromServerToClient {
         try {
             this.rmiClient.setFavorToken(nFavTokens);
         } catch (RemoteException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to correctly set the player");
+            SagradaLogger.log(Level.SEVERE, "Impossible to correctly set the favor tokens to the player");
             throw new BrokenConnectionException();
+        }
+    }
+
+    @Override
+    public void setRestoredWindowPatternCards(Map<String, List<SetUpInformationUnit>> diceToRestore) throws BrokenConnectionException {
+        try {
+            this.rmiClient.setRestoredWindowPatternCards(diceToRestore);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to restore the Window Pattern Cards to the player");
         }
     }
 
