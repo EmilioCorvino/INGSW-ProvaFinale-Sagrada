@@ -26,7 +26,6 @@ import it.polimi.ingsw.server.model.turn.GameState;
 import it.polimi.ingsw.server.model.turn.Turn;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
@@ -111,7 +110,7 @@ public class GamePlayManager extends AGameManager {
         super.timeOut = BACK_UP_TIMER;
 
         //Value read from file. If the loading is successful, it overwrites the back up.
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_FILE)))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(GamePlayManager.class.getResourceAsStream(TIMER_FILE)))) {
             super.timeOut = Long.parseLong(reader.readLine());
             SagradaLogger.log(Level.CONFIG, "Timer successfully loaded from file. Its value is: " + timeOut / 1000 + "s");
         } catch (IOException e) {

@@ -16,9 +16,9 @@ import it.polimi.ingsw.server.model.cards.tool.effects.value.ChooseValueEffect;
 import it.polimi.ingsw.server.model.cards.tool.effects.value.OppositeValueEffect;
 import it.polimi.ingsw.server.model.move.DefaultDiePlacementMove;
 
-import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Reader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Random;
@@ -31,7 +31,7 @@ import java.util.logging.Level;
  */
 public class ToolCardsDeck {
 
-    private static final String TOOL_CARDS = "./src/main/resources/cards/tool/toolCards.json";
+    private static final String TOOL_CARDS = "/cards/tool/toolCards.json";
 
     /**
      * List containing all the {@link ToolCard}s of the game.
@@ -49,8 +49,8 @@ public class ToolCardsDeck {
         Gson gson = new Gson();
         //The TypeToken is needed to get the full parametrized type of the collection.
         Type listCards = new TypeToken<Vector<ToolCard>>(){}.getType();
-        try(Reader file = new FileReader(TOOL_CARDS)) {
-            this.deck = gson.fromJson(file, listCards);
+        try(BufferedReader reader = new BufferedReader(new InputStreamReader(ToolCardsDeck.class.getResourceAsStream(TOOL_CARDS)))) {
+            this.deck = gson.fromJson(reader, listCards);
         } catch (IOException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to access tool cards file", e);
         }

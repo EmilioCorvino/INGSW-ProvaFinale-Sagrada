@@ -5,7 +5,6 @@ import it.polimi.ingsw.common.utils.SagradaLogger;
 import it.polimi.ingsw.server.controller.WaitingRoom;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.registry.LocateRegistry;
@@ -20,7 +19,7 @@ public class ServerMain {
 
     private WaitingRoom room; //Substitute this with a match handler to handle more matches.
 
-    public static final String RMI_PORT_PATH = "./src/main/resources/config/rmiPort";
+    public static final String RMI_PORT_PATH = "/config/rmiPort";
 
     private ServerMain(WaitingRoom room) {
         this.room = room;
@@ -34,7 +33,7 @@ public class ServerMain {
             RmiServer rmiServer = new RmiServer(port, room); //to handle more matches, here a MatchHandler should be passed.
             registry.bind("RmiServer", rmiServer);
         } catch (Exception e) {
-            SagradaLogger.log(Level.SEVERE, "Rmi server exception", e);
+            SagradaLogger.log(Level.SEVERE, "Rmi server exception");
         }
         SagradaLogger.log(Level.INFO,"Rmi Server ready on port " + port + ", waiting for connections...");
     }
@@ -60,10 +59,10 @@ public class ServerMain {
 
    public static int loadPort(String path) {
        int port = 0;
-       try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)))) {
+       try(BufferedReader reader = new BufferedReader(new InputStreamReader(ServerMain.class.getResourceAsStream(path)))) {
            port = Integer.parseInt(reader.readLine());
        } catch (IOException e) {
-           SagradaLogger.log(Level.SEVERE, "Impossible to load the port from file.", e);
+           SagradaLogger.log(Level.SEVERE, "Impossible to load the port from file.");
        }
        SagradaLogger.log(Level.CONFIG, "Port successfully loaded.");
        return port;

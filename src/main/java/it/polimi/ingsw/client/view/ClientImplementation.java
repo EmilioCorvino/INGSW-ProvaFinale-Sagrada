@@ -7,7 +7,6 @@ import it.polimi.ingsw.common.simplifiedview.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.common.utils.SagradaLogger;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
@@ -45,7 +44,7 @@ public class ClientImplementation implements IFromServerToClient {
     /**
      * Path of the file containing the maximum amount of time available for players to make a choice.
      */
-    private static final String TIMER_FILE = "./src/main/resources/config/turnTimer";
+    private static final String TIMER_FILE = "/config/turnTimer";
 
     /**
      * View chosen by the user.
@@ -59,7 +58,7 @@ public class ClientImplementation implements IFromServerToClient {
         timeOut = BACK_UP_TIMER;
 
         //Value read from file. If the loading is successful, it overwrites the back up.
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(TIMER_FILE)))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(ClientImplementation.class.getResourceAsStream(TIMER_FILE)))) {
             timeOut = Long.parseLong(reader.readLine())*2;
         } catch (IOException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to load the server timer from file", e);

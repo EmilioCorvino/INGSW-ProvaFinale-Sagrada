@@ -6,9 +6,9 @@ import it.polimi.ingsw.common.utils.SagradaLogger;
 import it.polimi.ingsw.server.model.cards.objective.AObjectiveCard;
 import it.polimi.ingsw.server.model.cards.objective.AObjectiveCardsDeck;
 
-import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Reader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Vector;
@@ -20,7 +20,7 @@ import java.util.logging.Level;
  */
 public class PrivateObjectiveCardsDeck extends AObjectiveCardsDeck {
 
-    private static final String PRIV_OBJ_CARDS = "./src/main/resources/cards/objective/privateObjectiveCards.json";
+    private static final String PRIV_OBJ_CARDS = "/cards/objective/privateObjectiveCards.json";
 
     public List<PrivateObjectiveCard> getDeck() {
         return (List<PrivateObjectiveCard>) this.deck;
@@ -33,8 +33,8 @@ public class PrivateObjectiveCardsDeck extends AObjectiveCardsDeck {
         Gson gson = new Gson();
         //The TypeToken is needed to get the full parametrized type of the collection.
         Type listCards = new TypeToken<Vector<PrivateObjectiveCard>>(){}.getType();
-        try(Reader file = new FileReader(PRIV_OBJ_CARDS)) {
-            this.deck = gson.fromJson(file, listCards);
+        try(BufferedReader reader = new BufferedReader(new InputStreamReader(PrivateObjectiveCardsDeck.class.getResourceAsStream(PRIV_OBJ_CARDS)))) {
+            this.deck = gson.fromJson(reader, listCards);
         } catch (IOException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to access private objective cards file", e);
         }

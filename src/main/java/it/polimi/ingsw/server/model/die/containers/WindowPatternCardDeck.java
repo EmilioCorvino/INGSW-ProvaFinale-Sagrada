@@ -8,9 +8,9 @@ import it.polimi.ingsw.common.utils.exceptions.EmptyException;
 import it.polimi.ingsw.server.model.die.Cell;
 import it.polimi.ingsw.server.model.restrictions.ARestriction;
 
-import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Reader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -28,6 +28,8 @@ public class WindowPatternCardDeck {
      */
     private List<List<WindowPatternCard>> deck;
 
+    private static final String WINDOW_PATTER_CARDS = "/cards/windowPatternCard.json";
+
     public WindowPatternCardDeck(){
         this.availableWP = new ArrayList<>();
         this.deck = new ArrayList<>();
@@ -38,8 +40,8 @@ public class WindowPatternCardDeck {
      */
     public void parseDeck() {
         Gson gson = new Gson();
-        try (Reader file = new FileReader("./src/main/resources/cards/windowPatternCard.json")) {
-            this.availableWP = gson.fromJson(file, new TypeToken<List<WindowPatternCard>>(){}.getType());
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(WindowPatternCardDeck.class.getResourceAsStream(WINDOW_PATTER_CARDS)))) {
+            this.availableWP = gson.fromJson(reader, new TypeToken<List<WindowPatternCard>>(){}.getType());
         } catch (IOException e) {
             SagradaLogger.log(Level.SEVERE, "Error during parsing, file not read", e);
         }
