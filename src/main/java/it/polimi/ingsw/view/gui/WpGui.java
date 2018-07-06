@@ -50,17 +50,22 @@ public class WpGui extends Pane {
      */
     private final Map<Color, String> colorMap;
 
+    /**
+     * The index of the cell clicked by the user.
+     */
     private int clicked;
 
     private boolean isHandlerActive;
 
-
-
+    /**
+     * This represents a list of cells clicked.
+     */
     private List<Integer> cellsClicked;
 
+    /**
+     * This indicates if a cell has been clicked or not.
+     */
     private boolean wpCellClicked;
-
-
 
     public WpGui() {
 
@@ -136,7 +141,6 @@ public class WpGui extends Pane {
                 }
             }
         }
-
     }
 
     /**
@@ -154,7 +158,6 @@ public class WpGui extends Pane {
                     this.cellsClicked.add(GridPane.getRowIndex((Node)e.getSource()) * WpGui.MAX_COL + GridPane.getColumnIndex((Node)e.getSource()));
 
                 });
-
             }
         }
 
@@ -174,7 +177,6 @@ public class WpGui extends Pane {
         int indexToRem = stack.getChildren().size() - 1;
         stack.getChildren().remove(indexToRem);
     }
-
 
     /**
      * This method adds proper border to each pane of the cell.

@@ -85,6 +85,10 @@
     -fx-border-color: linear-gradient(to top left, rgba(230, 242, 255, 0.8), rgba(230, 255, 255, 0.8));
 }
 
+.map-selection {
+    -fx-background-color: transparent;
+}
+
 
 
 

@@ -13,28 +13,35 @@ import javafx.scene.layout.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * This class manages the window that shows the private objective card assigned to the player and
+ * the representation of the four maps among which to choose.
+ */
 public class ChooseWpGUI extends ParentWindow {
 
     private double xOffset = 0;
     private double yOffset = 0;
 
-
+    /**
+     * This is the main container for all the elements of this window.
+     */
     private VBox mainContainer;
 
-
+    /**
+     * This is the header of this window.
+     */
     private HBox header;
 
-
+    /**
+     * This is the container for the private objective card assigned to the player by the server.
+     */
     private VBox privateCardContainer;
-
 
     /**
      * This containes the private objective card and the map of window pattern card among which to choose
      * with their relative useful information.
      */
     private HBox secondContainer;
-
 
     /**
      * This is the specific container for the window pattern card among which to choose and their relative
@@ -47,35 +54,28 @@ public class ChooseWpGUI extends ParentWindow {
      */
     private GridPane gridMaps;
 
+    /**
+     * This is the list of maps to be represented.
+     */
     private List<WpGui> maps;
 
-
-    private WpGui chosenWp;
-
+    /**
+     * This attribute represents the data of the player.
+     */
     private PlayersData playersData;
 
-    public PlayersData getPlayersData() {
-        return playersData;
-    }
+    /**
+     * This is used to prevent that the user choses another map after have chosen another one.
+     */
+    private boolean isAlreadyChosen;
 
-    public void setPlayersData(PlayersData playersData) {
-        this.playersData = playersData;
-    }
-
-    public WpGui getChosenWp() {
-        return chosenWp;
-    }
-
+    /**
+     * This attribute is the main communicator of the GUI toward the player and the server.
+     */
     private final GUICommunicationManager communicator;
-
-    public void setChosenWp(WpGui chosenWp) {
-        this.chosenWp = chosenWp;
-    }
 
     public ChooseWpGUI(GUICommunicationManager manager) {
         this.communicator = manager;
-        chosenWp = new WpGui();
-
 
         mainContainer = new VBox();
         secondContainer = new HBox();
@@ -264,13 +264,14 @@ public class ChooseWpGUI extends ParentWindow {
      * @param map the chosen map.
      */
     public void handleChosenMap(VBox map) {
-        if(this.communicator.isCommandContained("Vetrata")) {
+        if(this.communicator.isCommandContained("Vetrata") && !this.isAlreadyChosen) {
             WpGui chosen = new WpGui();
             chosen.setIdMap((Label)map.getChildren().get(0));
             chosen.setGlassWindow((GridPane)map.getChildren().get(1));
             chosen.setDifficulty((Label)map.getChildren().get(2));
-            map.setStyle("-fx-background-color: rgba(102, 217, 255, 0.3)");
+            map.addEventHandler(MouseEvent.MOUSE_EXITED, e -> map.setStyle("-fx-background-color: rgba(102, 217, 255, 0.3)"));
             this.playersData.setPersonalWp(chosen);
+            this.isAlreadyChosen = true;
             this.communicator.executeCommandIfPresent("Vetrata");
         } else {
             this.communicator.communicateMessage("Hai già scelto una mappa.");
@@ -295,49 +296,6 @@ public class ChooseWpGUI extends ParentWindow {
 
     }
 
-    public VBox getMainContainer() {
-        return mainContainer;
-    }
-
-    public void setMainContainer(VBox mainContainer) {
-        this.mainContainer = mainContainer;
-    }
-
-    public HBox getHeader() {
-        return header;
-    }
-
-    public void setHeader(HBox header) {
-        this.header = header;
-    }
-
-
-
-    public VBox getPrivateCardContainer() {
-        return privateCardContainer;
-    }
-
-    public void setPrivateCardContainer(VBox privateCardContainer) {
-        this.privateCardContainer = privateCardContainer;
-    }
-
-
-    public VBox getMapsContainer() {
-        return mapsContainer;
-    }
-
-    public void setMapsContainer(VBox mapsContainer) {
-        this.mapsContainer = mapsContainer;
-    }
-
-    public GridPane getGridMaps() {
-        return gridMaps;
-    }
-
-    public void setGridMaps(GridPane gridMaps) {
-        this.gridMaps = gridMaps;
-    }
-
     public List<WpGui> getMaps() {
         return maps;
     }
@@ -346,7 +304,7 @@ public class ChooseWpGUI extends ParentWindow {
         this.maps = maps;
     }
 
-    public GUICommunicationManager getCommunicator() {
-        return communicator;
+    public void setPlayersData(PlayersData playersData) {
+        this.playersData = playersData;
     }
 }
