@@ -152,6 +152,7 @@ public class GamePlayManager extends AGameManager {
         //Terminates the match if there are no players left.
         if (super.getControllerMaster().getSuspendedPlayers().size() == super.getControllerMaster().getConnectedPlayers().size()) {
             super.getControllerMaster().getStartGameManager().setMatchRunning(false);
+            gameState.setMatchOver(true);
             super.getControllerMaster().getEndGameManager().quitGame();
             return;
         }
@@ -199,15 +200,6 @@ public class GamePlayManager extends AGameManager {
         this.numberOfChosenEffects = 0;
         this.backUpUnit = null;
         GameState gameState = super.getControllerMaster().getGameState();
-
-        /*if (super.getControllerMaster().getGameState().isMatchOver()) {
-            IFromServerToClient client = super.getPlayerClient(currentPlayerTurn.getPlayer().getPlayerName());
-            try {
-                client.forceLogOut();
-            } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.WARNING, "Client connection lost while logging out");
-            }
-        }*/
 
         if (gameState.isCurrentTurnOver()) {
             this.endTurn("\nDevi saltare questo turno!");
@@ -294,12 +286,16 @@ public class GamePlayManager extends AGameManager {
      */
     public void endTurn(String message) {
         GameState gameState = super.getControllerMaster().getGameState();
-        IFromServerToClient currentPlayerClient = super.getPlayerClient(gameState.getCurrentPlayer().getPlayerName());
-        try {
-            currentPlayerClient.showNotice(message);
-        } catch (BrokenConnectionException e) {
-            SagradaLogger.log(Level.SEVERE, "Connection broken while ending the turn");
-            super.getControllerMaster().suspendPlayer(gameState.getCurrentPlayer().getPlayerName(), true);
+
+        //Sends the message only if the player is not disconnected.
+        if (super.getControllerMaster().getDisconnectedPlayers().contains(gameState.getCurrentPlayer().getPlayerName())) {
+            IFromServerToClient currentPlayerClient = super.getPlayerClient(gameState.getCurrentPlayer().getPlayerName());
+            try {
+                currentPlayerClient.showNotice(message);
+            } catch (BrokenConnectionException e) {
+                SagradaLogger.log(Level.SEVERE, "Connection broken while ending the turn");
+                super.getControllerMaster().suspendPlayer(gameState.getCurrentPlayer().getPlayerName(), true);
+            }
         }
 
         //Checks if there is only one (or less) player left playing. In that case, ends the match.
@@ -418,7 +414,6 @@ public class GamePlayManager extends AGameManager {
                         "usare una Carta Strumento che non lo implichi, visualizzare informazioni della plancia" +
                         " oppure passare.");
                 super.sendCommandsToCurrentPlayer(filteredCommands);
-                this.checkIfPlayerIsSuspended(playerName);
             } else {
                 AMove move = new DefaultDiePlacementMove();
                 move.executeMove(this, info);
@@ -455,7 +450,6 @@ public class GamePlayManager extends AGameManager {
                         "piazzare un dado (se la carta usata non implicava un piazzamento), visualizzare informazioni " +
                         "della plancia, oppure passare.");
                 super.sendCommandsToCurrentPlayer(filteredCommands);
-                this.checkIfPlayerIsSuspended(playerName);
             } else {
                 ToolCardSlot slot = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID);
                 this.checkToolCardAvailability(gameState, slotID, playerName);
@@ -504,7 +498,6 @@ public class GamePlayManager extends AGameManager {
             //Only the extra command for tool 6 is sent because even in the case of tool 11, at this point, the value
             //of the die has already been chosen.
             super.sendCommandsToCurrentPlayer(Collections.singletonList(Commands.EXTRA_TOOL6));
-            this.checkIfPlayerIsSuspended(playerName);
         } else {
             if(gameState.isCurrentTurnOver()) {
                 this.endTurn(EVERYTHING_DONE);
@@ -514,7 +507,6 @@ public class GamePlayManager extends AGameManager {
                 List<Commands> updatedCommands = this.filterTools(this.dynamicCommands.get(playerName), gameState, playerName);
                 updatedCommands.add(0, Commands.PLACEMENT);
                 super.sendCommandsToCurrentPlayer(updatedCommands);
-                this.checkIfPlayerIsSuspended(playerName);
             }
         }
     }
@@ -720,7 +712,6 @@ public class GamePlayManager extends AGameManager {
         } catch (BrokenConnectionException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to show the newly drafted die to " + currentPlayer.getPlayerName());
             super.getControllerMaster().suspendPlayer(currentPlayer.getPlayerName(), true);
-            this.checkIfPlayerIsSuspended(currentPlayer.getPlayerName());
         }
     }
 
@@ -810,25 +801,27 @@ public class GamePlayManager extends AGameManager {
     private boolean handleIllegalStateRequests(String playerName) {
         IFromServerToClient client = super.getPlayerClient(playerName);
         if (!isRequestFromCurrentPlayer(playerName)) {
-            try {
-                client.showNotice("\nNon puoi effettuare questa mossa durante il turno degli altri!");
-                client.showCommand(this.waitingPlayersCommands);
-            } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.SEVERE, "Connection with " + playerName + " crashed while in an illegal" +
-                        " state");
-                super.getControllerMaster().suspendPlayer(playerName, true);
+            if (super.getControllerMaster().getSuspendedPlayers().contains(playerName)) {
+                try {
+                    client.showNotice("\nNon puoi effettuare mosse durante la sospensione!");
+                    client.showCommand(Arrays.asList(Commands.RECONNECT, Commands.LOGOUT));
+                } catch (BrokenConnectionException e) {
+                    SagradaLogger.log(Level.SEVERE, "Connection with " + playerName + " crashed while suspended " +
+                            "and trying to perform a move");
+                    super.getControllerMaster().suspendPlayer(playerName, true);
+                }
+                return true;
+            } else {
+                try {
+                    client.showNotice("\nNon puoi effettuare questa mossa durante il turno degli altri!");
+                    client.showCommand(this.waitingPlayersCommands);
+                } catch (BrokenConnectionException e) {
+                    SagradaLogger.log(Level.SEVERE, "Connection with " + playerName + " crashed while in an illegal" +
+                            " state");
+                    super.getControllerMaster().suspendPlayer(playerName, true);
+                }
+                return true;
             }
-            return true;
-        } else if (super.getControllerMaster().getSuspendedPlayers().contains(playerName)) {
-            try {
-                client.showNotice("\nNon puoi effettuare mosse durante la sospensione!");
-                client.showCommand(Arrays.asList(Commands.RECONNECT, Commands.LOGOUT));
-            } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.SEVERE, "Connection with " + playerName + " crashed while suspended " +
-                        "and trying to perform a move");
-                super.getControllerMaster().suspendPlayer(playerName, true);
-            }
-            return true;
         }
         return false;
     }
@@ -860,13 +853,11 @@ public class GamePlayManager extends AGameManager {
                 super.sendNotificationToCurrentPlayer("\nPuoi ancora usare una Carta Strumento che" +
                         " non implichi un piazzamento, visualizzare informazioni della plancia oppure passare.");
                 super.sendCommandsToCurrentPlayer(filteredCommands);
-                this.checkIfPlayerIsSuspended(gameState.getCurrentPlayer().getPlayerName());
             } else {
                 this.endTurn(EVERYTHING_DONE);
             }
         } else {
             gameState.getCurrentTurn().setDiePlaced(false);
-            this.checkIfPlayerIsSuspended(gameState.getCurrentPlayer().getPlayerName());
         }
     }
 
@@ -903,13 +894,11 @@ public class GamePlayManager extends AGameManager {
                 super.sendNotificationToCurrentPlayer("\nPuoi ancora effettuare un piazzamento, visualizzare informazioni della " +
                         "plancia oppure passare.");
                 super.sendCommandsToCurrentPlayer(filteredCommands);
-                this.checkIfPlayerIsSuspended(gameState.getCurrentPlayer().getPlayerName());
             } else if (gameState.isCurrentTurnOver() && toolCard.getEffectBuilder().requiresOnlyOneInteraction()) {
                 this.endTurn(EVERYTHING_DONE);
             }
         } else {
             gameState.getCurrentTurn().setToolCardUsed(false);
-            this.checkIfPlayerIsSuspended(gameState.getCurrentPlayer().getPlayerName());
         }
     }
 
@@ -977,16 +966,6 @@ public class GamePlayManager extends AGameManager {
                     }
                 }
             }
-        }
-    }
-
-    /**
-     * Checks if the player is suspended. If so, ends the current turn.
-     * @param playerName player to check.
-     */
-    private void checkIfPlayerIsSuspended(String playerName) {
-        if(super.getControllerMaster().getSuspendedPlayers().contains(playerName)) {
-            this.endTurn("\nSei stato sospeso, il tuo turno terminerà.");
         }
     }
 

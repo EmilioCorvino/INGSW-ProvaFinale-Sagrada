@@ -79,7 +79,7 @@ public interface IFromClientToServer {
 
     /**
      * This method is used to reconnect the player during the match.
-     * @throws BrokenConnectionException
+     * @throws BrokenConnectionException when the connection drops.
      */
     void reconnect() throws BrokenConnectionException;
 

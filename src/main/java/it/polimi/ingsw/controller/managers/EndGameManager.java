@@ -133,7 +133,7 @@ public class EndGameManager extends AGameManager {
         try {
             client.forceLogOut();
         } catch (BrokenConnectionException e) {
-            SagradaLogger.log(Level.WARNING, "Connection lost with " + playerName + " while forcing him to log" +
+            SagradaLogger.log(Level.WARNING, CONNECTION_LOST_WITH + playerName + " while forcing him to log" +
                     " out");
         }
         connectedPlayers.remove(playerName);
@@ -529,7 +529,7 @@ public class EndGameManager extends AGameManager {
      */
     private void removeSuspendedPlayers() {
         super.getControllerMaster().getSuspendedPlayers().forEach(suspendedPlayer -> {
-            if (!getControllerMaster().getConnectedPlayers().containsKey(suspendedPlayer)) {
+            if (getControllerMaster().getConnectedPlayers().containsKey(suspendedPlayer)) {
                 try {
                     getControllerMaster().getConnectedPlayers().get(suspendedPlayer).getClient().forceLogOut();
                 } catch (BrokenConnectionException e) {

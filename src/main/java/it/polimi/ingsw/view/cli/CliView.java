@@ -24,6 +24,7 @@ import it.polimi.ingsw.view.cli.managers.state.GamePlayManager;
 import it.polimi.ingsw.view.cli.managers.state.LoginManager;
 import it.polimi.ingsw.view.cli.managers.state.SetUpManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -188,14 +189,20 @@ public class CliView implements IViewMaster {
      * @param idTool: The ids of all the tool cards drown by the controller.
      */
     @Override
-    public void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool){
+    public void setCommonBoard(Map<String,SimplifiedWindowPatternCard> players, int[] idPubObj, int[] idTool){
 
         for (Map.Entry<String, SimplifiedWindowPatternCard> ply : players.entrySet()) {
             if(!ply.getKey().equals(this.player.getUserName())) {
                 PlayerView p = new PlayerView();
                 p.setUserName(ply.getKey());
                 p.setWp(new WindowPatternCardView(ply.getValue()));
-                this.commonBoard.getPlayers().add(p);
+
+                List<String> presentPlayers = new ArrayList<>();
+                this.commonBoard.getPlayers().forEach(playerView -> presentPlayers.add(playerView.getUserName()));
+
+                if (!presentPlayers.contains(p.getUserName())) {
+                    this.commonBoard.getPlayers().add(p);
+                }
             }
             else
                 this.player.setWp(new WindowPatternCardView(ply.getValue()));

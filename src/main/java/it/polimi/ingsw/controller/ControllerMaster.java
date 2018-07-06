@@ -129,6 +129,8 @@ public class ControllerMaster {
                 this.disconnectedPlayers.add(playerName);
             }
             IFromServerToClient client = this.getConnectedPlayers().get(playerName).getClient();
+
+            //Case with player just suspended.
             if (this.getStartGameManager().isMatchRunning() &&
                     this.getGameState().getCurrentPlayer().getPlayerName().equals(playerName) &&
                     !this.disconnectedPlayers.contains(playerName)) {
@@ -141,6 +143,14 @@ public class ControllerMaster {
                     this.disconnectedPlayers.add(playerName);
                 }
             }
+
+            //Case with player disconnected
+            else if (this.getStartGameManager().isMatchRunning() &&
+                    this.getGameState().getCurrentPlayer().getPlayerName().equals(playerName) &&
+                    this.disconnectedPlayers.contains(playerName)) {
+                this.getGamePlayManager().endTurn(""); //The message is not important, since it cannot be sent.
+            }
+
             this.gamePlayManager.broadcastNotification("\n" + playerName + " è stato sospeso.");
         } else {
             if (!this.disconnectedPlayers.contains(playerName)) {
@@ -160,6 +170,7 @@ public class ControllerMaster {
      */
     void reconnectPlayer(String playerName, Connection connection) {
         if (this.getStartGameManager().isMatchRunning()) {
+            this.getConnectedPlayers().replace(playerName, connection);
             IFromServerToClient client = this.connectedPlayers.get(playerName).getClient();
             this.startGameManager.getPlayersDisconnectedBeforeCommonBoardSetting().remove(playerName);
             this.suspendedPlayers.remove(playerName);
@@ -170,7 +181,6 @@ public class ControllerMaster {
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while sending the new " +
                         "commands after reconnecting.");
-                this.disconnectedPlayers.add(playerName);
                 this.suspendPlayer(playerName, true);
             }
 
@@ -182,7 +192,6 @@ public class ControllerMaster {
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while sending the new " +
                         "commands after reconnecting.");
-                this.suspendPlayer(playerName, true);
             }
         }
     }

@@ -166,7 +166,7 @@ public class StartGameManager extends AGameManager {
      * @param username name of the player sending the chosen {@link WindowPatternCard}.
      * @param chosenWp chosen {@link WindowPatternCard}.
      */
-    public synchronized void wpToSet(String username, int chosenWp) {
+    public void wpToSet(String username, int chosenWp) {
         CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
         if (this.listOfSentWpID.get(username).contains(chosenWp)) {
             WindowPatternCard wpToSet = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenWp);
@@ -202,10 +202,7 @@ public class StartGameManager extends AGameManager {
                         "Alcuni giocatori devono ancora scegliere la vetrata, attendi...");
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Impossible to send a notice to the client", e);
-                super.getControllerMaster().suspendPlayer(playerName, true);
-                if (!this.playersDisconnectedBeforeCommonBoardSetting.contains(playerName)) {
-                    this.playersDisconnectedBeforeCommonBoardSetting.add(playerName);
-                }
+                this.exitGame(playerName);
             }
         }
     }
@@ -222,14 +219,13 @@ public class StartGameManager extends AGameManager {
         int[] idTool = toolConverter();
 
         super.getControllerMaster().getConnectedPlayers().forEach((playerName, connection) -> {
-            try {
-                connection.getClient().setCommonBoard(mapOfWp, idPubObj, idTool);
-                connection.getClient().setFavorToken(numberFavTokenConverter(playerName));
-            } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.SEVERE, "Impossible to set the common board to " + playerName, e);
-                super.getControllerMaster().suspendPlayer(playerName, true);
-                if (!this.playersDisconnectedBeforeCommonBoardSetting.contains(playerName)) {
-                    this.playersDisconnectedBeforeCommonBoardSetting.add(playerName);
+            if (!super.getControllerMaster().getDisconnectedPlayers().contains(playerName)) {
+                try {
+                    connection.getClient().setCommonBoard(mapOfWp, idPubObj, idTool);
+                    connection.getClient().setFavorToken(numberFavTokenConverter(playerName));
+                } catch (BrokenConnectionException e) {
+                    SagradaLogger.log(Level.SEVERE, "Impossible to set the common board to " + playerName, e);
+                    this.exitGame(playerName);
                 }
             }
         });
@@ -246,13 +242,14 @@ public class StartGameManager extends AGameManager {
 
 
         IFromServerToClient client = super.getControllerMaster().getConnectedPlayers().get(playerName).getClient();
-        try {
-            client.setCommonBoard(mapOfWp, idPubObj, idTool);
-            client.setFavorToken(numberFavTokenConverter(playerName));
-        } catch (BrokenConnectionException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to set the common board to " + playerName, e);
-            super.getControllerMaster().suspendPlayer(playerName, true);
-            this.playersDisconnectedBeforeCommonBoardSetting.add(playerName);
+        if (!super.getControllerMaster().getDisconnectedPlayers().contains(playerName)) {
+            try {
+                client.setCommonBoard(mapOfWp, idPubObj, idTool);
+                client.setFavorToken(numberFavTokenConverter(playerName));
+            } catch (BrokenConnectionException e) {
+                SagradaLogger.log(Level.SEVERE, "Impossible to set the common board to " + playerName, e);
+                this.exitGame(playerName);
+            }
         }
     }
 
@@ -287,10 +284,12 @@ public class StartGameManager extends AGameManager {
             List<Integer> idSent = this.listOfSentWpID.get(playerName);
             int random = new Random().nextInt(idSent.size());
             this.wpToSet(playerName, this.listOfSentWpID.get(playerName).get(random));
+            this.playersWhoChose.add(playerName);
         }
 
-        if (this.playersWhoChose.size() == super.getControllerMaster().getCommonBoard().getPlayers().size()) {
+        if (this.playersWhoChose.size() == super.getControllerMaster().getCommonBoard().getPlayers().size() && !this.isMatchRunning()) {
             this.setCommonBoard();
+            this.setMatchRunning(true);
             super.getControllerMaster().getGamePlayManager().startRound();
         }
     }
