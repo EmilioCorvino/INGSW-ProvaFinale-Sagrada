@@ -241,7 +241,7 @@ public class CliView implements IViewMaster {
 
     @Override
     public void setRestoredWindowPatternCards(Map<String, List<SetUpInformationUnit>> diceToRestore) {
-        
+
         diceToRestore.forEach( (playerName, dice) -> {
             if (playerName.equals(player.getUserName()))
                 restoreOwnWp(dice);
@@ -475,10 +475,7 @@ public class CliView implements IViewMaster {
     public InputOutputManager getInputOutputManager() {
         return inputOutputManager;
     }
-
-    public ScannerThread getScannerThread() {
-        return scannerThread;
-    }
+    
 
     /**
      * This method analyze the input given by the user and run the corresponding method in the map.
