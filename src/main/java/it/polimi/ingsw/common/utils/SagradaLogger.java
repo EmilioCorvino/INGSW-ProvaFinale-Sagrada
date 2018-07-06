@@ -1,6 +1,5 @@
 package it.polimi.ingsw.common.utils;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -22,7 +21,7 @@ public class SagradaLogger {
     /**
      * File where the configuration is stored.
      */
-    private static final String CONF_PATH = "./src/main/resources/config/logger.properties";
+    private static final String CONF_PATH = "/config/logger.properties";
 
     /**
      * This class shouldn't be instantiated.
@@ -42,8 +41,7 @@ public class SagradaLogger {
             final LogManager logManager = LogManager.getLogManager();
 
             try {
-                logManager.readConfiguration(new FileInputStream(
-                        CONF_PATH));
+                logManager.readConfiguration(SagradaLogger.class.getResourceAsStream(CONF_PATH));
                 logger = Logger.getLogger("sagradaLogger");
             } catch (IOException e) {
                 Logger stockLogger = Logger.getLogger(SagradaLogger.class.getName());

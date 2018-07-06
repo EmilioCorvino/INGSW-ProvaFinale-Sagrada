@@ -9,9 +9,8 @@ import it.polimi.ingsw.common.simplifiedview.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.common.utils.SagradaLogger;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -61,8 +60,7 @@ public class SetUpManager {
     public void createPubObjCards(int[] id, List<String> cards){
 
         for (int i : id){
-            try (Reader file = new FileReader("./src/main/resources/cards/publicObjectiveText/pubObj" + i)){
-                BufferedReader b = new BufferedReader(file);
+            try (BufferedReader b = new BufferedReader(new InputStreamReader(SetUpManager.class.getResourceAsStream("/cards/publicObjectiveText/pubObj" + i)))) {
                 String s = b.readLine();
                 if (!cards.contains(s)) {
                     cards.add(s);
@@ -81,8 +79,7 @@ public class SetUpManager {
     public void createToolCards(int[] id, List<ToolCardView> cards){
 
         for (int i : id){
-            try (Reader file = new FileReader("./src/main/resources/cards/toolCardsText/toolCard" + i)){
-                BufferedReader b = new BufferedReader(file);
+            try (BufferedReader b = new BufferedReader(new InputStreamReader(SetUpManager.class.getResourceAsStream("/cards/toolCardsText/toolCard" + i)))) {
                 String s = b.readLine();
                 List<Commands> toolsPresent = new ArrayList<>();
                 cards.forEach(card -> toolsPresent.add(card.getCommand()));
@@ -102,8 +99,7 @@ public class SetUpManager {
      */
     public void createPrivateObjCard(int id, PlayerView p){
 
-        try (Reader file = new FileReader("./src/main/resources/cards/privateObjectiveText/privObj" + id)){
-            BufferedReader b = new BufferedReader(file);
+        try (BufferedReader b = new BufferedReader(new InputStreamReader(SetUpManager.class.getResourceAsStream("/cards/privateObjectiveText/privObj" + id)))) {
             String s = b.readLine();
             p.setPrivateObjCard(s);
         } catch (IOException e) {

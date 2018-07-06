@@ -10,9 +10,9 @@ import it.polimi.ingsw.server.model.cards.objective.publics.strategies.DiagonalS
 import it.polimi.ingsw.server.model.cards.objective.publics.strategies.RowStrategy;
 import it.polimi.ingsw.server.model.cards.objective.publics.strategies.SetStrategy;
 
-import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Reader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Vector;
@@ -27,12 +27,12 @@ public class PublicObjectiveCardsDeck extends AObjectiveCardsDeck {
     /**
      * Path of colorPublicObjectiveCards.json.
      */
-    private static final String COLOR_PUB_OBJ_CARDS = "./src/main/resources/cards/objective/colorPublicObjectiveCards.json";
+    private static final String COLOR_PUB_OBJ_CARDS = "/cards/objective/colorPublicObjectiveCards.json";
 
     /**
      * Path of valuePublicObjectiveCards.json.
      */
-    private static final String VALUE_PUB_OBJ_CARDS = "./src/main/resources/cards/objective/valuePublicObjectiveCards.json";
+    private static final String VALUE_PUB_OBJ_CARDS = "/cards/objective/valuePublicObjectiveCards.json";
 
     public List<APublicObjectiveCard> getDeck() {
         return (List<APublicObjectiveCard>) this.deck;
@@ -46,15 +46,15 @@ public class PublicObjectiveCardsDeck extends AObjectiveCardsDeck {
         Gson gson = new Gson();
         //The TypeToken is needed to get the full parametrized type of the collection.
         Type listColorCards = new TypeToken<Vector<ColorPublicObjectiveCard>>(){}.getType();
-        try(Reader file = new FileReader(COLOR_PUB_OBJ_CARDS)){
-            this.deck = gson.fromJson(file, listColorCards);
+        try(BufferedReader reader = new BufferedReader(new InputStreamReader(PublicObjectiveCardsDeck.class.getResourceAsStream(COLOR_PUB_OBJ_CARDS)))){
+            this.deck = gson.fromJson(reader, listColorCards);
         } catch (IOException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to access color public objective cards file", e);
         }
 
         Type listValueCards = new TypeToken<Vector<ValuePublicObjectiveCard>>(){}.getType();
-        try(Reader file = new FileReader(VALUE_PUB_OBJ_CARDS)){
-            this.deck.addAll(gson.fromJson(file, listValueCards));
+        try(BufferedReader reader = new BufferedReader(new InputStreamReader(PublicObjectiveCardsDeck.class.getResourceAsStream(VALUE_PUB_OBJ_CARDS)))){
+            this.deck.addAll(gson.fromJson(reader, listValueCards));
         } catch (IOException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to access value public objective cards file", e);
         }

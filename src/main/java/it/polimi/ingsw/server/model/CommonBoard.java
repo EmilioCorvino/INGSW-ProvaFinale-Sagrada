@@ -149,18 +149,14 @@ public class CommonBoard {
      * drawn from the {@link ToolCardsDeck}.
      */
     private void populateToolSlots(){
-        //for (int i = 0; i < 3; i++) {
-            //try {
-                //this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().drawCard()));
-                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(4)));
-                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(7)));
-                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().getDeck().get(10)));
-                //this.getToolCardSlots().get(i).setCost(1); //Default cost to use a tool card.
-                this.getToolCardSlots().forEach(slot -> slot.setCost(1));
-            //} catch (EmptyException e) {
-                //SagradaLogger.log(Level.SEVERE, "Error during tool card drawing");
-            //}
-        //}
+        for (int i = 0; i < 3; i++) {
+            try {
+                this.getToolCardSlots().add(new ToolCardSlot(this.getToolCardsDeck().drawCard()));
+                this.getToolCardSlots().get(i).setCost(1); //Default cost to use a tool card.
+            } catch (EmptyException e) {
+                SagradaLogger.log(Level.SEVERE, "Error during tool card drawing");
+            }
+        }
     }
 
     /**

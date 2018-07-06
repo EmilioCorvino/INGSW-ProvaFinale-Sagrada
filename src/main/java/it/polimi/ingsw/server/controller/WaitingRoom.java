@@ -10,7 +10,6 @@ import it.polimi.ingsw.server.controller.managers.AGameManager;
 import it.polimi.ingsw.server.model.player.Player;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
@@ -41,7 +40,7 @@ public class WaitingRoom {
      * Path of the file containing the maximum amount of time spent between the connection of the second player and
      * the start of the match.
      */
-    private static final String WAITING_ROOM_TIMER_FILE = "./src/main/resources/config/roomTimer";
+    private static final String WAITING_ROOM_TIMER_FILE = "/config/roomTimer";
 
     /**
      * The map for keeping in memory the player with its connection object.
@@ -139,7 +138,7 @@ public class WaitingRoom {
             long timeOut = AGameManager.BACK_UP_TIMER;
 
             //Value read from file. If the loading is successful, it overwrites the back up.
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(WAITING_ROOM_TIMER_FILE)))) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(WaitingRoom.class.getResourceAsStream(WAITING_ROOM_TIMER_FILE)))) {
                 timeOut = Long.parseLong(reader.readLine());
                 SagradaLogger.log(Level.CONFIG, "Waiting Room timer successfully loaded from file. " +
                         "Its value is: " + timeOut/1000 + "s");

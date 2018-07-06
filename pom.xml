@@ -71,10 +71,5 @@
       <version>2.8.4</version>
       <scope>compile</scope>
     </dependency>
-    <dependency>
-      <groupId>org.fusesource.jansi</groupId>
-      <artifactId>jansi</artifactId>
-      <version>1.17.1</version>
-    </dependency>
   </dependencies>
 </project>
