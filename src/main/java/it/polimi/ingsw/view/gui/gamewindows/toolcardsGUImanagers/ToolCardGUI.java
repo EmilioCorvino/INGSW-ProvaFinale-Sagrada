@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.gamewindows.toolcardsGUImanagers;
 
 import it.polimi.ingsw.view.gui.EnlargementHandler;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -38,12 +39,14 @@ public class ToolCardGUI extends VBox {
 
         HBox toolInfo = new HBox();
         this.getChildren().add(toolInfo);
-        toolInfo.setSpacing(20);
+        toolInfo.setSpacing(10);
 
         HBox costInfo = new HBox();
         Label titleCost = new Label("Costo:");
         titleCost.getStyleClass().add("text-label");
         costInfo.getChildren().add(titleCost);
+        costInfo.setSpacing(10);
+        costInfo.setPadding(new Insets(10));
 
         //The effective cost of the tool, updated by the server.
         Label cost = new Label("1");
@@ -51,13 +54,43 @@ public class ToolCardGUI extends VBox {
         toolInfo.getChildren().add(costInfo);
         cost.getStyleClass().add("text-label");
 
+        VBox buttonsTool = new VBox();
+
         Button okButton = new Button("Ok");
         okButton.setVisible(false);
         okButton.getStyleClass().add("button-style");
-        toolInfo.getChildren().add(okButton);
+        buttonsTool.getChildren().add(okButton);
+
+        Button show = new Button("Mostra");
+        show.setVisible(false);
+        show.getStyleClass().add("button-style");
+        buttonsTool.getChildren().add(show);
+
+        toolInfo.getChildren().add(buttonsTool);
 
         this.setSpacing(40);
+    }
 
+    /**
+     * This method manages the hiding and the showing of the button for those tool that needs extra commands.
+     * @param val the value that determines the visibility.
+     */
+    public void hideShowButton(Boolean val) {
+        HBox toolInfoCont = (HBox)this.getChildren().get(1);
+        VBox toolComm = (VBox)toolInfoCont.getChildren().get(1);
+
+        Button showButton = (Button)toolComm.getChildren().get(1);
+        showButton.setVisible(val);
+    }
+
+    /**
+     * This method updates the cost of a tool in the GUI view.
+     * @param cost the cost to set.
+     */
+    public void updateCost(int cost) {
+        HBox costCont = (HBox)((HBox)this.getChildren().get(1)).getChildren().get(0);
+        Label costToUpd = (Label)costCont.getChildren().get(1);
+        costToUpd.setText(cost + "");
     }
 
     public int getIdTool() {
@@ -75,5 +108,4 @@ public class ToolCardGUI extends VBox {
     public void setToolSlot(int toolSlot) {
         this.toolSlot = toolSlot;
     }
-
 }

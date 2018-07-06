@@ -32,15 +32,10 @@ public class LoginIpAddrTypeConnGUI extends LoginRootGUI {
      */
     private boolean proceed = false;
 
-
-
     public LoginIpAddrTypeConnGUI() {
-
-        //super();
 
         this.getStylesheets().add("style/backgrounds.css");
         this.getStyleClass().add("background");
-
 
         infoLogin = new InfoLogin();
         loginFormGUI = new LoginFormGUI();
@@ -55,8 +50,6 @@ public class LoginIpAddrTypeConnGUI extends LoginRootGUI {
         this.addEventHandler(MouseEvent.MOUSE_PRESSED, this:: pressedWindow);
         this.addEventHandler(MouseEvent.MOUSE_DRAGGED, this:: draggedWindow);
     }
-
-
 
     /**
      * This method manages the input from the user for the type of game mode to set.

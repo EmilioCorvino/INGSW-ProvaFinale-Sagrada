@@ -25,6 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
+/**
+ * This class represents the mean through the server communicates with the GUI and consequently with the player.
+ */
 public class GUIView implements IViewMaster {
 
     /**
@@ -32,25 +35,55 @@ public class GUIView implements IViewMaster {
      */
     private IFromClientToServer server;
 
+    /**
+     * The first window of the game.
+     */
     private LoginIpAddrTypeConnGUI loginManager;
 
+    /**
+     * This is the list of the connected players.
+     */
     private Parent listPlayers;
 
+    /**
+     * This window allows the player to choose among four present window pattern card.
+     */
     private ChooseWpGUI chooseWpGUI;
 
+    /**
+     * This represent a general object containing the most important data of a single player.
+     */
     private PlayersData playersData;
 
+    /**
+     * This represents the mean to let the GUI communicate with the server and the players.
+     */
     private GUICommunicationManager manager;
 
+    /**
+     * This object represents alla the possibile method the GUI can invoke to send the information to the server.
+     */
     private Bank bank;
 
+    /**
+     * This is the common board window of the GUI.
+     */
     private CommonBoardWindow commonWindow;
 
+    /**
+     * This represents the current window of the game.
+     */
     private ParentWindow current;
 
+    /**
+     * This object is responsible for the construction of the dice during the game.
+     */
     private DieFactory dieFactory;
 
-
+    /**
+     * This is the final window of the game that shows the rank for each player.
+     */
+    private RankWindow rankWindow;
 
 
     public GUIView() {
@@ -60,6 +93,7 @@ public class GUIView implements IViewMaster {
         chooseWpGUI = new ChooseWpGUI(manager);
         playersData = new PlayersData();
         commonWindow = new CommonBoardWindow(manager);
+        rankWindow = new RankWindow();
 
         chooseWpGUI.setPlayersData(this.playersData);
         commonWindow.setData(this.playersData);
@@ -136,11 +170,13 @@ public class GUIView implements IViewMaster {
                     System.exit(0);
                 }
             }
-        System.out.println("connection ok");
-
     }
 
 
+    /**
+     * This methods allows the representation of all the current player connected to the game.
+     * @param players the players to show.
+     */
     @Override
     public void showRoom(List<String> players) {
        Platform.runLater(() -> {
@@ -149,6 +185,10 @@ public class GUIView implements IViewMaster {
        });
     }
 
+    /**
+     * This method allows the representation of the personal private objective card assigned to a single player.
+     * @param idPrivateObj
+     */
     @Override
     public void showPrivateObjective(int idPrivateObj) {
         Platform.runLater(() -> {
@@ -160,6 +200,10 @@ public class GUIView implements IViewMaster {
         });
     }
 
+    /**
+     * This method constructs the four maps among which the player has to choose.
+     * @param listWp the list of map to represent.
+     */
     @Override
     public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) {
        Platform.runLater(() -> {
@@ -172,8 +216,12 @@ public class GUIView implements IViewMaster {
        });
     }
 
-
-
+    /**
+     * This method constructs the common board window of the GUI.
+     * @param players the other players with their relative personal map.
+     * @param idPubObj the ids of the public objective cards extracted for the game.
+     * @param idTool the ids of the tool cards extracted for the game.
+     */
     @Override
     public void setCommonBoard(Map<String, SimplifiedWindowPatternCard> players, int[] idPubObj, int[] idTool) {
         Platform.runLater(() -> {
@@ -191,24 +239,36 @@ public class GUIView implements IViewMaster {
         });
     }
 
+    /**
+     * This method is responsible for update all the dice of the draft pool.
+     * @param draft the dice to represent.
+     */
     @Override
     public void setDraft(List<SetUpInformationUnit> draft) {
         Platform.runLater(() -> {
+            this.commonWindow.resetIsAlreadyUsedFlag();
             this.commonWindow.getDraftPoolGUI().formatDraftPool(draft);
             this.commonWindow.getDraftPoolGUI().cellAsSource();
+            this.commonWindow.manageToolButtons(false);
         });
     }
 
+    /**
+     * This method is responsible for setting the favor token for the player.
+     * @param nFavTokens the number of favor tokens to set.
+     */
     @Override
     public void setFavorToken(int nFavTokens) {
         Platform.runLater(() -> {
             this.playersData.setNumFavTok(nFavTokens);
             this.commonWindow.setFavorTokens();
-
         });
-
     }
 
+    /**
+     * This method is responsible for updating all the available commands the user can execute at each time.
+     * @param commands the list of available commands.
+     */
     @Override
     public void showCommand(List<Commands> commands) {
         Platform.runLater(() -> {
@@ -218,25 +278,32 @@ public class GUIView implements IViewMaster {
         });
     }
 
+    /**
+     * This method add a die on the personal map of the player.
+     * @param unit the die to add.
+     */
     @Override
     public void addOnOwnWp(SetUpInformationUnit unit) {
         Platform.runLater(() -> {
+            this.commonWindow.resetIsAlreadyUsedFlag();
+            this.commonWindow.manageToolButtons(false);
             DieGUI die = this.dieFactory.getsDieGUI(unit);
             this.commonWindow.getData().getPersonalWp().setWpCellClicked(false);
             this.commonWindow.getData().getPersonalWp().getCellsClicked().clear();
             this.commonWindow.getData().getPersonalWp().addOnThisWp(die, unit.getDestinationIndex());
         });
-
     }
 
+    /**
+     * This methos removes a die form the personal map of a player.
+     * @param unit the die to remove.
+     */
     @Override
     public void removeOnOwnWp(SetUpInformationUnit unit) {
         Platform.runLater(() -> {
             System.out.println("Sto per rimuovere l'elemento... " + unit.getSourceIndex());
             this.commonWindow.getData().getPersonalWp().removeFromThisWp(unit.getSourceIndex());
-                });
-
-
+        });
     }
 
     @Override
@@ -249,12 +316,19 @@ public class GUIView implements IViewMaster {
 
     }
 
+    /**
+     * This method adds a single die to the draft pool.
+     * @param info the die to add.
+     */
     @Override
     public void addOnDraft(SetUpInformationUnit info) {
         Platform.runLater(() -> this.commonWindow.getDraftPoolGUI().addOneDie(info));
-
     }
 
+    /**
+     * This method removes a die from the draf pool.
+     * @param info the die to remove.
+     */
     @Override
     public void removeOnDraft(SetUpInformationUnit info) {
         Platform.runLater(() -> {
@@ -265,24 +339,37 @@ public class GUIView implements IViewMaster {
         });
     }
 
+    /**
+     * This method adds a die to the round track.
+     * @param info the die to add.
+     */
     @Override
     public void addOnRoundTrack(SetUpInformationUnit info) {
-        Platform.runLater(() -> {
-            this.commonWindow.getRoundTrack().addDieToRound(info);
-        });
-
+        Platform.runLater(() -> this.commonWindow.getRoundTrack().addDieToRound(info));
     }
 
+    /**
+     * This method removes a die from the round track.
+     * @param info the die to remove.
+     */
     @Override
     public void removeOnRoundTrack(SetUpInformationUnit info) {
         Platform.runLater(() -> this.commonWindow.getRoundTrack().removeOneDie(info));
     }
 
+    /**
+     * This method updates the favor tokens of the player when a tool card is used.
+     * @param nFavorToken the number of favor tokens to set.
+     */
     @Override
     public void updateFavTokenPlayer(int nFavorToken) {
-
+        Platform.runLater(() -> this.commonWindow.updateFavorTokens(nFavorToken));
     }
 
+    /**
+     * This method is responsible for showing all the messages from the server.
+     * @param notice the message to show.
+     */
     @Override
     public void showNotice(String notice) {
         Platform.runLater( () -> {
@@ -292,8 +379,6 @@ public class GUIView implements IViewMaster {
             if(this.current != null)
                 this.current.showMessage(newMex);
         });
-
-
     }
 
     @Override
@@ -301,14 +386,26 @@ public class GUIView implements IViewMaster {
         return null;
     }
 
+    /**
+     * This method updates the cost of the tool card when it is used.
+     * @param idSlot the slot of the tool.
+     * @param cost the cost to set.
+     */
     @Override
     public void updateToolCost(int idSlot, int cost) {
-
+        Platform.runLater(() -> this.commonWindow.updateToolCost(idSlot, cost));
     }
 
+    /**
+     * This method shows a die extracted in particular situations.
+     * @param informationUnit the extracted die.
+     */
     @Override
     public void showDie(SetUpInformationUnit informationUnit) {
-
+        Platform.runLater(() -> {
+            this.playersData.setSetUpInformationUnit(informationUnit);
+            this.commonWindow.showDraftedDie(informationUnit);
+        });
     }
 
     @Override
@@ -316,9 +413,21 @@ public class GUIView implements IViewMaster {
         this.server = server;
     }
 
+    /**
+     * This method shows the rank for each player.
+     * @param playerNames the names of the players.
+     * @param scores the scores of the player.
+     */
     @Override
     public void showRank(String[] playerNames, int[] scores) {
+        Platform.runLater(() -> {
+            for(int i=0; i<playerNames.length; i++)
+                this.rankWindow.updateNames(playerNames[i], scores[i]);
 
+            this.current = rankWindow;
+            GUIMain.setRoot(current);
+            GUIMain.centerScreen();
+        });
     }
 
     @Override
@@ -326,27 +435,11 @@ public class GUIView implements IViewMaster {
 
     }
 
-    public LoginIpAddrTypeConnGUI getLoginManager() {
-        return loginManager;
-    }
-
     public void setLoginManager(LoginIpAddrTypeConnGUI loginManager) {
         this.loginManager = loginManager;
     }
 
-    public Parent getListPlayers() {
-        return listPlayers;
-    }
-
-    public void setListPlayers(Parent listPlayers) {
-        this.listPlayers = listPlayers;
-    }
-
     public CommonBoardWindow getCommonWindow() {
         return commonWindow;
-    }
-
-    public void setCommonWindow(CommonBoardWindow commonWindow) {
-        this.commonWindow = commonWindow;
     }
 }

@@ -20,11 +20,21 @@ public class DieGUI extends StackPane {
         color = new Pane();
         value = new ImageView();
 
+        color.setMinHeight(45);
+        color.setMinWidth(45);
+        color.setMaxHeight(45);
+        color.setMaxWidth(45);
+
         value.setFitHeight(45);
         value.setPreserveRatio(true);
         this.getChildren().add(color);
         this.getChildren().add(value);
         this.getStyleClass().add("dieChosen");
+
+        this.setMinHeight(45);
+        this.setMinWidth(45);
+        this.setMaxHeight(45);
+        this.setMaxWidth(45);
 
     }
 

@@ -102,6 +102,11 @@ public class ClientImplementation implements IFromServerToClient {
     }
 
     @Override
+    public void setRestoredWindowPatternCards(Map<String, List<SetUpInformationUnit>> diceToRestore) {
+
+    }
+
+    @Override
     public void showCommand(List<Commands> commands) {
         view.showCommand(commands);
     }

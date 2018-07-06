@@ -14,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
 /**
@@ -61,7 +62,7 @@ public class WaitingRoom {
      * This constructor is used in all new games starting without any player already in.
      */
     public WaitingRoom() {
-        playersRoom = new HashMap<>();
+        playersRoom = new ConcurrentHashMap<>();
         matchAlreadyStarted = false;
     }
 

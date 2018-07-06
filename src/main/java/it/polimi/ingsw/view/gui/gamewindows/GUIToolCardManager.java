@@ -109,6 +109,7 @@ public class GUIToolCardManager implements IToolCardManager {
 
     @Override
     public void tool5() {
+        System.out.println("Sono in tool 5");
         List<SetUpInformationUnit> listInfo =  new ArrayList<>();
         SetUpInformationUnit setup = this.playersData.getSetUpInformationUnit();
 
@@ -129,46 +130,167 @@ public class GUIToolCardManager implements IToolCardManager {
 
     @Override
     public void tool6() {
+        List<SetUpInformationUnit> units = new ArrayList<>();
+        SetUpInformationUnit infoUnit = new SetUpInformationUnit();
+
+        infoUnit.setSourceIndex(this.view.getCommonWindow().getDraftPoolGUI().getIndexChosenCell());
+
+        units.add(infoUnit);
+
+        try{
+            this.server.performToolCardMove(playersData.getSlotChosen(), units);
+        } catch (BrokenConnectionException e) {
+            SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 6");
+            //disconnect();
+        }
 
     }
 
     @Override
     public void tool6Extra() {
 
+        SetUpInformationUnit infoUnit = this.playersData.getSetUpInformationUnit();
+        infoUnit.setDestinationIndex(this.playersData.getPersonalWp().getClicked());
+
+        if(!this.playersData.getPersonalWp().isWpCellClicked()) {
+            this.view.getCommonWindow().sendMessage("Non hai scelto la cella!");
+            return;
+        }
+
+        try{
+            server.performRestrictedPlacement(infoUnit);
+        } catch (BrokenConnectionException e){
+            SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 6");
+            //disconnect();
+        }
+
     }
 
     @Override
     public void tool7() {
+        List<SetUpInformationUnit> units = new ArrayList<>();
+        SetUpInformationUnit infoUnit = new SetUpInformationUnit();
+
+        units.add(infoUnit);
+
+        try{
+            this.server.performToolCardMove(playersData.getSlotChosen(), units);
+        } catch (BrokenConnectionException e){
+            SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 7");
+            //disconnect();
+        }
 
     }
 
     @Override
     public void tool8() {
+        List<SetUpInformationUnit> units = new ArrayList<>();
+        SetUpInformationUnit infoUnit = this.playersData.getSetUpInformationUnit();
+        units.add(infoUnit);
 
+        try{
+            this.server.performToolCardMove(playersData.getSlotChosen(), units);
+        } catch (BrokenConnectionException e){
+            SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 7");
+            //disconnect();
+        }
     }
 
     @Override
     public void tool9() {
+
+        List<SetUpInformationUnit> units = new ArrayList<>();
+        SetUpInformationUnit infoUnit = this.playersData.getSetUpInformationUnit();
+        units.add(infoUnit);
+
+        try{
+            this.server.performToolCardMove(playersData.getSlotChosen(), units);
+        } catch (BrokenConnectionException e){
+            SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 7");
+            //disconnect();
+        }
 
     }
 
     @Override
     public void tool10() {
 
+        List<SetUpInformationUnit> units = new ArrayList<>();
+        SetUpInformationUnit infoUnit = this.playersData.getSetUpInformationUnit();
+        units.add(infoUnit);
+
+        try{
+            this.server.performToolCardMove(playersData.getSlotChosen(), units);
+        } catch (BrokenConnectionException e){
+            SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 7");
+            //disconnect();
+        }
+
     }
 
     @Override
     public void tool11() {
+        List<SetUpInformationUnit> units = new ArrayList<>();
+        SetUpInformationUnit infoUnit = this.playersData.getSetUpInformationUnit();
+        infoUnit.setSourceIndex(this.view.getCommonWindow().getDraftPoolGUI().getIndexChosenCell());
 
+        units.add(infoUnit);
+
+        try {
+            this.server.performToolCardMove(this.playersData.getSlotChosen(), units);
+        } catch (BrokenConnectionException e) {
+            SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 11");
+            //disconnect();
+        }
     }
 
     @Override
     public void tool11Extra() {
 
+        SetUpInformationUnit infoUnit = this.playersData.getSetUpInformationUnit();
+
+        infoUnit.setDestinationIndex(this.playersData.getPersonalWp().getClicked());
+
+        if(!this.playersData.getPersonalWp().isWpCellClicked()) {
+            this.view.getCommonWindow().sendMessage("Non hai scelto la cella!");
+            return;
+        }
+
+        try{
+            server.performRestrictedPlacement(infoUnit);
+        } catch (BrokenConnectionException e){
+            SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 11");
+            //disconnect();
+        }
     }
 
     @Override
     public void tool12() {
+        List<SetUpInformationUnit> listinfo = new ArrayList<>();
+        SetUpInformationUnit info1 = new SetUpInformationUnit();
+        info1.setExtraParam(this.view.getCommonWindow().getRoundTrack().getRound());
+        info1.setOffset(this.view.getCommonWindow().getRoundTrack().getOffset());
+        info1.setSourceIndex(this.playersData.getPersonalWp().getCellsClicked().get(0));
+        info1.setDestinationIndex(this.playersData.getPersonalWp().getCellsClicked().get(1));
+        listinfo.add(info1);
+
+        SetUpInformationUnit info2;
+
+        if(this.playersData.getPersonalWp().getCellsClicked().size() == 4) {
+           info2 = new SetUpInformationUnit();
+           info2.setExtraParam(info1.getExtraParam());
+           info2.setOffset(info1.getOffset());
+           info2.setSourceIndex(this.playersData.getPersonalWp().getCellsClicked().get(2));
+           info2.setDestinationIndex(this.playersData.getPersonalWp().getCellsClicked().get(3));
+           listinfo.add(info2);
+        }
+
+        try{
+            this.server.performToolCardMove(playersData.getSlotChosen(), listinfo);
+        } catch (BrokenConnectionException e){
+            SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 12");
+            //disconnect();
+        }
 
     }
 

@@ -3,7 +3,10 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.controller.managers.EndGameManager;
 import it.polimi.ingsw.controller.managers.GamePlayManager;
 import it.polimi.ingsw.controller.managers.StartGameManager;
+import it.polimi.ingsw.controller.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.model.CommonBoard;
+import it.polimi.ingsw.model.die.Cell;
+import it.polimi.ingsw.model.die.containers.WindowPatternCard;
 import it.polimi.ingsw.model.turn.GameState;
 import it.polimi.ingsw.network.Connection;
 import it.polimi.ingsw.network.IFromServerToClient;
@@ -129,6 +132,8 @@ public class ControllerMaster {
                 this.disconnectedPlayers.add(playerName);
             }
             IFromServerToClient client = this.getConnectedPlayers().get(playerName).getClient();
+
+            //Case with player just suspended.
             if (this.getStartGameManager().isMatchRunning() &&
                     this.getGameState().getCurrentPlayer().getPlayerName().equals(playerName) &&
                     !this.disconnectedPlayers.contains(playerName)) {
@@ -141,6 +146,14 @@ public class ControllerMaster {
                     this.disconnectedPlayers.add(playerName);
                 }
             }
+
+            //Case with player disconnected
+            else if (this.getStartGameManager().isMatchRunning() &&
+                    this.getGameState().getCurrentPlayer().getPlayerName().equals(playerName) &&
+                    this.disconnectedPlayers.contains(playerName)) {
+                this.getGamePlayManager().endTurn(""); //The message is not important, since it cannot be sent.
+            }
+
             this.gamePlayManager.broadcastNotification("\n" + playerName + " è stato sospeso.");
         } else {
             if (!this.disconnectedPlayers.contains(playerName)) {
@@ -160,17 +173,18 @@ public class ControllerMaster {
      */
     void reconnectPlayer(String playerName, Connection connection) {
         if (this.getStartGameManager().isMatchRunning()) {
+            this.getConnectedPlayers().replace(playerName, connection);
             IFromServerToClient client = this.connectedPlayers.get(playerName).getClient();
             this.startGameManager.getPlayersDisconnectedBeforeCommonBoardSetting().remove(playerName);
             this.suspendedPlayers.remove(playerName);
             this.disconnectedPlayers.remove(playerName);
             this.getStartGameManager().setOneCommonBoard(playerName);
             try {
+                client.setRestoredWindowPatternCards(this.restoreDice());
                 client.showCommand(this.getGamePlayManager().getWaitingPlayersCommands());
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while sending the new " +
                         "commands after reconnecting.");
-                this.disconnectedPlayers.add(playerName);
                 this.suspendPlayer(playerName, true);
             }
 
@@ -182,8 +196,26 @@ public class ControllerMaster {
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while sending the new " +
                         "commands after reconnecting.");
-                this.suspendPlayer(playerName, true);
             }
         }
+    }
+
+    private Map<String, List<SetUpInformationUnit>> restoreDice() {
+        Map<String, List<SetUpInformationUnit>> diceToRestore = new HashMap<>();
+        this.getCommonBoard().getPlayers().forEach(player -> {
+            Cell[][] gw = player.getWindowPatternCard().getGlassWindow();
+            List<SetUpInformationUnit> convertedDice = new ArrayList<>();
+            for (int i = 0; i < WindowPatternCard.getMaxRow(); i++) {
+                for (int j = 0; j < WindowPatternCard.getMaxCol(); j++) {
+                    if (!gw[i][j].isEmpty()) {
+                        SetUpInformationUnit infoUnit = new SetUpInformationUnit(i * WindowPatternCard.getMaxCol() + j,
+                                gw[i][j].getContainedDie().getDieColor(), gw[i][j].getContainedDie().getActualDieValue());
+                        convertedDice.add(infoUnit);
+                    }
+                }
+            }
+            diceToRestore.put(player.getPlayerName(), convertedDice);
+        });
+        return diceToRestore;
     }
 }

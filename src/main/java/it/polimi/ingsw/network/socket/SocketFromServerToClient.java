@@ -41,6 +41,11 @@ public class SocketFromServerToClient implements IFromServerToClient {
     }
 
     @Override
+    public void setRestoredWindowPatternCards(Map<String, List<SetUpInformationUnit>> diceToRestore) throws BrokenConnectionException {
+
+    }
+
+    @Override
     public void showCommand(List<Commands> commands) throws BrokenConnectionException {
 
     }

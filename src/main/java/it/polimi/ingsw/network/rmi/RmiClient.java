@@ -60,6 +60,11 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
+    public void setRestoredWindowPatternCards(Map<String, List<SetUpInformationUnit>> diceToRestore) {
+        this.client.setRestoredWindowPatternCards(diceToRestore);
+    }
+
+    @Override
     public void showCommand(List<Commands> commands) {
         this.client.showCommand(commands);
     }

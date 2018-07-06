@@ -82,19 +82,28 @@ public class EndGameManager extends AGameManager {
         super.broadcastNotification("\nLA PARTITA È FINITA!");
         if(playersWithMaxScore.size() == 1) {
             this.declareWinner(playersWithMaxScore.get(0), rank);
-        } else {    //Tie-break Private Objective.
+        }
+
+        //Tie-break Private Objective.
+        else {
             List<String> playersWithMaxPrivateObjectivePoints = this.performPrivateObjectiveTieBreak(rankToFilter);
             if(playersWithMaxPrivateObjectivePoints.size() == 1) {
                 this.declareWinner(playersWithMaxPrivateObjectivePoints.get(0), rank);
                 super.broadcastNotification("\nÈ stato effettuato uno spareggio basato sul maggior numero di punti" +
                         " acquisiti dall'Obiettivo Privato.");
-            } else {    //Tie-break Favor Tokens.
+            }
+
+            //Tie-break Favor Tokens.
+            else {
                 List<String> playersWithMaxFavorTokensPoints = this.performFavorTokensTieBreak(rankToFilter);
                 if(playersWithMaxFavorTokensPoints.size() == 1) {
                     this.declareWinner(playersWithMaxFavorTokensPoints.get(0), rank);
                     super.broadcastNotification("\nÈ stato effettuato uno spareggio basato sul maggior numero di punti" +
                             " acquisiti dall'Obiettivo Privato, e in seguito sui Segnalini Favore.");
-                } else {    //Tie-break Turn Order.
+                }
+
+                //Tie-break Turn Order.
+                else {
                     this.declareWinner(this.performTurnOrderTieBreak(rankToFilter), rank);
                     super.broadcastNotification("\nÈ stato effettuato uno spareggio basato sul maggior numero di punti " +
                             "acquisiti dall'Obiettivo Privato,\nquindi dai Segnalini Favore ed infine sull'ordine di turno" +
@@ -124,7 +133,7 @@ public class EndGameManager extends AGameManager {
      * {@link it.polimi.ingsw.controller.WaitingRoom} whether there is at least one player willing to play again.
      * @param playerName name of the player sending the request.
      */
-    public void exitGame(String playerName) {
+    public synchronized void exitGame(String playerName) {
         if (!playersThatAnswered.contains(playerName) && !super.getControllerMaster().getSuspendedPlayers().contains(playerName)) {
             this.playersThatAnswered.add(playerName);
         }
@@ -133,7 +142,7 @@ public class EndGameManager extends AGameManager {
         try {
             client.forceLogOut();
         } catch (BrokenConnectionException e) {
-            SagradaLogger.log(Level.WARNING, "Connection lost with " + playerName + " while forcing him to log" +
+            SagradaLogger.log(Level.WARNING, CONNECTION_LOST_WITH + playerName + " while forcing him to log" +
                     " out");
         }
         connectedPlayers.remove(playerName);
@@ -162,7 +171,7 @@ public class EndGameManager extends AGameManager {
      * connections drop.
      * @param playerName player sending the request.
      */
-    public void newGame(String playerName) {
+    public synchronized void newGame(String playerName) {
         if (!playersThatAnswered.contains(playerName)) {
             this.playersThatAnswered.add(playerName);
         }
@@ -194,6 +203,7 @@ public class EndGameManager extends AGameManager {
                     connectedPlayers.remove(remainingPlayer.getKey());
                 }
             }
+
             //Checks this in case all players disconnected.
             if(!connectedPlayers.isEmpty()) {
                 this.initializeNewWaitingRoom(connectedPlayers);
@@ -529,7 +539,7 @@ public class EndGameManager extends AGameManager {
      */
     private void removeSuspendedPlayers() {
         super.getControllerMaster().getSuspendedPlayers().forEach(suspendedPlayer -> {
-            if (!getControllerMaster().getConnectedPlayers().containsKey(suspendedPlayer)) {
+            if (getControllerMaster().getConnectedPlayers().containsKey(suspendedPlayer)) {
                 try {
                     getControllerMaster().getConnectedPlayers().get(suspendedPlayer).getClient().forceLogOut();
                 } catch (BrokenConnectionException e) {
