@@ -45,7 +45,7 @@ public interface IFromServerToClient {
      * @param idTool the ids of all the tool cards drown by the controller.
      * @throws BrokenConnectionException when the connection drops.
      */
-    void setCommonBoard(Map<String, SimplifiedWindowPatternCard> players, int [] idPubObj, int[] idTool) throws BrokenConnectionException;
+    void setCommonBoard(Map<String, SimplifiedWindowPatternCard> players, int[] idPubObj, int[] idTool) throws BrokenConnectionException;
 
     /**
      * This method will populate the draft pool in each round
