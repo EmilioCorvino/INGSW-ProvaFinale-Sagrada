@@ -366,17 +366,19 @@ public class StartGameManager extends AGameManager {
         List<Player> players = super.getControllerMaster().getCommonBoard().getPlayers();
 
         for (Player player : players) {
-            mapOfWp.put(player.getPlayerName(), convertOneWp(player.getWindowPatternCard().getIdMap()));
+            mapOfWp.put(player.getPlayerName(), convertOneVirginWp(player.getWindowPatternCard().getIdMap()));
         }
         return mapOfWp;
     }
 
     /**
-     * Converts a complex {@link WindowPatternCard} into a {@link SimplifiedWindowPatternCard}.
+     * Converts a complex {@link WindowPatternCard} into a void {@link SimplifiedWindowPatternCard}.
+     * Used when the match still has to start.
      * @param chosenMap id of the chosen {@link WindowPatternCard}.
-     * @return a {@link SimplifiedWindowPatternCard} obtained by a {@link WindowPatternCard}.
+     * @return a {@link SimplifiedWindowPatternCard} obtained from the {@link WindowPatternCard} in input, retrieved
+     * from its id.
      */
-    private SimplifiedWindowPatternCard convertOneWp(int chosenMap) {
+    private SimplifiedWindowPatternCard convertOneVirginWp(int chosenMap) {
         CommonBoard commonBoard = super.getControllerMaster().getCommonBoard();
         WindowPatternCard wp = commonBoard.getWindowPatternCardDeck().getAvailableWP().get(chosenMap);
 
