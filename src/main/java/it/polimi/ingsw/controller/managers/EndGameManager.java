@@ -347,16 +347,16 @@ public class EndGameManager extends AGameManager {
             @Override
             public void run() {
                 SagradaLogger.log(Level.WARNING, playerName + " end choice turn timer is expired");
-                if(!playersThatAnswered.contains(playerName)) {
-                    IFromServerToClient client = getPlayerClient(playerName);
-                    try {
-                        client.showNotice("Hai impiegato troppo tempo a rispondere, verrai disconnesso");
-                        exitGame(playerName);
-                    } catch (BrokenConnectionException e) {
-                        SagradaLogger.log(Level.SEVERE, CONNECTION_LOST_WITH + playerName + " while forcing" +
-                                " him to log out.");
-                        exitGame(playerName);
-                    }
+                if(!playersThatAnswered.contains(playerName) && getControllerMaster().getConnectedPlayers().containsKey(playerName)) {
+                        IFromServerToClient client = getPlayerClient(playerName);
+                        try {
+                            client.showNotice("Hai impiegato troppo tempo a rispondere, verrai disconnesso");
+                            exitGame(playerName);
+                        } catch (BrokenConnectionException e) {
+                            SagradaLogger.log(Level.SEVERE, CONNECTION_LOST_WITH + playerName + " while forcing" +
+                                    " him to log out.");
+                            exitGame(playerName);
+                        }
                 }
             }
         }, super.timeOut);

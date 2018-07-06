@@ -53,7 +53,7 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
      * @see RmiFromServerToClient
      */
     @Override
-    public void login(int gameMode, String playerName, IRmiClient callBack, Connection connection)
+    public synchronized void login(int gameMode, String playerName, IRmiClient callBack, Connection connection)
             throws UserNameAlreadyTakenException, TooManyUsersException, MatchAlreadyStartedException {
         IFromServerToClient client = new RmiFromServerToClient(callBack);
         connection.setClient(client);
@@ -78,7 +78,7 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
     }
 
     @Override
-    public void performToolCardMove(int slotID, List<SetUpInformationUnit> infoUnits, Connection connection) throws RemoteException {
+    public void performToolCardMove(int slotID, List<SetUpInformationUnit> infoUnits, Connection connection) {
         synchronized (this) {
             this.serverImplementation.getConnectionsQueue().add(connection);
             this.serverImplementation.performToolCardMove(slotID, infoUnits);
@@ -86,7 +86,7 @@ public class RmiServer extends UnicastRemoteObject implements IRmiServer {
     }
 
     @Override
-    public void performRestrictedPlacement(SetUpInformationUnit infoUnit, Connection connection) throws RemoteException {
+    public void performRestrictedPlacement(SetUpInformationUnit infoUnit, Connection connection) {
         synchronized (this) {
             this.serverImplementation.getConnectionsQueue().add(connection);
             this.serverImplementation.performRestrictedPlacement(infoUnit);
