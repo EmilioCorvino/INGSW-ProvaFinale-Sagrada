@@ -18,7 +18,7 @@ public class EnlargementHandler {
     /**
      * This is the default duration of the animation in milliseconds.
      */
-    private static final int DEFAULT_DURATION = 30;
+    private static final int DEFAULT_DURATION = 100;
     /**
      * This is the default zoom factor applied to the images.
      */

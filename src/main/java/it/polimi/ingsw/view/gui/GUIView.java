@@ -232,6 +232,7 @@ public class GUIView implements IViewMaster {
             this.current = commonWindow;
             this.commonWindow.getDraftPoolGUI().cellAsSource();
             this.playersData.getPersonalWp().cellMapAsDestinationHandler();
+            this.playersData.constructOtherPlayerMap(players);
 
             this.current.addHandlers();
             GUIMain.setRoot(current);

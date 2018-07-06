@@ -21,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -103,9 +104,12 @@ public class CommonBoardWindow extends ParentWindow {
     private ToolWindowBuilder toolWindowBuilder;
 
 
+
     public CommonBoardWindow(GUICommunicationManager manager) {
 
+
         toolWindowBuilder = new ToolWindowBuilder(this);
+        supportStageBuilder();
 
         roundTrack = new RoundTrackGUI();
         draftPoolGUI = new DraftPoolGUI();
@@ -252,6 +256,7 @@ public class CommonBoardWindow extends ParentWindow {
         tok.setText(nFavTok + "");
     }
 
+    private Button otherMaps;
 
     /**
      * This method formats all that is relative to the player, such as its personal map and
@@ -281,17 +286,17 @@ public class CommonBoardWindow extends ParentWindow {
         base.setMaxWidth(300);
         box.setMinWidth(280);
         box.setMaxWidth(280);
-        box.setPadding(new Insets(80, 0, 0, 28));
+        box.setPadding(new Insets(60, 0, 0, 28));
         box.setSpacing(62);
 
-        HBox favorTok = new HBox();
+        VBox favorTok = new VBox();
         Label titleFav = new Label(this.data.getUsername());
         favorTok.setPadding(new Insets(0, 0, 0, 45));
         titleFav.getStyleClass().add("text-label-bold");
-        Label numFav = new Label("");
-        numFav.getStyleClass().add("text-label-bold");
+        otherMaps = new Button("Mappe giocatori");
+        otherMaps.getStyleClass().add("button-style");
 
-        favorTok.getChildren().addAll(titleFav, numFav);
+        favorTok.getChildren().addAll(titleFav, otherMaps);
         box.getChildren().addAll(cardFavorCont, favorTok, map);
         base.getChildren().addAll(view1, box);
 
@@ -479,6 +484,8 @@ public class CommonBoardWindow extends ParentWindow {
                 StackPane stack = (StackPane) grid.getChildren().get(WpGui.MAX_COL * i + j);
                 stack.getStyleClass().add("dieChosen");
             }
+       this.otherMaps.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> otherMapsHandler());
+        this.otherMaps.addEventHandler(MouseEvent.MOUSE_EXITED, e -> this.other.close());
     }
 
 
@@ -525,6 +532,42 @@ public class CommonBoardWindow extends ParentWindow {
         }
     }
 
+    private VBox otherMap;
+    private Stage other = new Stage();
+
+    /**
+     * This method builds the stage for the support windows of the tools.
+     */
+    private void supportStageBuilder() {
+        this.other = new Stage();
+        this.other.initStyle(StageStyle.TRANSPARENT);
+
+        GUIMain.centerScreen();
+
+        other.initStyle(StageStyle.TRANSPARENT);
+        other.initOwner(GUIMain.getStage());
+    }
+
+    private void otherMapsHandler() {
+        otherMap = new VBox();
+        otherMap.getStylesheets().add("style/backgrounds.css");
+       otherMap.getStyleClass().addAll("VBox");
+
+        List<VBox> list = this.data.getOtherPLayersMaps();
+        list.forEach(elem -> otherMap.getChildren().add(elem));
+
+        Scene maps = new Scene(otherMap);
+
+        maps.setFill(Color.TRANSPARENT);
+        other.setScene(maps);
+        //other.setX(300);
+      // other.setY(50);
+        other.show();
+
+    }
+
+
+
     public void resetIsAlreadyUsedFlag() {
         this.toolWindowManager.setAlreadyUsed(false);
     }
@@ -548,5 +591,13 @@ public class CommonBoardWindow extends ParentWindow {
 
     public void setManager(GUICommunicationManager manager) {
         this.manager = manager;
+    }
+
+    public Button getOtherMaps() {
+        return otherMaps;
+    }
+
+    public void setOtherMaps(Button otherMaps) {
+        this.otherMaps = otherMaps;
     }
 }

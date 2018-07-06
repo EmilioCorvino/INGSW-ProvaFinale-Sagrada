@@ -157,7 +157,7 @@ public class RoundTrackGUI extends VBox {
             diceRound.getChildren().remove(size -1 );
     }
 
-    public void roundDieClickedHandler(StackPane main, DieGUI die, HBox box) {
+    private void roundDieClickedHandler(StackPane main, DieGUI die, HBox box) {
         int index = this.getChildren().indexOf(main);
         setRound(index);
         int offset = box.getChildren().indexOf(die);
