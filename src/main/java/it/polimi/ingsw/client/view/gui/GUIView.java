@@ -93,7 +93,7 @@ public class GUIView implements IViewMaster {
         chooseWpGUI = new ChooseWpGUI(manager);
         playersData = new PlayersData();
         commonWindow = new CommonBoardWindow(manager);
-        rankWindow = new RankWindow();
+        rankWindow = new RankWindow(this.manager);
 
         chooseWpGUI.setPlayersData(this.playersData);
         commonWindow.setData(this.playersData);
@@ -475,7 +475,7 @@ public class GUIView implements IViewMaster {
         Platform.runLater(() -> {
             for(int i=0; i<playerNames.length; i++)
                 this.rankWindow.updateNames(playerNames[i], scores[i]);
-
+            this.rankWindow.addHandlers();
             this.current = rankWindow;
             GUIMain.setRoot(current);
             GUIMain.centerScreen();

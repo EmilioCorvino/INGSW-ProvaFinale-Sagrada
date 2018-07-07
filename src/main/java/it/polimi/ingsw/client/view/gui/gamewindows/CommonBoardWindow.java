@@ -162,15 +162,25 @@ public class CommonBoardWindow extends ParentWindow {
         Button exit = new Button("X");
         Button help = new Button(("?"));
         Button minimize = new Button("_");
-        buttonBox.getChildren().addAll(minimize, help, exit);
+        Button reconnect = new Button("Riconnettiti");
+        reconnect.setVisible(false);
+        buttonBox.getChildren().addAll(minimize, help, exit, reconnect);
         buttonBox.getChildren().get(0).getStyleClass().add("button-style");
         buttonBox.getChildren().get(1).getStyleClass().add("button-style");
         buttonBox.getChildren().get(2).getStyleClass().add("button-style");
+        buttonBox.getChildren().get(3).getStyleClass().add("button-style");
         buttonBox.setSpacing(7);
         this.header.getChildren().addAll(titleHeader, buttonBox);
         this.header.getChildren().get(0).getStyleClass().add("title");
 
-        this.header.setSpacing(1070);
+        this.header.setSpacing(1000);
+
+        reconnect.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            if(this.manager.isCommandContained("Riconnessione"))
+                this.manager.executeCommandIfPresent("Riconnessione");
+            else
+                this.manager.communicateMessage("Non disponibile");
+        });
 
         exit.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
             if(this.manager.isCommandContained("Logout"))
