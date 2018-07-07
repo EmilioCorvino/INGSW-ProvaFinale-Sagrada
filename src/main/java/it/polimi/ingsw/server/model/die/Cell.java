@@ -80,10 +80,6 @@ public class Cell {
         return col;
     }
 
-    public void setCol(int col) {
-        this.col = col;
-    }
-
     public Die getContainedDie() {
         return containedDie;
     }

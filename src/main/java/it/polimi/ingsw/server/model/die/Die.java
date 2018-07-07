@@ -40,10 +40,6 @@ public class Die {
         return dieColor;
     }
 
-    public void setDieColor(Color dieColor) {
-        this.dieColor = dieColor;
-    }
-
     public int getOriginalDieValue() {
         return originalDieValue;
     }
