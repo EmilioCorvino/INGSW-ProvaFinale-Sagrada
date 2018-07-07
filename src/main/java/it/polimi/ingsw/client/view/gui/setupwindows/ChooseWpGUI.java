@@ -74,6 +74,7 @@ public class ChooseWpGUI extends ParentWindow {
      */
     private final GUICommunicationManager communicator;
 
+
     public ChooseWpGUI(GUICommunicationManager manager) {
         this.communicator = manager;
 
@@ -150,16 +151,34 @@ public class ChooseWpGUI extends ParentWindow {
         Button exit = new Button("X");
         Button help = new Button(("?"));
         Button minimize = new Button("_");
-        buttonBox.getChildren().addAll(minimize, help, exit);
+
+        buttonBox.getChildren().addAll(reconnect, minimize, help, exit);
         buttonBox.getChildren().get(0).getStyleClass().add("button-style");
         buttonBox.getChildren().get(1).getStyleClass().add("button-style");
         buttonBox.getChildren().get(2).getStyleClass().add("button-style");
+        buttonBox.getChildren().get(3).getStyleClass().add("button-style");
         buttonBox.setSpacing(7);
         this.header.getChildren().addAll(titleHeader, buttonBox);
 
-        exit.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> System.exit(0));
+        exit.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            if(this.communicator.isCommandContained("Logout"))
+                this.communicator.executeCommandIfPresent("Logout");
+            else
+                this.communicator.communicateMessage("Non disponibile");
+        });
+
         help.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> this.communicator.communicateMessage("Seleziona una sola delle 4 mappe presentate"));
         minimize.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> GUIMain.getStage().setIconified(true));
+
+        super.getReconnect().addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            if(this.communicator.isCommandContained("Riconnessione")) {
+                this.communicator.setReconnected(true);
+                super.getReconnect().setVisible(false);
+                this.communicator.executeCommandIfPresent("Riconnessione");
+            }
+            else
+                this.communicator.communicateMessage("Non disponibile");
+        });
     }
 
     /**
@@ -182,7 +201,7 @@ public class ChooseWpGUI extends ParentWindow {
         this.getStylesheets().add("style/backgrounds.css");
         this.getStyleClass().add("background");
 
-        this.header.setSpacing(860);
+        this.header.setSpacing(750);
         this.header.getChildren().get(0).getStyleClass().add("title");
 
         this.mainContainer.setPadding(new Insets(20, 25, 20, 25));
@@ -290,11 +309,6 @@ public class ChooseWpGUI extends ParentWindow {
                 cell.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> handleChosenMap(cell));
             }
         }
-
-    @Override
-    public void showMessage(String mex) {
-
-    }
 
     public List<WpGui> getMaps() {
         return maps;

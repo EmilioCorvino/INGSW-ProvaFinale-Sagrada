@@ -26,6 +26,8 @@ public class GUICommunicationManager {
 
    private Stage newWindow;
 
+   private boolean isReconnected;
+
    GUICommunicationManager() {
       functions = new LinkedHashMap<>();
 
@@ -126,5 +128,13 @@ public class GUICommunicationManager {
 
    public void setFunctions(Map<String, Runnable> functions) {
       this.functions = functions;
+   }
+
+   public boolean isReconnected() {
+      return isReconnected;
+   }
+
+   public void setReconnected(boolean reconnected) {
+      isReconnected = reconnected;
    }
 }

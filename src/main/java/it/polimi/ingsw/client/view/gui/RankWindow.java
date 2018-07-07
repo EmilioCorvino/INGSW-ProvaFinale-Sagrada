@@ -93,8 +93,4 @@ public class RankWindow extends ParentWindow {
         });
     }
 
-    @Override
-    public void showMessage(String mex) {
-
-    }
 }

@@ -107,7 +107,7 @@ public class CommonBoardWindow extends ParentWindow {
 
     public CommonBoardWindow(GUICommunicationManager manager) {
 
-
+        super();
         toolWindowBuilder = new ToolWindowBuilder(this);
         supportStageBuilder();
 
@@ -163,7 +163,7 @@ public class CommonBoardWindow extends ParentWindow {
         Button help = new Button(("?"));
         Button minimize = new Button("_");
         super.getReconnect().setVisible(false);
-        buttonBox.getChildren().addAll(minimize, help, exit, reconnect);
+        buttonBox.getChildren().addAll(reconnect, minimize, help, exit);
         buttonBox.getChildren().get(0).getStyleClass().add("button-style");
         buttonBox.getChildren().get(1).getStyleClass().add("button-style");
         buttonBox.getChildren().get(2).getStyleClass().add("button-style");
@@ -172,11 +172,14 @@ public class CommonBoardWindow extends ParentWindow {
         this.header.getChildren().addAll(titleHeader, buttonBox);
         this.header.getChildren().get(0).getStyleClass().add("title");
 
-        this.header.setSpacing(1000);
+        this.header.setSpacing(970);
 
         super.getReconnect().addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-            if(this.manager.isCommandContained("Riconnessione"))
+            if(this.manager.isCommandContained("Riconnessione")) {
+                this.manager.setReconnected(true);
+                super.getReconnect().setVisible(false);
                 this.manager.executeCommandIfPresent("Riconnessione");
+            }
             else
                 this.manager.communicateMessage("Non disponibile");
         });

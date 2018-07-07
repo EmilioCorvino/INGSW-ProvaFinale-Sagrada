@@ -21,6 +21,7 @@ import it.polimi.ingsw.common.utils.exceptions.UserNameAlreadyTakenException;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -85,15 +86,24 @@ public class GUIView implements IViewMaster {
      */
     private RankWindow rankWindow;
 
+    private List<ParentWindow> windowsList;
+
+    int curr;
+
 
     public GUIView() {
+        curr = 0;
+        windowsList = new ArrayList<>();
         bank = new Bank();
         manager = new GUICommunicationManager();
         listPlayers = new ShowPlayersGUI();
         chooseWpGUI = new ChooseWpGUI(manager);
+        windowsList.add(chooseWpGUI);
         playersData = new PlayersData();
         commonWindow = new CommonBoardWindow(manager);
+        windowsList.add(commonWindow);
         rankWindow = new RankWindow(this.manager);
+        windowsList.add(rankWindow);
 
         chooseWpGUI.setPlayersData(this.playersData);
         commonWindow.setData(this.playersData);
@@ -192,7 +202,11 @@ public class GUIView implements IViewMaster {
     @Override
     public void showPrivateObjective(int idPrivateObj) {
         Platform.runLater(() -> {
-            this.current = chooseWpGUI;
+            if(!this.manager.isReconnected() || (this.manager.isReconnected() && this.curr ==0))
+                this.current = this.chooseWpGUI;
+            else {
+                return;
+            }
             this.playersData.setIdPrivateCard(idPrivateObj);
             GUIMain.setRoot(this.chooseWpGUI);
             this.chooseWpGUI.assignPrivateObjectiveCard(idPrivateObj);
@@ -225,11 +239,18 @@ public class GUIView implements IViewMaster {
     @Override
     public void setCommonBoard(Map<String, SimplifiedWindowPatternCard> players, int[] idPubObj, int[] idTool) {
         Platform.runLater(() -> {
+            this.curr ++;
+            if(this.curr == this.windowsList.size())
+                this.curr--;
+            if(this.manager.isReconnected() && this.curr == 1) {
+                this.commonWindow = new CommonBoardWindow(this.manager);
+                this.manager.setReconnected(false);
+            }
             commonWindow.formatSecondContainer();
             commonWindow.setPublicImages(idPubObj);
             commonWindow.setToolImages(idTool);
             commonWindow.setRoundTrack();
-            this.current = commonWindow;
+            this.current = windowsList.get(curr);
             this.commonWindow.getDraftPoolGUI().cellAsSource();
             this.playersData.getPersonalWp().cellMapAsDestinationHandler();
             this.playersData.constructOtherPlayerMap(players);
@@ -302,8 +323,9 @@ public class GUIView implements IViewMaster {
         Platform.runLater(() -> {
             Map<String, Runnable> functions = this.bank.getCommandMap(commands);
             this.manager.setFunctions(functions);
-            if(this.manager.isCommandContained("reconnect"));
-                this.current.getReconnect().setVisible(true);
+            if(this.manager.isCommandContained("Riconnessione"))
+               this.commonWindow.getReconnect().setVisible(true);
+
             this.current.addHandlers();
         });
     }
@@ -331,7 +353,6 @@ public class GUIView implements IViewMaster {
     @Override
     public void removeOnOwnWp(SetUpInformationUnit unit) {
         Platform.runLater(() -> {
-            System.out.println("Sto per rimuovere l'elemento... " + unit.getSourceIndex());
             this.commonWindow.getData().getPersonalWp().removeFromThisWp(unit.getSourceIndex());
         });
     }
@@ -430,11 +451,14 @@ public class GUIView implements IViewMaster {
             String newMex = notice;
             if(notice.contains(" Digita 'comandi' per visualizzare i comandi ancora disponibili."))
                 newMex = notice.replace(" Digita 'comandi' per visualizzare i comandi ancora disponibili.", "");
-            if(this.current != null) {
+            //if(this.current != null) {
+                this.manager.communicateMessage(newMex);
+                System.out.println(newMex);
+                /*
                 this.current.showMessage(newMex);
-                if(notice.contains("HAI VINTO PER ABBANDONO!"))
-                    System.out.println("hai vinto per abbandono");
-            }
+                System.out.println("messaggio: " + notice);
+                */
+           // }
         });
     }
 
@@ -478,10 +502,13 @@ public class GUIView implements IViewMaster {
     @Override
     public void showRank(String[] playerNames, int[] scores) {
         Platform.runLater(() -> {
+            this.curr++;
+            if(this.curr == this.windowsList.size())
+                this.curr--;
             for(int i=0; i<playerNames.length; i++)
                 this.rankWindow.updateNames(playerNames[i], scores[i]);
             this.rankWindow.addHandlers();
-            this.current = rankWindow;
+            this.current = this.windowsList.get(curr);
             GUIMain.setRoot(current);
             GUIMain.centerScreen();
         });
