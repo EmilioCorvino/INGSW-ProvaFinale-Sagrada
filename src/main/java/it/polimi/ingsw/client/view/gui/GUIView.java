@@ -430,8 +430,11 @@ public class GUIView implements IViewMaster {
             String newMex = notice;
             if(notice.contains(" Digita 'comandi' per visualizzare i comandi ancora disponibili."))
                 newMex = notice.replace(" Digita 'comandi' per visualizzare i comandi ancora disponibili.", "");
-            if(this.current != null)
+            if(this.current != null) {
                 this.current.showMessage(newMex);
+                if(notice.contains("HAI VINTO PER ABBANDONO!"))
+                    System.out.println("hai vinto per abbandono");
+            }
         });
     }
 
