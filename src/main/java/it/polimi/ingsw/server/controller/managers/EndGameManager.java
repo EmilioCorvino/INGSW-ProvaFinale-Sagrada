@@ -233,6 +233,9 @@ public class EndGameManager extends AGameManager {
             waitingRoom.setMatchAlreadyStarted(false);
             waitingRoom.getPlayersRoom().putAll(playersWillingToGoAgain);
             waitingRoom.notifyWaitingPlayers();
+            if (waitingRoom.getPlayersRoom().size() >= 2) {
+                waitingRoom.startTimer();
+            }
         }
     }
 
