@@ -314,6 +314,11 @@ public class GUIView implements IViewMaster {
         });
     }
 
+    @Override
+    public void setRestoredRoundTrack(List<ArrayList<SetUpInformationUnit>> roundTrackToRestore) {
+        //todo Rita, implement and document this!
+    }
+
     /**
      * This method is responsible for updating all the available commands the user can execute at each time.
      * @param commands the list of available commands.

@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.IViewMaster;
 import it.polimi.ingsw.client.view.cli.boardelements.CommonBoardView;
 import it.polimi.ingsw.client.view.cli.boardelements.PlayerView;
 import it.polimi.ingsw.client.view.cli.die.DieDraftPoolView;
+import it.polimi.ingsw.client.view.cli.die.DieView;
 import it.polimi.ingsw.client.view.cli.die.WindowPatternCardView;
 import it.polimi.ingsw.client.view.cli.managers.general.CliDefaultMatchManager;
 import it.polimi.ingsw.client.view.cli.managers.general.CliToolCardCardManager;
@@ -29,6 +30,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
+/**
+ * Implementation of the View in the Command Line Interface.
+ */
 public class CliView implements IViewMaster {
 
     /**
@@ -239,6 +243,10 @@ public class CliView implements IViewMaster {
         inputOutputManager.print(this.player.favTokensToString());
     }
 
+    /**
+     * Sets the Window Pattern Cards of the board to one player after he reconnected.
+     * @param diceToRestore map representing the Window Pattern Cards related to each player.
+     */
     @Override
     public void setRestoredWindowPatternCards(Map<String, List<SetUpInformationUnit>> diceToRestore) {
 
@@ -252,11 +260,42 @@ public class CliView implements IViewMaster {
         });
     }
 
+    /**
+     * Sets the Round Track after the player reconnected.
+     * @param roundTrackToRestore object representing the Round Track.
+     */
+    @Override
+    public void setRestoredRoundTrack(List<ArrayList<SetUpInformationUnit>> roundTrackToRestore) {
+        List<ArrayList<DieView>> roundTrack = new ArrayList<>();
+        this.getCommonBoard().getRoundTrack().getAvailableDice().clear();
+        for (List<SetUpInformationUnit> round: roundTrackToRestore) {
+            ArrayList<DieView> roundDice = new ArrayList<>();
+            if (!round.isEmpty()) {
+                for (SetUpInformationUnit die: round) {
+                    DieView restoredDie = new DieView(die.getColor(), die.getValue());
+                    roundDice.add(restoredDie);
+                }
+            }
+            roundTrack.add(roundDice);
+        }
+        this.getCommonBoard().getRoundTrack().setAvailableDice(roundTrack);
+    }
+
+    /**
+     * Restores the Window Pattern Card of the player owning this client.
+     * @param dice dice on the Window Pattern Card of the player.
+     */
     private void restoreOwnWp(List<SetUpInformationUnit> dice){
         for(SetUpInformationUnit die : dice)
             gamePlayManager.addOnWp(player.getWp(), die);
     }
 
+    /**
+     * Restores the Window Pattern Cards of the other players.
+     * @param p object representing the player on the View
+     * @param playerName name of the player owning the Window Pattern Card to restore.
+     * @param dice dice on the Window Pattern Card of the player.
+     */
     private void restoreOtherPlayersWp(PlayerView p, String playerName, List<SetUpInformationUnit> dice){
 
             if (p.getUserName().equals(playerName))

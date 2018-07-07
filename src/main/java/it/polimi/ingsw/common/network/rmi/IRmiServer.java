@@ -14,6 +14,7 @@ import java.util.List;
  * This interface presents the same methods as {@link it.polimi.ingsw.common.network.IFromClientToServer}, but suited for a RMI
  * connection: in fact it extends remote and its methods throw {@link RemoteException}.
  * Moreover, each of these methods takes also a Connection in input, to identify the player, for security reasons.
+ * @see it.polimi.ingsw.common.network.IFromClientToServer for documentation.
  */
 public interface IRmiServer extends Remote {
 

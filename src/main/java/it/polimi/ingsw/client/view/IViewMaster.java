@@ -5,9 +5,13 @@ import it.polimi.ingsw.common.network.IFromClientToServer;
 import it.polimi.ingsw.common.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.common.simplifiedview.SimplifiedWindowPatternCard;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This interface contains all the methods that the server can require from the View.
+ */
 public interface IViewMaster {
 
     void createConnection(IViewMaster viewMaster);
@@ -26,7 +30,9 @@ public interface IViewMaster {
 
     void setRestoredWindowPatternCards(Map<String, List<SetUpInformationUnit>> diceToRestore);
 
-   void showCommand(List<Commands> commands);
+    void setRestoredRoundTrack(List<ArrayList<SetUpInformationUnit>> roundTrackToRestore);
+
+    void showCommand(List<Commands> commands);
 
     void addOnOwnWp(SetUpInformationUnit unit);
 

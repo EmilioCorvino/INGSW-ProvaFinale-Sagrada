@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * The
+ * This class represent a {@link it.polimi.ingsw.server.model.die.containers.WindowPatternCard} as is represented on
+ * the View side.
  */
 public class SimplifiedWindowPatternCard implements Serializable {
 
@@ -14,7 +15,7 @@ public class SimplifiedWindowPatternCard implements Serializable {
     private int idMap;
 
     /**
-     * Number of favor token associated to this map
+     * Number of favor token associated to this map.
      */
     private int difficulty;
 

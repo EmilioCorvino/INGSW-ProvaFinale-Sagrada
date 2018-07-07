@@ -22,6 +22,8 @@ import java.util.logging.Level;
 /**
  * This class manages server related operation that aren't strictly related to the game. Moreover, it handles the
  * messages arriving from the client, calling methods from {@link ControllerMaster}.
+ * For methods that are not documented here:
+ * @see IFromClientToServer
  */
 public class ServerImplementation implements IFromClientToServer {
 
@@ -83,10 +85,6 @@ public class ServerImplementation implements IFromClientToServer {
         startGameManager.wpToSet(username, idMap);
     }
 
-    /**
-     * This method tells the proper game manager of the controller to perform the move request.
-     * @param infoUnit the coordinates of the source container.
-     */
     @Override
     public void performDefaultMove(SetUpInformationUnit infoUnit) {
         String userName = connectionsQueue.remove().getUserName();
@@ -108,9 +106,6 @@ public class ServerImplementation implements IFromClientToServer {
         gamePlayManager.performRestrictedPlacement(infoUnit, userName);
     }
 
-    /**
-     * This method tells the proper game manager of the controller to move to the next turn.
-     */
     @Override
     public void moveToNextTurn() {
         String userName = connectionsQueue.remove().getUserName();

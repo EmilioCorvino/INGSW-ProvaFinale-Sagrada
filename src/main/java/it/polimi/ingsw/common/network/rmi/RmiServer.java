@@ -17,6 +17,10 @@ import java.util.List;
 /**
  * This class is the implementation of the remote interface {@link IRmiServer} and it's published in the RMI registry by
  * {@link ServerMain}.
+ * The methods in this class put the connection in the queue of {@link ServerImplementation} and then trigger them.
+ * This is done to retrieve from the {@link Connection} put in the queue some information that the Controller needs,
+ * such as the user name.
+ * @see it.polimi.ingsw.common.network.IFromClientToServer to see the documentation about what each method does.
  */
 public class RmiServer extends UnicastRemoteObject implements IRmiServer {
 

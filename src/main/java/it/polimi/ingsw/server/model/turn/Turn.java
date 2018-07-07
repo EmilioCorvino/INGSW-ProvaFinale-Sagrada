@@ -42,12 +42,18 @@ public class Turn {
         this.player = player;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
+    /**
+     * Tells if the Turn is completed or not. A Turn is completed if the player has passed, or if he both performed a
+     * {@link it.polimi.ingsw.server.model.move.DefaultDiePlacementMove}
+     * placement and used a {@link it.polimi.ingsw.server.model.cards.tool.ToolCard}
+     * @return {@code true} if the turn is over, {@code false} otherwise.
+     */
     public boolean isTurnCompleted() {
         return ((this.diePlaced && this.toolCardUsed) || this.passed);
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public boolean isDiePlaced() {

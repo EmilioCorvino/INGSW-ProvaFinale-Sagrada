@@ -8,6 +8,7 @@ import it.polimi.ingsw.common.utils.SagradaLogger;
 import it.polimi.ingsw.common.utils.exceptions.BrokenConnectionException;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -99,6 +100,16 @@ public class RmiFromServerToClient implements IFromServerToClient {
             this.rmiClient.setRestoredWindowPatternCards(diceToRestore);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to restore the Window Pattern Cards to the player");
+            throw new BrokenConnectionException();
+        }
+    }
+
+    @Override
+    public void setRestoredRoundTrack(List<ArrayList<SetUpInformationUnit>> roundTrackToRestore) throws BrokenConnectionException {
+        try {
+            this.rmiClient.setRestoredRoundTrack(roundTrackToRestore);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to restore the Round Track to the player");
             throw new BrokenConnectionException();
         }
     }

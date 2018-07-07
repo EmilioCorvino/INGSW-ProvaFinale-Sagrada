@@ -13,7 +13,16 @@ import java.util.List;
  */
 public class Cell {
 
+    /**
+     * Row of the cell in the matrix represented by
+     * {@link it.polimi.ingsw.server.model.die.containers.WindowPatternCard#glassWindow}
+     */
     private int row;
+
+    /**
+     * Column of the cell in the matrix represented by
+     * {@link it.polimi.ingsw.server.model.die.containers.WindowPatternCard#glassWindow}
+     */
     private int col;
 
     /**
@@ -37,10 +46,10 @@ public class Cell {
     private ValueRestriction defaultValueRestriction;
 
     /**
-     *
-     * @param row The row of the cell
-     * @param col The column of the cell
-     * @param restriction The restriction of a cell on the window pattern card.
+     * Constructor used to create a new Cell with a {@link ColorRestriction}.
+     * @param row row of the cell
+     * @param col column of the cell
+     * @param restriction restriction of a cell on the window pattern card.
      */
     public Cell(int row, int col, ColorRestriction restriction) {
         this.row = row;
@@ -51,6 +60,12 @@ public class Cell {
         this.defaultValueRestriction = new ValueRestriction(0);
     }
 
+    /**
+     * Constructor used to create a new Cell with a {@link ValueRestriction}.
+     * @param row row of the cell
+     * @param col column of the cell
+     * @param restriction restriction of a cell on the window pattern card.
+     */
     public Cell(int row, int col, ValueRestriction restriction){
         this.row = row;
         this.col = col;
@@ -60,6 +75,11 @@ public class Cell {
         this.defaultValueRestriction = restriction;
     }
 
+    /**
+     * Constructor used to create a new Cell without restrictions.
+     * @param row row of the cell
+     * @param col column of the cell
+     */
     public Cell(int row, int col){
         this.row = row;
         this.col = col;
@@ -148,7 +168,7 @@ public class Cell {
     }
 
     /**
-     * This method addDieToCopy the cell's ruleSet.
+     * This method updates the cell's ruleSet.
      * @param rulesToAdd rules that need to be addDieToCopy to the ruleSet, null when the player want to remove a die.
      */
     public void updateRuleSet(List<IRestriction> rulesToAdd) {
@@ -156,6 +176,9 @@ public class Cell {
         this.ruleSetCell.addAll(rulesToAdd);
     }
 
+    /**
+     * This method updates the cell's ruleSet, restoring the default restrictions.
+     */
     private void updateRuleSet(){
         this.ruleSetCell.clear();
         if (defaultValueRestriction.getValue() != 0)

@@ -7,10 +7,7 @@ import it.polimi.ingsw.common.simplifiedview.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.common.utils.PropertyLoader;
 import it.polimi.ingsw.common.utils.SagradaLogger;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.logging.Level;
 
 /**
@@ -94,6 +91,11 @@ public class ClientImplementation implements IFromServerToClient {
     @Override
     public void setRestoredWindowPatternCards(Map<String, List<SetUpInformationUnit>> diceToRestore) {
         view.setRestoredWindowPatternCards(diceToRestore);
+    }
+
+    @Override
+    public void setRestoredRoundTrack(List<ArrayList<SetUpInformationUnit>> roundTrackToRestore) {
+        view.setRestoredRoundTrack(roundTrackToRestore);
     }
 
     @Override

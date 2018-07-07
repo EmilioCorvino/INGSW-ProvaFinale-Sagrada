@@ -131,6 +131,9 @@ public class Bank {
         return defaultMatchManager;
     }
 
+    /**
+     * This method is used to populate the Bank.
+     */
     public void populateBank(){
         this.populateAvailableCommandMap();
         this.populateCommandMap();

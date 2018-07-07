@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.turn;
 
+import it.polimi.ingsw.common.utils.PropertyLoader;
 import it.polimi.ingsw.server.controller.managers.GamePlayManager;
 import it.polimi.ingsw.server.model.player.Player;
 
@@ -8,14 +9,14 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * This class represents a specific state of the game.
+ * This class represents the state of the game.
  */
 public class GameState {
 
     /**
      * The number of rounds tha must be played before the end of the game.
      */
-    public static final int LAST_ROUND = 10;
+    public static final int LAST_ROUND = PropertyLoader.getPropertyLoader().getLastRound();
 
     /**
      * This attribute represents the state of the turn of the current player.

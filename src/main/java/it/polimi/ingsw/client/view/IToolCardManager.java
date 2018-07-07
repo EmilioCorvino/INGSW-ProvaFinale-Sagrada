@@ -1,5 +1,9 @@
 package it.polimi.ingsw.client.view;
 
+/**
+ * This interface contains one method for each tool card that can be required, plus two extra method for those cards
+ * that need more than one request to the server to be processed. See implementing classes for documentation.
+ */
 public interface IToolCardManager {
 
     void tool1();
@@ -29,5 +33,4 @@ public interface IToolCardManager {
     void tool11Extra();
 
     void tool12();
-
 }

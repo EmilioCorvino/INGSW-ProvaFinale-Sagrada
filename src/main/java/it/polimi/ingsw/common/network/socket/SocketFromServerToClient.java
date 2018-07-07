@@ -6,6 +6,7 @@ import it.polimi.ingsw.common.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.common.simplifiedview.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.common.utils.exceptions.BrokenConnectionException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +43,11 @@ public class SocketFromServerToClient implements IFromServerToClient {
 
     @Override
     public void setRestoredWindowPatternCards(Map<String, List<SetUpInformationUnit>> diceToRestore) throws BrokenConnectionException {
+
+    }
+
+    @Override
+    public void setRestoredRoundTrack(List<ArrayList<SetUpInformationUnit>> roundTrackToRestore) throws BrokenConnectionException {
 
     }
 

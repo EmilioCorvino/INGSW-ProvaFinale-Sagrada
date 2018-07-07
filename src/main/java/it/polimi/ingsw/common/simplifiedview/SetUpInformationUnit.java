@@ -40,12 +40,21 @@ public class SetUpInformationUnit implements Serializable {
      */
     private int extraParam;
 
+    /**
+     * This constructor builds a SetUpInformationUnit with some parameters set.
+     * @param index index of the desired destination in which the die has to be put.
+     * @param color color of the die to place.
+     * @param value value of the die to place.
+     */
     public SetUpInformationUnit(int index, Color color, int value) {
         setDestinationIndex(index);
         setColor(color);
         setValue(value);
     }
 
+    /**
+     * This constructor builds an empty SetUpInformationUnit.
+     */
     public SetUpInformationUnit() {
         setColor(Color.BLANK);
         setValue(0);

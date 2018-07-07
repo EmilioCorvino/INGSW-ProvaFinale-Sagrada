@@ -5,6 +5,7 @@ import it.polimi.ingsw.common.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.common.simplifiedview.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.common.utils.exceptions.BrokenConnectionException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -69,6 +70,14 @@ public interface IFromServerToClient {
      * @throws BrokenConnectionException when the connection drops.
      */
     void setRestoredWindowPatternCards(Map<String, List<SetUpInformationUnit>> diceToRestore) throws BrokenConnectionException;
+
+    /**
+     * This method is used to restore the {@link it.polimi.ingsw.server.model.die.containers.RoundTrack} after the
+     * player had previously disconnected.
+     * @param roundTrackToRestore object representing the round track to restore.
+     * @throws BrokenConnectionException when the connection drops.
+     */
+    void setRestoredRoundTrack(List<ArrayList<SetUpInformationUnit>> roundTrackToRestore) throws BrokenConnectionException;
 
     /**
      * This method populates the function map when the controller give the command list

@@ -36,6 +36,11 @@ public class PropertyLoader {
     private static long turnTimer;
 
     /**
+     * Number of rounds of which the game is composed.
+     */
+    private static int lastRound;
+
+    /**
      * Path of the file containing the properties.
      */
     private static final String PROPERTIES_PATH = "./src/main/conf/sagrada.properties";
@@ -63,12 +68,13 @@ public class PropertyLoader {
             rmiPort = Integer.parseInt(sagradaProperties.getProperty("rmi.port"));
             roomTimer = Long.parseLong(sagradaProperties.getProperty("room.timer"));
             turnTimer = Long.parseLong(sagradaProperties.getProperty("turn.timer"));
+            lastRound = Integer.parseInt(sagradaProperties.getProperty("last.round"));
         }
 
         return instance;
     }
 
-    public  int getRmiPort() {
+    public int getRmiPort() {
         return rmiPort;
     }
 
@@ -78,5 +84,9 @@ public class PropertyLoader {
 
     public long getTurnTimer() {
         return turnTimer;
+    }
+
+    public int getLastRound() {
+        return lastRound;
     }
 }

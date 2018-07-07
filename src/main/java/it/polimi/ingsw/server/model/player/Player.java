@@ -44,25 +44,6 @@ public class Player implements IPlayer {
      */
     private final Score score;
 
-    public Player(String playerName, CommonBoard board) {
-        this.playerName = playerName;
-        this.board = board;
-        this.score = new Score(this);
-    }
-
-    public WindowPatternCard getWindowPatternCard() {
-        return windowPatternCard;
-    }
-
-    /**
-     * It's used to set both the player's window pattern card and the favor tokens available to him.
-     * @param windowPatternCard card to link to the player.
-     */
-    public void setWindowPatternCard(WindowPatternCard windowPatternCard) {
-        this.windowPatternCard = windowPatternCard;
-        this.setFavorTokens(windowPatternCard.getDifficulty());
-    }
-
     public CommonBoard getBoard() {
         return board;
     }
@@ -83,13 +64,32 @@ public class Player implements IPlayer {
         return playerName;
     }
 
+    public WindowPatternCard getWindowPatternCard() {
+        return windowPatternCard;
+    }
+
+    public Player(String playerName, CommonBoard board) {
+        this.playerName = playerName;
+        this.board = board;
+        this.score = new Score(this);
+    }
+
+    /**
+     * It's used to set both the player's window pattern card and the favor tokens available to him.
+     * @param windowPatternCard card to link to the player.
+     */
+    public void setWindowPatternCard(WindowPatternCard windowPatternCard) {
+        this.windowPatternCard = windowPatternCard;
+        this.setFavorTokens(windowPatternCard.getDifficulty());
+    }
+
     /**
      * It is used by setWindowPatternCard to set the number of favor tokens available to the window pattern card
      * difficulty.
      * @param favorTokens number of favor tokens available to the player. It's initially equal to the WindowPatternCard
      *                    difficulty.
      */
-     public void setFavorTokens(int favorTokens) {
+    public void setFavorTokens(int favorTokens) {
         this.favorTokens = favorTokens;
     }
 

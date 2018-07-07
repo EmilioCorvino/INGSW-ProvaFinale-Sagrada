@@ -13,6 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+/**
+ * This class is composed by methods that call
+ * {@link it.polimi.ingsw.server.controller.ServerImplementation#performToolCardMove(int, List)} giving in input
+ * the slot in which the card is located and a {@link SetUpInformationUnit} filled with the information needed to perform
+ * the move.
+ */
 public class CliToolCardCardManager extends CliCommunicationManager implements IToolCardManager {
 
     public CliToolCardCardManager(CliView view){
