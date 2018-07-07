@@ -187,7 +187,7 @@ public class GUIView implements IViewMaster {
 
     /**
      * This method allows the representation of the personal private objective card assigned to a single player.
-     * @param idPrivateObj
+     * @param idPrivateObj the id of the private objective card assigned by the server.
      */
     @Override
     public void showPrivateObjective(int idPrivateObj) {
@@ -266,9 +266,31 @@ public class GUIView implements IViewMaster {
         });
     }
 
+    /**
+     * This method restores the personal and the other window pattern card of the players.
+     * @param diceToRestore the dice to add to the map.
+     */
     @Override
     public void setRestoredWindowPatternCards(Map<String, List<SetUpInformationUnit>> diceToRestore) {
+        Platform.runLater(() -> {
+            diceToRestore.entrySet().forEach(entry -> {
+                this.playersData.getOtherMaps().clear();
+                WpGui wpToRestore = new WpGui();
+                SimplifiedWindowPatternCard baseMap = this.playersData.getMapsCopy().get(entry.getKey());
+                wpToRestore.constructMap(baseMap);
+                wpToRestore.setName(entry.getKey());
+                List<SetUpInformationUnit> list = entry.getValue();
+                list.forEach(elem -> {
+                    DieGUI dieToAdd = this.dieFactory.getsDieGUI(elem);
+                    wpToRestore.addOnThisWp(dieToAdd, elem.getDestinationIndex());
+                });
 
+                if(entry.getKey().equals(this.playersData.getUsername()))
+                    this.playersData.setPersonalWp(wpToRestore);
+                else
+                    this.playersData.getOtherMaps().add(wpToRestore);
+            });
+        });
     }
 
     /**
@@ -312,6 +334,11 @@ public class GUIView implements IViewMaster {
         });
     }
 
+    /**
+     * This method adds a die to a map of another player.
+     * @param userName the name of the player whose map has to be modified.
+     * @param infoUnit the info to use.
+     */
     @Override
     public void addOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) {
         Platform.runLater(() -> {
@@ -325,6 +352,11 @@ public class GUIView implements IViewMaster {
         });
     }
 
+    /**
+     * This method removes a die from a window pattern card of another player.
+     * @param userName the name of the player whose map has to be modified.
+     * @param infoUnit the info to use to remove the die.
+     */
     @Override
     public void removeOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) {
         Platform.runLater(() -> {

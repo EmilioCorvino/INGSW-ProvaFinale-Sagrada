@@ -53,14 +53,6 @@ public class GUIMain extends Application {
         });
     }
 
-    private static void pressedWindow(MouseEvent event) {
-
-    }
-
-    private static void draggedWindow(MouseEvent event) {
-
-    }
-
 /*
     public static Scene getScene() {
         return scene;
@@ -103,6 +95,8 @@ public class GUIMain extends Application {
     public static void centerScreen() {
         stage.centerOnScreen();
     }
+
+    //public static void setPosition(VBox box)
 
 
 }

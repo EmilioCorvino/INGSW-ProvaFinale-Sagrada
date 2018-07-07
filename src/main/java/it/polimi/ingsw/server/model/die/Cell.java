@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.model.die;
 
 import it.polimi.ingsw.common.Color;
-import it.polimi.ingsw.server.model.restrictions.ARestriction;
 import it.polimi.ingsw.server.model.restrictions.ColorRestriction;
+import it.polimi.ingsw.server.model.restrictions.IRestriction;
 import it.polimi.ingsw.server.model.restrictions.ValueRestriction;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class Cell {
     /**
      * The set of rules associated to a cell.
      */
-    private transient List<ARestriction> ruleSetCell;
+    private transient List<IRestriction> ruleSetCell;
 
     /**
      * The value restriction of the cell on the Window pattern card.
@@ -80,10 +80,6 @@ public class Cell {
         return col;
     }
 
-    public void setCol(int col) {
-        this.col = col;
-    }
-
     public Die getContainedDie() {
         return containedDie;
     }
@@ -113,7 +109,7 @@ public class Cell {
         if(containedDie != null) {
             ColorRestriction color = new ColorRestriction(die.getDieColor());
             ValueRestriction value = new ValueRestriction(die.getActualDieValue());
-            ArrayList<ARestriction> dieRules = new ArrayList<>();
+            ArrayList<IRestriction> dieRules = new ArrayList<>();
             dieRules.add(color);
             dieRules.add(value);
             updateRuleSet(dieRules);
@@ -135,11 +131,11 @@ public class Cell {
         return die;
     }
 
-    public List<ARestriction> getRuleSetCell() {
+    public List<IRestriction> getRuleSetCell() {
         return ruleSetCell;
     }
 
-    public void setRuleSetCell(List<ARestriction> ruleSetCell) {
+    public void setRuleSetCell(List<IRestriction> ruleSetCell) {
         this.ruleSetCell = ruleSetCell;
     }
 
@@ -155,7 +151,7 @@ public class Cell {
      * This method addDieToCopy the cell's ruleSet.
      * @param rulesToAdd rules that need to be addDieToCopy to the ruleSet, null when the player want to remove a die.
      */
-    public void updateRuleSet(List<ARestriction> rulesToAdd) {
+    public void updateRuleSet(List<IRestriction> rulesToAdd) {
         this.ruleSetCell.clear();
         this.ruleSetCell.addAll(rulesToAdd);
     }

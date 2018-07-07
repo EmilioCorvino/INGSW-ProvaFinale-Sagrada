@@ -294,10 +294,14 @@ public class CommonBoardWindow extends ParentWindow {
         box.setPadding(new Insets(50, 0, 0, 28));
         box.setSpacing(62);
 
+
         VBox favorTok = new VBox();
+        favorTok.getStylesheets().add("style/backgrounds.css");
+        favorTok.getStyleClass().add("background");
+        favorTok.getStyleClass().add("notification");
         favorTok.setSpacing(5);
         Label titleFav = new Label(this.data.getUsername());
-        favorTok.setPadding(new Insets(0, 0, 0, 45));
+        favorTok.setPadding(new Insets(0, 0, 0, 35));
         titleFav.getStyleClass().add("text-label-bold");
         otherMaps = new Button("Mappe giocatori");
         otherMaps.getStyleClass().add("button-style");

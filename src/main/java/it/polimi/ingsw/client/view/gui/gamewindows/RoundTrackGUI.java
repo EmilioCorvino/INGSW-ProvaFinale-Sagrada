@@ -130,7 +130,10 @@ public class RoundTrackGUI extends VBox {
         HBox box = new HBox();
         if(list.size() > 0) {
             box.setSpacing(10);
-            box.setPadding(new Insets(5));
+            box.setPadding(new Insets(10));
+            box.getStylesheets().add("style/backgrounds.css");
+            box.getStyleClass().add("background");
+            box.getStyleClass().add("notification");
             list.forEach( elem -> {
                 DieGUI die = this.dieFactory.getsDieGUI(elem);
                 box.getChildren().add(die);
@@ -141,7 +144,7 @@ public class RoundTrackGUI extends VBox {
 
         //This adds a translate transition to the hbox of dice of the selected round to show.
         TranslateTransition tt = new TranslateTransition(Duration.millis(10), box);
-        tt.setByX( stack.getLayoutX() );
+        tt.setByX( -110 );
         tt.play();
     }
 

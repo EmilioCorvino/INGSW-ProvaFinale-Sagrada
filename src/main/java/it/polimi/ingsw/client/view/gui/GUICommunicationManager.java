@@ -1,10 +1,15 @@
 package it.polimi.ingsw.client.view.gui;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -25,16 +30,26 @@ public class GUICommunicationManager {
       functions = new LinkedHashMap<>();
 
       newWindow = new Stage();
-      newWindow.setTitle("Second Stage");
+      newWindow.initStyle(StageStyle.TRANSPARENT);
 
 
-      newWindow.initModality(Modality.WINDOW_MODAL);
+
+      //newWindow.initModality(Modality.WINDOW_MODAL);
 
       newWindow.initOwner(GUIMain.getStage());
+      GUIMain.centerScreen();
 
 
-      newWindow.setX(GUIMain.getStage().getX() + 200);
-      newWindow.setY(GUIMain.getStage().getY() + 100);
+      //Rectangle2D primaryBounds = Screen.getPrimary().getVisualBounds();
+     // newWindow.setX(primaryBounds.getMinX() + primaryBounds.getWidth() - 1000);
+     // newWindow.setY(primaryBounds.getMinY() + primaryBounds.getHeight() - 800);
+      //newWindow.setWidth(300);
+     // newWindow.setHeight(200);
+
+
+
+      //newWindow.setX(GUIMain.getStage().getX() + 200);
+      //newWindow.setY(GUIMain.getStage().getY() + 300);
    }
 
    /**
@@ -71,26 +86,39 @@ public class GUICommunicationManager {
     * @param message the message to display.
     */
    public void communicateMessage(String message) {
-      /*
-      Alert alert = new Alert(Alert.AlertType.INFORMATION);
-      alert.initStyle(StageStyle.TRANSPARENT);
-      alert.setHeaderText(null);
-      alert.setContentText(message);
-      alert.showAndWait();
-      alert.setOnCloseRequest(event -> alert.hide());
-      */
 
-      Pane secondWindow = new Pane();
+      VBox secondWindow = new VBox();
+      secondWindow.setAlignment(Pos.CENTER);
+      secondWindow.setSpacing(5);
       Label secondLabel = new Label(message);
+
       secondWindow.getChildren().addAll(secondLabel);
+      secondLabel.setPrefWidth(400);
+      secondLabel.setWrapText(true);
+      secondLabel.setPadding(new Insets(15));
+      secondLabel.setAlignment(Pos.CENTER);
+      secondLabel.getStyleClass().add("text-label");
 
-      Scene second = new Scene(secondWindow, 400, 100);
+      Button ok = new Button("ok");
+      ok.getStyleClass().add("button-style");
+      secondWindow.getChildren().add(ok);
 
+      ok.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> this.newWindow.close());
+
+      secondWindow.getStylesheets().add("style/backgrounds.css");
+      secondWindow.getStyleClass().add("background");
+      secondWindow.getStyleClass().add("notification");
+
+      Scene second = new Scene(secondWindow, 400, 200);
+      second.setFill(Color.TRANSPARENT);
        newWindow.setScene(second);
 
-      newWindow.show();
+
+       newWindow.show();
+
 
    }
+
 
    public Map<String, Runnable> getFunctions() {
       return functions;
