@@ -28,10 +28,15 @@ public class ClientMain {
         }
         System.setProperty("java.rmi.server.hostname", localAddress);
         InputOutputManager inputOutputManager = new InputOutputManager();
+        String code;
 
-        String code = inputOutputManager.askInformation("Scegli il tipo di view: \033[0;1mcli\033[0m o \033[0;1mgui\033[0m");
+        if (args[0].isEmpty()) {
+            code = inputOutputManager.askInformation("Scegli il tipo di view: \033[0;1mcli\033[0m o \033[0;1mgui\033[0m");
+        } else {
+            code = args[0];
+        }
 
-        while(!("cli".equalsIgnoreCase(code) || "gui".equals(code))) {
+        while(!("cli".equalsIgnoreCase(code) || "gui".equalsIgnoreCase(code))) {
             code = inputOutputManager.askInformation("Scegli il tipo di view: -cli-  o -gui-");
         }
 
