@@ -43,7 +43,7 @@ public class WindowPatternCardDeck {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(WindowPatternCardDeck.class.getResourceAsStream(WINDOW_PATTER_CARDS)))) {
             this.availableWP = gson.fromJson(reader, new TypeToken<List<WindowPatternCard>>(){}.getType());
         } catch (IOException e) {
-            SagradaLogger.log(Level.SEVERE, "Error during parsing, file not read", e);
+            SagradaLogger.log(Level.SEVERE, "Error during parsing, file not read");
         }
         this.populateCellsRuleSetAndInitializeCopy();
         this.associateFrontAndBack();

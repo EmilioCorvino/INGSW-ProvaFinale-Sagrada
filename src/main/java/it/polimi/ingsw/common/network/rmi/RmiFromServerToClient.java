@@ -94,11 +94,12 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void setRestoredWindowPatternCards(Map<String, List<SetUpInformationUnit>> diceToRestore) throws BrokenConnectionException {
+    public void setRestoredWindowPatternCards(Map<String, List<SetUpInformationUnit>> diceToRestore) throws BrokenConnectionException{
         try {
             this.rmiClient.setRestoredWindowPatternCards(diceToRestore);
         } catch (RemoteException e) {
             SagradaLogger.log(Level.SEVERE, "Impossible to restore the Window Pattern Cards to the player");
+            throw new BrokenConnectionException();
         }
     }
 

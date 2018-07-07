@@ -66,7 +66,7 @@ public class SetUpManager {
                     cards.add(s);
                 }
             } catch (IOException e) {
-                SagradaLogger.log(Level.SEVERE, "Public Objective Card txt file can't be read!", e);
+                SagradaLogger.log(Level.SEVERE, "Public Objective Card txt file can't be read");
             }
         }
     }
@@ -87,7 +87,7 @@ public class SetUpManager {
                     cards.add(new ToolCardView(s, 1, Commands.values()[i - 300 + 2]));
                 }
             } catch (IOException e) {
-                SagradaLogger.log(Level.SEVERE, "Tool Card txt file can't be read!", e);
+                SagradaLogger.log(Level.SEVERE, "Tool Card txt file can't be read");
             }
         }
     }
@@ -103,7 +103,7 @@ public class SetUpManager {
             String s = b.readLine();
             p.setPrivateObjCard(s);
         } catch (IOException e) {
-            SagradaLogger.log(Level.SEVERE, "Private Objective Card txt file can't be read!", e);
+            SagradaLogger.log(Level.SEVERE, "Private Objective Card txt file can't be read");
         }
 
     }

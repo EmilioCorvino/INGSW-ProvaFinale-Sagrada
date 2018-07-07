@@ -36,7 +36,7 @@ public class PrivateObjectiveCardsDeck extends AObjectiveCardsDeck {
         try(BufferedReader reader = new BufferedReader(new InputStreamReader(PrivateObjectiveCardsDeck.class.getResourceAsStream(PRIV_OBJ_CARDS)))) {
             this.deck = gson.fromJson(reader, listCards);
         } catch (IOException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to access private objective cards file", e);
+            SagradaLogger.log(Level.SEVERE, "Impossible to access private objective cards file");
         }
     }
 
