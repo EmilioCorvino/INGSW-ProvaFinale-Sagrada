@@ -237,7 +237,7 @@ public class WpGui extends Pane {
     public List<Integer> getCellsClicked() {
         return cellsClicked;
     }
-    
+
     public boolean isWpCellClicked() {
         return wpCellClicked;
     }
