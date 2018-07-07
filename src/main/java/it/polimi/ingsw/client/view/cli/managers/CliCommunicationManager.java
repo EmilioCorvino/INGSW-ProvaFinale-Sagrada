@@ -11,12 +11,12 @@ public class CliCommunicationManager {
     protected CliView view;
 
     /**
-     * A reference to the inputOutputManager of the view
+     * A reference to the inputOutputManager of the view.
      */
     protected InputOutputManager inputOutputManager;
 
     /**
-     * The network interface for the connection
+     * The network interface for the connection.
      */
     protected IFromClientToServer server;
 
@@ -30,6 +30,9 @@ public class CliCommunicationManager {
         this.server = server;
     }
 
+    /**
+     * Closes the application after a disconnection.
+     */
     protected void disconnect(){
         inputOutputManager.print("\nCHIUSURA APPLICAZIONE PER ROTTURA CONNESSIONE");
         view.forceLogOut();

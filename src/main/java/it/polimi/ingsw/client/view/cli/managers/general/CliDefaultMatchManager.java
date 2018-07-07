@@ -16,10 +16,16 @@ import java.util.logging.Level;
 
 /**
  * This class contains all the methods to run all the possible commands in the game.
+ * For the documentation of overridden methods:
+ * @see IDefaultMatchManager
  */
 
 public class CliDefaultMatchManager extends CliCommunicationManager implements IDefaultMatchManager {
 
+    /**
+     * Map containing all those commands that trigger the showing of parts of the board that the client has already
+     * downloaded.
+     */
     private Map<String , Runnable> visualizationCommandsMap;
 
     public CliDefaultMatchManager(CliView view){
@@ -28,6 +34,9 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
         populateVisualizationCommandsMap();
     }
 
+    /**
+     * Populates the {@link #visualizationCommandsMap}
+     */
     private void populateVisualizationCommandsMap(){
         visualizationCommandsMap.put(UserCommands.MAPPE_ALTRI_GIOCATORI.getName(), this::showAllWp);
         visualizationCommandsMap.put(UserCommands.OBBIETTIVI_PUBBLICI.getName(), this::showPublicObj);
@@ -113,31 +122,52 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
         view.printCommands();
     }
 
+    /**
+     * Resets the information present in the client, allowing him to start a new game.
+     */
     private void resetClient(){
         super.view.getPlayer().resetPlayer();
         super.view.getCommonBoard().resetCommonBoard();
     }
 
+    /**
+     * Prints the Window Pattern Cards of the other players.
+     */
     private void showAllWp(){
         super.inputOutputManager.print(super.view.getCommonBoard().allWpToString());
     }
 
-    private void showPublicObj(){
-        super.inputOutputManager.print(super.view.getCommonBoard().pubObjToString());
-    }
-
-    private void showTool(){
-        super.inputOutputManager.print(super.view.getCommonBoard().toolCardToString());
-    }
-
+    /**
+     * Prints the Private Objective Cards present in the board.
+     */
     private void showPrivateObj(){
         super.inputOutputManager.print(super.view.getPlayer().privateObjToString());
     }
 
+    /**
+     * Prints the Public Objective Cards present in the board.
+     */
+    private void showPublicObj(){
+        super.inputOutputManager.print(super.view.getCommonBoard().pubObjToString());
+    }
+
+    /**
+     * Prints the Tool Cards present in the board.
+     */
+    private void showTool(){
+        super.inputOutputManager.print(super.view.getCommonBoard().toolCardToString());
+    }
+
+    /**
+     * Prints the Round Track of the match.
+     */
     private void showRoundTrack(){
         super.inputOutputManager.print(super.view.getCommonBoard().getRoundTrack().roundTrackToString());
     }
 
+    /**
+     * Prints the description of a command. It corresponds to AIUTO.
+     */
     private void printDescription(){
         String command = inputOutputManager.askInformation("Inserisci il comando di cui si richiede la descrizione: ");
         String filteredString = super.view.stringConverter(command);
@@ -150,10 +180,17 @@ public class CliDefaultMatchManager extends CliCommunicationManager implements I
             inputOutputManager.print("Comando non disponibile");
     }
 
+    /**
+     * Prints the commands available. It corresponds to COMANDI.
+     */
     private void printCommands(){
         super.view.printCommands();
     }
 
+    /**
+     * Adds to the map commands useful to help the player.
+     * @param f map to which the commands have to be put.
+     */
     public void populateHelp(Map<String, Runnable> f){
         f.put(UserCommands.AIUTO.getName(), this::printDescription);
         f.put(UserCommands.COMANDI.getName(), this::printCommands);

@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client.view;
 
+/**
+ * This interface contains the methods that the View calls from the server.
+ */
 public interface IDefaultMatchManager {
 
     /**
@@ -13,7 +16,7 @@ public interface IDefaultMatchManager {
     void defaultPlacement();
 
     /**
-     * This method is use to tell the server that the user want to move to the next turn
+     * This method is use to tell the server that the user want to move to the next turn.
      */
     void moveToNextTurn();
 
@@ -32,6 +35,9 @@ public interface IDefaultMatchManager {
      */
     void reconnect();
 
+    /**
+     * This method is used to show parts of the common board that the client has already downloaded.
+     */
     void visualization();
 
 }

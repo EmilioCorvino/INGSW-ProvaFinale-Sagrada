@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This interface contains all the methods that the server can require from the View.
+ */
 public interface IViewMaster {
 
     void createConnection(IViewMaster viewMaster);
