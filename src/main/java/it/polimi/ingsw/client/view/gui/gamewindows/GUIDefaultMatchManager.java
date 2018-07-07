@@ -67,7 +67,7 @@ public class GUIDefaultMatchManager implements IDefaultMatchManager {
         try {
             this.server.moveToNextTurn();
         } catch (BrokenConnectionException br) {
-            SagradaLogger.log(Level.SEVERE, "Connection broken while moving to next turn", br);
+            SagradaLogger.log(Level.SEVERE, "Connection broken while moving to next turn");
         }
     }
 
