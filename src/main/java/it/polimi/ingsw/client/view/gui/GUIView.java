@@ -451,14 +451,7 @@ public class GUIView implements IViewMaster {
             String newMex = notice;
             if(notice.contains(" Digita 'comandi' per visualizzare i comandi ancora disponibili."))
                 newMex = notice.replace(" Digita 'comandi' per visualizzare i comandi ancora disponibili.", "");
-            //if(this.current != null) {
                 this.manager.communicateMessage(newMex);
-                System.out.println(newMex);
-                /*
-                this.current.showMessage(newMex);
-                System.out.println("messaggio: " + notice);
-                */
-           // }
         });
     }
 

@@ -24,8 +24,14 @@ public class GUICommunicationManager {
     */
    private Map<String, Runnable> functions;
 
+   /**
+    * This is the stage for the notifications.
+    */
    private Stage newWindow;
 
+   /**
+    * This indicates if it is a reconnection state or not.
+    */
    private boolean isReconnected;
 
    GUICommunicationManager() {
@@ -33,22 +39,8 @@ public class GUICommunicationManager {
 
       newWindow = new Stage();
       newWindow.initStyle(StageStyle.TRANSPARENT);
-
-
-
-      //newWindow.initModality(Modality.WINDOW_MODAL);
-
       newWindow.initOwner(GUIMain.getStage());
       GUIMain.centerScreen();
-
-
-      //Rectangle2D primaryBounds = Screen.getPrimary().getVisualBounds();
-     // newWindow.setX(primaryBounds.getMinX() + primaryBounds.getWidth() - 1000);
-     // newWindow.setY(primaryBounds.getMinY() + primaryBounds.getHeight() - 800);
-      //newWindow.setWidth(300);
-     // newWindow.setHeight(200);
-
-
 
       //newWindow.setX(GUIMain.getStage().getX() + 200);
       //newWindow.setY(GUIMain.getStage().getY() + 300);
@@ -114,16 +106,7 @@ public class GUICommunicationManager {
       Scene second = new Scene(secondWindow, 400, 200);
       second.setFill(Color.TRANSPARENT);
        newWindow.setScene(second);
-
-
        newWindow.show();
-
-
-   }
-
-
-   public Map<String, Runnable> getFunctions() {
-      return functions;
    }
 
    public void setFunctions(Map<String, Runnable> functions) {

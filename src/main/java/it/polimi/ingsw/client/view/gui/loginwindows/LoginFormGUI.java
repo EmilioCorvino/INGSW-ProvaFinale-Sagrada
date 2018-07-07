@@ -14,7 +14,6 @@ import javafx.scene.layout.VBox;
  */
 public class LoginFormGUI extends VBox {
 
-    HBox header;
     /**
      * The main container for the fields of the form.
      */
@@ -57,7 +56,7 @@ public class LoginFormGUI extends VBox {
     }
 
     /**
-     *
+     * This method formats the main container for this window.
      * @param label
      * @param button1
      * @param button2
@@ -171,31 +170,17 @@ public class LoginFormGUI extends VBox {
         return buttonContainer;
     }
 
-    public void setButtonContainer(HBox buttonContainer) {
-        this.buttonContainer = buttonContainer;
-    }
-
     public GridPane getGridPane() {
         return gridPane;
     }
 
-    public void setGridPane(GridPane gridPane) {
-        this.gridPane = gridPane;
-    }
 
     public Button getGoAhead() {
         return goAhead;
-    }
-
-    public void setGoAhead(Button goAhead) {
-        this.goAhead = goAhead;
     }
 
     public Button getExit() {
         return exit;
     }
 
-    public void setExit(Button exit) {
-        this.exit = exit;
-    }
 }

@@ -20,6 +20,9 @@ import javafx.stage.StageStyle;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class manages the construction of the support window for some tool cards.
+ */
 public class ToolWindowBuilder {
 
     /**

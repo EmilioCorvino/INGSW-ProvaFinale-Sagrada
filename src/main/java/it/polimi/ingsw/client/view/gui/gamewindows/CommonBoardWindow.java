@@ -440,6 +440,10 @@ public class CommonBoardWindow extends ParentWindow {
         manageToolButtons(true);
     }
 
+    /**
+     * This method manages the buttons used in the tool cards.
+     * @param val the value for the visibility to set.
+     */
     public void manageToolButtons(Boolean val) {
         HBox toolCont = (HBox)this.publToolDraftCont.getChildren().get(1);
         ToolCardGUI tool = (ToolCardGUI)toolCont.getChildren().get(this.data.getSlotChosen());
@@ -451,38 +455,21 @@ public class CommonBoardWindow extends ParentWindow {
         Button showButton = (Button)toolComm.getChildren().get(1);
 
         showButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> this.toolWindowBuilder.invokeMethodShowWindow(tool.getIdTool()));
-
     }
 
+    /**
+     * This method updates the cost of the chosen tool card.
+     * @param slot the slot of the tool card.
+     * @param cost the cost to set.
+     */
     public void updateToolCost(int slot, int cost) {
         HBox toolCont = (HBox)this.publToolDraftCont.getChildren().get(1);
         ToolCardGUI tool = (ToolCardGUI)toolCont.getChildren().get(slot);
         tool.updateCost(cost);
     }
 
-
-
-    public void showMessage(String message) {
-        //((Label)((HBox)this.publToolDraftCont.getChildren().get(2)).getChildren().get(0)).setText(message);
-        this.manager.communicateMessage(message);
-    }
-
-
     public void setRoundTrack() {
         this.secondContainer.getChildren().add(this.roundTrack);
-    }
-
-
-    public VBox getPublToolDraftCont() {
-        return publToolDraftCont;
-    }
-
-    public void setPublToolDraftCont(VBox publToolDraftCont) {
-        this.publToolDraftCont = publToolDraftCont;
-    }
-
-    public void setDraftPoolGUI(DraftPoolGUI draftPoolGUI) {
-        this.draftPoolGUI = draftPoolGUI;
     }
 
     public PlayersData getData() {
@@ -497,6 +484,9 @@ public class CommonBoardWindow extends ParentWindow {
         return draftPoolGUI;
     }
 
+    /**
+     * This method adds some adding style to some elements of the common board gui.
+     */
     @Override
     public void addHandlers() {
         GridPane grid = this.data.getPersonalWp().getGlassWindow();
@@ -553,7 +543,6 @@ public class CommonBoardWindow extends ParentWindow {
             this.manager.communicateMessage("Comando non supportato poichè non è il tuo turno.");
         }
     }
-
     private VBox otherMap;
     private Stage other = new Stage();
 
@@ -570,6 +559,9 @@ public class CommonBoardWindow extends ParentWindow {
         other.initOwner(GUIMain.getStage());
     }
 
+    /**
+     * This method shows the maps of the other player when a specific button is pressed.
+     */
     private void otherMapsHandler() {
         otherMap = new VBox();
         otherMap.getStylesheets().add("style/backgrounds.css");
@@ -582,12 +574,8 @@ public class CommonBoardWindow extends ParentWindow {
 
         maps.setFill(Color.TRANSPARENT);
         other.setScene(maps);
-        //other.setX(300);
-      // other.setY(50);
         other.show();
-
     }
-
 
 
     public void resetIsAlreadyUsedFlag() {
@@ -603,10 +591,6 @@ public class CommonBoardWindow extends ParentWindow {
         return roundTrack;
     }
 
-    public void setRoundTrack(RoundTrackGUI roundTrack) {
-        this.roundTrack = roundTrack;
-    }
-
     public GUICommunicationManager getManager() {
         return manager;
     }
@@ -614,13 +598,4 @@ public class CommonBoardWindow extends ParentWindow {
     public void setManager(GUICommunicationManager manager) {
         this.manager = manager;
     }
-
-    public Button getOtherMaps() {
-        return otherMaps;
-    }
-
-    public void setOtherMaps(Button otherMaps) {
-        this.otherMaps = otherMaps;
-    }
-
 }

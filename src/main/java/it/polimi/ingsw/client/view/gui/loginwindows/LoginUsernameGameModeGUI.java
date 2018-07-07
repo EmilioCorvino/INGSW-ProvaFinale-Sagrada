@@ -27,9 +27,6 @@ public class LoginUsernameGameModeGUI extends LoginRootGUI {
     private boolean finished = false;
 
     public LoginUsernameGameModeGUI() {
-
-        //super();
-
         this.getStylesheets().add("style/backgrounds.css");
         this.getStyleClass().add("background");
         
@@ -53,8 +50,6 @@ public class LoginUsernameGameModeGUI extends LoginRootGUI {
 
         this.addEventHandler(MouseEvent.MOUSE_PRESSED, this::pressedWindow);
         this.addEventHandler(MouseEvent.MOUSE_DRAGGED, this ::draggedWindow);
-
-
     }
 
     /**
@@ -77,7 +72,6 @@ public class LoginUsernameGameModeGUI extends LoginRootGUI {
         }
 
         button.setSelected(true);
-
 
         this.info.setUsername(text);
         System.out.println(button.getId() + "");
@@ -109,18 +103,6 @@ public class LoginUsernameGameModeGUI extends LoginRootGUI {
 
     public void setInfo(InfoLogin info) {
         this.info = info;
-    }
-
-    public LoginFormGUI getLoginFormGUI() {
-        return loginFormGUI;
-    }
-
-    public void setLoginFormGUI(LoginFormGUI loginFormGUI) {
-        this.loginFormGUI = loginFormGUI;
-    }
-
-    public boolean isFinished() {
-        return finished;
     }
 
     public void setFinished(boolean finished) {

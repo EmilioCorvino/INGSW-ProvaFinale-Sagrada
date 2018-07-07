@@ -13,7 +13,6 @@ public class LoginRootGUI extends BorderPane {
 
     public LoginRootGUI() {
 
-
     }
 
 
@@ -32,25 +31,8 @@ public class LoginRootGUI extends BorderPane {
      * @param loginFormGUI the form to custom.
      */
     public void customForm(LoginFormGUI loginFormGUI) {
-        //BorderPane.setMargin(loginFormGUI.getvBox(), new Insets(10, 250, 10, 250));
         loginFormGUI.getvBox().setAlignment(Pos.CENTER);
         this.setCenter(loginFormGUI.getvBox());
         this.autosize();
-    }
-
-    public double getxOffset() {
-        return xOffset;
-    }
-
-    public void setxOffset(double xOffset) {
-        this.xOffset = xOffset;
-    }
-
-    public double getyOffset() {
-        return yOffset;
-    }
-
-    public void setyOffset(double yOffset) {
-        this.yOffset = yOffset;
     }
 }

@@ -237,11 +237,7 @@ public class WpGui extends Pane {
     public List<Integer> getCellsClicked() {
         return cellsClicked;
     }
-
-    public void setCellsClicked(List<Integer> cellsClicked) {
-        this.cellsClicked = cellsClicked;
-    }
-
+    
     public boolean isWpCellClicked() {
         return wpCellClicked;
     }

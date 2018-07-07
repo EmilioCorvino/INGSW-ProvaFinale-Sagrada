@@ -12,6 +12,9 @@ import javafx.scene.layout.HBox;
  */
 public class RankWindow extends ParentWindow {
 
+    /**
+     * The manager that enables the communication from the gui to players and server.
+     */
     private GUICommunicationManager manager;
 
     public RankWindow(GUICommunicationManager manager) {
@@ -65,6 +68,9 @@ public class RankWindow extends ParentWindow {
     }
 
 
+    /**
+     * This method adds style and handlers to elements of this window.
+     */
     @Override
     public void addHandlers() {
         HBox commandsEndGame = new HBox();
@@ -92,5 +98,4 @@ public class RankWindow extends ParentWindow {
                 this.manager.communicateMessage("Comando non supportato");
         });
     }
-
 }
