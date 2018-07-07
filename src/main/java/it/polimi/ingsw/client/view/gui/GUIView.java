@@ -150,7 +150,7 @@ public class GUIView implements IViewMaster {
                     this.playersData.setUsername(username);
 
                 } catch (BrokenConnectionException e) {
-                    SagradaLogger.log(Level.SEVERE, "Connection broken during register", e);
+                    SagradaLogger.log(Level.SEVERE, "Connection broken during register");
                     loginManager.setProceed(false);
                     this.loginManager.getLoginFormGUI().showAlertMessage("Indirizzo ip non valido.");
                     Parent root = new LoginIpAddrTypeConnGUI();
