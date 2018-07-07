@@ -30,7 +30,7 @@ public class ClientMain {
         InputOutputManager inputOutputManager = new InputOutputManager();
         String code;
 
-        if (args[0].isEmpty()) {
+        if (args.length == 0) {
             code = inputOutputManager.askInformation("Scegli il tipo di view: \033[0;1mcli\033[0m o \033[0;1mgui\033[0m");
         } else {
             code = args[0];
