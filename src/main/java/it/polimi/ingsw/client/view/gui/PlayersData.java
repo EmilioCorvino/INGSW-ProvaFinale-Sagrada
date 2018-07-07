@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,9 +51,16 @@ public class PlayersData {
      */
     private List<VBox> otherPLayersMaps;
 
+    /**
+     * This is the list of the personal window pattern card of the other players.
+     */
     private List<WpGui> otherMaps;
 
+
+    private Map<String, SimplifiedWindowPatternCard> mapsCopy;
+
     public PlayersData() {
+        mapsCopy = new HashMap<>();
         setUpInformationUnit = new SetUpInformationUnit();
         otherPLayersMaps = new ArrayList<>();
         otherMaps = new ArrayList<>();
@@ -60,6 +68,7 @@ public class PlayersData {
 
     public void constructOtherPlayerMap(Map<String, SimplifiedWindowPatternCard> players) {
         players.entrySet().forEach( entry -> {
+            this.mapsCopy.put(entry.getKey(), entry.getValue());
             if(!entry.getKey().equals(this.username))
                 constructSingleotherMap(entry.getKey(), entry.getValue());
         });
@@ -141,5 +150,13 @@ public class PlayersData {
 
     public List<WpGui> getOtherMaps() {
         return otherMaps;
+    }
+
+    public Map<String, SimplifiedWindowPatternCard> getMapsCopy() {
+        return mapsCopy;
+    }
+
+    public void setMapsCopy(Map<String, SimplifiedWindowPatternCard> mapsCopy) {
+        this.mapsCopy = mapsCopy;
     }
 }
