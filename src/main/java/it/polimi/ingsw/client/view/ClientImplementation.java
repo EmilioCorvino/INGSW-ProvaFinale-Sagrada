@@ -95,7 +95,7 @@ public class ClientImplementation implements IFromServerToClient {
 
     @Override
     public void setRestoredRoundTrack(List<ArrayList<SetUpInformationUnit>> roundTrackToRestore) {
-        //todo Rita and Gian, implement this!!!
+        view.setRestoredRoundTrack(roundTrackToRestore);
     }
 
     @Override

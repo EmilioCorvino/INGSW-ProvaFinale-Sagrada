@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.IViewMaster;
 import it.polimi.ingsw.client.view.cli.boardelements.CommonBoardView;
 import it.polimi.ingsw.client.view.cli.boardelements.PlayerView;
 import it.polimi.ingsw.client.view.cli.die.DieDraftPoolView;
+import it.polimi.ingsw.client.view.cli.die.DieView;
 import it.polimi.ingsw.client.view.cli.die.WindowPatternCardView;
 import it.polimi.ingsw.client.view.cli.managers.general.CliDefaultMatchManager;
 import it.polimi.ingsw.client.view.cli.managers.general.CliToolCardCardManager;
@@ -250,6 +251,23 @@ public class CliView implements IViewMaster {
                     restoreOtherPlayersWp(p, playerName, dice);
             }
         });
+    }
+
+    @Override
+    public void setRestoredRoundTrack(List<ArrayList<SetUpInformationUnit>> roundTrackToRestore) {
+        List<ArrayList<DieView>> roundTrack = new ArrayList<>();
+        this.getCommonBoard().getRoundTrack().getAvailableDice().clear();
+        for (List<SetUpInformationUnit> round: roundTrackToRestore) {
+            ArrayList<DieView> roundDice = new ArrayList<>();
+            if (!round.isEmpty()) {
+                for (SetUpInformationUnit die: round) {
+                    DieView restoredDie = new DieView(die.getColor(), die.getValue());
+                    roundDice.add(restoredDie);
+                }
+            }
+            roundTrack.add(roundDice);
+        }
+        this.getCommonBoard().getRoundTrack().setAvailableDice(roundTrack);
     }
 
     private void restoreOwnWp(List<SetUpInformationUnit> dice){

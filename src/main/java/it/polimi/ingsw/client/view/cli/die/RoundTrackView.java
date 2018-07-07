@@ -41,4 +41,7 @@ public class RoundTrackView {
         return availableDice;
     }
 
+    public void setAvailableDice(List<ArrayList<DieView>> availableDice) {
+        this.availableDice = availableDice;
+    }
 }

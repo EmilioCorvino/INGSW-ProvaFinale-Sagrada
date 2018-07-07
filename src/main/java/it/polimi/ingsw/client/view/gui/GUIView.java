@@ -21,6 +21,7 @@ import it.polimi.ingsw.common.utils.exceptions.UserNameAlreadyTakenException;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -291,6 +292,11 @@ public class GUIView implements IViewMaster {
                     this.playersData.getOtherMaps().add(wpToRestore);
             });
         });
+    }
+
+    @Override
+    public void setRestoredRoundTrack(List<ArrayList<SetUpInformationUnit>> roundTrackToRestore) {
+        //todo Rita, implement and document this!
     }
 
     /**
