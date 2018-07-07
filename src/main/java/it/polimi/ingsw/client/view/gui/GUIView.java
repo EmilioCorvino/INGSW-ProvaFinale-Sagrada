@@ -334,6 +334,11 @@ public class GUIView implements IViewMaster {
         });
     }
 
+    /**
+     * This method adds a die to a map of another player.
+     * @param userName the name of the player whose map has to be modified.
+     * @param infoUnit the info to use.
+     */
     @Override
     public void addOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) {
         Platform.runLater(() -> {
@@ -347,6 +352,11 @@ public class GUIView implements IViewMaster {
         });
     }
 
+    /**
+     * This method removes a die from a window pattern card of another player.
+     * @param userName the name of the player whose map has to be modified.
+     * @param infoUnit the info to use to remove the die.
+     */
     @Override
     public void removeOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) {
         Platform.runLater(() -> {
