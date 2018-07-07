@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.controller.managers;
 import it.polimi.ingsw.common.Commands;
 import it.polimi.ingsw.common.network.Connection;
 import it.polimi.ingsw.common.network.IFromServerToClient;
+import it.polimi.ingsw.common.utils.PropertyLoader;
 import it.polimi.ingsw.common.utils.SagradaLogger;
 import it.polimi.ingsw.common.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.server.controller.ControllerMaster;
@@ -10,9 +11,6 @@ import it.polimi.ingsw.server.controller.WaitingRoom;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.turn.Turn;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -46,11 +44,9 @@ public class EndGameManager extends AGameManager {
         super.timeOut = BACK_UP_TIMER;
 
         //Value read from file. If the loading is successful, it overwrites the back up.
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(EndGameManager.class.getResourceAsStream(TIMER_FILE)))) {
-            super.timeOut = Long.parseLong(reader.readLine());
+        if (PropertyLoader.getPropertyLoader().getTurnTimer() != 0) {
+            super.timeOut = PropertyLoader.getPropertyLoader().getTurnTimer();
             SagradaLogger.log(Level.CONFIG, "Timer successfully loaded from file. Its value is: " + timeOut / 1000 + "s");
-        } catch (IOException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
         }
     }
 

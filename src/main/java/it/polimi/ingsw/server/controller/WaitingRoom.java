@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.common.network.Connection;
+import it.polimi.ingsw.common.utils.PropertyLoader;
 import it.polimi.ingsw.common.utils.SagradaLogger;
 import it.polimi.ingsw.common.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.common.utils.exceptions.MatchAlreadyStartedException;
@@ -9,9 +10,6 @@ import it.polimi.ingsw.common.utils.exceptions.UserNameAlreadyTakenException;
 import it.polimi.ingsw.server.controller.managers.AGameManager;
 import it.polimi.ingsw.server.model.player.Player;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
@@ -29,18 +27,12 @@ public class WaitingRoom {
     /**
      * Code for multi player match mode.
      */
-    private static final int MULTIPLAYER_MODE = 1;
+    private static final int MULTI_PLAYER_MODE = 1;
 
     /**
      * Code for single player match mode.
      */
-    private static final int SINGLEPLAYER_MODE = 2;
-
-    /**
-     * Path of the file containing the maximum amount of time spent between the connection of the second player and
-     * the start of the match.
-     */
-    private static final String WAITING_ROOM_TIMER_FILE = "/config/roomTimer";
+    private static final int SINGLE_PLAYER_MODE = 2;
 
     /**
      * The map for keeping in memory the player with its connection object.
@@ -90,9 +82,9 @@ public class WaitingRoom {
     void joinRoom(String username, Connection connection, int gameMode) throws UserNameAlreadyTakenException,
             TooManyUsersException, MatchAlreadyStartedException {
         if(isMatchStillWaitingToStart()) {
-            if(gameMode == SINGLEPLAYER_MODE)
+            if(gameMode == SINGLE_PLAYER_MODE)
                 startSingleMatch();
-            else if(gameMode == MULTIPLAYER_MODE) {
+            else if(gameMode == MULTI_PLAYER_MODE) {
                 if (playersRoom.size() == MAX_PLAYERS) {
                     throw new TooManyUsersException();
                 }
@@ -137,13 +129,11 @@ public class WaitingRoom {
             //Back up value.
             long timeOut = AGameManager.BACK_UP_TIMER;
 
-            //Value read from file. If the loading is successful, it overwrites the back up.
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(WaitingRoom.class.getResourceAsStream(WAITING_ROOM_TIMER_FILE)))) {
-                timeOut = Long.parseLong(reader.readLine());
+            //Value read from file. If the reading fails, the back up value is used.
+            if (PropertyLoader.getPropertyLoader().getRoomTimer() != 0) {
+                timeOut = PropertyLoader.getPropertyLoader().getRoomTimer();
                 SagradaLogger.log(Level.CONFIG, "Waiting Room timer successfully loaded from file. " +
                         "Its value is: " + timeOut/1000 + "s");
-            } catch (IOException e) {
-                SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file. Using default value.", e);
             }
             SagradaLogger.log(Level.INFO, "Waiting Room timer is started.");
 

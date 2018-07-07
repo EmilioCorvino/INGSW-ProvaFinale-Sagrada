@@ -23,11 +23,6 @@ public abstract class AGameManager {
     public static final long BACK_UP_TIMER = 90000;
 
     /**
-     * Path of the file containing the maximum amount of time available for players to make a choice.
-     */
-    static final String TIMER_FILE = "/config/turnTimer";
-
-    /**
      * This is the timer that starts at the beginning of each player turn. If it expires, the player is suspended.
      */
     final Timer timer = new Timer();
