@@ -3,8 +3,8 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.common.Color;
 import it.polimi.ingsw.server.model.die.Cell;
 import it.polimi.ingsw.server.model.die.Die;
-import it.polimi.ingsw.server.model.restrictions.ARestriction;
 import it.polimi.ingsw.server.model.restrictions.ColorRestriction;
+import it.polimi.ingsw.server.model.restrictions.IRestriction;
 import org.junit.Test;
 
 import java.util.List;
@@ -52,10 +52,10 @@ public class CellTest {
 
         cell.setContainedDie(die);
 
-        List<ARestriction> rules = cell.getRuleSetCell();
+        List<IRestriction> rules = cell.getRuleSetCell();
 
-        for (int i = 0; i < rules.size(); i++)
-            assertTrue(rules.get(i).isRespected(die));
+        for (IRestriction r : rules)
+            assertTrue(r.isRespected(die));
 
     }
 

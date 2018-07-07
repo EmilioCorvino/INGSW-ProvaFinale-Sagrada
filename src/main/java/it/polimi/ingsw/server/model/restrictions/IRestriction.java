@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.model.die.Die;
 /**
  * This class manages the restrictions associated to each cell of the windowPatternCard matrix.
  */
-public abstract class ARestriction {
+public interface IRestriction {
 
 
     /**
@@ -13,5 +13,5 @@ public abstract class ARestriction {
      * @param die: the selected die.
      * @return true if the matching is correct.
      */
-    public abstract boolean isRespected(Die die);
+    boolean isRespected(Die die);
 }

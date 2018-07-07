@@ -4,8 +4,8 @@ import it.polimi.ingsw.common.Color;
 import it.polimi.ingsw.server.model.die.Cell;
 import it.polimi.ingsw.server.model.die.Die;
 import it.polimi.ingsw.server.model.die.containers.WindowPatternCard;
-import it.polimi.ingsw.server.model.restrictions.ARestriction;
 import it.polimi.ingsw.server.model.restrictions.ColorRestriction;
+import it.polimi.ingsw.server.model.restrictions.IRestriction;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class AValueEffectTest {
         WindowPatternCard wp1 = new WindowPatternCard(4, 5);
         wp1.createCopy();
         Cell[][] gw1 = wp1.getGlassWindowCopy();
-        List<ARestriction> list = new ArrayList<>();
+        List<IRestriction> list = new ArrayList<>();
         list.add(new ColorRestriction(Color.PURPLE));
 
         gw1[3][0].setContainedDie(new Die(3, Color.GREEN));

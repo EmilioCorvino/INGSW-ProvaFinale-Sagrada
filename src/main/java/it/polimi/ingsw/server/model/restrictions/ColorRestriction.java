@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.model.die.Die;
 /**
  * This class manages the color restriction of a cell.
  */
-public class ColorRestriction extends ARestriction {
+public class ColorRestriction implements IRestriction {
 
     /**
      * The color restriction associated to a cell.
