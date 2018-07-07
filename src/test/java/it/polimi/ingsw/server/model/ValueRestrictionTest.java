@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.common.Color;
 import it.polimi.ingsw.server.model.die.Die;
-import it.polimi.ingsw.server.model.restrictions.ARestriction;
+import it.polimi.ingsw.server.model.restrictions.IRestriction;
 import it.polimi.ingsw.server.model.restrictions.ValueRestriction;
 import org.junit.Test;
 
@@ -15,10 +15,10 @@ public class ValueRestrictionTest {
     public void isRespected() {
 
         Die dieTest = new Die(5, Color.RED);
-        ARestriction valueRestriction = new ValueRestriction(5);
+        IRestriction valueRestriction = new ValueRestriction(5);
         assertTrue(valueRestriction.isRespected(dieTest));
 
-        ARestriction valueRestriction1 = new ValueRestriction(3);
+        IRestriction valueRestriction1 = new ValueRestriction(3);
         assertFalse(valueRestriction1.isRespected(dieTest));
     }
 }

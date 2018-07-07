@@ -3,8 +3,8 @@ package it.polimi.ingsw.server.model.die.containers;
 import it.polimi.ingsw.common.Color;
 import it.polimi.ingsw.server.model.die.Cell;
 import it.polimi.ingsw.server.model.die.Die;
-import it.polimi.ingsw.server.model.restrictions.ARestriction;
 import it.polimi.ingsw.server.model.restrictions.ColorRestriction;
+import it.polimi.ingsw.server.model.restrictions.IRestriction;
 import it.polimi.ingsw.server.model.restrictions.ValueRestriction;
 
 import java.util.ArrayList;
@@ -134,7 +134,7 @@ public class WindowPatternCard extends ADieContainer {
                 if (!source[i][j].isEmpty())
                     destination[i][j].setContainedDie(new Die(source[i][j].getContainedDie().getActualDieValue(), source[i][j].getContainedDie().getDieColor()));
                 else {
-                    List<ARestriction> rules = new ArrayList<>();
+                    List<IRestriction> rules = new ArrayList<>();
                     if(source[i][j].getDefaultValueRestriction().getValue() != 0)
                         rules.add(new ValueRestriction(source[i][j].getDefaultValueRestriction().getValue()));
                     if(!(source[i][j].getDefaultColorRestriction().getColor().equals(Color.BLANK)))
@@ -166,7 +166,7 @@ public class WindowPatternCard extends ADieContainer {
      * @param selectedCell: the cell where the player wants to put the die.
      * @return true if the selected cell is one of the cells of the border.
      */
-    public boolean checkBorderCells(Cell selectedCell) {
+    private boolean checkBorderCells(Cell selectedCell) {
         if(selectedCell.getCol() == 0 || selectedCell.getCol() == MAX_COL-1 || selectedCell.getRow() == 0 || selectedCell.getRow() == MAX_ROW-1)
             return true;
         setErrorMessage("La cella selezionata non e' una cella del bordo.");
@@ -212,7 +212,7 @@ public class WindowPatternCard extends ADieContainer {
      */
     public boolean checkOwnRuleSet(Die die, Cell selectedCell, Cell[][] glassWindowToConsider){
 
-        for (ARestriction restriction : glassWindowToConsider[selectedCell.getRow()][selectedCell.getCol()].getRuleSetCell())
+        for (IRestriction restriction : glassWindowToConsider[selectedCell.getRow()][selectedCell.getCol()].getRuleSetCell())
             if (!restriction.isRespected(die)) {
                 setErrorMessage("Non sono rispettate le restrizioni della cella desiderata.");
                 return false;
@@ -229,7 +229,7 @@ public class WindowPatternCard extends ADieContainer {
      */
     private boolean checkAdjacentRuleSet(Die die, Cell selectedCell, Cell[][] glassWindowToConsider) {
 
-        List<ARestriction> adjacentRules = new ArrayList<>();
+        List<IRestriction> adjacentRules = new ArrayList<>();
         if (selectedCell.getRow() != 0 && !glassWindowToConsider[selectedCell.getRow()-1][selectedCell.getCol()].isEmpty())
             adjacentRules.addAll( glassWindowToConsider[selectedCell.getRow()-1][selectedCell.getCol()].getRuleSetCell());
 
@@ -242,7 +242,7 @@ public class WindowPatternCard extends ADieContainer {
         if(selectedCell.getCol() != MAX_COL-1 && !glassWindowToConsider[selectedCell.getRow()][selectedCell.getCol()+1].isEmpty())
             adjacentRules.addAll( glassWindowToConsider[selectedCell.getRow()][selectedCell.getCol()+1].getRuleSetCell());
 
-        for (ARestriction restriction : adjacentRules)
+        for (IRestriction restriction : adjacentRules)
             if(restriction.isRespected(die)) {
                 setErrorMessage("Non sono rispettate le restrizioni delle celle adiacenti.");
                 return false;

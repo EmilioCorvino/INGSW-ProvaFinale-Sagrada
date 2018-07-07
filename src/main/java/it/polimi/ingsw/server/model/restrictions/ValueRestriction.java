@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.model.die.Die;
 /**
  * This class manages the value restriction of a cell.
  */
-public class ValueRestriction extends ARestriction {
+public class ValueRestriction implements IRestriction {
 
     /**
      * the value restriction associated to a cell.

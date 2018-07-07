@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.model.cards.tool.effects.movement.MoveWithRestrict
 import it.polimi.ingsw.server.model.die.Cell;
 import it.polimi.ingsw.server.model.die.Die;
 import it.polimi.ingsw.server.model.die.containers.WindowPatternCard;
-import it.polimi.ingsw.server.model.restrictions.ARestriction;
+import it.polimi.ingsw.server.model.restrictions.IRestriction;
 import it.polimi.ingsw.server.model.restrictions.ValueRestriction;
 
 import java.util.ArrayList;
@@ -64,17 +64,17 @@ public class IgnoreColorRestrictionEffect extends MoveWithRestrictionsEffect {
      * @param gw the glass window to modify.
      */
     private void deleteColorRestriction(Cell[][] gw) {
-        List<ARestriction> temporaryRuleSet;
+        List<IRestriction> temporaryRuleSet;
         for(int i=0; i<WindowPatternCard.MAX_ROW; i++) {
             for (int j = 0; j < WindowPatternCard.MAX_COL; j++) {
                 temporaryRuleSet = new ArrayList<>();
                 if (!gw[i][j].isEmpty()) {
-                    ARestriction valueRestriction = new ValueRestriction(gw[i][j].getContainedDie().getActualDieValue());
+                    IRestriction valueRestriction = new ValueRestriction(gw[i][j].getContainedDie().getActualDieValue());
                     temporaryRuleSet.add(valueRestriction);
                 } else {
                     int restrictionParameter = gw[i][j].getDefaultValueRestriction().getValue();
                     if (restrictionParameter != 0) {
-                        ARestriction valueRestriction = new ValueRestriction(restrictionParameter);
+                        IRestriction valueRestriction = new ValueRestriction(restrictionParameter);
                         temporaryRuleSet.add(valueRestriction);
                     }
                 }
