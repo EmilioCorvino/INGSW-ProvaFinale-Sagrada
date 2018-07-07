@@ -3,8 +3,10 @@ package it.polimi.ingsw.client.view.gui;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -35,10 +37,19 @@ public class GUICommunicationManager {
       //newWindow.initModality(Modality.WINDOW_MODAL);
 
       newWindow.initOwner(GUIMain.getStage());
+      GUIMain.centerScreen();
 
 
-      newWindow.setX(GUIMain.getStage().getX() + 200);
-      newWindow.setY(GUIMain.getStage().getY() + 100);
+      //Rectangle2D primaryBounds = Screen.getPrimary().getVisualBounds();
+     // newWindow.setX(primaryBounds.getMinX() + primaryBounds.getWidth() - 1000);
+     // newWindow.setY(primaryBounds.getMinY() + primaryBounds.getHeight() - 800);
+      //newWindow.setWidth(300);
+     // newWindow.setHeight(200);
+
+
+
+      //newWindow.setX(GUIMain.getStage().getX() + 200);
+      //newWindow.setY(GUIMain.getStage().getY() + 300);
    }
 
    /**
@@ -76,10 +87,11 @@ public class GUICommunicationManager {
     */
    public void communicateMessage(String message) {
 
-      Pane secondWindow = new Pane();
+      VBox secondWindow = new VBox();
+      secondWindow.setAlignment(Pos.CENTER);
+      secondWindow.setSpacing(5);
       Label secondLabel = new Label(message);
-      //secondWindow.setLayoutX(200);
-     // secondWindow.setLayoutY(100);
+
       secondWindow.getChildren().addAll(secondLabel);
       secondLabel.setPrefWidth(400);
       secondLabel.setWrapText(true);
@@ -87,19 +99,26 @@ public class GUICommunicationManager {
       secondLabel.setAlignment(Pos.CENTER);
       secondLabel.getStyleClass().add("text-label");
 
+      Button ok = new Button("ok");
+      ok.getStyleClass().add("button-style");
+      secondWindow.getChildren().add(ok);
+
+      ok.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> this.newWindow.close());
 
       secondWindow.getStylesheets().add("style/backgrounds.css");
       secondWindow.getStyleClass().add("background");
       secondWindow.getStyleClass().add("notification");
 
-      Scene second = new Scene(secondWindow, 400, 110);
+      Scene second = new Scene(secondWindow, 400, 200);
       second.setFill(Color.TRANSPARENT);
-
        newWindow.setScene(second);
+
 
        newWindow.show();
 
+
    }
+
 
    public Map<String, Runnable> getFunctions() {
       return functions;
