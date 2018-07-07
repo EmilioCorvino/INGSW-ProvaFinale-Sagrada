@@ -51,7 +51,7 @@ public class DiceDraftPool extends ADieContainer {
             try {
                 dieExtracted = diceBag.extract();
             } catch (EmptyException e){
-                SagradaLogger.log(Level.SEVERE, e.getMessage(), e);
+                SagradaLogger.log(Level.SEVERE, e.getMessage());
             }
             this.getAvailableDice().add(dieExtracted);
             i++;

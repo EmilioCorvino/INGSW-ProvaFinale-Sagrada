@@ -14,15 +14,14 @@ public class InputOutputManager {
     }
 
     /**
-     * This method print a string to the user and get the input
-     * @param input: the string to print
-     * @return: the string read.
+     * This method prints a string to the user and gets the input.
+     * @param input the string to print.
+     * @return the string read.
      */
     public String askInformation(String input){
         this.print(input);
         return this.read();
     }
-
 
     public int askInt(String input){
         boolean validInput;
@@ -45,7 +44,7 @@ public class InputOutputManager {
     }
     /**
      * This method take an input from the user.
-     * @return: the string read.
+     * @return the string read.
      */
     String read(){
         return scan.nextLine().trim();
@@ -53,7 +52,7 @@ public class InputOutputManager {
 
     /**
      * This method is used to print a specific string to the user.
-     * @param string: the string that need to be printed.
+     * @param string the string that need to be printed.
      */
     public void print(String string){
         System.out.println(string);

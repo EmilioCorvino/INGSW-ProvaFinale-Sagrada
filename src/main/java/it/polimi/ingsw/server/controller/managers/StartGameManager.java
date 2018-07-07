@@ -4,6 +4,7 @@ import it.polimi.ingsw.common.Commands;
 import it.polimi.ingsw.common.network.IFromServerToClient;
 import it.polimi.ingsw.common.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.common.simplifiedview.SimplifiedWindowPatternCard;
+import it.polimi.ingsw.common.utils.PropertyLoader;
 import it.polimi.ingsw.common.utils.SagradaLogger;
 import it.polimi.ingsw.common.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.common.utils.exceptions.EmptyException;
@@ -16,9 +17,6 @@ import it.polimi.ingsw.server.model.die.containers.WindowPatternCard;
 import it.polimi.ingsw.server.model.die.containers.WindowPatternCardDeck;
 import it.polimi.ingsw.server.model.player.Player;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -62,11 +60,9 @@ public class StartGameManager extends AGameManager {
         super.timeOut = BACK_UP_TIMER;
 
         //Value read from file. If the loading is successful, it overwrites the back up.
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(StartGameManager.class.getResourceAsStream(TIMER_FILE)))) {
-            super.timeOut = Long.parseLong(reader.readLine());
+        if (PropertyLoader.getPropertyLoader().getTurnTimer() != 0) {
+            super.timeOut = PropertyLoader.getPropertyLoader().getTurnTimer();
             SagradaLogger.log(Level.CONFIG, "Timer successfully loaded from file. Its value is: " + timeOut / 1000 + "s");
-        } catch (IOException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to load the turn timer from file.", e);
         }
     }
 
@@ -204,7 +200,7 @@ public class StartGameManager extends AGameManager {
                 super.getControllerMaster().getConnectedPlayers().get(playerName).getClient().showNotice(
                         "Alcuni giocatori devono ancora scegliere la vetrata, attendi...");
             } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.SEVERE, "Impossible to send a notice to the client", e);
+                SagradaLogger.log(Level.SEVERE, "Impossible to send a notice to the client");
                 this.exitGame(playerName);
             }
         }
@@ -227,7 +223,7 @@ public class StartGameManager extends AGameManager {
                     connection.getClient().setCommonBoard(mapOfWp, idPubObj, idTool);
                     connection.getClient().setFavorToken(numberFavTokenConverter(playerName));
                 } catch (BrokenConnectionException e) {
-                    SagradaLogger.log(Level.SEVERE, "Impossible to set the common board to " + playerName, e);
+                    SagradaLogger.log(Level.SEVERE, "Impossible to set the common board to " + playerName);
                     this.exitGame(playerName);
                 }
             }
@@ -252,7 +248,7 @@ public class StartGameManager extends AGameManager {
                 client.setCommonBoard(mapOfWp, idPubObj, idTool);
                 client.setFavorToken(numberFavTokenConverter(playerName));
             } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.SEVERE, "Impossible to set the common board to " + playerName, e);
+                SagradaLogger.log(Level.SEVERE, "Impossible to set the common board to " + playerName);
                 this.exitGame(playerName);
             }
         }
@@ -351,7 +347,7 @@ public class StartGameManager extends AGameManager {
                 wpToSend.add(simpleWp);
             }
         } catch (EmptyException empty) {
-            SagradaLogger.log(Level.SEVERE, "Window pattern card deck is empty!", empty);
+            SagradaLogger.log(Level.SEVERE, "Window pattern card deck is empty!");
         }
         return wpToSend;
     }

@@ -135,7 +135,7 @@ public class CliView implements IViewMaster {
                 this.server.login(loginManager.getGameMode(), player.getUserName());
                 userNameOk = true;
             } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.SEVERE, "Connection broken during register", e);
+                SagradaLogger.log(Level.SEVERE, "Connection broken while registering");
             } catch (UserNameAlreadyTakenException e) {
                 inputOutputManager.print("\nUsername già in uso!");
             } catch (TooManyUsersException e) {

@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.IViewMaster;
 import it.polimi.ingsw.common.network.Connection;
 import it.polimi.ingsw.common.network.IFromClientToServer;
 import it.polimi.ingsw.common.simplifiedview.SetUpInformationUnit;
+import it.polimi.ingsw.common.utils.PropertyLoader;
 import it.polimi.ingsw.common.utils.SagradaLogger;
 import it.polimi.ingsw.common.utils.exceptions.BrokenConnectionException;
 import it.polimi.ingsw.common.utils.exceptions.MatchAlreadyStartedException;
@@ -52,7 +53,7 @@ public class RmiFromClientToServer implements IFromClientToServer {
      * @see RmiClient
      */
     public RmiFromClientToServer(String ip, IViewMaster view) throws BrokenConnectionException {
-        int port = ServerMain.loadPort(ServerMain.RMI_PORT_PATH);
+        int port = PropertyLoader.getPropertyLoader().getRmiPort();
         try {
             Registry registry = LocateRegistry.getRegistry(ip, port);
             this.rmiServer = (IRmiServer) registry.lookup("RmiServer");

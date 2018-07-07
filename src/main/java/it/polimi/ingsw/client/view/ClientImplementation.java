@@ -4,11 +4,9 @@ import it.polimi.ingsw.common.Commands;
 import it.polimi.ingsw.common.network.IFromServerToClient;
 import it.polimi.ingsw.common.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.common.simplifiedview.SimplifiedWindowPatternCard;
+import it.polimi.ingsw.common.utils.PropertyLoader;
 import it.polimi.ingsw.common.utils.SagradaLogger;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
@@ -42,11 +40,6 @@ public class ClientImplementation implements IFromServerToClient {
     private static final long BACK_UP_TIMER = 90000;
 
     /**
-     * Path of the file containing the maximum amount of time available for players to make a choice.
-     */
-    private static final String TIMER_FILE = "/config/turnTimer";
-
-    /**
      * View chosen by the user.
      */
     private IViewMaster view;
@@ -58,10 +51,8 @@ public class ClientImplementation implements IFromServerToClient {
         timeOut = BACK_UP_TIMER;
 
         //Value read from file. If the loading is successful, it overwrites the back up.
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(ClientImplementation.class.getResourceAsStream(TIMER_FILE)))) {
-            timeOut = Long.parseLong(reader.readLine())*2;
-        } catch (IOException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to load the server timer from file", e);
+        if (PropertyLoader.getPropertyLoader().getTurnTimer() != 0) {
+            timeOut = PropertyLoader.getPropertyLoader().getTurnTimer()*2;
         }
     }
 
