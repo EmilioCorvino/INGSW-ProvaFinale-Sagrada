@@ -5,6 +5,7 @@ import it.polimi.ingsw.common.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.common.simplifiedview.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.common.utils.exceptions.BrokenConnectionException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -76,7 +77,7 @@ public interface IFromServerToClient {
      * @param roundTrackToRestore object representing the round track to restore.
      * @throws BrokenConnectionException when the connection drops.
      */
-    void setRestoredRoundTrack(List<List<SetUpInformationUnit>> roundTrackToRestore) throws BrokenConnectionException;
+    void setRestoredRoundTrack(List<ArrayList<SetUpInformationUnit>> roundTrackToRestore) throws BrokenConnectionException;
 
     /**
      * This method populates the function map when the controller give the command list

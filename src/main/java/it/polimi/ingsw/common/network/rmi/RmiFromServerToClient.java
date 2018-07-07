@@ -8,6 +8,7 @@ import it.polimi.ingsw.common.utils.SagradaLogger;
 import it.polimi.ingsw.common.utils.exceptions.BrokenConnectionException;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -104,7 +105,7 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
-    public void setRestoredRoundTrack(List<List<SetUpInformationUnit>> roundTrackToRestore) throws BrokenConnectionException {
+    public void setRestoredRoundTrack(List<ArrayList<SetUpInformationUnit>> roundTrackToRestore) throws BrokenConnectionException {
         try {
             this.rmiClient.setRestoredRoundTrack(roundTrackToRestore);
         } catch (RemoteException e) {

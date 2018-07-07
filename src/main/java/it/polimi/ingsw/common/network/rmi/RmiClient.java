@@ -8,6 +8,7 @@ import it.polimi.ingsw.common.simplifiedview.SimplifiedWindowPatternCard;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -65,7 +66,7 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
-    public void setRestoredRoundTrack(List<List<SetUpInformationUnit>> roundTrackToRestore) {
+    public void setRestoredRoundTrack(List<ArrayList<SetUpInformationUnit>> roundTrackToRestore) {
         this.client.setRestoredRoundTrack(roundTrackToRestore);
     }
 
