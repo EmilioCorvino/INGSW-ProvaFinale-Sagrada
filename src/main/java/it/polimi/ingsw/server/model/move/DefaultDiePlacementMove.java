@@ -7,7 +7,8 @@ import it.polimi.ingsw.server.model.die.Die;
 import it.polimi.ingsw.server.model.die.containers.WindowPatternCard;
 
 /**
- * This class manages the
+ * This class manages the standard placement of a die from the {@link it.polimi.ingsw.server.model.die.containers.DiceDraftPool}
+ * to the {@link WindowPatternCard}.
  */
 public class DefaultDiePlacementMove extends AMove {
 

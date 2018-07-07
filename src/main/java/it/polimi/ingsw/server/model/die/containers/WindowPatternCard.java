@@ -16,17 +16,17 @@ import java.util.List;
 public class WindowPatternCard extends ADieContainer {
 
     /**
-     * Maximum values of row and column.
+     * Maximum number of rows.
      */
     public static final int MAX_COL = 5;
 
     /**
-     *
+     * Maximum number of columns.
      */
     public static final int MAX_ROW = 4;
 
     /**
-     * The code that identify the map.
+     * The code that identifies the map.
      */
     private int idMap;
 
@@ -255,6 +255,11 @@ public class WindowPatternCard extends ADieContainer {
         return true;
     }
 
+    /**
+     * This method is used to check if the {@link Cell} is within the matrix bounds or not.
+     * @param cell to check.
+     * @return {@code true} if the {@link Cell} is in the matrix, {@code false} otherwise.
+     */
     private boolean isTheCellInTheMatrix(Cell cell){
         return (-1 < cell.getRow() && cell.getRow() < MAX_ROW) && (-1 < cell.getCol() && cell.getCol() < MAX_COL);
     }

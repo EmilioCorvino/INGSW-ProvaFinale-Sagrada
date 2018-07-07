@@ -73,13 +73,13 @@ public class ControllerMaster {
 
     ControllerMaster(Map<String, Connection> connectedPlayers, WaitingRoom waitingRoom) {
         this.waitingRoom = waitingRoom;
+        this.gameState = new GameState();
         this.commonBoard = new CommonBoard();
         this.commonBoard.initializeBoard();
         this.connectedPlayers = connectedPlayers;
         this.startGameManager = new StartGameManager(this);
         this.gamePlayManager = new GamePlayManager(this);
         this.endGameManager = new EndGameManager(this);
-        this.gameState = new GameState();
         this.suspendedPlayers = new ArrayList<>();
         this.disconnectedPlayers = new ArrayList<>();
     }

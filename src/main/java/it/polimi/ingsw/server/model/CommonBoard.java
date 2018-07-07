@@ -13,6 +13,7 @@ import it.polimi.ingsw.server.model.die.containers.DiceDraftPool;
 import it.polimi.ingsw.server.model.die.containers.RoundTrack;
 import it.polimi.ingsw.server.model.die.containers.WindowPatternCardDeck;
 import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.turn.GameState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +24,10 @@ import java.util.logging.Level;
  */
 public class CommonBoard {
 
-    private static final int NUMBER_OF_ROUNDS = 10;
-
     /**
      * List of {@link Player}s connected to the match.
      */
     private final List<Player> players;
-
 
     /**
      * {@link it.polimi.ingsw.server.model.die.containers.DiceDraftPool} of the match.
@@ -79,7 +77,7 @@ public class CommonBoard {
     public CommonBoard() {
         this.players = new ArrayList<>();
         this.draftPool = new DiceDraftPool();
-        this.roundTrack = new RoundTrack(NUMBER_OF_ROUNDS);
+        this.roundTrack = new RoundTrack(GameState.LAST_ROUND);
         this.publicObjectiveCardSlots = new ArrayList<>();
         this.toolCardSlots = new ArrayList<>();
         this.privateObjectiveCardsDeck = new PrivateObjectiveCardsDeck();
