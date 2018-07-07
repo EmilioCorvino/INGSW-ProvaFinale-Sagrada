@@ -32,6 +32,9 @@ public enum Color {
         return id;
     }
 
+    /**
+     * Empty constructor to support {@link #BLANK} value.
+     */
     Color() {}
 
     Color(int colorNumber, String id){
@@ -39,6 +42,10 @@ public enum Color {
         this.id = id;
     }
 
+    /**
+     * Lists all the available colors, except for {@link #BLANK}.
+     * @return a list containing all colors but BLANK.
+     */
     public static List<Color> availableColors() {
         List<Color> colors = new ArrayList<>();
         for(Color c: Color.values()) {

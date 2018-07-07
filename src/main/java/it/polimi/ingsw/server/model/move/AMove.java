@@ -27,7 +27,6 @@ public abstract class AMove {
      */
     public abstract void executeMove(GamePlayManager manager, SetUpInformationUnit setUpInfoUnit);
 
-
     /**
      * This method checks if exists at least one cell in which the user can place a die.
      * @param wp the window pattern of the player.

@@ -200,7 +200,7 @@ public class StartGameManager extends AGameManager {
                 super.getControllerMaster().getConnectedPlayers().get(playerName).getClient().showNotice(
                         "Alcuni giocatori devono ancora scegliere la vetrata, attendi...");
             } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.SEVERE, "Impossible to send a notice to the client", e);
+                SagradaLogger.log(Level.SEVERE, "Impossible to send a notice to the client");
                 this.exitGame(playerName);
             }
         }
@@ -223,7 +223,7 @@ public class StartGameManager extends AGameManager {
                     connection.getClient().setCommonBoard(mapOfWp, idPubObj, idTool);
                     connection.getClient().setFavorToken(numberFavTokenConverter(playerName));
                 } catch (BrokenConnectionException e) {
-                    SagradaLogger.log(Level.SEVERE, "Impossible to set the common board to " + playerName, e);
+                    SagradaLogger.log(Level.SEVERE, "Impossible to set the common board to " + playerName);
                     this.exitGame(playerName);
                 }
             }
@@ -248,7 +248,7 @@ public class StartGameManager extends AGameManager {
                 client.setCommonBoard(mapOfWp, idPubObj, idTool);
                 client.setFavorToken(numberFavTokenConverter(playerName));
             } catch (BrokenConnectionException e) {
-                SagradaLogger.log(Level.SEVERE, "Impossible to set the common board to " + playerName, e);
+                SagradaLogger.log(Level.SEVERE, "Impossible to set the common board to " + playerName);
                 this.exitGame(playerName);
             }
         }
@@ -347,7 +347,7 @@ public class StartGameManager extends AGameManager {
                 wpToSend.add(simpleWp);
             }
         } catch (EmptyException empty) {
-            SagradaLogger.log(Level.SEVERE, "Window pattern card deck is empty!", empty);
+            SagradaLogger.log(Level.SEVERE, "Window pattern card deck is empty!");
         }
         return wpToSend;
     }

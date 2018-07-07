@@ -8,8 +8,12 @@ import it.polimi.ingsw.server.model.die.containers.WindowPatternCard;
 import it.polimi.ingsw.server.model.player.Player;
 
 /**
- * This class manages a particular type of move: the restricted move, which has to be performed under certain
- * conditions and when one or more of them fall some specific actions need to be performed.
+ * This class manages a particular type of die placement. It differs from {@link DefaultDiePlacementMove} because the
+ * die is not chosen from the {@link it.polimi.ingsw.server.model.die.containers.DiceDraftPool}, but it's given by a
+ * previous {@link it.polimi.ingsw.server.model.cards.tool.effects.AToolCardEffect}. If said die cannot be placed, it is
+ * handled with different policies.
+ * @see it.polimi.ingsw.server.model.cards.tool.effects.swap.SwapFromDraftPoolToDiceBag
+ * @see it.polimi.ingsw.server.model.cards.tool.effects.draft.DraftValueEffect
  */
 public class RestrictedDiePlacementMove extends AMove {
 

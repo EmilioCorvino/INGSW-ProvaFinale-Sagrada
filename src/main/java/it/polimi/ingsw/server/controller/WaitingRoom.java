@@ -124,31 +124,7 @@ public class WaitingRoom {
      */
     private void checkNumberOfPlayers() {
         if (playersRoom.size() == 2) {
-            Timer timer = new Timer();
-
-            //Back up value.
-            long timeOut = AGameManager.BACK_UP_TIMER;
-
-            //Value read from file. If the reading fails, the back up value is used.
-            if (PropertyLoader.getPropertyLoader().getRoomTimer() != 0) {
-                timeOut = PropertyLoader.getPropertyLoader().getRoomTimer();
-                SagradaLogger.log(Level.CONFIG, "Waiting Room timer successfully loaded from file. " +
-                        "Its value is: " + timeOut/1000 + "s");
-            }
-            SagradaLogger.log(Level.INFO, "Waiting Room timer is started.");
-
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    if (isMatchStillWaitingToStart()) {
-                        SagradaLogger.log(Level.WARNING, "timer is expired");
-                        reportStartMatch();
-                        if (playersRoom.size()>= 2) {
-                            startMultiPlayerMatch();
-                        }
-                    }
-                }
-            }, timeOut);
+            this.startTimer();
         } else if (playersRoom.size() == MAX_PLAYERS) {
             SagradaLogger.log(Level.WARNING, "Maximum number of players reached, starting match...");
             reportStartMatch();
@@ -179,7 +155,7 @@ public class WaitingRoom {
     }
 
     /**
-     * This method starts a multi player match.
+     * This method starts a multi player match, creating a new {@link ControllerMaster}.
      */
     private void startMultiPlayerMatch() {
         this.controllerMaster = new ControllerMaster(new HashMap<>(this.playersRoom), this);
@@ -209,6 +185,37 @@ public class WaitingRoom {
                 notifyWaitingPlayers();
             }
         });
+    }
+
+    /**
+     * Starts the timer of the waiting room. When it expires, the match starts.
+     */
+    public void startTimer() {
+        Timer timer = new Timer();
+
+        //Back up value.
+        long timeOut = AGameManager.BACK_UP_TIMER;
+
+        //Value read from file. If the reading fails, the back up value is used.
+        if (PropertyLoader.getPropertyLoader().getRoomTimer() != 0) {
+            timeOut = PropertyLoader.getPropertyLoader().getRoomTimer();
+            SagradaLogger.log(Level.CONFIG, "Waiting Room timer successfully loaded from file. " +
+                    "Its value is: " + timeOut/1000 + "s");
+        }
+        SagradaLogger.log(Level.INFO, "Waiting Room timer is started.");
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (isMatchStillWaitingToStart()) {
+                    SagradaLogger.log(Level.WARNING, "timer is expired");
+                    reportStartMatch();
+                    if (playersRoom.size()>= 2) {
+                        startMultiPlayerMatch();
+                    }
+                }
+            }
+        }, timeOut);
     }
 
     /**

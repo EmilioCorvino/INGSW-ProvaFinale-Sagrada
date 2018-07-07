@@ -21,6 +21,7 @@ import it.polimi.ingsw.common.utils.exceptions.UserNameAlreadyTakenException;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -93,7 +94,7 @@ public class GUIView implements IViewMaster {
         chooseWpGUI = new ChooseWpGUI(manager);
         playersData = new PlayersData();
         commonWindow = new CommonBoardWindow(manager);
-        rankWindow = new RankWindow();
+        rankWindow = new RankWindow(this.manager);
 
         chooseWpGUI.setPlayersData(this.playersData);
         commonWindow.setData(this.playersData);
@@ -150,7 +151,7 @@ public class GUIView implements IViewMaster {
                     this.playersData.setUsername(username);
 
                 } catch (BrokenConnectionException e) {
-                    SagradaLogger.log(Level.SEVERE, "Connection broken during register", e);
+                    SagradaLogger.log(Level.SEVERE, "Connection broken during register");
                     loginManager.setProceed(false);
                     this.loginManager.getLoginFormGUI().showAlertMessage("Indirizzo ip non valido.");
                     Parent root = new LoginIpAddrTypeConnGUI();
@@ -293,6 +294,11 @@ public class GUIView implements IViewMaster {
         });
     }
 
+    @Override
+    public void setRestoredRoundTrack(List<ArrayList<SetUpInformationUnit>> roundTrackToRestore) {
+        //todo Rita, implement and document this!
+    }
+
     /**
      * This method is responsible for updating all the available commands the user can execute at each time.
      * @param commands the list of available commands.
@@ -302,6 +308,8 @@ public class GUIView implements IViewMaster {
         Platform.runLater(() -> {
             Map<String, Runnable> functions = this.bank.getCommandMap(commands);
             this.manager.setFunctions(functions);
+            if(this.manager.isCommandContained("reconnect"));
+                this.current.getReconnect().setVisible(true);
             this.current.addHandlers();
         });
     }
@@ -475,7 +483,7 @@ public class GUIView implements IViewMaster {
         Platform.runLater(() -> {
             for(int i=0; i<playerNames.length; i++)
                 this.rankWindow.updateNames(playerNames[i], scores[i]);
-
+            this.rankWindow.addHandlers();
             this.current = rankWindow;
             GUIMain.setRoot(current);
             GUIMain.centerScreen();

@@ -23,6 +23,8 @@ import java.util.logging.Level;
 /**
  * This class represents the server on the client side. View can call controller's methods
  * through this class using RMI protocol.
+ * Methods in this class catch {@link RemoteException} by throwing a new {@link BrokenConnectionException}, so that
+ * disconnection handling can be unified both for RMI and socket connections.
  * For methods documentation:
  * @see IFromClientToServer
  * @see it.polimi.ingsw.server.controller.ServerImplementation

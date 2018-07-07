@@ -49,20 +49,20 @@ public class PublicObjectiveCardsDeck extends AObjectiveCardsDeck {
         try(BufferedReader reader = new BufferedReader(new InputStreamReader(PublicObjectiveCardsDeck.class.getResourceAsStream(COLOR_PUB_OBJ_CARDS)))){
             this.deck = gson.fromJson(reader, listColorCards);
         } catch (IOException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to access color public objective cards file", e);
+            SagradaLogger.log(Level.SEVERE, "Impossible to access color public objective cards file");
         }
 
         Type listValueCards = new TypeToken<Vector<ValuePublicObjectiveCard>>(){}.getType();
         try(BufferedReader reader = new BufferedReader(new InputStreamReader(PublicObjectiveCardsDeck.class.getResourceAsStream(VALUE_PUB_OBJ_CARDS)))){
             this.deck.addAll(gson.fromJson(reader, listValueCards));
         } catch (IOException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to access value public objective cards file", e);
+            SagradaLogger.log(Level.SEVERE, "Impossible to access value public objective cards file");
         }
 
         try {
             this.assignStrategy();
         } catch (IOException e) {
-            SagradaLogger.log(Level.SEVERE, e.getMessage(), e);
+            SagradaLogger.log(Level.SEVERE, e.getMessage());
         }
     }
 

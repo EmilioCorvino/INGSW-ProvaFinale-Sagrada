@@ -67,7 +67,7 @@ public class GUIDefaultMatchManager implements IDefaultMatchManager {
         try {
             this.server.moveToNextTurn();
         } catch (BrokenConnectionException br) {
-            SagradaLogger.log(Level.SEVERE, "Connection broken while moving to next turn", br);
+            SagradaLogger.log(Level.SEVERE, "Connection broken while moving to next turn");
         }
     }
 
@@ -84,11 +84,23 @@ public class GUIDefaultMatchManager implements IDefaultMatchManager {
 
     @Override
     public void newGame() {
+        try {
+            this.server.startNewGameRequest();
+        } catch (BrokenConnectionException e){
+            SagradaLogger.log(Level.SEVERE, "Connection broken during new game request.");
+            //disconnect();
+        }
 
     }
 
     @Override
     public void reconnect() {
+        try{
+           this.server.reconnect();
+        } catch (BrokenConnectionException e){
+            SagradaLogger.log(Level.SEVERE, "Connection broken during reconnection");
+            //disconnect();
+        }
 
     }
 

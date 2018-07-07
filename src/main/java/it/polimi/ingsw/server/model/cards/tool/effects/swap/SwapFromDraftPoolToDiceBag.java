@@ -17,6 +17,10 @@ public class SwapFromDraftPoolToDiceBag extends ASwapDieEffect {
 
     private Die dieExtracted;
 
+    private void setDieExtracted(Die dieExtracted) {
+        this.dieExtracted = dieExtracted;
+    }
+
     /**
      * This method manages the placement of the changing it with a die extract random from the dice bag.
      * @param manager part of the controller that deals with the game play.
@@ -57,9 +61,5 @@ public class SwapFromDraftPoolToDiceBag extends ASwapDieEffect {
 
         //remove a die from dice bag.
         setDieExtracted(destination.removeDieFromCopy(new Random().nextInt(((DiceBag)destination).getAvailableDice().size())));
-    }
-
-    private void setDieExtracted(Die dieExtracted) {
-        this.dieExtracted = dieExtracted;
     }
 }

@@ -51,7 +51,7 @@ public class Score implements IScore {
         return player;
     }
 
-    public int getPublicObjectivePoints() {
+    private int getPublicObjectivePoints() {
         return publicObjectivePoints;
     }
 
@@ -63,7 +63,7 @@ public class Score implements IScore {
         return favorTokensPoints;
     }
 
-    public int getLostPoints() {
+    private int getLostPoints() {
         return lostPoints;
     }
 

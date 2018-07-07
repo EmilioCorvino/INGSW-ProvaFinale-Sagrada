@@ -11,6 +11,7 @@ import it.polimi.ingsw.server.controller.managers.GamePlayManager;
 import it.polimi.ingsw.server.controller.managers.StartGameManager;
 import it.polimi.ingsw.server.model.CommonBoard;
 import it.polimi.ingsw.server.model.die.Cell;
+import it.polimi.ingsw.server.model.die.Die;
 import it.polimi.ingsw.server.model.die.containers.WindowPatternCard;
 import it.polimi.ingsw.server.model.turn.GameState;
 
@@ -72,13 +73,13 @@ public class ControllerMaster {
 
     ControllerMaster(Map<String, Connection> connectedPlayers, WaitingRoom waitingRoom) {
         this.waitingRoom = waitingRoom;
+        this.gameState = new GameState();
         this.commonBoard = new CommonBoard();
         this.commonBoard.initializeBoard();
         this.connectedPlayers = connectedPlayers;
         this.startGameManager = new StartGameManager(this);
         this.gamePlayManager = new GamePlayManager(this);
         this.endGameManager = new EndGameManager(this);
-        this.gameState = new GameState();
         this.suspendedPlayers = new ArrayList<>();
         this.disconnectedPlayers = new ArrayList<>();
     }
@@ -182,6 +183,10 @@ public class ControllerMaster {
             this.getStartGameManager().setOneCommonBoard(playerName);
             try {
                 client.setRestoredWindowPatternCards(this.restoreDice());
+                client.setRestoredRoundTrack(this.restoreRoundTrack());
+                for (int i = 0; i < this.getCommonBoard().getToolCardSlots().size(); i++) {
+                    client.updateToolCost(i, this.getCommonBoard().getToolCardSlots().get(i).getCost());
+                }
                 client.showCommand(this.getGamePlayManager().getWaitingPlayersCommands());
             } catch (BrokenConnectionException e) {
                 SagradaLogger.log(Level.SEVERE, "Connection lost with " + playerName + " while sending the new " +
@@ -201,6 +206,12 @@ public class ControllerMaster {
         }
     }
 
+    /**
+     * This method is used to restore the dice present in the {@link WindowPatternCard} of the players to
+     * the player who is reconnecting.
+     * @return map containing names of the players as keys, and lists of {@link SetUpInformationUnit}, representing dice
+     * on the {@link WindowPatternCard}, as values.
+     */
     private Map<String, List<SetUpInformationUnit>> restoreDice() {
         Map<String, List<SetUpInformationUnit>> diceToRestore = new HashMap<>();
         this.getCommonBoard().getPlayers().forEach(player -> {
@@ -218,5 +229,27 @@ public class ControllerMaster {
             diceToRestore.put(player.getPlayerName(), convertedDice);
         });
         return diceToRestore;
+    }
+
+    /**
+     * This method is used to restore the {@link it.polimi.ingsw.server.model.die.containers.RoundTrack} complete with
+     * dice to the player who is reconnecting.
+     * @return the list of lists containing a {@link SetUpInformationUnit} for each die.
+     */
+    private List<ArrayList<SetUpInformationUnit>> restoreRoundTrack() {
+        List<ArrayList<SetUpInformationUnit>> roundTrack = new ArrayList<>();
+        for (ArrayList<Die> round: this.getCommonBoard().getRoundTrack().getAvailableDice()) {
+            ArrayList<SetUpInformationUnit> roundDice = new ArrayList<>();
+            if (!round.isEmpty()) {
+                for (Die die: round) {
+                    SetUpInformationUnit convertedDie = new SetUpInformationUnit();
+                    convertedDie.setValue(die.getActualDieValue());
+                    convertedDie.setColor(die.getDieColor());
+                    roundDice.add(convertedDie);
+                }
+            }
+            roundTrack.add(roundDice);
+        }
+        return roundTrack;
     }
 }

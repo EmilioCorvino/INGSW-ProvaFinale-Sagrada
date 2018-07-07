@@ -28,9 +28,6 @@ public class DiceDraftPool extends ADieContainer {
      */
     private DiceBag diceBag;
 
-    /**
-     * The constructor
-     */
     public DiceDraftPool(){
         this.availableDice = new ArrayList<>();
         this.diceBag = new DiceBag();
@@ -51,7 +48,7 @@ public class DiceDraftPool extends ADieContainer {
             try {
                 dieExtracted = diceBag.extract();
             } catch (EmptyException e){
-                SagradaLogger.log(Level.SEVERE, e.getMessage(), e);
+                SagradaLogger.log(Level.SEVERE, e.getMessage());
             }
             this.getAvailableDice().add(dieExtracted);
             i++;
@@ -60,7 +57,7 @@ public class DiceDraftPool extends ADieContainer {
 
     /**
      * This method addDieToCopy a die in the draft.
-     * @param die: the die that has to be placed.
+     * @param die the die that has to be placed.
      */
     @Override
     public void addDieToCopy(Die die) {
@@ -96,8 +93,8 @@ public class DiceDraftPool extends ADieContainer {
 
     /**
      * This method copy the source in the destination.
-     * @param source: the original component.
-     * @param destination: the final component
+     * @param source the original component.
+     * @param destination the final component
      */
     private void draftCopy(List<Die> source, List<Die> destination){
         destination.clear();

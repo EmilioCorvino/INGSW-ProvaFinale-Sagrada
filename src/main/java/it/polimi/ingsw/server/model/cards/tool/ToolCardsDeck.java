@@ -52,13 +52,13 @@ public class ToolCardsDeck {
         try(BufferedReader reader = new BufferedReader(new InputStreamReader(ToolCardsDeck.class.getResourceAsStream(TOOL_CARDS)))) {
             this.deck = gson.fromJson(reader, listCards);
         } catch (IOException e) {
-            SagradaLogger.log(Level.SEVERE, "Impossible to access tool cards file", e);
+            SagradaLogger.log(Level.SEVERE, "Impossible to access tool cards file");
         }
 
         try {
             this.assignEffect();
         } catch (IOException e) {
-            SagradaLogger.log(Level.SEVERE, e.getMessage(), e);
+            SagradaLogger.log(Level.SEVERE, e.getMessage());
         }
     }
 

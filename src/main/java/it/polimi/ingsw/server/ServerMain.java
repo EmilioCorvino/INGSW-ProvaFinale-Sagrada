@@ -15,12 +15,18 @@ import java.util.logging.Level;
  */
 public class ServerMain {
 
+    /**
+     * Room in which players that connect wait for the match to start.
+     */
     private WaitingRoom room; //Substitute this with a match handler to handle more matches.
 
     private ServerMain(WaitingRoom room) {
         this.room = room;
     }
 
+    /**
+     * Starts the RMI server.
+     */
     private void startRmiServer() {
         int port = PropertyLoader.getPropertyLoader().getRmiPort();
         SagradaLogger.log(Level.CONFIG, "RMI port successfully loaded.");

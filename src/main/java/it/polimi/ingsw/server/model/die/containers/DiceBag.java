@@ -106,8 +106,8 @@ public class DiceBag extends ADieContainer {
 
     /**
      * This method copy the source in the destination.
-     * @param source: the original component.
-     * @param destination: the final component
+     * @param source the original component.
+     * @param destination the final component
      */
     private void diceBagCopy(List<Die> source, List<Die> destination){
         destination.clear();
