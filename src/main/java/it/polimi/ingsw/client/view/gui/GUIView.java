@@ -302,6 +302,8 @@ public class GUIView implements IViewMaster {
         Platform.runLater(() -> {
             Map<String, Runnable> functions = this.bank.getCommandMap(commands);
             this.manager.setFunctions(functions);
+            if(this.manager.isCommandContained("reconnect"));
+                this.current.getReconnect().setVisible(true);
             this.current.addHandlers();
         });
     }

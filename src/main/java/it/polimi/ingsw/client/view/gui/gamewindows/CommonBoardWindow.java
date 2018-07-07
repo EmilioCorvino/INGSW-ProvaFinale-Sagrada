@@ -162,8 +162,7 @@ public class CommonBoardWindow extends ParentWindow {
         Button exit = new Button("X");
         Button help = new Button(("?"));
         Button minimize = new Button("_");
-        Button reconnect = new Button("Riconnettiti");
-        reconnect.setVisible(false);
+        super.getReconnect().setVisible(false);
         buttonBox.getChildren().addAll(minimize, help, exit, reconnect);
         buttonBox.getChildren().get(0).getStyleClass().add("button-style");
         buttonBox.getChildren().get(1).getStyleClass().add("button-style");
@@ -175,7 +174,7 @@ public class CommonBoardWindow extends ParentWindow {
 
         this.header.setSpacing(1000);
 
-        reconnect.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+        super.getReconnect().addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
             if(this.manager.isCommandContained("Riconnessione"))
                 this.manager.executeCommandIfPresent("Riconnessione");
             else
@@ -620,4 +619,5 @@ public class CommonBoardWindow extends ParentWindow {
     public void setOtherMaps(Button otherMaps) {
         this.otherMaps = otherMaps;
     }
+
 }
