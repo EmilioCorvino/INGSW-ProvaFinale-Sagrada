@@ -30,7 +30,7 @@ public class RoundTrack extends ADieContainer {
 
     /**
      * This method effective addDieToCopy a die in the round chosen.
-     * @param die: the die that has to be placed.
+     * @param die the die that has to be placed.
      */
     @Override
     public void addDieToCopy(Die die) {
@@ -66,8 +66,8 @@ public class RoundTrack extends ADieContainer {
 
     /**
      * This method copy the source in the destination.
-     * @param source: the original component.
-     * @param destination: the final component
+     * @param source the original component.
+     * @param destination the final component
      */
     private void roundTrackCopy(List<ArrayList<Die>> source, List<ArrayList<Die>> destination){
         destination.clear();

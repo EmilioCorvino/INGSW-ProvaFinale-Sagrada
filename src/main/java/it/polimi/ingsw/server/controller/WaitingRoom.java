@@ -179,7 +179,7 @@ public class WaitingRoom {
     }
 
     /**
-     * This method starts a multi player match.
+     * This method starts a multi player match, creating a new {@link ControllerMaster}.
      */
     private void startMultiPlayerMatch() {
         this.controllerMaster = new ControllerMaster(new HashMap<>(this.playersRoom), this);

@@ -65,6 +65,11 @@ public class RmiClient extends UnicastRemoteObject implements IRmiClient {
     }
 
     @Override
+    public void setRestoredRoundTrack(List<List<SetUpInformationUnit>> roundTrackToRestore) {
+        this.client.setRestoredRoundTrack(roundTrackToRestore);
+    }
+
+    @Override
     public void showCommand(List<Commands> commands) {
         this.client.showCommand(commands);
     }

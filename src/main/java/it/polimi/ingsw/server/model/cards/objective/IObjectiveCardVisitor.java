@@ -7,7 +7,7 @@ import it.polimi.ingsw.server.model.die.containers.WindowPatternCard;
 
 /**
  * This visitor interface is used to visit the right concrete instance of {@link AObjectiveCard}.
- * Classes implementing this interface:
+ * Classes implementing this interface (see those for methods documentation):
  * @see ObjectiveCardAnalyzerVisitor
  */
 public interface IObjectiveCardVisitor {

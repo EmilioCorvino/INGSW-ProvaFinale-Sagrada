@@ -19,6 +19,10 @@ public class WindowPatternCard extends ADieContainer {
      * Maximum values of row and column.
      */
     public static final int MAX_COL = 5;
+
+    /**
+     *
+     */
     public static final int MAX_ROW = 4;
 
     /**

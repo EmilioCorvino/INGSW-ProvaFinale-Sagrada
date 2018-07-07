@@ -104,6 +104,16 @@ public class RmiFromServerToClient implements IFromServerToClient {
     }
 
     @Override
+    public void setRestoredRoundTrack(List<List<SetUpInformationUnit>> roundTrackToRestore) throws BrokenConnectionException {
+        try {
+            this.rmiClient.setRestoredRoundTrack(roundTrackToRestore);
+        } catch (RemoteException e) {
+            SagradaLogger.log(Level.SEVERE, "Impossible to restore the Round Track to the player");
+            throw new BrokenConnectionException();
+        }
+    }
+
+    @Override
     public void showCommand(List<Commands> commands) throws BrokenConnectionException {
         try {
             this.rmiClient.showCommand(commands);

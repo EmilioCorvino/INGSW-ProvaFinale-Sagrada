@@ -71,6 +71,14 @@ public interface IFromServerToClient {
     void setRestoredWindowPatternCards(Map<String, List<SetUpInformationUnit>> diceToRestore) throws BrokenConnectionException;
 
     /**
+     * This method is used to restore the {@link it.polimi.ingsw.server.model.die.containers.RoundTrack} after the
+     * player had previously disconnected.
+     * @param roundTrackToRestore object representing the round track to restore.
+     * @throws BrokenConnectionException when the connection drops.
+     */
+    void setRestoredRoundTrack(List<List<SetUpInformationUnit>> roundTrackToRestore) throws BrokenConnectionException;
+
+    /**
      * This method populates the function map when the controller give the command list
      * @param commands the list of commands available.
      * @throws BrokenConnectionException when the connection drops.

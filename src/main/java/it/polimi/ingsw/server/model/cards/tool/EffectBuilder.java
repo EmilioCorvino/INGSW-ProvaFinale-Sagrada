@@ -46,14 +46,6 @@ public class EffectBuilder {
         return effects;
     }
 
-    public String getSourceContainer() {
-        return sourceContainer;
-    }
-
-    public String getDestinationContainer() {
-        return destinationContainer;
-    }
-
     int getEffectSpecificParameter() {
         return effectSpecificParameter;
     }

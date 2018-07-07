@@ -30,6 +30,8 @@ public interface IRmiClient extends Remote {
 
     void setRestoredWindowPatternCards(Map<String, List<SetUpInformationUnit>> diceToRestore) throws RemoteException;
 
+    void setRestoredRoundTrack(List<List<SetUpInformationUnit>> roundTrackToRestore) throws RemoteException;
+
     void showCommand(List<Commands> commands) throws RemoteException;
 
     void addOnOwnWp(SetUpInformationUnit unit)throws RemoteException;
