@@ -24,7 +24,13 @@
 
 ####Tool card usage:
 * Server: showCommand(availableCommands: List<Commands> ) ---> Client
+
+	_for simple tool_
 	* Client: performToolCardMove(infoUnit: SetUpInformationUnit) ---> Server
+	
+	_for tool with multiple calls_
+	* Client: performRestrictedPlacement(SetUpInformationUnit infoUnit) ---> Server
+	
 
 		_At this point server answer with combination of method below depending of the tool_
 
@@ -36,6 +42,7 @@
 		* Server: removeOnDraft(SetUpInformationUnit info) ---> Client
 		* Server: addOnRoundTrack(SetUpInformationUnit info) ---> Client
 		* Server: removeOnRoundTrack(SetUpInformationUnit info) ---> Client
+		* Server: showDie(SetUpInformationUnit informationUnit) ---> Client
   
 ##End Game
 ####Ranking and Exit/NewGame:
