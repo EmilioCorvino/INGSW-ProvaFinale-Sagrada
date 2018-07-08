@@ -22,7 +22,7 @@ public class SagradaLogger {
     /**
      * File where the configuration is stored.
      */
-    private static final String CONF_PATH = "./src/main/conf/logger.properties";
+    private static final String CONF_PATH = "./conf/logger.properties";
 
     /**
      * This class shouldn't be instantiated.
