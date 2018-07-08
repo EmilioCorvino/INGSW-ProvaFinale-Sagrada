@@ -284,6 +284,7 @@ public class EndGameManager extends AGameManager {
     /**
      * This method puts in order of value the map in input.
      * @param rankToOrganize map containing the rank to put in order.
+     * @return a map representing the rank ordered by points obtained.
      */
     private Map<String, Integer> reorganizeRank(Map<String, Integer> rankToOrganize) {
         List<Map.Entry<String, Integer>> listOfEntries = new ArrayList<>(rankToOrganize.entrySet());

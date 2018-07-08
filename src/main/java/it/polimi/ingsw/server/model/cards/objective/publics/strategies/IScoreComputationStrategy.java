@@ -15,6 +15,7 @@ public interface IScoreComputationStrategy {
      * Applies the strategy relative to {@link Color} of the implementing classes to the window.
      * @param card from which taking the parameters.
      * @param window to which the strategy is applied.
+     * @return points given by the card.
      */
     int applyColorStrategy(ColorPublicObjectiveCard card, WindowPatternCard window);
 
@@ -22,6 +23,7 @@ public interface IScoreComputationStrategy {
      * Applies the strategy relative to {@link it.polimi.ingsw.server.model.Shade} of the implementing classes to the window.
      * @param card from which taking the parameters.
      * @param window to which the strategy is applied.
+     * @return points given by the card.
      */
     int applyValueStrategy(ValuePublicObjectiveCard card, WindowPatternCard window);
 }

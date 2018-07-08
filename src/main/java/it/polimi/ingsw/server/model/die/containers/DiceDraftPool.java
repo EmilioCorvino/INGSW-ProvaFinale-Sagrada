@@ -39,6 +39,7 @@ public class DiceDraftPool extends ADieContainer {
 
     /**
      * This method call the addDieToCopy the DiceDraftPool in each round.
+     * @param numberOfPlayers number of players present in the match. The dice to draft are 2*numberOfPlayers + 1.
      */
     public void populateDiceDraftPool(int numberOfPlayers){
         int i = 0;

@@ -74,9 +74,10 @@ public class LoginManager {
 
     /**
      * This method allow the user to choose the kind of network interface
-     * @return An instance of the network interface chosen.
      * @param ip the ip address uses to create the connection.
      * @param view an instance of view.
+     * @return An instance of the network interface chosen.
+     * @throws BrokenConnectionException when the connection drops.
      */
     public IFromClientToServer chooseNetworkInterface(String ip, IViewMaster view) throws BrokenConnectionException {
         int networkType;

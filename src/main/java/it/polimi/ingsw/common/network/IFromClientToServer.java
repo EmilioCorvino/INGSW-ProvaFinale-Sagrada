@@ -22,6 +22,7 @@ public interface IFromClientToServer {
      * @param playerName name the player chooses for himself in the application.
      * @throws UserNameAlreadyTakenException when a user with the same username is already logged in.
      * @throws TooManyUsersException when there already is the maximum number of players inside a game.
+     * @throws MatchAlreadyStartedException when the match is already started at the moment the request arrives.
      * @throws BrokenConnectionException when the connection drops.
      */
     void login(int gameMode, String playerName) throws UserNameAlreadyTakenException,

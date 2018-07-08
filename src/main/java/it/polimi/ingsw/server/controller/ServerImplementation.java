@@ -71,6 +71,7 @@ public class ServerImplementation implements IFromClientToServer {
      * @param connection established between client and server.
      * @throws UserNameAlreadyTakenException when the player tries to register with a username already taken.
      * @throws TooManyUsersException when the player tries to connect when the {@link WaitingRoom} is full.
+     * @throws MatchAlreadyStartedException when the match is started when the player tries to register.
      */
     public void register(int gameMode, String playerName, WaitingRoom room, Connection connection) throws
             UserNameAlreadyTakenException, TooManyUsersException, MatchAlreadyStartedException {
