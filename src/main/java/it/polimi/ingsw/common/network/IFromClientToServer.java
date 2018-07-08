@@ -13,7 +13,6 @@ import java.util.List;
  * This interface lists all the methods the client can require from the server. Methods in this interface are agnostic
  * towards the protocol used for networking. They can be used both for RMI and Socket.
  * @see it.polimi.ingsw.common.network.rmi.RmiFromClientToServer
- * @see it.polimi.ingsw.common.network.socket.SocketFromClientToServer
  */
 public interface IFromClientToServer {
 
@@ -23,6 +22,7 @@ public interface IFromClientToServer {
      * @param playerName name the player chooses for himself in the application.
      * @throws UserNameAlreadyTakenException when a user with the same username is already logged in.
      * @throws TooManyUsersException when there already is the maximum number of players inside a game.
+     * @throws MatchAlreadyStartedException when the match is already started at the moment the request arrives.
      * @throws BrokenConnectionException when the connection drops.
      */
     void login(int gameMode, String playerName) throws UserNameAlreadyTakenException,

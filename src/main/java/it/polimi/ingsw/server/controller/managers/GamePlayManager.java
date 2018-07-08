@@ -347,6 +347,9 @@ public class GamePlayManager extends AGameManager {
      * This method is used at the start of each round to move all remaining dice in the
      * {@link it.polimi.ingsw.server.model.die.containers.DiceDraftPool} to the space on the
      * {@link it.polimi.ingsw.server.model.die.containers.RoundTrack} corresponding to the current round.
+     * @param gameState object representing the state of the game.
+     * @param board board containing all possible information about the game, and the links to the various
+     *              {@link it.polimi.ingsw.server.model.die.containers.ADieContainer}s.
      */
     private void moveRemainingDiceFromDraftPoolToRoundTrack(GameState gameState, CommonBoard board) {
         if (!board.getDraftPool().getAvailableDice().isEmpty()) {
@@ -424,6 +427,7 @@ public class GamePlayManager extends AGameManager {
      * moves not in his turn.
      * It also checks if a Tool Card has already been used and in that case it shows to the player new suitable
      * {@link Commands}.
+     * @param slotID id of the slot in which the {@link ToolCard} is located.
      * @param infoUnits  list of objects containing the information needed to update the model.
      * @param playerName name of the player trying to perform the move.
      */
@@ -738,6 +742,8 @@ public class GamePlayManager extends AGameManager {
      *
      * @param listToFilter list needing to be filtered.
      * @param playerName name of the player whose commands need to be filtered.
+     * @return a list of commands that doesn't contain {@link Commands#PLACEMENT} or any {@link ToolCard} that implies a
+     * placement.
      */
     private List<Commands> filterPlacement(List<Commands> listToFilter, String playerName) {
         List<Commands> modifiedCurrentPlayerList = new ArrayList<>(listToFilter);
@@ -763,6 +769,7 @@ public class GamePlayManager extends AGameManager {
      * @param listToFilter list needing to be filtered.
      * @param gameState object representing the state of the game.
      * @param playerName name of the player whose commands need to be filtered.
+     * @return a list of {@link Commands} that doesn't contain the ones relative to the {@link ToolCard}s.
      */
     private List<Commands> filterTools(List<Commands> listToFilter, GameState gameState, String playerName) {
         List<Commands> modifiedCurrentPlayerList = new ArrayList<>(listToFilter);
@@ -901,6 +908,9 @@ public class GamePlayManager extends AGameManager {
      * This method checks if the {@link ToolCard} the player selected can be used in that turn and if he has enough
      * Favor Tokens to spend.
      * In case the card cannot be used, a new suitable set of {@link Commands} is sent to the player.
+     * @param gameState object representing the state of the game.
+     * @param slotID id of the {@link ToolCardSlot} in which the card to check is located.
+     * @param playerName name of the player requesting to use said card.
      */
     private void checkToolCardAvailability(GameState gameState, int slotID, String playerName) {
         ToolCardSlot slot = super.getControllerMaster().getCommonBoard().getToolCardSlots().get(slotID);

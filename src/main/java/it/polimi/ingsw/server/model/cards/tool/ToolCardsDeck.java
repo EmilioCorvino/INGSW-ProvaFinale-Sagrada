@@ -65,6 +65,7 @@ public class ToolCardsDeck {
     /**
      * Draws a random card and removes it from the deck.
      * @return a random {@link ToolCard} from the deck.
+     * @throws EmptyException when the deck is empty.
      */
     public ToolCard drawCard() throws EmptyException {
         if(this.deck.isEmpty()) {

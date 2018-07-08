@@ -43,7 +43,7 @@ public class PropertyLoader {
     /**
      * Path of the file containing the properties.
      */
-    private static final String PROPERTIES_PATH = "./src/main/conf/sagrada.properties";
+    private static final String PROPERTIES_PATH = "./conf/sagrada.properties";
 
     private PropertyLoader() {
         //Never directly instantiate this class!

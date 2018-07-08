@@ -1,0 +1,1 @@
+java -jar ./INGSW-ProvaFinale-Sagrada.jar gui

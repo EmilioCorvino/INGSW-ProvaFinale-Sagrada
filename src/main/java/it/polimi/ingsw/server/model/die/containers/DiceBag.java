@@ -58,6 +58,7 @@ public class DiceBag extends ADieContainer {
     /**
      * This method extract a Die from the List of available Dice, and remove it from there.
      * @return The die random removed from the bag.
+     * @throws EmptyException when the Dice Bag is empty.
      */
     public Die extract() throws EmptyException{
         if(!availableDice.isEmpty()) {

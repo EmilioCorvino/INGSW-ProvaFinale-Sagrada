@@ -26,6 +26,7 @@ public class EndGameManager{
      * This method print the rank of the match.
      * @param players the players that played the match.
      * @param score the score of each ( the order of both list is the same, first element of score is associated to first element of the list of player).
+     * @param player player to whom the rank has to be shown.
      */
     public void showRank(String[] players, int[] score, PlayerView player){
         inputOutputManager.print(createClassification(players,score,player));

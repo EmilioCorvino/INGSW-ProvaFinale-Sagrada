@@ -142,6 +142,7 @@ public class StartGameManager extends AGameManager {
 
     /**
      * This method extracts four window pattern cards among which the player will choose.
+     * @return a list containing the converted {@link WindowPatternCard}s to send to the player.
      */
     private List<SimplifiedWindowPatternCard> chooseWindowPatternCard() {
         List<SimplifiedWindowPatternCard> list1 = windowPatternCardConverter();

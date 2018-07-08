@@ -12,8 +12,7 @@ import static org.junit.Assert.*;
 
 /**
  * The tests are made assuming the card are in the deck always in the same order (which is always the case,
- * since the parsing of an array is executed in order) and that this order is known
- * {@link cards/privateObjectiveCards.json}.
+ * since the parsing of an array is executed in order) and that this order is known.
  * It's the draw method from AObjectiveCardsDeck that provides the "shuffling" by retrieving a random card
  * each time.
  * @see AObjectiveCardsDeck

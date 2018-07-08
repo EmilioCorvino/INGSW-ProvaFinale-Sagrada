@@ -10,7 +10,6 @@ import it.polimi.ingsw.client.view.gui.setupwindows.ChooseWpGUI;
 import it.polimi.ingsw.common.Commands;
 import it.polimi.ingsw.common.network.IFromClientToServer;
 import it.polimi.ingsw.common.network.rmi.RmiFromClientToServer;
-import it.polimi.ingsw.common.network.socket.SocketFromClientToServer;
 import it.polimi.ingsw.common.simplifiedview.SetUpInformationUnit;
 import it.polimi.ingsw.common.simplifiedview.SimplifiedWindowPatternCard;
 import it.polimi.ingsw.common.utils.SagradaLogger;
@@ -137,9 +136,6 @@ public class GUIView implements IViewMaster {
                 String ipAddress = loginManager.getInfoLogin().getIpAddress();
                 if (Integer.parseInt(loginManager.getInfoLogin().getTypeConn()) == 2)
                     this.server = new RmiFromClientToServer(ipAddress, this);
-
-                if (Integer.parseInt(loginManager.getInfoLogin().getTypeConn()) == 1)
-                    this.server = new SocketFromClientToServer();
 
                 configureBank();
 

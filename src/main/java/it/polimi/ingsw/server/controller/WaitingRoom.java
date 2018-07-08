@@ -177,11 +177,29 @@ public class WaitingRoom {
      * it will remove them from the room and notify the others.
      */
     private void reportStartMatch() {
+
+        //This serves as a ping.
         playersRoom.forEach((playerName, connection) -> {
             try {
-                connection.getClient().showNotice("\nLa partita sta per iniziare.\n");
+                connection.getClient().showNotice("");
             } catch (BrokenConnectionException e) {
                 playersRoom.remove(playerName);
+                SagradaLogger.log(Level.INFO, playerName + " has been removed from the room");
+                notifyWaitingPlayers();
+            }
+        });
+
+        playersRoom.forEach((playerName, connection) -> {
+            try {
+                if (playersRoom.size() >= 2) {
+                    connection.getClient().showNotice("\nLa partita sta per iniziare.\n");
+                } else {
+                    connection.getClient().showNotice("\nNon è stato ancora raggiunto un numero sufficiente di giocatori," +
+                            " ti preghiamo di attendere.");
+                }
+            } catch (BrokenConnectionException e) {
+                playersRoom.remove(playerName);
+                SagradaLogger.log(Level.INFO, playerName + " has been removed from the room");
                 notifyWaitingPlayers();
             }
         });
