@@ -57,9 +57,9 @@ public class LoginFormGUI extends VBox {
 
     /**
      * This method formats the main container for this window.
-     * @param label
-     * @param button1
-     * @param button2
+     * @param label the name of the label.
+     * @param button1 the first button.
+     * @param button2 the second button.
      */
     public void formatvBox(String label, String button1, String button2) {
         this.vBox.getStyleClass().add("VBox");
@@ -76,7 +76,7 @@ public class LoginFormGUI extends VBox {
         vBox.setMinHeight(400);
 
         vBox.setPadding(new Insets(10, 50, 10, 50));
-        vBox.setSpacing(30);
+        vBox.setSpacing(20);
 
         formatGridpane(label);
         formatButtonContainer(button1, button2);

@@ -190,7 +190,10 @@ public class CommonBoardWindow extends ParentWindow {
             else
                 this.manager.communicateMessage("Non disponibile");
         });
-        help.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> this.manager.communicateMessage("Seleziona una sola delle 4 mappe presentate"));
+        help.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> this.manager.communicateMessage("Per effetturare un piazzamento base clicca sul " +
+            "relativo tasto, poi seleziona un dado dalla riserva e una cella della tua mappa e clicca ok." +
+            "Per usare una tool clicca su quella che vuoi usare, segui le istruzioni e conferma con ok. " +
+            "Per concludere il turno puoi usa il tasto passa turno."));
         minimize.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> GUIMain.getStage().setIconified(true));
     }
 

@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.gui.loginwindows;
 
 import it.polimi.ingsw.client.view.gui.GUIMain;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -45,9 +46,15 @@ public class ShowPlayersGUI extends BorderPane {
         names.getStyleClass().add("title");
         playersList = new VBox();
 
-        mainContainer.getChildren().addAll(names, playersList);
         this.getStylesheets().add("style/backgrounds.css");
         this.getStyleClass().add("background");
+
+        Button exit = new Button("Esci");
+        exit.getStyleClass().add("button-style");
+        exit.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> System.exit(0));
+
+        mainContainer.getChildren().addAll(names, playersList, exit);
+
 
         customMainContainer();
         customPlayersList();
