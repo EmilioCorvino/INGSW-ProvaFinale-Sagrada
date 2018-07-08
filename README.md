@@ -28,14 +28,14 @@ Open a terminal in the directory containing the jar (`Deliverables/jar/INGSW_Pro
 ##### On Windows: 
 First, move to the directory `Deliverables/jar/INGSW_ProvaFinale_SagradaClient_jar`, then depending on the graphical interface of preference:
 * _CLI:_ double click on `playSagradaWindowsCLI.bat`
-  * This will work only if Ubuntu bash on Windows is installed and configured on your machine, which is highly reccommended to visualize the formatting correctly. Follow the guide at the link https://github.com/michele-bertoni/W10JavaCLI to do so (from point 2 to 5). If there is no interest about the formatting, the jar can be opened as usual with `java -jar INGSW-ProvaFinale-Sagrada.jar` using Windows PowerShell or cmd.
+  * This will work only if Ubuntu bash on Windows is installed and configured on your machine, which is highly reccommended to visualize the formatting correctly. Follow the guide at the link https://github.com/michele-bertoni/W10JavaCLI to do so (from point 2 to 5). If there is no interest in the formatting, the jar can be opened as usual with `java -jar INGSW-ProvaFinale-Sagrada.jar` using Windows PowerShell or cmd.
 * _GUI:_ double click on `playSagradaGUI.bat`
 
 If that does not work, open a shell in the directory containing the `.jar` (`Deliverables/jar/INGSW_ProvaFinale_SagradaClient_jar`) and then type `java -jar INGSW-ProvaFinale-Sagrada.jar`. After that, thw program will ask which graphical interface to use.
 
 ##### On macOS and Linux:
 Open a terminal in the directory containing the jar (`Deliverables/jar/INGSW_ProvaFinale_SagradaClient_jar`) and then type `java -jar INGSW-ProvaFinale-Sagrada.jar`. After that, the program will ask which graphical interface to use.
-Some problems may occurr if the GUI is run on linux if the right GTK libraries are not installed.
+Some problems may occurr running the GUI on linux if the right GTK libraries are not installed.
 
 ## Configuration
 There are some settings that can be changed from `conf/sagrada.properties` (located inside both client and server directories). In particular:
