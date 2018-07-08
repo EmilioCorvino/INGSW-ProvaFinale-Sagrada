@@ -16,6 +16,7 @@
     * Server: setFavorToken(nFavTokens: int) ---> Client
 
 ##Gameplay
+
 _At first the Server send all the availbale commands to the user_
 * Server: showCommand(availableCommands: List<Commands> ) ---> Client
 
