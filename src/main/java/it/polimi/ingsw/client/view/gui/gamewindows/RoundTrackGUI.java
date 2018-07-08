@@ -136,13 +136,7 @@ public class RoundTrackGUI extends VBox {
      */
     public void clearPreviousRoundTrack() {
         //clears the list af all dice in a round of the previous state
-        /*
-        this.allDiceRound.entrySet().forEach(entry -> {
-            if(entry.getValue().size() >0) {
-                entry.getValue().clear();
-            }
-        });
-        */
+
         this.allDiceRound = new HashMap<>();
         for(int i=0; i<10; i++)
             this.allDiceRound.put(i+1, new ArrayList<>());
@@ -151,8 +145,7 @@ public class RoundTrackGUI extends VBox {
         for(int i=0; i<this.getChildren().size(); i++) {
             StackPane mainRoundStack = (StackPane)this.getChildren().get(i);
             StackPane diceRound = (StackPane)mainRoundStack.getChildren().get(1);
-            if(diceRound.getChildren().size() > 0)
-                diceRound.getChildren().clear();
+            diceRound.getChildren().clear();
         }
     }
 
@@ -213,6 +206,7 @@ public class RoundTrackGUI extends VBox {
         List<SetUpInformationUnit> list = this.allDiceRound.get(info.getSourceIndex() + 1);
         list.remove(info.getOffset());
     }
+
 
     public int getRound() {
         return round;

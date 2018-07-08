@@ -249,7 +249,7 @@ public class GUIView implements IViewMaster {
     public void setCommonBoard(Map<String, SimplifiedWindowPatternCard> players, int[] idPubObj, int[] idTool) {
         Platform.runLater(() -> {
             if(this.manager.isNewGame()) {
-                System.out.println("sono in set comm board con new game");
+                this.commonWindow.getRoundTrack().clearPreviousRoundTrack();
                 this.commonWindow = new CommonBoardWindow(this.manager);
                 this.commonWindow.setData(this.playersData);
                 this.manager.setNewGame(false);

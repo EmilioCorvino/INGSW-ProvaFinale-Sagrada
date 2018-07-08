@@ -472,8 +472,11 @@ public class CommonBoardWindow extends ParentWindow {
     }
 
     public void setRoundTrack() {
+
         this.secondContainer.getChildren().add(this.roundTrack);
+
     }
+
 
     public PlayersData getData() {
         return data;
@@ -492,6 +495,7 @@ public class CommonBoardWindow extends ParentWindow {
      */
     @Override
     public void addHandlers() {
+
         GridPane grid = this.data.getPersonalWp().getGlassWindow();
         //This cycle adds css to the glass window of the player.
         for(int i=0; i< WpGui.MAX_ROW; i++)
@@ -600,5 +604,9 @@ public class CommonBoardWindow extends ParentWindow {
 
     public void setManager(GUICommunicationManager manager) {
         this.manager = manager;
+    }
+
+    public void setRoundTrack(RoundTrackGUI roundTrack) {
+        this.roundTrack = roundTrack;
     }
 }
