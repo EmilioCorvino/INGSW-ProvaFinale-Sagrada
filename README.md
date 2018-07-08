@@ -15,7 +15,7 @@ as a final project for the Software Engineering course at Politecnico di Milano.
 + 10481786 DRAPPO Gianluca
 
 ## Instructions to run INGSW-ProvaFinale-Sagrada.jar
-First of all, decompress the `.jar`. It has been compressed and split in two files using 7-Zip (you can download it at https://www.7-zip.org/). However any file archiver should be able to decompress the archive.
+First of all, decompress the `.jar`. It has been compressed and split in two files using 7-Zip (it can be downloaded it at https://www.7-zip.org/). However any file archiver should be able to decompress the archive. This has to be done both for server's and client's jars.
 #### To start the server
 ##### On Windows:
 Move to the directory `Deliverables/jar/INGSW_ProvaFinale_SagradaServer_jar` and double click on `startServer.bat`.
@@ -28,7 +28,7 @@ Open a terminal in the directory containing the jar (`Deliverables/jar/INGSW_Pro
 ##### On Windows: 
 First, move to the directory `Deliverables/jar/INGSW_ProvaFinale_SagradaClient_jar`, then depending on the graphical interface of preference:
 * _CLI:_ double click on `playSagradaWindowsCLI.bat`
-  * This will work only if Ubuntu bash on Windows is installed and configured on your machine, which is highly reccommended if you want to be able to visualize the formatting correctly. You can follow the guide at the link https://github.com/michele-bertoni/W10JavaCLI to do so (from point 2 to 5). If you don't care about the formatting, the jar can be opened as usual with `java -jar INGSW-ProvaFinale-Sagrada.jar` using Windows PowerShell or cmd.
+  * This will work only if Ubuntu bash on Windows is installed and configured on your machine, which is highly reccommended if you want to be able to visualize the formatting correctly. Follow the guide at the link https://github.com/michele-bertoni/W10JavaCLI to do so (from point 2 to 5). If there is no interest about the formatting, the jar can be opened as usual with `java -jar INGSW-ProvaFinale-Sagrada.jar` using Windows PowerShell or cmd.
 * _GUI:_ double click on `playSagradaGUI.bat`
 
 If that does not work, open a shell in the directory containing the `.jar` (`Deliverables/jar/INGSW_ProvaFinale_SagradaClient_jar`) and then type `java -jar INGSW-ProvaFinale-Sagrada.jar`. After that, you will be asked which graphical interface to use.
