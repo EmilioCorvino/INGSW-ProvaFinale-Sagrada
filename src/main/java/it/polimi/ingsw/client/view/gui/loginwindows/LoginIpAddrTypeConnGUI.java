@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.gui.loginwindows;
 import it.polimi.ingsw.client.view.gui.GUICommunicationManager;
 import it.polimi.ingsw.client.view.gui.GUIMain;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
@@ -47,6 +48,9 @@ public class LoginIpAddrTypeConnGUI extends LoginRootGUI {
         loginFormGUI = new LoginFormGUI();
         loginFormGUI.formatvBox("Indirizzo ip del server: ", "  RMI  ", "Socket ");
         super.customForm(loginFormGUI);
+        Button exit = this.loginFormGUI.getExit();
+        exit.setVisible(true);
+        loginFormGUI.getvBox().getChildren().add(exit);
 
 
         HBox buttons = loginFormGUI.getButtonContainer();
@@ -54,7 +58,6 @@ public class LoginIpAddrTypeConnGUI extends LoginRootGUI {
             handleTypeGameMode((ToggleButton)button);
         }));
 
-        buttons.getChildren().add(this.loginFormGUI.getExit());
 
         this.addEventHandler(MouseEvent.MOUSE_PRESSED, this:: pressedWindow);
         this.addEventHandler(MouseEvent.MOUSE_DRAGGED, this:: draggedWindow);

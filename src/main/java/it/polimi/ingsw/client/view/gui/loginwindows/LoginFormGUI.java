@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.view.gui.loginwindows;
 
-import it.polimi.ingsw.client.view.gui.GUICommunicationManager;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -53,11 +52,7 @@ public class LoginFormGUI extends VBox {
     }
 
     public void handleClose() {
-        GUICommunicationManager manager = new GUICommunicationManager();
-        if(manager.isCommandContained("Logout"))
-            manager.executeCommandIfPresent("Logout");
-        else
-            manager.communicateMessage("Non disponibile");
+        System.exit(0);
     }
 
     /**
@@ -81,7 +76,7 @@ public class LoginFormGUI extends VBox {
         vBox.setMinHeight(400);
 
         vBox.setPadding(new Insets(10, 50, 10, 50));
-        vBox.setSpacing(40);
+        vBox.setSpacing(30);
 
         formatGridpane(label);
         formatButtonContainer(button1, button2);
