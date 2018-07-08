@@ -130,6 +130,9 @@ public class ToolWindowManager {
                 this.commonBoardWindow.sendMessage("Devi scegliere un dado dalla riserva.");
     }
 
+    /**
+     * This method manages the choice of the tool card number two and three in gui.
+     */
     private void toolTwoThreeWindow() {
         List<Integer> values = this.commonBoardWindow.getData().getPersonalWp().getCellsClicked();
 
@@ -140,6 +143,9 @@ public class ToolWindowManager {
         + " una cella destinazione della tua mappa in cui mettere il dado che vuoi spostare.");
     }
 
+    /**
+     * This method validates the choice of the tool card number two.
+     */
     private void toolTwoValidator() {
         List<Integer> values = this.commonBoardWindow.getData().getPersonalWp().getCellsClicked();
         if(values.size() > 2) {
@@ -157,6 +163,9 @@ public class ToolWindowManager {
         }
     }
 
+    /**
+     *  This method validates the choice of the tool card number three.
+     */
     private void toolThreeValidator() {
         List<Integer> values = this.commonBoardWindow.getData().getPersonalWp().getCellsClicked();
         if(values.size() > 2) {
@@ -174,6 +183,9 @@ public class ToolWindowManager {
         }
     }
 
+    /**
+     * This method manages the choice of the tool card number four in gui.
+     */
     private void toolFourWindow() {
         List<Integer> values = this.commonBoardWindow.getData().getPersonalWp().getCellsClicked();
 
@@ -186,6 +198,9 @@ public class ToolWindowManager {
 
     }
 
+    /**
+     * This method validates the choice of the tool card number four.
+     */
     private void toolFourValidator() {
         List<Integer> values = this.commonBoardWindow.getData().getPersonalWp().getCellsClicked();
 
@@ -197,11 +212,16 @@ public class ToolWindowManager {
             this.manager.executeCommandToolIfPresent(4);
     }
 
+    /**
+     * This method manages the choice of the tool card number five in gui.
+     */
     private void toolFiveWindow() {
         this.manager.communicateMessage("Scegli un dado dalla draft, un dado della round track e infine una cella della tua mappa in cui posizionare il dado");
-
     }
 
+    /**
+     * This method validates the choice of the tool card number five.
+     */
     private void toolFiveValidator() {
         if(!this.commonBoardWindow.getData().getPersonalWp().isWpCellClicked()) {
             this.manager.communicateMessage("Devi scegliere una cella della tua mappa.");
@@ -221,10 +241,16 @@ public class ToolWindowManager {
         this.manager.executeCommandToolIfPresent(5);
     }
 
+    /**
+     * This method manages the choice of the tool card number six in gui.
+     */
     private void toolSixWindow() {
         this.manager.communicateMessage("Scegli un dado dalla riserva. Attenzione a sceglierne uno valido!");
     }
 
+    /**
+     * This method validates the choice of the tool card number six.
+     */
     private void toolSixValidator() {
         if(!this.commonBoardWindow.getDraftPoolGUI().isDraftCellChosen()) {
             this.manager.communicateMessage("Devi scegliere un dado dalla riseva!");
@@ -233,18 +259,30 @@ public class ToolWindowManager {
         this.manager.executeCommandToolIfPresent(6);
     }
 
+    /**
+     * This method manages the choice of the tool card number seven in gui.
+     */
     private void toolSevenWindow() {
-        //there is no need to do anything for this tool card.
+       this.manager.communicateMessage("Nuovi dadi in arrivo...");
     }
 
+    /**
+     * This method validates the choice of the tool card number seven.
+     */
     private void toolSevenValidator() {
         this.manager.executeCommandToolIfPresent(7);
     }
 
+    /**
+     * This method manages the choice of the tool card number eight in gui.
+     */
     private void toolEightWindow() {
         this.manager.communicateMessage("Scegli un dado dalla riserva e piazzalo");
     }
 
+    /**
+     * This method validates the choice of the tool card number eight.
+     */
     private void toolEightValidator() {
         if(defaultValidator())
             this.manager.executeCommandToolIfPresent(8);
@@ -253,10 +291,16 @@ public class ToolWindowManager {
 
     }
 
+    /**
+     * This method manages the choice of the tool card number nine in gui.
+     */
     private void toolNineWindow() {
         toolEightWindow();
     }
 
+    /**
+     * This method validates the choice of the tool card number nine.
+     */
     private void toolNineValidator() {
         if(defaultValidator())
             this.manager.executeCommandToolIfPresent(9);
@@ -264,10 +308,16 @@ public class ToolWindowManager {
             this.manager.communicateMessage("Non hai riempito i campi corretti");
     }
 
+    /**
+     * This method manages the choice of the tool card number ten in gui.
+     */
     private void toolTenWindow() {
         toolEightWindow();
     }
 
+    /**
+     * This method validates the choice of the tool card number ten.
+     */
     private void toolTenValidator() {
         if(defaultValidator())
             this.manager.executeCommandToolIfPresent(10);
@@ -275,6 +325,9 @@ public class ToolWindowManager {
             this.manager.communicateMessage("Non hai riempito i campi corretti");
     }
 
+    /**
+     * This method manages the choice of the tool card number eleven in gui.
+     */
     private void toolElevenWindow() {
         this.manager.communicateMessage("Scegli un dado dalla riserva. Attenzione a sceglierne uno valido!");
     }
@@ -285,13 +338,14 @@ public class ToolWindowManager {
             return;
         }
         this.manager.executeCommandToolIfPresent(11);
-
     }
 
+    /**
+     * This method manages the choice of the tool card number twelve in gui.
+     */
     private void toolTwelveWindow() {
         this.manager.communicateMessage("Scegli un dado dal tracciato dei round e poi scegli"
                 + " le celle di destinazione della tua mappa in cui vuoi spostare i dadi. Puoi spostarne fino a due.");
-
     }
 
     private void toolTwelveValidator() {
@@ -308,9 +362,12 @@ public class ToolWindowManager {
             return;
         }
         this.manager.executeCommandToolIfPresent(12);
-
     }
 
+    /**
+     * This is the default validator for the choice of a tool card.
+     * @return true if the choice valid in gui, false otherwise.
+     */
     private boolean defaultValidator() {
         if(!(this.commonBoardWindow.getData().getPersonalWp().isWpCellClicked() && this.commonBoardWindow.getDraftPoolGUI().isDraftCellChosen())) {
             return false;

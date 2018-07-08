@@ -56,7 +56,9 @@ public class PlayersData {
      */
     private List<WpGui> otherMaps;
 
-
+    /**
+     * This is a list of base maps of the players.
+     */
     private Map<String, SimplifiedWindowPatternCard> mapsCopy;
 
     public PlayersData() {
@@ -66,6 +68,10 @@ public class PlayersData {
         otherMaps = new ArrayList<>();
     }
 
+    /**
+     * This method constructs the maps of other player to be shown.
+     * @param players the players.
+     */
     public void constructOtherPlayerMap(Map<String, SimplifiedWindowPatternCard> players) {
         players.entrySet().forEach( entry -> {
             this.mapsCopy.put(entry.getKey(), entry.getValue());
@@ -74,6 +80,11 @@ public class PlayersData {
         });
     }
 
+    /**
+     * This method construct a single map of another player.
+     * @param name the name to set.
+     * @param map the map to construct.
+     */
     private void constructSingleotherMap(String name, SimplifiedWindowPatternCard map) {
         VBox box = new VBox();
         box.setMinWidth(245);
@@ -154,9 +165,5 @@ public class PlayersData {
 
     public Map<String, SimplifiedWindowPatternCard> getMapsCopy() {
         return mapsCopy;
-    }
-
-    public void setMapsCopy(Map<String, SimplifiedWindowPatternCard> mapsCopy) {
-        this.mapsCopy = mapsCopy;
     }
 }

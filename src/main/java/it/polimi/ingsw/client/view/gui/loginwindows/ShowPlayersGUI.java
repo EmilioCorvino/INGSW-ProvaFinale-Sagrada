@@ -18,14 +18,22 @@ public class ShowPlayersGUI extends BorderPane {
     private double xOffset = 0;
     private double yOffset = 0;
 
+    /**
+     * The main container of this window.
+     */
     private VBox mainContainer;
 
+    /**
+     * The container for the connected players.
+     */
     private VBox playersList;
 
+    /**
+     * List of already connected player.
+     */
     private List<String> knownPlayer;
 
     public ShowPlayersGUI() {
-
         mainContainer = new VBox();
         Label names = new Label("Giocatori momentaneamente connessi:");
         names.getStyleClass().add("title");
@@ -54,7 +62,6 @@ public class ShowPlayersGUI extends BorderPane {
         this.mainContainer.setMinWidth(550);
         this.mainContainer.setMinHeight(400);
         this.mainContainer.getStyleClass().add("VBox");
-        //BorderPane.setMargin(this.mainContainer, new Insets(10, 250, 10, 250));
         this.mainContainer.setAlignment(Pos.CENTER);
         this.autosize();
     }
@@ -71,7 +78,7 @@ public class ShowPlayersGUI extends BorderPane {
 
     /**
      * This method represents the names of the connected players.
-     * @param players the bames of the player to repsents.
+     * @param players the names of the player to repsents.
      */
     public void showPlayers(List<String> players) {
         players.forEach(name -> {

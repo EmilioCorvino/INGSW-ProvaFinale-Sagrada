@@ -12,7 +12,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-
+/**
+ * This class starts the gui game.
+ */
 public class GUIMain extends Application {
 
     private static double xOffset = 0;
@@ -53,13 +55,6 @@ public class GUIMain extends Application {
         });
     }
 
-/*
-    public static Scene getScene() {
-        return scene;
-    }
-
-    */
-
     public static void setScene(Scene scene) {
         GUIMain.scene = scene;
     }
@@ -68,9 +63,6 @@ public class GUIMain extends Application {
         return guiView;
     }
 
-    public static void setGuiView(IViewMaster guiView) {
-        GUIMain.guiView = guiView;
-    }
 
     public static Stage getStage() {
         return stage;
@@ -95,8 +87,4 @@ public class GUIMain extends Application {
     public static void centerScreen() {
         stage.centerOnScreen();
     }
-
-    //public static void setPosition(VBox box)
-
-
 }

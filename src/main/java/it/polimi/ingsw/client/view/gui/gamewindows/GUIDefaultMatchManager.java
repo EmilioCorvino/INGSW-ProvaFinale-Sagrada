@@ -71,9 +71,11 @@ public class GUIDefaultMatchManager implements IDefaultMatchManager {
         }
     }
 
+    /**
+     * This method manages the exit from the game.
+     */
     @Override
     public void exitGame() {
-        System.out.println("arriva nell exit game");
         try{
             this.server.exitGame();
         } catch (BrokenConnectionException e){
@@ -82,6 +84,9 @@ public class GUIDefaultMatchManager implements IDefaultMatchManager {
         }
     }
 
+    /**
+     * This method manages the starting of a new game.
+     */
     @Override
     public void newGame() {
         try {
@@ -93,6 +98,9 @@ public class GUIDefaultMatchManager implements IDefaultMatchManager {
 
     }
 
+    /**
+     * This method manages the riconnection of a player to the game.
+     */
     @Override
     public void reconnect() {
         try{
@@ -115,10 +123,6 @@ public class GUIDefaultMatchManager implements IDefaultMatchManager {
 
     public void setServer(IFromClientToServer server) {
         this.server = server;
-    }
-
-    public PlayersData getPlayersData() {
-        return playersData;
     }
 
     public void setPlayersData(PlayersData playersData) {

@@ -5,12 +5,24 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 
+/**
+ * This class represents the die in the GUI view of the game.
+ */
 public class DieGUI extends StackPane {
 
+    /**
+     * The color of the die.
+     */
     private Pane color;
 
+    /**
+     * The container for the image value of the die.
+     */
     private ImageView value;
 
+    /**
+     * The effective numeric value of the die.
+     */
     private int dieValue;
 
 

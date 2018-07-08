@@ -1,13 +1,28 @@
 package it.polimi.ingsw.client.view.gui.loginwindows;
 
+/**
+ * This class manages the data of the player at the login phase.
+ */
 public class InfoLogin {
 
+    /**
+     * The ip address of the server.
+     */
     private String ipAddress;
 
+    /**
+     * The type of connection chosen by the server.
+     */
     private String typeConn;
 
+    /**
+     * The username of the player that wants to connect.
+     */
     private String username;
 
+    /**
+     * The type of game chosen.
+     */
     private String gameMode;
 
 

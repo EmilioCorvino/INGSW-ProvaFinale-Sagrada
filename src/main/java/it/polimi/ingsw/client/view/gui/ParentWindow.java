@@ -5,13 +5,21 @@ import javafx.scene.layout.VBox;
 
 public abstract class ParentWindow extends VBox {
 
-    protected Button reconnect = new Button("Riconnettiti");
+    /**
+     * The button for reconnection.
+     */
+    protected Button reconnect;
+
+    protected ParentWindow() {
+        this.reconnect = new Button("Riconnettiti");
+        this.reconnect.setVisible(false);
+
+    }
 
     public abstract void initializeHeader();
 
     public abstract void addHandlers();
 
-    public abstract void showMessage(String mex);
 
     public Button getReconnect() {
         return reconnect;

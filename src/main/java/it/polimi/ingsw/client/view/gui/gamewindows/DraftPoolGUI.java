@@ -47,8 +47,14 @@ public class DraftPoolGUI extends GridPane {
      */
     private int currValue;
 
+    /**
+     * This is the index of the round.
+     */
     private int indexChosenCell;
 
+    /**
+     * This indicates if a die has been chosen.
+     */
     private boolean draftCellChosen;
 
     public DraftPoolGUI() {
@@ -68,10 +74,8 @@ public class DraftPoolGUI extends GridPane {
             for(int j=0; j<MAX_COL; j++) {
                 ColumnConstraints cc = new ColumnConstraints(45);
                 this.getColumnConstraints().add(cc);
-
             }
         }
-
     }
 
     /**
@@ -91,10 +95,13 @@ public class DraftPoolGUI extends GridPane {
         });
     }
 
+    /**
+     * This method adjusts the indexes of the setup info in input.
+     * @param list the list of setup to adjust.
+     */
     private void adjustIndexes(List<SetUpInformationUnit> list) {
         for(int i=0; i< list.size(); i++)
             list.get(i).setDestinationIndex(i);
-
     }
 
     /**
@@ -136,14 +143,13 @@ public class DraftPoolGUI extends GridPane {
             this.add((DieGUI)dice.get(i), i%3, i/3);
     }
 
+    /**
+     * This method adds a die on the draft pool gui.
+     * @param informationUnit the info to use to add the die.
+     */
     public void addOneDie(SetUpInformationUnit informationUnit) {
         DieGUI die = this.dieFactory.getsDieGUI(informationUnit);
         this.getChildren().add(die);
-
-    }
-
-    public ToolWindowManager getToolManager() {
-        return toolManager;
     }
 
     public void setToolManager(ToolWindowManager toolManager) {

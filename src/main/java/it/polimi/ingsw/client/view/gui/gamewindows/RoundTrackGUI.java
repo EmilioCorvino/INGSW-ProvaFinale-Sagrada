@@ -16,13 +16,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class manages the round track in gui.
+ */
 public class RoundTrackGUI extends VBox {
 
+    /**
+     * The maximum number of rounds.
+     */
     private static final int NUM_ROUND = 10;
 
+    /**
+     * This attribut is a list of color to style rounds in round track gui.
+     */
     private List<String> colorRound;
-
-    private StackPane diceRound;
 
     /**
      * This attribute represents the object used to construct dice.
@@ -35,15 +42,22 @@ public class RoundTrackGUI extends VBox {
      */
     private Map<Integer, List<SetUpInformationUnit>> allDiceRound;
 
+    /**
+     * The index of the round.
+     */
     private int round;
 
+    /**
+     * The offset of a die inside a round.
+     */
     private int offset;
 
+    /**
+     * This indicates if a round has been chosen or not.
+     */
     private boolean isRoundChosen;
 
-
     public RoundTrackGUI() {
-
         dieFactory = new DieFactory();
         allDiceRound = new HashMap<>();
 
@@ -114,8 +128,6 @@ public class RoundTrackGUI extends VBox {
         StackPane diceRound = (StackPane)mainRoundStack.getChildren().get(1);
         DieGUI dieToAdd = this.dieFactory.getsDieGUI(informationUnit);
         diceRound.getChildren().add(dieToAdd);
-        //dieToAdd.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> roundDieClickedHandler(mainRoundStack, dieToAdd));
-        //adds the information of the die to allow the construction of an updated list of dice each time.
         this.allDiceRound.get((informationUnit.getDestinationIndex() + 1)).add(informationUnit);
     }
 
@@ -175,7 +187,6 @@ public class RoundTrackGUI extends VBox {
 
         List<SetUpInformationUnit> list = this.allDiceRound.get(info.getSourceIndex() + 1);
         list.remove(info.getOffset());
-
     }
 
     public int getRound() {

@@ -83,6 +83,9 @@ public class GUIToolCardManager implements IToolCardManager {
         tool2();
     }
 
+    /**
+     * This method sends the information to perform the effect of the tool number four;
+     */
     @Override
     public void tool4() {
         List<SetUpInformationUnit> setupInfo = new ArrayList<>();
@@ -107,6 +110,9 @@ public class GUIToolCardManager implements IToolCardManager {
         }
     }
 
+    /**
+     * This method sends the information to perform the effect of the tool number five;
+     */
     @Override
     public void tool5() {
         System.out.println("Sono in tool 5");
@@ -128,6 +134,9 @@ public class GUIToolCardManager implements IToolCardManager {
         }
     }
 
+    /**
+     * This method sends the information to perform the effect of the tool number six;
+     */
     @Override
     public void tool6() {
         List<SetUpInformationUnit> units = new ArrayList<>();
@@ -143,9 +152,11 @@ public class GUIToolCardManager implements IToolCardManager {
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 6");
             //disconnect();
         }
-
     }
 
+    /**
+     * This method sends the information to perform the effect of the tool number six extra;
+     */
     @Override
     public void tool6Extra() {
 
@@ -166,6 +177,9 @@ public class GUIToolCardManager implements IToolCardManager {
 
     }
 
+    /**
+     * This method sends the information to perform the effect of the tool number seven;
+     */
     @Override
     public void tool7() {
         List<SetUpInformationUnit> units = new ArrayList<>();
@@ -179,9 +193,11 @@ public class GUIToolCardManager implements IToolCardManager {
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 7");
             //disconnect();
         }
-
     }
 
+    /**
+     * This method sends the information to perform the effect of the tool number eight;
+     */
     @Override
     public void tool8() {
         List<SetUpInformationUnit> units = new ArrayList<>();
@@ -196,6 +212,9 @@ public class GUIToolCardManager implements IToolCardManager {
         }
     }
 
+    /**
+     * This method sends the information to perform the effect of the tool number nine;
+     */
     @Override
     public void tool9() {
 
@@ -209,9 +228,11 @@ public class GUIToolCardManager implements IToolCardManager {
             SagradaLogger.log(Level.SEVERE, "Connection broken during use of tool 7");
             //disconnect();
         }
-
     }
 
+    /**
+     * This method sends the information to perform the effect of the tool number ten;
+     */
     @Override
     public void tool10() {
 
@@ -228,6 +249,9 @@ public class GUIToolCardManager implements IToolCardManager {
 
     }
 
+    /**
+     * This method sends the information to perform the effect of the tool number eleven;
+     */
     @Override
     public void tool11() {
         List<SetUpInformationUnit> units = new ArrayList<>();
@@ -244,6 +268,9 @@ public class GUIToolCardManager implements IToolCardManager {
         }
     }
 
+    /**
+     * This method sends the information to perform the effect of the tool number eleven extra;
+     */
     @Override
     public void tool11Extra() {
 
@@ -264,6 +291,9 @@ public class GUIToolCardManager implements IToolCardManager {
         }
     }
 
+    /**
+     * This method sends the information to perform the effect of the tool number twelve;
+     */
     @Override
     public void tool12() {
         List<SetUpInformationUnit> listinfo = new ArrayList<>();
@@ -300,10 +330,6 @@ public class GUIToolCardManager implements IToolCardManager {
 
     public void setServer(IFromClientToServer server) {
         this.server = server;
-    }
-
-    public PlayersData getPlayersData() {
-        return playersData;
     }
 
     public void setPlayersData(PlayersData playersData) {

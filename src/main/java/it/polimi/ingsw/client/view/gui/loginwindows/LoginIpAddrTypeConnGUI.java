@@ -80,17 +80,10 @@ public class LoginIpAddrTypeConnGUI extends LoginRootGUI {
         return loginFormGUI;
     }
 
-    public void setLoginFormGUI(LoginFormGUI loginFormGUI) {
-        this.loginFormGUI = loginFormGUI;
-    }
-
     public InfoLogin getInfoLogin() {
         return infoLogin;
     }
 
-    public void setInfoLogin(InfoLogin infoLogin) {
-        this.infoLogin = infoLogin;
-    }
 
     public boolean isFinished() {
         return finished;
