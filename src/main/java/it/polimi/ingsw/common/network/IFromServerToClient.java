@@ -14,7 +14,6 @@ import java.util.Map;
  * towards the protocol used for networking. They can be used both for RMI and Socket (their respective exceptions are
  * wrapped inside {@link BrokenConnectionException}.
  * @see it.polimi.ingsw.common.network.rmi.RmiFromServerToClient
- * @see it.polimi.ingsw.common.network.socket.SocketFromServerToClient
  */
 public interface IFromServerToClient {
 

@@ -13,7 +13,6 @@ import java.util.List;
  * This interface lists all the methods the client can require from the server. Methods in this interface are agnostic
  * towards the protocol used for networking. They can be used both for RMI and Socket.
  * @see it.polimi.ingsw.common.network.rmi.RmiFromClientToServer
- * @see it.polimi.ingsw.common.network.socket.SocketFromClientToServer
  */
 public interface IFromClientToServer {
 

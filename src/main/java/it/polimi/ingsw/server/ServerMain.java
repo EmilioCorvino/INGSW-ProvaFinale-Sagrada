@@ -40,28 +40,8 @@ public class ServerMain {
         SagradaLogger.log(Level.INFO,"Rmi Server ready on port " + port + ", waiting for connections...");
     }
 
-   /* private void startSocketServer() {
-        ExecutorService executor = Executors.newCachedThreadPool();
-        ServerSocket serverSocket;
-
-        try {
-            serverSocket = new ServerSocket(port);
-        } catch (IOException e) {
-            SagradaLogger.log(Level.SEVERE, "Socket server exception", e);
-        }
-        boolean serverIsOn = true;
-        SagradaLogger.log(Level.CONFIG, "Socket server ready, waiting for connections...");
-        while (serverIsOn) {
-            try {
-                Socket clientSocket = serverSocket.accept();
-                executor.submit(new )
-            }
-        }
-    }*/
-
     public static void main(String[] args) {
         ServerMain serverMain = new ServerMain(new WaitingRoom());
         serverMain.startRmiServer();
-        // todo serverMain.startSocketServer();
     }
 }
