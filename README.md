@@ -35,7 +35,7 @@ If that does not work, open a shell in the directory containing the `.jar` (`Del
 
 ##### On macOS and Linux:
 Open a terminal in the directory containing the jar (`Deliverables/jar/INGSW_ProvaFinale_SagradaClient_jar`) and then type `java -jar INGSW-ProvaFinale-Sagrada.jar`. After that, the program will ask which graphical interface to use.
-Some problems may occurr if the GUI is run on linux if the right GTK libraries are not installed.
+Some problems may occurr running the GUI on linux if the right GTK libraries are not installed.
 
 ## Configuration
 There are some settings that can be changed from `conf/sagrada.properties` (located inside both client and server directories). In particular:
