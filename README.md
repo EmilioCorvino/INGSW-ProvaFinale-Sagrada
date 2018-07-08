@@ -15,7 +15,7 @@ as a final project for the Software Engineering course at Politecnico di Milano.
 + 10481786 DRAPPO Gianluca
 
 ## Instructions to run INGSW-ProvaFinale-Sagrada.jar
-First of all, decompress the `.jar`. It has been compressed and split in two files using 7-Zip (it can be downloaded it at https://www.7-zip.org/). However any file archiver should be able to decompress the archive.
+First of all, decompress the `.jar`. It has been compressed and split in two files using 7-Zip (it can be downloaded it at https://www.7-zip.org/). However any file archiver should be able to decompress the archive. This has to be done both for server's and client's jars.
 #### To start the server
 ##### On Windows:
 Move to the directory `Deliverables/jar/INGSW_ProvaFinale_SagradaServer_jar` and double click on `startServer.bat`.
