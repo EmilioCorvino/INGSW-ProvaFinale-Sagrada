@@ -121,7 +121,6 @@ public class GUICommunicationManager {
          secondWindow.getChildren().add(buttons);
       }
 
-
       //Adds the ok button to close the window.
       Button ok = new Button("ok");
       ok.getStyleClass().add("button-style");
@@ -136,44 +135,8 @@ public class GUICommunicationManager {
       Scene second = new Scene(secondWindow, 400, 200);
       second.setFill(Color.TRANSPARENT);
       newWindow.setScene(second);
+      GUIMain.dragWindow(secondWindow);
       newWindow.show();
-   }
-
-   public void manageOnePlayerLeft() {
-      VBox commands = new VBox();
-      commands.setPadding(new Insets(10, 20, 10, 20));
-      commands.getStylesheets().add("style/backgrounds.css");
-      commands.getStyleClass().addAll("background", "VBox");
-      commands.setAlignment(Pos.CENTER);
-      commands.setSpacing(10);
-
-      Label title = new Label("Scegli cosa vuoi fare");
-      title.getStyleClass().add("text-label");
-
-      HBox buttons = new HBox();
-      buttons.setSpacing(5);
-      Button newGame = new Button("Nuova partita");
-      newGame.getStyleClass().add("button-style");
-      Button exit = new Button("Esci");
-      exit.getStyleClass().add("button-style");
-      buttons.getChildren().addAll(newGame, exit );
-
-      commands.getChildren().addAll(title, buttons);
-
-
-
-      exit.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-         if(this.isCommandContained("Logout"))
-            this.executeCommandIfPresent("Logout");
-         else
-            this.communicateMessage("Non disponibile");
-      });
-
-      Scene second = new Scene(commands);
-      second.setFill(Color.TRANSPARENT);
-      newWindow.setScene(second);
-      newWindow.show();
-
    }
 
    public void setFunctions(Map<String, Runnable> functions) {

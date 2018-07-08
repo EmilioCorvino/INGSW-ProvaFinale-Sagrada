@@ -321,13 +321,4 @@ public class ChooseWpGUI extends ParentWindow {
     public void setPlayersData(PlayersData playersData) {
         this.playersData = playersData;
     }
-
-    public VBox getPrivateCardContainer() {
-        return privateCardContainer;
-    }
-
-    public boolean isAlreadyChosen() {
-        return isAlreadyChosen;
-    }
-
 }

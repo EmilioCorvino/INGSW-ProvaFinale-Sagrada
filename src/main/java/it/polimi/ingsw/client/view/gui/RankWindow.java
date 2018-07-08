@@ -74,6 +74,8 @@ public class RankWindow extends ParentWindow {
     @Override
     public void addHandlers() {
         HBox commandsEndGame = new HBox();
+        commandsEndGame.setSpacing(20);
+        commandsEndGame.setAlignment(Pos.CENTER);
 
         Button newGame = new Button("Nuova partita");
         newGame.getStyleClass().add("button-style");
@@ -85,8 +87,10 @@ public class RankWindow extends ParentWindow {
         this.getChildren().addAll(commandsEndGame);
 
         newGame.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-            if(this.manager.isCommandContained("Nuova Partita"))
+            if(this.manager.isCommandContained("Nuova Partita")) {
+                this.manager.setNewGame(true);
                 this.manager.executeCommandIfPresent("Nuova Partita");
+            }
             else
                 this.manager.communicateMessage("Comando non supportato");
         });

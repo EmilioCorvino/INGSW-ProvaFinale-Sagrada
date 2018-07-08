@@ -103,7 +103,7 @@ public class GUIView implements IViewMaster {
         commonWindow = new CommonBoardWindow(manager);
         windowsList.add(commonWindow);
         rankWindow = new RankWindow(this.manager);
-        windowsList.add(rankWindow);
+        //windowsList.add(rankWindow);
 
         chooseWpGUI.setPlayersData(this.playersData);
         commonWindow.setData(this.playersData);
@@ -207,11 +207,12 @@ public class GUIView implements IViewMaster {
     @Override
     public void showPrivateObjective(int idPrivateObj) {
         Platform.runLater(() -> {
-            if(this.chooseWpGUI.isAlreadyChosen()) {
+            if(this.manager.isNewGame()) {
                 this.chooseWpGUI = new ChooseWpGUI(this.manager);
+                this.chooseWpGUI.setPlayersData(this.playersData);
+
             }
-            if(this.chooseWpGUI.getPrivateCardContainer().getChildren().size()>0)
-                this.chooseWpGUI.getPrivateCardContainer().getChildren().remove(0);
+
             if(!this.manager.isReconnected() || (this.manager.isReconnected() && this.curr ==0))
                 this.current = this.chooseWpGUI;
             else {
@@ -251,12 +252,16 @@ public class GUIView implements IViewMaster {
     public void setCommonBoard(Map<String, SimplifiedWindowPatternCard> players, int[] idPubObj, int[] idTool) {
         Platform.runLater(() -> {
             if(this.manager.isNewGame()) {
+                System.out.println("sono in set comm board con new game");
                 this.commonWindow = new CommonBoardWindow(this.manager);
+                this.commonWindow.setData(this.playersData);
                 this.manager.setNewGame(false);
             }
+
             this.curr ++;
             if(this.curr == this.windowsList.size())
                 this.curr--;
+
             if(this.manager.isReconnected() && this.curr == 1) {
                 this.commonWindow = new CommonBoardWindow(this.manager);
                 this.manager.setReconnected(false);
@@ -529,15 +534,19 @@ public class GUIView implements IViewMaster {
     @Override
     public void showRank(String[] playerNames, int[] scores) {
         Platform.runLater(() -> {
+            /*
             this.curr++;
             if(this.curr == this.windowsList.size())
                 this.curr--;
+                */
             for(int i=0; i<playerNames.length; i++)
                 this.rankWindow.updateNames(playerNames[i], scores[i]);
             this.rankWindow.addHandlers();
             this.current = this.windowsList.get(curr);
-            GUIMain.setRoot(current);
+            GUIMain.setRoot(this.rankWindow);
             GUIMain.centerScreen();
+
+
         });
     }
 
