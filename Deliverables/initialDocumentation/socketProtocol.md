@@ -56,8 +56,14 @@ _if the user want to pass:_
 
 _if the user has been suspended and wants to reconnect:_
 * Client: reconnect() ---> Server
+	* Server: showPrivateObjective(id: int) ---> Client
+    	* Server: setCommonBoard(players: Map<String, SimplifiedWindowPatternCard>, idPubObj: int[], idTool: int[]) ---> Client
+    	* Server: setDraft(draft: List<SetUpInformationUnit>) ---> Client
+	* Server: setFavorToken(nFavorToken: int) ---> Client
+	* Server: updateToolCost(idSlot: int, cost: int) ---> Client
 	* Server: setRestoredWindowPatternCards(diceToRestore: Map<String, List<SetUpInformationUnit>>) ---> Client
 	* Server: setRestoredRoundTrack(roundTrackToRestore: List<ArrayList<SetUpInformationUnit>>) ---> Client
+	
 
 _if the user want to logout:_
 * Client: exitGame() ---> Server
@@ -68,6 +74,7 @@ _if the user want to logout:_
 ##End Game
 ####Ranking and Exit/NewGame:
 * Server: showRank(players: String[1..4], scores: int[1..4]) ---> Client
+* Server: showCommand(availableCommands: List<Commands> ) ---> Client
 
   _Client can now exit the game..._
 
