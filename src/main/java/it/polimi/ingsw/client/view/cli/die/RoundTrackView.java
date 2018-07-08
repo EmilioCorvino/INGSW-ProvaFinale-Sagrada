@@ -27,7 +27,7 @@ public class RoundTrackView {
         StringBuilder roundTrack = new StringBuilder("\nTRACCIATO DEI ROUND: \n");
 
         for(int i = 0; i < availableDice.size(); i++){
-            if (i == 9)
+            if (i >= 9)
                 roundTrack.append("\t").append(i+1).append(":| ");
             else
                 roundTrack.append("\t").append(i+1).append(": | ");
