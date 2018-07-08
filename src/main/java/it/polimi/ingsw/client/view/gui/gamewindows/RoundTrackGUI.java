@@ -27,7 +27,7 @@ public class RoundTrackGUI extends VBox {
     private static final int NUM_ROUND = 10;
 
     /**
-     * This attribut is a list of color to style rounds in round track gui.
+     * This attribute is a list of color to style rounds in round track gui.
      */
     private List<String> colorRound;
 
@@ -132,6 +132,26 @@ public class RoundTrackGUI extends VBox {
     }
 
     /**
+     * This method clears the round track gui before restore it with reconnection.
+     */
+    public void clearPreviousRoundTrack() {
+        //clears the list af all dice in a round of the previous state
+        this.allDiceRound.entrySet().forEach(entry -> {
+            if(entry.getValue().size() >0) {
+                entry.getValue().clear();
+            }
+        });
+
+        //clears the previous dice in a round.
+        for(int i=0; i<this.getChildren().size(); i++) {
+            StackPane mainRoundStack = (StackPane)this.getChildren().get(i);
+            StackPane diceRound = (StackPane)mainRoundStack.getChildren().get(1);
+            if(diceRound.getChildren().size() > 0)
+                diceRound.getChildren().clear();
+        }
+    }
+
+    /**
      * This method allows to view all the available dice for a specific round.
      * @param stack the main stack container of the dice.
      */
@@ -156,6 +176,7 @@ public class RoundTrackGUI extends VBox {
 
         //This adds a translate transition to the hbox of dice of the selected round to show.
         TranslateTransition tt = new TranslateTransition(Duration.millis(10), box);
+        //TODO
         tt.setByX( -110 );
         tt.play();
     }

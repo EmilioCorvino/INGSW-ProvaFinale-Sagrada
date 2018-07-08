@@ -190,6 +190,9 @@ public class GUIView implements IViewMaster {
     @Override
     public void showRoom(List<String> players) {
        Platform.runLater(() -> {
+           if(this.curr==1)
+               curr--;
+           System.out.println("sono in: show room. curr index is: " + this.curr + " is recoonn: " + this.manager.isReconnected());
            GUIMain.setRoot(this.listPlayers);
            ((ShowPlayersGUI) this.listPlayers).showPlayers(players);
        });
@@ -202,6 +205,11 @@ public class GUIView implements IViewMaster {
     @Override
     public void showPrivateObjective(int idPrivateObj) {
         Platform.runLater(() -> {
+            if(this.chooseWpGUI.isAlreadyChosen()) {
+                this.chooseWpGUI = new ChooseWpGUI(this.manager);
+            }
+            if(this.chooseWpGUI.getPrivateCardContainer().getChildren().size()>0)
+                this.chooseWpGUI.getPrivateCardContainer().getChildren().remove(0);
             if(!this.manager.isReconnected() || (this.manager.isReconnected() && this.curr ==0))
                 this.current = this.chooseWpGUI;
             else {
@@ -221,6 +229,7 @@ public class GUIView implements IViewMaster {
     @Override
     public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp) {
        Platform.runLater(() -> {
+
            for(int i=0; i<listWp.size();i++) {
                WpGui wp = new WpGui();
                wp.constructMap(listWp.get(i));
@@ -239,6 +248,10 @@ public class GUIView implements IViewMaster {
     @Override
     public void setCommonBoard(Map<String, SimplifiedWindowPatternCard> players, int[] idPubObj, int[] idTool) {
         Platform.runLater(() -> {
+            if(this.manager.isNewGame()) {
+                this.commonWindow = new CommonBoardWindow(this.manager);
+                this.manager.setNewGame(false);
+            }
             this.curr ++;
             if(this.curr == this.windowsList.size())
                 this.curr--;
@@ -314,9 +327,23 @@ public class GUIView implements IViewMaster {
         });
     }
 
+    /**
+     * Sets the Round Track after the player reconnected.
+     * @param roundTrackToRestore object representing the Round Track.
+     */
     @Override
     public void setRestoredRoundTrack(List<ArrayList<SetUpInformationUnit>> roundTrackToRestore) {
-        //todo Rita, implement and document this!
+       Platform.runLater(() -> {
+           RoundTrackGUI roundTrackGUI = this.commonWindow.getRoundTrack();
+           this.commonWindow.getRoundTrack().clearPreviousRoundTrack();
+           List<SetUpInformationUnit> listRound;
+
+           for(int i=0; i<roundTrackToRestore.size(); i++) {
+               listRound = roundTrackToRestore.get(i);
+               for(SetUpInformationUnit info : listRound)
+                   roundTrackGUI.addDieToRound(info);
+           }
+       });
     }
 
     /**
@@ -456,7 +483,7 @@ public class GUIView implements IViewMaster {
             String newMex = notice;
             if(notice.contains(" Digita 'comandi' per visualizzare i comandi ancora disponibili."))
                 newMex = notice.replace(" Digita 'comandi' per visualizzare i comandi ancora disponibili.", "");
-                this.manager.communicateMessage(newMex);
+            this.manager.communicateMessage(newMex);
         });
     }
 

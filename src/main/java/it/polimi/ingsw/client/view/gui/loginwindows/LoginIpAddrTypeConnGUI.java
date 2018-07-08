@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui.loginwindows;
 
+import it.polimi.ingsw.client.view.gui.GUICommunicationManager;
 import it.polimi.ingsw.client.view.gui.GUIMain;
 import javafx.scene.Parent;
 import javafx.scene.control.TextField;
@@ -32,7 +33,12 @@ public class LoginIpAddrTypeConnGUI extends LoginRootGUI {
      */
     private boolean proceed = false;
 
+    private GUICommunicationManager manager;
+
     public LoginIpAddrTypeConnGUI() {
+
+        manager = new GUICommunicationManager();
+
 
         this.getStylesheets().add("style/backgrounds.css");
         this.getStyleClass().add("background");
@@ -56,6 +62,10 @@ public class LoginIpAddrTypeConnGUI extends LoginRootGUI {
      * @param button the button to handle.
      */
     public void handleTypeGameMode(ToggleButton button) {
+        if(button.getText().equals("Socket ")) {
+            this.manager.communicateMessage("Non ancora supportato");
+            return;
+        }
         button.setSelected(true);
         String text = ((TextField)loginFormGUI.getGridPane().getChildren().get(1)).getText();
 
@@ -99,5 +109,9 @@ public class LoginIpAddrTypeConnGUI extends LoginRootGUI {
 
     public void setProceed(boolean proceed) {
         this.proceed = proceed;
+    }
+
+    public GUICommunicationManager getManager() {
+        return manager;
     }
 }

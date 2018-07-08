@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui.loginwindows;
 
+import it.polimi.ingsw.client.view.gui.GUICommunicationManager;
 import it.polimi.ingsw.client.view.gui.GUIMain;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
@@ -26,7 +27,10 @@ public class LoginUsernameGameModeGUI extends LoginRootGUI {
      */
     private boolean finished = false;
 
+    private GUICommunicationManager manager;
+
     public LoginUsernameGameModeGUI() {
+        manager = new GUICommunicationManager();
         this.getStylesheets().add("style/backgrounds.css");
         this.getStyleClass().add("background");
         
@@ -58,6 +62,11 @@ public class LoginUsernameGameModeGUI extends LoginRootGUI {
      * @param button the button to handle.
      */
     public void handleTypeConnection(ToggleButton button) {
+
+        if(button.getText().equals("Giocatore singolo")) {
+            this.manager.communicateMessage("Non ancora supportato");
+            return;
+        }
 
         loginFormGUI.getButtonContainer().getChildren().forEach(but -> {
             if(((ToggleButton)but).isSelected())
