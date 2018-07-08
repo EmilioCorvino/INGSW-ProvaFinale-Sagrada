@@ -28,6 +28,7 @@ Just open a terminal in the directory containing the jar (`Deliverables/jar/INGS
 ##### On Windows: 
 Firs, move to the directory `Deliverables/jar/INGSW_ProvaFinale_SagradaClient_jar`, then depending on the graphical interface you want to use:
 * _CLI:_ double click on `playSagradaWindowsCLI.bat`
+  * This will work only if you have installed and configured Ubuntu bash on Windows, which we highly reccommend to do if you want to be able to visualize the formatting correctly. You can follow the guide at the link https://github.com/michele-bertoni/W10JavaCLI to do so (from point 2 to 5). If you don't care about the formatting, you can open the jar as usual with `java -jar INGSW-ProvaFinale-Sagrada.jar` using Windows PowerShell or cmd.
 * _GUI:_ double click on `playSagradaGUI.bat`
 
 If that does not work, open a shell in the directory containing the `.jar` (`Deliverables/jar/INGSW_ProvaFinale_SagradaClient_jar`) and then type `java -jar INGSW-ProvaFinale-Sagrada.jar`. After that, you will be able to choose which graphical interface to use.
