@@ -4,6 +4,9 @@ import it.polimi.ingsw.client.view.cli.CliView;
 import it.polimi.ingsw.client.view.cli.managers.general.InputOutputManager;
 import it.polimi.ingsw.common.network.IFromClientToServer;
 
+/**
+ * This class is used by the CLI to communicate with the server.
+ */
 public class CliCommunicationManager {
     /**
      * A reference to the view.

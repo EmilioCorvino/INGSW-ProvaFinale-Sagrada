@@ -20,6 +20,9 @@ import java.util.logging.Level;
  */
 public class SetUpManager {
 
+    /**
+     * Reference to the class that allows the communication with the server.
+     */
     private InputOutputManager inputOutputManager;
 
     public SetUpManager(InputOutputManager inputOutputManager){
@@ -28,7 +31,7 @@ public class SetUpManager {
 
     /**
      * This method print for maps to the user.
-     * @param listWp: The list of maps need to be choose.
+     * @param listWp the list of maps need to be choose.
      */
     public void showMapsToChoose(List<SimplifiedWindowPatternCard> listWp){
         List<WindowPatternCardView> cards = new ArrayList<>();

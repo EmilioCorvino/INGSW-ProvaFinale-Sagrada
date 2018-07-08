@@ -7,6 +7,9 @@ import java.util.Scanner;
  */
 public class InputOutputManager {
 
+    /**
+     * Scanner used to retrieve information from the keyboard.
+     */
     private Scanner scan;
 
     public InputOutputManager(){

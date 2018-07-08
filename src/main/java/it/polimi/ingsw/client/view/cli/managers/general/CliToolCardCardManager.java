@@ -25,6 +25,11 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         super(view);
     }
 
+    /**
+     * This method is used to perform the move related to the Tool Card 1. The increment or decrement are set as a flag
+     * inside {@link SetUpInformationUnit#extraParam}. Other than that, the source index is the index of the die inside
+     * the Dice Draft Pool, while the destination is the index of the die inside the Window Pattern Card.
+     */
     @Override
     public void tool1(){
         List<SetUpInformationUnit> units = new ArrayList<>();
@@ -51,7 +56,6 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
 
         units.add(infoUnit);
 
-
         try{
             super.server.performToolCardMove(toolSlot, units);
         } catch (BrokenConnectionException e){
@@ -61,6 +65,10 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
 
     }
 
+    /**
+     * This method is used to perform the move related to the Tool Card 2. The {@link SetUpInformationUnit} is filled
+     * only with the source and the destination on the Window Pattern Card of the die to move.
+     */
     @Override
     public void tool2(){
         List<SetUpInformationUnit> units = new ArrayList<>();
@@ -68,8 +76,6 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
 
         int toolSlot = this.getSlotId(Commands.TOOL2);
         this.printToolDescription(toolSlot);
-
-
 
         super.inputOutputManager.print(super.view.getPlayer().getWp().wpToString());
         this.fromWpToWp(infoUnit);
@@ -85,6 +91,10 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
 
     }
 
+    /**
+     * This method is used to perform the move related to the Tool Card 3. The {@link SetUpInformationUnit} is filled
+     * only with the source and the destination on the Window Pattern Card of the die to move.
+     */
     @Override
     public void tool3(){
         List<SetUpInformationUnit> units = new ArrayList<>();
@@ -108,7 +118,10 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
 
     }
 
-
+    /**
+     * This method is used to perform the move related to the Tool Card 4. Two {@link SetUpInformationUnit} are sent,
+     * one for each movement (only source and destination are set in each SetUpInformationUnit).
+     */
     @Override
     public void tool4(){
         List<SetUpInformationUnit> units = new ArrayList<>();
@@ -135,6 +148,13 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
 
     }
 
+    /**
+     * This method is used to perform the move related to the Tool Card 5. {@link SetUpInformationUnit#extraParam}
+     * represents the round from where a die has to be swapped with one from the Dice Draft Pool
+     * ({@link SetUpInformationUnit#sourceIndex}). The index of the specific die within that round is set in
+     * {@link SetUpInformationUnit#offset}. The destination on the Window Pattern Card is set in
+     * {@link SetUpInformationUnit#destinationIndex}.
+     */
     @Override
     public void tool5(){
         List<SetUpInformationUnit> units = new ArrayList<>();
@@ -164,6 +184,10 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
 
     }
 
+    /**
+     * This method is used to perform the move related to the Tool Card 6. The {@link SetUpInformationUnit} is only filled
+     * with the source index of the die inside the Dice Draft Pool: that die has to be drafted again.
+     */
     @Override
     public void tool6(){
         List<SetUpInformationUnit> units = new ArrayList<>();
@@ -186,7 +210,11 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
 
     }
 
-
+    /**
+     * This method is used to perform the extra move required to use Tool Card 6. After the die has been drafted, it
+     * has to be placed: this method does that by setting {@link SetUpInformationUnit#destinationIndex} to the desired
+     * destination.
+     */
     @Override
     public void tool6Extra(){
         SetUpInformationUnit infoUnit = super.view.getGamePlayManager().getExtraInfo();
@@ -203,6 +231,11 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         }
     }
 
+    /**
+     * This method is used to perform the move related to the Tool Card 7. In this case the {@link SetUpInformationUnit}
+     * is empty, because the controller doesn't need any specific information to roll again all dice inside the
+     * Dice Draft Pool.
+     */
     @Override
     public void tool7(){
         List<SetUpInformationUnit> units = new ArrayList<>();
@@ -222,6 +255,11 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
 
     }
 
+    /**
+     * This method is used to perform the move related to the Tool Card 8. This card allows to perform an extra default
+     * placement, therefore only {@link SetUpInformationUnit#sourceIndex} from the Dice Draft Pool and
+     * {@link SetUpInformationUnit#destinationIndex} to the Window Pattern Card are set.
+     */
     @Override
     public void tool8(){
         List<SetUpInformationUnit> units = new ArrayList<>();
@@ -243,6 +281,11 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
 
     }
 
+    /**
+     * This method is used to perform the move related to the Tool Card 9. This card allows to perform a default
+     * placement, without respecting the rule of adjacency, therefore only {@link SetUpInformationUnit#sourceIndex}
+     * from the Dice Draft Pool and {@link SetUpInformationUnit#destinationIndex} to the Window Pattern Card are set.
+     */
     @Override
     public void tool9(){
         List<SetUpInformationUnit> units = new ArrayList<>();
@@ -264,6 +307,12 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
 
     }
 
+    /**
+     * This method is used to perform the move related to the Tool Card 10. This card allows to perform default
+     * placement, after calculating the opposite of the value of the die retrieved from the source,
+     * therefore only {@link SetUpInformationUnit#sourceIndex} from the Dice Draft Pool and
+     * {@link SetUpInformationUnit#destinationIndex} to the Window Pattern Card are set.
+     */
     @Override
     public void tool10(){
         List<SetUpInformationUnit> units = new ArrayList<>();
@@ -285,6 +334,10 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
 
     }
 
+    /**
+     * This method is used to perform the move related to the Tool Card 11. Only {@link SetUpInformationUnit#sourceIndex}
+     * is set because the first step just consists in moving a die from the Dice Draft Pool to the Dice Bag.
+     */
     @Override
     public void tool11() {
         List<SetUpInformationUnit> units = new ArrayList<>();
@@ -307,7 +360,13 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
 
     }
 
-
+    /**
+     * This method is used to perform the extra move required to use the Tool Card 11. This second steps allows to
+     * choose the value of the die obtained by the Dice Bag, and then to place it. Therefore it sets
+     * {@link SetUpInformationUnit#destinationIndex} to the destination on the Window Pattern Card, and
+     * {@link SetUpInformationUnit#value} to the value chosen.
+     *
+     */
     @Override
     public void tool11Extra(){
         SetUpInformationUnit infoUnit = super.view.getGamePlayManager().getExtraInfo();
@@ -332,6 +391,14 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         }
     }
 
+    /**
+     * This method is used to perform the move related to the Tool Card 12. This card allows to move up to two dice in the
+     * Window Pattern Card with the same colo as a die on the Round Track. Therefore, up to two {@link SetUpInformationUnit}
+     * are prepared: each one has {@link SetUpInformationUnit#extraParam} set to the number of the round selected and
+     * {@link SetUpInformationUnit#offset} set to the index of the particular die chosen within the round.
+     * {@link SetUpInformationUnit#sourceIndex} and {@link SetUpInformationUnit#destinationIndex} are set to the source
+     * and the destination within the Window Pattern Card.
+     */
     @Override
     public void tool12() {
         List<SetUpInformationUnit> units = new ArrayList<>();
@@ -371,6 +438,11 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
 
     }
 
+    /**
+     * Retrieves the slot id of the command (representing the Tool Card) in input.
+     * @param command command representing the tool card whose slot is to identify.
+     * @return id of the slot in which the tool with specified command is located.
+     */
     private int getSlotId(Commands command){
         int idSlot = -1;
         List<ToolCardView> cards = super.view.getCommonBoard().getToolCardViews();
@@ -381,13 +453,19 @@ public class CliToolCardCardManager extends CliCommunicationManager implements I
         return idSlot;
     }
 
+    /**
+     * Prints the description of the Tool Card in the specified slot.
+     * @param id id of the slot in which the Tool Card is located.
+     */
     private void printToolDescription(int id){
         if (id > -1 && id < 3)
             super.inputOutputManager.print("Descrizione tool:\n\t- "+super.view.getCommonBoard().getToolCardViews().get(id).getDescription());
     }
 
-
-
+    /**
+     * Retrieves the source and the destination of the die to move.
+     * @param infoUnit object in which the source and the destination are set. This will be sent to the server.
+     */
     private void fromWpToWp(SetUpInformationUnit infoUnit){
 
         super.inputOutputManager.print("Da:");

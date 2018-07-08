@@ -12,8 +12,14 @@ import it.polimi.ingsw.common.simplifiedview.SetUpInformationUnit;
  */
 public class GamePlayManager{
 
+    /**
+     * Reference to the class that allows the communication with the server.
+     */
     private InputOutputManager inputOutputManager;
 
+    /**
+     * Used to store information needed between calls of different methods from the server.
+     */
     private SetUpInformationUnit extraInfo;
 
     public GamePlayManager(InputOutputManager inputOutputManager){
@@ -23,8 +29,8 @@ public class GamePlayManager{
 
     /**
      * This method ask the index of the die chosen in the draft, verifying if it is an int and if it is in bound.
-     * @param draftPoolView: The draft Pool
-     * @return: the index chosen.
+     * @param draftPoolView The draft Pool
+     * @return the index chosen.
      */
     public int choseDraftDie(DieDraftPoolView draftPoolView){
 
@@ -60,8 +66,8 @@ public class GamePlayManager{
 
     /**
      * This method fill a set up info unit with the information of the position of the die chosen in the round track
-     * @param roundTrack: an instance of the round track
-     * @param informationUnit: the information unit to fill.
+     * @param roundTrack an instance of the round track
+     * @param informationUnit the information unit to fill.
      */
     public void choseRoundDie(RoundTrackView roundTrack, SetUpInformationUnit informationUnit){
 
@@ -90,9 +96,9 @@ public class GamePlayManager{
 
     /**
      * This method ask all the information needed for a default placement
-     * @param draft: the draft pool of the common board.
-     * @param wp: the wp of the player connected.
-     * @param unit: the unit that need to be fill with the placement information and that need to be send to the controller.
+     * @param draft the draft pool of the common board.
+     * @param wp the wp of the player connected.
+     * @param unit the unit that needs to be filled with the placement information and that needs to be sent to the controller.
      */
     public void getPlacementInfo(DieDraftPoolView draft, WindowPatternCardView wp, SetUpInformationUnit unit){
         inputOutputManager.print(draft.diceDraftToString());
@@ -100,34 +106,66 @@ public class GamePlayManager{
         unit.setSourceIndex(this.choseDraftDie(draft));
         unit.setDestinationIndex(this.choseCellWp());
     }
-    
+
+    /**
+     * Adds a die to the Window Pattern Card of a player. Modular arithmetic is used to compute the
+     * index.
+     * @param wp the wp of the player connected.
+     * @param unit the unit that needs to be filled with the placement information and that needs to be sent to the controller.
+     */
     public void addOnWp(WindowPatternCardView wp, SetUpInformationUnit unit){
         wp.getGlassWindow()[unit.getDestinationIndex()/WindowPatternCardView.MAX_COL][unit.getDestinationIndex() % WindowPatternCardView.MAX_COL].setDie(new DieView(unit.getColor(), unit.getValue()));
     }
 
+    /**
+     * Removes a die to the Window Pattern Card of a player. Modular arithmetic is used to compute the
+     * index.
+     * @param wp the wp of the player connected.
+     * @param unit the unit that needs to be filled with the placement information and that needs to be sent to the controller.
+     */
     public void removeOnWp(WindowPatternCardView wp, SetUpInformationUnit unit){
         wp.getGlassWindow()[unit.getSourceIndex()/WindowPatternCardView.MAX_COL][unit.getSourceIndex() % WindowPatternCardView.MAX_COL].removeDie();
     }
 
+    /**
+     * Adds a die to the Dice Draft Pool of a player.
+     * @param draft the Dice Draft Pool of the player connected.
+     * @param unit the unit that needs to be filled with the placement information and that needs to be sent to the controller.
+     */
     public void addOnDraft(DieDraftPoolView draft, SetUpInformationUnit unit){
         draft.getDice().add(new DieView(unit.getColor(), unit.getValue()));
     }
 
+    /**
+     * Removes a die to the Dice Draft Pool of a player.
+     * @param draft the Dice Draft Pool of the player connected.
+     * @param unit the unit that needs to be filled with the placement information and that needs to be sent to the controller.
+     */
     public void removeOnDraft(DieDraftPoolView draft, SetUpInformationUnit unit){
         draft.getDice().remove(unit.getSourceIndex());
     }
 
+    /**
+     * Adds a die to the Round Track of a player.
+     * @param roundTrack the Dice Draft Pool of the player connected.
+     * @param unit the unit that needs to be filled with the placement information and that needs to be sent to the controller.
+     */
     public void addOnRoundTrack(RoundTrackView roundTrack, SetUpInformationUnit unit){
         roundTrack.getAvailableDice().get(unit.getDestinationIndex()).add(new DieView(unit.getColor(), unit.getValue()));
     }
 
+    /**
+     * Removes a die to the Round Track of a player.
+     * @param roundTrack the Dice Draft Pool of the player connected.
+     * @param unit the unit that needs to be filled with the placement information and that needs to be sent to the controller.
+     */
     public void removeOnRoundTrack(RoundTrackView roundTrack, SetUpInformationUnit unit){
         roundTrack.getAvailableDice().get(unit.getSourceIndex()).remove(unit.getOffset());
     }
 
     /**
      * This method is used in particular tool (6, 11) to show the new die after the extraction.
-     * @param infoUnit: the container of all the info of the new die extracted.
+     * @param infoUnit the container of all the info of the new die extracted.
      */
     public void showDie(SetUpInformationUnit infoUnit){
         setExtraInfo(infoUnit);

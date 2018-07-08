@@ -8,12 +8,22 @@ import it.polimi.ingsw.common.simplifiedview.SimplifiedWindowPatternCard;
  */
 public class WindowPatternCardView {
 
+    /**
+     * ID of the Window Pattern Card.
+     */
     private int idMap;
+
+    /**
+     * Difficulty of the Window Pattern Card. It represents the initial number of Favor Tokens available.
+     */
     private int difficulty;
 
     public static final int MAX_COL = 5;
     public static final int MAX_ROW = 4;
 
+    /**
+     * Matrix composed by cells.
+     */
     private CellView[][] glassWindow;
 
     /**
@@ -46,7 +56,7 @@ public class WindowPatternCardView {
 
     /**
      * This method populate create an object view window pattern card with the info contained in simplified window pattern card.
-     * @param sWP: the object with the info needed to populate the window pattern
+     * @param sWP the object with the info needed to populate the window pattern
      */
     private void populateViewWP(SimplifiedWindowPatternCard sWP){
         this.setIdMap(sWP.getIdMap());

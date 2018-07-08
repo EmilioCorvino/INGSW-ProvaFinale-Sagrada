@@ -7,8 +7,14 @@ import it.polimi.ingsw.common.Color;
  */
 public class DieView {
 
+    /**
+     * Color of the die.
+     */
     private Color dieColor;
 
+    /**
+     * Value of the die.
+     */
     private int dieValue;
 
     public DieView(Color dieColor, int dieValue){
@@ -20,6 +26,10 @@ public class DieView {
         return dieColor;
     }
 
+    /**
+     * Converts the die into a string.
+     * @return a string representing the die.
+     */
     public String toStringDie(){
         return "\033["+this.dieColor.getColorNumber()+";1m"+dieValue+"\033[0m";
     }

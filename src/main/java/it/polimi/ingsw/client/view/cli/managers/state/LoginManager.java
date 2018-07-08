@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class LoginManager {
 
     /**
-     * Input Output Manager
+     * Reference to the class that allows the communication with the server.
      */
     private InputOutputManager inputOutputManager;
 
@@ -24,7 +24,7 @@ public class LoginManager {
     }
     /**
      * This method ask the IP address of the server to the user.
-     * @return The IP address chosen by the user.
+     * @return the IP address chosen by the user.
      */
     public String getIp(){
 
@@ -59,7 +59,7 @@ public class LoginManager {
 
     /**
      * This method allow the user to chose the game mode between single and multi player.
-     * @return The identifier of the game mode.
+     * @return the identifier of the game mode.
      */
     public int getGameMode(){
         int gameMode = inputOutputManager.askInt("\nInserire il numero della modalità di partita desiderata:\n\t 1 - Multigiocatore\n\t 2 - Giocatore Singolo");
@@ -75,8 +75,8 @@ public class LoginManager {
     /**
      * This method allow the user to choose the kind of network interface
      * @return An instance of the network interface chosen.
-     * @param ip : the ip address uses to create the connection.
-     * @param view: An instance of view.
+     * @param ip the ip address uses to create the connection.
+     * @param view an instance of view.
      */
     public IFromClientToServer chooseNetworkInterface(String ip, IViewMaster view) throws BrokenConnectionException {
         int networkType;
@@ -92,7 +92,7 @@ public class LoginManager {
 
     /**
      * This method print the waiting room when the player wait for start a match.
-     * @param players: list of username of players connected to the server.
+     * @param players list of username of players connected to the server.
      */
     public void showRoom(List<String> players) {
         inputOutputManager.print("----------------------------------------------");

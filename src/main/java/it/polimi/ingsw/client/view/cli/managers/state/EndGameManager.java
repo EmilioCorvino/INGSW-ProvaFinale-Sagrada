@@ -4,7 +4,6 @@ package it.polimi.ingsw.client.view.cli.managers.state;
 import it.polimi.ingsw.client.view.cli.boardelements.PlayerView;
 import it.polimi.ingsw.client.view.cli.managers.general.InputOutputManager;
 
-
 /**
  * This class control the end game state and all the respective interaction with the user.
  */
@@ -14,6 +13,9 @@ public class EndGameManager{
 
     private static final String BOLD_SUFFIX = "\033[0m";
 
+    /**
+     * Reference to the class that allows the communication with the server.
+     */
     private InputOutputManager inputOutputManager;
 
     public EndGameManager(InputOutputManager inputOutputManager){
@@ -22,8 +24,8 @@ public class EndGameManager{
 
     /**
      * This method print the rank of the match.
-     * @param players: the players that played the match.
-     * @param score: the score of each ( the order of both list is the same, first element of score is associated to first element of the list of player).
+     * @param players the players that played the match.
+     * @param score the score of each ( the order of both list is the same, first element of score is associated to first element of the list of player).
      */
     public void showRank(String[] players, int[] score, PlayerView player){
         inputOutputManager.print(createClassification(players,score,player));
@@ -31,9 +33,9 @@ public class EndGameManager{
 
     /**
      * This method convert the rank to a string, making bold the line of the player connected.
-     * @param players: the list of userNames.
-     * @param score: the list of scores
-     * @param player: the player connected
+     * @param players the list of userNames.
+     * @param score the list of scores
+     * @param player the player connected
      * @return a string that represents the rank.
      */
     private String createClassification(String[] players, int[] score, PlayerView player){

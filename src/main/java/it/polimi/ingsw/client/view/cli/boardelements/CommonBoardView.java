@@ -11,16 +11,30 @@ import java.util.List;
  */
 public class CommonBoardView {
 
+    /**
+     * List of the players in the match.
+     */
     private List<PlayerView> players;
 
+    /**
+     * Reference to the Dice Draft Pool of the match.
+     */
     private DieDraftPoolView draftPool;
 
+    /**
+     * Reference to the Round Track of the match.
+     */
     private RoundTrackView roundTrack;
 
+    /**
+     * List of Public Objective Cards drawn in the match.
+     */
     private List<String> publicObjectiveCards;
 
+    /**
+     * List of Tool Cards drawn in the match.
+     */
     private List<ToolCardView> toolCardViews;
-
 
     public CommonBoardView(){
         this.players = new ArrayList<>();
@@ -63,6 +77,10 @@ public class CommonBoardView {
         this.toolCardViews = new ArrayList<>();
     }
 
+    /**
+     * Converts the Tool Cards into a string.
+     * @return a string representing the Tool Cards.
+     */
     public String toolCardToString(){
         StringBuilder tool = new StringBuilder("\nCarte strumento: ");
         for (ToolCardView c : toolCardViews) {
@@ -71,6 +89,10 @@ public class CommonBoardView {
         return tool.toString();
     }
 
+    /**
+     * Converts the Public Objective Cards into a string.
+     * @return a string representing the Public Objective Cards.
+     */
     public String pubObjToString(){
         StringBuilder pubObj = new StringBuilder("\nCarte obiettivo pubblico: ");
 
@@ -80,6 +102,10 @@ public class CommonBoardView {
         return pubObj.toString();
     }
 
+    /**
+     * Converts the Window Pattern Cards into a string.
+     * @return a string representing the Window Pattern Cards.
+     */
     public String allWpToString(){
         StringBuilder allWp = new StringBuilder("\nMappe altri giocatori:\n");
 
@@ -90,5 +116,4 @@ public class CommonBoardView {
 
         return allWp.toString();
     }
-
 }

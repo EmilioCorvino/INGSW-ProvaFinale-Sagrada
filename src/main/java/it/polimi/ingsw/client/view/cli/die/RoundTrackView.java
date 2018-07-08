@@ -13,13 +13,16 @@ public class RoundTrackView {
      */
     private List<ArrayList<DieView>> availableDice;
 
-
     public RoundTrackView(int nRounds){
         this.availableDice = new ArrayList<>();
         for( int i = 0; i< nRounds; i++)
             this.getAvailableDice().add(new ArrayList<>());
     }
 
+    /**
+     * Converts the Round Track into a string.
+     * @return a string representing the Round Track.
+     */
     public String roundTrackToString(){
         StringBuilder roundTrack = new StringBuilder("\nTRACCIATO DEI ROUND: \n");
 

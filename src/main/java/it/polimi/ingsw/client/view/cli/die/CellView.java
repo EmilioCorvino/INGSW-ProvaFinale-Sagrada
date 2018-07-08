@@ -7,10 +7,19 @@ import it.polimi.ingsw.common.Color;
  */
 public class CellView {
 
+    /**
+     * Reference to the {@link DieView} contained in the cell.
+     */
     private DieView die;
 
+    /**
+     * Color restriction of the cell.
+     */
     private Color defaultColorRestriction;
 
+    /**
+     * Value restriction of the cell.
+     */
     private int defaultValueRestriction;
 
     CellView(Color defaultColorRestriction, int defaultValueRestriction){
@@ -18,6 +27,10 @@ public class CellView {
         this.defaultValueRestriction = defaultValueRestriction;
     }
 
+    /**
+     * Allows to convert the cell in a string.
+     * @return a string representing the cell.
+     */
     String toStringCell(){
         if(die != null)
             return die.toStringDie();
@@ -35,13 +48,5 @@ public class CellView {
 
     public void setDie(DieView die) {
         this.die = die;
-    }
-
-    void setDefaultColorRestriction(Color defaultColorRestriction) {
-        this.defaultColorRestriction = defaultColorRestriction;
-    }
-
-    void setDefaultValueRestriction(int defaultValueRestriction) {
-        this.defaultValueRestriction = defaultValueRestriction;
     }
 }

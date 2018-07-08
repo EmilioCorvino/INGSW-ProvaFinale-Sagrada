@@ -10,12 +10,10 @@ import java.util.List;
  */
 public class DieDraftPoolView {
 
-
     /**
      * The list of dice contained.
      */
     private List<DieView> dice;
-
 
     public DieDraftPoolView(List<SetUpInformationUnit> draft){
         this.dice = new ArrayList<>();

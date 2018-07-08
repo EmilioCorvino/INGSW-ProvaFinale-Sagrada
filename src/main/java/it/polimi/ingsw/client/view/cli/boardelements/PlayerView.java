@@ -7,14 +7,23 @@ import it.polimi.ingsw.client.view.cli.die.WindowPatternCardView;
  */
 public class PlayerView {
 
+    /**
+     * Name of the player.
+     */
     private String userName;
 
+    /**
+     * Private Objective Card owned by this player.
+     */
     private String privateObjCard;
 
+    /**
+     * Number of Favor Tokens owned by this player.
+     */
     private int favorToken;
 
     /**
-     * Window pattern card own by this player
+     * Window pattern card owned by this player.
      */
     private WindowPatternCardView wp;
 
@@ -51,12 +60,20 @@ public class PlayerView {
         this.wp = null;
     }
 
+    /**
+     * Converts the Private Objective Card into a string.
+     * @return a string representing the Private Objective Card.
+     */
     public String privateObjToString(){
         String privateObj = "\nIl tuo obiettivo privato e': ";
 
         return  privateObj.concat(this.privateObjCard);
     }
 
+    /**
+     * Converts the Favor Tokens into a string.
+     * @return a string representing the Favor Tokens.
+     */
     public String favTokensToString(){
         String favTokens = "\nIl numero di segnalini favore e': ";
         return favTokens + this.favorToken;

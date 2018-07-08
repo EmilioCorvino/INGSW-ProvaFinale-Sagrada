@@ -2,7 +2,9 @@ package it.polimi.ingsw.client.view;
 
 /**
  * This interface contains one method for each tool card that can be required, plus two extra method for those cards
- * that need more than one request to the server to be processed. See implementing classes for documentation.
+ * that need more than one request to the server to be processed. For methods documentation.
+ * @see it.polimi.ingsw.client.view.cli.managers.general.CliToolCardCardManager
+ * @see it.polimi.ingsw.client.view.gui.gamewindows.GUIToolCardManager
  */
 public interface IToolCardManager {
 
