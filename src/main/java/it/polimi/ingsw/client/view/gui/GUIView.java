@@ -190,9 +190,11 @@ public class GUIView implements IViewMaster {
     @Override
     public void showRoom(List<String> players) {
        Platform.runLater(() -> {
-           if(this.curr==1)
-               curr--;
-           System.out.println("sono in: show room. curr index is: " + this.curr + " is recoonn: " + this.manager.isReconnected());
+           //if(this.curr==1)
+              // curr--;
+           if(this.manager.isNewGame()) {
+               this.listPlayers = new ShowPlayersGUI();
+           }
            GUIMain.setRoot(this.listPlayers);
            ((ShowPlayersGUI) this.listPlayers).showPlayers(players);
        });
