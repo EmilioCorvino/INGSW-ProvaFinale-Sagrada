@@ -1,12 +1,12 @@
-﻿#Socket Protocol
+﻿# Socket Protocol
 
-##Initialization
-####Login:
+## Initialization
+#### Login:
 * Client: login(playerName: String, ip: String, gameMode: String) ---> Server
 
   * Server: showRoom(showRoom(players: String[1..4]) ---> Client
   
-####Board initialization:
+#### Board initialization:
 * Server: showPrivateObjective(id: int) ---> Client
 * Server: showMapsToChose(list: WpList<SimplifiedWindowPatternCard>) ---> Client
 * Server: showCommand(availableCommands: List<Commands> ) ---> Client
@@ -15,18 +15,18 @@
     * Server: setDraft(draft: List<SetUpInformationUnit>) ---> Client
     * Server: setFavorToken(nFavTokens: int) ---> Client
 
-##Gameplay
+## Gameplay
 
 _At first the Server send all the availbale commands to the user_
 * Server: showCommand(availableCommands: List<Commands> ) ---> Client
 
 _Then the user can do different things:_
-####Default move:
+#### Default move:
 * Client: performDefaultMove(infoUnit: SetUpInformationUnit) ---> Server
 	* Server: addOnOwnWp(infoUnit: SetUpInformationUnit) ---> Client
 	* Server: removeOnDraft(infoUnit: SetUpInformationUnit) ---> Client
 
-####Tool card usage:
+#### Tool card usage:
 
 _For tools with single call:_
 * Client: performToolCardMove(infoUnit: SetUpInformationUnit) ---> Server
@@ -50,11 +50,11 @@ _At this point server answers with a combination of the methods below depending 
    * Server: removeOnRoundTrack(infoUnit: SetUpInformationUnit) ---> Client
    * Server: showDie(infoUnit: SetUpInformationUnit) ---> Client
 
-####During the turn:
-_if the user want to pass:_
+#### During the turn:
+_If the user want to pass:_
 * Client: moveToNextTurn() ---> Server
 
-_if the user has been suspended and wants to reconnect:_
+_If the user has been suspended and wants to reconnect:_
 * Client: reconnect() ---> Server
 	* Server: showPrivateObjective(id: int) ---> Client
     	* Server: setCommonBoard(players: Map<String, SimplifiedWindowPatternCard>, idPubObj: int[], idTool: int[]) ---> Client
@@ -65,14 +65,14 @@ _if the user has been suspended and wants to reconnect:_
 	* Server: setRestoredRoundTrack(roundTrackToRestore: List<ArrayList<SetUpInformationUnit>>) ---> Client
 	
 
-_if the user want to logout:_
+_If the user want to logout:_
 * Client: exitGame() ---> Server
 	* Server: forceLogOut() ---> Client
 	
 
   
-##End Game
-####Ranking and Exit/NewGame:
+## End Game
+#### Ranking and Exit/NewGame:
 * Server: showRank(players: String[1..4], scores: int[1..4]) ---> Client
 * Server: showCommand(availableCommands: List<Commands> ) ---> Client
 
@@ -85,3 +85,7 @@ _if the user want to logout:_
 
   * Client: startNewGameRequest() ---> Server
     * Server: showRoom(players: String[1..4]) ---> Client
+
+## Extra
+_If at any time the server needs to send a message to the client:_ 
+* Server: showNotice(message: String) ---> Client
