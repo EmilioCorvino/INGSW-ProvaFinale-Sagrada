@@ -12,7 +12,7 @@
 * Server: showCommand(availableCommands: List<Commands> ) ---> Client
   * Client: windowPatternCardRequest(id: int, side: String) ---> Server
     * Server: setCommonBoard(players: Map<String, SimplifiedWindowPatternCard>, idPubObj: int[], idTool: int[]) ---> Client
-    * Server: setDraft( draft: List<SetUpInformationUnit>) ---> Client
+    * Server: setDraft(draft: List<SetUpInformationUnit>) ---> Client
     * Server: setFavorToken(nFavTokens: int) ---> Client
 
 ##Gameplay
@@ -25,24 +25,23 @@
 ####Tool card usage:
 * Server: showCommand(availableCommands: List<Commands> ) ---> Client
 
-	_for simple tool_
+	_for tools with single call:_
 	* Client: performToolCardMove(infoUnit: SetUpInformationUnit) ---> Server
 	
-	_for tool with multiple calls_
+	_for tools with a second call the following is also needed after the first answer:_
 	* Client: performRestrictedPlacement(SetUpInformationUnit infoUnit) ---> Server
 	
+    _At this point server answer with combination of method below depending of the tool_
 
-		_At this point server answer with combination of method below depending of the tool_
-
-		* Server: addOnOwnWp(SetUpInformationUnit unit) ---> Client
-		* Server: removeOnOwnWp(SetUpInformationUnit unit) ---> Client
-		* Server: addOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit)  ---> Client
-		* Server: removeOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) ---> Client
-		* Server: addOnDraft(SetUpInformationUnit info) ---> Client
-		* Server: removeOnDraft(SetUpInformationUnit info) ---> Client
-		* Server: addOnRoundTrack(SetUpInformationUnit info) ---> Client
-		* Server: removeOnRoundTrack(SetUpInformationUnit info) ---> Client
-		* Server: showDie(SetUpInformationUnit informationUnit) ---> Client
+   * Server: addOnOwnWp(SetUpInformationUnit unit) ---> Client
+   * Server: removeOnOwnWp(SetUpInformationUnit unit) ---> Client
+   * Server: addOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit)  ---> Client
+   * Server: removeOnOtherPlayerWp(String userName, SetUpInformationUnit infoUnit) ---> Client
+   * Server: addOnDraft(SetUpInformationUnit info) ---> Client
+   * Server: removeOnDraft(SetUpInformationUnit info) ---> Client
+   * Server: addOnRoundTrack(SetUpInformationUnit info) ---> Client
+   * Server: removeOnRoundTrack(SetUpInformationUnit info) ---> Client
+   * Server: showDie(SetUpInformationUnit informationUnit) ---> Client
   
 ##End Game
 ####Ranking and Exit/NewGame:

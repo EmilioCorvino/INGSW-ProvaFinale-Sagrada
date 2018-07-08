@@ -32,12 +32,14 @@
 ### PrivateObjectiveCardsDeck
 + Parsing test
 + Drawing test
++ Every card is tested
 
 ### PrivateObjectiveCard
 + Card parsing test (attribute coherence)
 + Score computation by the private objective card given a window pattern card.
 + Overridden equals(Object o) test
 + Overridden toString() test
++ Every card is tested
 
 
 ## Tool Cards tests
