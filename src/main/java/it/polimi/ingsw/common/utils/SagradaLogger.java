@@ -22,7 +22,7 @@ public class SagradaLogger {
     /**
      * File where the configuration is stored.
      */
-    private static final String CONF_PATH = "./src/main/conf/logger.properties";
+    private static final String CONF_PATH = "./conf/logger.properties";
 
     /**
      * This class shouldn't be instantiated.
@@ -46,7 +46,7 @@ public class SagradaLogger {
             } catch (IOException e) {
                 Logger stockLogger = Logger.getLogger(SagradaLogger.class.getName());
                 stockLogger.log(Level.WARNING,
-                        "Error in loading custom logger configuration, using the default one.", e);
+                        "Error in loading custom logger configuration, using the default one.");
                 logger = stockLogger;
             }
         }
