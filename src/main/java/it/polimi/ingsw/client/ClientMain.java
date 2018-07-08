@@ -20,7 +20,7 @@ import java.util.logging.Level;
 public class ClientMain {
 
     public static void main(String[] args) {
-        String localAddress = "127.0.0.1";
+        String localAddress = "localhost";
         try {
             localAddress = InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
