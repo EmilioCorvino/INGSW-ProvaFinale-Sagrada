@@ -191,7 +191,12 @@ public class WaitingRoom {
 
         playersRoom.forEach((playerName, connection) -> {
             try {
-                connection.getClient().showNotice("\nLa partita sta per iniziare.\n");
+                if (playersRoom.size() >= 2) {
+                    connection.getClient().showNotice("\nLa partita sta per iniziare.\n");
+                } else {
+                    connection.getClient().showNotice("\nNon è stato ancora raggiunto un numero sufficiente di giocatori," +
+                            " ti preghiamo di attendere.");
+                }
             } catch (BrokenConnectionException e) {
                 playersRoom.remove(playerName);
                 SagradaLogger.log(Level.INFO, playerName + " has been removed from the room");
