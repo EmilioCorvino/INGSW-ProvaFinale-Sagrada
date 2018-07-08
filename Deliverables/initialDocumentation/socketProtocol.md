@@ -33,11 +33,6 @@ _For tools with single call:_
 	* Server: updateFavTokenPlayer(nFavorToken: int) ---> Client
 	* Server: updateToolCost(idSlot: int, cost: int) ---> Client
 	
-_For tools with a second call the following is also needed after the first answer:_
-* Client: performRestrictedPlacement(infoUnit: SetUpInformationUnit) ---> Server
-	* Server: updateFavTokenPlayer(nFavorToken: int) ---> Client
-	* Server: updateToolCost(idSlot: int, cost: int) ---> Client
-	
 _At this point server answers with a combination of the methods below depending on the tool:_
 
    * Server: addOnOwnWp(infoUnit: SetUpInformationUnit) ---> Client
@@ -49,6 +44,11 @@ _At this point server answers with a combination of the methods below depending 
    * Server: addOnRoundTrack(infoUnit: SetUpInformationUnit) ---> Client
    * Server: removeOnRoundTrack(infoUnit: SetUpInformationUnit) ---> Client
    * Server: showDie(infoUnit: SetUpInformationUnit) ---> Client
+   
+_For tools with a second call the following is also needed after the first answer:_
+* Client: performRestrictedPlacement(infoUnit: SetUpInformationUnit) ---> Server
+	* Server: updateFavTokenPlayer(nFavorToken: int) ---> Client
+	* Server: updateToolCost(idSlot: int, cost: int) ---> Client
 
 #### During the turn:
 _If the user want to pass:_
