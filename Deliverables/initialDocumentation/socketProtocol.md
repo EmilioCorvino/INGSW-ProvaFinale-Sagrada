@@ -20,26 +20,25 @@
 _At first the Server send all the availbale commands to the user_
 * Server: showCommand(availableCommands: List<Commands> ) ---> Client
 
-_Then the user...:_
+_Then the user can do different things:_
 ####Default move:
-	* Client: performDefaultMove(infoUnit: SetUpInformationUnit) ---> Server
-		* Server: addOnOwnWp(infoUnit: SetUpInformationUnit) ---> Client
-		* Server: removeOnDraft(infoUnit: SetUpInformationUnit) ---> Client
+* Client: performDefaultMove(infoUnit: SetUpInformationUnit) ---> Server
+	* Server: addOnOwnWp(infoUnit: SetUpInformationUnit) ---> Client
+	* Server: removeOnDraft(infoUnit: SetUpInformationUnit) ---> Client
 
 ####Tool card usage:
 
-	_for tools with single call:_
-	* Client: performToolCardMove(infoUnit: SetUpInformationUnit) ---> Server
-		* Server: updateFavTokenPlayer(nFavorToken: int) ---> Client
-		* Server: updateToolCost(idSlot: int, cost: int) ---> Client
-
+_For tools with single call:_
+* Client: performToolCardMove(infoUnit: SetUpInformationUnit) ---> Server
+	* Server: updateFavTokenPlayer(nFavorToken: int) ---> Client
+	* Server: updateToolCost(idSlot: int, cost: int) ---> Client
 	
-	_for tools with a second call the following is also needed after the first answer:_
-	* Client: performRestrictedPlacement(infoUnit: SetUpInformationUnit) ---> Server
-		* Server: updateFavTokenPlayer(nFavorToken: int) ---> Client
-		* Server: updateToolCost(idSlot: int, cost: int) ---> Client
+_For tools with a second call the following is also needed after the first answer:_
+* Client: performRestrictedPlacement(infoUnit: SetUpInformationUnit) ---> Server
+	* Server: updateFavTokenPlayer(nFavorToken: int) ---> Client
+	* Server: updateToolCost(idSlot: int, cost: int) ---> Client
 	
-    _At this point server answer with combination of method below depending of the tool_
+_At this point server answers with a combination of the methods below depending on the tool:_
 
    * Server: addOnOwnWp(infoUnit: SetUpInformationUnit) ---> Client
    * Server: removeOnOwnWp(infoUnit: SetUpInformationUnit) ---> Client
@@ -52,17 +51,17 @@ _Then the user...:_
    * Server: showDie(infoUnit: SetUpInformationUnit) ---> Client
 
 ####During the turn:
-	_if the user want to pass:_
-	* Client: moveToNextTurn() ---> Server
+_if the user want to pass:_
+* Client: moveToNextTurn() ---> Server
 
-	_if the user has been suspended and want to reconnect:_
-	* Client: reconnect() ---> Server
-		* Server: setRestoredWindowPatternCards(diceToRestore: Map<String, List<SetUpInformationUnit>>) ---> Client
-		* Server: setRestoredRoundTrack(roundTrackToRestore: List<ArrayList<SetUpInformationUnit>>) ---> Client
+_if the user has been suspended and wants to reconnect:_
+* Client: reconnect() ---> Server
+	* Server: setRestoredWindowPatternCards(diceToRestore: Map<String, List<SetUpInformationUnit>>) ---> Client
+	* Server: setRestoredRoundTrack(roundTrackToRestore: List<ArrayList<SetUpInformationUnit>>) ---> Client
 
-	_if the user want to logout:_
-	* Client: reconnect() ---> Server
-		* Server: forcedLogout() ---> Client
+_if the user want to logout:_
+* Client: exitGame() ---> Server
+	* Server: forceLogOut() ---> Client
 	
 
   
