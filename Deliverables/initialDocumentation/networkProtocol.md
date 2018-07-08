@@ -1,4 +1,4 @@
-﻿# Socket Protocol
+﻿# Network Protocol
 
 ## Initialization
 #### Login:
@@ -51,7 +51,7 @@ _For tools with a second call the following is also needed after the first answe
 	* Server: updateToolCost(idSlot: int, cost: int) ---> Client
 
 #### During the turn:
-_If the user want to pass:_
+_If the user wants to pass:_
 * Client: moveToNextTurn() ---> Server
 
 _If the user has been suspended and wants to reconnect:_
