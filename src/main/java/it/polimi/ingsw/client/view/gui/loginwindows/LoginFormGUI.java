@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui.loginwindows;
 
+import it.polimi.ingsw.client.view.gui.GUICommunicationManager;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -52,7 +53,11 @@ public class LoginFormGUI extends VBox {
     }
 
     public void handleClose() {
-        System.exit(0);
+        GUICommunicationManager manager = new GUICommunicationManager();
+        if(manager.isCommandContained("Logout"))
+            manager.executeCommandIfPresent("Logout");
+        else
+            manager.communicateMessage("Non disponibile");
     }
 
     /**

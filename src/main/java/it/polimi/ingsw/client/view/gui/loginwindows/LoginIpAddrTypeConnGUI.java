@@ -48,10 +48,13 @@ public class LoginIpAddrTypeConnGUI extends LoginRootGUI {
         loginFormGUI.formatvBox("Indirizzo ip del server: ", "  RMI  ", "Socket ");
         super.customForm(loginFormGUI);
 
+
         HBox buttons = loginFormGUI.getButtonContainer();
         buttons.getChildren().forEach(button -> button.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
             handleTypeGameMode((ToggleButton)button);
         }));
+
+        buttons.getChildren().add(this.loginFormGUI.getExit());
 
         this.addEventHandler(MouseEvent.MOUSE_PRESSED, this:: pressedWindow);
         this.addEventHandler(MouseEvent.MOUSE_DRAGGED, this:: draggedWindow);

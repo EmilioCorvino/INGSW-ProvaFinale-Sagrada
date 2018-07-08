@@ -136,11 +136,16 @@ public class RoundTrackGUI extends VBox {
      */
     public void clearPreviousRoundTrack() {
         //clears the list af all dice in a round of the previous state
+        /*
         this.allDiceRound.entrySet().forEach(entry -> {
             if(entry.getValue().size() >0) {
                 entry.getValue().clear();
             }
         });
+        */
+        this.allDiceRound = new HashMap<>();
+        for(int i=0; i<10; i++)
+            this.allDiceRound.put(i+1, new ArrayList<>());
 
         //clears the previous dice in a round.
         for(int i=0; i<this.getChildren().size(); i++) {
@@ -176,7 +181,6 @@ public class RoundTrackGUI extends VBox {
 
         //This adds a translate transition to the hbox of dice of the selected round to show.
         TranslateTransition tt = new TranslateTransition(Duration.millis(10), box);
-        //TODO
         tt.setByX( -110 );
         tt.play();
     }

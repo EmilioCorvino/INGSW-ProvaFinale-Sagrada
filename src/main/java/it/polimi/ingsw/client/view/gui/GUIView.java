@@ -196,7 +196,8 @@ public class GUIView implements IViewMaster {
                this.listPlayers = new ShowPlayersGUI();
            }
            GUIMain.setRoot(this.listPlayers);
-           ((ShowPlayersGUI) this.listPlayers).showPlayers(players);
+           ((ShowPlayersGUI) this.listPlayers).setPlayers(players);
+           ((ShowPlayersGUI) this.listPlayers).showPlayers();
        });
     }
 

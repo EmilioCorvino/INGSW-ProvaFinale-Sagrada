@@ -33,7 +33,13 @@ public class ShowPlayersGUI extends BorderPane {
      */
     private List<String> knownPlayer;
 
+    /**
+     * List of names to show.
+     */
+    private List<String> players;
+
     public ShowPlayersGUI() {
+        players = new ArrayList<>();
         mainContainer = new VBox();
         Label names = new Label("Giocatori momentaneamente connessi:");
         names.getStyleClass().add("title");
@@ -78,10 +84,9 @@ public class ShowPlayersGUI extends BorderPane {
 
     /**
      * This method represents the names of the connected players.
-     * @param players the names of the player to repsents.
      */
-    public void showPlayers(List<String> players) {
-        players.forEach(name -> {
+    public void showPlayers() {
+        this.players.forEach(name -> {
             if(!knownPlayer.contains(name)){
                 putLabel(name);
                 knownPlayer.add(name);
@@ -115,5 +120,13 @@ public class ShowPlayersGUI extends BorderPane {
     protected void draggedWindow(MouseEvent event) {
         GUIMain.getStage().setX(event.getScreenX() - xOffset);
         GUIMain.getStage().setY(event.getScreenY() - yOffset);
+    }
+
+    public List<String> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<String> players) {
+        this.players = players;
     }
 }
