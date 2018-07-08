@@ -115,7 +115,6 @@ public class GUIToolCardManager implements IToolCardManager {
      */
     @Override
     public void tool5() {
-        System.out.println("Sono in tool 5");
         List<SetUpInformationUnit> listInfo =  new ArrayList<>();
         SetUpInformationUnit setup = this.playersData.getSetUpInformationUnit();
 

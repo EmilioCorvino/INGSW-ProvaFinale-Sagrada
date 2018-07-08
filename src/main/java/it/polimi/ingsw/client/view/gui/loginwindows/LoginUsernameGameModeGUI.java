@@ -83,7 +83,6 @@ public class LoginUsernameGameModeGUI extends LoginRootGUI {
         button.setSelected(true);
 
         this.info.setUsername(text);
-        System.out.println(button.getId() + "");
         this.info.setGameMode(button.getId());
     }
 

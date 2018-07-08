@@ -192,6 +192,8 @@ public class GUIView implements IViewMaster {
                this.listPlayers = new ShowPlayersGUI();
            }
            GUIMain.setRoot(this.listPlayers);
+           if(((ShowPlayersGUI) this.listPlayers).getPlayers().size() > 0)
+               ((ShowPlayersGUI) this.listPlayers).getPlayers().clear();
            ((ShowPlayersGUI) this.listPlayers).setPlayers(players);
            ((ShowPlayersGUI) this.listPlayers).showPlayers();
        });
@@ -542,8 +544,6 @@ public class GUIView implements IViewMaster {
             this.current = this.windowsList.get(curr);
             GUIMain.setRoot(this.rankWindow);
             GUIMain.centerScreen();
-
-
         });
     }
 

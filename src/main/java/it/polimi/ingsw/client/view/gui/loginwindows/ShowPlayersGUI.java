@@ -29,10 +29,6 @@ public class ShowPlayersGUI extends BorderPane {
      */
     private VBox playersList;
 
-    /**
-     * List of already connected player.
-     */
-    private List<String> knownPlayer;
 
     /**
      * List of names to show.
@@ -62,7 +58,6 @@ public class ShowPlayersGUI extends BorderPane {
         this.addEventHandler(MouseEvent.MOUSE_PRESSED, this:: pressedWindow);
         this.addEventHandler(MouseEvent.MOUSE_DRAGGED, this:: draggedWindow);
 
-        this.knownPlayer = new ArrayList<>();
     }
 
     /**
@@ -93,12 +88,8 @@ public class ShowPlayersGUI extends BorderPane {
      * This method represents the names of the connected players.
      */
     public void showPlayers() {
-        this.players.forEach(name -> {
-            if(!knownPlayer.contains(name)){
-                putLabel(name);
-                knownPlayer.add(name);
-            }
-        });
+        this.playersList.getChildren().clear();
+        this.players.forEach(name -> putLabel(name));
     }
 
     /**
