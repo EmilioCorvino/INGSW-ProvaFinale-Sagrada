@@ -18,11 +18,11 @@ as a final project for the Software Engineering course at Politecnico di Milano.
 First of all, you have the decompress the `.jar`. We compressed it splitting it in two files using 7z. However any file archiver should be able to decompress the archive.
 #### To start the server
 ##### On Windows:
-Move to the directory 'Deliverables/jar/INGSW_ProvaFinale_SagradaServer_jar' and double click on 'startServer.bat'.
-You can also open a shell in the directory and type 'java -jar INGSW-ProvaFinale-Sagrada.jar'.
+Move to the directory `Deliverables/jar/INGSW_ProvaFinale_SagradaServer_jar` and double click on `startServer.bat`.
+You can also open a shell in the directory and type `java -jar INGSW-ProvaFinale-Sagrada.jar`.
 
 ##### On macOS and Linux:
-Just open a terminal in the directory containing the jar ('Deliverables/jar/INGSW_ProvaFinale_SagradaServer_jar') and then type 'java -jar INGSW-ProvaFinale-Sagrada.jar'.
+Just open a terminal in the directory containing the jar (`Deliverables/jar/INGSW_ProvaFinale_SagradaServer_jar`) and then type `java -jar INGSW-ProvaFinale-Sagrada.jar`.
 
 #### To start the client
 ##### On Windows: 
