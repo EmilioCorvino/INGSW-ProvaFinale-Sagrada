@@ -1,0 +1,30 @@
+[
+  {
+    "id": 200,
+    "name": "Colori diversi - Riga",
+    "description": "Righe senza colori ripetuti",
+    "pointsForCompletion": 6,
+    "strategy": "row"
+  },
+  {
+    "id": 201,
+    "name":"Colori diversi - Colonna",
+    "description":"Colonne senza colori ripetuti",
+    "pointsForCompletion": 5,
+    "strategy": "column"
+  },
+  {
+    "id": 202,
+    "name": "Diagonali Colorate",
+    "description": "Numero di dadi dello stesso colore diagonalmente adiacenti",
+    "pointsForCompletion": 1,
+    "strategy": "diagonal"
+  },
+  {
+    "id": 203,
+    "name": "Varietà di Colore",
+    "description": "Set di dadi di ogni colore ovunque",
+    "pointsForCompletion": 4,
+    "strategy": "set"
+  }
+]

@@ -8,9 +8,7 @@ import it.polimi.ingsw.common.utils.exceptions.EmptyException;
 import it.polimi.ingsw.server.model.die.Cell;
 import it.polimi.ingsw.server.model.restrictions.IRestriction;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -31,7 +29,7 @@ public class WindowPatternCardDeck {
     /**
      * Path containing the file in which the definition of the {@link WindowPatternCard}s is stored.
      */
-    private static final String WINDOW_PATTER_CARDS = "/cards/windowPatternCard.json";
+    private static final String WINDOW_PATTER_CARDS = "./conf/windowPatternCard.json";
 
     public WindowPatternCardDeck(){
         this.availableWP = new ArrayList<>();
@@ -43,7 +41,7 @@ public class WindowPatternCardDeck {
      */
     public void parseDeck() {
         Gson gson = new Gson();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(WindowPatternCardDeck.class.getResourceAsStream(WINDOW_PATTER_CARDS)))) {
+        try (Reader reader = new BufferedReader(new InputStreamReader(new FileInputStream(WINDOW_PATTER_CARDS)))) {
             this.availableWP = gson.fromJson(reader, new TypeToken<List<WindowPatternCard>>(){}.getType());
         } catch (IOException e) {
             SagradaLogger.log(Level.SEVERE, "Error during parsing, file not read");

@@ -1,0 +1,104 @@
+.background {
+   /* -fx-background-image: url("images/background.jpg");*/
+    -fx-background-color: transparent;
+    -fx-background-radius: 10;
+}
+
+.VBox {
+   -fx-background-color: linear-gradient(to top left, rgb(0, 179, 143, 0.6), rgb(0, 51, 102, 0.7) );
+   -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 10, 10);
+   -fx-background-radius: 10;
+}
+
+.title {
+/*-fx-effect: dropshadow(three-pass-box, grey, 10, 0, 10, 10);*/
+    -fx-text-fill: rgba(204, 255, 245, 0.8);
+    -fx-font: 14px Verdana;
+}
+
+.text-field {
+    -fx-background-color: transparent ;
+    -fx-border-color: rgba(102, 255, 224, 0.5) ;
+    -fx-border-width: 0px 0px 1px 0px ;
+    -fx-text-fill: white;
+    -fx-font: 13px Verdana;
+}
+
+.text-label {
+    -fx-text-fill: white;
+    -fx-font: 14px Verdana;
+}
+
+.text-label-bold {
+    -fx-text-fill: white;
+    -fx-font: 14px Verdana;
+    -fx-font-weight: bold;
+}
+
+.button-style {
+    -fx-background-color: rgba(0, 153, 204, 0.3) ;
+     -fx-text-fill: white;
+     -fx-border-width: 1px 1px 1px 1px ;
+     -fx-border-color: rgba(102, 255, 224, 0.5) ;
+     -fx-font: 13px Verdana;
+     -fx-border-radius: 10;
+     -fx-background-radius: 10;
+}
+
+.button-style:hover {
+    -fx-background-color: rgba(102, 217, 255, 0.4) ;
+}
+
+.button-style:selected {
+    -fx-background-color: rgba(102, 217, 255, 0.4) ;
+    -fx-text-fill: white;
+    -fx-border-width: 1px 1px 1px 1px ;
+    -fx-border-color: rgba(102, 255, 224, 0.5);
+    -fx-font: 13px Verdana;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.button-close:hover {
+    -fx-background-color: rgba(102, 217, 255, 0.4) ;
+}
+
+.panel-glass {
+    -fx-background-color: linear-gradient(to top left, rgba(230, 242, 255, 0.2), rgba(230, 255, 255, 0.2) );
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 10, 10);
+    -fx-background-radius: 10;
+
+}
+
+.map-background {
+    -fx-background-color: linear-gradient(to top left, rgba(230, 242, 255, 0.2), rgba(230, 255, 255, 0.2) );
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 10, 10);
+    -fx-border-radius: 5 5 5 5;
+    -fx-background-radius: 5 5 5 5;
+}
+
+.dieChosen {
+}
+
+.dieChosen:hover {
+    -fx-border-width: 2px 2px 2px 2px ;
+    -fx-border-color: linear-gradient(to top left, rgba(230, 242, 255, 0.8), rgba(230, 255, 255, 0.8));
+}
+
+.map-selection {
+    -fx-background-color: transparent;
+}
+
+.notification {
+   -fx-background-color: rgba(25, 25, 77, 0.7);
+   -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 10, 10);
+   -fx-background-radius: 10;
+}
+
+
+
+
+
+
+
+

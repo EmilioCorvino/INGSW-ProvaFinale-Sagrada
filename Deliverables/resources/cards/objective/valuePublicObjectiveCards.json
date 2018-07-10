@@ -1,0 +1,50 @@
+[
+  {
+    "id": 204,
+    "name": "Sfumature diverse - Riga",
+    "description": "Righe senza sfumature ripetute",
+    "pointsForCompletion": 5,
+    "strategy": "row",
+    "shade": "ALL"
+  },
+  {
+    "id": 205,
+    "name": "Sfumature diverse - Colonna",
+    "description": "Colonne senza sfumature ripetute",
+    "pointsForCompletion": 4,
+    "strategy": "column",
+    "shade": "ALL"
+  },
+  {
+    "id": 206,
+    "name": "Sfumature Chiare",
+    "description": "Set di 1 & 2 ovunque",
+    "pointsForCompletion": 2,
+    "strategy": "set",
+    "shade": "LIGHT"
+  },
+  {
+    "id": 207,
+    "name": "Sfumature Medie",
+    "description": "Set di 3 & 4 ovunque",
+    "pointsForCompletion": 2,
+    "strategy": "set",
+    "shade": "MEDIUM"
+  },
+  {
+    "id": 208,
+    "name": "Sfumature Scure",
+    "description": "Set di 5 & 6 ovunque",
+    "pointsForCompletion": 2,
+    "strategy": "set",
+    "shade": "DARK"
+  },
+  {
+    "id": 209,
+    "name": "Sfumature Diverse",
+    "description": "Set di dadi di ogni valore ovunque",
+    "pointsForCompletion": 5,
+    "strategy": "set",
+    "shade": "ALL"
+  }
+]
