@@ -45,3 +45,8 @@ There are some settings that can be changed from `conf/sagrada.properties` (loca
 Note that twice the amount of this timer is used by the client as a time out for the connection (it is refreshed at any server notification).
 * _Last round:_ this value represents the number of rounds the match is going to last. However, note that setting this value to anything more than 10 will not make the GUI represent the extra rounds.
   * NOTE THAT THE PROPERTIES (AT LEAST `last.round` AND `rmi.port`) MUST BE THE SAME IN BOTH `sagrada.properties` FILES IN CLIENT AND SERVER DIRECTORIES.
+  
+##----------------------------------------------------------------------------------------------------------------------------
+
+We would like to dedicate this work to our families, which have done so much to support us.
+Also, a special thanks to the Teaching Staff and Research Fellows Management Office for the affection shown.
