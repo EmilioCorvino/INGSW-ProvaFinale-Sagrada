@@ -7,12 +7,10 @@ as a final project for the Software Engineering course at Politecnico di Milano.
   <img src="https://github.com/Cr0w19/INGSW-ProvaFinale-Sagrada/blob/Model-Development/src/main/resources/Logo.jpg" alt="Sagrada logo">
 </p>
 
-*Group ID:* LM30
-
 *Group members:*
-+ 10482725 ADESSO Rita
-+ 10504531 CORVINO Emilio
-+ 10481786 DRAPPO Gianluca
++ ADESSO Rita
++ CORVINO Emilio
++ DRAPPO Gianluca
 
 ## Instructions to run INGSW-ProvaFinale-Sagrada.jar
 First of all, decompress the `.jar`. It has been compressed and split in two files using 7-Zip (it can be downloaded it at https://www.7-zip.org/). However any file archiver should be able to decompress the archive. This has to be done both for server's and client's jars.
